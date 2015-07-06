@@ -5,14 +5,14 @@
 //  Created by James on 29/06/2015.
 //  Copyright © 2015 James. All rights reserved.
 //
-
+import CoreServices.LaunchServices
+import CoreServices
 import Foundation
 
 //controls running psyscope from unix commands
 
-class PSPsyScopeXRunner : NSObject {
-    let launchPath = "PsyScopeX.app/Contents/MacOS/PsyScope/X/B57"
-    
+class PSPsyScopeXRunner {
+    static let sharedInstance = PSPsyScopeXRunner()
     let openFlag = "-o"
     let quitOnEndFlag = "-q"
     let runningFlag = "-f"
@@ -22,17 +22,57 @@ class PSPsyScopeXRunner : NSObject {
     
     var currentlyRunningPsyScopeTask : NSTask?
     
+    var executablePath : String? {
+        get {
+            let appBundlePath = PSPreferences.psyScopeXPath.value as! String
+            kUTTypeContent
+            let appBundleName = appBundlePath.lastPathComponent.stringByDeletingPathExtension
+            
+            let executablePathFinal = appBundlePath.stringByAppendingPathComponent("Contents").stringByAppendingPathComponent("MacOS").stringByAppendingPathComponent(appBundleName)
+            
+            guard NSFileManager.defaultManager().fileExistsAtPath(executablePathFinal) else {
+                print("App at \(executablePathFinal) doesnt exist")
+                return nil
+            }
+            
+            return executablePathFinal
+        }
+    }
+    
     func runThisScript(document : Document) {
         //check for existence of file
+        guard let launchPath = executablePath where launchPath != "" else {
+            print("Could not get launch path")
+            return
+        }
         
         //if file exists create a file with the script in sub directory 'running'
-        let rawScriptPath = ""
+        guard let documentPath = document.scriptData.documentDirectory() else {
+            document.scriptData.alertIfNoValidDocumentDirectory()
+            return
+        }
+        
+        
+        
+        let scriptFileName = documentPath.stringByAppendingPathComponent("psyScopeXScript.txt")
+
+        let script = PSScriptWriter(scriptData: document.scriptData).generatePsyScopeXScript()
+        do {
+            try script.writeToFile(scriptFileName, atomically: true, encoding: NSMacOSRomanStringEncoding) }
+        catch {
+            print("Couldnt write file")
+            return
+        }
+
         
         //construct running command with NSTask
-        var task = NSTask()
-        task.launchPath = self.launchPath
-        task.arguments = [openFlag,rawScriptPath,foregroundFlag,runOnOpen,quitOnEndFlag ]
+        let task = NSTask()
+        task.launchPath = launchPath
         
+        let arguments = " ".join([openFlag,scriptFileName,runOnOpen,foregroundFlag,quitOnEndFlag ])
+        
+        print(launchPath + " " + arguments)
+        task.arguments = [openFlag,scriptFileName]
         //set notification listening for NSTaskDidTerminateNotification
         
         //launch the task

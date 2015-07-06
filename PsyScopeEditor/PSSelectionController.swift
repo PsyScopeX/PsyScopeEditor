@@ -13,7 +13,7 @@ import Foundation
 //All deleteing of objects should be done through here, as it wil update the selection
 
 class PSSelectionController : NSObject, PSSelectionInterface {
-    let debugMocChanges = false
+    let debugMocChanges = true
     
     @IBOutlet var scriptDelegate : PSScriptViewDelegate!
     @IBOutlet var document : Document!
@@ -29,17 +29,22 @@ class PSSelectionController : NSObject, PSSelectionInterface {
     var windowViews : [PSWindowViewInterface] = []
     var menu : NSMenu!
     
+    var listeningForDocMocChange : Bool {
+        set {
+            if newValue {
+                NSNotificationCenter.defaultCenter().addObserver(self, selector: "docMocChanged:", name: NSManagedObjectContextObjectsDidChangeNotification, object: document.managedObjectContext!)
+            } else {
+                NSNotificationCenter.defaultCenter().removeObserver(self)
+            }
+        }
+        get {
+            fatalError("Cannot get...")
+        }
+    }
     
     func initialize() {
-        
         scriptData = document.scriptData
-        var objects = scriptData.getLayoutObjects()
-        if objects.count >= 1 {
-            selectEntry(objects[0].mainEntry) //triggers the correct filling in of the attributes browser
-        }
-        
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "docMocChanged:", name: NSManagedObjectContextObjectsDidChangeNotification, object: document.managedObjectContext!)
-        refreshGUI()
+        listeningForDocMocChange = true
     }
     
     func registerSelectionInterface(interface : PSWindowViewInterface) {

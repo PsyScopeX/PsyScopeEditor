@@ -40,7 +40,7 @@ class PSScriptViewDelegate : NSObject, NSTextViewDelegate, NSTextStorageDelegate
     }
     
     func setup(scriptData : PSScriptData) {
-        scriptWriter = PSScriptWriter(scriptData: scriptData, responder: scriptBoard)
+        scriptWriter = PSScriptWriter(scriptData: scriptData)
     }
     
     func importScript(script : String) {
@@ -189,6 +189,7 @@ class PSScriptViewDelegate : NSObject, NSTextViewDelegate, NSTextStorageDelegate
             op.cancel()
         }
         
+        print("update script view sro")
         let readingOperation = PSScriptReaderOperation(scriptWriter: scriptWriter)
         readingOperationIndex++
         let index = readingOperationIndex
@@ -241,7 +242,8 @@ class PSScriptViewDelegate : NSObject, NSTextViewDelegate, NSTextStorageDelegate
             updateScriptButton.enabled = true
             //start a formatting only update
             let script = replaceCurlyQuotes(scriptBoard.string!)
-            var readingOperation = PSScriptReaderOperation(script: script)
+            print("textstorage did process edit sro")
+            let readingOperation = PSScriptReaderOperation(script: script)
             readingOperationIndex++
             let index = readingOperationIndex
             readingOperations[index] = readingOperation

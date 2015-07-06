@@ -426,7 +426,7 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
         if let ce = PSCopiedEntry {
             switch (type) {
             case NSPasteboardTypeString:
-                let writer = PSScriptWriter(scriptData: document.scriptData, responder: document.window)
+                let writer = PSScriptWriter(scriptData: document.scriptData)
                 let string = writer.entryToText(ce, level: 0)
                 pasteboard.setString(string, forType: NSPasteboardTypeString)
             case PSPasteboardTypeLayoutObject:
