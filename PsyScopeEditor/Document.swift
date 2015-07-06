@@ -9,8 +9,6 @@ import Cocoa
 
 
 class Document: NSPersistentDocument, NSSplitViewDelegate {
-    
-    
     @IBOutlet var toolbar : NSToolbar!
     @IBOutlet var layoutToolbarItem : NSToolbarItem!
     @IBOutlet var tabController : PSDocumentTabDelegate!
@@ -30,13 +28,20 @@ class Document: NSPersistentDocument, NSSplitViewDelegate {
     
     
     override func revertToContentsOfURL(inAbsoluteURL: NSURL!, ofType inTypeName: String!) throws {
-        
-        
-        defer { selectionController.listeningForDocMocChange = true }
-        selectionController.listeningForDocMocChange = false
-        
-        scriptData.reset()
-        try super.revertToContentsOfURL(inAbsoluteURL, ofType: inTypeName) //resets docmoc managedobjectcontext
+        var outError: NSError! = NSError(domain: "Migrator", code: 0, userInfo: nil)
+        var rv: Bool
+        do {
+            try super.revertToContentsOfURL(inAbsoluteURL, ofType: inTypeName)
+            rv = true
+        } catch var error as NSError {
+            outError = error
+            rv = false
+        }
+        layoutController.updateAllObjects()
+        if rv {
+            return
+        }
+        throw outError
     }
     
     var scriptData : PSScriptData {
@@ -49,26 +54,10 @@ class Document: NSPersistentDocument, NSSplitViewDelegate {
         }
     }
     var _scriptData : PSScriptData!
-    /*
-    override func readFromURL(absoluteURL: NSURL!, ofType typeName: String!) throws {
-        print("Loading: " + typeName)
-        try super.readFromURL(absoluteURL, ofType: typeName)
-    }
-    
-    override func writeToURL(url: NSURL, ofType typeName: String) throws {
-        print("Saving: " + typeName)
-        if typeName == "PsyX" {
-            let script = PSScriptWriter(scriptData: scriptData).generatePsyScopeXScript()
-            try script.writeToURL(url, atomically: true, encoding: NSUTF8StringEncoding)
-        } else {
-            try writeToURL(url, ofType: typeName)
-        }
-    }*/
     
     override func windowControllerDidLoadNib(aController: NSWindowController) {
-      
         super.windowControllerDidLoadNib(aController)
-
+        
         //register dragged types
         aController.window!.registerForDraggedTypes([PSConstants.PSToolBrowserView.dragType])
         aController.window!.minSize = NSSize(width: PSConstants.LayoutConstants.docMinWidth, height: PSConstants.LayoutConstants.docMinHeight)
@@ -114,7 +103,7 @@ class Document: NSPersistentDocument, NSSplitViewDelegate {
         return "Experiment"
     }
     
-
+    
     func runExperiment(sender : AnyObject){
         
         if errorHandler.errors.count != 0 {
@@ -127,7 +116,7 @@ class Document: NSPersistentDocument, NSSplitViewDelegate {
         let tools : [PSToolInterface] = PSPluginSingleton.sharedInstance.toolObjects.values.array
         let events : [PSToolInterface] = PSPluginSingleton.sharedInstance.eventObjects.values.array
         let plugins = tools + events
-
+        
         for plugin in plugins {
             
             let errors : [AnyObject] =  plugin.validateBeforeRun(scriptData)
@@ -140,7 +129,6 @@ class Document: NSPersistentDocument, NSSplitViewDelegate {
         
         if errorHandler.errors.count == 0 {
             //RUN
-            PSPsyScopeXRunner.sharedInstance.runThisScript(self)
         } else {
             PSModalAlert("Errors were found during validation of script!")
             errorHandler.presentErrors()
@@ -150,7 +138,7 @@ class Document: NSPersistentDocument, NSSplitViewDelegate {
     func cleanUpLayout(sender : AnyObject) {
         PSCleanUpTree(scriptData)
     }
-
+    
     
     func importOldPsyScope(sender : AnyObject) {
         //open the file dialog
@@ -167,7 +155,7 @@ class Document: NSPersistentDocument, NSSplitViewDelegate {
             if int_code == NSFileHandlingPanelOKButton {
                 //relative to files location
                 if let path = openPanel.URL {
-
+                    
                     var error : NSError?
                     var script: String?
                     do {
@@ -182,7 +170,7 @@ class Document: NSPersistentDocument, NSSplitViewDelegate {
                         self.scriptDelegate.importScript(s)
                         return
                     }
-                
+                    
                     do {
                         script = try String(contentsOfURL: path, encoding: NSMacOSRomanStringEncoding)
                     } catch var error1 as NSError {
@@ -196,9 +184,9 @@ class Document: NSPersistentDocument, NSSplitViewDelegate {
                         return
                     }
                 }
-                    
+                
                 PSModalAlert("Error opening text file")
-
+                
             }
             return
         })
@@ -208,18 +196,18 @@ class Document: NSPersistentDocument, NSSplitViewDelegate {
         switch (sender.tag) {
         case 0:
             //restart application engine
-
+            
             break
         case 1:
             //kill application engine
-
+            
             break
         default:
             break
         }
     }
-
-
+    
+    
     var nibLoaded : Bool = false
     var isNewDocument : Bool = false
     func setupInitialState() {
@@ -227,11 +215,11 @@ class Document: NSPersistentDocument, NSSplitViewDelegate {
         if nibLoaded { scriptData.setUpInitialScriptState() }
         
     }
-
+    
     override class func autosavesInPlace() -> Bool {
         return true
     }
-
+    
     override var windowNibName: String {
         return "Document"
     }
@@ -243,9 +231,9 @@ class Document: NSPersistentDocument, NSSplitViewDelegate {
     }
     
     override var managedObjectModel : AnyObject! {
-    // Creates if necessary and returns the managed object model for the application.
-    if let mom = _managedObjectModel {
-        return mom
+        // Creates if necessary and returns the managed object model for the application.
+        if let mom = _managedObjectModel {
+            return mom
         }
         
         let modelURL = NSBundle(forClass:Entry.self).URLForResource("Script", withExtension: "momd")
@@ -297,6 +285,6 @@ class Document: NSPersistentDocument, NSSplitViewDelegate {
         }
         throw error
     }
-
+    
 }
-                                
+

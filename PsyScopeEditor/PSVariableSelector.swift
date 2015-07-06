@@ -18,6 +18,7 @@ class PSVariableSelector : NSObject {
     
     func setup(scriptData : PSScriptData) {
         self.scriptData = scriptData
+        update()
     }
     
     func update() {

@@ -213,7 +213,6 @@ class PSDataFileNameController : NSObject, NSTokenFieldDelegate {
     func control(control: NSControl, textShouldBeginEditing fieldEditor: NSText) -> Bool {
         self.layoutManager = (fieldEditor as! NSTextView).layoutManager
         return true
-        kUTTypeUTF8PlainText
     }
     
     func countAttachmentsInAttributedString(attributedString : NSAttributedString) -> Int {

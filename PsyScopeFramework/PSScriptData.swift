@@ -188,10 +188,6 @@ public class PSScriptData : NSObject {
         docMoc.undoManager!.removeAllActions()
     }
     
-    public func reset() {
-        _scriptObject = nil
-    }
-    
     //MARK: Attribute Interface
     
     public func getAttributeInterfaceForAttributeEntry(entry : Entry) -> PSAttributeInterface? {
