@@ -1,0 +1,22 @@
+Guide to adding an attribute with custom sheet dialog.
+
+Note: If the attribute is simply a string with a custom format, you can use a PSGenericAttributePopup, and use setCustomFormatter, to add an NSFormatter subclass.
+
+
+1. Create a nib with a window, uncheck ‘visible at launch’ in interface builder.
+
+2. Subclass PSAttributePopup, and set this class as the file’s owner in the nib.
+
+3. Connect ‘attributeSheet’ outlet of this class to the window in the nib
+
+4. Make the init() method load the correct nib (plus any parameters you want passed, e.g.:
+
+
+    init(currentValue : String) {
+        var bundle = NSBundle(forClass:self.dynamicType)
+        super.init(nibName: "ExperimentDataFields", bundle: bundle, currentValue: currentValue, displayName: "Data Fields")
+    }
+
+5. Create a class that uses PSAttributeInterface, making sure that dialogType() returns PSAttributeDialogType.Custom, and customAttributeDialog(…) returns a new instance of the recently created PSAttributePopup subclass
+
+6. Now fill in the nib, to do what ever functionality is required, and set the close/done button to fire ‘closeMyCustomSheet’ with the ‘currentValue’ parameter set to whatever it should be (if you wanted a cancel button, set currentValue to the original value)

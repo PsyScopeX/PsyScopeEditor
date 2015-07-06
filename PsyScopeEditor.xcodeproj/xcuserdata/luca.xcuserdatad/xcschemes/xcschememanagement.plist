@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>SchemeUserState</key>
+	<dict>
+		<key>PsyScopeDefaultPlugins.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
+		<key>PsyScopeEditor Tests.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>12</integer>
+		</dict>
+		<key>PsyScopeEditor.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>12</integer>
+		</dict>
+		<key>PsyScopeEditorLuca.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>12</integer>
+		</dict>
+		<key>PsyScopeFramework.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>3</integer>
+		</dict>
+		<key>PsyScopeMediaLayer.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>4</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>1A2F680A19D06D8200CD1872</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>1A2FBE4A1975827300F5FFB5</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>1A9E5E4F198A7C5800312743</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>1AADBC0F1AD71EF10004999D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>1AC0826C19701F2F0038512B</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+	</dict>
+</dict>
+</plist>

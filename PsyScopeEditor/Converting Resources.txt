@@ -1,0 +1,4 @@
+To convert JSON to plist format use:
+
+plutil -convert xml1 DefaultResources.json -o DefaultPluginResources.plist
+

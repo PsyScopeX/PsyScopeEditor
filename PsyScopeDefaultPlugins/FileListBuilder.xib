@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="7702"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="PSFileListBuilder" customModule="PsyScopeDefaultPlugins" customModuleProvider="target">
+            <connections>
+                <outlet property="controller" destination="bRQ-xO-Y0s" id="cfU-jF-QJV"/>
+                <outlet property="window" destination="QvC-M9-y7g" id="xWE-1x-UKX"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" animationBehavior="default" id="QvC-M9-y7g">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="196" y="240" width="528" height="321"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="878"/>
+            <view key="contentView" autoresizesSubviews="NO" id="EiT-Mj-1SZ">
+                <rect key="frame" x="0.0" y="0.0" width="528" height="321"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="17" horizontalPageScroll="10" verticalLineScroll="17" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="YWU-Qf-aRp">
+                        <rect key="frame" x="-1" y="-1" width="530" height="288"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <clipView key="contentView" drawsBackground="NO" id="UAF-qi-sZo">
+                            <rect key="frame" x="0.0" y="17" width="530" height="271"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <subviews>
+                                <tableView appearanceType="vibrantLight" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="none" alternatingRowBackgroundColors="YES" columnReordering="NO" multipleSelection="NO" autosaveColumns="NO" headerView="J3y-uT-sZp" id="usB-ds-jBM">
+                                    <rect key="frame" x="0.0" y="0.0" width="530" height="271"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                    <tableViewGridLines key="gridStyleMask" vertical="YES" horizontal="YES"/>
+                                    <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
+                                    <connections>
+                                        <outlet property="dataSource" destination="bRQ-xO-Y0s" id="n6f-Xc-7b2"/>
+                                        <outlet property="delegate" destination="bRQ-xO-Y0s" id="iPI-mq-7iO"/>
+                                        <outlet property="menu" destination="YIT-IH-wnc" id="LGI-GY-h3F"/>
+                                    </connections>
+                                </tableView>
+                            </subviews>
+                            <nil key="backgroundColor"/>
+                        </clipView>
+                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="qfj-V1-E0e">
+                            <rect key="frame" x="1" y="118.91931718587875" width="238" height="15"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </scroller>
+                        <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="VUE-Dj-EoV">
+                            <rect key="frame" x="224" y="17" width="15" height="102"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </scroller>
+                        <tableHeaderView key="headerView" id="J3y-uT-sZp" customClass="PSTableHeaderView" customModule="PsyScopeDefaultPlugins" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="0.0" width="238" height="17"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                            <connections>
+                                <outlet property="delegate" destination="bRQ-xO-Y0s" id="YnL-J8-47Y"/>
+                                <outlet property="menu" destination="6Eb-xd-trB" id="4vb-al-QKq"/>
+                            </connections>
+                        </tableHeaderView>
+                    </scrollView>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="Ymu-no-X85">
+                        <rect key="frame" x="10" y="295" width="30" height="17"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="File:" id="pz0-1B-Bbt">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="vuu-15-4wp">
+                        <rect key="frame" x="346" y="296" width="132" height="17"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Number of Columns:" id="qAs-PV-YsL">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField verticalHuggingPriority="750" id="3cY-db-hde">
+                        <rect key="frame" x="479" y="293" width="29" height="22"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="nJY-NS-IjD">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                        <connections>
+                            <outlet property="delegate" destination="bRQ-xO-Y0s" id="yRc-e8-WhD"/>
+                        </connections>
+                    </textField>
+                    <textField verticalHuggingPriority="750" id="9CJ-QE-Dgj">
+                        <rect key="frame" x="46" y="294" width="281" height="19"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="O8G-H7-Vfi">
+                            <font key="font" metaFont="smallSystem"/>
+                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                        <connections>
+                            <outlet property="delegate" destination="bRQ-xO-Y0s" id="OD4-Rz-Tor"/>
+                        </connections>
+                    </textField>
+                    <button horizontalHuggingPriority="750" verticalHuggingPriority="750" id="8MI-uf-WO9">
+                        <rect key="frame" x="302" y="295" width="25" height="15"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="bevel" bezelStyle="rounded" image="NSFollowLinkFreestandingTemplate" imagePosition="only" alignment="center" controlSize="small" imageScaling="proportionallyDown" inset="2" id="Ke5-CX-BLh">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="smallSystem"/>
+                        </buttonCell>
+                    </button>
+                </subviews>
+            </view>
+            <connections>
+                <outlet property="delegate" destination="-2" id="Lnw-VW-ebO"/>
+            </connections>
+            <point key="canvasLocation" x="222" y="152.5"/>
+        </window>
+        <customObject id="bRQ-xO-Y0s" customClass="PSFileListBuilderController" customModule="PsyScopeDefaultPlugins">
+            <connections>
+                <outlet property="fileListBuilder" destination="-2" id="Grc-r1-jZf"/>
+                <outlet property="filePathTextField" destination="9CJ-QE-Dgj" id="YYj-gM-bXj"/>
+                <outlet property="numberOfColumnsTextField" destination="3cY-db-hde" id="g53-1m-oVS"/>
+                <outlet property="previewTableView" destination="usB-ds-jBM" id="cvI-Jq-6y5"/>
+            </connections>
+        </customObject>
+        <menu id="YIT-IH-wnc">
+            <items>
+                <menuItem title="Remove Row" id="hyU-Ys-Okr">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                </menuItem>
+            </items>
+            <connections>
+                <outlet property="delegate" destination="bRQ-xO-Y0s" id="Bdi-ag-h87"/>
+            </connections>
+        </menu>
+        <menu id="6Eb-xd-trB">
+            <items>
+                <menuItem title="Remove field" id="GJm-J4-Um9">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                </menuItem>
+                <menuItem title="Set type..." id="x5p-xM-8hj">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                </menuItem>
+            </items>
+        </menu>
+    </objects>
+    <resources>
+        <image name="NSFollowLinkFreestandingTemplate" width="14" height="14"/>
+    </resources>
+</document>

@@ -1,0 +1,32 @@
+
+{
+    "experimentDataFieldsCheckBoxes": {
+        "RUN_LABEL":"Include label on each data line",
+        "EVENT_TAG": "Event tag",
+        "STIMULUS": "Stimulus of relative event",
+        "RESPONSE_LABEL": "Response label",
+        "PUT_UP_BY": "Event that posted RT action",
+        "DURING": "Event during which response occurred",
+        "REMOVED_BY": "Event that removed RT action",
+        "RELATIVE_TO": "Event that RT is relative to",
+        "MOUSE_POS": "Mouse position",
+        "KEY_SEQUENCE": "Key sequence",
+        "ONSETS": "Onaset times for referenced events",
+        "TRIAL_START_TIME": "Absolute trial start time",
+        "NO_HEADER": "Don't include header information",
+        "TABLE_CONDITION_NAMES": "Only table factors for condition names",
+        "TIMING_STATS": "Summary timing statistics for conditions",
+        "FULL_TIMING_STATS": "Full timing statistics for conditions"
+        },
+    
+    "attributeFlipCheckBoxes": {
+        "Vertical":"Vertical",
+        "Horizontal":"Horizontal"
+    },
+    
+    "pictureFeatureCheckBoxes": {
+        "Keep_Pict": "Keep picture in memory",
+        "Default_Colors": "Use default colors",
+        "pict_actual_size": "Draw actual size"
+    }
+}

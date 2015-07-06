@@ -1,0 +1,116 @@
+//PsyScript grammar by J.Alvarez
+//there is much redundancy here, but this is for legibility / code highligthing etc
+
+@before {
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
+PKTokenizer *t = self.tokenizer;
+
+[t.whitespaceState setWhitespaceChars:NO from:'\\n' to:'\\n'];
+[t.whitespaceState setWhitespaceChars:NO from:'\\r' to:'\\r'];
+[t setTokenizerState:t.symbolState from:'\\n' to:'\\n'];
+[t setTokenizerState:t.symbolState from:'\\r' to:'\\r'];
+[t setTokenizerState:t.symbolState from:'#' to:'#'];
+[t.symbolState add:@"::"];
+t.commentState.reportsCommentTokens = YES;
+
+//[t setTokenizerState:t.commentState from:'#' to:'#'];
+//[t.commentState addSingleLineStartMarker:@"#"];
+//[t.commentState addMultiLineStartMarker:@"/*" endMarker:@"*/"];
+
+//put NSLog(@"%@", NSStringFromSelector(_cmd)) in delegatefirer
+}
+
+@after {
+#pragma clang diagnostic pop
+}
+
+//full script is composed of one or more entries, comment lines or errors
+script = (entry | comment_line | empty_line | error)+;
+
+//an entry consists of an entry line followed by zero or more sub_entry lines and zero or more comments
+entry = entry_line sub_entry_line*;
+
+//an entry line consists of a full entry or empty entry plus zero or more comments
+entry_line = (full_entry | empty_entry) comment* eol+;
+
+//an empty line consists of one or more eols
+empty_line = eol+;
+
+//an sub_entry line consists of a full sub_entry or empty sub_entry plus zero or more comments
+sub_entry_line = (full_sub_entry | empty_sub_entry) comment* eol+;
+
+//a comment_line is a line with just a single comment
+comment_line = comment eol+;
+
+//a comment is a hashtag followed by a comment_string
+comment = hashtag comment_string;
+
+full_entry = entry_name_good base_entry_symbol entry_value_string_good;
+full_sub_entry = sub_entry_name_good sub_entry_symbol sub_entry_value_string_good;
+empty_entry  = entry_name_good base_entry_symbol;
+empty_sub_entry = sub_entry_name_good sub_entry_symbol;
+
+//a good entry/sub_entry name consists of a single word
+entry_name_good = Word;
+sub_entry_name_good = Word;
+
+//a good Value consists of anything at the moment
+entry_value_string_good = entry_value_element_good+;
+entry_value_element_good = Word | Number | valid_symbol;
+
+sub_entry_value_string_good = sub_entry_value_element_good+;
+sub_entry_value_element_good = Word | Number | valid_symbol;
+
+//a comment string consists of anything at the moment
+comment_string = comment_element+;
+comment_element = Word | Number | valid_symbol;
+
+//an error consists of a bad entry a floating sub_entry or unknown
+error = entry_error | floating_sub_entry_error | unknown_error;
+
+//an entry error can have errors either with entry line or any of the sub_entry lines
+entry_error = (entry_line | entry_line_error) (sub_entry_line | sub_entry_line_error)*;
+
+entry_line_error = ((double_name_error base_entry_symbol entry_value_string_good) | (double_name_error base_entry_symbol)) comment* eol+;
+sub_entry_line_error = ((double_name_error sub_entry_symbol sub_entry_value_string_good) | (double_name_error sub_entry_symbol)) comment* eol+;
+
+//a floating sub_entry error is when sub_entrys (or sub_entry errors) appear at start without entry first
+floating_sub_entry_error = (sub_entry_line | sub_entry_line_error)+;
+
+//double name error is when there are more than one words
+double_name_error = bad_word bad_word+;
+bad_word = Word | Number;
+
+//unknown error is anything else unknown
+unknown_error = unknown_error_token+;
+unknown_error_token = Any;
+
+sub_entry_symbol = colon sub_entry_level*;
+
+//the number of gt symbols, starting at zero determines the sub entry level
+sub_entry_level = gt;
+base_entry_symbol = doublecolon;
+
+//Symbols
+gt  = '>';
+colon = ':';
+doublecolon = '::';
+eol   = '\n'! | '\r'!;
+hashtag = '#';
+
+//the abobe symbols are popped, so are valid_symbols so make sure they are not popped twice
+valid_symbol = openCurly | closeCurly | openParen | closeParen | openBracket | closeBracket | lt | '>';
+
+//other symbols
+openCurly           = '{';
+closeCurly          = '}';
+openParen           = '(';
+closeParen          = ')';
+openBracket         = '[';
+closeBracket        = ']';
+lt                  = '<';
+
+
+

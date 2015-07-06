@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>attributeFlipCheckBoxes</key>
+	<dict>
+		<key>Horizontal</key>
+		<string>Horizontal</string>
+		<key>Vertical</key>
+		<string>Vertical</string>
+	</dict>
+	<key>experimentDataFieldsCheckBoxes</key>
+	<dict>
+		<key>DURING</key>
+		<string>Event during which response occurred</string>
+		<key>EVENT_TAG</key>
+		<string>Event tag</string>
+		<key>FULL_TIMING_STATS</key>
+		<string>Full timing statistics for conditions</string>
+		<key>KEY_SEQUENCE</key>
+		<string>Key sequence</string>
+		<key>MOUSE_POS</key>
+		<string>Mouse position</string>
+		<key>NO_HEADER</key>
+		<string>Don't include header information</string>
+		<key>ONSETS</key>
+		<string>Onaset times for referenced events</string>
+		<key>PUT_UP_BY</key>
+		<string>Event that posted RT action</string>
+		<key>RELATIVE_TO</key>
+		<string>Event that RT is relative to</string>
+		<key>REMOVED_BY</key>
+		<string>Event that removed RT action</string>
+		<key>RESPONSE_LABEL</key>
+		<string>Response label</string>
+		<key>RUN_LABEL</key>
+		<string>Include label on each data line</string>
+		<key>STIMULUS</key>
+		<string>Stimulus of relative event</string>
+		<key>TABLE_CONDITION_NAMES</key>
+		<string>Only table factors for condition names</string>
+		<key>TIMING_STATS</key>
+		<string>Summary timing statistics for conditions</string>
+		<key>TRIAL_START_TIME</key>
+		<string>Absolute trial start time</string>
+	</dict>
+	<key>pictureFeatureCheckBoxes</key>
+	<dict>
+		<key>Default_Colors</key>
+		<string>Use default colors</string>
+		<key>Keep_Pict</key>
+		<string>Keep picture in memory</string>
+		<key>pict_actual_size</key>
+		<string>Draw actual size</string>
+	</dict>
+</dict>
+</plist>

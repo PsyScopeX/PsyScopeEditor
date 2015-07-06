@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>B626C8F8-E882-4853-AE58-7B5736837265</string>
+	<key>IDESourceControlProjectName</key>
+	<string>PsyScopeEditorWorkspace</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>5985462f-5ceb-0310-81f4-9f1755bd5234++3539</key>
+		<string>svn+ssh://psy.cns.sissa.it/svn_repository/PsyScopeX/branches/James</string>
+		<key>be8a8b15-a814-46e0-aca4-0efc63d8b843</key>
+		<string>svn+ssh://psy.cns.sissa.it/svn_repository/PsyScopeEditor</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>trunk/PsyScopeEditorWorkspace.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>5985462f-5ceb-0310-81f4-9f1755bd5234++3539</key>
+		<string>../../../PsyAppEngine</string>
+		<key>be8a8b15-a814-46e0-aca4-0efc63d8b843</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectRepositoryRootDictionary</key>
+	<dict>
+		<key>5985462f-5ceb-0310-81f4-9f1755bd5234++3539</key>
+		<string>svn+ssh://psy.cns.sissa.it/svn_repository/PsyScopeX</string>
+	</dict>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>be8a8b15-a814-46e0-aca4-0efc63d8b843</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.subversion</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>5985462f-5ceb-0310-81f4-9f1755bd5234++3539</string>
+			<key>IDESourceControlWCCName</key>
+			<string>PsyAppEngine</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.subversion</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>be8a8b15-a814-46e0-aca4-0efc63d8b843</string>
+			<key>IDESourceControlWCCName</key>
+			<string>PsyScopeEditor</string>
+		</dict>
+	</array>
+</dict>
+</plist>

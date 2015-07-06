@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="7706"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner"/>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <tableCellView id="G4y-Vn-mfK" customClass="PSEventTableCellView" customModule="PsyScopeDefaultPlugins" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="120" height="30"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsExpansionToolTips="YES" id="HKZ-ji-S7m">
+                    <rect key="frame" x="11" y="6" width="72" height="17"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                    <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="RkH-ab-cto">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <button hidden="YES" verticalHuggingPriority="750" id="Dil-jO-qt9">
+                    <rect key="frame" x="3" y="13" width="15" height="15"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="smallSquare" title="X" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" controlSize="mini" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="AHn-cA-OHq">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system" size="8"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="deleteButton:" target="G4y-Vn-mfK" id="uUZ-ep-2v7"/>
+                    </connections>
+                </button>
+                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" id="vMe-wB-FGo">
+                    <rect key="frame" x="87" y="0.0" width="30" height="30"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="DOt-Gx-3VM"/>
+                </imageView>
+            </subviews>
+            <connections>
+                <outlet property="deleteButton" destination="Dil-jO-qt9" id="x2s-ik-IRh"/>
+                <outlet property="imageView" destination="vMe-wB-FGo" id="TZU-Lz-xaX"/>
+                <outlet property="textField" destination="HKZ-ji-S7m" id="Ach-5x-9ce"/>
+            </connections>
+            <point key="canvasLocation" x="318" y="256"/>
+        </tableCellView>
+    </objects>
+</document>

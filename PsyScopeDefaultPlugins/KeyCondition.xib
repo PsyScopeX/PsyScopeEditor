@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6250" systemVersion="14B25" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6250"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="PSCondition_Key_Popup" customModule="PsyScopeDefaultPlugins" customModuleProvider="target">
+            <connections>
+                <outlet property="actionsMenu" destination="Kcz-im-qnL" id="jMR-VD-NCN"/>
+                <outlet property="anyButton" destination="jQZ-cY-wot" id="dsf-Hb-DKq"/>
+                <outlet property="attributeSheet" destination="QvC-M9-y7g" id="pMc-hE-FGY"/>
+                <outlet property="segmentedControl" destination="xKj-dg-zRt" id="heV-ds-seF"/>
+                <outlet property="tableView" destination="qgY-HV-ocN" id="syc-kq-r7x"/>
+                <outlet property="windowListener" destination="QvC-M9-y7g" id="d4u-qT-6Ty"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="QvC-M9-y7g" customClass="PSKeyListenerWindow" customModule="PsyScopeDefaultPlugins" customModuleProvider="target">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="196" y="240" width="259" height="291"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
+            <view key="contentView" id="EiT-Mj-1SZ">
+                <rect key="frame" x="0.0" y="5" width="259" height="291"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="tko-TW-rfT">
+                        <rect key="frame" x="18" y="254" width="205" height="17"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Choose which keys to check for:" id="OPi-fk-bst">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <segmentedControl verticalHuggingPriority="750" id="xKj-dg-zRt">
+                        <rect key="frame" x="31" y="46" width="196" height="21"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <segmentedCell key="cell" controlSize="small" borderStyle="border" alignment="left" style="smallSquare" trackingMode="momentary" id="qH8-DF-H0d" customClass="PSSegmentedCell">
+                            <font key="font" metaFont="smallSystem"/>
+                            <segments>
+                                <segment image="NSAddTemplate" tag="1">
+                                    <nil key="label"/>
+                                </segment>
+                                <segment image="NSRemoveTemplate" tag="1">
+                                    <nil key="label"/>
+                                </segment>
+                                <segment image="NSActionTemplate">
+                                    <nil key="label"/>
+                                </segment>
+                                <segment width="119" enabled="NO" tag="1">
+                                    <nil key="label"/>
+                                </segment>
+                            </segments>
+                        </segmentedCell>
+                        <connections>
+                            <action selector="actionsSegmentedControlClicked:" target="-2" id="Gok-S4-e90"/>
+                        </connections>
+                    </segmentedControl>
+                    <button verticalHuggingPriority="750" id="gAh-HF-2rg">
+                        <rect key="frame" x="157" y="13" width="76" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="Close" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="tM8-Vk-rjN">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="closeMyCustomSheet:" target="-2" id="C7W-Y3-BBI"/>
+                        </connections>
+                    </button>
+                    <scrollView autohidesScrollers="YES" horizontalLineScroll="22" horizontalPageScroll="10" verticalLineScroll="22" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="Po1-nh-1MT">
+                        <rect key="frame" x="31" y="64" width="196" height="182"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <clipView key="contentView" drawsBackground="NO" id="aNJ-Z3-p4J">
+                            <rect key="frame" x="1" y="0.0" width="238" height="134"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <subviews>
+                                <tableView appearanceType="vibrantLight" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowHeight="20" rowSizeStyle="automatic" viewBased="YES" id="qgY-HV-ocN">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <size key="intercellSpacing" width="3" height="2"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
+                                    <tableColumns>
+                                        <tableColumn width="191" minWidth="40" maxWidth="1000" id="ehB-8c-Mxw">
+                                            <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
+                                                <font key="font" metaFont="smallSystem"/>
+                                                <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
+                                            </tableHeaderCell>
+                                            <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" title="Text Cell" id="8PV-Ad-xKb">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                            <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                            <prototypeCellViews>
+                                                <tableCellView id="PKX-Yw-Ewn">
+                                                    <rect key="frame" x="1" y="1" width="191" height="20"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                    <subviews>
+                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="8Ub-fc-J9b">
+                                                            <rect key="frame" x="0.0" y="0.0" width="191" height="20"/>
+                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                            <textFieldCell key="cell" lineBreakMode="truncatingTail" allowsUndo="NO" sendsActionOnEndEditing="YES" borderStyle="bezel" alignment="center" title="Table View Cell" drawsBackground="YES" id="7K9-fQ-4D9">
+                                                                <font key="font" metaFont="system"/>
+                                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                            </textFieldCell>
+                                                            <connections>
+                                                                <binding destination="PKX-Yw-Ewn" name="value" keyPath="objectValue" id="UoO-Tt-nMV"/>
+                                                            </connections>
+                                                        </textField>
+                                                    </subviews>
+                                                    <connections>
+                                                        <outlet property="textField" destination="8Ub-fc-J9b" id="Nrg-m5-a67"/>
+                                                    </connections>
+                                                </tableCellView>
+                                            </prototypeCellViews>
+                                        </tableColumn>
+                                    </tableColumns>
+                                    <connections>
+                                        <outlet property="dataSource" destination="-2" id="TON-mL-8kj"/>
+                                        <outlet property="delegate" destination="-2" id="Lgl-rL-HFO"/>
+                                    </connections>
+                                </tableView>
+                            </subviews>
+                            <nil key="backgroundColor"/>
+                        </clipView>
+                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="uTa-3N-AJ7">
+                            <rect key="frame" x="1" y="118.46433746814728" width="237" height="15"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </scroller>
+                        <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="edy-aW-bPA">
+                            <rect key="frame" x="224" y="17" width="15" height="102"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </scroller>
+                        <connections>
+                            <outlet property="menu" destination="Kcz-im-qnL" id="Rap-aK-tts"/>
+                        </connections>
+                    </scrollView>
+                    <button verticalHuggingPriority="750" id="jQZ-cY-wot">
+                        <rect key="frame" x="127" y="48" width="81" height="16"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="Any Key" bezelStyle="rounded" alignment="center" controlSize="mini" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="GF2-7c-w7F">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="miniSystem"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="anyButtonClicked:" target="-2" id="0Yc-HZ-QAn"/>
+                        </connections>
+                    </button>
+                </subviews>
+            </view>
+            <connections>
+                <outlet property="controller" destination="-2" id="tRF-Ym-cVR"/>
+            </connections>
+            <point key="canvasLocation" x="187.5" y="242.5"/>
+        </window>
+        <menu id="Kcz-im-qnL">
+            <items>
+                <menuItem title="On Key Down" id="nQb-lj-G91">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="onKeyDownMenuItemSelected:" target="-2" id="OXb-pk-uYE"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="On Key Up" id="4Ar-wH-GJ1">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="onKeyUpMenuItemSelected:" target="-2" id="EDP-Hd-m7S"/>
+                    </connections>
+                </menuItem>
+            </items>
+            <connections>
+                <outlet property="delegate" destination="-2" id="FMx-b5-PJA"/>
+            </connections>
+            <point key="canvasLocation" x="432" y="199.5"/>
+        </menu>
+    </objects>
+    <resources>
+        <image name="NSActionTemplate" width="14" height="14"/>
+        <image name="NSAddTemplate" width="11" height="11"/>
+        <image name="NSRemoveTemplate" width="11" height="11"/>
+    </resources>
+</document>

@@ -1,0 +1,131 @@
+#PsyScope 1.0
+# Script template, Version 1.0
+Experiments:: TestProva
+Current: 1
+
+#> ExperimentDefinitions
+
+TestProva::
+Format: Factor
+InputDevices: MOUSE KEY
+Timer: Macintosh
+Flags: NO_SAVE_SCREEN
+ScaleBlocks: 1
+Templates:  Template
+DataFile: "extest.txt Data"
+#> GroupDefinitions
+
+#> BlockDefinitions
+
+#> FactorDefinitions
+
+#> LevelDefinitions
+
+#> TemplateDefinitions
+
+Template::
+Events:  Text Event1
+
+
+
+#> EventDefinitions
+
+Text::
+StartRef: "0 after end of START"
+Duration: Key[ Any ]
+Stimulus: Hello
+EventType: Text
+
+Event1::
+EventType: Null
+Duration: 500
+StartRef: "0 after end of Text"
+
+#> StimulusDefinitions
+
+#> TrialManagerVariables
+#> PortDefinitions
+
+PortNames:: "Entire Screen"
+
+Entire Screen:: Center 100% Center 100% 0
+
+#> PositionDefinitions
+
+#> SubjectInfo
+
+SubjectName:: "SUBJECT NAME"
+
+SubjectNumber:: 1
+Type: Integer
+
+RunNumber:: 1
+Type: Integer
+
+#> InterfaceDefinition
+
+Console::
+
+Options::
+
+#> MenuDefinitions
+
+Menus:: Experiment
+
+Experiment::
+@StandardPsyScopeMenuItems
+
+#> DialogDefinitions
+
+#> LogFile
+
+LogRunStart:: SubjectName
+Dialog: LogInfo
+
+#> OtherConfiguration
+
+RunStart:: LogRunStart
+
+#> OtherEntries
+
+#> ExperimentNotes
+
+
+
+BuilderData::
+Trash:
+TestProva:
+LayoutWindow:> 470 293 500 286
+Zoomed:>> False
+ObjectType:> Experiment
+LayoutPos:> 0 0
+BlockDisplayData:> 584 294
+Template:
+Links:> TestProva
+ObjectType:> Template
+LayoutPos:> 0 40
+TrialDisplayData:> 494 290 452 293 0 0 2000 90
+Zoomed:>> False
+TemplatesInScript: Template
+Text:
+Links:> Template
+ObjectType:> Event
+Duration:>
+TemplatePosition:> 4 7
+AttribDisplayData:> 504 300 431 272
+Zoomed:>> False
+EventActions:>
+ActionDisplayData:>> 525 299 390 275
+Zoomed:>>> False
+Conditions:>>
+LayoutPos:> 0 80
+EventsInScript: Text Event1
+Desk:
+Event1:
+ObjectType:> Event
+Links:> Template
+TemplatePosition:> 61 76
+AttribDisplayData:> 504 300 431 272
+Zoomed:>> False
+LayoutPos:> 69 68
+

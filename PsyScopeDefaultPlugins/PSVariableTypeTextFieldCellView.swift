@@ -1,0 +1,36 @@
+//
+//  PSVariableTypeTextFieldCellView.swift
+//  PsyScopeEditor
+//
+//  Created by James on 22/04/2015.
+//  Copyright (c) 2015 James. All rights reserved.
+//
+
+import Foundation
+
+
+class PSVariableTypeTextFieldCellView : NSTableCellView, NSTextFieldDelegate {
+
+    var item : PSVariableNamedType? //stores the item it's representing
+    
+    func control(control: NSControl, textShouldBeginEditing fieldEditor: NSText) -> Bool {
+        if let item = item {
+            return true
+        }
+        
+        NSBeep()
+        return false
+    }
+    
+    func control(control: NSControl, textShouldEndEditing fieldEditor: NSText) -> Bool {
+        if let item = item, tf = textField {
+            if tf.stringValue == "" {
+                return false
+            }
+            
+            
+            item.name = tf.stringValue
+        }
+        return true
+    }
+}

@@ -1,0 +1,36 @@
+Quick quide to creating a main window:
+
+1. Create a nib, with two views, one is the main window, one is the tool bar (width 200), both should automatically resize to fill the view they are put in.  In the main window put a horizontal line 34 units down from the top (to fit in the window)
+
+2. Create an nstoolbar item with icon - make sure the label reflects the name of the windows purpose, and use a custom identifier rather than a automatically generated one, as you have to refer to it in code.
+
+3. create a PSWindowView subclass (or directly implement PSWindowViewInterface), and in interface builder, set this as file owner, and link the views.
+
+4.override set up to include nib loading code e.g.:
+
+override func setup(scriptData: PSScriptData!, selectionInterface: AnyObject!) {
+        super.setup(scriptData, selectionInterface: selectionInterface)
+        NSBundle(forClass:self.dynamicType).loadNibNamed("ActionsBuilder", owner: self, topLevelObjects: &topLevelObjects)
+    }
+
+5. override init() to put in identifiers for window and toolbar item e.g.
+
+override init() {
+        super.init()
+        midPanelIdentifier = "ActionsBuilderWindow"
+        leftPanelIdentifier = "ActionsBuilderToolbar"
+        toolbarItemIdentifier = "ActionsBuilder" //should match interface builder identifier
+    }
+
+6. Create custom code for the object.  Remember to override: 
+
+override func entryDeleted(lobject: LayoutObject!) 
+override func entrySelected(lobject: LayoutObject!) 
+
+for when objects are deleted and selected by the program, and
+
+override func docMocChanged(notification : NSNotification)
+
+for when objects are changed by the program
+
+7. in your main plugin class, in 'class func pluginsFor(pluginTypeName: PSPluginType) -> [AnyObject]?' return the string name of the PSWindowView subclass in the array for .WindowView

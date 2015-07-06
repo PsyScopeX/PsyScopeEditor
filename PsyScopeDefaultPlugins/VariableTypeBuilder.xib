@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="7531" systemVersion="14C109" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="7531"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="PSVariableTypePopup" customModule="PsyScopeDefaultPlugins" customModuleProvider="target">
+            <connections>
+                <outlet property="controller" destination="BsV-lb-faQ" id="Mf9-18-hUu"/>
+                <outlet property="popupWindow" destination="QvC-M9-y7g" id="Rmr-QC-rfr"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="QvC-M9-y7g">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="196" y="240" width="280" height="431"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
+            <view key="contentView" id="EiT-Mj-1SZ">
+                <rect key="frame" x="0.0" y="0.0" width="280" height="431"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="n7R-eV-wEh">
+                        <rect key="frame" x="20" y="61" width="240" height="338"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <clipView key="contentView" id="D1x-xq-D24">
+                            <rect key="frame" x="1" y="0.0" width="238" height="337"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <subviews>
+                                <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="rdr-Gc-LHi" viewBased="YES" indentationPerLevel="16" outlineTableColumn="cIP-Fp-iBt" id="5fX-Nn-2v7">
+                                    <rect key="frame" x="0.0" y="0.0" width="238" height="0.0"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <size key="intercellSpacing" width="3" height="2"/>
+                                    <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
+                                    <tableColumns>
+                                        <tableColumn width="116" minWidth="40" maxWidth="1000" id="cIP-Fp-iBt">
+                                            <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Name">
+                                                <font key="font" metaFont="smallSystem"/>
+                                                <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
+                                            </tableHeaderCell>
+                                            <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" title="Text Cell" id="Ri8-RR-13R">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                            <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                            <prototypeCellViews>
+                                                <tableCellView id="anw-fJ-jg2" customClass="PSVariableTypeTextFieldCellView" customModule="PsyScopeDefaultPlugins" customModuleProvider="target">
+                                                    <rect key="frame" x="1" y="1" width="116" height="17"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                    <subviews>
+                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="WfF-nB-tBE">
+                                                            <rect key="frame" x="0.0" y="0.0" width="116" height="17"/>
+                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                                            <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="gPO-5G-Tvg">
+                                                                <font key="font" metaFont="system"/>
+                                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                            </textFieldCell>
+                                                            <connections>
+                                                                <binding destination="anw-fJ-jg2" name="value" keyPath="objectValue" id="Nyp-OZ-ICi"/>
+                                                                <outlet property="delegate" destination="anw-fJ-jg2" id="5hG-J9-yYW"/>
+                                                            </connections>
+                                                        </textField>
+                                                    </subviews>
+                                                    <connections>
+                                                        <outlet property="textField" destination="WfF-nB-tBE" id="XY2-8U-aq8"/>
+                                                    </connections>
+                                                </tableCellView>
+                                            </prototypeCellViews>
+                                        </tableColumn>
+                                        <tableColumn width="116" minWidth="40" maxWidth="1000" id="15Y-4v-WWa">
+                                            <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Type">
+                                                <font key="font" metaFont="smallSystem"/>
+                                                <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
+                                            </tableHeaderCell>
+                                            <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" title="Text Cell" id="vAC-dX-UxN">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                            <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                            <prototypeCellViews>
+                                                <tableCellView id="WM8-Du-iM0" customClass="PSVariableTypeComboBoxTableCellView" customModule="PsyScopeDefaultPlugins" customModuleProvider="target">
+                                                    <rect key="frame" x="120" y="1" width="116" height="17"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                    <subviews>
+                                                        <comboBox verticalHuggingPriority="750" id="Lg6-HF-0bf">
+                                                            <rect key="frame" x="1" y="-1" width="116" height="19"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                            <comboBoxCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" buttonBordered="NO" completes="NO" usesDataSource="YES" numberOfVisibleItems="10" id="8LI-U7-mHb">
+                                                                <font key="font" metaFont="smallSystem"/>
+                                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                            </comboBoxCell>
+                                                            <connections>
+                                                                <binding destination="WM8-Du-iM0" name="value" keyPath="objectValue" id="Dcj-1N-W0e"/>
+                                                                <outlet property="dataSource" destination="Xg1-eN-Aeo" id="vkM-VE-wAZ"/>
+                                                                <outlet property="delegate" destination="Xg1-eN-Aeo" id="MmT-Sa-pmt"/>
+                                                            </connections>
+                                                        </comboBox>
+                                                    </subviews>
+                                                    <connections>
+                                                        <outlet property="comboBox" destination="Lg6-HF-0bf" id="7L7-aU-Xdy"/>
+                                                    </connections>
+                                                </tableCellView>
+                                            </prototypeCellViews>
+                                        </tableColumn>
+                                    </tableColumns>
+                                    <connections>
+                                        <outlet property="dataSource" destination="qg2-Yh-hyP" id="qOa-Gb-sMa"/>
+                                        <outlet property="delegate" destination="qg2-Yh-hyP" id="5IU-O4-FiJ"/>
+                                    </connections>
+                                </outlineView>
+                            </subviews>
+                            <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </clipView>
+                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="haJ-1T-YkC">
+                            <rect key="frame" x="1" y="119" width="223" height="15"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </scroller>
+                        <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="Iuz-em-nbh">
+                            <rect key="frame" x="224" y="17" width="15" height="102"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </scroller>
+                        <tableHeaderView key="headerView" id="rdr-Gc-LHi">
+                            <rect key="frame" x="0.0" y="0.0" width="238" height="17"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </tableHeaderView>
+                    </scrollView>
+                    <segmentedControl verticalHuggingPriority="750" id="K8R-IJ-2rg">
+                        <rect key="frame" x="20" y="47" width="240" height="23"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <segmentedCell key="cell" borderStyle="border" alignment="left" style="smallSquare" trackingMode="momentary" id="NlF-Ya-sGO">
+                            <font key="font" metaFont="system"/>
+                            <segments>
+                                <segment image="NSAddTemplate"/>
+                                <segment image="NSRemoveTemplate" tag="1"/>
+                                <segment width="182" enabled="NO">
+                                    <nil key="label"/>
+                                </segment>
+                            </segments>
+                        </segmentedCell>
+                        <connections>
+                            <action selector="addDeleteSegmentedControlPressed:" target="BsV-lb-faQ" id="FFT-Ks-sfq"/>
+                        </connections>
+                    </segmentedControl>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="fmV-fJ-JaA">
+                        <rect key="frame" x="18" y="407" width="97" height="17"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Variable Types:" id="hc9-UK-m7i">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <button verticalHuggingPriority="750" id="Gr4-g3-DAL">
+                        <rect key="frame" x="14" y="13" width="252" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="Done" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="mpM-Wo-3Sk">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="closeSheet:" target="-2" id="Kq4-gh-P1I"/>
+                        </connections>
+                    </button>
+                </subviews>
+            </view>
+            <point key="canvasLocation" x="146" y="321.5"/>
+        </window>
+        <viewController id="Wle-oI-BtB" userLabel="Popover View Controller">
+            <connections>
+                <outlet property="view" destination="tIj-HJ-3xE" id="pNp-Jy-tRK"/>
+            </connections>
+        </viewController>
+        <popover behavior="semitransient" id="FyG-Q0-15P">
+            <connections>
+                <outlet property="contentViewController" destination="Wle-oI-BtB" id="qJ2-6Q-spw"/>
+                <outlet property="delegate" destination="Xg1-eN-Aeo" id="986-dN-B8T"/>
+            </connections>
+        </popover>
+        <customObject id="BsV-lb-faQ" customClass="PSVariableTypeController" customModule="PsyScopeDefaultPlugins" customModuleProvider="target">
+            <connections>
+                <outlet property="addDeleteSegmentedControl" destination="K8R-IJ-2rg" id="pAv-67-jfJ"/>
+                <outlet property="comboBoxDelegate" destination="Xg1-eN-Aeo" id="gdT-bp-Rmz"/>
+                <outlet property="outlineViewDelegate" destination="qg2-Yh-hyP" id="rE1-C3-lyj"/>
+                <outlet property="popupController" destination="-2" id="Nso-mY-GLZ"/>
+            </connections>
+        </customObject>
+        <customObject id="qg2-Yh-hyP" customClass="PSVariableTypeOutlineViewDelegate" customModule="PsyScopeDefaultPlugins" customModuleProvider="target">
+            <connections>
+                <outlet property="comboBoxDataSource" destination="Xg1-eN-Aeo" id="ife-K0-Z8W"/>
+                <outlet property="nameColumn" destination="cIP-Fp-iBt" id="uNR-os-Ja1"/>
+                <outlet property="outlineView" destination="5fX-Nn-2v7" id="ckq-tG-rv3"/>
+                <outlet property="valueColumn" destination="15Y-4v-WWa" id="bw6-DZ-G3h"/>
+            </connections>
+        </customObject>
+        <customObject id="Xg1-eN-Aeo" customClass="PSVariableTypeComboBoxDelegate" customModule="PsyScopeDefaultPlugins" customModuleProvider="target">
+            <connections>
+                <outlet property="arraySizePopover" destination="FyG-Q0-15P" id="Wg2-FC-eMf"/>
+                <outlet property="arraySizeTextField" destination="E8U-x3-Mt4" id="a7S-Bg-hjo"/>
+                <outlet property="variableTypeController" destination="BsV-lb-faQ" id="kTK-AU-jXU"/>
+            </connections>
+        </customObject>
+        <userDefaultsController representsSharedInstance="YES" id="fdj-sq-Z3b"/>
+        <customView id="tIj-HJ-3xE">
+            <rect key="frame" x="0.0" y="0.0" width="101" height="33"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="jZ5-x9-rhL">
+                    <rect key="frame" x="8" y="8" width="34" height="17"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Size:" id="Xaz-dR-06Q">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField verticalHuggingPriority="750" id="E8U-x3-Mt4">
+                    <rect key="frame" x="48" y="6" width="48" height="22"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="88q-HG-ciS">
+                        <numberFormatter key="formatter" formatterBehavior="custom10_4" numberStyle="decimal" allowsFloats="NO" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" id="EAi-KT-ben">
+                            <real key="minimum" value="1"/>
+                            <metadata>
+                                <real key="inspectorSampleValue" value="1"/>
+                            </metadata>
+                        </numberFormatter>
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                    <connections>
+                        <action selector="arraySizeTextFieldDataEntered:" target="Xg1-eN-Aeo" id="xap-sP-5lb"/>
+                        <outlet property="delegate" destination="Xg1-eN-Aeo" id="8Pe-DR-faV"/>
+                    </connections>
+                </textField>
+            </subviews>
+            <point key="canvasLocation" x="-91.5" y="222.5"/>
+        </customView>
+    </objects>
+    <resources>
+        <image name="NSAddTemplate" width="11" height="11"/>
+        <image name="NSRemoveTemplate" width="11" height="11"/>
+    </resources>
+</document>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="7531" systemVersion="14C109" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="7531"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner"/>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="c22-O7-iKe" customClass="PSConditionPickerCell" customModule="PsyScopeFramework" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="175" height="25"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" id="uTG-Js-pUL">
+                    <rect key="frame" x="0.0" y="0.0" width="25" height="25"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="2jg-aA-n5x"/>
+                </imageView>
+                <button verticalHuggingPriority="750" id="BMI-hl-NJ6">
+                    <rect key="frame" x="26" y="0.0" width="149" height="25"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <buttonCell key="cell" type="check" title="Button" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="vw7-gK-fQF">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="clickedLabel:" target="c22-O7-iKe" id="gr1-mR-4Xr"/>
+                    </connections>
+                </button>
+            </subviews>
+            <connections>
+                <outlet property="button" destination="BMI-hl-NJ6" id="NBA-r8-ikU"/>
+                <outlet property="imageView" destination="uTG-Js-pUL" id="fXM-hP-s8D"/>
+            </connections>
+            <point key="canvasLocation" x="278.5" y="210.5"/>
+        </customView>
+    </objects>
+</document>

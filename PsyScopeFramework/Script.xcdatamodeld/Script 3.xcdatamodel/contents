@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7527" systemVersion="14C109" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="Entry" representedClassName="Entry" syncable="YES">
+        <attribute name="comments" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="currentValue" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="isKeyEntry" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="isProperty" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="metaData" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userFriendlyName" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="layoutObject" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="LayoutObject" inverseName="entries" inverseEntity="LayoutObject" syncable="YES"/>
+        <relationship name="mainEntryFor" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="LayoutObject" inverseName="mainEntry" inverseEntity="LayoutObject" syncable="YES"/>
+        <relationship name="parentEntry" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Entry" inverseName="subEntries" inverseEntity="Entry" syncable="YES"/>
+        <relationship name="parentSection" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Section" inverseName="objects" inverseEntity="Section" syncable="YES"/>
+        <relationship name="script" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Script" inverseName="entries" inverseEntity="Script" syncable="YES"/>
+        <relationship name="subEntries" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Entry" inverseName="parentEntry" inverseEntity="Entry" syncable="YES"/>
+    </entity>
+    <entity name="LayoutObject" representedClassName="LayoutObject" syncable="YES">
+        <attribute name="icon" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="xPos" optional="YES" attributeType="Double" defaultValueString="0" syncable="YES"/>
+        <attribute name="yPos" optional="YES" attributeType="Double" defaultValueString="0" syncable="YES"/>
+        <relationship name="childLink" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="LayoutObject" inverseName="parentLink" inverseEntity="LayoutObject" syncable="YES"/>
+        <relationship name="entries" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Entry" inverseName="layoutObject" inverseEntity="Entry" syncable="YES"/>
+        <relationship name="mainEntry" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Entry" inverseName="mainEntryFor" inverseEntity="Entry" syncable="YES"/>
+        <relationship name="parentLink" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="LayoutObject" inverseName="childLink" inverseEntity="LayoutObject" syncable="YES"/>
+    </entity>
+    <entity name="Script" representedClassName="Script" syncable="YES">
+        <relationship name="entries" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Entry" inverseName="script" inverseEntity="Entry" syncable="YES"/>
+        <relationship name="sections" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Section" inverseName="script" inverseEntity="Section" syncable="YES"/>
+    </entity>
+    <entity name="Section" representedClassName="Section" syncable="YES">
+        <attribute name="scriptOrder" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="sectionName" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="objects" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Entry" inverseName="parentSection" inverseEntity="Entry" syncable="YES"/>
+        <relationship name="script" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Script" inverseName="sections" inverseEntity="Script" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Entry" positionX="-47" positionY="-90" width="128" height="255"/>
+        <element name="LayoutObject" positionX="-335" positionY="45" width="128" height="148"/>
+        <element name="Script" positionX="-171" positionY="-286" width="128" height="75"/>
+        <element name="Section" positionX="-252" positionY="-72" width="128" height="105"/>
+    </elements>
+</model>

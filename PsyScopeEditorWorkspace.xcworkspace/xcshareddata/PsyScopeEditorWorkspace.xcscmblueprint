@@ -1,0 +1,35 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "be8a8b15-a814-46e0-aca4-0efc63d8b843",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+    "5985462f-5ceb-0310-81f4-9f1755bd5234++3539" : {
+
+    },
+    "be8a8b15-a814-46e0-aca4-0efc63d8b843" : {
+
+    }
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "5985462f-5ceb-0310-81f4-9f1755bd5234++3539" : 0,
+    "be8a8b15-a814-46e0-aca4-0efc63d8b843" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "B626C8F8-E882-4853-AE58-7B5736837265",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "5985462f-5ceb-0310-81f4-9f1755bd5234++3539" : "PsyAppEngine",
+    "be8a8b15-a814-46e0-aca4-0efc63d8b843" : "PsyScopeEditor"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "PsyScopeEditorWorkspace",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 203,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "trunk\/PsyScopeEditorWorkspace.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "svn+ssh:\/\/psy.cns.sissa.it\/svn_repository\/PsyScopeX",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Subversion",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "5985462f-5ceb-0310-81f4-9f1755bd5234++3539"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "svn+ssh:\/\/psy.cns.sissa.it\/svn_repository\/PsyScopeEditor",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Subversion",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "be8a8b15-a814-46e0-aca4-0efc63d8b843"
+    }
+  ]
+}
