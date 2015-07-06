@@ -57,6 +57,8 @@ class PSScriptWriter: NSObject {
         for section in sections {
             script += sectionToText(section) + new_line
         }
+        
+        print(script)
         return script.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
     }
     

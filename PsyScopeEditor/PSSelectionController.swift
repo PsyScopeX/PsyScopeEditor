@@ -13,7 +13,7 @@ import Foundation
 //All deleteing of objects should be done through here, as it wil update the selection
 
 class PSSelectionController : NSObject, PSSelectionInterface {
-    let debugMocChanges = false
+    let debugMocChanges = true
     
     @IBOutlet var scriptDelegate : PSScriptViewDelegate!
     @IBOutlet var document : Document!
@@ -43,16 +43,8 @@ class PSSelectionController : NSObject, PSSelectionInterface {
     }
     
     func initialize() {
-        
         scriptData = document.scriptData
-        var objects = scriptData.getLayoutObjects()
-        if objects.count >= 1 {
-            selectEntry(objects[0].mainEntry) //triggers the correct filling in of the attributes browser
-        }
-        
         listeningForDocMocChange = true
-        
-        refreshGUI()
     }
     
     func registerSelectionInterface(interface : PSWindowViewInterface) {

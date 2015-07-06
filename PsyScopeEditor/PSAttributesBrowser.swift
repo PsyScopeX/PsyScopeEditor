@@ -167,12 +167,15 @@ class PSAttributesBrowser: NSObject, NSComboBoxDataSource, NSComboBoxDelegate, N
     
     func tableView(tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
         //show popover
+        if row < content.count {
+            let view : NSView = tableView.viewAtColumn(0, row: row, makeIfNecessary: true)!
         
-        let view : NSView = tableView.viewAtColumn(0, row: row, makeIfNecessary: true)!
+            elementViewerController.showForView(view, attributeEntry: content[row])
         
-        elementViewerController.showForView(view, attributeEntry: content[row])
-        
-        return true
+            return true
+        } else {
+            return false
+        }
     }
     
     //MARK: Adding/deleting attributes

@@ -69,7 +69,7 @@ class PSPsyScopeXRunner {
         let task = NSTask()
         task.launchPath = launchPath
         
-        let arguments = " ".join([openFlag,scriptFileName,foregroundFlag,runOnOpen,quitOnEndFlag ])
+        let arguments = " ".join([openFlag,scriptFileName,runOnOpen,foregroundFlag,quitOnEndFlag ])
         
         print(launchPath + " " + arguments)
         task.arguments = [openFlag,scriptFileName]

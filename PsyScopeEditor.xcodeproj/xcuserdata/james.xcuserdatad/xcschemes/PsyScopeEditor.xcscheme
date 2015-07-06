@@ -72,6 +72,8 @@
             ReferencedContainer = "container:PsyScopeEditor.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
+      <AdditionalOptions>
+      </AdditionalOptions>
    </TestAction>
    <LaunchAction
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
@@ -79,9 +81,10 @@
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
       buildConfiguration = "Development"
-      ignoresPersistentStateOnLaunch = "NO"
+      ignoresPersistentStateOnLaunch = "YES"
       debugDocumentVersioning = "YES"
       debugXPCServices = "NO"
+      debugServiceExtension = "internal"
       allowLocationSimulation = "YES"
       viewDebuggingEnabled = "No">
       <BuildableProductRunnable
