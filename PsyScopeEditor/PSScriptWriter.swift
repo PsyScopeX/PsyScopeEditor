@@ -10,11 +10,13 @@ import AVFoundation
 
 class PSScriptWriter: NSObject {
     
-    init(scriptData : PSScriptData) {
+    init(scriptData : PSScriptData, responder : NSResponder) {
         self.scriptData = scriptData
+        self.responder = responder
     }
     
     var scriptData : PSScriptData
+    var responder : NSResponder
     var new_line : String = "\n"
     
     
@@ -30,7 +32,7 @@ class PSScriptWriter: NSObject {
         }
             
         text += new_line
-        let attribs = entry.subEntries.array as! [Entry]
+        var attribs = entry.subEntries.array as! [Entry]
         for a in attribs {
             text += entryToText(a, level: level + 1)
         }
@@ -41,7 +43,7 @@ class PSScriptWriter: NSObject {
         
         var text : String = ""
         if section.sectionName != "Root" { text = "#> " + section.sectionName + new_line + new_line }
-        let entries = section.objects.array as! [Entry]
+        var entries = section.objects.array as! [Entry]
         for entry in entries {
             text += entryToText(entry, level: 0) + new_line
         }
@@ -57,14 +59,8 @@ class PSScriptWriter: NSObject {
         for section in sections {
             script += sectionToText(section) + new_line
         }
-        
-        print(script)
         return script.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
     }
     
-    func generatePsyScopeXScript() -> String {
-        let script = "#PsyScope 1.0\n# Script template, Version 1.0\n\n" + generateScript()
-        return script.stringByReplacingOccurrencesOfString("\n", withString: "\r")
-    }
     
 }

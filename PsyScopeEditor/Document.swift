@@ -9,8 +9,6 @@ import Cocoa
 
 
 class Document: NSPersistentDocument, NSSplitViewDelegate {
-    
-    
     @IBOutlet var toolbar : NSToolbar!
     @IBOutlet var layoutToolbarItem : NSToolbarItem!
     @IBOutlet var tabController : PSDocumentTabDelegate!
@@ -30,13 +28,20 @@ class Document: NSPersistentDocument, NSSplitViewDelegate {
     
     
     override func revertToContentsOfURL(inAbsoluteURL: NSURL!, ofType inTypeName: String!) throws {
-        
-        
-        defer { selectionController.listeningForDocMocChange = true }
-        selectionController.listeningForDocMocChange = false
-        
-        scriptData.reset()
-        try super.revertToContentsOfURL(inAbsoluteURL, ofType: inTypeName) //resets docmoc managedobjectcontext
+        var outError: NSError! = NSError(domain: "Migrator", code: 0, userInfo: nil)
+        var rv: Bool
+        do {
+            try super.revertToContentsOfURL(inAbsoluteURL, ofType: inTypeName)
+            rv = true
+        } catch var error as NSError {
+            outError = error
+            rv = false
+        }
+        layoutController.updateAllObjects()
+        if rv {
+            return
+        }
+        throw outError
     }
     
     var scriptData : PSScriptData {
@@ -49,24 +54,8 @@ class Document: NSPersistentDocument, NSSplitViewDelegate {
         }
     }
     var _scriptData : PSScriptData!
-    /*
-    override func readFromURL(absoluteURL: NSURL!, ofType typeName: String!) throws {
-        print("Loading: " + typeName)
-        try super.readFromURL(absoluteURL, ofType: typeName)
-    }
-    
-    override func writeToURL(url: NSURL, ofType typeName: String) throws {
-        print("Saving: " + typeName)
-        if typeName == "PsyX" {
-            let script = PSScriptWriter(scriptData: scriptData).generatePsyScopeXScript()
-            try script.writeToURL(url, atomically: true, encoding: NSUTF8StringEncoding)
-        } else {
-            try writeToURL(url, ofType: typeName)
-        }
-    }*/
     
     override func windowControllerDidLoadNib(aController: NSWindowController) {
-      
         super.windowControllerDidLoadNib(aController)
 
         //register dragged types
@@ -140,7 +129,6 @@ class Document: NSPersistentDocument, NSSplitViewDelegate {
         
         if errorHandler.errors.count == 0 {
             //RUN
-            PSPsyScopeXRunner.sharedInstance.runThisScript(self)
         } else {
             PSModalAlert("Errors were found during validation of script!")
             errorHandler.presentErrors()

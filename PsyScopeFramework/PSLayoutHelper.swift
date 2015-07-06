@@ -17,7 +17,7 @@ private var listsHidden = !NSUserDefaults.standardUserDefaults().boolForKey(PSPr
 public func PSCleanUpTree(scriptData : PSScriptData) {
 
     
-    let allobjects : [LayoutObject] = scriptData.getLayoutObjects()
+    var allobjects : [LayoutObject] = scriptData.getLayoutObjects()
     
 
     //1st copy tree structure to treenodes
@@ -42,7 +42,7 @@ public func PSCleanUpTree(scriptData : PSScriptData) {
     if lobjects.isEmpty { return}
     
     for lobj in lobjects {
-        let newNode = TreeNode(layoutObject: lobj, scriptData: scriptData)
+        var newNode = TreeNode(layoutObject: lobj, scriptData: scriptData)
         treeNodes.append(newNode)
         lobjToTreeNode[lobj] = newNode
     }
@@ -54,7 +54,7 @@ public func PSCleanUpTree(scriptData : PSScriptData) {
     for lobj in lobjects {
         for child in lobj.childLink.array as! [LayoutObject] {
             if !((listsHidden && child.mainEntry.type == "List") || (eventsHidden && scriptData.typeIsEvent(child.mainEntry.type))) {
-                let childNode = lobjToTreeNode[child]!
+                var childNode = lobjToTreeNode[child]!
                 lobjToTreeNode[lobj]!.addChild(childNode)
             }
         }
@@ -98,8 +98,8 @@ public func PSCleanUpTree(scriptData : PSScriptData) {
     
     //now apply measurements
     
-    let xmult = Double(PSPreferences.cleanUpXSpacing.integerValue)
-    let ymult = Double(PSPreferences.cleanUpYSpacing.integerValue)
+    var xmult = Double(PSPreferences.integerForPreference(PSPreferences.cleanUpXSpacing))
+    var ymult = Double(PSPreferences.integerForPreference(PSPreferences.cleanUpYSpacing))
     
     scriptData.beginUndoGrouping("Reposition Objects")
     for lobj in lobjects {
@@ -117,26 +117,26 @@ public func PSSortSubTree(lobj : LayoutObject, scriptData : PSScriptData) {
     listsHidden = !NSUserDefaults.standardUserDefaults().boolForKey(PSPreferences.showLists.key)
     
     var parentX = lobj.xPos.doubleValue
-    let parentY = lobj.yPos.doubleValue
+    var parentY = lobj.yPos.doubleValue
     
     //1st copy tree structure to treenodes
-    let treeNode = TreeNode(layoutObject: lobj, scriptData: scriptData)
+    var treeNode = TreeNode(layoutObject: lobj, scriptData: scriptData)
     treeNode.populateChildren()
     treeNode.setTreeDepth(0)
-    _ = treeNode.sizeOfChildren()
+    var maxDepth = treeNode.sizeOfChildren()
     treeNode.setNewX(parentX)
     treeNode.centreOverChildren()
-    let xmult = Double(PSPreferences.cleanUpXSpacing.integerValue)
-    let ymult = Double(PSPreferences.cleanUpYSpacing.integerValue)
+    var xmult = Double(PSPreferences.integerForPreference(PSPreferences.cleanUpXSpacing))
+    var ymult = Double(PSPreferences.integerForPreference(PSPreferences.cleanUpYSpacing))
     
-    let diff = parentX - (treeNode.widthOfChildren / 2)
+    var diff = parentX - (treeNode.widthOfChildren / 2)
     
     if diff < 10 {
         parentX -= diff
     }
     
-    let offsetX = parentX - ((1 + treeNode.x) * xmult)
-    let offsetY = parentY - ((1 + treeNode.depth) * ymult)
+    var offsetX = parentX - ((1 + treeNode.x) * xmult)
+    var offsetY = parentY - ((1 + treeNode.depth) * ymult)
     
     
     
@@ -201,7 +201,7 @@ class TreeNode : NSObject {
     func setNewX(x : Double) {
         self.x = x
         var childX = x
-        for (_,c) in children.enumerate() {
+        for (index,c) in children.enumerate() {
             c.setNewX(childX)
             childX += c.widthOfChildren
         }
@@ -310,6 +310,7 @@ public func PSPositionNewObject(lobject : LayoutObject, scriptData : PSScriptDat
     let parent_objects = lobject.parentLink as! Set<LayoutObject>
     
     if parent_objects.count > 0 { //if there parent objects get right most and put next to that
+        var positioned_lobjects : [LayoutObject] = []
         let parent_object = parent_objects.first!
         PSPositionNewObjectWithParent(lobject, parentObject: parent_object)
         
@@ -320,10 +321,10 @@ public func PSPositionNewObject(lobject : LayoutObject, scriptData : PSScriptDat
 }
 
 public func PSPositionNewObjectWithParent(lobject : LayoutObject, parentObject : LayoutObject) {
-    var yPos : Int = Int(parentObject.yPos) + PSPreferences.cleanUpYSpacing.integerValue
+    var yPos : Int = Int(parentObject.yPos) + PSPreferences.integerForPreference(PSPreferences.cleanUpYSpacing)
     if yPos < 0 { yPos = 0 }
     var xPos = Int(parentObject.xPos)
-    let xMult = PSPreferences.cleanUpXSpacing.integerValue
+    let xMult = PSPreferences.integerForPreference(PSPreferences.cleanUpXSpacing)
     
     //get max xPos
     for child in parentObject.childLink.array as! [LayoutObject] {
@@ -340,9 +341,9 @@ public func PSPutInFreeSpot(lobject : LayoutObject, scriptData : PSScriptData) {
     //todo check screen coordinate
     //for now, pile at 50,50 going left
     let all_lobjects = scriptData.getLayoutObjects()
-    let xMult = PSPreferences.cleanUpXSpacing.integerValue
+    let xMult = PSPreferences.integerForPreference(PSPreferences.cleanUpXSpacing)
     var x : Int = xMult
-    let y : Int = PSPreferences.cleanUpYSpacing.integerValue
+    let y : Int = PSPreferences.integerForPreference(PSPreferences.cleanUpYSpacing)
     var tooClose = true
     repeat {
         tooClose = false

@@ -167,15 +167,12 @@ class PSAttributesBrowser: NSObject, NSComboBoxDataSource, NSComboBoxDelegate, N
     
     func tableView(tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
         //show popover
-        if row < content.count {
-            let view : NSView = tableView.viewAtColumn(0, row: row, makeIfNecessary: true)!
         
-            elementViewerController.showForView(view, attributeEntry: content[row])
+        let view : NSView = tableView.viewAtColumn(0, row: row, makeIfNecessary: true)!
         
-            return true
-        } else {
-            return false
-        }
+        elementViewerController.showForView(view, attributeEntry: content[row])
+        
+        return true
     }
     
     //MARK: Adding/deleting attributes
@@ -239,7 +236,7 @@ class PSAttributesBrowser: NSObject, NSComboBoxDataSource, NSComboBoxDelegate, N
         if let ce = copiedAttribute {
             switch (type) {
             case NSPasteboardTypeString:
-                let writer = PSScriptWriter(scriptData: document.scriptData)
+                let writer = PSScriptWriter(scriptData: document.scriptData, responder: tableView)
                 
                 let string = writer.entryToText(ce, level: 1)
                 pasteboard.setString(string, forType: NSPasteboardTypeString)
