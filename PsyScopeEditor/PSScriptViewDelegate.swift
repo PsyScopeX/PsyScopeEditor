@@ -20,12 +20,12 @@ class PSScriptViewDelegate : NSObject, NSTextViewDelegate, NSTextStorageDelegate
     var userHasMadeTextEdits = false;
     var userHasMadeGraphicsEdits = false;
     
-    lazy var parsingQueue : NSOperationQueue = {
+    /*lazy var parsingQueue : NSOperationQueue = {
         var queue = NSOperationQueue()
         queue.name = "Parsing queue"
         queue.maxConcurrentOperationCount = 1
         return queue
-        }()
+        }()*/
     var readingOperations : [Int : PSScriptReaderOperation] = [:]
     var readingOperationIndex : Int = 0
     
@@ -45,8 +45,8 @@ class PSScriptViewDelegate : NSObject, NSTextViewDelegate, NSTextStorageDelegate
     
     func importScript(script : String) {
         //cancel anything in progress
-        for (key, op) in readingOperations {
-            op.cancel()
+        for operation in readingOperations.values {
+            operation.cancel()
         }
         
         build(script)
@@ -112,7 +112,7 @@ class PSScriptViewDelegate : NSObject, NSTextViewDelegate, NSTextStorageDelegate
         let script = replaceCurlyQuotes(script)
         
         errorHandler.reset()
-        var scriptReader = PSScriptReader(script: script)
+        let scriptReader = PSScriptReader(script: script)
         
         var success = scriptReader.errors.count == 0
         
@@ -185,8 +185,8 @@ class PSScriptViewDelegate : NSObject, NSTextViewDelegate, NSTextStorageDelegate
     func updateScriptView() {
         
         //cancel anything in progress
-        for (key, op) in readingOperations {
-            op.cancel()
+        for oepration in readingOperations.values {
+            oepration.cancel()
         }
         
         print("update script view sro")
@@ -209,8 +209,8 @@ class PSScriptViewDelegate : NSObject, NSTextViewDelegate, NSTextStorageDelegate
             })
         }
         
-        
-        parsingQueue.addOperation(readingOperation)
+        NSOperationQueue.mainQueue().addOperation(readingOperation)
+        //parsingQueue.addOperation(readingOperation)
     }
     
     var selectedEntry : Entry?
@@ -274,7 +274,8 @@ class PSScriptViewDelegate : NSObject, NSTextViewDelegate, NSTextStorageDelegate
                     self.readingOperations[index] = nil
                 })
             }
-            parsingQueue.addOperation(readingOperation)
+            //parsingQueue.addOperation(readingOperation)
+            NSOperationQueue.mainQueue().addOperation(readingOperation)
         }
 
         

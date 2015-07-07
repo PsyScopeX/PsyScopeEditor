@@ -20,6 +20,9 @@ public struct PSActionBuilderViewMetaDataSet {
     public var conditionsHeight : CGFloat = 0
 }
 
+public let PSEmptyActionBuilderViewMetaDataSet = PSActionBuilderViewMetaDataSet(actions: [], conditions: [], actionsHeight: PSActionsButtonHeight, conditionsHeight: PSConditionsButtonHeight)
+
+
 public let PSConditionsButtonHeight : CGFloat = CGFloat(30)
 public let PSActionsButtonHeight : CGFloat = CGFloat(30)
 public let PSCollapsedViewHeight : CGFloat = CGFloat(30)
@@ -32,8 +35,8 @@ public func PSActionConditionViewMetaData(actionsAttribute : PSEventActionsAttri
     
     
     
-    var actionsHeight = PSCollapsedViewHeight
-    var conditionsHeight = PSCollapsedViewHeight
+    var actionsHeight = PSActionsButtonHeight
+    var conditionsHeight = PSConditionsButtonHeight
     
     for (setNumber, set) in actionsAttribute.actionConditionSets.enumerate() {
         
