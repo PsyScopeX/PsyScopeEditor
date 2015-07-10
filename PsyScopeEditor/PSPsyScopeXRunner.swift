@@ -11,8 +11,9 @@ import Foundation
 
 //controls running psyscope from unix commands
 
-class PSPsyScopeXRunner {
-    static let sharedInstance = PSPsyScopeXRunner()
+class PSPsyScopeXRunner : NSObject {
+    static let sharedInstance : PSPsyScopeXRunner = PSPsyScopeXRunner()
+
     let openFlag = "-o"
     let quitOnEndFlag = "-q"
     let runningFlag = "-f"
@@ -40,9 +41,13 @@ class PSPsyScopeXRunner {
     }
     
     func runThisScript(document : Document) {
-        //check for existence of file
+        
+        //check for running task and close it
+        terminate()
+        
+        //check for existence of psyscope x
         guard let launchPath = executablePath where launchPath != "" else {
-            print("Could not get launch path")
+            PSModalAlert("You need to set the path for PsyScopeX in the Preferences before continuing")
             return
         }
         
@@ -53,14 +58,21 @@ class PSPsyScopeXRunner {
         }
         
         
+        guard let scriptFileURL = document.fileURL, scriptFileName = scriptFileURL.path else  {
+            PSModalAlert("Error getting document's name - try resaving the document elsewhere.")
+            return
+        }
         
-        let scriptFileName = documentPath.stringByAppendingPathComponent("psyScopeXScript.txt")
-
+        let scriptName = scriptFileName.lastPathComponent.stringByDeletingPathExtension
+        let psyXScriptFileName = documentPath.stringByAppendingPathComponent(scriptName)
         let script = PSScriptWriter(scriptData: document.scriptData).generatePsyScopeXScript()
+        
         do {
-            try script.writeToFile(scriptFileName, atomically: true, encoding: NSMacOSRomanStringEncoding) }
+            try script.writeToFile(psyXScriptFileName, atomically: true, encoding: NSMacOSRomanStringEncoding)
+            HFSFileTypeHelper.setTextFileAttribs(psyXScriptFileName)
+        }
         catch {
-            print("Couldnt write file")
+            PSModalAlert("Couldn't write the PsyScopeX file (or set it's attributes)")
             return
         }
 
@@ -68,21 +80,39 @@ class PSPsyScopeXRunner {
         //construct running command with NSTask
         let task = NSTask()
         task.launchPath = launchPath
-        
-        let arguments = " ".join([openFlag,scriptFileName,runOnOpen,foregroundFlag,quitOnEndFlag ])
-        
-        print(launchPath + " " + arguments)
-        task.arguments = [openFlag,scriptFileName]
-        //set notification listening for NSTaskDidTerminateNotification
+        task.arguments = [openFlag,psyXScriptFileName,runOnOpen,foregroundFlag,quitOnEndFlag]
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "terminated:", name: NSTaskDidTerminateNotification, object: task)
         
         //launch the task
         task.launch()
+        
+        //save task
+        currentlyRunningPsyScopeTask = task
+    }
+    
+    func terminated(AnyObject) {
+        print("TERMINATED")
     }
     
     func terminate() {
         if let currentlyRunningPsyScopeTask = currentlyRunningPsyScopeTask {
             currentlyRunningPsyScopeTask.terminate()
+            self.currentlyRunningPsyScopeTask = nil
         }
+        
+        
+    }
+    func kill() {
+        /*
+        // define command
+        NSString* appName = @"Finder";
+        NSString* killCommand = [@"/usr/bin/killall " stringByAppendingString:appName];
+        
+        // execute shell command
+        NSTask *task = [[NSTask alloc] init];
+        [task setLaunchPath:@"/bin/bash"];
+        [task setArguments:@[ @"-c", killCommand]];
+        [task launch];*/
     }
 }
 

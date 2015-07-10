@@ -28,4 +28,6 @@
 -(NSArray*) getPluginClassNames;
 -(NSArray*) instantiatePluginsOfType:(PSPluginType)pluginType;
 -(NSString*) getBundlePathForPSExtension:(NSString*)name;
+
+
 @end

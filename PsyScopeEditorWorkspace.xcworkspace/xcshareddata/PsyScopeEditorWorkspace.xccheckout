@@ -10,44 +10,29 @@
 	<string>PsyScopeEditorWorkspace</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>5985462f-5ceb-0310-81f4-9f1755bd5234++3539</key>
-		<string>svn+ssh://psy.cns.sissa.it/svn_repository/PsyScopeX/branches/James</string>
-		<key>be8a8b15-a814-46e0-aca4-0efc63d8b843</key>
-		<string>svn+ssh://psy.cns.sissa.it/svn_repository/PsyScopeEditor</string>
+		<key>A1B9F9BA7B6A2269AF2534679CC0CA02A307D34C</key>
+		<string>https://github.com/PsyScopeX/PsyScopeEditor.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>trunk/PsyScopeEditorWorkspace.xcworkspace</string>
+	<string>PsyScopeEditorWorkspace.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>5985462f-5ceb-0310-81f4-9f1755bd5234++3539</key>
-		<string>../../../PsyAppEngine</string>
-		<key>be8a8b15-a814-46e0-aca4-0efc63d8b843</key>
-		<string>../..</string>
+		<key>A1B9F9BA7B6A2269AF2534679CC0CA02A307D34C</key>
+		<string>..</string>
 	</dict>
-	<key>IDESourceControlProjectRepositoryRootDictionary</key>
-	<dict>
-		<key>5985462f-5ceb-0310-81f4-9f1755bd5234++3539</key>
-		<string>svn+ssh://psy.cns.sissa.it/svn_repository/PsyScopeX</string>
-	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/PsyScopeX/PsyScopeEditor.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>be8a8b15-a814-46e0-aca4-0efc63d8b843</string>
+	<string>A1B9F9BA7B6A2269AF2534679CC0CA02A307D34C</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
-			<string>public.vcs.subversion</string>
+			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>5985462f-5ceb-0310-81f4-9f1755bd5234++3539</string>
-			<key>IDESourceControlWCCName</key>
-			<string>PsyAppEngine</string>
-		</dict>
-		<dict>
-			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
-			<string>public.vcs.subversion</string>
-			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>be8a8b15-a814-46e0-aca4-0efc63d8b843</string>
+			<string>A1B9F9BA7B6A2269AF2534679CC0CA02A307D34C</string>
 			<key>IDESourceControlWCCName</key>
 			<string>PsyScopeEditor</string>
 		</dict>

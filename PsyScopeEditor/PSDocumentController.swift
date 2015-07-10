@@ -9,6 +9,7 @@ import Cocoa
 
 class PSDocumentController: NSDocumentController {
     override func openUntitledDocumentAndDisplay(displayDocument: Bool) throws -> AnyObject {
+
         var outError: NSError! = NSError(domain: "Migrator", code: 0, userInfo: nil)
         //this returns the document
         var document : AnyObject?

@@ -129,6 +129,7 @@ class Document: NSPersistentDocument, NSSplitViewDelegate {
         
         if errorHandler.errors.count == 0 {
             //RUN
+            PSPsyScopeXRunner.sharedInstance.runThisScript(self)
         } else {
             PSModalAlert("Errors were found during validation of script!")
             errorHandler.presentErrors()
