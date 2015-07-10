@@ -32,6 +32,6 @@ typedef void (^PSPluginViewControllerDoubleClick)(void);
 -(void) closeAllWindows;
 
 //called when data is changed
--(void) docMocChanged:(NSNotification*)notification;
+-(void) refresh;
 
 @end

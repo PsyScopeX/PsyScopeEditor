@@ -47,6 +47,10 @@ class PSSelectionController : NSObject, PSSelectionInterface {
         windowViews.append(interface)
     }
     
+    func refresh() {
+        
+    }
+    
     func docMocChanged(notification : NSNotification) {
         
         if (debugMocChanges) { dumpDocMocChanges(notification) }
@@ -59,7 +63,7 @@ class PSSelectionController : NSObject, PSSelectionInterface {
         }
         
         
-        tabDelegate.docMocChanged(notification) //sends notification to property controllers
+        
         layoutController.refreshLayoutObjects(notification) //layout controller needs notification
         refreshGUI()
     }
@@ -181,6 +185,9 @@ class PSSelectionController : NSObject, PSSelectionInterface {
     
     func refreshGUI() {
         print("Refresh")
+        
+        
+        tabDelegate.refresh() //sends refresh to property controllers
         buildEventActionsAttributeAndMetaData() //must be done at start of refresh
         
 

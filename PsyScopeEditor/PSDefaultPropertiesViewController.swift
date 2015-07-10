@@ -26,8 +26,8 @@ class PSDefaultPropertiesViewController : PSToolPropertyController {
         parseValue()
     }
     
-    override func docMocChanged(notification: NSNotification!) {
-        super.docMocChanged(notification)
+    override func refresh() {
+        super.refresh()
         parseValue()
     }
     

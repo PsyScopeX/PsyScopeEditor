@@ -37,8 +37,8 @@ class PSVariablePropertiesController : PSToolPropertyController {
     
     //MARK: Document change
     
-    override func docMocChanged(notification: NSNotification!) {
-        super.docMocChanged(notification)
+    override func refresh() {
+        super.refresh()
         updateUI()
     }
     

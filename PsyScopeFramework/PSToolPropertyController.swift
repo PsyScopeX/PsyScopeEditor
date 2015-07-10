@@ -33,7 +33,7 @@ public class PSToolPropertyController: PSPluginViewController, NSTextFieldDelega
         return true
     }
     
-    override public func docMocChanged(notification: NSNotification!) {
+    override public func refresh() {
         refreshName()
     }
     

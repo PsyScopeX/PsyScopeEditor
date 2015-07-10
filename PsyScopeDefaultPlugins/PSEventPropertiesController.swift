@@ -57,8 +57,8 @@ class PSEventPropertiesController : PSToolPropertyController {
     }
     
     
-    override func docMocChanged(notification: NSNotification!) {
-        super.docMocChanged(notification)
+    override func refresh() {
+        super.refresh()
         parseEvent()
     }
 

@@ -78,8 +78,8 @@ class PSDocumentTabDelegate: NSObject, NSTabViewDelegate {
         items[1] = (tag: 1, midPanelItem: scriptTabViewItem, leftPanelItem: scriptToolsTabViewItem)
         
         //register experiment setup view (comes from seperate nib, so using -1 as index)
-        var expSetupMidPanel = experimentSetup.midPanelTab()
-        var expSetupLeftPanel = experimentSetup.leftPanelTab()
+        let expSetupMidPanel = experimentSetup.midPanelTab()
+        let expSetupLeftPanel = experimentSetup.leftPanelTab()
         items[-1] = (tag: -1, midPanelItem: expSetupMidPanel, leftPanelItem: expSetupLeftPanel)
         
         //add the experiment setup tabs
@@ -90,7 +90,7 @@ class PSDocumentTabDelegate: NSObject, NSTabViewDelegate {
         var totalTags = 2
         
         //load all tabitems from plugins
-        var tabitems = PSPluginSingleton.sharedInstance.pluginLoader.instantiatePluginsOfType(.WindowView) as! [PSWindowViewInterface]
+        let tabitems = PSPluginSingleton.sharedInstance.pluginLoader.instantiatePluginsOfType(.WindowView) as! [PSWindowViewInterface]
         
         //layout view + script view already on segmented control (whence + 2)
         toolbarSegmentedControl.segmentCount = totalTags + tabitems.count
@@ -138,9 +138,9 @@ class PSDocumentTabDelegate: NSObject, NSTabViewDelegate {
         }
     }
     
-    func docMocChanged(notification : NSNotification) {
+    func refresh() {
         //refresh window
-        if let pvc = propertiesTabViewItemViewController { pvc.docMocChanged(notification) }
+        if let pvc = propertiesTabViewItemViewController { pvc.refresh() }
     }
     
     func showWindowNotification(notification : NSNotification) {

@@ -35,7 +35,7 @@
     
 }
 
--(void) docMocChanged:(NSNotification*)notification {
+-(void) refresh {
     
 }
 

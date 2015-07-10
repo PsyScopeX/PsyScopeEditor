@@ -50,8 +50,8 @@ class PSListViewController : PSToolPropertyController, NSWindowDelegate {
         }
     }
     
-    override func docMocChanged(notification: NSNotification!) {
-        super.docMocChanged(notification)
+    override func refresh() {
+        super.refresh()
         parseList()
     }
     

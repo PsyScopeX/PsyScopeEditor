@@ -29,8 +29,8 @@ class PSGroupsViewController : PSToolPropertyController, NSTableViewDelegate, NS
     var childTypeController : PSChildTypeViewController!
     let yOffSet = CGFloat(200)
     
-    override func docMocChanged(notification: NSNotification!) {
-        super.docMocChanged(notification)
+    override func refresh() {
+        super.refresh()
         refreshCriteriaTableView()
         reloadChildTypeViewController()
     }

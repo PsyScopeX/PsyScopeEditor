@@ -33,4 +33,7 @@ public protocol PSSelectionInterface {
     
     //returns view meta data for event actions (used by same controls as eventActionsAttribute)
     func getActionConditionViewMetaData() -> [PSActionBuilderViewMetaDataSet]?
+    
+    //triggers a refresh
+    func refresh()
 }

@@ -22,8 +22,8 @@ class PSExperimentViewController : PSToolPropertyController {
     var childTypeController : PSChildTypeViewController!
     let yOffSet = CGFloat(50)
     
-    override func docMocChanged(notification: NSNotification!) {
-        super.docMocChanged(notification)
+    override func refresh() {
+        super.refresh()
         reloadChildTypeViewController()
     }
     
