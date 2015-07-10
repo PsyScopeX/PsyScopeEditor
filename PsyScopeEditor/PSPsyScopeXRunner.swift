@@ -22,6 +22,8 @@ class PSPsyScopeXRunner : NSObject {
     let printHelp = "-h"
     
     var currentlyRunningPsyScopeTask : NSTask?
+    var currentlyRunningDocument : Document?
+    var currentlyRunningScriptFileName : String?
     
     var executablePath : String? {
         get {
@@ -75,7 +77,8 @@ class PSPsyScopeXRunner : NSObject {
             PSModalAlert("Couldn't write the PsyScopeX file (or set it's attributes)")
             return
         }
-
+        
+        
         
         //construct running command with NSTask
         let task = NSTask()
@@ -87,11 +90,121 @@ class PSPsyScopeXRunner : NSObject {
         task.launch()
         
         //save task
+        currentlyRunningScriptFileName = psyXScriptFileName
+        currentlyRunningDocument = document
         currentlyRunningPsyScopeTask = task
     }
     
     func terminated(AnyObject) {
         print("TERMINATED")
+        
+        //try to load
+        guard let currentlyRunningScriptFileName = currentlyRunningScriptFileName,
+            currentlyRunningDocument = currentlyRunningDocument else {
+                return
+        }
+        
+        do {
+            let changedScript = try String(contentsOfFile: currentlyRunningScriptFileName, encoding: NSUTF8StringEncoding)
+            
+            //check for changes
+            let scriptReader = PSScriptReader(script: changedScript)
+            let baseEntries = currentlyRunningDocument.scriptData.getBaseEntries()
+            var foundDifferences = false
+            
+            for ghostEntry in scriptReader.ghostScript.entries {
+                for realEntry in baseEntries {
+                    if ghostEntry.name == realEntry.name {
+                        //found entry
+                        if ghostEntry.currentValue != realEntry.currentValue {
+                            foundDifferences = true
+                            break
+                        }
+                        
+                        //do sub entries
+                        if areThereDifferencesBetween(realEntry, ghostEntry: ghostEntry) {
+                            foundDifferences = true
+                            break
+                        }
+                    }
+                }
+            }
+            
+            if foundDifferences && userWantsToChangeDifferences() {
+                currentlyRunningDocument.scriptData.beginUndoGrouping("Update Script From Run")
+                for ghostEntry in scriptReader.ghostScript.entries {
+                    for realEntry in baseEntries {
+                        if ghostEntry.name == realEntry.name {
+                            //found entry
+                            if ghostEntry.currentValue != realEntry.currentValue {
+                                realEntry.currentValue = ghostEntry.currentValue
+                            }
+                            
+                            //do sub entries
+                            updateGhostScriptSubEntries(realEntry, ghostEntry: ghostEntry)
+                        }
+                    }
+                }
+                currentlyRunningDocument.scriptData.endUndoGrouping()
+            }
+            
+        } catch {
+            return
+        }
+    }
+    
+    func updateGhostScriptSubEntries(realEntry : Entry, ghostEntry : PSGhostEntry) {
+        for subGhostEntry in ghostEntry.subEntries {
+            for subRealEntry in realEntry.subEntries.array as! [Entry] {
+                if subGhostEntry.name == subRealEntry.name {
+                    //found entry
+                    if subGhostEntry.currentValue != subRealEntry.currentValue {
+                        subRealEntry.currentValue = subGhostEntry.currentValue
+                    }
+                    
+                    //do sub entries
+                    updateGhostScriptSubEntries(subRealEntry, ghostEntry: subGhostEntry)
+                }
+            }
+        }
+    }
+    
+    func areThereDifferencesBetween(realEntry : Entry, ghostEntry : PSGhostEntry) -> Bool {
+        for subGhostEntry in ghostEntry.subEntries {
+            for subRealEntry in realEntry.subEntries.array as! [Entry] {
+                if subGhostEntry.name == subRealEntry.name {
+                    //found entry
+                    if subGhostEntry.currentValue != subRealEntry.currentValue {
+                        return true
+                    }
+                    
+                    //do sub entries
+                    if areThereDifferencesBetween(subRealEntry, ghostEntry: subGhostEntry) {
+                        return true
+                    }
+                }
+            }
+        }
+        return false
+    }
+    
+    func userWantsToChangeDifferences() -> Bool {
+        let question = "Perform PsyScopeX Script changes?"
+        let info = "PsyScopeX has caused some changes to the script, do you want to update the values in your current script to these new values?  (Note: This will only affect entry values, if PsyScopeX deleted or added entries, these changes will not be propogated)"
+        let overrideButton = "Accept Changes"
+        let cancelButton = "Discard Changes"
+        let alert = NSAlert()
+        alert.messageText = question
+        alert.informativeText = info
+        alert.addButtonWithTitle(overrideButton)
+        alert.addButtonWithTitle(cancelButton)
+        
+        let answer = alert.runModal()
+        if answer == NSAlertFirstButtonReturn {
+            return true
+        } else {
+            return false
+        }
     }
     
     func terminate() {

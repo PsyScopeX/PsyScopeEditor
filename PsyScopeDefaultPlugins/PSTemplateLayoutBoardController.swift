@@ -272,7 +272,7 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
                 //event is on template
                 layoutObjects.append(lobject)
                 events.append(PSTemplateEvent(entry: lobject.mainEntry, scriptData: scriptData))
-            } 
+            }   
         }
     }
     
