@@ -69,7 +69,8 @@ class PSSelectionController : NSObject, PSSelectionInterface {
     func docMocChanged(notification : NSNotification) {
         docMocChangesPending = true
         if (debugMocChanges) { dumpDocMocChanges(notification) }
-        if scriptData.docMoc.undoManager!.groupingLevel > 0 { return } //prevent doc moc changes for grouped changes
+        print("Doc moc changed...")
+        if scriptData.inUndoGroup { return } //prevent doc moc changes for grouped changes
         refresh()
     }
     

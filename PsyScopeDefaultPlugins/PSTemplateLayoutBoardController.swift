@@ -126,7 +126,6 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
     //MARK: Refreshing methods
     
     func fullRefresh() {
-        print("full refresh")
         //reset arrays containing events and layout objects
         layoutObjects = []
         events = []
@@ -134,8 +133,6 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
         //get existing objects and create them
         if templateObject != nil && templateObject.mainEntry != nil {
             let lobjects = templateObject.childLink.array as! [LayoutObject]
-            
-            print("Objects here: \(lobjects.count)")
             
             for lobject in lobjects {
                 addEventToListIfValid(lobject)
@@ -270,15 +267,12 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
         if !layoutObjects.contains(lobject) {
             //event is not in list
             let isEventAndOnThisTemplate = scriptData.isEventAndOnThisTemplate(lobject, templateObject: templateObject)
-            print("Is event on this template: \(isEventAndOnThisTemplate)")
             if  isEventAndOnThisTemplate && lobject.mainEntry != nil {
                 
                 //event is on template
                 layoutObjects.append(lobject)
                 events.append(PSTemplateEvent(entry: lobject.mainEntry, scriptData: scriptData))
-            } else {
-                print("Main entry is nil")
-            }
+            } 
         }
     }
     
