@@ -147,7 +147,13 @@ public class PSActionCell : PSCellView {
                 
                 //automatically adds to view
                 let builder = PSAttributeParameterBuilder(parameter: ap)
-                builder.setupMultiCell(names[index], y: topYPosition, cell: self, currentValue: entryFunction.currentValues[index])
+                var currentValue : String
+                if index < entryFunction.currentValues.count {
+                    currentValue = entryFunction.currentValues[index]
+                } else {
+                    currentValue = ""
+                }
+                builder.setupMultiCell(names[index], y: topYPosition, cell: self, currentValue: currentValue)
                 self.actionParameters.append(ap)
             }
         }

@@ -53,6 +53,9 @@ public class PSEventActionFunction : PSEventActionCondition {
                 break
             }
         }
+        
+        //fill out missing currentValues
+        
     }
     
     override public var stringValue : String {
