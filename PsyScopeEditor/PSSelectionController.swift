@@ -264,6 +264,8 @@ class PSSelectionController : NSObject, PSSelectionInterface {
             let newActionsAttribute = PSEventActionsAttribute(event_entry: e, scriptData: scriptData, attributeName: attributeName)
             self.actionsAttribute = newActionsAttribute
             
+            
+            
             //work out cell heights and expandedness here
             self.actionsAttributeViewData = PSActionConditionViewMetaData(newActionsAttribute)
         } else {

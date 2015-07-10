@@ -306,7 +306,7 @@ class PSStringListCached_Tests: XCTestCase {
         
         for (index,value) in stringList.values.enumerate() {
             switch (value) {
-            case let .StringValue(stringElement):
+            case let .StringToken(stringElement):
                 
                 XCTAssert(index == 0 || index == 2,"String value should be in first or third position")
                 
@@ -322,14 +322,14 @@ class PSStringListCached_Tests: XCTestCase {
                     XCTAssert(index == 1 || index == 3,"Unary Expression should be in second or fourth position")
                     
                     switch (functionElement.values[0]) {
-                    case let .StringValue(stringElement):
+                    case let .StringToken(stringElement):
                         XCTAssertEqual(stringElement.value,"@","Wrong value")
                     default:
                         XCTAssert(false,"Wrong value")
                     }
                     
                     switch (functionElement.values[1]) {
-                    case let .StringValue(stringElement):
+                    case let .StringToken(stringElement):
                         if index == 1 {
                             XCTAssertEqual(stringElement.value,"JamesGroup","Wrong value")
                         } else if index == 3 {

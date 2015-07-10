@@ -94,7 +94,7 @@ class PSDialogVariablePropertiesController : PSToolPropertyController {
     
     //MARK: Actions / Control delegate
     
-    @IBAction func schedulePopUpChanged(AnyObject) {
+    @IBAction func schedulePopUpChanged(_: AnyObject) {
         var existingOptions = selectedSubjectVariable.storageOptions
         switch(schedulePopUpButton.selectedItem!.title) {
             case "Experiment Start":
@@ -109,7 +109,7 @@ class PSDialogVariablePropertiesController : PSToolPropertyController {
         selectedSubjectVariable.storageOptions = existingOptions
     }
     
-    @IBAction func typePopUpChanged(AnyObject) {
+    @IBAction func typePopUpChanged(_: AnyObject) {
         var type : PSSubjectVariableType
         switch(typePopUpButton.selectedItem!.title) {
         case "String":
@@ -132,7 +132,7 @@ class PSDialogVariablePropertiesController : PSToolPropertyController {
         refreshControls()
     }
     
-    @IBAction func itemsSegmentedControlClicked(AnyObject) {
+    @IBAction func itemsSegmentedControlClicked(_: AnyObject) {
         switch(itemsSegmentedControl.selectedSegment) {
         case 0: // add
             items.append("Item")

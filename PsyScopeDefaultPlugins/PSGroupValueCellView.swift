@@ -13,7 +13,7 @@ class PSGroupValueCellView : NSTableCellView {
     var row : Int!
     var buttonClickedBlock : ((Int)->())!
     
-    @IBAction func buttonClicked(AnyObject) {
+    @IBAction func buttonClicked(_: AnyObject) {
         buttonClickedBlock(row)
     }
 }

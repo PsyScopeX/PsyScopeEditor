@@ -17,7 +17,6 @@
 		1A0B52061AEE73E700E0ADDB /* PSVariableCompositeTypePopoverController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0B52051AEE73E700E0ADDB /* PSVariableCompositeTypePopoverController.swift */; };
 		1A0B52081AEF906900E0ADDB /* PSAttribute_ExperimentLogFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0B52071AEF906900E0ADDB /* PSAttribute_ExperimentLogFile.swift */; };
 		1A0B520D1AEFA68600E0ADDB /* PSScriptErrorPopoverController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0B520C1AEFA68600E0ADDB /* PSScriptErrorPopoverController.swift */; };
-		1A0B520E1AEFA7C300E0ADDB /* PSScriptErrorPopoverController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0B520C1AEFA68600E0ADDB /* PSScriptErrorPopoverController.swift */; };
 		1A0B52441AEFC4B200E0ADDB /* PSDialogVariableTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0B52431AEFC4B200E0ADDB /* PSDialogVariableTool.swift */; };
 		1A0B52461AEFCC3600E0ADDB /* PSDialogVariablePropertiesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0B52451AEFCC3600E0ADDB /* PSDialogVariablePropertiesController.swift */; };
 		1A0B52481AEFCC5000E0ADDB /* SubjectVariableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A0B52471AEFCC5000E0ADDB /* SubjectVariableView.xib */; };
@@ -33,9 +32,7 @@
 		1A206BAA1A0134D100F27216 /* ListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A206BA91A0134D100F27216 /* ListView.xib */; };
 		1A229BD01A8E40A100A06A54 /* PSAttributeCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A229BCF1A8E40A100A06A54 /* PSAttributeCellView.swift */; };
 		1A23DED71AF18FED003AD0E6 /* PSEntryBrowserSearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A23DED61AF18FED003AD0E6 /* PSEntryBrowserSearchController.swift */; };
-		1A23DED81AF19888003AD0E6 /* PSEntryBrowserSearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A23DED61AF18FED003AD0E6 /* PSEntryBrowserSearchController.swift */; };
 		1A23DEDB1AF19ED1003AD0E6 /* NCRAutocompleteTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A23DEDA1AF19ED1003AD0E6 /* NCRAutocompleteTextView.m */; };
-		1A23DEDC1AF1A0E6003AD0E6 /* NCRAutocompleteTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A23DEDA1AF19ED1003AD0E6 /* NCRAutocompleteTextView.m */; };
 		1A24499A19F5AF18004C1C40 /* PsyScopeFramework.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1A9E5E50198A7C5800312743 /* PsyScopeFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1A2686201A0BB93300966271 /* PSWindowViewInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A26861F1A0BB91C00966271 /* PSWindowViewInterface.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1A2686221A0BCCB000966271 /* EventProperties.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A2686211A0BCCB000966271 /* EventProperties.xib */; };
@@ -133,7 +130,6 @@
 		1A522FB61A41CBC800D5B983 /* PSParagraphStimulusAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A522FB51A41CBC800D5B983 /* PSParagraphStimulusAttribute.swift */; };
 		1A53068F1B2AEAF700ECACE0 /* PSPortBuilderWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A53068E1B2AEAF700ECACE0 /* PSPortBuilderWindow.swift */; };
 		1A5306921B2B4FFC00ECACE0 /* PSVariableSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5306911B2B4FFC00ECACE0 /* PSVariableSelector.swift */; };
-		1A5306931B2B507700ECACE0 /* PSVariableSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5306911B2B4FFC00ECACE0 /* PSVariableSelector.swift */; };
 		1A534A9819FE7B08003FFD0C /* Upgrading Core Data Model.txt in Resources */ = {isa = PBXBuildFile; fileRef = 1A534A9719FE7B08003FFD0C /* Upgrading Core Data Model.txt */; };
 		1A5461B31A091C5C00C3CFAB /* PSPictureEventAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5461B21A091C5C00C3CFAB /* PSPictureEventAttribute.swift */; };
 		1A5461B51A091FB900C3CFAB /* PSAttributeFlip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5461B41A091FB900C3CFAB /* PSAttributeFlip.swift */; };
@@ -160,45 +156,16 @@
 		1A58081B1B17945C00186E7E /* AddConditionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A70C7B21A31DB04008628AF /* AddConditionCell.xib */; };
 		1A58081F1B1794EE00186E7E /* PSButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A58081E1B1794EE00186E7E /* PSButtonCell.swift */; };
 		1A58089E1B186C6500186E7E /* PSElementViewerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A58089D1B186C6500186E7E /* PSElementViewerController.swift */; };
-		1A58089F1B18701400186E7E /* PSElementViewerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A58089D1B186C6500186E7E /* PSElementViewerController.swift */; };
 		1A581A291ADBB75E003D970B /* PSActionConditionTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A581A281ADBB75E003D970B /* PSActionConditionTableView.swift */; };
 		1A581A2B1ADBB845003D970B /* PSAttributeParameterBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A581A2A1ADBB845003D970B /* PSAttributeParameterBuilder.swift */; };
-		1A581A321ADBC00F003D970B /* PSPluginSingleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC3508B19A7C7C000372B27 /* PSPluginSingleton.swift */; };
-		1A581A331ADBC01E003D970B /* PSPluginLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A2FBE3919757B2700F5FFB5 /* PSPluginLoader.m */; };
-		1A581A341ADBC1FD003D970B /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC0827419701F2F0038512B /* Document.swift */; };
 		1A581A351ADBC204003D970B /* Document.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AC0827619701F2F0038512B /* Document.xib */; };
-		1A581A361ADBC21E003D970B /* PSDocumentTabDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A9E5E1119882E5F00312743 /* PSDocumentTabDelegate.swift */; };
-		1A581A371ADBC22A003D970B /* PSSelectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5461BF1A0B9D4900C3CFAB /* PSSelectionController.swift */; };
-		1A581A381ADBC22E003D970B /* PSScriptViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A9CE34D1AA77F3300C846F4 /* PSScriptViewDelegate.swift */; };
-		1A581A391ADBC246003D970B /* PSToolBrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2FBE2F1973E33600F5FFB5 /* PSToolBrowserView.swift */; };
-		1A581A3A1ADBC26C003D970B /* PSToolBrowserViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACFF14719D1FA0B00B43446 /* PSToolBrowserViewItem.swift */; };
 		1A581A3B1ADBC270003D970B /* ToolBrowserViewItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1ACFF14519D1F8F800B43446 /* ToolBrowserViewItem.xib */; };
 		1A581A3C1ADBC275003D970B /* AddAttributeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A69F9CB1A84BD5200D60880 /* AddAttributeCell.xib */; };
-		1A581A3E1ADBC275003D970B /* PSAttributesBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A903E63198CFEDF0076D05C /* PSAttributesBrowser.swift */; };
-		1A581A401ADBC275003D970B /* PSAttributesBrowserTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A65BF081A02D2B0006F3791 /* PSAttributesBrowserTableView.swift */; };
-		1A581A411ADBC278003D970B /* PSEventToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFCAA831A601B710023AB66 /* PSEventToolbarView.swift */; };
-		1A581A421ADBC27B003D970B /* PSActionConditionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5C660E1A88C062009EED35 /* PSActionConditionView.swift */; };
-		1A581A431ADBC27B003D970B /* PSActionsBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5C660F1A88C062009EED35 /* PSActionsBrowser.swift */; };
 		1A581A441ADBC27B003D970B /* ActionConditionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A5C660C1A88C04A009EED35 /* ActionConditionView.xib */; };
-		1A581A451ADBC27B003D970B /* PSActionConditionTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A581A281ADBB75E003D970B /* PSActionConditionTableView.swift */; };
 		1A581A461ADBC280003D970B /* ImportFilesAs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A92636A1A93664F00DAFF3A /* ImportFilesAs.xib */; };
-		1A581A471ADBC280003D970B /* PSImportFileAsPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A92636C1A93667B00DAFF3A /* PSImportFileAsPopup.swift */; };
-		1A581A481ADBC280003D970B /* PSImportFileBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A92636E1A93679100DAFF3A /* PSImportFileBrowser.swift */; };
 		1A581A491ADBC28B003D970B /* DefaultPropertiesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AC977A31AC1D29C00E9E2D7 /* DefaultPropertiesView.xib */; };
-		1A581A4A1ADBC28B003D970B /* PSDefaultPropertiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC977A01AC1D0F400E9E2D7 /* PSDefaultPropertiesViewController.swift */; };
-		1A581A4B1ADBC29F003D970B /* PSLayoutBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC08295197022BA0038512B /* PSLayoutBoard.swift */; };
-		1A581A4C1ADBC29F003D970B /* LayoutController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC56BFE19799F59008F94EB /* LayoutController.swift */; };
-		1A581A4D1ADBC2A3003D970B /* PSEntryBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3507601AB713E5000B591C /* PSEntryBrowser.swift */; };
 		1A581A4E1ADBC2A3003D970B /* PSEntryBrowserCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A5853D11AB717E5004E8B02 /* PSEntryBrowserCell.xib */; };
-		1A581A4F1ADBC2CB003D970B /* SplitViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4E2F721987D0B700F87603 /* SplitViewDelegate.swift */; };
-		1A581A501ADBC2DD003D970B /* PSScriptErrorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1213D6199CDFCD0016493C /* PSScriptErrorViewController.swift */; };
 		1A581A511ADBC2DD003D970B /* psyscopegrammar.grammar in Resources */ = {isa = PBXBuildFile; fileRef = 1A05DA5A1995463700379D2E /* psyscopegrammar.grammar */; };
-		1A581A521ADBC2DD003D970B /* PSScriptConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4802F1199A254D0095F2AD /* PSScriptConverter.swift */; };
-		1A581A531ADBC2DD003D970B /* PSScriptReaderOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFDE06D199121AB00ADE7F1 /* PSScriptReaderOperation.swift */; };
-		1A581A541ADBC2E6003D970B /* PSScriptWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD41C331990D5E8003A7DA2 /* PSScriptWriter.swift */; };
-		1A581A5A1ADBC388003D970B /* NSPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8F93D619C853830019F37A /* NSPoint.swift */; };
-		1A581A5B1ADBC388003D970B /* CGPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8F93DA19C853E30019F37A /* CGPoint.swift */; };
-		1A581A5C1ADBC388003D970B /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8F93DC19C854070019F37A /* String.swift */; };
 		1A5853D21AB717E5004E8B02 /* PSEntryBrowserCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A5853D11AB717E5004E8B02 /* PSEntryBrowserCell.xib */; };
 		1A5B68031A7BEA6D00B81888 /* PSVariableTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5B68021A7BEA6D00B81888 /* PSVariableTool.swift */; };
 		1A5B68051A7BED4300B81888 /* Variable-icon-Big.tif in Resources */ = {isa = PBXBuildFile; fileRef = 1A5B68041A7BED4300B81888 /* Variable-icon-Big.tif */; };
@@ -312,7 +279,6 @@
 		1A85076B1A920100006B11DC /* PSFieldHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A85076A1A920100006B11DC /* PSFieldHeaderCell.swift */; };
 		1A85076D1A926805006B11DC /* PSTableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A85076C1A926805006B11DC /* PSTableHeaderView.swift */; };
 		1A8752391AB1AD2E00D4D31A /* PSUpdateEntryWithGhostEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8752381AB1AD2E00D4D31A /* PSUpdateEntryWithGhostEntry.swift */; };
-		1A88E2AB1B1C8A2B005F4EA4 /* PSEntryValueChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADCF51C1B1C80A00006C215 /* PSEntryValueChecker.swift */; };
 		1A88E2AD1B1C8B9D005F4EA4 /* PSEntryValueParser_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A88E2AC1B1C8B9D005F4EA4 /* PSEntryValueParser_Tests.swift */; };
 		1A8ADC031A827F6E003C2509 /* PSAction_Beep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8ADC021A827F6E003C2509 /* PSAction_Beep.swift */; };
 		1A8ADC051A828025003C2509 /* PSAction_CancelAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8ADC041A828025003C2509 /* PSAction_CancelAction.swift */; };
@@ -432,9 +398,7 @@
 		1AACB2DB1A8F5B8F002A9B74 /* PSAttributeParameter_Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AACB2DA1A8F5B8F002A9B74 /* PSAttributeParameter_Color.swift */; };
 		1AADBC1C1AD720D70004999D /* PSScriptReader_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AADBC1B1AD720D70004999D /* PSScriptReader_Tests.swift */; };
 		1AADBC1E1AD739E40004999D /* PSScriptReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AADBC1D1AD739E40004999D /* PSScriptReader.swift */; };
-		1AADBC1F1AD73B830004999D /* PSScriptReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AADBC1D1AD739E40004999D /* PSScriptReader.swift */; };
 		1AADBC221AD73EBB0004999D /* PsyScopeFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A9E5E50198A7C5800312743 /* PsyScopeFramework.framework */; };
-		1AADBC241AD740870004999D /* PSConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A94B089197FD8BD00DADC59 /* PSConstants.swift */; };
 		1AAF5FE51AB0BA3300AA1DC4 /* PSScriptErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AAF5FE41AB0BA3300AA1DC4 /* PSScriptErrors.swift */; };
 		1AB2590919BD9A6900640BF4 /* PSTemplateLayoutBoardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB2590819BD9A6900640BF4 /* PSTemplateLayoutBoardController.swift */; };
 		1ABA533819C4B079000B8171 /* PSEventStringParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABA533719C4B079000B8171 /* PSEventStringParser.swift */; };
@@ -454,6 +418,8 @@
 		1AC08296197022BA0038512B /* PSLayoutBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC08295197022BA0038512B /* PSLayoutBoard.swift */; };
 		1AC112DF1A41D79B00D7521E /* ParagraphDialog.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AC112DE1A41D79B00D7521E /* ParagraphDialog.xib */; };
 		1AC112E11A41D94900D7521E /* PSDocumentFileAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC112E01A41D94900D7521E /* PSDocumentFileAttribute.swift */; };
+		1AC241491B504238005BD6EA /* PSScriptReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AADBC1D1AD739E40004999D /* PSScriptReader.swift */; };
+		1AC2414A1B50426C005BD6EA /* PSConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A94B089197FD8BD00DADC59 /* PSConstants.swift */; };
 		1AC3508C19A7C7C000372B27 /* PSPluginSingleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC3508B19A7C7C000372B27 /* PSPluginSingleton.swift */; };
 		1AC56BFF19799F59008F94EB /* LayoutController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC56BFE19799F59008F94EB /* LayoutController.swift */; };
 		1AC8E6EB1A8E6801003289D4 /* PSField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC8E6EA1A8E6801003289D4 /* PSField.swift */; };
@@ -551,17 +517,10 @@
 		1AFCAA881A601D0A0023AB66 /* ToolBrowserViewItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1ACFF14519D1F8F800B43446 /* ToolBrowserViewItem.xib */; };
 		1AFDE06E199121AB00ADE7F1 /* PSScriptReaderOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFDE06D199121AB00ADE7F1 /* PSScriptReaderOperation.swift */; };
 		1AFEBC971B2F050B00A3437E /* PSExperimentSetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFEBC961B2F050B00A3437E /* PSExperimentSetup.swift */; };
-		1AFEBC981B2F28D200A3437E /* PSExperimentSetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFEBC961B2F050B00A3437E /* PSExperimentSetup.swift */; };
-		1AFEBC991B2F2BAB00A3437E /* PSSubjectVariablesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0B524C1AEFF97300E0ADDB /* PSSubjectVariablesController.swift */; };
-		1AFEBC9A1B2F2BB300A3437E /* PSSelectedSubjectVariableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4A64551B0D094400084A10 /* PSSelectedSubjectVariableController.swift */; };
-		1AFEBC9B1B2F2BB300A3437E /* PSSubjectVariablesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A45C0C31B00C5140029EF9F /* PSSubjectVariablesTableViewController.swift */; };
-		1AFEBC9C1B2F2BB300A3437E /* PSGroupsCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4A64531B0D054C00084A10 /* PSGroupsCreator.swift */; };
-		1AFEBC9D1B2F2BB300A3437E /* PSButtonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADCF51A1B1C7A550006C215 /* PSButtonTableViewCell.swift */; };
 		1AFEBC9F1B2F3D8A00A3437E /* PSVariableUsedInPullDownController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFEBC9E1B2F3D8A00A3437E /* PSVariableUsedInPullDownController.swift */; };
 		1AFEBCB11B30961600A3437E /* PSCustomMenus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFEBCB01B30961600A3437E /* PSCustomMenus.swift */; };
 		1AFEBCB31B31F09B00A3437E /* PSDataFileNameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFEBCB21B31F09B00A3437E /* PSDataFileNameController.swift */; };
 		1AFEBCB51B31F10C00A3437E /* PSSubjectVariableToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFEBCB41B31F10C00A3437E /* PSSubjectVariableToken.swift */; };
-		1AFEBCB61B31F96200A3437E /* PSDataFileNameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFEBCB21B31F09B00A3437E /* PSDataFileNameController.swift */; };
 		1AFEBCB81B322CE000A3437E /* PSSelectionInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFEBCB71B322CE000A3437E /* PSSelectionInterface.swift */; };
 		81427DA81A80CF3A0092DDBA /* Variable-icon-Medium.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 81427DA71A80CF390092DDBA /* Variable-icon-Medium.PNG */; };
 		81427DAA1A80D1CD0092DDBA /* MouseClick-real.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 81427DA91A80D1CD0092DDBA /* MouseClick-real.PNG */; };
@@ -3240,53 +3199,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1A581A531ADBC2DD003D970B /* PSScriptReaderOperation.swift in Sources */,
-				1A581A391ADBC246003D970B /* PSToolBrowserView.swift in Sources */,
-				1A581A401ADBC275003D970B /* PSAttributesBrowserTableView.swift in Sources */,
-				1A581A521ADBC2DD003D970B /* PSScriptConverter.swift in Sources */,
-				1A581A3A1ADBC26C003D970B /* PSToolBrowserViewItem.swift in Sources */,
-				1AADBC241AD740870004999D /* PSConstants.swift in Sources */,
-				1AFEBC9B1B2F2BB300A3437E /* PSSubjectVariablesTableViewController.swift in Sources */,
-				1A581A431ADBC27B003D970B /* PSActionsBrowser.swift in Sources */,
-				1A581A501ADBC2DD003D970B /* PSScriptErrorViewController.swift in Sources */,
-				1AFEBC9A1B2F2BB300A3437E /* PSSelectedSubjectVariableController.swift in Sources */,
-				1A581A361ADBC21E003D970B /* PSDocumentTabDelegate.swift in Sources */,
-				1AFEBC981B2F28D200A3437E /* PSExperimentSetup.swift in Sources */,
 				1AADBC1C1AD720D70004999D /* PSScriptReader_Tests.swift in Sources */,
-				1AFEBC991B2F2BAB00A3437E /* PSSubjectVariablesController.swift in Sources */,
-				1A581A451ADBC27B003D970B /* PSActionConditionTableView.swift in Sources */,
-				1A581A471ADBC280003D970B /* PSImportFileAsPopup.swift in Sources */,
-				1A581A4C1ADBC29F003D970B /* LayoutController.swift in Sources */,
-				1A581A381ADBC22E003D970B /* PSScriptViewDelegate.swift in Sources */,
 				1A55D6241AEA516000B1D19C /* PSStringListCached_Tests.swift in Sources */,
 				1A88E2AD1B1C8B9D005F4EA4 /* PSEntryValueParser_Tests.swift in Sources */,
-				1AFEBCB61B31F96200A3437E /* PSDataFileNameController.swift in Sources */,
-				1A581A4D1ADBC2A3003D970B /* PSEntryBrowser.swift in Sources */,
-				1A581A5C1ADBC388003D970B /* String.swift in Sources */,
-				1A581A4A1ADBC28B003D970B /* PSDefaultPropertiesViewController.swift in Sources */,
-				1A581A5B1ADBC388003D970B /* CGPoint.swift in Sources */,
-				1A23DED81AF19888003AD0E6 /* PSEntryBrowserSearchController.swift in Sources */,
-				1AADBC1F1AD73B830004999D /* PSScriptReader.swift in Sources */,
-				1A581A341ADBC1FD003D970B /* Document.swift in Sources */,
-				1AFEBC9C1B2F2BB300A3437E /* PSGroupsCreator.swift in Sources */,
-				1A581A3E1ADBC275003D970B /* PSAttributesBrowser.swift in Sources */,
-				1A88E2AB1B1C8A2B005F4EA4 /* PSEntryValueChecker.swift in Sources */,
-				1A581A4B1ADBC29F003D970B /* PSLayoutBoard.swift in Sources */,
-				1A58089F1B18701400186E7E /* PSElementViewerController.swift in Sources */,
-				1A581A5A1ADBC388003D970B /* NSPoint.swift in Sources */,
-				1AFEBC9D1B2F2BB300A3437E /* PSButtonTableViewCell.swift in Sources */,
-				1A581A371ADBC22A003D970B /* PSSelectionController.swift in Sources */,
-				1A581A481ADBC280003D970B /* PSImportFileBrowser.swift in Sources */,
-				1A0B520E1AEFA7C300E0ADDB /* PSScriptErrorPopoverController.swift in Sources */,
-				1A581A321ADBC00F003D970B /* PSPluginSingleton.swift in Sources */,
-				1A23DEDC1AF1A0E6003AD0E6 /* NCRAutocompleteTextView.m in Sources */,
-				1A581A4F1ADBC2CB003D970B /* SplitViewDelegate.swift in Sources */,
-				1A581A411ADBC278003D970B /* PSEventToolbarView.swift in Sources */,
-				1A581A331ADBC01E003D970B /* PSPluginLoader.m in Sources */,
+				1AC241491B504238005BD6EA /* PSScriptReader.swift in Sources */,
+				1AC2414A1B50426C005BD6EA /* PSConstants.swift in Sources */,
 				1AE0BA9C1ADD179F00623DEC /* PSFunctionElement_Tests.swift in Sources */,
-				1A581A541ADBC2E6003D970B /* PSScriptWriter.swift in Sources */,
-				1A581A421ADBC27B003D970B /* PSActionConditionView.swift in Sources */,
-				1A5306931B2B507700ECACE0 /* PSVariableSelector.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

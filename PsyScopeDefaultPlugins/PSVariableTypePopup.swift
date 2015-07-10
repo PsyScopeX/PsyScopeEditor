@@ -50,7 +50,7 @@ class PSVariableTypePopup: NSObject {
     
     //MARK: Actions
     
-    @IBAction func closeSheet(AnyObject) {
+    @IBAction func closeSheet(_: AnyObject) {
         controller.updateScript()
         window.endSheet(popupWindow)
     }

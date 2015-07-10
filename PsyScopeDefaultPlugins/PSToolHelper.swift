@@ -49,7 +49,7 @@ class PSToolHelper: NSObject {
                         for entry_name in entry_names {
                             
                             switch(entry_name) {
-                            case .StringValue(let stringElement):
+                            case .StringToken(let stringElement):
                                 var found_entry_name = false
                                 for ge2 in ghostScript.entries as [PSGhostEntry] {
                                     if ge2.name == stringElement.value {

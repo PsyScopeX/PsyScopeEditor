@@ -25,7 +25,7 @@ class PSEventsTableController : PSChildTypeViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    @IBAction func openTemplateBuilderButtonClicked(AnyObject) {
+    @IBAction func openTemplateBuilderButtonClicked(_: AnyObject) {
         NSNotificationCenter.defaultCenter().postNotificationName("PSShowWindowNotificationForTemplateBuilder", object: pluginViewController.scriptData.document)
     }
 }

@@ -144,14 +144,14 @@ class PSPortBuilderController: PSAttributePopup, NSOutlineViewDataSource, NSOutl
             if positionMode {
                 if let selectedPosition = selectedPosition {
                     chosenPortLabel.stringValue = "Selected position: \(selectedPosition.name)"
-                    functionElement.values = [.StringValue(PSStringElement(value: selectedPosition.name as String, quotes: .Doubles))]
+                    functionElement.values = [PSEntryElement.StringToken(stringElement: PSStringElement(value: selectedPosition.name as String, quotes: .Doubles))]
                 } else {
                     chosenPortLabel.stringValue = "No position selected"
                     functionElement.values = []
                 }
             } else {
                 chosenPortLabel.stringValue = "Selected port: \(selectedPort.name)"
-                functionElement.values = [.StringValue(PSStringElement(value: selectedPort.name as String, quotes: .Doubles))]
+                functionElement.values = [PSEntryElement.StringToken(stringElement: PSStringElement(value: selectedPort.name as String, quotes: .Doubles))]
             }
             
             if selectedPort.name == "Entire Screen" {
@@ -396,12 +396,12 @@ class PSPortBuilderController: PSAttributePopup, NSOutlineViewDataSource, NSOutl
     
     //MARK: New port/position buttons
     
-    @IBAction func newPortButton(AnyObject) {
+    @IBAction func newPortButton(_: AnyObject) {
         let name = scriptData.getNextFreeBaseEntryName("Port")
         portScript.addPort(name)
     }
     
-    @IBAction func newPositionButtonClick(AnyObject) {
+    @IBAction func newPositionButtonClick(_: AnyObject) {
         let name = scriptData.getNextFreeBaseEntryName("Position")
         portScript.addPosition(name, port: selectedPort!)
     }
@@ -494,7 +494,7 @@ class PSPortBuilderController: PSAttributePopup, NSOutlineViewDataSource, NSOutl
     
     //MARK: Cancel button
     
-    @IBAction func cancelButton(AnyObject) {
+    @IBAction func cancelButton(_: AnyObject) {
         self.currentValue = originalValue
         closeMyCustomSheet(self)
     }
@@ -503,7 +503,7 @@ class PSPortBuilderController: PSAttributePopup, NSOutlineViewDataSource, NSOutl
         selectedPort = nil
     }
     
-    @IBAction func fullScreenButton(AnyObject) {
+    @IBAction func fullScreenButton(_: AnyObject) {
         previewView.goFullScreen()
     }
 }

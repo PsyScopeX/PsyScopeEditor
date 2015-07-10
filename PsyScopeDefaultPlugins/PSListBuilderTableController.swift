@@ -184,7 +184,7 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
         }
     }
     
-    @IBAction func addNewItemButton(AnyObject) {
+    @IBAction func addNewItemButton(_: AnyObject) {
         list.addNewItem()
         listTableView.reloadData()
     }

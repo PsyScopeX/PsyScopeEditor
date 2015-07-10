@@ -28,7 +28,7 @@ class PSVariableCompositeTypePopoverController : NSObject, NSOutlineViewDelegate
     
     //MARK: Actions
     
-    @IBAction func compositeTypeButtonPressed(AnyObject) {
+    @IBAction func compositeTypeButtonPressed(_: AnyObject) {
         
         let scriptData = propertiesController.scriptData
         let typeEntry = scriptData.getOrCreateSubEntry("Type", entry: propertiesController.entry, isProperty: true)
@@ -40,7 +40,7 @@ class PSVariableCompositeTypePopoverController : NSObject, NSOutlineViewDelegate
         popover.showRelativeToRect(compositeTypeActionButton.bounds, ofView: compositeTypeActionButton, preferredEdge: NSRectEdge.MinY)
     }
     
-    @IBAction func applyButtonPressed(AnyObject) {
+    @IBAction func applyButtonPressed(_: AnyObject) {
         updateScript()
     }
     
@@ -227,7 +227,7 @@ class PSVariableCompositeTypePopoverController : NSObject, NSOutlineViewDelegate
     
     //MARK: Segmented Controls actions
     
-    @IBAction func addDeleteSegmentedControlPressed(AnyObject) {
+    @IBAction func addDeleteSegmentedControlPressed(_: AnyObject) {
         switch(addDeleteSegmentedControl.selectedSegment) {
         case 0:
             //add

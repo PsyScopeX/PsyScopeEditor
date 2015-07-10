@@ -50,7 +50,7 @@ public class PSConditionAttribute : PSStringListElement {
     override public var stringValue : String {
 
         get{
-            self.values = self.conditions.map({ PSEntryElement.Function($0) } )
+            self.values = self.conditions.map({ PSEntryElement.Function(functionElement: $0) } )
             return super.stringValue
         }
         

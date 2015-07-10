@@ -54,7 +54,7 @@ class PSScriptViewDelegate : NSObject, NSTextViewDelegate, NSTextStorageDelegate
     }
     
     //Button for Script -> Objects
-    @IBAction func buildScript(AnyObject) {
+    @IBAction func buildScript(_: AnyObject) {
         //convert parsed script to real objects
         var safeToBuild = true
         if (userHasMadeGraphicsEdits) {
@@ -90,7 +90,7 @@ class PSScriptViewDelegate : NSObject, NSTextViewDelegate, NSTextStorageDelegate
         // \u201c (curly right double quote) -> "
         // \u201d (curly left double quote) -> "
         
-        return String(string.generate().map( {
+        return String(string.characters.map( {
             switch ($0) {
             case "\u{2018}":
                 return "'"
@@ -137,7 +137,7 @@ class PSScriptViewDelegate : NSObject, NSTextViewDelegate, NSTextStorageDelegate
     }
     
     //Button for Objects -> Script
-    @IBAction func updateScript(AnyObject) {
+    @IBAction func updateScript(_: AnyObject) {
         var safeToUpdate = true
         if (userHasMadeTextEdits) {
             //warn that text edits will be overriden

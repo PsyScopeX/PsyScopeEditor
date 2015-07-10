@@ -24,7 +24,7 @@ public class PSIntAttributePopup: PSAttributePopup {
         field.stringValue = currentValue
     }
     
-    @IBAction func enteredDone(AnyObject) {
+    @IBAction func enteredDone(_: AnyObject) {
         currentValue = field.stringValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
         closeMyCustomSheet(self)
     }

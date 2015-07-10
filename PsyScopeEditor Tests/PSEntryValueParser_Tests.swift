@@ -31,7 +31,7 @@ class PSEntryValueParser_Tests: XCTestCase {
             switch(val) {
             case .Null:
                 break
-            case let .StringValue(stringElement):
+            case let .StringToken(stringElement):
                 break
             case let .List(stringListElement):
                 break
@@ -60,7 +60,7 @@ class PSEntryValueParser_Tests: XCTestCase {
             switch(val) {
             case .Null:
                 break
-            case let .StringValue(stringElement):
+            case let .StringToken(stringElement):
                 break
             case let .List(stringListElement):
                 break
@@ -87,7 +87,7 @@ class PSEntryValueParser_Tests: XCTestCase {
         
         var firstElementCorrect = false
         switch(parser.values[0]) {
-        case let .StringValue(stringElement):
+        case let .StringToken(stringElement):
             XCTAssertEqual(stringElement.value, "100%" , "First Element incorrect")
             if stringElement.value == "100%" {
                 firstElementCorrect = true
@@ -102,7 +102,7 @@ class PSEntryValueParser_Tests: XCTestCase {
         
         var secondElementCorrect = false
         switch(parser.values[1]) {
-        case let .StringValue(stringElement):
+        case let .StringToken(stringElement):
             XCTAssertEqual(stringElement.value, "50%" , "Second Element incorrect")
             if stringElement.value == "100%" {
                 secondElementCorrect = true

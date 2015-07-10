@@ -45,7 +45,7 @@ public class PSStringList : PSStringListCachedContainer {
         }
     }
     
-    override public func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [NSObject : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+    public override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
         if context == &myContext && keyPath == "currentValue" {
             updateValues()
         }
@@ -102,7 +102,7 @@ public class PSStringListCachedContainer : PSStringListContainer {
         var literals : [String] = []
         for val in values {
             switch (val) {
-            case .StringValue(let stringElement):
+            case .StringToken(let stringElement):
                 literals.append(stringElement.value)
             
             default:
@@ -187,7 +187,7 @@ public class PSStringListCachedContainer : PSStringListContainer {
     
     public func appendAsString(string : String) -> Bool {
         if let stringElement = assertValidString(string) {
-            values.append(PSEntryElement.StringValue(stringElement))
+            values.append(PSEntryElement.StringToken(stringElement: stringElement))
             updateEntry()
             return true
         }
@@ -196,7 +196,7 @@ public class PSStringListCachedContainer : PSStringListContainer {
     
     public func insert(string : String, index: Int) {
         if let stringElement = assertValidString(string) {
-            super.insert(PSEntryElement.StringValue(stringElement), index: index)
+            super.insert(PSEntryElement.StringToken(stringElement: stringElement), index: index)
         }
     }
     
@@ -204,7 +204,7 @@ public class PSStringListCachedContainer : PSStringListContainer {
         if let stringElement = assertValidString(newString) {
             for (index,val) in stringListRawUnstrippedCache.enumerate() {
                 if val == oldString {
-                    values[index] = PSEntryElement.StringValue(stringElement)
+                    values[index] = PSEntryElement.StringToken(stringElement: stringElement)
                     updateEntry()
                     return
                 }

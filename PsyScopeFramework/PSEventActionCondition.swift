@@ -36,7 +36,7 @@ public class PSEventActionFunction : PSEventActionCondition {
         //get current values
         for value in values {
             switch(value) {
-            case let .StringValue(stringElement):
+            case let .StringToken(stringElement):
                 currentValues.append(stringElement.quotedValue)
             case let .Function(functionElement):
                 if functionElement.functionName.lowercaseString == "instances" {

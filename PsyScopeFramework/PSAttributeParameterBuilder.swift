@@ -145,7 +145,7 @@ class PSBlockButton : NSButton {
         self.action = "clickedMyself:"
     }
     
-    func clickedMyself(AnyObject) {
+    func clickedMyself(_: AnyObject) {
         block()
     }
 

@@ -23,7 +23,7 @@ public class PSEntryValueParser {
         p = 0
         parsedList = nil
         
-        //println(tokeniser.dumpTokens())
+        print(tokeniser.dumpTokens())
         
         listRule() //triggers parsing
         parsedList = getLast(&listObjDic, stack: &listStack)
@@ -47,7 +47,7 @@ public class PSEntryValueParser {
     }
     
     var listElement : PSEntryElement {
-        return PSEntryElement.List(parsedList)
+        return PSEntryElement.List(stringListElement: parsedList)
     }
     
     public var values : [PSEntryElement] {
@@ -118,7 +118,7 @@ public class PSEntryValueParser {
         
         var element : PSEntryElement?
         if operationRule() {
-            element = PSEntryElement.Function(getLast(&operationObjDic, stack: &operationStack))
+            element = PSEntryElement.Function(functionElement: getLast(&operationObjDic, stack: &operationStack))
         } else if nonOperationValueRule() {
             element = getLast(&nonOperationValueObjDic, stack: &nonOperationValueStack)
         }
@@ -135,13 +135,13 @@ public class PSEntryValueParser {
         
         var element : PSEntryElement?
         if functionRule() {
-            element = PSEntryElement.Function(getLast(&functionObjDic, stack: &functionStack))
+            element = PSEntryElement.Function(functionElement: getLast(&functionObjDic, stack: &functionStack))
         } else if plainValueRule() {
             //musn't be an inline entry
             if let ias = match(.InlineAttributeSymbol) {
                 //inline entry so no good
             } else {
-                element = PSEntryElement.StringValue(getLast(&plainValueObjDic, stack: &plainValueStack))
+                element = PSEntryElement.StringToken(stringElement: getLast(&plainValueObjDic, stack: &plainValueStack))
             }
         }
 
@@ -239,7 +239,7 @@ public class PSEntryValueParser {
         
         var element : PSEntryElement?
         if let binoperator = match(.BinaryOperator) {
-            element = PSEntryElement.StringValue(PSStringElement(value: binoperator.value!, quotes: .None))
+            element = PSEntryElement.StringToken(stringElement: PSStringElement(value: binoperator.value!, quotes: .None))
         }
         
         return store(&binaryOperatorStack, objDic: &binaryOperatorObjDic, endPosDic: &binaryOperatorEndPosDic, obj: element, startP: startP)
@@ -254,7 +254,7 @@ public class PSEntryValueParser {
         
         var element : PSEntryElement?
         if let binoperator = match(.UnaryOperator) {
-            element = PSEntryElement.StringValue(PSStringElement(value: binoperator.value!, quotes: .None))
+            element = PSEntryElement.StringToken(stringElement: PSStringElement(value: binoperator.value!, quotes: .None))
         }
         
         return store(&unaryOperatorStack, objDic: &unaryOperatorObjDic, endPosDic: &unaryOperatorEndPosDic, obj: element, startP: startP)
@@ -325,7 +325,7 @@ public class PSEntryValueParser {
             var inlineEntries : [PSEntryElement] = []
             //now do inline sub entries
             while (inlineEntryRule()) {
-                inlineEntries.append(PSEntryElement.Function(getLast(&inlineEntryObjDic, stack: &inlineEntryStack)))
+                inlineEntries.append(PSEntryElement.Function(functionElement: getLast(&inlineEntryObjDic, stack: &inlineEntryStack)))
                 whiteSpaceRule()
             }
             

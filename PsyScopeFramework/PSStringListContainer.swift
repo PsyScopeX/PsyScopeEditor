@@ -59,7 +59,7 @@ public class PSStringListContainer : PSStringListElement {
             let new_func = PSFunctionElement()
             new_func.bracketType = .Square
             new_func.values = new_values
-            return PSEntryElement.Function(new_func)
+            return PSEntryElement.Function(functionElement: new_func)
         }
     }
     

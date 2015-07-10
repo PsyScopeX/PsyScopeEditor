@@ -17,7 +17,7 @@ class PSPsyScopeXPreferences : NSViewController, MASPreferencesViewController {
     var windowController : NSWindowController!
     @IBOutlet var psyScopeXPathText : NSTextField!
     
-    @IBAction func editPsyScopeXPath(AnyObject) {
+    @IBAction func editPsyScopeXPath(_: AnyObject) {
         let openPanel = NSOpenPanel()
         openPanel.title = "Choose any file"
         openPanel.showsResizeIndicator = true

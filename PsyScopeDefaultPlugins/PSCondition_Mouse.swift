@@ -140,7 +140,7 @@ class PSCondition_Mouse_Cell : PSConditionCell {
                 break
             case .Null:
                 break
-            case .StringValue(let stringElement):
+            case .StringToken(let stringElement):
                 let string = stringElement.value
                 if string.lowercaseString == "click" {
                     clickButton.state = 1

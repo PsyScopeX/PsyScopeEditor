@@ -83,7 +83,7 @@ class PSSubjectVariablesController : NSObject, NSTextFieldDelegate, NSTableViewD
     }
     
     
-    @IBAction func generateGroupsButtonClicked(AnyObject) {
+    @IBAction func generateGroupsButtonClicked(_: AnyObject) {
         //grouping variables need to be radiobuttons / checkboxes
         var allValidGroupingTypes = true
         

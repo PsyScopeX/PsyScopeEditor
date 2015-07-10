@@ -150,7 +150,7 @@ class PSVariableTypeComboBoxDelegate : NSObject, NSComboBoxDataSource, NSComboBo
         }
     }
     
-    @IBAction func arraySizeTextFieldDataEntered(AnyObject) {
+    @IBAction func arraySizeTextFieldDataEntered(_: AnyObject) {
         if let cpi : AnyObject = currentPopoverVariableTypeItem {
             arraySizePopover.performClose(self) //triggers saving
         }

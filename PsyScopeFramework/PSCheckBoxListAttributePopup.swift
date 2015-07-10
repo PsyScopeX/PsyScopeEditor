@@ -71,7 +71,7 @@ public class PSCheckBoxListAttributePopup: PSAttributePopup {
         }
     }
     
-    func closeWindow(AnyObject) {
+    func closeWindow(_: AnyObject) {
         // populate entry
         var value = ""
         for checkBox in checkBoxes {

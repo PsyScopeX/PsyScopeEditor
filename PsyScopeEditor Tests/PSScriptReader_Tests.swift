@@ -9,6 +9,7 @@
 import Cocoa
 import XCTest
 
+
 class PSScriptReader_Tests: XCTestCase {
 
     override func setUp() {
@@ -24,15 +25,15 @@ class PSScriptReader_Tests: XCTestCase {
     //method_input_output
 
     func testScriptReader_EmptyString_EmptyGhostScript() {
-        var input = ""
-        var reader = PSScriptReader(script: input)
-        var success = reader.ghostScript.entries.count == 0
+        let input = ""
+        let reader = PSScriptReader(script: input)
+        let success = reader.ghostScript.entries.count == 0
         XCTAssert(success, "Pass")
     }
 
     func testScriptReader_SingleEmptyEntry_SingleGhostEntry() {
-        var input = "Hello::"
-        var reader = PSScriptReader(script: input)
+        let input = "Hello::"
+        let reader = PSScriptReader(script: input)
         var success = reader.ghostScript.entries.count == 1
         let entry = reader.ghostScript.entries[0]
         success = success && entry.name == "Hello"
@@ -42,8 +43,8 @@ class PSScriptReader_Tests: XCTestCase {
     }
     
     func testScriptReader_TwoEmptyEntries_TwoGhostEntries() {
-        var input = "Hello::\nHello2::"
-        var reader = PSScriptReader(script: input)
+        let input = "Hello::\nHello2::"
+        let reader = PSScriptReader(script: input)
         
         let nEntries = reader.ghostScript.entries.count == 2
         XCTAssert(nEntries, "Two entries should be created")
@@ -63,8 +64,8 @@ class PSScriptReader_Tests: XCTestCase {
     }
     
     func testScriptReader_SpaceAfterEntryName_StillParsesEntryName() {
-        var input = "\"Tobii Lower Right YCoordinate\" :: 1200\nType: Number\nDialog: Standard\nDefault: 1200"
-        var reader = PSScriptReader(script: input)
+        let input = "\"Tobii Lower Right YCoordinate\" :: 1200\nType: Number\nDialog: Standard\nDefault: 1200"
+        let reader = PSScriptReader(script: input)
         
         let noErrors = reader.errors.count == 0
         XCTAssert(noErrors, "There should be no errors")
@@ -74,13 +75,13 @@ class PSScriptReader_Tests: XCTestCase {
         if nEntries {
             let entries = reader.ghostScript.entries
             let nSubEntries = entries[0].subEntries.count == 3
-            XCTAssert(nEntries, "Three sub entries should be created")
+            XCTAssert(nSubEntries, "Three sub entries should be created")
         }
     }
     
     func testScriptReader_ExtraQuoteInEntryName_ProducesError() {
-        var input = "\"Tobii Lower \"Right YCoordinate\" :: 1200"
-        var reader = PSScriptReader(script: input)
+        let input = "\"Tobii Lower \"Right YCoordinate\" :: 1200"
+        let reader = PSScriptReader(script: input)
         
         let noErrors = reader.errors.count == 0
         XCTAssert(!noErrors, "There should be an error")
@@ -90,8 +91,8 @@ class PSScriptReader_Tests: XCTestCase {
     }
     
     func testScriptReader_NoFinalQuoteInEntryName_ProducesError() {
-        var input = "\"Tobii Lower Right YCoordinate :: 1200"
-        var reader = PSScriptReader(script: input)
+        let input = "\"Tobii Lower Right YCoordinate :: 1200"
+        let reader = PSScriptReader(script: input)
         
         let noErrors = reader.errors.count == 0
         XCTAssert(!noErrors, "There should be an error")
@@ -101,8 +102,8 @@ class PSScriptReader_Tests: XCTestCase {
     }
     
     func testScriptReader_NoBeginingQuoteInEntryName_ProducesError() {
-        var input = "Tobii Lower Right YCoordinate\" :: 1200"
-        var reader = PSScriptReader(script: input)
+        let input = "Tobii Lower Right YCoordinate\" :: 1200"
+        let reader = PSScriptReader(script: input)
         
         let noErrors = reader.errors.count == 0
         XCTAssert(!noErrors, "There should be an error")
@@ -112,8 +113,8 @@ class PSScriptReader_Tests: XCTestCase {
     }
     
     func testScriptReader_EntryLineWithComment_PopulatesComment() {
-        var input = "\"Tobii Lower Right YCoordinate\" :: 1200 # Helloooo!"
-        var reader = PSScriptReader(script: input)
+        let input = "\"Tobii Lower Right YCoordinate\" :: 1200 # Helloooo!"
+        let reader = PSScriptReader(script: input)
         
         let noErrors = reader.errors.count == 0
         XCTAssert(noErrors, "There should be no errors")
@@ -130,8 +131,8 @@ class PSScriptReader_Tests: XCTestCase {
     }
     
     func testScriptReader_EntryLineWithComment_PopulatesCorrectComment() {
-        var input = "\"Tobii Lower Right YCoordinate\" :: 1200 # Helloooo!\n# Not this one"
-        var reader = PSScriptReader(script: input)
+        let input = "\"Tobii Lower Right YCoordinate\" :: 1200 # Helloooo!\n# Not this one"
+        let reader = PSScriptReader(script: input)
         
         let noErrors = reader.errors.count == 0
         XCTAssert(noErrors, "There should be no errors")
@@ -148,8 +149,8 @@ class PSScriptReader_Tests: XCTestCase {
     }
     
     func testScriptReader_EntryLineWithNoComment_HasNoComment() {
-        var input = "\"Tobii Lower Right YCoordinate\" :: 1200 \n# Not this comment\n# Nor this one"
-        var reader = PSScriptReader(script: input)
+        let input = "\"Tobii Lower Right YCoordinate\" :: 1200 \n# Not this comment\n# Nor this one"
+        let reader = PSScriptReader(script: input)
         
         let noErrors = reader.errors.count == 0
         XCTAssert(noErrors, "There should be no errors")
@@ -167,9 +168,9 @@ class PSScriptReader_Tests: XCTestCase {
     
 
     func testScriptReader_EntryLineWithCommentInBrackets_HasNoCommentInValue() {
-        var input = "Hello:: [\n#Comment\n]\n\n#Comment2"
+        let input = "Hello:: [\n#Comment\n]\n\n#Comment2"
         let expectedValue = "[]"
-        var reader = PSScriptReader(script: input)
+        let reader = PSScriptReader(script: input)
         
         let noErrors = reader.errors.count == 0
         XCTAssert(noErrors, "There should be no errors")
@@ -185,10 +186,10 @@ class PSScriptReader_Tests: XCTestCase {
     }
     
     func testScriptReader_TestScript1_HasNoErrors() {
-        var path = NSBundle(forClass: self.dynamicType).pathForResource("TestScript1", ofType: "") as String!
+        let path = NSBundle(forClass: self.dynamicType).pathForResource("TestScript1", ofType: "") as String!
         do {
             let theFile : String = try String(contentsOfFile:path, encoding: NSUTF8StringEncoding)
-            var reader = PSScriptReader(script: theFile)
+            let reader = PSScriptReader(script: theFile)
             
             for entry in reader.ghostScript.entries {
                 testghostEntry(entry)

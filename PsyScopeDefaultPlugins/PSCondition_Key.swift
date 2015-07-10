@@ -58,7 +58,7 @@ class PSCondition_Key_Popup : PSAttributePopup, NSTableViewDelegate, NSTableView
         self.attributeSheet.addObserver(self, forKeyPath: "firstResponder", options: .New, context: nil)
     }
     
-    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [NSObject : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
         if keyPath == "firstResponder" {
             if attributeSheet.firstResponder != tableView {
                 tableView.deselectAll(self)

@@ -98,14 +98,14 @@ class PSTemplateTableController : PSChildTypeViewController {
         return true
     }
     
-    @IBAction func orderPopUpButtons(AnyObject) {
+    @IBAction func orderPopUpButtons(_: AnyObject) {
         if let te = scriptData.getSubEntry("Templates", entry: entry) {
             var access_entry = scriptData.getOrCreateSubEntry("AccessType", entry: te, isProperty: true)
             access_entry.currentValue = orderComboBoxItems[templateOrderPopUpButton.selectedItem!.title]
         }
     }
     
-    @IBAction func modeRadioButton(AnyObject) {
+    @IBAction func modeRadioButton(_: AnyObject) {
         processButtonChange()
     }
     

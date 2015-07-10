@@ -199,7 +199,7 @@ class PSActionsBuilderController : NSObject, NSTableViewDataSource, NSTableViewD
     
     //MARK: Actions for chosing trial/event actions attribute
     
-    @IBAction func eventActionsMenuClicked(AnyObject) {
+    @IBAction func eventActionsMenuClicked(_: AnyObject) {
         if let e = self.eventEntry {
             e.metaData = "EventActions"
             loadEvent()
@@ -207,7 +207,7 @@ class PSActionsBuilderController : NSObject, NSTableViewDataSource, NSTableViewD
     }
     
     
-    @IBAction func trialActionsMenuClicked(AnyObject) {
+    @IBAction func trialActionsMenuClicked(_: AnyObject) {
         if let e = self.eventEntry {
             e.metaData = "TrialActions"
             loadEvent()

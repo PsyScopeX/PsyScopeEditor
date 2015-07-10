@@ -191,7 +191,7 @@ public class PSFontAttributePopup: PSAttributePopup, NSControlTextEditingDelegat
         currentValueLabel.stringValue = self.currentValue
     }
     
-    @IBAction func enteredDone(AnyObject) {
+    @IBAction func enteredDone(_: AnyObject) {
         NSColorPanel.sharedColorPanel().close()
         updateCurrentValue()
         closeMyCustomSheet(self)

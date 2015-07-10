@@ -26,7 +26,7 @@ class PSSelectedSubjectVariableController : NSObject {
         refreshControls()
     }
     
-    @IBAction func swapButtonClicked(AnyObject) {
+    @IBAction func swapButtonClicked(_: AnyObject) {
         if let selectedSubjectVariable = selectedSubjectVariable {
             selectedSubjectVariable.isGroupingVariable = !selectedSubjectVariable.isGroupingVariable
             selectedSubjectVariable.saveToScript()
@@ -34,7 +34,7 @@ class PSSelectedSubjectVariableController : NSObject {
         }
     }
     
-    @IBAction func schedulePopUpChanged(AnyObject) {
+    @IBAction func schedulePopUpChanged(_: AnyObject) {
         if let selectedSubjectVariable = selectedSubjectVariable {
             var existingOptions = selectedSubjectVariable.storageOptions
             switch(schedulePopUpButton.selectedItem!.title) {
@@ -51,7 +51,7 @@ class PSSelectedSubjectVariableController : NSObject {
         }
     }
     
-    @IBAction func typePopUpChanged(AnyObject) {
+    @IBAction func typePopUpChanged(_: AnyObject) {
         var type : PSSubjectVariableType
         switch(typePopUpButton.selectedItem!.title) {
         case "String":
@@ -158,7 +158,7 @@ class PSSelectedSubjectVariableController : NSObject {
         saveType()
     }
     
-    @IBAction func itemsSegmentedControlClicked(AnyObject) {
+    @IBAction func itemsSegmentedControlClicked(_: AnyObject) {
         switch(itemsSegmentedControl.selectedSegment) {
         case 0: // add
             items.append("Item")

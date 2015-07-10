@@ -25,8 +25,8 @@ class PSAttribute_SoundChannel : PSAttributeGeneric {
     
     lazy var checkBoxStrings : [(String, String)] = {
         var strings : [(String, String)] = []
-        strings.append("Left","Left")
-        strings.append("Right", "Right")
+        strings.append(("Left","Left"))
+        strings.append(("Right", "Right"))
         return strings
         }()
 

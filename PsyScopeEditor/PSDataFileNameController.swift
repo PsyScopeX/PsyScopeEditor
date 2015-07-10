@@ -39,12 +39,12 @@ class PSDataFileNameController : NSObject, NSTokenFieldDelegate {
                     case let .Function(functionElement):
                         if functionElement.values.count == 2 && functionElement.bracketType == .Expression {
                             let secondValue = functionElement.values[1]
-                            if case .StringValue(let value) = secondValue {
+                            if case .StringToken(let value) = secondValue {
                                 objectsToAdd.append(value.value)
                             }
                         }
                         break
-                    case let .StringValue(stringValue):
+                    case let .StringToken(stringValue):
                         objectsToAdd.append(stringValue.value)
                         break
                     default:

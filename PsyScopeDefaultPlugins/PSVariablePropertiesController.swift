@@ -90,7 +90,7 @@ class PSVariablePropertiesController : PSToolPropertyController {
     
     //MARK: Actions / Control delegate
     
-    @IBAction func editTypesButton(AnyObject) {
+    @IBAction func editTypesButton(_: AnyObject) {
         let typesPopup = PSVariableTypePopup(scriptData: scriptData)
         typesPopup.showPopup()
     }

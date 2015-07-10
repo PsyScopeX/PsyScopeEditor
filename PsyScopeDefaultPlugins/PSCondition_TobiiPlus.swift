@@ -33,7 +33,7 @@ class PSCondition_TobiiPlusCell : PSConditionCell {
     
     @IBOutlet var portButton : NSButton!
     
-    @IBAction func portButton_Click(AnyObject) {
+    @IBAction func portButton_Click(_: AnyObject) {
         var popup = PSPortBuilderController(currentValue: portValue, scriptData: scriptData, positionMode: false, setCurrentValueBlock : { (cValue: String) -> () in
             self.portValue = cValue
             

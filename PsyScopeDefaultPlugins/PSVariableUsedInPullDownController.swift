@@ -23,7 +23,7 @@ class PSVariableUsedInPullDownController : NSObject {
     }
     
     
-    func popUpWillPopUp(AnyObject) {
+    func popUpWillPopUp(_: AnyObject) {
         let scriptData = controller.scriptData
         for entryName in entryNames {
             pullDown.removeItemWithTitle(entryName)
@@ -35,7 +35,7 @@ class PSVariableUsedInPullDownController : NSObject {
 
     }
     
-    @IBAction func pullDownSelected(AnyObject) {
+    @IBAction func pullDownSelected(_: AnyObject) {
         if let entry = controller.scriptData.getBaseEntry(pullDown.selectedItem!.title) {
             controller.scriptData.selectionInterface.selectEntry(entry)
         }

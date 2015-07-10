@@ -101,7 +101,7 @@ public final class PSSubjectVariable : NSObject  {
                 
                 for listValue in groupsSpecsValue.values {
                     switch(listValue) {
-                    case let .StringValue(stringValue):
+                    case let .StringToken(stringValue):
                         if stringValue.value == entry.name {
                             return true
                         }//found a reference to a group entry
@@ -129,7 +129,7 @@ public final class PSSubjectVariable : NSObject  {
         var groupVarNames : Set<String> = Set()
         for listValue in groupsSpecsValue.values {
             switch(listValue) {
-            case let .StringValue(stringValue):
+            case let .StringToken(stringValue):
                 groupVarNames.insert(stringValue.value) //found a reference to a group entry
             default:
                 break

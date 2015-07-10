@@ -11,14 +11,14 @@ import Foundation
 
 public enum PSEntryElement : Equatable {
     case Null
-    case StringValue(PSStringElement)
-    case List(PSStringListElement)
-    case Function(PSFunctionElement)
+    case StringToken(stringElement: PSStringElement)
+    case List(stringListElement: PSStringListElement)
+    case Function(functionElement: PSFunctionElement)
     
     func dumpElement(level : Int) -> String {
         var string = String(count: level * 4, repeatedValue: Character(" ")) + "-"
         switch (self) {
-        case .StringValue(let stringElement):
+        case .StringToken(let stringElement):
             string = string + stringElement.value + "\n"
         case .Function(let functionElement):
             string = string + "Func: " + functionElement.functionName + "\n"
@@ -46,7 +46,7 @@ public func ==(a: PSEntryElement, b: PSEntryElement) -> Bool {
     switch (a, b) {
     case (.Null, .Null):
         return true
-    case (.StringValue(let a),   .StringValue(let b))   where a.value == b.value: return true
+    case (.StringToken(let a),   .StringToken(let b))   where a.value == b.value: return true
     default: return false
     }
 }
@@ -138,7 +138,7 @@ public class PSCompoundEntryElement : NSObject {
     
     public func elementToString(element : PSEntryElement, stripped : Bool) -> String {
         switch (element) {
-        case .StringValue(let string):
+        case .StringToken(let string):
             // put in quotes if necessary
             if stripped {
                 return string.value
@@ -170,7 +170,7 @@ public class PSCompoundEntryElement : NSObject {
             switch(val) {
             case .Null:
                 break
-            case let .StringValue(stringElement):
+            case let .StringToken(stringElement):
                 if stringElement.value == token {
                     return true
                 }
@@ -193,13 +193,13 @@ public class PSCompoundEntryElement : NSObject {
             switch(val) {
             case .Null:
                 break
-            case let .StringValue(stringElement):
+            case let .StringToken(stringElement):
                 if stringElement.value == oldName {
                     if let newElement = PSStringElement(strippedValue: newName) {
                         if stringElement.quotes != .None {
                             newElement.quotes = stringElement.quotes
                         }
-                        values[index] = .StringValue(newElement)
+                        values[index] = PSEntryElement.StringToken(stringElement: newElement)
                     } else {
                         PSModalAlert("Fatal Error due to funny name...")
                         fatalError("Funny name error")
@@ -272,7 +272,7 @@ public class PSFunctionElement : PSCompoundEntryElement {
         function.functionName = name
         function.bracketType = .InlineEntry
         function.setStringValues(values)
-        return PSEntryElement.Function(function)
+        return PSEntryElement.Function(functionElement: function)
     }
     
     public var functionName : String = ""

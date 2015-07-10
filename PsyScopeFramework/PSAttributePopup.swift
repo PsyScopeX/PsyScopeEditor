@@ -43,7 +43,7 @@ public class PSAttributePopup : NSObject {
         })
     }
 
-    @IBAction public func closeMyCustomSheet(AnyObject) {
+    @IBAction public func closeMyCustomSheet(_: AnyObject) {
         parentWindow.endSheet(attributeSheet)
         if let setCurrentValueBlock = setCurrentValueBlock {
             setCurrentValueBlock(self.currentValue)

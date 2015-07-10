@@ -209,14 +209,14 @@ class PSActionsBrowser : NSObject, NSTableViewDataSource, NSTableViewDelegate {
     
     //MARK: Actions for chosing trial/event actions attribute
     
-    @IBAction func eventActionsMenuClicked(AnyObject) {
+    @IBAction func eventActionsMenuClicked(_: AnyObject) {
         if let e = self.selectedEntry {
             e.metaData = "EventActions"
         }
     }
 
 
-    @IBAction func trialActionsMenuClicked(AnyObject) {
+    @IBAction func trialActionsMenuClicked(_: AnyObject) {
         if let e = self.selectedEntry {
             e.metaData = "TrialActions"
         }

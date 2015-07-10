@@ -85,7 +85,7 @@ class PSVariableTypeController : NSObject {
     
     //MARK: Segmented Controls actions
     
-    @IBAction func addDeleteSegmentedControlPressed(AnyObject) {
+    @IBAction func addDeleteSegmentedControlPressed(_: AnyObject) {
         switch(addDeleteSegmentedControl.selectedSegment) {
         case 0:
             //add

@@ -26,9 +26,9 @@ class PSAttribute_SoundFeature : PSAttributeGeneric {
     
     lazy var checkBoxStrings : [(String, String)] = {
         var strings : [(String, String)] = []
-        strings.append("Keep_Sound","Keep sound in memory")
-        strings.append("Parallel", "Parallel")
-        strings.append("Play_From_Disk","Play from disk" )
+        strings.append(("Keep_Sound","Keep sound in memory"))
+        strings.append(("Parallel", "Parallel"))
+        strings.append(("Play_From_Disk","Play from disk"))
         return strings
         }()
     

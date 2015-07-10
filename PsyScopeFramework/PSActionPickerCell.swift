@@ -22,7 +22,7 @@ class PSActionPickerCell: NSView {
     }
     
     
-    @IBAction func clickedLabel(AnyObject) {
+    @IBAction func clickedLabel(_: AnyObject) {
         if let clickCallback = clickCallback {
             clickCallback(action)
         }

@@ -22,7 +22,7 @@ class PSCustomMenus : NSObject {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "popUpWillPopUp:", name: "NSPopUpButtonWillPopUpNotification", object: customMenuPopUp)
     }
     
-    func popUpWillPopUp(AnyObject) {
+    func popUpWillPopUp(_: AnyObject) {
         //construct menu from script
         let scriptData = document.scriptData
         
@@ -44,7 +44,7 @@ class PSCustomMenus : NSObject {
         if let menusList = PSStringList(baseEntryName: "Menus", scriptData: scriptData) {
             for value in menusList.values {
                 switch(value) {
-                    case  let .StringValue(stringElement):
+                    case  let .StringToken(stringElement):
                         //skip Experiment menu item
                         if stringElement.value == "Experiment" { break }
                         //create a new menu item
@@ -64,7 +64,7 @@ class PSCustomMenus : NSObject {
         customMenuPopUp.menu = menu
     }
     
-    @IBAction func addNewMenuItemClick(AnyObject) {
+    @IBAction func addNewMenuItemClick(_: AnyObject) {
         print("Click")
     }
     

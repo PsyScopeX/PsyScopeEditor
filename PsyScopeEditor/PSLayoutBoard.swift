@@ -505,7 +505,7 @@ class PSLayoutBoard: NSView {
         contextMenuObject = nil
     }
     
-    @IBAction func linkObject(AnyObject) {
+    @IBAction func linkObject(_: AnyObject) {
         //activate link mode
         linkingObjects = []
         if let hl = highlightedLayoutItem {

@@ -120,7 +120,7 @@ class PSDocumentTabDelegate: NSObject, NSTabViewDelegate {
         }
     }
     
-    @IBAction func experimentSetupButtonClick(AnyObject) {
+    @IBAction func experimentSetupButtonClick(_: AnyObject) {
         if let item = items[-1] {
             toolbarSegmentedControl.selectedSegment = -1 //deselect
             experimentSetupButton.state = 1
@@ -187,15 +187,15 @@ class PSDocumentTabDelegate: NSObject, NSTabViewDelegate {
     }
     
     //right panel buttons
-    @IBAction func propertiesButtonClick(AnyObject) {
+    @IBAction func propertiesButtonClick(_: AnyObject) {
         self.showProperties()
     }
     
-    @IBAction func attributesButtonClick(AnyObject) {
+    @IBAction func attributesButtonClick(_: AnyObject) {
         self.showAttributes()
     }
     
-    @IBAction func actionsButtonClick(AnyObject) {
+    @IBAction func actionsButtonClick(_: AnyObject) {
         self.showActions()
     }
     

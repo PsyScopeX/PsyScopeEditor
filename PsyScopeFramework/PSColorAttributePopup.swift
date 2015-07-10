@@ -49,7 +49,7 @@ public class PSColorAttributePopup: PSAttributePopup {
         colorWell.color = PSColorStringToNSColor(self.currentValue)
     }
     
-    @IBAction func enteredDone(AnyObject) {
+    @IBAction func enteredDone(_: AnyObject) {
         currentValue = NSColorToPSColorString(colorWell.color)
         closeMyCustomSheet(self)
         NSColorPanel.sharedColorPanel().close()

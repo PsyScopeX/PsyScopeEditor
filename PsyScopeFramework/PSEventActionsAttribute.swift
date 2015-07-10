@@ -55,7 +55,7 @@ public class PSEventActionsAttribute : PSStringListElement {
     
     
     public func newActionConditionSet() {
-        actionConditionSets.append(conditions: [],actions: [])
+        actionConditionSets.append((conditions: [],actions: []))
         //dont update entry yet
 
     }
@@ -163,7 +163,7 @@ public class PSEventActionsAttribute : PSStringListElement {
 
         //set up initial array to take the actions/conditions
         var action_condition_count : Int = actionConditionSets.count
-        actionConditionSets.append(conditions: [],actions: [])
+        actionConditionSets.append((conditions: [],actions: []))
         
 
         
@@ -174,7 +174,7 @@ public class PSEventActionsAttribute : PSStringListElement {
                 if function.functionName == "Conditions" {
                     if populatingActions {
                         //end of action condition pair so add new set
-                        actionConditionSets.append(conditions: [],actions: [])
+                        actionConditionSets.append((conditions: [],actions: []))
                         action_condition_count++
                     }
                     
@@ -240,7 +240,7 @@ public class PSEventActionsAttribute : PSStringListElement {
                     
                 }
                 break
-            case .StringValue(let s):
+            case .StringToken(let s):
                 if s.value == "=>" {
                     //switch from population conditions to actions
                     populatingActions = false

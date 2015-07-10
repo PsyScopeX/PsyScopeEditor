@@ -95,7 +95,7 @@ class PSPsyScopeXRunner : NSObject {
         currentlyRunningPsyScopeTask = task
     }
     
-    func terminated(AnyObject) {
+    func terminated(_: AnyObject) {
         print("TERMINATED")
         
         //try to load

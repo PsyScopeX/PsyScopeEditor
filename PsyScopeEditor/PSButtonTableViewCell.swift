@@ -13,7 +13,7 @@ class PSButtonTableViewCell : NSTableCellView {
     var row : Int!
     var buttonClickBlock : ((Int) -> ())!
     
-    @IBAction func buttonClick(AnyObject) {
+    @IBAction func buttonClick(_: AnyObject) {
         buttonClickBlock(row)
     }
 }

@@ -92,14 +92,14 @@ class PSBlocksTableController : PSChildTypeViewController {
         return true
     }
     
-    @IBAction func orderPopUpButtons(AnyObject) {
+    @IBAction func orderPopUpButtons(_: AnyObject) {
         if let te = scriptData.getSubEntry("Blocks", entry: entry) {
             var access_entry = scriptData.getOrCreateSubEntry("AccessType", entry: te, isProperty: true)
             access_entry.currentValue = orderComboBoxItems[orderPopUpButton.selectedItem!.title]
         }
     }
     
-    @IBAction func scalableButtonPress(AnyObject) {
+    @IBAction func scalableButtonPress(_: AnyObject) {
         processButtonChange()
     }
     
