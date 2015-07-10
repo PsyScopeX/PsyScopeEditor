@@ -49,9 +49,10 @@ class PSSelectionController : NSObject, PSSelectionInterface {
     
     func docMocChanged(notification : NSNotification) {
         
-        if scriptData.docMoc.undoManager!.groupingLevel > 0 { return } //prevent doc moc changes for grouped changes
+        
         
         if (debugMocChanges) { dumpDocMocChanges(notification) }
+        if scriptData.docMoc.undoManager!.groupingLevel > 0 { return } //prevent doc moc changes for grouped changes
         
         //detect whether selected object has been deleted, if so deselect
         let haveACurrentlySelectedEntry = selectedEntry != nil
