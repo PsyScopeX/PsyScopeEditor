@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="8121.17" systemVersion="14D136" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="8121.20" systemVersion="14D136" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <development version="6300" identifier="xcode"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="8121.17"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="8121.20"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="Document" customModule="PsyScopeEditor" customModuleProvider="target">
@@ -819,8 +819,8 @@
                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                             </comboBoxCell>
                             <connections>
-                                <outlet property="dataSource" destination="vzq-WE-gKX" id="spQ-IW-SQi"/>
-                                <outlet property="delegate" destination="vzq-WE-gKX" id="srB-qO-ZMR"/>
+                                <outlet property="dataSource" destination="Fhm-UL-YgA" id="ajF-h0-jmO"/>
+                                <outlet property="delegate" destination="Fhm-UL-YgA" id="aRw-LI-O5R"/>
                             </connections>
                         </comboBox>
                     </toolbarItem>
@@ -993,9 +993,15 @@
             </connections>
         </customObject>
         <userDefaultsController representsSharedInstance="YES" id="wr6-Hv-hRd"/>
+        <customObject id="Fhm-UL-YgA" customClass="PSLayoutObjectComboBox" customModule="PsyScopeEditor" customModuleProvider="target">
+            <connections>
+                <outlet property="comboBox" destination="VKB-yT-2kU" id="ZVf-Mb-2Cu"/>
+                <outlet property="document" destination="-2" id="aom-94-FB3"/>
+                <outlet property="selectionController" destination="kJS-7r-TNG" id="eB6-2p-uWR"/>
+            </connections>
+        </customObject>
         <customObject id="vzq-WE-gKX" customClass="PSAttributesBrowser" customModule="PsyScopeEditor" customModuleProvider="target">
             <connections>
-                <outlet property="comboBox" destination="VKB-yT-2kU" id="77S-mb-TgH"/>
                 <outlet property="document" destination="-2" id="Soe-cY-Luh"/>
                 <outlet property="elementViewerController" destination="lda-Ew-Btf" id="wKg-1H-SWD"/>
                 <outlet property="selectionController" destination="kJS-7r-TNG" id="Js6-nb-Dpd"/>
@@ -1059,6 +1065,7 @@
                 <outlet property="entryBrowser" destination="jbe-el-K4h" id="bAE-vt-mDd"/>
                 <outlet property="experimentSetup" destination="Z0W-cp-4H8" id="ptW-Zw-aRe"/>
                 <outlet property="layoutController" destination="lM2-Zh-cBk" id="y1B-i0-2ox"/>
+                <outlet property="layoutObjectComboBox" destination="Fhm-UL-YgA" id="zfo-Ae-xGO"/>
                 <outlet property="scriptDelegate" destination="pVe-g4-G0X" id="ZMy-sO-plJ"/>
                 <outlet property="tabDelegate" destination="VPD-gz-cgk" id="Mlr-cm-4Xk"/>
                 <outlet property="variableSelector" destination="hkY-5a-Cbm" id="b23-60-Htf"/>

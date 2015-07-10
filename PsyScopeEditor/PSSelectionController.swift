@@ -13,7 +13,7 @@ import Foundation
 //All deleteing of objects should be done through here, as it wil update the selection
 
 class PSSelectionController : NSObject, PSSelectionInterface {
-    let debugMocChanges = false
+    let debugMocChanges = true
     
     @IBOutlet var scriptDelegate : PSScriptViewDelegate!
     @IBOutlet var document : Document!
@@ -24,6 +24,7 @@ class PSSelectionController : NSObject, PSSelectionInterface {
     @IBOutlet var entryBrowser : PSEntryBrowser!
     @IBOutlet var variableSelector : PSVariableSelector!
     @IBOutlet var experimentSetup : PSExperimentSetup!
+    @IBOutlet var layoutObjectComboBox : PSLayoutObjectComboBox!
     
     var scriptData : PSScriptData!
     var windowViews : [PSWindowViewInterface] = []
@@ -47,32 +48,17 @@ class PSSelectionController : NSObject, PSSelectionInterface {
     }
     
     func docMocChanged(notification : NSNotification) {
-        if (debugMocChanges) {
-            let keys_to_check : [NSString] = [NSInsertedObjectsKey, NSUpdatedObjectsKey, NSDeletedObjectsKey, NSRefreshedObjectsKey, NSInvalidatedObjectsKey, NSInvalidatedAllObjectsKey];
-            for key in keys_to_check {
-                if let objects: AnyObject = notification.userInfo![key] {
-                    var array : NSArray = []
-                    if let set = objects as? NSSet {
-                        print("Doc Moc changed: \(key) type, set with \(set.count) objects.")
-                        array = set.allObjects
-                    } else if let arr = objects as? NSArray {
-                        print("Doc Moc changed: \(key) type, array with \(arr.count) objects.")
-                        array = arr
-                    }
-                    
-                    print(array.description)
-                }
-            }
-        }
+        if (debugMocChanges) { dumpDocMocChanges(notification) }
+        
         //detect whether selected object has been deleted, if so deselect
-        if selectedEntry != nil && (selectedEntry!.deleted == true || selectedEntry!.name == nil) {
+        let haveACurrentlySelectedEntry = selectedEntry != nil
+        if haveACurrentlySelectedEntry && (selectedEntry!.deleted == true || selectedEntry!.name == nil) {
             selectEntry(nil)
         }
         
         
-        
-        tabDelegate.docMocChanged(notification)
-        layoutController.refreshLayoutObjects(notification)
+        tabDelegate.docMocChanged(notification) //sends notification to property controllers
+        layoutController.refreshLayoutObjects(notification) //layout controller needs notification
         refreshGUI()
     }
     
@@ -88,17 +74,10 @@ class PSSelectionController : NSObject, PSSelectionInterface {
     //general method for selecting an object
     func selectEntry(entry : Entry?) {
         selectedEntry = entry
-        if let e = entry {
-            attributesBrowser.selectItem(e.name)
-        } else {
-            attributesBrowser.selectItem("")
-        }
-        attributesBrowser.entrySelected(entry)
         tabDelegate.selectEntry(entry)
         layoutController.selectEntry(entry)
         scriptDelegate.selectEntry(entry)
         experimentSetup.entrySelected(entry)
-        
         refreshGUI()
     }
     
@@ -199,13 +178,16 @@ class PSSelectionController : NSObject, PSSelectionInterface {
     
     
     func refreshGUI() {
+        print("Refresh")
         buildEventActionsAttributeAndMetaData() //must be done at start of refresh
         
+
+        layoutObjectComboBox.refresh()
         experimentSetup.update()
         actionsBrowser.refresh()
         entryBrowser.update()
         attributesBrowser.refresh()
-        attributesBrowser.updateItems()
+        attributesBrowser.refresh()
         variableSelector.update()
         updateVaryByMenu() //perhaps this doesn't belong here?
         scriptDelegate.scriptHasHadObjectUpdates()
@@ -285,6 +267,24 @@ class PSSelectionController : NSObject, PSSelectionInterface {
     //returns view meta data for event actions (used by same controls as eventActionsAttribute)
     func getActionConditionViewMetaData() -> [PSActionBuilderViewMetaDataSet]? {
         return self.actionsAttributeViewData
+    }
+    
+    func dumpDocMocChanges(notification : NSNotification) {
+        let keys_to_check : [NSString] = [NSInsertedObjectsKey, NSUpdatedObjectsKey, NSDeletedObjectsKey, NSRefreshedObjectsKey, NSInvalidatedObjectsKey, NSInvalidatedAllObjectsKey];
+        for key in keys_to_check {
+            if let objects: AnyObject = notification.userInfo![key] {
+                var array : NSArray = []
+                if let set = objects as? NSSet {
+                    print("Doc Moc changed: \(key) type, set with \(set.count) objects.")
+                    array = set.allObjects
+                } else if let arr = objects as? NSArray {
+                    print("Doc Moc changed: \(key) type, array with \(arr.count) objects.")
+                    array = arr
+                }
+                
+                print(array.description)
+            }
+        }
     }
     
 }

@@ -10,11 +10,9 @@ import Cocoa
 let PSPasteboardTypeAttribute : NSString = "psyscope.attribute"
 
 //Handles the attributes browser, and attached combo box
-class PSAttributesBrowser: NSObject, NSComboBoxDataSource, NSComboBoxDelegate, NSTableViewDelegate, NSTableViewDataSource, PSEditMenuDelegate, NSPasteboardItemDataProvider {
+class PSAttributesBrowser: NSObject, NSTableViewDelegate, NSTableViewDataSource, PSEditMenuDelegate, NSPasteboardItemDataProvider {
 
     //MARK: Outlets
-    
-    @IBOutlet var comboBox : NSComboBox!
     @IBOutlet var selectionController : PSSelectionController!
     @IBOutlet var tableView : NSTableView!
     @IBOutlet var document : Document!
@@ -22,10 +20,7 @@ class PSAttributesBrowser: NSObject, NSComboBoxDataSource, NSComboBoxDelegate, N
     
     
     //MARK: Variables
-    
-    var items : [String] = [] //holds entries to switch between
     var content : [Entry] = [] //holds currently displayed attributes
-    var selectedEntry : Entry?
     let addAttributeCellIdentifier = "PSAddAttributeCell"
     let genericInterface = PSAttributeGeneric()
     var attributePicker : PSAttributePicker? //holds a reference to last popup to prevent Zombie object
@@ -38,58 +33,12 @@ class PSAttributesBrowser: NSObject, NSComboBoxDataSource, NSComboBoxDelegate, N
         tableView.registerNib(anib!, forIdentifier: addAttributeCellIdentifier)
     }
     
-    //MARK: Combobox methods
-    
-    func numberOfItemsInComboBox(aComboBox: NSComboBox) -> Int {
-        return items.count
-    }
-    
-    func comboBox(aComboBox: NSComboBox, objectValueForItemAtIndex index: Int) -> AnyObject {
-        if (index >= items.count || index < 0) {
-            return ""
-        } else {
-            return items[index]
-        }
-    }
 
-    func comboBox(aComboBox: NSComboBox, indexOfItemWithStringValue string: String) -> Int {
-        if let r = items.indexOf(string) {
-            return r
-        }
-        return -1
-    }
-    func comboBoxSelectionDidChange(notification: NSNotification) {
-        selectionController.selectObjectForEntryNamed(getSelectedComboBoxItem())
-    }
-    
-    func getSelectedComboBoxItem() -> String {
-        if (comboBox.indexOfSelectedItem >= items.count || comboBox.indexOfSelectedItem < 0) {
-            return ""
-        } else {
-            return items[comboBox.indexOfSelectedItem]
-        }
-    }
-    
-    //update items but don't change selected
-    func updateItems() {
-        let entries = document.scriptData.getBaseEntriesWithLayoutObjects()
-        let new_items = document.scriptData.getNamesOfEntries(entries)
-        items = new_items.sort({ (s1: String, s2: String) -> Bool in
-            return s1 < s2 })
-        
-        
-        comboBox.reloadData()
-        
-        if let selectedEntry = selectionController.getSelectedEntry() {
-            let currentSelectedItem : String = selectedEntry.name
-            selectItem(currentSelectedItem)
-        }
-    }
     
     //MARK: Attributes refresh
     
     func refresh() {
-        if let selectedEntry = selectedEntry {
+        if let selectedEntry = selectionController.selectedEntry {
             let entries = selectedEntry.subEntries.array as! [Entry]
             
             //get only entries who are not properties
@@ -107,30 +56,10 @@ class PSAttributesBrowser: NSObject, NSComboBoxDataSource, NSComboBoxDelegate, N
         tableView.reloadData()
     }
     
-    //MARK: Selection
-    
-    func entrySelected(entry : Entry?) {
-        self.selectedEntry = entry
-        refresh()
-    }
-    
-    //selects item in combobox, no delegate fired
-    func selectItem(item : String) {
-        if let index = items.indexOf(item) {
-            comboBox.setDelegate(nil) //prevent firing selection did change
-            comboBox.selectItemAtIndex(index)
-            comboBox.setDelegate(self)
-        } else {
-            comboBox.setDelegate(nil) //prevent firing selection did change
-            comboBox.stringValue = ""
-            comboBox.setDelegate(self)
-        }
-    }
-    
     //MARK: Attributes TableView
     
     func numberOfRowsInTableView(tableView: NSTableView) -> Int {
-        if selectedEntry != nil {
+        if selectionController.selectedEntry != nil {
             return content.count + 1 //add attribute button
         } else {
             return 0 //empty for no selected entry
@@ -182,7 +111,7 @@ class PSAttributesBrowser: NSObject, NSComboBoxDataSource, NSComboBoxDelegate, N
     
     @IBAction func addAttribute(sender : NSView) { //from add attribute cell button
         
-        if let selectedEntry = selectedEntry {
+        if let selectedEntry = selectionController.selectedEntry {
             attributePicker = PSAttributePickerEntry(entry: selectedEntry, scriptData: document.scriptData)
             attributePicker!.showAttributeWindow(tableView)
         }
@@ -220,7 +149,7 @@ class PSAttributesBrowser: NSObject, NSComboBoxDataSource, NSComboBoxDelegate, N
         }
     }
     func pasteObject(sender : AnyObject) {
-        if let se = selectedEntry {
+        if let se = selectionController.selectedEntry {
             let pasteboard = NSPasteboard.generalPasteboard()
             let items = pasteboard.readObjectsForClasses([NSPasteboardItem.self], options: [:]) as! [NSPasteboardItem]
             for item in items {
