@@ -178,14 +178,11 @@ public class PSScriptData : NSObject {
                 deleteNamedSubEntryFromParentEntry(menus, name: "Dialog")
             }
         }
-        
-        
-        
-        
-        
+    
         docMoc.processPendingChanges()
         docMoc.undoManager!.enableUndoRegistration()
         docMoc.undoManager!.removeAllActions()
+        selectionInterface.refresh()
     }
     
     //MARK: Attribute Interface
@@ -684,6 +681,7 @@ public class PSScriptData : NSObject {
         print("End undo grouping")
         docMoc.undoManager!.endUndoGrouping()
         if (!success) { docMoc.undoManager!.undoNestedGroup() }
+        selectionInterface.refresh()
     }
     
     //MARK: Linking

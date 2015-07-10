@@ -69,41 +69,17 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
     }
     
 
-    //notification is from MOC change and has a list of objects which have had their properties changed, and calls updateViewForObject for each one, which is responsible for ensuring that the core data is represented perfectly on screen.
-    func refreshLayoutObjects(notification : NSNotification) {
-    
-        var changed = notification.userInfo
+    func refresh() {
         
-        let keys_to_check : [NSString] = [NSInsertedObjectsKey, NSUpdatedObjectsKey, NSDeletedObjectsKey, NSRefreshedObjectsKey]
-        var updated_objects : [LayoutObject] = []
-        for key in keys_to_check {
-    
-            
-            let objects_set = changed![key] as! NSSet?
-            if let os = objects_set {
-                let objects = os.allObjects
-                for object in objects {
-                    if let o = object as? LayoutObject {
-                        if updated_objects.filter({ $0 == o}).count == 0 {
-                            updated_objects.append(o)
-                            updateViewForObject(o)
-                        }
-                    }
-                    
-                    //if entry is updated, update it's layout object (only if not already updated
-                    if let e = object as? Entry {
-                        if let o = e.layoutObject {
-                            if updated_objects.filter({ $0 == o}).count == 0 {
-                                updated_objects.append(o)
-                                updateViewForObject(o)
-                            }
-                        }
-                    }
-                }
-            }
+        let layoutObjects = scriptData.getLayoutObjects()
+        
+        //update views (position them / delete display them)
+        for layoutObject in layoutObjects {
+            updateViewForObject(layoutObject)
         }
-
-        for updated_o in updated_objects {
+    
+        //update links
+        for updated_o in layoutObjects {
             updateViewsForLinks(updated_o)
         }
         
@@ -111,7 +87,6 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
         if let se = selectionController.selectedEntry, _ = se.layoutObject {
             selectEntry(se)
         }
-        
     }
     
     
@@ -198,19 +173,17 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
                     objectsTolayoutItems[object] = sublayoutItem
                     layoutItemsToObjects[sublayoutItem!] = object
                 } else {
-                    print("Error, icon not found for type \(object.mainEntry.type)")
-                    //TODO fatal error or delete?
-                }
-                
-        } else {
-            
-            if object.mainEntry != nil {
-                layoutBoard.updateObjectLayoutItem(sublayoutItem!, x: object.xPos.integerValue, y: object.yPos.integerValue, name: object.mainEntry.name)
-            } else {
-                //this has been deleted!
-                deleteObject(object)
-            }
+                    fatalError("Error, icon not found for type \(object.mainEntry.type)")
+                }  
         }
+            
+        if object.mainEntry != nil {
+            layoutBoard.updateObjectLayoutItem(sublayoutItem!, x: object.xPos.integerValue, y: object.yPos.integerValue, name: object.mainEntry.name)
+        } else {
+            //this has been deleted!
+            deleteObject(object)
+        }
+        
     }
     
     func updateViewsForLinks(object : LayoutObject) {

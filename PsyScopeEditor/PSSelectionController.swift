@@ -30,6 +30,7 @@ class PSSelectionController : NSObject, PSSelectionInterface {
     var windowViews : [PSWindowViewInterface] = []
     var menu : NSMenu!
     
+    var docMocChangesPending : Bool = false
     
     func initialize() {
         
@@ -49,23 +50,27 @@ class PSSelectionController : NSObject, PSSelectionInterface {
     
     func refresh() {
         
+        if docMocChangesPending {  //only refresh if there are actual changes pending
+        
+            //detect whether selected object has been deleted, if so deselect
+            let haveACurrentlySelectedEntry = selectedEntry != nil
+            if haveACurrentlySelectedEntry && (selectedEntry!.deleted == true || selectedEntry!.name == nil) {
+                selectEntry(nil)
+            }
+            refreshGUI()
+            docMocChangesPending = false
+        }
+
+        
     }
     
+    
+    
     func docMocChanged(notification : NSNotification) {
-        
+        docMocChangesPending = true
         if (debugMocChanges) { dumpDocMocChanges(notification) }
-        //if scriptData.docMoc.undoManager!.groupingLevel > 0 { return } //prevent doc moc changes for grouped changes
-        
-        //detect whether selected object has been deleted, if so deselect
-        let haveACurrentlySelectedEntry = selectedEntry != nil
-        if haveACurrentlySelectedEntry && (selectedEntry!.deleted == true || selectedEntry!.name == nil) {
-            selectEntry(nil)
-        }
-        
-        
-        
-        layoutController.refreshLayoutObjects(notification) //layout controller needs notification
-        refreshGUI()
+        if scriptData.docMoc.undoManager!.groupingLevel > 0 { return } //prevent doc moc changes for grouped changes
+        refresh()
     }
     
     
@@ -186,11 +191,9 @@ class PSSelectionController : NSObject, PSSelectionInterface {
     func refreshGUI() {
         print("Refresh")
         
-        
         tabDelegate.refresh() //sends refresh to property controllers
+        layoutController.refresh()
         buildEventActionsAttributeAndMetaData() //must be done at start of refresh
-        
-
         layoutObjectComboBox.refresh()
         experimentSetup.update()
         actionsBrowser.refresh()
