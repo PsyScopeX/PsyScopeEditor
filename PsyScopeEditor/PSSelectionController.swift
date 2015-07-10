@@ -13,7 +13,7 @@ import Foundation
 //All deleteing of objects should be done through here, as it wil update the selection
 
 class PSSelectionController : NSObject, PSSelectionInterface {
-    let debugMocChanges = true
+    let debugMocChanges = false
     
     @IBOutlet var scriptDelegate : PSScriptViewDelegate!
     @IBOutlet var document : Document!

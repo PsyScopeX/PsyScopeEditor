@@ -89,6 +89,8 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
     
     func refresh() {
         
+        defer { fullRefresh() }
+        
         if let e = selectionInterface.getSelectedEntry(), lobject = e.layoutObject {
             if scriptData.typeIsEvent(e.type) {
                 let parentLinks = Array(e.layoutObject.parentLink as! Set<LayoutObject>)
@@ -97,7 +99,6 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
                 if templateObject != nil && parentLinks.contains(templateObject) {
                     //already showing template, just select the right entry
                     selectedEvent = lobject
-                    refreshVisualSelection()
                     return
                 } else {
                     //select one of the parent templates (check it is a template)
@@ -105,7 +106,6 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
                         if isTemplateEntry(parent.mainEntry) {
                             templateObject = parent
                             selectedEvent = lobject
-                            fullRefresh()
                             return
                         }
                     }
@@ -113,7 +113,6 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
             } else if isTemplateEntry(e) {
                 templateObject = lobject
                 selectedEvent = nil
-                fullRefresh()
                 return
             }
         }
@@ -121,14 +120,13 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
         //unknown object type / no template so clear the screen
         templateObject = nil
         selectedEvent = nil
-        fullRefresh()
     }
     
     
     //MARK: Refreshing methods
     
     func fullRefresh() {
-        
+        print("full refresh")
         //reset arrays containing events and layout objects
         layoutObjects = []
         events = []
@@ -136,6 +134,9 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
         //get existing objects and create them
         if templateObject != nil && templateObject.mainEntry != nil {
             let lobjects = templateObject.childLink.array as! [LayoutObject]
+            
+            print("Objects here: \(lobjects.count)")
+            
             for lobject in lobjects {
                 addEventToListIfValid(lobject)
             }
@@ -183,7 +184,7 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
         //store eventTimes for later use
         var eventTimes : [PSTemplateEvent : (start: EventMSecs, duration : EventMSecs)] = [:]
         for (_,event) in events.enumerate() {
-            var (start, duration) = event.getMS()
+            let (start, duration) = event.getMS()
             eventTimes[event] = (start,duration)
             let width = start + duration
             
@@ -219,7 +220,7 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
             if let sc = event.startCondition as? EventStartEventRelated {
                 
                 let starting_event = sc.event!
-                var (start, duration) = eventTimes[starting_event]!
+                let (start, duration) = eventTimes[starting_event]!
                 
                 var start_x = sc.position == EventStartEventRelatedPosition.End ? start + duration : start
                 
@@ -235,7 +236,7 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
                     overlayView.layer!.addSublayer(line)
                 }
             } else if let _ = event.startCondition as? EventStartConditionTrialStart {
-                var (start, _) = eventTimes[event]!
+                let (start, _) = eventTimes[event]!
                 let line = makeLineLayer(CGPoint(x: 0, y: cellYLocations[event]!), to: CGPoint(x: start, y:cellYLocations[event]!))
                 line.lineDashPattern = nil
                 line.lineWidth = 2
@@ -268,10 +269,15 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
     func addEventToListIfValid(lobject : LayoutObject) {
         if !layoutObjects.contains(lobject) {
             //event is not in list
-            if scriptData.isEventAndOnThisTemplate(lobject, templateObject: templateObject) && lobject.mainEntry != nil {
+            let isEventAndOnThisTemplate = scriptData.isEventAndOnThisTemplate(lobject, templateObject: templateObject)
+            print("Is event on this template: \(isEventAndOnThisTemplate)")
+            if  isEventAndOnThisTemplate && lobject.mainEntry != nil {
+                
                 //event is on template
                 layoutObjects.append(lobject)
                 events.append(PSTemplateEvent(entry: lobject.mainEntry, scriptData: scriptData))
+            } else {
+                print("Main entry is nil")
             }
         }
     }

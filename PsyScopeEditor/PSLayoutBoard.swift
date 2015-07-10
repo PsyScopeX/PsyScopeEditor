@@ -323,7 +323,6 @@ class PSLayoutBoard: NSView {
             let bottomY = min(self.dragSelectionPoint.y, point.y)  - PSConstants.Spacing.halfIconSize
             let topY = max(self.dragSelectionPoint.y, point.y)  + PSConstants.Spacing.halfIconSize
             
-            Swift.print("")
             Swift.print("From \(self.dragSelectionPoint) to \(point) ")
             for eachLayoutItem in layoutItems {
                 

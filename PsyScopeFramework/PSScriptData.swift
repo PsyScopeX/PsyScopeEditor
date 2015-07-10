@@ -675,11 +675,13 @@ public class PSScriptData : NSObject {
     //MARK: Undo grouping
     
     public func beginUndoGrouping(name : String) {
+        print("Begin undo grouping: \(name)")
         docMoc.undoManager!.beginUndoGrouping()
         docMoc.undoManager!.setActionName(name)
     }
     
     public func endUndoGrouping(success : Bool = true) {
+        print("End undo grouping")
         docMoc.undoManager!.endUndoGrouping()
         if (!success) { docMoc.undoManager!.undoNestedGroup() }
     }

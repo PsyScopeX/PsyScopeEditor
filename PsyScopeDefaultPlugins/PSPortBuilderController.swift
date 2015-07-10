@@ -24,10 +24,8 @@ class PSPortBuilderController: PSAttributePopup, NSOutlineViewDataSource, NSOutl
         willSet {
             if newValue != registeredForChanges {
                 if newValue {
-                    print("port builder registered")
                     NSNotificationCenter.defaultCenter().addObserver(self, selector: "docMocChanged:", name: NSManagedObjectContextObjectsDidChangeNotification, object: scriptData.docMoc)
                 } else {
-                    print("port builder unregistered")
                     NSNotificationCenter.defaultCenter().removeObserver(self)
                 }
             }

@@ -94,10 +94,7 @@ public class PSScriptReader {
             }
         }
         
-        if (debugMode) {
-            print("PARSE COMPLETE")
-            dumpGhostScript()
-        }
+        if (debugMode) { dumpGhostScript() }
     }
     
     func formatRange(start : Int, end : Int, color : NSColor, font : NSFont){
@@ -107,6 +104,7 @@ public class PSScriptReader {
     }
     
     func dumpGhostScript() {
+        print("PARSE COMPLETE - GHOST SCRIPT:")
         for e in ghostScript.entries {
             print("\(e.name) :: \(e.currentValue)")
             let ee : [PSGhostEntry] = e.subEntries

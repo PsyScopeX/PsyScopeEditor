@@ -21,7 +21,6 @@ class PSSubjectVariablesTableViewController : NSObject, NSTableViewDelegate, NST
     var reloading : Bool = false
     
     func reloadData(variables : [PSSubjectVariable]) {
-        print("Reloading data for \(tableView)")
         reloading = true
         self.variables = variables
         
