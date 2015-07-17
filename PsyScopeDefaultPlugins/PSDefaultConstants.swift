@@ -61,7 +61,6 @@ class PSDefaultConstants {
         //Basic attributes
         static let PSExperimentDataFields = ""
         static let PSExperimentInstructions = ""
-        static let PSExperimentDataFile = ""
         static let PSExperimentLogFile = ""
         static let PSExperimentDebriefing = ""
         static let PSExperimentRestPeriod = "1000"

@@ -51,18 +51,6 @@ class PSExperimentRestPeriod : PSExperimentAttribute {
     }
 }
 
-class PSExperimentDataFile : PSExperimentAttribute {
-    
-    override init() {
-        super.init()
-        userFriendlyNameString = "Data File"
-        helpfulDescriptionString = "A location to store the data file"
-        codeNameString = "DataFile"
-        attributeClass = PSAttributeParameter_FileSave.self
-        defaultValueString = PSDefaultConstants.DefaultAttributeValues.PSExperimentDataFile
-    }
-}
-
 class PSExperimentDebriefing : PSExperimentAttribute {
     
     override init() {

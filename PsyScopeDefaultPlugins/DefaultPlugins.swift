@@ -40,12 +40,13 @@ class DefaultPlugins: NSObject, PSPluginInterface {
             case .Tool:
                 return ["PSExperimentTool","PSGroupTool", "PSBlockTool","PSTemplateTool","PSListTool", "PSTableTool", "PSVariableTool","PSBlankEntryTool", "PSDialogVariableTool"]
             case .Attribute:
-                return ["PSExperimentDataFields", "PSExperimentInstructions","PSExperimentDataFile", "PSExperimentDebriefing", "PSExperimentRestPeriod", "PSExperimentNumberRestPeriods",
+                return ["PSExperimentDataFields", "PSExperimentInstructions", "PSExperimentDebriefing", "PSExperimentRestPeriod", "PSExperimentNumberRestPeriods",
                     "PSExperimentTrialsPerRest", "PSExperimentDecimalPlaces","PSAttribute_Port", "PSAttribute_Position", "PSAttribute_TextStimulus",
                         "PSAttribute_TextStyle",
                         "PSAttribute_TextColor",
                         "PSAttribute_TextFont",
                         "PSAttribute_TextFace",
+                    
                         "PSAttribute_TextSize",
                         "PSAttribute_TextEventDegradation",
                         "PSAttribute_TextEventSpecial",

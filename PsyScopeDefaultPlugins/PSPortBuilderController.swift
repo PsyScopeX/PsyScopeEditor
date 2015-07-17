@@ -20,7 +20,6 @@ class PSPortBuilderController: NSObject, NSOutlineViewDataSource, NSOutlineViewD
     internal var setCurrentValueBlock : ((String) -> ())?
     
 
-    
     func showAttributeModalForWindow(window : NSWindow) {
         if (attributeSheet == nil) {
             bundle.loadNibNamed(nibName, owner: self, topLevelObjects: &topLevelObjects)
