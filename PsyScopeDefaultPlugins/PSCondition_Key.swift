@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import Carbon
+import CoreServices
 
 class PSCondition_Key : PSCondition {
     override init() {
@@ -37,13 +39,14 @@ class PSCondition_Key_Popup : PSAttributePopup, NSTableViewDelegate, NSTableView
     var selectedRow : Int = -1 {
         didSet {
             updateSegmentedControl(selectedRow)
+            
         }
     }
     
     init(currentValue: String, setCurrentValueBlock : ((String)->())?){
         
         pressedKeys = []
-        var inputValue = currentValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()).componentsSeparatedByCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+        let inputValue = currentValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()).componentsSeparatedByCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
         for aKey in inputValue {
             pressedKeys.append(PSCondition_Key_Key(fromString: aKey))
         }
@@ -162,7 +165,7 @@ class PSCondition_Key_Popup : PSAttributePopup, NSTableViewDelegate, NSTableView
         reloadTableView()
     }
     
-    override func closeMyCustomSheet(sender: AnyObject!) {
+    override func closeMyCustomSheet(sender: AnyObject) {
         var outputString = ""
         self.attributeSheet.removeObserver(self, forKeyPath: "firstResponder")
         for k in pressedKeys {
@@ -194,7 +197,9 @@ class PSCondition_Key_Key : NSObject {
         } else {
             shift = false
         }
-        character = event.charactersIgnoringModifiers!.lowercaseString
+        
+        character = PSUnicodeUtilities.characterForEventWithoutModifiers(event)
+        //character = event.charactersIgnoringModifiers!.lowercaseString
         
        
         let keepCharacters = NSMutableCharacterSet.lowercaseLetterCharacterSet()
@@ -246,7 +251,7 @@ class PSCondition_Key_Key : NSObject {
             shift = false
         }
         
-        if let r = unquoted.lowercaseString.rangeOfString("space") {
+        if let _ = unquoted.lowercaseString.rangeOfString("space") {
             character = " "
         } else {
             if unquoted.utf16.count > 0 {
@@ -291,7 +296,7 @@ class PSCondition_Key_Cell : PSConditionCell {
     }
     
     @IBAction func buttonPressed(sender : NSButton) {
-        var popup = PSCondition_Key_Popup(currentValue: button.title, setCurrentValueBlock : { (cValue: String) -> () in
+        let popup = PSCondition_Key_Popup(currentValue: button.title, setCurrentValueBlock : { (cValue: String) -> () in
             self.entryFunction.setStringValues([cValue])
             self.button.title = cValue
             self.updateScript()

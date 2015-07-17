@@ -278,6 +278,9 @@
 		1A83ECB31AE64BAB00166AA6 /* VariableTypeBuilder.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A83ECB21AE64BAB00166AA6 /* VariableTypeBuilder.xib */; };
 		1A85076B1A920100006B11DC /* PSFieldHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A85076A1A920100006B11DC /* PSFieldHeaderCell.swift */; };
 		1A85076D1A926805006B11DC /* PSTableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A85076C1A926805006B11DC /* PSTableHeaderView.swift */; };
+		1A86C1851B597B1100004292 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A86C1831B597B1100004292 /* CoreServices.framework */; };
+		1A86C1861B597B2300004292 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A86C1821B597B1100004292 /* Carbon.framework */; };
+		1A86C1891B597FB900004292 /* PSUnicodeUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A86C1881B597FB900004292 /* PSUnicodeUtilities.m */; };
 		1A8752391AB1AD2E00D4D31A /* PSUpdateEntryWithGhostEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8752381AB1AD2E00D4D31A /* PSUpdateEntryWithGhostEntry.swift */; };
 		1A88E2AD1B1C8B9D005F4EA4 /* PSEntryValueParser_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A88E2AC1B1C8B9D005F4EA4 /* PSEntryValueParser_Tests.swift */; };
 		1A8ADC031A827F6E003C2509 /* PSAction_Beep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8ADC021A827F6E003C2509 /* PSAction_Beep.swift */; };
@@ -909,6 +912,10 @@
 		1A83ECB21AE64BAB00166AA6 /* VariableTypeBuilder.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VariableTypeBuilder.xib; sourceTree = "<group>"; };
 		1A85076A1A920100006B11DC /* PSFieldHeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSFieldHeaderCell.swift; sourceTree = "<group>"; };
 		1A85076C1A926805006B11DC /* PSTableHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSTableHeaderView.swift; sourceTree = "<group>"; };
+		1A86C1821B597B1100004292 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
+		1A86C1831B597B1100004292 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
+		1A86C1871B597FB900004292 /* PSUnicodeUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSUnicodeUtilities.h; sourceTree = "<group>"; };
+		1A86C1881B597FB900004292 /* PSUnicodeUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSUnicodeUtilities.m; sourceTree = "<group>"; };
 		1A8752381AB1AD2E00D4D31A /* PSUpdateEntryWithGhostEntry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSUpdateEntryWithGhostEntry.swift; sourceTree = "<group>"; };
 		1A88E2AC1B1C8B9D005F4EA4 /* PSEntryValueParser_Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSEntryValueParser_Tests.swift; sourceTree = "<group>"; };
 		1A8ADC021A827F6E003C2509 /* PSAction_Beep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSAction_Beep.swift; sourceTree = "<group>"; };
@@ -1201,6 +1208,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A86C1861B597B2300004292 /* Carbon.framework in Frameworks */,
+				1A86C1851B597B1100004292 /* CoreServices.framework in Frameworks */,
 				1A63BC0B1A3B25FC007B9318 /* QuartzCore.framework in Frameworks */,
 				1A2FCD4F199292CB00C6CC0B /* PsyScopeFramework.framework in Frameworks */,
 			);
@@ -1432,6 +1441,8 @@
 				1AC93EF71A19167600AB40EC /* PSCondition_Key.swift */,
 				1A0A25331A3239840000D621 /* KeyCondition.xib */,
 				1A0A25351A334DA70000D621 /* Condition_KeyCell.xib */,
+				1A86C1871B597FB900004292 /* PSUnicodeUtilities.h */,
+				1A86C1881B597FB900004292 /* PSUnicodeUtilities.m */,
 			);
 			name = Key;
 			sourceTree = "<group>";
@@ -2278,6 +2289,8 @@
 		1AC0826419701F2F0038512B = {
 			isa = PBXGroup;
 			children = (
+				1A86C1821B597B1100004292 /* Carbon.framework */,
+				1A86C1831B597B1100004292 /* CoreServices.framework */,
 				1A63BC0A1A3B25FC007B9318 /* QuartzCore.framework */,
 				1AC0826F19701F2F0038512B /* PsyScopeEditor */,
 				1A2FBE4C1975827300F5FFB5 /* PsyScopeDefaultPlugins */,
@@ -3042,6 +3055,7 @@
 				1AC93EF81A19167600AB40EC /* PSCondition_Key.swift in Sources */,
 				1A522F9E1A41B7BF00D5B983 /* PSPasteBoardEvent.swift in Sources */,
 				1A83ECAF1AE64B4B00166AA6 /* PSVariableTypeOutlineViewDelegate.swift in Sources */,
+				1A86C1891B597FB900004292 /* PSUnicodeUtilities.m in Sources */,
 				1A4A64671B0FB5EB00084A10 /* PSEventsTableController.swift in Sources */,
 				1AA41FF31AA9BC7700CB8D95 /* PSAction_TCPDo.swift in Sources */,
 				1A9CE35D1AA8B9EE00C846F4 /* PSAction_MaskStim.swift in Sources */,
