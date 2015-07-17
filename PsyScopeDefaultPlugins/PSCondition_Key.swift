@@ -289,13 +289,13 @@ class PSCondition_Key_Key : NSObject {
     
     func toScriptString() -> String {
         if any { return "Any" }
-        var outputString = ""
-        if keyUp { outputString += "\"UP-" }
+        var outputString = "\""
+        if keyUp { outputString += "UP-" }
         if control { outputString += "CTL-" }
         if shift { outputString += "SHIFT-" }
         if character == " " { outputString += "SPACE" }
         else { outputString += character }
-        if keyUp { outputString += "\"" }
+        outputString += "\""
         return outputString
     }
 }
@@ -305,11 +305,11 @@ class PSCondition_Key_Cell : PSConditionCell {
     
     override func setup(conditionInterface: PSConditionInterface, function entryFunction: PSFunctionElement, scriptData: PSScriptData, expandedHeight: CGFloat) {
         super.setup(conditionInterface,function: entryFunction,scriptData: scriptData, expandedHeight: expandedHeight)
-        button.title = entryFunction.stringValue
+        button.title = entryFunction.getParametersStringValue()
     }
     
     @IBAction func buttonPressed(sender : NSButton) {
-        let popup = PSCondition_Key_Popup(currentValue: button.title, setCurrentValueBlock : { (cValue: String) -> () in
+        let popup = PSCondition_Key_Popup(currentValue: self.entryFunction.getParametersStringValue(), setCurrentValueBlock : { (cValue: String) -> () in
             self.entryFunction.setStringValues([cValue])
             self.button.title = cValue
             self.updateScript()
