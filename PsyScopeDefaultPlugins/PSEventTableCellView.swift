@@ -34,9 +34,8 @@ class PSEventTableCellView : NSTableCellView, PSHighLightOnMouseHoverProtocol {
         deleteButton.hidden = !on
     }
     
-    func activate() {
-        
-    }
+    func activate() {} // for PSHighLightOnMouseHoverProtocol (but not needed)
+
     
     @IBAction func deleteButton(sender : NSButton) {
         if let da = deleteAction {
