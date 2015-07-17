@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="8121.17" systemVersion="14D136" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="8152.3" systemVersion="14D136" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="8121.17"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="8152.3"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="PSExperimentSetup" customModule="PsyScopeEditor" customModuleProvider="target">
@@ -16,6 +16,7 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customObject id="I7E-Xr-VhW" customClass="PSDataFileNameController" customModule="PsyScopeEditor" customModuleProvider="target">
             <connections>
+                <outlet property="autoGenerateCheckButton" destination="OWG-qZ-HOw" id="MKg-Sr-JV8"/>
                 <outlet property="currentDataFileNamePreview" destination="QQi-P0-js8" id="ApE-1r-gQE"/>
                 <outlet property="tokenField" destination="h9J-WW-khH" id="opd-5L-tfj"/>
             </connections>
@@ -440,7 +441,7 @@
                         <menu key="menu" id="5ri-Oc-Jw3">
                             <items>
                                 <menuItem title="Experiment Start" id="2HK-M8-kOc"/>
-                                <menuItem title="Experiment End" state="on" id="KAq-gy-5Fh"/>
+                                <menuItem title="Experiment End" id="KAq-gy-5Fh"/>
                                 <menuItem title="Never" id="6lt-Ti-Jyc">
                                     <modifierMask key="keyEquivalentModifierMask"/>
                                 </menuItem>
@@ -519,6 +520,16 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </scroller>
                 </scrollView>
+                <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OWG-qZ-HOw">
+                    <rect key="frame" x="593" y="294" width="111" height="18"/>
+                    <buttonCell key="cell" type="check" title="Auto-generate" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="6S8-Lp-zjp">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="autoGenerateCheckButtonClicked:" target="I7E-Xr-VhW" id="UAx-vc-chR"/>
+                    </connections>
+                </button>
             </subviews>
             <point key="canvasLocation" x="267.5" y="307"/>
         </view>

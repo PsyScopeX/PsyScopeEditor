@@ -12,48 +12,67 @@ class PSDataFileNameController : NSObject, NSTokenFieldDelegate {
     
     @IBOutlet var tokenField : NSTokenField!
     @IBOutlet var currentDataFileNamePreview : NSTextField!
+    @IBOutlet var autoGenerateCheckButton : NSButton!
     
     var tokenCount : Int = 0
     var layoutManager : NSLayoutManager? = nil
     var subjectVariableNames : [String] = []
     var scriptData : PSScriptData! //gets populated by subjectvariablescontroller
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        tokenField.tokenizingCharacterSet = NSCharacterSet(charactersInString: " ")
-        currentDataFileNamePreview.stringValue = ""
-    }
-    
     func reloadData(variables : [PSSubjectVariable]) {
+        
         //update list of tokens
         subjectVariableNames = variables.map { $0.name }
         
-        //update tokenfield
-        var objectsToAdd : [String] = []
-        if let adf = scriptData.getBaseEntry("AutoDatafile"),
-            stringSubEntry = scriptData.getSubEntry("Strings", entry: adf) {
-                let strings = PSStringList(entry: stringSubEntry, scriptData: scriptData)
-                
-                for value in strings.values {
-                    switch(value) {
-                    case let .Function(functionElement):
-                        if functionElement.values.count == 2 && functionElement.bracketType == .Expression {
-                            let secondValue = functionElement.values[1]
-                            if case .StringToken(let value) = secondValue {
-                                objectsToAdd.append(value.value)
-                            }
-                        }
-                        break
-                    case let .StringToken(stringValue):
-                        objectsToAdd.append(stringValue.value)
-                        break
-                    default:
-                        break
-                    }
-                }
-                
+        //get current value
+        guard let experimentsEntry = scriptData.getMainExperimentEntryIfItExists(),
+                  dataFileEntry = scriptData.getSubEntry("DataFile", entry: experimentsEntry) else {
+            tokenField.stringValue = ""
+            autoGenerateCheckButton.state = 0
+            tokenField.tokenizingCharacterSet = nil
+            return
         }
-        tokenField.objectValue = objectsToAdd
+        
+        if dataFileEntry.currentValue.lowercaseString == "@autodatafile" {
+        
+            //update list of tokens to add
+            subjectVariableNames = variables.map { $0.name }
+
+            //update tokenfield with autodatafile contents
+            var objectsToAdd : [String] = []
+            if let adf = scriptData.getBaseEntry("AutoDatafile"),
+                stringSubEntry = scriptData.getSubEntry("Strings", entry: adf) {
+                    let strings = PSStringList(entry: stringSubEntry, scriptData: scriptData)
+                    
+                    for value in strings.values {
+                        switch(value) {
+                        case let .Function(functionElement):
+                            if functionElement.values.count == 2 && functionElement.bracketType == .Expression {
+                                let secondValue = functionElement.values[1]
+                                if case .StringToken(let value) = secondValue {
+                                    objectsToAdd.append(value.value)
+                                }
+                            }
+                            break
+                        case let .StringToken(stringValue):
+                            objectsToAdd.append(stringValue.value)
+                            break
+                        default:
+                            break
+                        }
+                    }
+                    
+            }
+            tokenField.tokenizingCharacterSet = NSCharacterSet(charactersInString: " ")
+            autoGenerateCheckButton.state = 1
+            tokenField.objectValue = objectsToAdd
+        } else {
+            //no tokens as it will be a fixed string
+            subjectVariableNames = []
+            tokenField.tokenizingCharacterSet = nil
+            autoGenerateCheckButton.state = 0
+            tokenField.objectValue = [PSUnquotedString(dataFileEntry.currentValue)]
+        }
     }
     
     // Each element in the array should be an NSString or an array of NSStrings.
@@ -88,98 +107,99 @@ class PSDataFileNameController : NSObject, NSTokenFieldDelegate {
         return editingString
     }
 
-
-        /*
-    // By default the tokens have no menu.
-    optional func tokenField(tokenField: NSTokenField, menuForRepresentedObject representedObject: AnyObject) -> NSMenu?
-    optional func tokenField(tokenField: NSTokenField, hasMenuForRepresentedObject representedObject: AnyObject) -> Bool
-    */
-    // This method allows you to change the style for individual tokens as well as have mixed text and tokens.
     func tokenField(tokenField: NSTokenField, styleForRepresentedObject representedObject: AnyObject) -> NSTokenStyle {
-        return NSTokenStyle.Rounded
+        if autoGenerateCheckButton.state == 1 {
+            return NSTokenStyle.Rounded
+        } else {
+            return NSTokenStyle.None
+        }
     }
     
     override func controlTextDidChange(obj: NSNotification) {
-        tokenFieldChanged()
+        updatePreviewTextView()
+        updateAutoDataFileScriptEntry()
     }
     
-    func tokenFieldChanged() {
-        if let lm = self.layoutManager {
-            let updatedCount = countAttachmentsInAttributedString(lm.attributedString())
-            if (updatedCount != self.tokenCount) {
-                self.tokenCount = updatedCount
-                updatePreviewTextView()
-                updateAutoDataFileScriptEntry()
-            }
-        }
-    }
+
     
     override func controlTextDidEndEditing(obj: NSNotification) {
-        tokenFieldChanged()
+        updatePreviewTextView()
+        updateAutoDataFileScriptEntry()
     }
     
     func updateAutoDataFileScriptEntry() {
-        scriptData.beginUndoGrouping("Change DataFile Name")
         
-        let autoDatafile = scriptData.getOrCreateBaseEntry("AutoDataFile", type: "DialogVariable", user_friendly_name: "AutoDatafile", section_name: "SubjectInfo", zOrder: 78)
+        if autoGenerateCheckButton.state == 1 {
         
-        //make experiment entry datafile link to this entry
-        let experimentEntry = scriptData.getMainExperimentEntry()
-        let runLabel = scriptData.getOrCreateSubEntry("RunLabel", entry: experimentEntry, isProperty: true)
-        if runLabel.currentValue != "AutoDataFile" { runLabel.currentValue = "AutoDataFile" }
-        let dataFile = scriptData.getOrCreateSubEntry("DataFile", entry: experimentEntry, isProperty: true)
-        dataFile.currentValue = "@AutoDataFile"
-        
-        let dialog = scriptData.getOrCreateSubEntry("Dialog", entry: autoDatafile, isProperty: true)
-        let strings = scriptData.getOrCreateSubEntry("Strings", entry: autoDatafile, isProperty: true)
-        let folder = scriptData.getOrCreateSubEntry("Folder", entry: autoDatafile, isProperty: true)
-        let useDir = scriptData.getOrCreateSubEntry("UseDir", entry: autoDatafile, isProperty: true)
-        
-        if folder.currentValue != "" { folder.currentValue = "" }
-        if useDir.currentValue != "FALSE" { folder.currentValue = "" }
-        
-        //First find out if there are tokens
-        var includesTokens = false
-        if let stringArray = tokenField.objectValue as? [String] {
-            for string in stringArray {
-                if subjectVariableNames.contains(string) {
-                    includesTokens = true
-                    break
-                }
-            }
-        }
-        
-        //update strings (only if includes tokens)
-        if let stringArray = tokenField.objectValue as? [String] {
-            var previewString : [String] = []
+            let autoDatafile = scriptData.getOrCreateBaseEntry("AutoDataFile", type: "DialogVariable", user_friendly_name: "AutoDatafile", section_name: "SubjectInfo", zOrder: 78)
             
-            for string in stringArray {
-                //got a string object - need to check if its a variable - if so use it's current value
-                if subjectVariableNames.contains(string) {
-                    previewString.append("@\"\(string)\"")
-                } else {
-                    previewString.append("\"\(string)\"")
+            //make experiment entry datafile link to this entry
+            let experimentEntry = scriptData.getMainExperimentEntry()
+            let runLabel = scriptData.getOrCreateSubEntry("RunLabel", entry: experimentEntry, isProperty: true)
+            if runLabel.currentValue != "AutoDataFile" { runLabel.currentValue = "AutoDataFile" }
+            let dataFile = scriptData.getOrCreateSubEntry("DataFile", entry: experimentEntry, isProperty: true)
+            dataFile.currentValue = "@AutoDataFile"
+            
+            let dialog = scriptData.getOrCreateSubEntry("Dialog", entry: autoDatafile, isProperty: true)
+            let strings = scriptData.getOrCreateSubEntry("Strings", entry: autoDatafile, isProperty: true)
+            let folder = scriptData.getOrCreateSubEntry("Folder", entry: autoDatafile, isProperty: true)
+            let useDir = scriptData.getOrCreateSubEntry("UseDir", entry: autoDatafile, isProperty: true)
+            
+            if folder.currentValue != "" { folder.currentValue = "" }
+            if useDir.currentValue != "FALSE" { folder.currentValue = "" }
+            
+            //First find out if there are tokens
+            var includesTokens = false
+            if let stringArray = tokenField.objectValue as? [String] {
+                for string in stringArray {
+                    if subjectVariableNames.contains(string) {
+                        includesTokens = true
+                        break
+                    }
                 }
             }
             
-            let newValue = " ".join(previewString)
-            print(newValue)
-            strings.currentValue = newValue
+            //update strings (only if includes tokens)
+            if let stringArray = tokenField.objectValue as? [String] {
+                var previewString : [String] = []
+                
+                for string in stringArray {
+                    //got a string object - need to check if its a variable - if so use it's current value
+                    if subjectVariableNames.contains(string) {
+                        previewString.append("@\"\(string)\"")
+                    } else {
+                        previewString.append("\"\(string)\"")
+                    }
+                }
+                
+                let newValue = " ".join(previewString)
+                print(newValue)
+                strings.currentValue = newValue
+            } else {
+                strings.currentValue = ""
+            }
+            
+            //if there are tokens then the dialog should be MakeFileName otherwise it should be 'NULL' with the name of the file name as the main Entry's value
+            if includesTokens {
+                dialog.currentValue = "MakeFileName"
+            } else {
+                dialog.currentValue = "NULL"
+            }
+            
+            //update current value
+            autoDatafile.currentValue = getCurrentValue()
         } else {
-            strings.currentValue = ""
+            //not auto generated
+            if let stringArray = tokenField.objectValue as? [String] {
+                let dataFileName = " ".join(stringArray)
+                let experimentsEntry = scriptData.getMainExperimentEntry()
+                let dataFileEntry = scriptData.getOrCreateSubEntry("DataFile", entry: experimentsEntry, isProperty: true)
+                let newValue = "\"\(dataFileName)\""
+                
+                dataFileEntry.currentValue = newValue
+            }
         }
         
-        //if there are tokens then the dialog should be MakeFileName otherwise it should be 'NULL' with the name of the file name as the main Entry's value
-        if includesTokens {
-            dialog.currentValue = "MakeFileName"
-        } else {
-            dialog.currentValue = "NULL"
-        }
-        
-        //update current value
-        autoDatafile.currentValue = getCurrentValue()
-        
-        scriptData.endUndoGrouping()
     }
     
     func updatePreviewTextView() {
@@ -211,7 +231,13 @@ class PSDataFileNameController : NSObject, NSTokenFieldDelegate {
 
     
     func control(control: NSControl, textShouldBeginEditing fieldEditor: NSText) -> Bool {
+        scriptData.beginUndoGrouping("Edit DataFile Name")
         self.layoutManager = (fieldEditor as! NSTextView).layoutManager
+        return true
+    }
+    
+    func control(control: NSControl, textShouldEndEditing fieldEditor: NSText) -> Bool {
+        scriptData.endUndoGrouping()
         return true
     }
     
@@ -231,4 +257,20 @@ class PSDataFileNameController : NSObject, NSTokenFieldDelegate {
         return counter
     }
 
+    
+    //MARK: Auto generate check box
+    
+    @IBAction func autoGenerateCheckButtonClicked(sender : AnyObject) {
+        
+        let experimentsEntry = scriptData.getMainExperimentEntry()
+        let dataFileEntry = scriptData.getOrCreateSubEntry("DataFile", entry: experimentsEntry, isProperty: true)
+        scriptData.beginUndoGrouping("Change Datafile name generation")
+        if autoGenerateCheckButton.state == 0 {
+            //switch to default
+            dataFileEntry.currentValue = "ExperimentData"
+        } else {
+            dataFileEntry.currentValue = "@AutoDataFile"
+        }
+        scriptData.endUndoGrouping(true)
+    }
 }

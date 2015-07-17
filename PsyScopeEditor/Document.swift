@@ -54,6 +54,9 @@ class Document: NSPersistentDocument, NSSplitViewDelegate {
     override func windowControllerDidLoadNib(aController: NSWindowController) {
         super.windowControllerDidLoadNib(aController)
         
+        //create new experiment if necessary
+        if isNewDocument { scriptData.setUpInitialScriptState() }
+        
         //register dragged types
         aController.window!.registerForDraggedTypes([PSConstants.PSToolBrowserView.dragType])
         aController.window!.minSize = NSSize(width: PSConstants.LayoutConstants.docMinWidth, height: PSConstants.LayoutConstants.docMinHeight)
@@ -76,8 +79,7 @@ class Document: NSPersistentDocument, NSSplitViewDelegate {
         tabController.initialize() //must be second to last
         selectionController.initialize() //must be last
         
-        //create new experiment if necessary
-        if isNewDocument { scriptData.setUpInitialScriptState() }
+        
         
         
         //set up current tool bar selection
