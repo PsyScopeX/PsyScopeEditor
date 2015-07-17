@@ -381,14 +381,13 @@ class PSExperimentTool: PSTool, PSToolInterface {
     }
     
     override func updateEntry(realEntry: Entry!, withGhostEntry ghostEntry: PSGhostEntry!, scriptData: PSScriptData!) {
-        super.updateEntry(realEntry, withGhostEntry: ghostEntry, scriptData: scriptData)
+        
         
         if realEntry.name == "Experiments" {
+            PSUpdateEntryWithGhostEntry(realEntry, ghostEntry: ghostEntry, scriptData: scriptData)
             scriptData.assertPropertyIsPresent(ExperimentsProperties.Current, entry: realEntry)
         } else {
-            for property in properties {
-                scriptData.assertPropertyIsPresent(property, entry: realEntry)
-            }
+            super.updateEntry(realEntry, withGhostEntry: ghostEntry, scriptData: scriptData)
         }
 
 
