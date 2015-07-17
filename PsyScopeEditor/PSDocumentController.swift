@@ -17,7 +17,4 @@ class PSDocumentController: NSDocumentController {
         return document
         
     }
-    
-    
-    
 }

@@ -17,12 +17,15 @@ class PSEventTableCellView : NSTableCellView, PSHighLightOnMouseHoverProtocol {
         }
         
         set {
-            if let e = newValue as? PSTemplateEvent {
-                event = e
-                self.imageView!.image = (event!.entry.layoutObject.icon as! NSImage)
-                self.textField!.stringValue = event!.entry.name
+            if let event = newValue as? PSTemplateEvent,
+                eventEntry = event.entry,
+                layoutObject = eventEntry.layoutObject,
+                icon = layoutObject.icon {
+                self.event = event
+                self.imageView!.image = (icon as! NSImage)
+                self.textField!.stringValue = eventEntry.name
             } else {
-                event = nil
+                self.event = nil
             }
         }
     }
