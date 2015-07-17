@@ -159,10 +159,13 @@ class PSCondition_Key_Popup : PSAttributePopup, NSTableViewDelegate, NSTableView
     @IBOutlet var anyButton : NSButton!
     
     func keyDown(theEvent: NSEvent) {
-        let key = PSCondition_Key_Key(fromEvent: theEvent)
-        pressedKeys[selectedRow] = key
-        selectedRow = -1
-        reloadTableView()
+        if let key = PSCondition_Key_Key(fromEvent: theEvent) {
+            pressedKeys[selectedRow] = key
+            selectedRow = -1
+            reloadTableView()
+        } else {
+            NSBeep()
+        }
     }
     
     override func closeMyCustomSheet(sender: AnyObject) {
@@ -183,7 +186,7 @@ class PSCondition_Key_Key : NSObject {
     var control : Bool
     var keyUp : Bool
     var any : Bool
-    init(fromEvent event : NSEvent) {
+    init?(fromEvent event : NSEvent) {
         any = false
         keyUp = false
         if event.modifierFlags.contains(.ControlKeyMask) {
@@ -198,7 +201,7 @@ class PSCondition_Key_Key : NSObject {
             shift = false
         }
         
-        character = PSUnicodeUtilities.characterForEventWithoutModifiers(event)
+        self.character = PSUnicodeUtilities.characterForEventWithoutModifiers(event)
         //character = event.charactersIgnoringModifiers!.lowercaseString
         
        
@@ -207,6 +210,16 @@ class PSCondition_Key_Key : NSObject {
         let removeCharacters = keepCharacters.invertedSet
         character = (character.componentsSeparatedByCharactersInSet(removeCharacters) as NSArray).componentsJoinedByString("")
         
+        if character == "" {
+            self.any = false
+            self.keyUp = false
+            self.control = false
+            self.shift = false
+            self.character = ""
+            super.init()
+            return nil
+        }
+        super.init()
     }
     
     init(fromString string: String) {
