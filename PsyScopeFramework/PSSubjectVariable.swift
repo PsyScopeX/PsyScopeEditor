@@ -63,11 +63,6 @@ public final class PSSubjectVariable : NSObject  {
         }
     }
     
-    
-    
-
-
-    
     public var name : String {
         get {
             return entry.name

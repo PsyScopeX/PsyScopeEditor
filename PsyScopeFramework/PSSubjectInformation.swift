@@ -107,6 +107,11 @@ public class PSSubjectInformation : NSObject {
         } else {
             subjectVariables.append(PSSubjectVariable.NewSubjectVariable(scriptData))
         }
+        updateScriptFromVariables()
+    }
+    
+    public func removeVariable(variable : PSSubjectVariable) {
+        variable.removeFromScript()
     }
     
     public func updateScriptFromVariables() {

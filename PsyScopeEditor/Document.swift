@@ -193,6 +193,10 @@ class Document: NSPersistentDocument, NSSplitViewDelegate {
         })
     }
     
+    
+    
+    
+    
     func developerMenuItem(sender : NSMenuItem) {
         switch (sender.tag) {
         case 0:

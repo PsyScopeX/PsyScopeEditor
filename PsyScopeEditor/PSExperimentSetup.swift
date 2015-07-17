@@ -56,8 +56,8 @@ class PSExperimentSetup: NSObject {
         selectionInterface.selectEntry(entry)
     }
     
-    func entrySelected(entry: Entry?) {
-        subjectVariablesController.entrySelected(entry)
+    func entrySelected() {
+        subjectVariablesController.entrySelected()
     }
     
     func entryDeleted(entry: Entry!) { }

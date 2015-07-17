@@ -89,7 +89,7 @@ class PSSelectionController : NSObject, PSSelectionInterface {
         tabDelegate.selectEntry(entry)
         layoutController.selectEntry(entry)
         scriptDelegate.selectEntry(entry)
-        experimentSetup.entrySelected(entry)
+        experimentSetup.entrySelected()
         refreshGUI()
     }
     

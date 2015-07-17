@@ -30,21 +30,22 @@ class PSSubjectVariablesController : NSObject, NSTextFieldDelegate, NSTableViewD
         self.subjectInformation = PSSubjectInformation(scriptData: scriptData)
     }
     
-    func entrySelected(entry: Entry?) {
+    func entrySelected() {
         //propogate selection to tableview and to other controls
-        for subjectVariable in subjectInformation.subjectVariables {
-            if entry === subjectVariable.entry {
-                selectedSubjectVariableController.setSelectedItem(subjectVariable)
-                if (selectedSubjectTableView || !subjectInformation.groupVariables.contains(subjectVariable)) {
-                    subjectInformationTableViewController.selectItem(subjectVariable)
-                    return
-                } else {
-                    groupingVariablesTableViewController.selectItem(subjectVariable)
-                    return
-                }
+        
+        if let selectedVariable = self.selectedSubjectVariable {
+            if (selectedSubjectTableView || !subjectInformation.groupVariables.contains(selectedVariable)) {
+                subjectVariablesSegmentedControl.setEnabled(true, forSegment: 1)
+                subjectInformationTableViewController.selectItem(selectedVariable)
+                return
+            } else {
+                subjectVariablesSegmentedControl.setEnabled(false, forSegment: 1)
+                groupingVariablesTableViewController.selectItem(selectedVariable)
+                return
             }
         }
         
+        subjectVariablesSegmentedControl.setEnabled(false, forSegment: 1)
         groupingVariablesTableView.deselectAll(nil)
         subjectVariablesTableView.deselectAll(nil)
     }
@@ -63,11 +64,36 @@ class PSSubjectVariablesController : NSObject, NSTextFieldDelegate, NSTableViewD
         case 0: // add
             subjectInformation.addNewVariable(false)
         case 1: // remove
-            break
+            //get selected variable if there is one,
+            if let selectedVariable = self.selectedSubjectVariable {
+                //remove it
+                subjectInformation.removeVariable(selectedVariable)
+            }
         default:
             break
         }
   
+    }
+    
+    var selectedSubjectVariable : PSSubjectVariable? {
+        get {
+            guard let selectedEntry = experimentSetupController.selectionInterface.selectedEntry,
+            selectedVariable = getSubjectVariableForEntry(selectedEntry) else {
+                return nil
+            }
+            
+            return selectedVariable
+            
+        }
+    }
+    
+    func getSubjectVariableForEntry(entry : Entry) -> PSSubjectVariable? {
+        for subjectVariable in subjectInformation.subjectVariables {
+            if entry === subjectVariable.entry {
+                return subjectVariable
+            }
+        }
+        return nil
     }
     
     func tableViewSelectionBecameActive(tableView : NSTableView) {
