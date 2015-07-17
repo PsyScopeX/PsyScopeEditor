@@ -17,7 +17,7 @@ class PSParagraphStimulusAttribute : PSAttributeGeneric {
         attributeClass = PSAttributeParameter_Custom.self
         toolsArray = [PSParagraphEvent().type()]
         customAttributeParameterAction = { (before : String, scriptData: PSScriptData, window: NSWindow, setCurrentValueBlock : ((String) -> ())?) -> () in
-            var popup = PSParagraphAttributePopup(currentValue: before, setCurrentValueBlock: setCurrentValueBlock)
+            let popup = PSParagraphAttributePopup(currentValue: before, setCurrentValueBlock: setCurrentValueBlock)
             popup.showAttributeModalForWindow(window)
             
         }
@@ -29,17 +29,16 @@ class PSParagraphAttributePopup : PSAttributePopup {
     @IBOutlet var textView : NSTextView!
     
     init(currentValue : String, setCurrentValueBlock : ((String)->())?) {
-        var bundle = PSDefaultPluginBundle
-        super.init(nibName: "ParagraphDialog", bundle: bundle, currentValue: currentValue, displayName: "Paragraph", setCurrentValueBlock: setCurrentValueBlock)
+        super.init(nibName: "ParagraphDialog", bundle: PSDefaultPluginBundle, currentValue: currentValue, displayName: "Paragraph", setCurrentValueBlock: setCurrentValueBlock)
     }
     
     override func awakeFromNib() {
         textView.string = self.currentValue
     }
     
-    override func closeMyCustomSheet(sender: AnyObject) {
+    @IBAction override func closeMyCustomSheet(sender: AnyObject) {
         self.currentValue = textView.string!
-        super.closeMyCustomSheet(sender)
+        super.closeMyCustomSheet(self)
     }
     
 }

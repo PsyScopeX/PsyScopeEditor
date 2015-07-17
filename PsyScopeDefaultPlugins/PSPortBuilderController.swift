@@ -7,7 +7,43 @@
 
 import Cocoa
 
-class PSPortBuilderController: PSAttributePopup, NSOutlineViewDataSource, NSOutlineViewDelegate {
+class PSPortBuilderController: NSObject, NSOutlineViewDataSource, NSOutlineViewDelegate {
+    
+    
+    internal var currentValue : String
+    internal var displayName : String
+    internal var nibName : String
+    internal var bundle : NSBundle
+    @IBOutlet internal var attributeSheet : NSWindow!
+    internal var topLevelObjects : NSArray?
+    internal var parentWindow : NSWindow!
+    internal var setCurrentValueBlock : ((String) -> ())?
+    
+
+    
+    func showAttributeModalForWindow(window : NSWindow) {
+        if (attributeSheet == nil) {
+            bundle.loadNibNamed(nibName, owner: self, topLevelObjects: &topLevelObjects)
+        }
+        
+        parentWindow = window
+        
+        parentWindow.beginSheet(attributeSheet, completionHandler: {
+            (response : NSModalResponse) -> () in
+            //NSApp.stopModalWithCode(response)
+            
+            
+        })
+        //NSApp.runModalForWindow(attributeSheet)
+    }
+    
+    @IBAction func closeMyCustomSheet(_: AnyObject) {
+        parentWindow.endSheet(attributeSheet)
+        if let setCurrentValueBlock = setCurrentValueBlock {
+            setCurrentValueBlock(self.currentValue)
+        }
+    }
+    
 
     init(currentValue: String, scriptData: PSScriptData, positionMode : Bool, setCurrentValueBlock : ((String) -> ())?){
         self.originalValue = currentValue
@@ -16,7 +52,12 @@ class PSPortBuilderController: PSAttributePopup, NSOutlineViewDataSource, NSOutl
         self.positionMode = positionMode
         self.portScript = PSPortScript(scriptData: scriptData)
         self.scriptData = scriptData
-        super.init(nibName: "PortBuilder",bundle: NSBundle(forClass:self.dynamicType), currentValue: currentValue, displayName: "Port", setCurrentValueBlock: setCurrentValueBlock)
+        self.currentValue = currentValue
+        self.nibName = "PortBuilder"
+        self.bundle = NSBundle(forClass:self.dynamicType)
+        self.displayName = "Port"
+        self.setCurrentValueBlock = setCurrentValueBlock
+        super.init()
         
     }
     
@@ -297,7 +338,7 @@ class PSPortBuilderController: PSAttributePopup, NSOutlineViewDataSource, NSOutl
         
         if preventSelectingObject { return }
         
-        var selected_item : AnyObject? = outlineView.itemAtRow(outlineView.selectedRow)
+        let selected_item : AnyObject? = outlineView.itemAtRow(outlineView.selectedRow)
         
         if let port = selected_item as? PSPort {
             editButton.enabled = true
@@ -305,8 +346,8 @@ class PSPortBuilderController: PSAttributePopup, NSOutlineViewDataSource, NSOutl
             
             if portPopoverController.shown || positionPopoverController.shown {
                 positionPopoverController.close()
-                var clickedCol = outlineView.selectedColumn
-                var clickedRow = outlineView.selectedRow
+                let clickedCol = outlineView.selectedColumn
+                let clickedRow = outlineView.selectedRow
                 
                 if clickedRow > -1 && port.name != "Entire Screen" {
                     if let view = outlineView.viewAtColumn(clickedCol, row: clickedRow, makeIfNecessary: false) {
@@ -322,8 +363,8 @@ class PSPortBuilderController: PSAttributePopup, NSOutlineViewDataSource, NSOutl
             
             if portPopoverController.shown || positionPopoverController.shown {
                 portPopoverController.close()
-                var clickedCol = outlineView.selectedColumn
-                var clickedRow = outlineView.selectedRow
+                let clickedCol = outlineView.selectedColumn
+                let clickedRow = outlineView.selectedRow
                 
                 if clickedRow > -1 {
                     if let view = outlineView.viewAtColumn(clickedCol, row: clickedRow, makeIfNecessary: false) {

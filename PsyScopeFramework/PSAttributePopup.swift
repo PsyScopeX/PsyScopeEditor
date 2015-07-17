@@ -37,10 +37,11 @@ public class PSAttributePopup : NSObject {
         
         parentWindow.beginSheet(attributeSheet, completionHandler: {
             (response : NSModalResponse) -> () in
-            //NSApp.stopModalWithCode(response)
+            NSApp.stopModalWithCode(response)
             
             
         })
+        NSApp.runModalForWindow(attributeSheet)
     }
 
     @IBAction public func closeMyCustomSheet(_: AnyObject) {
