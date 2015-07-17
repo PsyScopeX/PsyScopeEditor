@@ -197,9 +197,9 @@ class PSCondition_Key_Key : NSObject {
         character = event.charactersIgnoringModifiers!.lowercaseString
         
        
-        var keepCharacters = NSMutableCharacterSet.lowercaseLetterCharacterSet()
-        keepCharacters.addCharactersInString(" ")
-        var removeCharacters = keepCharacters.invertedSet
+        let keepCharacters = NSMutableCharacterSet.lowercaseLetterCharacterSet()
+        keepCharacters.addCharactersInString(" ,./;'[]-=`")
+        let removeCharacters = keepCharacters.invertedSet
         character = (character.componentsSeparatedByCharactersInSet(removeCharacters) as NSArray).componentsJoinedByString("")
         
     }

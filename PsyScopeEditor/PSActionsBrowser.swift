@@ -24,7 +24,7 @@ class PSActionsBrowser : NSObject, NSTableViewDataSource, NSTableViewDelegate {
     var selectedEntry : Entry?
     var scriptData : PSScriptData!
     var selectionInterface : PSSelectionInterface!
-    var displayViewMetaData : [PSActionBuilderViewMetaDataSet]?
+    var displayViewMetaData : [PSActionBuilderViewMetaDataSet] = []
     
     let tableCellViewIdentifier : String = "PSActionConditionView"
     
@@ -50,7 +50,6 @@ class PSActionsBrowser : NSObject, NSTableViewDataSource, NSTableViewDelegate {
         self.selectedEntry = selectionInterface.getSelectedEntry()
         self.views = [:]
         self.actionsAttribute = nil
-        self.displayViewMetaData = nil
         loadEvent()
         actionsTableView.reloadData()
     }
@@ -131,18 +130,26 @@ class PSActionsBrowser : NSObject, NSTableViewDataSource, NSTableViewDelegate {
         view.actionsBrowser = self
         self.views[row] = view
         
-        view.refresh(self.displayViewMetaData![row])
+        if row < displayViewMetaData.count{
+            view.refresh(displayViewMetaData[row])
+        } else {
+            view.refresh(PSEmptyActionBuilderViewMetaDataSet)
+        }
+
         return view
     }
     
     func tableView(tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
         //get the height of the row
-        if let displayViewMetaData = displayViewMetaData {
-            let heightData = displayViewMetaData[row]
-            return CGFloat(20) + heightData.actionsHeight + heightData.conditionsHeight
+        var heightData : PSActionBuilderViewMetaDataSet
+        
+        if row < displayViewMetaData.count{
+            heightData = displayViewMetaData[row]
         } else {
-            return 0
+            heightData = PSEmptyActionBuilderViewMetaDataSet
         }
+        
+        return CGFloat(20) + heightData.actionsHeight + heightData.conditionsHeight
     }
     
     func tableView(tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
