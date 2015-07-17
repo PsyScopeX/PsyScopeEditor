@@ -9,6 +9,9 @@ import Cocoa
 
 
 class Document: NSPersistentDocument, NSSplitViewDelegate {
+    
+    //MARK: Outlets
+    @IBOutlet var middleView : NSView!
     @IBOutlet var toolbar : NSToolbar!
     @IBOutlet var layoutToolbarItem : NSToolbarItem!
     @IBOutlet var tabController : PSDocumentTabDelegate!
@@ -26,23 +29,14 @@ class Document: NSPersistentDocument, NSSplitViewDelegate {
     @IBOutlet var variableSelector : PSVariableSelector!
     @IBOutlet var experimentSetup : PSExperimentSetup!
     
+    var nibLoaded : Bool = false
+    var isNewDocument : Bool = false
+    var _scriptData : PSScriptData!
+    var _managedObjectModel: NSManagedObjectModel?
+    var _window : NSWindow?
+    var scriptToImport : String?
     
-    override func revertToContentsOfURL(inAbsoluteURL: NSURL!, ofType inTypeName: String!) throws {
-        var outError: NSError! = NSError(domain: "Migrator", code: 0, userInfo: nil)
-        var rv: Bool
-        do {
-            try super.revertToContentsOfURL(inAbsoluteURL, ofType: inTypeName)
-            rv = true
-        } catch var error as NSError {
-            outError = error
-            rv = false
-        }
-        layoutController.updateAllObjects()
-        if rv {
-            return
-        }
-        throw outError
-    }
+    //MARK: ScriptData
     
     var scriptData : PSScriptData {
         get {
@@ -53,7 +47,9 @@ class Document: NSPersistentDocument, NSSplitViewDelegate {
             return _scriptData
         }
     }
-    var _scriptData : PSScriptData!
+    
+    
+    //MARK: Initialization
     
     override func windowControllerDidLoadNib(aController: NSWindowController) {
         super.windowControllerDidLoadNib(aController)
@@ -93,16 +89,49 @@ class Document: NSPersistentDocument, NSSplitViewDelegate {
         window.titlebarAppearsTransparent = false
         window.movableByWindowBackground  = true
         //window.styleMask = window.styleMask | NSFullSizeContentViewWindowMask
+        
+        //import script if there is one to import
+        if let scriptToImport = scriptToImport {
+            self.fileURL = nil
+            self.fileType = self.autosavingFileType
+            scriptDelegate.importScript(scriptToImport)
+            
+        }
+        
+        scriptToImport = nil
     }
     
-    override class func autosavesDrafts() -> Bool {
-        return false
+    func setupInitialState() {
+        self.isNewDocument = true
+        if nibLoaded { scriptData.setUpInitialScriptState() }
+        
     }
     
-    override func defaultDraftName() -> String {
-        return "Experiment"
+    //MARK: NSDocument Overrides
+    
+    override func revertToContentsOfURL(inAbsoluteURL: NSURL!, ofType inTypeName: String!) throws {
+        try super.revertToContentsOfURL(inAbsoluteURL, ofType: inTypeName)
+        layoutController.updateAllObjects()
     }
     
+    override func readFromURL(absoluteURL: NSURL!, ofType typeName: String!) throws {
+        
+        if typeName == "DocumentType" {
+            try super.readFromURL(absoluteURL, ofType: typeName)
+        } else if let path = absoluteURL {
+            scriptToImport = try String(contentsOfURL: path, encoding: NSUTF8StringEncoding)
+        }
+    }
+    
+    override class func autosavesDrafts() -> Bool { return false }
+    
+    override func defaultDraftName() -> String { return "Experiment" }
+    
+    override class func autosavesInPlace() -> Bool { return true }
+    
+    override var windowNibName: String { return "Document" }
+    
+    //MARK: Menu methods
     
     func runExperiment(sender : AnyObject){
         
@@ -139,64 +168,7 @@ class Document: NSPersistentDocument, NSSplitViewDelegate {
     func cleanUpLayout(sender : AnyObject) {
         PSCleanUpTree(scriptData)
     }
-    
-    
-    func importOldPsyScope(sender : AnyObject) {
-        //open the file dialog
-        let openPanel = NSOpenPanel()
-        openPanel.title = "Choose a psyscope script"
-        openPanel.showsResizeIndicator = true
-        openPanel.showsHiddenFiles = false
-        openPanel.canChooseDirectories = false
-        openPanel.canCreateDirectories = true
-        openPanel.allowsMultipleSelection = false
-        //openPanel.allowedFileTypes = [fileType]
-        openPanel.beginSheetModalForWindow(self.window, completionHandler: {
-            (int_code : Int) -> () in
-            if int_code == NSFileHandlingPanelOKButton {
-                //relative to files location
-                if let path = openPanel.URL {
-                    
-                    var error : NSError?
-                    var script: String?
-                    do {
-                        script = try String(contentsOfURL: path, encoding: NSUTF8StringEncoding)
-                    } catch var error1 as NSError {
-                        error = error1
-                        script = nil
-                    } catch {
-                        fatalError()
-                    }
-                    if let s = script {
-                        self.scriptDelegate.importScript(s)
-                        return
-                    }
-                    
-                    do {
-                        script = try String(contentsOfURL: path, encoding: NSMacOSRomanStringEncoding)
-                    } catch var error1 as NSError {
-                        error = error1
-                        script = nil
-                    } catch {
-                        fatalError()
-                    }
-                    if let s = script {
-                        self.scriptDelegate.importScript(s)
-                        return
-                    }
-                }
-                
-                PSModalAlert("Error opening text file")
-                
-            }
-            return
-        })
-    }
-    
-    
-    
-    
-    
+
     func developerMenuItem(sender : NSMenuItem) {
         switch (sender.tag) {
         case 0:
@@ -213,41 +185,14 @@ class Document: NSPersistentDocument, NSSplitViewDelegate {
     }
     
     
-    var nibLoaded : Bool = false
-    var isNewDocument : Bool = false
-    func setupInitialState() {
-        self.isNewDocument = true
-        if nibLoaded { scriptData.setUpInitialScriptState() }
-        
-    }
-    
-    override class func autosavesInPlace() -> Bool {
-        return true
-    }
-    
-    override var windowNibName: String {
-        return "Document"
-    }
-    
-    @IBOutlet var middleView : NSView!
+    //MARK: Split view
     
     func splitView(splitView: NSSplitView, shouldAdjustSizeOfSubview view: NSView) -> Bool {
         return (view == middleView)
     }
     
-    override var managedObjectModel : AnyObject! {
-        // Creates if necessary and returns the managed object model for the application.
-        if let mom = _managedObjectModel {
-            return mom
-        }
-        
-        let modelURL = NSBundle(forClass:Entry.self).URLForResource("Script", withExtension: "momd")
-        
-        _managedObjectModel = NSManagedObjectModel(contentsOfURL: modelURL!)
-        _managedObjectModel!.kc_generateOrderedSetAccessors();
-        return _managedObjectModel!
-    }
-    var _managedObjectModel: NSManagedObjectModel? = nil
+    
+    //MARK: Window
     
     var window : NSWindow {
         get {
@@ -264,7 +209,22 @@ class Document: NSPersistentDocument, NSSplitViewDelegate {
         }
     }
     
-    var _window : NSWindow? = nil
+    
+    
+    //MARK: NSPersistentDocument Override
+    
+    override var managedObjectModel : AnyObject! {
+        // Creates if necessary and returns the managed object model for the application.
+        if let mom = _managedObjectModel {
+            return mom
+        }
+        
+        let modelURL = NSBundle(forClass:Entry.self).URLForResource("Script", withExtension: "momd")
+        
+        _managedObjectModel = NSManagedObjectModel(contentsOfURL: modelURL!)
+        _managedObjectModel!.kc_generateOrderedSetAccessors();
+        return _managedObjectModel!
+    }
     
     override func configurePersistentStoreCoordinatorForURL(url: NSURL!, ofType fileType: String!, modelConfiguration configuration: String?, storeOptions: [String : AnyObject]!) throws {
         var error: NSError! = NSError(domain: "Migrator", code: 0, userInfo: nil)
