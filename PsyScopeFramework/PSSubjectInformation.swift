@@ -27,8 +27,15 @@ public class PSSubjectInformation : NSObject {
         subjectVariables = []
 
         //get all base entries which are dialogs, and are run at some point of the experiment
-        let dialogEntries = scriptData.getBaseEntriesOfType("DialogVariable")
-        var groupVarNames : [String] = []
+        let dialogEntries = scriptData.getBaseEntriesOfType("DialogVariable").filter({
+            if let dialogSubEntry = scriptData.getSubEntry("Dialog", entry: $0) {
+                if ["Standard","CheckBoxes","Buttons"].contains(dialogSubEntry.currentValue) {
+                    return true
+                }
+            }
+            return false
+        })
+    
         subjectVariables = dialogEntries.map { PSSubjectVariable(entry: $0, scriptData: self.scriptData) }
 
         //Entries which cause a dialog to be run
@@ -70,34 +77,7 @@ public class PSSubjectInformation : NSObject {
         //LogRunStart:: SubjectName JamesGroup JamesVariable
         //   Dialog: LogInfo
         
-//        SubjectName:: "SUBJECT NAME"
-//        
-//        SubjectNumber:: 1
-//        Type: Integer
-//        
-//        RunNumber:: 1
-//        Type: Integer
-//        
-//        SubjectNumAndGroup::
-//        Dialog: SubjectNumAndGroup
-//        SubjectCount: 1
-//        RunCount: 1
-//        GroupRunCount: 1
-//        GroupSpecs: JamesGroup @"JamesGroup"
-//        
-//        JamesGroup:: But1
-//        Dialog: Buttons
-//        Msg: "
-//        "
-//        Buttons: But1 But2
-//        Default: But1
-//        
-//        JamesVariable:: CB1 CB2
-//        Dialog: CheckBoxes
-//        Msg: "
-//        "
-//        CheckBoxes: CB1 CB2
-//        Default: CB1
+
     
     }
     

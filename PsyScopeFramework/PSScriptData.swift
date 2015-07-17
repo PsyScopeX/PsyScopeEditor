@@ -170,6 +170,7 @@ public class PSScriptData : NSObject {
             new_entry.layoutObject.xPos = 150
             new_entry.layoutObject.yPos = 50
             renameEntry(new_entry, nameSuggestion: "NewExperiment")
+            
             //create standard menu setup
             if let menus = createNewObjectFromTool("Menu") {
                 renameEntry(menus, nameSuggestion: "Experiment")
@@ -177,7 +178,28 @@ public class PSScriptData : NSObject {
                 deleteNamedSubEntryFromParentEntry(menus, name: "Type")
                 deleteNamedSubEntryFromParentEntry(menus, name: "Dialog")
             }
+            
+            //create subject information stuff
+            if let subjectName = createNewObjectFromTool("DialogVariable"),
+                type = getSubEntry("Type", entry: subjectName) {
+                renameEntry(subjectName,nameSuggestion: "SubjectName")
+                subjectName.currentValue = "SUBJECT NAME"
+                type.currentValue = "String"
+            }
+            
+            if let subjectNumber = createNewObjectFromTool("DialogVariable") {
+                renameEntry(subjectNumber,nameSuggestion: "SubjectNumber")
+                subjectNumber.currentValue = "1"
+            }
+            
+            if let runNumber = createNewObjectFromTool("DialogVariable") {
+                renameEntry(runNumber,nameSuggestion: "RunNumber")
+                runNumber.currentValue = "1"
+            }
         }
+        
+        
+        
     
         docMoc.processPendingChanges()
         docMoc.undoManager!.enableUndoRegistration()
