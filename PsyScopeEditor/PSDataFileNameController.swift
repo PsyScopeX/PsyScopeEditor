@@ -220,9 +220,11 @@ class PSDataFileNameController : NSObject, NSTokenFieldDelegate {
         let maxIndex = string.length - 1
         var counter : Int = 0
         
-        for i in 0...maxIndex {
-            if string.characterAtIndex(i) == unichar(NSAttachmentCharacter) {
-                counter++
+        if maxIndex >= 0 {
+            for i in 0...maxIndex {
+                if string.characterAtIndex(i) == unichar(NSAttachmentCharacter) {
+                    counter++
+                }
             }
         }
         
