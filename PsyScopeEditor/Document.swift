@@ -113,7 +113,7 @@ class Document: NSPersistentDocument, NSSplitViewDelegate {
     
     override func revertToContentsOfURL(inAbsoluteURL: NSURL!, ofType inTypeName: String!) throws {
         try super.revertToContentsOfURL(inAbsoluteURL, ofType: inTypeName)
-        layoutController.updateAllObjects()
+        layoutController.refresh()
     }
     
     override func readFromURL(absoluteURL: NSURL!, ofType typeName: String!) throws {

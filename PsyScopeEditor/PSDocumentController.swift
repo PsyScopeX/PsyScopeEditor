@@ -8,8 +8,8 @@
 import Cocoa
 
 class PSDocumentController: NSDocumentController {
-    override func openUntitledDocumentAndDisplay(displayDocument: Bool) throws -> AnyObject {
-
+    
+    override func openUntitledDocumentAndDisplay(displayDocument: Bool) throws -> NSDocument {
         let document = try super.openUntitledDocumentAndDisplay(displayDocument)
         if let d = document as? Document {
             d.setupInitialState()

@@ -44,7 +44,7 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
     func initialize() {
         scriptData = document.scriptData
         layoutBoard.prepareMainLayer(scriptData.window) //must be done first
-        updateAllObjects()
+        refresh()
 
         //show or hide events and lists depending on setting
         eventsHidden = !NSUserDefaults.standardUserDefaults().boolForKey(PSPreferences.showEvents.key)
@@ -53,22 +53,6 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
         hideShowLists()
     }
     
-    
-    func updateAllObjects() {
-        //add layout objects
-        for object in scriptData.getLayoutObjects() {
-            updateViewForObject(object)
-        }
-        
-        //add links
-        for parent in scriptData.getLayoutObjects() {
-            for child in parent.childLink.array as! [LayoutObject] {
-                updateViewForLink(parent, destObject: child as LayoutObject)
-            }
-        }
-    }
-    
-
     func refresh() {
         
         let layoutObjects = scriptData.getLayoutObjects()
@@ -78,14 +62,21 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
             updateViewForObject(layoutObject)
         }
     
-        //update links
-        for updated_o in layoutObjects {
-            updateViewsForLinks(updated_o)
+        //update links (has to be done after layoutObjects updated)
+        for layoutObject in layoutObjects {
+            updateViewsForLinks(layoutObject)
         }
         
         //update selection
         if let se = selectionController.selectedEntry, _ = se.layoutObject {
             selectEntry(se)
+        }
+        
+        //remove non-existent layoutObjects
+        for layoutObject in objectsTolayoutItems.keys.array {
+            if !layoutObjects.contains(layoutObject) {
+                deleteObject(layoutObject)
+            }
         }
     }
     
