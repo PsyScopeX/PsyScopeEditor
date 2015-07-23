@@ -48,6 +48,10 @@ class PSDialogVariableTool: PSTool, PSToolInterface {
         return false
     }
     
+    func canAddAttributes() -> Bool {
+        return false
+    }
+    
     override func createObjectWithGhostEntries(entries: [AnyObject]!, withScript scriptData: PSScriptData!) -> [AnyObject]? {
         var return_array : [LayoutObject] = []
         for ent in entries {

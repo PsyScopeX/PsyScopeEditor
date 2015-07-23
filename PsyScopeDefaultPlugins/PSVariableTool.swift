@@ -34,6 +34,10 @@ class PSVariableTool: PSTool, PSToolInterface {
         return true
     }
     
+    func canAddAttributes() -> Bool {
+        return false
+    }
+    
     override func createObjectWithGhostEntries(entries: [AnyObject]!, withScript scriptData: PSScriptData!) -> [AnyObject]? {
         var return_array : [LayoutObject] = []
         for ent in entries {

@@ -65,6 +65,9 @@
 //returns true if this item can provide data using it's own functions (e.g. Group Attrib(""))
 -(bool) isSourceForAttributes;
 
+//returns true if you can add attributes to this object
+-(bool) canAddAttributes;
+
 //is called when constructing a menu to allow selection for a source. Give a single root menu item, and set the representedObject to be this tool. Optionally provide a New... option at top (and optionally an Edit...) to allow selection of a source.  Set tags/represented objects to identify what is eventually selected.
 
     //Reserved is to set tag to 1, and represented object to string, in order, and menu selection will set currentValue to that string

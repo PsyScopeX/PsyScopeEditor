@@ -26,6 +26,10 @@ class PSTableTool: PSTool, PSToolInterface {
         return false
     }
     
+    override func canAddAttributes() -> Bool {
+        return false
+    }
+    
     //is called when the item type is selected to be a source. window is provided incase any more data is needed, so provide in modal windows
     /*override func selectedAsSourceForAttribute(scriptData: PSScriptData!, baseEntry: Entry!) -> String! {
         //TODO get attributes from groups

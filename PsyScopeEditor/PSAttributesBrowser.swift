@@ -25,6 +25,7 @@ class PSAttributesBrowser: NSObject, NSTableViewDelegate, NSTableViewDataSource,
     let genericInterface = PSAttributeGeneric()
     var attributePicker : PSAttributePicker? //holds a reference to last popup to prevent Zombie object
     var copiedAttribute : Entry? //Holds copied attribute
+    var canAddAttributes : Bool = false
 
     //MARK: AwakeFromNib
     
@@ -38,8 +39,14 @@ class PSAttributesBrowser: NSObject, NSTableViewDelegate, NSTableViewDataSource,
     //MARK: Attributes refresh
     
     func refresh() {
-        if let selectedEntry = selectionController.selectedEntry {
+        if let selectedEntry = selectionController.selectedEntry,
+         interface = document.scriptData.pluginProvider.getInterfaceForType(selectedEntry.type)
+            where interface.canAddAttributes() == true {
+                
+            self.canAddAttributes = true
             let entries = selectedEntry.subEntries.array as! [Entry]
+            
+            
             
             //get only entries who are not properties
             content = entries.filter({
@@ -50,6 +57,7 @@ class PSAttributesBrowser: NSObject, NSTableViewDelegate, NSTableViewDataSource,
             content = content.sort({ (s1: Entry, s2: Entry) -> Bool in
                 return s1.name < s2.name })
         } else {
+            self.canAddAttributes = false
             content = []
         }
         
@@ -59,7 +67,7 @@ class PSAttributesBrowser: NSObject, NSTableViewDelegate, NSTableViewDataSource,
     //MARK: Attributes TableView
     
     func numberOfRowsInTableView(tableView: NSTableView) -> Int {
-        if selectionController.selectedEntry != nil {
+        if selectionController.selectedEntry != nil && self.canAddAttributes == true {
             return content.count + 1 //add attribute button
         } else {
             return 0 //empty for no selected entry

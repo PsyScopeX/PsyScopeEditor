@@ -60,11 +60,23 @@ class PSListTool: PSTool, PSToolInterface {
         //Also need to create links with Factors: attribute
         errors += PSTool.identifyEntriesByPropertyInOtherEntry(ghostScript, property: Properties.Factors, type: type())
         return errors
+    }
+    
+    override func updateEntry(realEntry: Entry!, withGhostEntry ghostEntry: PSGhostEntry!, scriptData: PSScriptData!) {
+        super.updateEntry(realEntry, withGhostEntry: ghostEntry, scriptData: scriptData)
         
+        //all sub entries are properties
+        for subEntry in realEntry.subEntries.array as! [Entry] {
+            subEntry.isProperty = true
+        }
     }
     
     override func isSourceForAttributes() -> Bool {
         return true
+    }
+    
+    override func canAddAttributes() -> Bool {
+        return false
     }
     
     override func createLinkFrom(parent: Entry!, to child: Entry!, withScript scriptData: PSScriptData!) -> Bool {
@@ -85,13 +97,13 @@ class PSListTool: PSTool, PSToolInterface {
         //create Link
         parent.layoutObject.addChildLinkObject(child.layoutObject)
         //attribute is a weird one, as it has two sub attributes
-        var factors_entry = scriptData.getOrCreateSubEntry("Factors", entry: parent, isProperty: true)
-        var sets_entry = scriptData.getOrCreateSubEntry("Sets", entry: factors_entry, isProperty: true)
-        var types_entry = scriptData.getOrCreateSubEntry("Types", entry: factors_entry, isProperty: true)
+        let factors_entry = scriptData.getOrCreateSubEntry("Factors", entry: parent, isProperty: true)
+        let sets_entry = scriptData.getOrCreateSubEntry("Sets", entry: factors_entry, isProperty: true)
+        let types_entry = scriptData.getOrCreateSubEntry("Types", entry: factors_entry, isProperty: true)
         
-        var factors = PSStringList(entry: factors_entry, scriptData: scriptData)
-        var sets = PSStringList(entry: sets_entry, scriptData: scriptData)
-        var types = PSStringList(entry: types_entry, scriptData: scriptData)
+        let factors = PSStringList(entry: factors_entry, scriptData: scriptData)
+        let sets = PSStringList(entry: sets_entry, scriptData: scriptData)
+        let types = PSStringList(entry: types_entry, scriptData: scriptData)
         
         if (!factors.contains(child.name) && factors.appendAsString(child.name)) {
             sets.appendAsString("1")
@@ -113,13 +125,13 @@ class PSListTool: PSTool, PSToolInterface {
     
     override func deleteLinkFrom(parent: Entry!, to child: Entry!, withScript scriptData: PSScriptData!) -> Bool {
         parent.layoutObject.removeChildLinkObject(child.layoutObject)
-        var factors_entry = scriptData.getOrCreateSubEntry("Factors", entry: parent, isProperty: true)
-        var sets_entry = scriptData.getOrCreateSubEntry("Sets", entry: factors_entry, isProperty: true)
-        var types_entry = scriptData.getOrCreateSubEntry("Types", entry: factors_entry, isProperty: true)
+        let factors_entry = scriptData.getOrCreateSubEntry("Factors", entry: parent, isProperty: true)
+        let sets_entry = scriptData.getOrCreateSubEntry("Sets", entry: factors_entry, isProperty: true)
+        let types_entry = scriptData.getOrCreateSubEntry("Types", entry: factors_entry, isProperty: true)
         
-        var factors = PSStringList(entry: factors_entry, scriptData: scriptData)
-        var sets = PSStringList(entry: sets_entry, scriptData: scriptData)
-        var types = PSStringList(entry: types_entry, scriptData: scriptData)
+        let factors = PSStringList(entry: factors_entry, scriptData: scriptData)
+        let sets = PSStringList(entry: sets_entry, scriptData: scriptData)
+        let types = PSStringList(entry: types_entry, scriptData: scriptData)
         
         if let i = factors.indexOfValueWithString(child.name) {
             factors.removeAtIndex(i)
@@ -135,9 +147,7 @@ class PSListTool: PSTool, PSToolInterface {
     }
     
     override func identifyAsAttributeSourceAndReturnRepresentiveString(currentValue: String!) -> [AnyObject]! {
-        let function = PSFunctionElement()
         return PSToolHelper.attributedStringForAttributeFunction("FactorAttrib", icon: self.icon(), currentValue: currentValue)
-        
     }
     
     override func menuItemSelectedForAttributeSource(menuItem: NSMenuItem!, scriptData: PSScriptData!) -> String! {
@@ -166,7 +176,7 @@ class PSListTool: PSTool, PSToolInterface {
     
     override func constructAttributeSourceSubMenu(scriptData: PSScriptData!) -> NSMenuItem! {
         
-        var subMenuItem = NSMenuItem(title: "List", action: "", keyEquivalent: "l")
+        let subMenuItem = NSMenuItem(title: "List", action: "", keyEquivalent: "l")
         subMenuItem.representedObject = self
         subMenuItem.tag = 0
         //get all blocks, that this attribute is linked to, and list attributes
@@ -175,38 +185,38 @@ class PSListTool: PSTool, PSToolInterface {
             subMenuItem.enabled = false
             return subMenuItem }
         
-        var menu = NSMenu(title: "List")
+        let menu = NSMenu(title: "List")
         subMenuItem.submenu = menu;
         
         //add new List option
-        var newListItem = NSMenuItem()
+        let newListItem = NSMenuItem()
         newListItem.title = "New List..."
         newListItem.representedObject = self
         newListItem.tag = 2
         menu.addItem(newListItem)
         
         for list in lists {
-            var newSubMenuItem = NSMenuItem()
+            let newSubMenuItem = NSMenuItem()
             newSubMenuItem.title = list.name
             newSubMenuItem.representedObject =  self
             newSubMenuItem.tag = 0
             menu.addItem(newSubMenuItem)
             
             
-            var linkSubMenu = NSMenu()
+            let linkSubMenu = NSMenu()
             newSubMenuItem.submenu = linkSubMenu
             
             //add edit List option
-            var editListItem = NSMenuItem()
+            let editListItem = NSMenuItem()
             editListItem.title = "Edit List..."
             editListItem.representedObject = list.name
             editListItem.tag = 2
             newSubMenuItem.submenu!.addItem(editListItem)
             
-            var sub_entries = list.subEntries.array as! [Entry]
+            let sub_entries = list.subEntries.array as! [Entry]
             for att in sub_entries {
                 if att.name != "Levels" && att.name != "IsList" {
-                    var newAttSubMenuItem = NSMenuItem()
+                    let newAttSubMenuItem = NSMenuItem()
                     newAttSubMenuItem.title = att.name
                     newAttSubMenuItem.representedObject =  "FactorAttrib(\"\(list.name)\",\"\(att.name)\")"
                     newAttSubMenuItem.tag = 1
