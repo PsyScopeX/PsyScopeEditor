@@ -13,9 +13,10 @@ public class PSEntryWindowController : NSWindowController {
     public var entry : Entry!
     public var scriptData : PSScriptData!
     
-    public func setupWithEntry(entry : Entry, scriptData : PSScriptData) {
+    public func setupWithEntryAndAddToDocument(entry : Entry, scriptData : PSScriptData) {
         self.entry = entry
         self.scriptData = scriptData
+        scriptData.document.addWindowController(self)
         registeredForChanges = true
     }
     
