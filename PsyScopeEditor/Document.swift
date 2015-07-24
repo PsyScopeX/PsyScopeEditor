@@ -33,7 +33,7 @@ class Document: NSPersistentDocument, NSSplitViewDelegate {
     var isNewDocument : Bool = false
     var _scriptData : PSScriptData!
     var _managedObjectModel: NSManagedObjectModel?
-    var _window : NSWindow?
+    var mainWindow : NSWindow?
     var scriptToImport : String?
     
     //MARK: ScriptData
@@ -50,19 +50,12 @@ class Document: NSPersistentDocument, NSSplitViewDelegate {
     
     
     //MARK: Initialization
-    
-    override func windowControllerDidLoadNib(aController: NSWindowController) {
-        super.windowControllerDidLoadNib(aController)
         
+    func initializeMainWindow() {
         //create new experiment if necessary
         if isNewDocument { scriptData.setUpInitialScriptState() }
         
-        //register dragged types
-        aController.window!.registerForDraggedTypes([PSConstants.PSToolBrowserView.dragType])
-        aController.window!.minSize = NSSize(width: PSConstants.LayoutConstants.docMinWidth, height: PSConstants.LayoutConstants.docMinHeight)
         
-        //store the window in a property for use by other objects
-        _window = aController.window
         
         
         //initialize and setup all documents
@@ -86,11 +79,7 @@ class Document: NSPersistentDocument, NSSplitViewDelegate {
         toolbar.selectedItemIdentifier = layoutToolbarItem.itemIdentifier
         nibLoaded = true
         
-        //setup view options for window
-        window.titleVisibility = NSWindowTitleVisibility.Hidden
-        window.titlebarAppearsTransparent = false
-        window.movableByWindowBackground  = true
-        //window.styleMask = window.styleMask | NSFullSizeContentViewWindowMask
+        
         
         //import script if there is one to import
         if let scriptToImport = scriptToImport {
@@ -132,6 +121,30 @@ class Document: NSPersistentDocument, NSSplitViewDelegate {
     override class func autosavesInPlace() -> Bool { return true }
     
     override var windowNibName: String { return "Document" }
+    
+    override func makeWindowControllers() {
+        //make main window controller
+        let mainWindowController = NSWindowController(windowNibName: "Document", owner: self)
+        self.addWindowController(mainWindowController)
+        
+        //register dragged types
+        mainWindowController.window!.registerForDraggedTypes([PSConstants.PSToolBrowserView.dragType])
+        mainWindowController.window!.minSize = NSSize(width: PSConstants.LayoutConstants.docMinWidth, height: PSConstants.LayoutConstants.docMinHeight)
+        
+        //store the window in a property for use by other objects
+        if let mainWindow = mainWindowController.window {
+            self.mainWindow = mainWindow
+            //setup view options for window
+            mainWindow.titleVisibility = NSWindowTitleVisibility.Hidden
+            mainWindow.titlebarAppearsTransparent = false
+            mainWindow.movableByWindowBackground  = true
+            //window.styleMask = window.styleMask | NSFullSizeContentViewWindowMask
+        } else {
+            fatalError("Couldn't create main window")
+        }
+        
+        initializeMainWindow()
+    }
     
     //MARK: Menu methods
     
@@ -198,16 +211,7 @@ class Document: NSPersistentDocument, NSSplitViewDelegate {
     
     var window : NSWindow {
         get {
-            if _window == nil {
-                let windowControllers = self.windowControllers as [NSWindowController]
-                if windowControllers.count > 0 {
-                    let controller = windowControllers[0] as NSWindowController
-                    _window = controller.window
-                } else  {
-                    fatalError("No window controllers found!")
-                }
-            }
-            return _window!
+            return mainWindow!
         }
     }
     
