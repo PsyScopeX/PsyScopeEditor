@@ -38,18 +38,12 @@ class PSFileList {
     
     var fileReader : PSListFileReader? {
         get {
-            var error : NSError?
-            let listFileReader: PSListFileReader?
             do {
-                listFileReader = try PSListFileReader(contentsOfPath: self.filePath)
-            } catch var error1 as NSError {
-                error = error1
-                listFileReader = nil
-            }
-            if listFileReader == nil {
+                return try PSListFileReader(contentsOfPath: self.filePath)
+            } catch {
                 PSModalAlert("Error reading file")
+                return nil
             }
-            return listFileReader
         }
     }
     
@@ -71,14 +65,45 @@ class PSFileList {
     }
     
     var previewOfContents : [[String]] {
-        var error : NSError?
         do {
             let listFileReader = try PSListFileReader(contentsOfPath: self.filePath, forceNumberOfColumns: self.numberOfColumns)
             return listFileReader.rows
-        } catch var error1 as NSError {
-            error = error1
+        } catch {
             PSModalAlert("Error reading file")
             return []
+        }
+    }
+    
+    var weightsColumn : [Int]? {
+        
+        get {
+            if let levels = scriptData.getSubEntry("Levels", entry: entry),
+                weights = scriptData.getSubEntry("Weights", entry: levels) {
+                    
+                    return weights.currentValue.componentsSeparatedByString(" ").map({
+                        if let i = Int($0){
+                            return i
+                        }else {
+                            return 1
+                        }
+                    })
+            }
+            return nil
+        }
+        
+        set {
+            scriptData.beginUndoGrouping("Edit Weights")
+            defer { scriptData.endUndoGrouping() }
+            
+            let levels = scriptData.getOrCreateSubEntry("Levels", entry: entry, isProperty: true)
+            
+            guard let newWeights = newValue else {
+                scriptData.deleteNamedSubEntryFromParentEntry(levels, name: "Weights")
+                return
+            }
+            
+            let weights = scriptData.getOrCreateSubEntry("Weights", entry: levels, isProperty: true)
+            weights.currentValue = " ".join(newWeights.map({ String($0) }))
         }
     }
     
@@ -98,6 +123,23 @@ class PSFileList {
             }
         }
         return nil
+    }
+    
+    func getColumnNames() -> [String] {
+        let numberOfColumns = self.numberOfColumns
+        if numberOfColumns > 0 {
+            var names : [String] = []
+            for index in 1...numberOfColumns {
+                if let validName = nameOfColumn(index){
+                    names.append(validName)
+                } else {
+                    names.append("Unnamed")
+                }
+            }
+            return names
+        } else {
+            return []
+        }
     }
     
     func setColumn(name : String, columnIndex : Int) {

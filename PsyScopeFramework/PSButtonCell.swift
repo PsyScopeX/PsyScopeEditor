@@ -9,7 +9,6 @@
 import Foundation
 
 public class PSButtonCell : NSView {
-    
     public var action : ((sender : NSButton) -> ())?
     @IBAction public func buttonPress(sender : NSButton) {
         if let a = action {

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="8164.2" systemVersion="14E46" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="7702"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="8164.2"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="PSFileListBuilder" customModule="PsyScopeDefaultPlugins" customModuleProvider="target">
@@ -17,26 +17,27 @@
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="196" y="240" width="528" height="321"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1440" height="878"/>
+            <value key="minSize" type="size" width="528" height="321"/>
             <view key="contentView" autoresizesSubviews="NO" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="528" height="321"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="17" horizontalPageScroll="10" verticalLineScroll="17" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="YWU-Qf-aRp">
-                        <rect key="frame" x="-1" y="-1" width="530" height="288"/>
+                        <rect key="frame" x="-1" y="-1" width="530" height="254"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <clipView key="contentView" drawsBackground="NO" id="UAF-qi-sZo">
-                            <rect key="frame" x="0.0" y="17" width="530" height="271"/>
+                            <rect key="frame" x="0.0" y="17" width="530" height="237"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <tableView appearanceType="vibrantLight" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="none" alternatingRowBackgroundColors="YES" columnReordering="NO" multipleSelection="NO" autosaveColumns="NO" headerView="J3y-uT-sZp" id="usB-ds-jBM">
-                                    <rect key="frame" x="0.0" y="0.0" width="530" height="271"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="530" height="237"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                     <tableViewGridLines key="gridStyleMask" vertical="YES" horizontal="YES"/>
                                     <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                     <connections>
-                                        <outlet property="dataSource" destination="bRQ-xO-Y0s" id="n6f-Xc-7b2"/>
-                                        <outlet property="delegate" destination="bRQ-xO-Y0s" id="iPI-mq-7iO"/>
+                                        <outlet property="dataSource" destination="0qt-H6-Ugq" id="oUX-6U-rcd"/>
+                                        <outlet property="delegate" destination="0qt-H6-Ugq" id="iWS-KT-a8s"/>
                                         <outlet property="menu" destination="YIT-IH-wnc" id="LGI-GY-h3F"/>
                                     </connections>
                                 </tableView>
@@ -44,7 +45,7 @@
                             <nil key="backgroundColor"/>
                         </clipView>
                         <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="qfj-V1-E0e">
-                            <rect key="frame" x="1" y="118.91931718587875" width="238" height="15"/>
+                            <rect key="frame" x="1" y="119" width="238" height="15"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                         <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="VUE-Dj-EoV">
@@ -52,7 +53,7 @@
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                         <tableHeaderView key="headerView" id="J3y-uT-sZp" customClass="PSTableHeaderView" customModule="PsyScopeDefaultPlugins" customModuleProvider="target">
-                            <rect key="frame" x="0.0" y="0.0" width="238" height="17"/>
+                            <rect key="frame" x="0.0" y="0.0" width="530" height="17"/>
                             <autoresizingMask key="autoresizingMask"/>
                             <connections>
                                 <outlet property="delegate" destination="bRQ-xO-Y0s" id="YnL-J8-47Y"/>
@@ -70,7 +71,7 @@
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="vuu-15-4wp">
-                        <rect key="frame" x="346" y="296" width="132" height="17"/>
+                        <rect key="frame" x="10" y="267" width="132" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Number of Columns:" id="qAs-PV-YsL">
                             <font key="font" metaFont="system"/>
@@ -79,7 +80,7 @@
                         </textFieldCell>
                     </textField>
                     <textField verticalHuggingPriority="750" id="3cY-db-hde">
-                        <rect key="frame" x="479" y="293" width="29" height="22"/>
+                        <rect key="frame" x="143" y="264" width="29" height="22"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="nJY-NS-IjD">
                             <font key="font" metaFont="system"/>
@@ -91,7 +92,7 @@
                         </connections>
                     </textField>
                     <textField verticalHuggingPriority="750" id="9CJ-QE-Dgj">
-                        <rect key="frame" x="46" y="294" width="281" height="19"/>
+                        <rect key="frame" x="46" y="294" width="448" height="19"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="O8G-H7-Vfi">
                             <font key="font" metaFont="smallSystem"/>
@@ -102,8 +103,16 @@
                             <outlet property="delegate" destination="bRQ-xO-Y0s" id="OD4-Rz-Tor"/>
                         </connections>
                     </textField>
+                    <button id="Yfy-Hq-9Ak">
+                        <rect key="frame" x="344" y="265" width="174" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="check" title="Set weight for each level" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="uKC-ZS-KeX">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                    </button>
                     <button horizontalHuggingPriority="750" verticalHuggingPriority="750" id="8MI-uf-WO9">
-                        <rect key="frame" x="302" y="295" width="25" height="15"/>
+                        <rect key="frame" x="491" y="296" width="25" height="15"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="bevel" bezelStyle="rounded" image="NSFollowLinkFreestandingTemplate" imagePosition="only" alignment="center" controlSize="small" imageScaling="proportionallyDown" inset="2" id="Ke5-CX-BLh">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -122,7 +131,13 @@
                 <outlet property="fileListBuilder" destination="-2" id="Grc-r1-jZf"/>
                 <outlet property="filePathTextField" destination="9CJ-QE-Dgj" id="YYj-gM-bXj"/>
                 <outlet property="numberOfColumnsTextField" destination="3cY-db-hde" id="g53-1m-oVS"/>
-                <outlet property="previewTableView" destination="usB-ds-jBM" id="cvI-Jq-6y5"/>
+                <outlet property="tableViewController" destination="0qt-H6-Ugq" id="Ib8-Ln-WjT"/>
+            </connections>
+        </customObject>
+        <customObject id="0qt-H6-Ugq" customClass="PSFileListBuilderTableController" customModule="PsyScopeDefaultPlugins" customModuleProvider="target">
+            <connections>
+                <outlet property="controller" destination="bRQ-xO-Y0s" id="GUs-4M-pk9"/>
+                <outlet property="previewTableView" destination="usB-ds-jBM" id="r4G-Pf-oO3"/>
             </connections>
         </customObject>
         <menu id="YIT-IH-wnc">

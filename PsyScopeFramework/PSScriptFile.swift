@@ -10,9 +10,12 @@ import Foundation
 
 public class PSScriptFile : NSObject {
     public class func FileRefFromPath(path : String, scriptData : PSScriptData) -> String {
-        var docPath = scriptData.documentDirectory()!
-        var pspath = PSPath(path, basePath: docPath)
-        return "FileRef(\"\(pspath)\")"
+        if let docPath = scriptData.documentDirectory() {
+            let pspath = PSPath(path, basePath: docPath)
+            return "FileRef(\"\(pspath)\")"
+        } else {
+            return ""
+        }
     }
     
     public class func PathFromFileRef(fileref : String, scriptData : PSScriptData) -> String {

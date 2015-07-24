@@ -101,6 +101,7 @@
 		1A4A64691B0FB61A00084A10 /* PSChildTypeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4A64681B0FB61A00084A10 /* PSChildTypeViewController.swift */; };
 		1A4A646D1B11008600084A10 /* PSSubjectVariableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4A646C1B11008600084A10 /* PSSubjectVariableView.swift */; };
 		1A4A64701B1109F300084A10 /* PSGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4A646F1B1109F300084A10 /* PSGroup.swift */; };
+		1A4CA39D1B62A3EC00CB1BD2 /* PSFileListBuilderTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4CA39C1B62A3EC00CB1BD2 /* PSFileListBuilderTableController.swift */; };
 		1A4E2F731987D0B700F87603 /* SplitViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4E2F721987D0B700F87603 /* SplitViewDelegate.swift */; };
 		1A4FE4BE1A3F2D1700E581CB /* PSConditionAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4FE4BD1A3F2D1700E581CB /* PSConditionAttribute.swift */; };
 		1A50357E19A7FC18000A7FE5 /* airplane-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A50357619A7FC18000A7FE5 /* airplane-icon.png */; };
@@ -745,6 +746,7 @@
 		1A4A64681B0FB61A00084A10 /* PSChildTypeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSChildTypeViewController.swift; sourceTree = "<group>"; };
 		1A4A646C1B11008600084A10 /* PSSubjectVariableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSSubjectVariableView.swift; sourceTree = "<group>"; };
 		1A4A646F1B1109F300084A10 /* PSGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSGroup.swift; sourceTree = "<group>"; };
+		1A4CA39C1B62A3EC00CB1BD2 /* PSFileListBuilderTableController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSFileListBuilderTableController.swift; sourceTree = "<group>"; };
 		1A4E2F721987D0B700F87603 /* SplitViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplitViewDelegate.swift; sourceTree = "<group>"; };
 		1A4FE4BD1A3F2D1700E581CB /* PSConditionAttribute.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSConditionAttribute.swift; sourceTree = "<group>"; };
 		1A50357619A7FC18000A7FE5 /* airplane-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "airplane-icon.png"; sourceTree = "<group>"; };
@@ -2396,6 +2398,7 @@
 				1AD032951B16052E002516ED /* PSFileListBuilder.swift */,
 				1AD032971B160571002516ED /* PSFileListBuilderController.swift */,
 				1AD032991B160ED7002516ED /* PSFileList.swift */,
+				1A4CA39C1B62A3EC00CB1BD2 /* PSFileListBuilderTableController.swift */,
 			);
 			name = FileListBuilder;
 			sourceTree = "<group>";
@@ -2956,6 +2959,7 @@
 				1AA420051AA9CCFB00CB8D95 /* PSAttributeParameter_OnOff.swift in Sources */,
 				1A9263701A94971B00DAFF3A /* PSToolBrowserViewItem.swift in Sources */,
 				1A8FAC8C1AC9E2B500748053 /* PSAttributeParameter_Int255.swift in Sources */,
+				1A4CA39D1B62A3EC00CB1BD2 /* PSFileListBuilderTableController.swift in Sources */,
 				1A9CE3731AA8BC1C00C846F4 /* PSAction_SetBackColor.swift in Sources */,
 				1AE42F321A2F26E80003342A /* PSActionsBuilderController.swift in Sources */,
 				1A83ECB11AE64B9000166AA6 /* PSVariableTypePopup.swift in Sources */,

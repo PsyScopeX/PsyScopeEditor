@@ -48,7 +48,7 @@ class PSDialogVariableTool: PSTool, PSToolInterface {
         return false
     }
     
-    func canAddAttributes() -> Bool {
+    override func canAddAttributes() -> Bool {
         return false
     }
     

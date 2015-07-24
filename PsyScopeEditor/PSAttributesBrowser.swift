@@ -90,7 +90,7 @@ class PSAttributesBrowser: NSObject, NSTableViewDelegate, NSTableViewDataSource,
            
             return cell
         } else {
-            //add condition button
+            //add attribute button
             let new_view  = tableView.makeViewWithIdentifier(addAttributeCellIdentifier, owner: self) as! PSButtonCell
             new_view.action = { (sender : NSButton) -> () in
                 self.addAttribute(sender) }

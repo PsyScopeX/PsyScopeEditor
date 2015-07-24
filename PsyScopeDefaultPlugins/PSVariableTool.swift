@@ -34,7 +34,7 @@ class PSVariableTool: PSTool, PSToolInterface {
         return true
     }
     
-    func canAddAttributes() -> Bool {
+    override func canAddAttributes() -> Bool {
         return false
     }
     

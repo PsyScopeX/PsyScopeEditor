@@ -186,8 +186,8 @@ class PSListViewController : PSToolPropertyController, NSWindowDelegate {
                     tb.window.makeKeyAndOrderFront(sender)            }
             } else {
                 self.listBuilder = PSListBuilder(scriptData: self.scriptData, listEntry: self.entry)
-                self.listBuilder!.showWindow()
                 self.listBuilder!.window.delegate = self
+                self.listBuilder!.showWindow()
             }
         } else {
             if let tb = self.listFileBuilder {
@@ -196,8 +196,8 @@ class PSListViewController : PSToolPropertyController, NSWindowDelegate {
                 }
             } else {
                 self.listFileBuilder = PSFileListBuilder(scriptData: scriptData, listEntry: self.entry)
-                self.listFileBuilder!.showWindow()
                 self.listFileBuilder!.window.delegate = self
+                self.listFileBuilder!.showWindow()
             }
         }
         
