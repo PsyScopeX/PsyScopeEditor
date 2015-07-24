@@ -29,7 +29,7 @@ class Document: NSPersistentDocument, NSSplitViewDelegate {
     @IBOutlet var variableSelector : PSVariableSelector!
     @IBOutlet var experimentSetup : PSExperimentSetup!
     
-    var nibLoaded : Bool = false
+    var initialized : Bool = false
     var isNewDocument : Bool = false
     var _scriptData : PSScriptData!
     var _managedObjectModel: NSManagedObjectModel?
@@ -55,9 +55,6 @@ class Document: NSPersistentDocument, NSSplitViewDelegate {
         //create new experiment if necessary
         if isNewDocument { scriptData.setUpInitialScriptState() }
         
-        
-        
-        
         //initialize and setup all documents
         layoutController.initialize()
         experimentSetup.initialize()
@@ -72,21 +69,15 @@ class Document: NSPersistentDocument, NSSplitViewDelegate {
         tabController.initialize() //must be second to last
         selectionController.initialize() //must be last
         
-        
-        
-        
         //set up current tool bar selection
         toolbar.selectedItemIdentifier = layoutToolbarItem.itemIdentifier
-        nibLoaded = true
-        
-        
+        initialized = true
         
         //import script if there is one to import
         if let scriptToImport = scriptToImport {
             self.fileURL = nil
             self.fileType = self.autosavingFileType
             scriptDelegate.importScript(scriptToImport)
-            
         }
         
         scriptToImport = nil
@@ -94,8 +85,7 @@ class Document: NSPersistentDocument, NSSplitViewDelegate {
     
     func setupInitialState() {
         self.isNewDocument = true
-        if nibLoaded { scriptData.setUpInitialScriptState() }
-        
+        if initialized { scriptData.setUpInitialScriptState() }
     }
     
     //MARK: NSDocument Overrides

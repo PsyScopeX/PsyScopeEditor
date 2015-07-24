@@ -102,6 +102,7 @@
 		1A4A646D1B11008600084A10 /* PSSubjectVariableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4A646C1B11008600084A10 /* PSSubjectVariableView.swift */; };
 		1A4A64701B1109F300084A10 /* PSGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4A646F1B1109F300084A10 /* PSGroup.swift */; };
 		1A4CA39D1B62A3EC00CB1BD2 /* PSFileListBuilderTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4CA39C1B62A3EC00CB1BD2 /* PSFileListBuilderTableController.swift */; };
+		1A4CA3A11B62CCDE00CB1BD2 /* PSEntryWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4CA3A01B62CCDE00CB1BD2 /* PSEntryWindowController.swift */; };
 		1A4E2F731987D0B700F87603 /* SplitViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4E2F721987D0B700F87603 /* SplitViewDelegate.swift */; };
 		1A4FE4BE1A3F2D1700E581CB /* PSConditionAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4FE4BD1A3F2D1700E581CB /* PSConditionAttribute.swift */; };
 		1A50357E19A7FC18000A7FE5 /* airplane-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A50357619A7FC18000A7FE5 /* airplane-icon.png */; };
@@ -747,6 +748,7 @@
 		1A4A646C1B11008600084A10 /* PSSubjectVariableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSSubjectVariableView.swift; sourceTree = "<group>"; };
 		1A4A646F1B1109F300084A10 /* PSGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSGroup.swift; sourceTree = "<group>"; };
 		1A4CA39C1B62A3EC00CB1BD2 /* PSFileListBuilderTableController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSFileListBuilderTableController.swift; sourceTree = "<group>"; };
+		1A4CA3A01B62CCDE00CB1BD2 /* PSEntryWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSEntryWindowController.swift; sourceTree = "<group>"; };
 		1A4E2F721987D0B700F87603 /* SplitViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplitViewDelegate.swift; sourceTree = "<group>"; };
 		1A4FE4BD1A3F2D1700E581CB /* PSConditionAttribute.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSConditionAttribute.swift; sourceTree = "<group>"; };
 		1A50357619A7FC18000A7FE5 /* airplane-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "airplane-icon.png"; sourceTree = "<group>"; };
@@ -2232,6 +2234,7 @@
 				1A7226FB1AC42875001E8E9E /* PSVaryByButton.swift */,
 				1AD0329B1B174850002516ED /* PSScrollEventPassingScrollView.swift */,
 				1AF964F61B3986A50036219E /* PSQuickFirstResponderTableView.swift */,
+				1A4CA3A01B62CCDE00CB1BD2 /* PSEntryWindowController.swift */,
 			);
 			name = "General Purpose";
 			sourceTree = "<group>";
@@ -3208,6 +3211,7 @@
 				1AD032851B13CA02002516ED /* PSSubjectVariableDialog.swift in Sources */,
 				1A5C661D1A892805009EED35 /* PSCellView.swift in Sources */,
 				1AA41FF91AA9C37100CB8D95 /* PSAttributeParameter_Variable.swift in Sources */,
+				1A4CA3A11B62CCDE00CB1BD2 /* PSEntryWindowController.swift in Sources */,
 				1ABD89001AAF26DD00B43779 /* PSPreferences.swift in Sources */,
 				1A710A111A86BA3200073CB6 /* PSIntegerOnlyNumberFormatter.swift in Sources */,
 			);

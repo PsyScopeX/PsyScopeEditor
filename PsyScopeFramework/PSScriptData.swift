@@ -52,8 +52,6 @@ extension NSMenu {
 
 public class PSScriptData : NSObject {
     
-
-
     public init(docMoc: NSManagedObjectContext, pluginProvider: PSPluginProvider, document: NSDocument, window: NSWindow, selectionInterface: PSSelectionInterface) {
         self.docMoc = docMoc
         self.pluginProvider = pluginProvider
