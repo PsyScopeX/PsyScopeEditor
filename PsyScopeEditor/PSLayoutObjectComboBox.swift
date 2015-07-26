@@ -13,8 +13,7 @@ class PSLayoutObjectComboBox : NSObject, NSComboBoxDataSource, NSComboBoxDelegat
     //MARK: Outlets
 
     @IBOutlet var comboBox : NSComboBox!
-    @IBOutlet var document : Document!
-    @IBOutlet var selectionController : PSSelectionController!
+    @IBOutlet var mainWindowController : PSMainWindowController!
     
     //MARK: Variables
     
@@ -41,7 +40,7 @@ class PSLayoutObjectComboBox : NSObject, NSComboBoxDataSource, NSComboBoxDelegat
         return -1
     }
     func comboBoxSelectionDidChange(notification: NSNotification) {
-        selectionController.selectObjectForEntryNamed(getSelectedComboBoxItem())
+        mainWindowController.selectionController.selectObjectForEntryNamed(getSelectedComboBoxItem())
     }
     
     func getSelectedComboBoxItem() -> String {
@@ -55,15 +54,15 @@ class PSLayoutObjectComboBox : NSObject, NSComboBoxDataSource, NSComboBoxDelegat
     //MARK: Refresh
     
     func refresh() {
-        let entries = document.scriptData.getBaseEntriesWithLayoutObjects()
-        let new_items = document.scriptData.getNamesOfEntries(entries)
+        let entries = mainWindowController.scriptData.getBaseEntriesWithLayoutObjects()
+        let new_items = mainWindowController.scriptData.getNamesOfEntries(entries)
         items = new_items.sort({ (s1: String, s2: String) -> Bool in
             return s1 < s2 })
         
         
         comboBox.reloadData()
         
-        if let selectedEntry = selectionController.getSelectedEntry() {
+        if let selectedEntry = mainWindowController.selectionController.getSelectedEntry() {
             let currentSelectedItem : String = selectedEntry.name
             selectItem(currentSelectedItem)
         }

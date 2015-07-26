@@ -62,17 +62,15 @@ class PSLayoutBoard: NSView {
 
     var linkingObjects : [PSLayoutItem]? //if linking to objects, stores the first selected objects
     
-    var containingWindow : NSWindow!
     let draggedTypes : [String] = [PSConstants.PSToolBrowserView.dragType, PSConstants.PSToolBrowserView.pasteboardType,PSConstants.PSEventBrowserView.dragType, PSConstants.PSEventBrowserView.pasteboardType,NSFilenamesPboardType]
     
-    func prepareMainLayer(window : NSWindow) {
+    func prepareMainLayer() {
         self.registerForDraggedTypes(draggedTypes)
-        self.containingWindow = window
         self.layer = CALayer()
         self.wantsLayer = true
         self.layer!.backgroundColor = PSConstants.BasicDefaultColors.backgroundColor
         self.layer!.zPosition = 0
-        self.layer!.contentsScale = self.containingWindow.backingScaleFactor
+        self.layer!.contentsScale = self.window!.backingScaleFactor
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateContextMenuItems:", name: NSPopUpButtonWillPopUpNotification, object: actionPopup)
 
 
@@ -535,7 +533,7 @@ class PSLayoutBoard: NSView {
         sublayer.shadowRadius = 0.0;//Luca changed from 5.0
         sublayer.shadowColor = NSColor.blackColor().CGColor;
         sublayer.shadowOpacity = 0.0;
-        sublayer.contentsScale = self.containingWindow.backingScaleFactor
+        sublayer.contentsScale = self.window!.backingScaleFactor
         sublayer.contents = iconImage
         sublayer.borderColor = NSColor.whiteColor().CGColor; // Luca experimented. Can be changed to from NSColor.clearColor to remove the visible icon border when selected. Originally, it was BlackColor.
         sublayer.borderWidth = 0.0;
@@ -545,7 +543,7 @@ class PSLayoutBoard: NSView {
         
         
         let text_layer = CATextLayer()
-        text_layer.contentsScale = self.containingWindow.backingScaleFactor
+        text_layer.contentsScale = self.window!.backingScaleFactor
 
         text_layer.backgroundColor = PSConstants.BasicDefaultColors.backgroundColor
         text_layer.font = PSConstants.Fonts.layoutBoardIcons
@@ -733,7 +731,7 @@ class PSLayoutBoard: NSView {
     func makeLineLayer(lineFrom: CGPoint, to: CGPoint) -> CAShapeLayer {
         //makes a CAShapeLayer containing a single line
         let line = CAShapeLayer()
-        line.contentsScale = self.containingWindow.backingScaleFactor
+        line.contentsScale = self.window!.backingScaleFactor
         line.path = makeCGLine(lineFrom, to: to)
         line.fillColor = NSColor.grayColor().CGColor //darkgray from black Luca
         line.opacity = 1.0

@@ -15,33 +15,28 @@ import Foundation
 class PSSelectionController : NSObject, PSSelectionInterface {
     let debugMocChanges = false
     
-    @IBOutlet var scriptDelegate : PSScriptViewDelegate!
-    @IBOutlet var document : Document!
-    @IBOutlet var attributesBrowser : PSAttributesBrowser!
-    @IBOutlet var tabDelegate : PSDocumentTabDelegate!
-    @IBOutlet var layoutController : LayoutController!
-    @IBOutlet var actionsBrowser : PSActionsBrowser!
-    @IBOutlet var entryBrowser : PSEntryBrowser!
-    @IBOutlet var variableSelector : PSVariableSelector!
-    @IBOutlet var experimentSetup : PSExperimentSetup!
-    @IBOutlet var layoutObjectComboBox : PSLayoutObjectComboBox!
-    
+    var document : Document!
     var scriptData : PSScriptData!
     var windowViews : [PSWindowViewInterface] = []
     var menu : NSMenu!
     
     var docMocChangesPending : Bool = false
     
-    func initialize() {
-        
-        scriptData = document.scriptData
-        var objects = scriptData.getLayoutObjects()
-        if objects.count >= 1 {
-            selectEntry(objects[0].mainEntry) //triggers the correct filling in of the attributes browser
+    func initialize(document : Document, scriptData : PSScriptData) {
+        self.document = document
+        self.scriptData = scriptData
+    }
+    
+    var registeredForChanges : Bool = false {
+        willSet {
+            if newValue != registeredForChanges {
+                if newValue {
+                    NSNotificationCenter.defaultCenter().addObserver(self, selector: "docMocChanged:", name: NSManagedObjectContextObjectsDidChangeNotification, object: scriptData.docMoc)
+                } else {
+                    NSNotificationCenter.defaultCenter().removeObserver(self)
+                }
+            }
         }
-        
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "docMocChanged:", name: NSManagedObjectContextObjectsDidChangeNotification, object: document.managedObjectContext!)
-        refreshGUI()
     }
     
     func registerSelectionInterface(interface : PSWindowViewInterface) {
@@ -86,17 +81,13 @@ class PSSelectionController : NSObject, PSSelectionInterface {
     //general method for selecting an object
     func selectEntry(entry : Entry?) {
         selectedEntry = entry
-        tabDelegate.selectEntry(entry)
-        layoutController.selectEntry(entry)
-        scriptDelegate.selectEntry(entry)
-        experimentSetup.entrySelected()
+        document.mainWindowController.selectEntry(entry)
         refreshGUI()
     }
     
     //for double click action
     func doubleClickEntry(entry : Entry) {
-        tabDelegate.showProperties()
-        tabDelegate.doubleClickProperties()
+        document.mainWindowController.doubleClickEntry(entry)
     }
     
     
@@ -148,10 +139,7 @@ class PSSelectionController : NSObject, PSSelectionInterface {
             let success = pstool.deleteObject(mainEntry, withScript: scriptData)
             scriptData.endUndoGrouping(success)
             if (success) {
-                layoutController.deleteObject(layoutObject)
-                tabDelegate.deleteEntry(mainEntry) //remove the properties view, and associated windows
-                
-                actionsBrowser.entryDeleted(mainEntry)
+
                 for interface in windowViews {
                     interface.entryDeleted(mainEntry)
                 }
@@ -190,20 +178,12 @@ class PSSelectionController : NSObject, PSSelectionInterface {
     
     
     func refreshGUI() {
-        print("Refresh")
-        
-        tabDelegate.refresh() //sends refresh to property controllers
-        layoutController.refresh()
+        //print("Refresh")
         buildEventActionsAttributeAndMetaData() //must be done at start of refresh
-        layoutObjectComboBox.refresh()
-        experimentSetup.update()
-        actionsBrowser.refresh()
-        entryBrowser.update()
-        attributesBrowser.refresh()
-        attributesBrowser.refresh()
-        variableSelector.update()
         updateVaryByMenu() //perhaps this doesn't belong here?
-        scriptDelegate.scriptHasHadObjectUpdates()
+        
+        document.mainWindowController.refreshGUI()
+
         for interface in windowViews {
             interface.refresh()
         }

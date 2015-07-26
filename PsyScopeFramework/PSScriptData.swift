@@ -52,11 +52,10 @@ extension NSMenu {
 
 public class PSScriptData : NSObject {
     
-    public init(docMoc: NSManagedObjectContext, pluginProvider: PSPluginProvider, document: NSDocument, window: NSWindow, selectionInterface: PSSelectionInterface) {
+    public init(docMoc: NSManagedObjectContext, pluginProvider: PSPluginProvider, document: NSDocument, selectionInterface: PSSelectionInterface) {
         self.docMoc = docMoc
         self.pluginProvider = pluginProvider
         self.document = document
-        self.window = window
         self.inUndoGrouping = false
         self.undoGrouping = ""
         self.selectionInterface = selectionInterface
@@ -68,7 +67,7 @@ public class PSScriptData : NSObject {
     public let pluginProvider : PSPluginProvider
     public let docMoc : NSManagedObjectContext
     public let document : NSDocument
-    public let window : NSWindow
+    public var window : NSWindow!
     var inUndoGrouping : Bool
     var undoGrouping : String
     public let selectionInterface : PSSelectionInterface

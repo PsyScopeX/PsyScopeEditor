@@ -12,17 +12,14 @@ import Foundation
 
 class PSScriptConverter: NSObject {
     
-    @IBOutlet var document : Document!
+    @IBOutlet var mainWindowController : PSMainWindowController!
     @IBOutlet var errorHandler : PSScriptErrorViewController!
-    @IBOutlet var selectionController : PSSelectionController!
 
-    var docMoc : NSManagedObjectContext!
     var plugins : [PSToolInterface] = []
     var attributePlugins : [PSAttributeInterface] = []
     var entryValueChecker : PSEntryValueChecker!
     
     override func awakeFromNib() {
-        docMoc = document.managedObjectContext
         let tools : [PSToolInterface] = PSPluginSingleton.sharedInstance.toolObjects.values.array
         let events : [PSToolInterface] = PSPluginSingleton.sharedInstance.eventObjects.values.array
         plugins = tools + events
@@ -38,10 +35,11 @@ class PSScriptConverter: NSObject {
             //println("Errors detected in script - no building")
             return false
         }
+        let scriptData = mainWindowController.scriptData
         print("BEGINNING CONVERSION FROM GHOST TO REAL")
         errorHandler.reset()
         
-        document.scriptData.beginUndoGrouping("Update Layout From Script")
+        scriptData.beginUndoGrouping("Update Layout From Script")
         self.ghostScript = newGhostScript
         
         
@@ -62,8 +60,8 @@ class PSScriptConverter: NSObject {
         success = success && matchExistingEntries()
         errorHandler.presentErrors()
         print("END CONVERSION FROM GHOST TO REAL")
-        document.scriptData.endUndoGrouping(success)
-        entryValueChecker = PSEntryValueChecker(scriptData: document.scriptData)
+        scriptData.endUndoGrouping(success)
+        entryValueChecker = PSEntryValueChecker(scriptData: scriptData)
         entryValueChecker.checkScriptEntryValuesAsync(errorHandler)
         return success
     }
@@ -154,7 +152,7 @@ class PSScriptConverter: NSObject {
     //5. delete no longer existing entries and create new entries which are not present
     func matchExistingEntries() -> Bool {
     
-        let scriptData = document.scriptData
+        let scriptData = mainWindowController.scriptData
         //next for each key entry/attribute, scan for this in the ghost objects,
         let baseEntries = scriptData.getBaseEntries()
         
@@ -213,7 +211,7 @@ class PSScriptConverter: NSObject {
             }
             
             if new_entries.count > 0 {
-                let new_lobjects = attribute.createBaseEntriesWithGhostEntries(new_entries, withScript: document.scriptData)
+                let new_lobjects = attribute.createBaseEntriesWithGhostEntries(new_entries, withScript: scriptData)
                 
                 //if nil, then the creation failed
                 if (new_lobjects == nil) {
@@ -239,7 +237,7 @@ class PSScriptConverter: NSObject {
             }
             
             if new_entries.count > 0 {
-                let new_lobjects = plugin.createObjectWithGhostEntries(new_entries, withScript: document.scriptData)
+                let new_lobjects = plugin.createObjectWithGhostEntries(new_entries, withScript: scriptData)
                 
                 //if nil, then the creation failed
                 if (new_lobjects == nil) {
@@ -294,6 +292,8 @@ class PSScriptConverter: NSObject {
     
     func positionNewLayoutObjects(new_lobjects : [LayoutObject], all_lobjects : [LayoutObject]) {
         
+        let scriptData = mainWindowController.scriptData
+        
         //to flag unpositioned objects
         for new_lobject in new_lobjects {
             new_lobject.xPos = -1
@@ -310,7 +310,7 @@ class PSScriptConverter: NSObject {
                 for p in new_lobject.parentLink as! Set<LayoutObject> {
                     if p.xPos != -1 {
                         PSPositionNewObjectWithParent(new_lobject, parentObject: p)
-                        PSSortSubTree(new_lobject, scriptData: document.scriptData) //ok position for this object, so sort its children
+                        PSSortSubTree(new_lobject, scriptData: scriptData) //ok position for this object, so sort its children
                         break
                     }
                 }
@@ -322,7 +322,7 @@ class PSScriptConverter: NSObject {
         //for un positioned objects put in a free spot
         for new_lobject in lobjects {
             if new_lobject.xPos == -1 {
-                PSPutInFreeSpot(new_lobject, scriptData: document.scriptData)  // automatically sorts sub tree
+                PSPutInFreeSpot(new_lobject, scriptData: scriptData)  // automatically sorts sub tree
             }
         }
         

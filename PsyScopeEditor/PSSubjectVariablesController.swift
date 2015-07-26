@@ -77,7 +77,7 @@ class PSSubjectVariablesController : NSObject, NSTextFieldDelegate, NSTableViewD
     
     var selectedSubjectVariable : PSSubjectVariable? {
         get {
-            guard let selectedEntry = experimentSetupController.selectionInterface.selectedEntry,
+            guard let selectedEntry = experimentSetupController.selectionInterface.getSelectedEntry(),
             selectedVariable = getSubjectVariableForEntry(selectedEntry) else {
                 return nil
             }

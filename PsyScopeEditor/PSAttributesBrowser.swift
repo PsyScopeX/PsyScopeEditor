@@ -13,9 +13,8 @@ let PSPasteboardTypeAttribute : NSString = "psyscope.attribute"
 class PSAttributesBrowser: NSObject, NSTableViewDelegate, NSTableViewDataSource, PSEditMenuDelegate, NSPasteboardItemDataProvider {
 
     //MARK: Outlets
-    @IBOutlet var selectionController : PSSelectionController!
     @IBOutlet var tableView : NSTableView!
-    @IBOutlet var document : Document!
+    @IBOutlet var mainWindowController : PSMainWindowController!
     @IBOutlet var elementViewerController : PSElementViewerController!
     
     
@@ -26,12 +25,14 @@ class PSAttributesBrowser: NSObject, NSTableViewDelegate, NSTableViewDataSource,
     var attributePicker : PSAttributePicker? //holds a reference to last popup to prevent Zombie object
     var copiedAttribute : Entry? //Holds copied attribute
     var canAddAttributes : Bool = false
+    var selectionController : PSSelectionController!
 
     //MARK: AwakeFromNib
     
     override func awakeFromNib()  {
         let anib = NSNib(nibNamed: "AddAttributeCell", bundle: NSBundle(forClass:self.dynamicType))
         tableView.registerNib(anib!, forIdentifier: addAttributeCellIdentifier)
+        self.selectionController = mainWindowController.selectionController
     }
     
 
@@ -40,7 +41,7 @@ class PSAttributesBrowser: NSObject, NSTableViewDelegate, NSTableViewDataSource,
     
     func refresh() {
         if let selectedEntry = selectionController.selectedEntry,
-         interface = document.scriptData.pluginProvider.getInterfaceForType(selectedEntry.type)
+         interface = mainWindowController.scriptData.pluginProvider.getInterfaceForType(selectedEntry.type)
             where interface.canAddAttributes() == true {
                 
             self.canAddAttributes = true
@@ -67,7 +68,7 @@ class PSAttributesBrowser: NSObject, NSTableViewDelegate, NSTableViewDataSource,
     //MARK: Attributes TableView
     
     func numberOfRowsInTableView(tableView: NSTableView) -> Int {
-        if selectionController.selectedEntry != nil && self.canAddAttributes == true {
+        if selectionController != nil && selectionController.selectedEntry != nil && self.canAddAttributes == true {
             return content.count + 1 //add attribute button
         } else {
             return 0 //empty for no selected entry
@@ -79,12 +80,12 @@ class PSAttributesBrowser: NSObject, NSTableViewDelegate, NSTableViewDataSource,
         if row < content.count {
             //1. identify attribute type
             var attributeInterface : PSAttributeInterface = genericInterface
-            if let interface : PSAttributeInterface = document.scriptData.getAttributeInterfaceForAttributeEntry(content[row]) {
+            if let interface : PSAttributeInterface = mainWindowController.scriptData.getAttributeInterfaceForAttributeEntry(content[row]) {
                 attributeInterface = interface
             }
             
             let attributeParameter = attributeInterface.attributeParameter() as! PSAttributeParameter
-            let cell = PSAttributeEntryCellView(entry: content[row], attributeParameter: attributeParameter, interface: genericInterface, scriptData: document.scriptData)
+            let cell = PSAttributeEntryCellView(entry: content[row], attributeParameter: attributeParameter, interface: genericInterface, scriptData: mainWindowController.scriptData)
             let builder = PSAttributeParameterBuilder(parameter: attributeParameter)
             builder.setupEntryCell(cell)
            
@@ -120,7 +121,7 @@ class PSAttributesBrowser: NSObject, NSTableViewDelegate, NSTableViewDataSource,
     @IBAction func addAttribute(sender : NSView) { //from add attribute cell button
         
         if let selectedEntry = selectionController.selectedEntry {
-            attributePicker = PSAttributePickerEntry(entry: selectedEntry, scriptData: document.scriptData)
+            attributePicker = PSAttributePickerEntry(entry: selectedEntry, scriptData: mainWindowController.scriptData)
             attributePicker!.showAttributeWindow(tableView)
         }
     }
@@ -128,9 +129,9 @@ class PSAttributesBrowser: NSObject, NSTableViewDelegate, NSTableViewDataSource,
     func deleteObject(sender : AnyObject) {
         let index = tableView.selectedRowIndexes.firstIndex
         if index > 0 && index < content.count {
-            document.scriptData.beginUndoGrouping("Delete Attribute")
-            document.scriptData.deleteSubEntryFromBaseEntry(content[index].parentEntry, subEntry: content[index])
-            document.scriptData.endUndoGrouping(true)
+            mainWindowController.scriptData.beginUndoGrouping("Delete Attribute")
+            mainWindowController.scriptData.deleteSubEntryFromBaseEntry(content[index].parentEntry, subEntry: content[index])
+            mainWindowController.scriptData.endUndoGrouping(true)
         }
         
     }
@@ -163,7 +164,7 @@ class PSAttributesBrowser: NSObject, NSTableViewDelegate, NSTableViewDataSource,
             for item in items {
                 if let data = item.dataForType(PSPasteboardTypeAttribute  as String) {
                     let dict = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! NSDictionary
-                    let new_entry = PSCreateEntryFromDictionary(document.managedObjectContext, dict: dict)
+                    let new_entry = PSCreateEntryFromDictionary(mainWindowController.mainDocument.managedObjectContext, dict: dict)
                     se.addSubEntriesObject(new_entry)
                 }
             }
@@ -176,7 +177,7 @@ class PSAttributesBrowser: NSObject, NSTableViewDelegate, NSTableViewDataSource,
         if let ce = copiedAttribute {
             switch (type) {
             case NSPasteboardTypeString:
-                let writer = PSScriptWriter(scriptData: document.scriptData)
+                let writer = PSScriptWriter(scriptData: mainWindowController.scriptData)
                 
                 let string = writer.entryToText(ce, level: 1)
                 pasteboard.setString(string, forType: NSPasteboardTypeString)

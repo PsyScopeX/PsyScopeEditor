@@ -12,7 +12,6 @@ class PSEntryBrowserSearchController : NSObject, NSTextFieldDelegate, NCRAutocom
     
     //MARK: Outlets
     @IBOutlet var textField : NSTextField!
-    @IBOutlet var selectionController : PSSelectionController!
     
     //MARK: Vars
     

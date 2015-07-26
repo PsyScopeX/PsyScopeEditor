@@ -10,7 +10,7 @@ import Foundation
 
 class PSElementViewerController : NSObject {
     
-    @IBOutlet var document : Document!
+    @IBOutlet var mainWindowController : PSMainWindowController!
     @IBOutlet var elementViewerPopover : NSPopover!
     @IBOutlet var elementViewerView : NSView!
     
@@ -22,18 +22,18 @@ class PSElementViewerController : NSObject {
         
         //identify attribute type
         var attributeInterface : PSAttributeInterface = genericInterface
-        if let interface : PSAttributeInterface = document.scriptData.getAttributeInterfaceForAttributeEntry(attributeEntry) {
+        if let interface : PSAttributeInterface = mainWindowController.scriptData.getAttributeInterfaceForAttributeEntry(attributeEntry) {
             attributeInterface = interface
         }
         
         //build attribute cell
         let attributeParameter = attributeInterface.attributeParameter() as! PSAttributeParameter
-        let cell = PSAttributeEntryCellView(entry: attributeEntry, attributeParameter: attributeParameter, interface: genericInterface, scriptData: document.scriptData)
+        let cell = PSAttributeEntryCellView(entry: attributeEntry, attributeParameter: attributeParameter, interface: genericInterface, scriptData: mainWindowController.scriptData)
         cell.frame = elementViewerView.frame
         let builder = PSAttributeParameterBuilder(parameter: attributeParameter)
         builder.setupElementViewer(cell, gotoEntryBlock: {
-            var entryToSelect = self.document.scriptData.getBaseEntry(attributeParameter.varyByEntryName!)
-            self.document.selectionController.selectEntry(entryToSelect) })
+            let entryToSelect = self.mainWindowController.scriptData.getBaseEntry(attributeParameter.varyByEntryName!)
+            self.mainWindowController.selectionController.selectEntry(entryToSelect) })
         
         //add to elementViewer view
         

@@ -10,7 +10,7 @@ import Foundation
 
 class PSCustomMenus : NSObject {
     
-    @IBOutlet var document : Document!
+    @IBOutlet var mainWindowController : PSMainWindowController!
     @IBOutlet var customMenuPopUp : NSPopUpButton!
     
     var menuTitles : [String] = []
@@ -24,7 +24,7 @@ class PSCustomMenus : NSObject {
     
     func popUpWillPopUp(_: AnyObject) {
         //construct menu from script
-        let scriptData = document.scriptData
+        let scriptData = mainWindowController.scriptData
         
         //save first and second item
         let firstItem = customMenuPopUp.itemAtIndex(0)!
@@ -70,7 +70,7 @@ class PSCustomMenus : NSObject {
     
     func menuItemSelected(menuItem : NSMenuItem) {
         print(menuItem.title)
-        let scriptData = document.scriptData
+        let scriptData = mainWindowController.scriptData
         let selectedTitle = menuItem.title
         if let entry = scriptData.getBaseEntry(selectedTitle) {
             let variable = PSSubjectVariable(entry: entry, scriptData: scriptData)

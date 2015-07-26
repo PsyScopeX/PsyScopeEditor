@@ -36,14 +36,15 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
     }
     
     @IBOutlet var layoutBoard : PSLayoutBoard!
-    @IBOutlet var document : Document!
-    @IBOutlet var selectionController : PSSelectionController!
+    @IBOutlet var mainWindowController : PSMainWindowController!
     
     var scriptData : PSScriptData!
+    var selectionController : PSSelectionController!
 
     func initialize() {
-        scriptData = document.scriptData
-        layoutBoard.prepareMainLayer(scriptData.window) //must be done first
+        selectionController = mainWindowController.selectionController
+        scriptData = mainWindowController.scriptData
+        layoutBoard.prepareMainLayer() //must be done first
         refresh()
 
         //show or hide events and lists depending on setting
@@ -138,7 +139,6 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
     
 //methods which update the PSLayoutBoard and Attributes Browser
 
-    //called when selection manager has detected an object deleteion
     func deleteObject(lobject : LayoutObject) {
         //println("Object has been deleted - removing sublayoutItem")
         //object has been deleted, so update layoutboard and pointers
@@ -360,7 +360,7 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
                     }
                 } else if let data = item.dataForType(PSPasteboardTypeAttribute as String) {
                     var dict = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! NSDictionary
-                    var new_entry = PSCreateEntryFromDictionary(document.managedObjectContext, dict: dict)
+                    var new_entry = PSCreateEntryFromDictionary(scriptData.docMoc, dict: dict)
                     se.addSubEntriesObject(new_entry)
                 }
             }
@@ -390,7 +390,7 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
         if let ce = PSCopiedEntry {
             switch (type) {
             case NSPasteboardTypeString:
-                let writer = PSScriptWriter(scriptData: document.scriptData)
+                let writer = PSScriptWriter(scriptData: mainWindowController.scriptData)
                 let string = writer.entryToText(ce, level: 0)
                 pasteboard.setString(string, forType: NSPasteboardTypeString)
             case PSPasteboardTypeLayoutObject:

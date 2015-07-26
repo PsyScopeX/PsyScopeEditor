@@ -13,8 +13,8 @@ class PSDocumentTabDelegate: NSObject, NSTabViewDelegate {
     
     typealias TabItems = (tag: Int, midPanelItem: NSTabViewItem!, leftPanelItem: NSTabViewItem!)
     
-    @IBOutlet var document : Document!
-    @IBOutlet var selectionInterface : PSSelectionController!
+    @IBOutlet var mainWindowController : PSMainWindowController!
+    var selectionInterface : PSSelectionController!
     @IBOutlet var layoutController : LayoutController!
     @IBOutlet var experimentSetup : PSExperimentSetup!
     @IBOutlet var propertiesButton : NSButton!
@@ -57,16 +57,20 @@ class PSDocumentTabDelegate: NSObject, NSTabViewDelegate {
     var identifiers : [String : Int] = [:]
     
     var propertiesTabViewItemViewController : PSPluginViewController? = nil
-    var objectViewControllers : [Entry : PSPluginViewController] = [:]
+    
+    
+    var currentSelectedEntry : Entry?
     
     func initialize(){
         super.awakeFromNib()
         
+        self.selectionInterface = mainWindowController.selectionController
+        
         //create notification listeners for left panel windows
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "showErrors", name: "PSShowErrorsNotification", object: document)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "showProperties", name: "PSShowPropertiesNotification", object: document)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "showAttributes", name: "PSShowAttributesNotification", object: document)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "showActions", name: "PSShowActionsNotification", object: document)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "showErrors", name: "PSShowErrorsNotification", object: mainWindowController.document)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "showProperties", name: "PSShowPropertiesNotification", object: mainWindowController.document)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "showAttributes", name: "PSShowAttributesNotification", object: mainWindowController.document)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "showActions", name: "PSShowActionsNotification", object: mainWindowController.document)
         
         //setup initial state
         currentToolsTabViewItem = leftPanelTabView.selectedTabViewItem
@@ -96,7 +100,7 @@ class PSDocumentTabDelegate: NSObject, NSTabViewDelegate {
         toolbarSegmentedControl.segmentCount = totalTags + tabitems.count
         
         for tabitem in tabitems {
-            tabitem.setup(document.scriptData, selectionInterface: selectionInterface)
+            tabitem.setup(mainWindowController.scriptData, selectionInterface: selectionInterface)
             let tag = totalTags
             let identifier = tabitem.identifier()
             let icon = tabitem.icon()
@@ -115,9 +119,10 @@ class PSDocumentTabDelegate: NSObject, NSTabViewDelegate {
             let segmentIndex = tag
             toolbarSegmentedControl.setImage(icon, forSegment: segmentIndex)
             toolbarSegmentedControl.setImageScaling(toolbarSegmentedControl.imageScalingForSegment(0), forSegment: segmentIndex)
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: "showWindowNotification:", name: "PSShowWindowNotificationFor\(identifier)", object: document)
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: "showWindowNotification:", name: "PSShowWindowNotificationFor\(identifier)", object: mainWindowController.document)
             totalTags++
         }
+
     }
     
     @IBAction func experimentSetupButtonClick(_: AnyObject) {
@@ -139,6 +144,15 @@ class PSDocumentTabDelegate: NSObject, NSTabViewDelegate {
     }
     
     func refresh() {
+        //get selection
+        let selectedEntry = selectionInterface.getSelectedEntry()
+        if selectedEntry != currentSelectedEntry {
+            if let propertiesTabViewItemViewController = propertiesTabViewItemViewController {
+                propertiesTabViewItemViewController.closeAllWindows()
+            }
+            selectEntry(selectedEntry)
+        }
+        
         //refresh window
         if let pvc = propertiesTabViewItemViewController { pvc.refresh() }
     }
@@ -207,37 +221,19 @@ class PSDocumentTabDelegate: NSObject, NSTabViewDelegate {
         }
     }
     
-    func deleteEntry(entry : Entry) {
-        //to not keep the viewControllers in memory //TODO check this actually works
-        if let vc = objectViewControllers[entry] {
-            vc.closeAllWindows()
-            objectViewControllers[entry] = nil
-        }
-    }
-    
     //handles selecting objects
     func selectEntry(entry : Entry?) {
+        
+        self.currentSelectedEntry = entry
+        
         //try to create view
         var selectedViewController : PSPluginViewController?
         
         //always need to get the view controller, because it can change with context
-        if let e = entry, vc = PSPluginSingleton.sharedInstance.getViewControllerFor(e, document: document) {
-            
+        if let e = entry, vc = PSPluginSingleton.sharedInstance.getViewControllerFor(e, document: mainWindowController.mainDocument) {
             selectedViewController = vc
-            if objectViewControllers[e] != nil && objectViewControllers[e] != vc {
-                //if the object had a previous view controller, close all the windows
-                objectViewControllers[e]!.closeAllWindows()
-            }
-            
-            objectViewControllers[e] = vc //keep in memory for this object
         } else if let e = entry {
-            selectedViewController = PSDefaultPropertiesViewController(entry: e, scriptData: document.scriptData)
-            if objectViewControllers[e] != nil && objectViewControllers[e] != selectedViewController {
-                //if the object had a previous view controller, close all the windows
-                objectViewControllers[e]!.closeAllWindows()
-            }
-            
-            objectViewControllers[e] = selectedViewController //keep in memory for this object
+            selectedViewController = PSDefaultPropertiesViewController(entry: e, scriptData: mainWindowController.scriptData)
         } else {
             //if no view controller display blank
             selectedViewController = nil
@@ -246,13 +242,13 @@ class PSDocumentTabDelegate: NSObject, NSTabViewDelegate {
         
         propertiesTabViewItemViewController = selectedViewController
         
-        if let svc = selectedViewController {
+        /*if let selectedViewController = selectedViewController {
             //set the view to the viewcontrollers view
-            propertiesTabViewItem.view = svc.view
+            propertiesTabViewItem.view = selectedViewController.view
         } else {
             // : TODO, have a placeholder view
             propertiesTabViewItem.view = NSView()
-        }
+        }*/
 
     }
     

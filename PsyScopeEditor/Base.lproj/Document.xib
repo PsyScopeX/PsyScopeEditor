@@ -1,26 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="8121.20" systemVersion="14D136" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="8164.2" systemVersion="14E46" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <development version="6300" identifier="xcode"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="8121.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="8164.2"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="Document" customModule="PsyScopeEditor" customModuleProvider="target">
+        <customObject id="-2" userLabel="File's Owner" customClass="PSMainWindowController" customModule="PsyScopeEditor" customModuleProvider="target">
             <connections>
-                <outlet property="actionsBrowser" destination="bL9-LM-Ngj" id="D1U-57-JBi"/>
-                <outlet property="attributeTabView" destination="IoO-rg-86e" id="DDb-lx-dL4"/>
-                <outlet property="entryBrowser" destination="jbe-el-K4h" id="NYy-yQ-wxt"/>
-                <outlet property="entryBrowserSearchController" destination="KZP-3n-WOv" id="9Dx-Pq-8Nb"/>
-                <outlet property="errorHandler" destination="0g3-tr-pK6" id="JaB-mk-2bk"/>
-                <outlet property="eventToolbarDelegate" destination="iyE-X3-yvj" id="sG9-wa-LkY"/>
-                <outlet property="experimentSetup" destination="Z0W-cp-4H8" id="keS-CG-upI"/>
-                <outlet property="layoutController" destination="lM2-Zh-cBk" id="5vh-AM-Wcu"/>
-                <outlet property="layoutToolbarItem" destination="bIC-h9-bT4" id="SdU-m5-gGQ"/>
-                <outlet property="middleView" destination="3gl-Ni-LHQ" id="wZv-hs-4Mv"/>
-                <outlet property="objectToolbarDelegate" destination="znO-0X-0g7" id="jxf-aO-Aw9"/>
-                <outlet property="scriptDelegate" destination="pVe-g4-G0X" id="YNw-0h-Vnj"/>
-                <outlet property="selectionController" destination="kJS-7r-TNG" id="hnp-lG-MTL"/>
-                <outlet property="tabController" destination="VPD-gz-cgk" id="dCL-uW-auA"/>
+                <outlet property="actionsBrowser" destination="bL9-LM-Ngj" id="oq6-89-47C"/>
+                <outlet property="attributesBrowser" destination="vzq-WE-gKX" id="IWZ-yK-DU1"/>
+                <outlet property="entryBrowser" destination="jbe-el-K4h" id="7T3-JD-QIt"/>
+                <outlet property="entryBrowserSearchController" destination="KZP-3n-WOv" id="MRb-uD-r6g"/>
+                <outlet property="errorHandler" destination="0g3-tr-pK6" id="ZiF-27-PCr"/>
+                <outlet property="eventToolbarDelegate" destination="iyE-X3-yvj" id="Hxa-DP-mC6"/>
+                <outlet property="experimentSetup" destination="Z0W-cp-4H8" id="cDm-YG-5GI"/>
+                <outlet property="layoutController" destination="lM2-Zh-cBk" id="QEA-tB-lXo"/>
+                <outlet property="layoutObjectComboBox" destination="Fhm-UL-YgA" id="0sf-4N-AaT"/>
+                <outlet property="objectToolbarDelegate" destination="iyE-X3-yvj" id="n6h-yc-1jk"/>
+                <outlet property="scriptDelegate" destination="pVe-g4-G0X" id="6uj-S6-VUW"/>
+                <outlet property="tabController" destination="VPD-gz-cgk" id="LAB-cl-tNk"/>
                 <outlet property="toolbar" destination="59H-7P-Qhl" id="fvu-2S-M02"/>
                 <outlet property="variableSelector" destination="hkY-5a-Cbm" id="hHL-AI-q5G"/>
                 <outlet property="window" destination="xOd-HO-29H" id="JIz-fz-R2o"/>
@@ -903,19 +901,18 @@
         <customObject id="fbH-nR-ANZ" customClass="PSCustomMenus" customModule="PsyScopeEditor" customModuleProvider="target">
             <connections>
                 <outlet property="customMenuPopUp" destination="uzt-D0-oRB" id="x6H-ev-aVx"/>
-                <outlet property="document" destination="-2" id="K6J-4O-Gek"/>
+                <outlet property="mainWindowController" destination="-2" id="jVv-QG-lfC"/>
             </connections>
         </customObject>
         <customObject id="Z0W-cp-4H8" customClass="PSExperimentSetup" customModule="PsyScopeEditor" customModuleProvider="target">
             <connections>
-                <outlet property="document" destination="-2" id="fEE-kG-Cex"/>
-                <outlet property="selectionInterface" destination="kJS-7r-TNG" id="96e-qb-BH8"/>
+                <outlet property="mainWindowController" destination="-2" id="QUu-6G-iX3"/>
             </connections>
         </customObject>
         <customObject id="hkY-5a-Cbm" customClass="PSVariableSelector" customModule="PsyScopeEditor" customModuleProvider="target">
             <connections>
+                <outlet property="mainWindowController" destination="-2" id="GaQ-BL-B2J"/>
                 <outlet property="popupButton" destination="ID2-UA-TcO" id="E2Q-Kr-BqM"/>
-                <outlet property="selectionController" destination="kJS-7r-TNG" id="fna-0D-gVc"/>
             </connections>
         </customObject>
         <customObject id="jbe-el-K4h" customClass="PSEntryBrowser" customModule="PsyScopeEditor" customModuleProvider="target">
@@ -936,8 +933,8 @@
                 <outlet property="actionsSegmentedControl" destination="841-qb-xDI" id="twT-bT-HS0"/>
                 <outlet property="actionsTableView" destination="Qgx-En-2fT" id="enT-3j-wDt"/>
                 <outlet property="actionsTypeMenu" destination="S5o-cS-fKc" id="va5-fF-x2W"/>
-                <outlet property="document" destination="-2" id="l6t-zq-C2g"/>
                 <outlet property="instancesActiveUntilMenuItem" destination="OS6-R6-D6J" id="ijB-5e-xLl"/>
+                <outlet property="mainWindowController" destination="-2" id="QWv-T6-o6b"/>
             </connections>
         </customObject>
         <customObject id="iyE-X3-yvj" customClass="PSEventBrowserViewDelegate" customModule="PsyScopeEditor" customModuleProvider="target">
@@ -958,7 +955,6 @@
                 <outlet property="actionsTabViewItem" destination="mJz-lZ-fKK" id="IM0-dH-sRd"/>
                 <outlet property="attributesButton" destination="oXT-xf-S36" id="wbi-bH-1RM"/>
                 <outlet property="attributesTabViewItem" destination="YhT-1j-5mn" id="tcG-OS-UKR"/>
-                <outlet property="document" destination="-2" id="dyG-C0-lRL"/>
                 <outlet property="entriesButton" destination="3gC-M1-Yxn" id="r5C-C7-44J"/>
                 <outlet property="entriesTabViewItem" destination="kzO-tH-vfL" id="Hr3-Qn-Lwy"/>
                 <outlet property="errorsButton" destination="VbN-zN-qTv" id="uAl-Uz-cCg"/>
@@ -969,13 +965,13 @@
                 <outlet property="layoutTabViewItem" destination="iJr-EN-3uT" id="Vej-vD-vyj"/>
                 <outlet property="layoutToolsTabViewItem" destination="Ilq-5o-hZc" id="hzw-fX-zEg"/>
                 <outlet property="leftPanelTabView" destination="FKI-WQ-PUY" id="I8N-nU-nLc"/>
+                <outlet property="mainWindowController" destination="-2" id="bwN-0J-CIo"/>
                 <outlet property="midPanelTabView" destination="eUt-Ml-iyR" id="d4C-fp-3JV"/>
                 <outlet property="propertiesButton" destination="3bK-f9-Ajc" id="gfk-DW-6SZ"/>
                 <outlet property="propertiesTabViewItem" destination="jEZ-oD-ASe" id="tco-1h-cTy"/>
                 <outlet property="rightPanelTabView" destination="IoO-rg-86e" id="n7M-p4-jeA"/>
                 <outlet property="scriptTabViewItem" destination="JdB-VR-hLM" id="82T-XC-xSn"/>
                 <outlet property="scriptToolsTabViewItem" destination="uNQ-ol-aWc" id="Dvt-cL-nzS"/>
-                <outlet property="selectionInterface" destination="kJS-7r-TNG" id="2BO-rT-Irs"/>
                 <outlet property="toolbar" destination="59H-7P-Qhl" id="Biw-GB-twg"/>
                 <outlet property="toolbarSegmentedControl" destination="hcf-GT-XJt" id="Bwp-p7-eON"/>
                 <outlet property="toolsButton" destination="nhZ-l5-vXh" id="zJ9-KV-m4B"/>
@@ -985,9 +981,8 @@
         <arrayController mode="entity" entityName="PSExtension" editable="NO" preservesSelection="NO" selectsInsertedObjects="NO" avoidsEmptySelection="NO" clearsFilterPredicateOnInsertion="NO" id="rjq-gD-ZRi" userLabel="Events Array Controller"/>
         <customObject id="lM2-Zh-cBk" customClass="LayoutController" customModule="PsyScopeEditor" customModuleProvider="target">
             <connections>
-                <outlet property="document" destination="-2" id="AWA-T5-0xO"/>
                 <outlet property="layoutBoard" destination="zck-4U-xpq" id="PM3-jV-F4w"/>
-                <outlet property="selectionController" destination="kJS-7r-TNG" id="fiu-vo-K90"/>
+                <outlet property="mainWindowController" destination="-2" id="po7-6B-A1H"/>
                 <outlet property="showHideEventsButton" destination="P43-Vl-3oi" id="iPB-ss-fSd"/>
                 <outlet property="showHideListsButton" destination="VGd-CD-4NT" id="YOV-AK-LFK"/>
             </connections>
@@ -996,15 +991,13 @@
         <customObject id="Fhm-UL-YgA" customClass="PSLayoutObjectComboBox" customModule="PsyScopeEditor" customModuleProvider="target">
             <connections>
                 <outlet property="comboBox" destination="VKB-yT-2kU" id="ZVf-Mb-2Cu"/>
-                <outlet property="document" destination="-2" id="aom-94-FB3"/>
-                <outlet property="selectionController" destination="kJS-7r-TNG" id="eB6-2p-uWR"/>
+                <outlet property="mainWindowController" destination="-2" id="1d0-hJ-irD"/>
             </connections>
         </customObject>
         <customObject id="vzq-WE-gKX" customClass="PSAttributesBrowser" customModule="PsyScopeEditor" customModuleProvider="target">
             <connections>
-                <outlet property="document" destination="-2" id="Soe-cY-Luh"/>
                 <outlet property="elementViewerController" destination="lda-Ew-Btf" id="wKg-1H-SWD"/>
-                <outlet property="selectionController" destination="kJS-7r-TNG" id="Js6-nb-Dpd"/>
+                <outlet property="mainWindowController" destination="-2" id="JpE-iz-eBo"/>
                 <outlet property="tableView" destination="TOd-za-Vsf" id="LpH-KH-zzQ"/>
             </connections>
         </customObject>
@@ -1026,8 +1019,8 @@
         </customObject>
         <customObject id="0g3-tr-pK6" customClass="PSScriptErrorViewController" customModule="PsyScopeEditor" customModuleProvider="target">
             <connections>
-                <outlet property="document" destination="-2" id="Z8h-Q3-Sgq"/>
                 <outlet property="errorPopoverController" destination="wx6-0j-p0h" id="DMU-Lk-EU3"/>
+                <outlet property="mainWindowController" destination="-2" id="jpI-W7-F2z"/>
                 <outlet property="tableView" destination="10b-TX-phQ" id="r4y-3c-bX2"/>
                 <outlet property="textView" destination="I8G-S8-gcX" id="uwv-yc-EBe"/>
             </connections>
@@ -1052,23 +1045,8 @@
         </popover>
         <customObject id="2Rg-pS-CE1" customClass="PSScriptConverter" customModule="PsyScopeEditor" customModuleProvider="target">
             <connections>
-                <outlet property="document" destination="-2" id="MrH-rY-mKW"/>
                 <outlet property="errorHandler" destination="0g3-tr-pK6" id="7Y8-yO-LBs"/>
-                <outlet property="selectionController" destination="kJS-7r-TNG" id="TOn-Da-53c"/>
-            </connections>
-        </customObject>
-        <customObject id="kJS-7r-TNG" customClass="PSSelectionController" customModule="PsyScopeEditor" customModuleProvider="target">
-            <connections>
-                <outlet property="actionsBrowser" destination="bL9-LM-Ngj" id="Evt-Hd-8Rb"/>
-                <outlet property="attributesBrowser" destination="vzq-WE-gKX" id="Txb-b0-w6J"/>
-                <outlet property="document" destination="-2" id="rNT-qL-mX8"/>
-                <outlet property="entryBrowser" destination="jbe-el-K4h" id="bAE-vt-mDd"/>
-                <outlet property="experimentSetup" destination="Z0W-cp-4H8" id="ptW-Zw-aRe"/>
-                <outlet property="layoutController" destination="lM2-Zh-cBk" id="y1B-i0-2ox"/>
-                <outlet property="layoutObjectComboBox" destination="Fhm-UL-YgA" id="zfo-Ae-xGO"/>
-                <outlet property="scriptDelegate" destination="pVe-g4-G0X" id="ZMy-sO-plJ"/>
-                <outlet property="tabDelegate" destination="VPD-gz-cgk" id="Mlr-cm-4Xk"/>
-                <outlet property="variableSelector" destination="hkY-5a-Cbm" id="b23-60-Htf"/>
+                <outlet property="mainWindowController" destination="-2" id="kJs-1Y-sfI"/>
             </connections>
         </customObject>
         <customView id="KkS-rz-sPx" customClass="NCRAutocompleteTextView">
@@ -1090,9 +1068,9 @@
         </popover>
         <customObject id="lda-Ew-Btf" customClass="PSElementViewerController" customModule="PsyScopeEditor" customModuleProvider="target">
             <connections>
-                <outlet property="document" destination="-2" id="uit-fX-iEa"/>
                 <outlet property="elementViewerPopover" destination="JAv-l1-ve6" id="Jgp-Tn-brL"/>
                 <outlet property="elementViewerView" destination="p0s-Vy-yQ9" id="O4b-Py-6NU"/>
+                <outlet property="mainWindowController" destination="-2" id="yeF-GW-fHe"/>
             </connections>
         </customObject>
         <menu id="IMa-D7-0dI" userLabel="LayoutBoard Menu">

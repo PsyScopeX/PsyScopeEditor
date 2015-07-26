@@ -11,8 +11,8 @@ import Foundation
 class PSExperimentSetup: NSObject {
     
     //MARK: Outlets
-    @IBOutlet var document : Document!
-    @IBOutlet var selectionInterface : PSSelectionController!
+    @IBOutlet var mainWindowController : PSMainWindowController!
+    var selectionInterface : PSSelectionInterface!
     @IBOutlet var subjectVariablesController: PSSubjectVariablesController!
     @IBOutlet var midPanelView : NSView!
     @IBOutlet var leftPanelView : NSView!
@@ -24,7 +24,9 @@ class PSExperimentSetup: NSObject {
     var templateEntry : Entry!
     
     func initialize() {
-        self.scriptData = document.scriptData
+        self.scriptData = mainWindowController.scriptData
+        
+        self.selectionInterface = self.scriptData.selectionInterface
         //load nib and gain access to views
         NSBundle(forClass:self.dynamicType).loadNibNamed("ExperimentSetup", owner: self, topLevelObjects: &topLevelObjects)
     }

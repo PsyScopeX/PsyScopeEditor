@@ -8,91 +8,29 @@
 import Cocoa
 
 
-class Document: NSPersistentDocument, NSSplitViewDelegate {
+class Document: NSPersistentDocument {
     
-    //MARK: Outlets
-    @IBOutlet var middleView : NSView!
-    @IBOutlet var toolbar : NSToolbar!
-    @IBOutlet var layoutToolbarItem : NSToolbarItem!
-    @IBOutlet var tabController : PSDocumentTabDelegate!
-    @IBOutlet var objectToolbarDelegate : PSToolBrowserViewDelegate!
-    @IBOutlet var eventToolbarDelegate : PSEventBrowserViewDelegate!
-    @IBOutlet var actionsBrowser : PSActionsBrowser!
-    @IBOutlet var scriptDelegate : PSScriptViewDelegate!
     
-    @IBOutlet var attributeTabView : NSTabView!
-    @IBOutlet var layoutController : LayoutController!
-    @IBOutlet var selectionController : PSSelectionController!
-    @IBOutlet var entryBrowser : PSEntryBrowser!
-    @IBOutlet var errorHandler : PSScriptErrorViewController!
-    @IBOutlet var entryBrowserSearchController : PSEntryBrowserSearchController!
-    @IBOutlet var variableSelector : PSVariableSelector!
-    @IBOutlet var experimentSetup : PSExperimentSetup!
-    
-    var initialized : Bool = false
     var isNewDocument : Bool = false
-    var _scriptData : PSScriptData!
+    var scriptData : PSScriptData!
     var _managedObjectModel: NSManagedObjectModel?
+    var selectionController : PSSelectionController = PSSelectionController()
+    var mainWindowController : PSMainWindowController!
     var mainWindow : NSWindow?
     var scriptToImport : String?
     
-    //MARK: ScriptData
-    
-    var scriptData : PSScriptData {
-        get {
-            if _scriptData == nil {
-                let pluginProvider = PSPluginSingleton.sharedInstance.createPluginProvider()
-                _scriptData = PSScriptData(docMoc: self.managedObjectContext, pluginProvider: pluginProvider, document: self, window: self.window, selectionInterface: self.selectionController)
-            }
-            return _scriptData
-        }
-    }
-    
-    
     //MARK: Initialization
-        
-    func initializeMainWindow() {
-        //create new experiment if necessary
-        if isNewDocument { scriptData.setUpInitialScriptState() }
-        
-        //initialize and setup all documents
-        layoutController.initialize()
-        experimentSetup.initialize()
-        objectToolbarDelegate.setup(scriptData.pluginProvider)
-        eventToolbarDelegate.setup(scriptData.pluginProvider)
-        actionsBrowser.setup(scriptData)
-        scriptDelegate.setup(scriptData)
-        entryBrowser.setup(scriptData)
-        entryBrowserSearchController.setup(scriptData)
-        variableSelector.setup(scriptData)
-        
-        tabController.initialize() //must be second to last
-        selectionController.initialize() //must be last
-        
-        //set up current tool bar selection
-        toolbar.selectedItemIdentifier = layoutToolbarItem.itemIdentifier
-        initialized = true
-        
-        //import script if there is one to import
-        if let scriptToImport = scriptToImport {
-            self.fileURL = nil
-            self.fileType = self.autosavingFileType
-            scriptDelegate.importScript(scriptToImport)
-        }
-        
-        scriptToImport = nil
-    }
     
     func setupInitialState() {
         self.isNewDocument = true
-        if initialized { scriptData.setUpInitialScriptState() }
+        if self.mainWindowController.initialized { scriptData.setUpInitialScriptState() }
     }
     
     //MARK: NSDocument Overrides
     
     override func revertToContentsOfURL(inAbsoluteURL: NSURL!, ofType inTypeName: String!) throws {
         try super.revertToContentsOfURL(inAbsoluteURL, ofType: inTypeName)
-        layoutController.refresh()
+        self.mainWindowController.layoutController.refresh()
     }
     
     override func readFromURL(absoluteURL: NSURL!, ofType typeName: String!) throws {
@@ -113,8 +51,15 @@ class Document: NSPersistentDocument, NSSplitViewDelegate {
     override var windowNibName: String { return "Document" }
     
     override func makeWindowControllers() {
+        //create scriptData and selectionController
+        let pluginProvider = PSPluginSingleton.sharedInstance.createPluginProvider()
+        self.scriptData = PSScriptData(docMoc: self.managedObjectContext, pluginProvider: pluginProvider, document: self, selectionInterface: self.selectionController)
+        self.selectionController.initialize(self, scriptData: scriptData)
+        
         //make main window controller
-        let mainWindowController = NSWindowController(windowNibName: "Document", owner: self)
+        self.mainWindowController = PSMainWindowController(windowNibName: "Document")
+        self.mainWindowController.initializeMainWindow(scriptData, document: self, selectionController: selectionController)
+        
         self.addWindowController(mainWindowController)
         
         //register dragged types
@@ -129,71 +74,29 @@ class Document: NSPersistentDocument, NSSplitViewDelegate {
             mainWindow.titlebarAppearsTransparent = false
             mainWindow.movableByWindowBackground  = true
             //window.styleMask = window.styleMask | NSFullSizeContentViewWindowMask
+            self.scriptData.window = mainWindow
         } else {
             fatalError("Couldn't create main window")
         }
         
-        initializeMainWindow()
-    }
-    
-    //MARK: Menu methods
-    
-    func runExperiment(sender : AnyObject){
         
-        if errorHandler.errors.count != 0 {
-            PSModalAlert("Must fix parsing errors (or update script) before running script!")
-            return
+        //create new experiment if necessary
+        if isNewDocument { scriptData.setUpInitialScriptState() }
+        
+        
+        
+        //import script if there is one to import
+        if let scriptToImport = scriptToImport {
+            self.fileURL = nil
+            self.fileType = self.autosavingFileType
+            self.mainWindowController.scriptDelegate.importScript(scriptToImport)
         }
         
-        errorHandler.reset()
-        //validate the script
-        let tools : [PSToolInterface] = PSPluginSingleton.sharedInstance.toolObjects.values.array
-        let events : [PSToolInterface] = PSPluginSingleton.sharedInstance.eventObjects.values.array
-        let plugins = tools + events
+        scriptToImport = nil
         
-        for plugin in plugins {
-            
-            let errors : [AnyObject] =  plugin.validateBeforeRun(scriptData)
-            for error in errors {
-                if let err = error as? PSScriptError {
-                    errorHandler.newError(err)
-                }
-            }
-        }
-        
-        if errorHandler.errors.count == 0 {
-            //RUN
-            PSPsyScopeXRunner.sharedInstance.runThisScript(self)
-        } else {
-            PSModalAlert("Errors were found during validation of script!")
-            errorHandler.presentErrors()
-        }
-    }
-    
-    func cleanUpLayout(sender : AnyObject) {
-        PSCleanUpTree(scriptData)
-    }
-
-    func developerMenuItem(sender : NSMenuItem) {
-        switch (sender.tag) {
-        case 0:
-            //restart application engine
-            
-            break
-        case 1:
-            //kill application engine
-            
-            break
-        default:
-            break
-        }
-    }
-    
-    
-    //MARK: Split view
-    
-    func splitView(splitView: NSSplitView, shouldAdjustSizeOfSubview view: NSView) -> Bool {
-        return (view == middleView)
+        //begin listening for changes
+        self.selectionController.registeredForChanges = true
+        self.selectionController.refreshGUI()
     }
     
     
@@ -204,8 +107,6 @@ class Document: NSPersistentDocument, NSSplitViewDelegate {
             return mainWindow!
         }
     }
-    
-    
     
     //MARK: NSPersistentDocument Override
     

@@ -13,7 +13,7 @@ class PSActionsBrowser : NSObject, NSTableViewDataSource, NSTableViewDelegate {
     @IBOutlet var actionsMenu : NSMenu!
     @IBOutlet var actionsTypeMenu : NSMenu!
     @IBOutlet var instancesActiveUntilMenuItem : NSMenuItem!
-    @IBOutlet var document : Document!
+    @IBOutlet var mainWindowController : PSMainWindowController!
     
     
     var actionsAttribute : PSEventActionsAttribute?
@@ -74,11 +74,6 @@ class PSActionsBrowser : NSObject, NSTableViewDataSource, NSTableViewDelegate {
         self.displayViewMetaData = displayViewMetaData
         actionsSegmentedControl.setLabel(actionsAttribute.attributeName, forSegment: 3)
         actionsSegmentedControl.enabled = true
-    }
-
-    //called when an object is deleted
-    func entryDeleted(entry : Entry) {
-        
     }
     
     //called from tableview objects containing actions/conditions

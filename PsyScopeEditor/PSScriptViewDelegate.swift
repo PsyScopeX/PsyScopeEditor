@@ -50,7 +50,7 @@ class PSScriptViewDelegate : NSObject, NSTextViewDelegate, NSTextStorageDelegate
         }
         
         build(script)
-        PSCleanUpTree(scriptConverter.document.scriptData)
+        PSCleanUpTree(scriptConverter.mainWindowController.scriptData)
     }
     
     //Button for Script -> Objects

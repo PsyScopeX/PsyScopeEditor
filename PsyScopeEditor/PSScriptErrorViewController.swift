@@ -13,7 +13,7 @@ import Cocoa
 class PSScriptErrorViewController: NSObject, NSTableViewDataSource, NSTableViewDelegate {
     @IBOutlet var textView : NSTextView!
     @IBOutlet var tableView : NSTableView!
-    @IBOutlet var document : Document!
+    @IBOutlet var mainWindowController : PSMainWindowController!
     @IBOutlet var errorPopoverController : PSScriptErrorPopoverController!
     
     var errors : [PSScriptError] = []
@@ -34,7 +34,7 @@ class PSScriptErrorViewController: NSObject, NSTableViewDataSource, NSTableViewD
         let error = errors[row]
         
         if let errorEntry = error.entry {
-            let baseEntry = document.scriptData.getBaseEntryOfSubEntry(errorEntry)
+            let baseEntry = mainWindowController.scriptData.getBaseEntryOfSubEntry(errorEntry)
             if let str = textView.string, name = baseEntry.name {
                 var range = (str as NSString).rangeOfString("\n" + name + "::")
                 
@@ -73,7 +73,7 @@ class PSScriptErrorViewController: NSObject, NSTableViewDataSource, NSTableViewD
     func presentErrors() {
         tableView.reloadData()
         if errors.count > 0 {
-            NSNotificationCenter.defaultCenter().postNotificationName("PSShowErrorsNotification", object: document)
+            NSNotificationCenter.defaultCenter().postNotificationName("PSShowErrorsNotification", object: mainWindowController.document)
         }
     }
 }
