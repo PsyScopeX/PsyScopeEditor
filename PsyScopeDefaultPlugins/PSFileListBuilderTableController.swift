@@ -15,7 +15,7 @@ class PSFileListBuilderTableController : NSObject, NSTableViewDataSource, NSTabl
     var editingHeader : Int? = nil
     var tableColumns : [NSTableColumn] = []
     var previewData : [[String]] = []
-    
+    var weightsColumn : Bool = false
     override func awakeFromNib() {
         previewTableView.doubleAction = "doubleClickInTableView:"
         previewTableView.target = self
@@ -23,7 +23,8 @@ class PSFileListBuilderTableController : NSObject, NSTableViewDataSource, NSTabl
     
 
     
-    func refresh(latestPreviewData : [[String]], columnNames : [String]) {
+    func refresh(latestPreviewData : [[String]], columnNames : [String], weightsColumn : Bool) {
+        self.weightsColumn = weightsColumn
         
         while(previewTableView.tableColumns.count > 0) {
             previewTableView.removeTableColumn(previewTableView.tableColumns.last! as NSTableColumn)
@@ -49,6 +50,13 @@ class PSFileListBuilderTableController : NSObject, NSTableViewDataSource, NSTabl
         new_header.lineBreakMode = NSLineBreakMode.ByTruncatingTail
         new_column.headerCell = new_header
         
+        //make weights bold so they seem editable
+        if weightsColumn && identifier == "1" {
+            let cell = new_column.dataCell as! NSCell
+            cell.font = NSFont.boldSystemFontOfSize(12)
+        }
+        
+        
         previewTableView.addTableColumn(new_column)
         tableColumns.append(new_column)
         let header_cell = new_column.headerCell as NSTableHeaderCell
@@ -71,6 +79,27 @@ class PSFileListBuilderTableController : NSObject, NSTableViewDataSource, NSTabl
             }
         }
         return "NULL"
+    }
+    
+    func tableView(tableView: NSTableView, shouldEditTableColumn tableColumn: NSTableColumn?, row: Int) -> Bool {
+        if weightsColumn && tableColumn?.identifier == "1" {
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    func tableView(tableView: NSTableView, setObjectValue object: AnyObject?, forTableColumn tableColumn: NSTableColumn?, row: Int) {
+        controller.setWeightsValue(object as! String, row: row)
+    }
+    
+    @IBAction func singleClickEdit(_:AnyObject) {
+        let validRow = previewTableView.clickedRow < previewData.count && previewTableView.clickedRow > -1
+        
+        if validRow && weightsColumn && previewTableView.clickedColumn == 0 {
+            previewTableView.editColumn(previewTableView.clickedColumn, row: previewTableView.clickedRow, withEvent: nil, select: true)
+        }
+
     }
     
     //MARK: Header editing

@@ -14,6 +14,6 @@ class PSListBuilderWindowController: PSEntryWindowController {
     
     override func docMocChanged(notification : NSNotification) {
         super.docMocChanged(notification)
-        controller.docMocChanged(notification)
+        controller.update()
     }
 }

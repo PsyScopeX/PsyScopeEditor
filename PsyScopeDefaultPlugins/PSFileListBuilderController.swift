@@ -52,12 +52,39 @@ class PSFileListBuilderController : NSObject {
                     previewData[index] = row
                 }
             }
+            tableViewController.refresh(previewData, columnNames: columnNames, weightsColumn: true)
         } else {
             weightsCheckButton.state = 0
+            tableViewController.refresh(previewData, columnNames: columnNames, weightsColumn: false)
+        }
+    }
+    
+    func setWeightsValue(value : String, row: Int) {
+        
+        guard let intValue = Int(value) else { return }
+        
+        let nRows : Int = fileList.previewOfContents.count
+        var newWeights : [Int] = []
+        var oldWeights : [Int] = []
+        if let weightsColumn = fileList.weightsColumn {
+            oldWeights = weightsColumn
         }
         
-        tableViewController.refresh(previewData, columnNames: columnNames)
         
+        
+        if nRows > 0 {
+            for index in 0...(nRows - 1) {
+                if index == row {
+                    newWeights.append(intValue)
+                }else if index < oldWeights.count {
+                    newWeights.append(oldWeights[index])
+                } else {
+                    newWeights.append(1)
+                }
+            }
+        }
+        
+        fileList.weightsColumn = newWeights
     }
     
     

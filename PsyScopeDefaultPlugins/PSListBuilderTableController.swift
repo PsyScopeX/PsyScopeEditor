@@ -20,18 +20,6 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
     var nameColumn : NSTableColumn!
     var initialized : Bool = false
     
-    var registeredForChanges : Bool = false {
-        willSet {
-            if newValue != registeredForChanges {
-                if newValue {
-                    NSNotificationCenter.defaultCenter().addObserver(self, selector: "docMocChanged:", name: NSManagedObjectContextObjectsDidChangeNotification, object: scriptData.docMoc)
-                } else {
-                    NSNotificationCenter.defaultCenter().removeObserver(self)
-                }
-            }
-        }
-    }
-
     override func awakeFromNib() {
         if initialized { return }
         initialized = true //awakeFromNib gets called when setting the owner of new listbuildercells
@@ -49,7 +37,7 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
         //already editingheader so need to cancel that...
         if editingHeader {
             let tc = listTableView.tableColumns[lastClickedCol] as NSTableColumn
-            var hv = listTableView.headerView!;
+            _ = listTableView.headerView!;
             let hc = tc.headerCell as! PSFieldHeaderCell
             hc.highlighted = false
             let editor = listTableView.window!.fieldEditor(true, forObject: listTableView)
@@ -75,7 +63,7 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
     
             }, scriptData: scriptData)
      
-            var view : NSView = listTableView.headerView!
+            let view : NSView = listTableView.headerView!
             attributePicker!.showAttributeWindow(view)
     }
     
@@ -115,17 +103,17 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
     }
     
     func textDidEndEditing(notification: NSNotification) {
-        var editor = notification.object as! NSTextView
-        var name = editor.string!
+        let editor = notification.object as! NSTextView
+        let name = editor.string!
         
         if(lastClickedRow == -1 && lastClickedCol >= 1) {
             
             let fieldEntry = list.fields[lastClickedCol - 1].entry
             scriptData.renameEntry(fieldEntry, nameSuggestion: name)
             
-            var tc = listTableView.tableColumns[lastClickedCol] as NSTableColumn
-            var hv = listTableView.headerView!;
-            var hc = tc.headerCell as! PSFieldHeaderCell
+            let tc = listTableView.tableColumns[lastClickedCol] as NSTableColumn
+            _ = listTableView.headerView!;
+            let hc = tc.headerCell as! PSFieldHeaderCell
             hc.title = fieldEntry.name
             
             hc.highlighted = false
@@ -134,11 +122,6 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
             
         }
 
-    }
-    
-    
-    func docMocChanged(notification : NSNotification) {
-        update()
     }
  
     func update() {
@@ -175,8 +158,8 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
 
 
     func clickMenuItem(sender : NSMenuItem) {
-        var field = list.fields[listTableView.columnForMenu - 1]
-        var item = field[listTableView.rowForMenu]
+        let field = list.fields[listTableView.columnForMenu - 1]
+        let item = field[listTableView.rowForMenu]
         if let s = scriptData.valueForMenuItem(sender, original: item) {
             field[listTableView.rowForMenu] = s
         } else {
@@ -194,7 +177,7 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
     @IBAction func addNewFieldButton(sender : AnyObject) {
         
         var testName = "Field"
-        var baseName = testName
+        let baseName = testName
         var run :Int = 1
         var isFree = false
         repeat {
@@ -209,7 +192,7 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
             run++
         } while (!isFree)
         
-        var new_field = self.list.addNewField(PSAttributeType(fullType: ""), interface: PSAttributeGeneric())
+        let new_field = self.list.addNewField(PSAttributeType(fullType: ""), interface: PSAttributeGeneric())
         scriptData.renameEntry(new_field.entry, nameSuggestion: testName)
         self.addNewColumn(new_field)
         self.listTableView.reloadData()
@@ -219,8 +202,8 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
     var addedColumns : [PSListBuilderColumn] = []
     func addNewColumn(field : PSField) {
         
-        var new_column = PSListBuilderColumn(identifier: "\(addedColumns.count + 1)", column_field: field)
-        var new_header = PSFieldHeaderCell()
+        let new_column = PSListBuilderColumn(identifier: "\(addedColumns.count + 1)", column_field: field)
+        let new_header = PSFieldHeaderCell()
         new_header.editable = true
         new_header.usesSingleLineMode = true
         new_header.scrollable = false
@@ -229,7 +212,7 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
         addedColumns.append(new_column)
         self.listTableView.addTableColumn(new_column)
         
-        var header_cell = new_column.headerCell as NSTableHeaderCell
+        let header_cell = new_column.headerCell as NSTableHeaderCell
         header_cell.title = field.entry.name
         new_column.headerCell = header_cell
         
@@ -254,7 +237,7 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
     }
     
     func deleteColumn(col : Int) {
-        var col = listTableView.tableColumns[col+1] as! PSListBuilderColumn
+        let col = listTableView.tableColumns[col+1] as! PSListBuilderColumn
         self.list.deleteColumnByName(col.field.entry.name)
     }
     
@@ -301,7 +284,7 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
     }
     
     func keyDownMessage(theEvent: NSEvent) {
-        var keyPressed = theEvent.keyCode
+        let keyPressed = theEvent.keyCode
         //println(keyPressed.description)
         if let lastCell = lastCellEdited {
             
@@ -358,7 +341,7 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
             }
         } else {
             if listTableView.numberOfColumns > 1 && listTableView.numberOfRows > 0 {
-                var newCell = listTableView.viewAtColumn(1, row: 0, makeIfNecessary: true) as! PSListCellView
+                let newCell = listTableView.viewAtColumn(1, row: 0, makeIfNecessary: true) as! PSListCellView
                 lastCellEdited = newCell
             }
         }
@@ -366,7 +349,7 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
     
     func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
         if let c = tableColumn as? PSListBuilderColumn {
-            var item = c.field[row]
+            let item = c.field[row]
             var att_interface : PSAttributeInterface
             
             if let f = c.field.interface {
@@ -375,8 +358,8 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
                 att_interface = PSAttributeGeneric()
             }
             
-            var attributeParameter = att_interface.attributeParameter() as! PSAttributeParameter
-            var cell = PSListCellView(attributeParameter: attributeParameter, interface: att_interface, scriptData: scriptData)
+            let attributeParameter = att_interface.attributeParameter() as! PSAttributeParameter
+            let cell = PSListCellView(attributeParameter: attributeParameter, interface: att_interface, scriptData: scriptData)
             PSAttributeParameterBuilder(parameter: attributeParameter).setupTableCell(cell, currentValue: item)
             
             
@@ -395,7 +378,7 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
             cell.firstResponderBlock = { self.lastCellEdited = cell }
             return cell
         } else {
-            var view = tableView.makeViewWithIdentifier(tableColumn!.identifier, owner: self) as! NSTableCellView
+            let view = tableView.makeViewWithIdentifier(tableColumn!.identifier, owner: self) as! NSTableCellView
             view.textField!.delegate = self
             view.textField!.stringValue = list.nameForRow(row)
             view.textField!.frame = view.frame

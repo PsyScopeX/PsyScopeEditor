@@ -36,6 +36,7 @@
                                     <tableViewGridLines key="gridStyleMask" vertical="YES" horizontal="YES"/>
                                     <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                     <connections>
+                                        <action selector="singleClickEdit:" target="0qt-H6-Ugq" id="F6i-dj-pAq"/>
                                         <outlet property="dataSource" destination="0qt-H6-Ugq" id="oUX-6U-rcd"/>
                                         <outlet property="delegate" destination="0qt-H6-Ugq" id="iWS-KT-a8s"/>
                                         <outlet property="menu" destination="YIT-IH-wnc" id="LGI-GY-h3F"/>
