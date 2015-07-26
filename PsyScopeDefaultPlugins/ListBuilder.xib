@@ -4,7 +4,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="8164.2"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="PSListBuilder" customModule="PsyScopeDefaultPlugins" customModuleProvider="target">
+        <customObject id="-2" userLabel="File's Owner" customClass="PSListBuilderWindowController" customModule="PsyScopeDefaultPlugins" customModuleProvider="target">
             <connections>
                 <outlet property="controller" destination="bRQ-xO-Y0s" id="cfU-jF-QJV"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="xWE-1x-UKX"/>
@@ -80,7 +80,7 @@
                             <nil key="backgroundColor"/>
                         </clipView>
                         <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="qfj-V1-E0e">
-                            <rect key="frame" x="1" y="118.91931718587875" width="238" height="15"/>
+                            <rect key="frame" x="1" y="119" width="238" height="15"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                         <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="VUE-Dj-EoV">

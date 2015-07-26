@@ -24,8 +24,6 @@ class PSListViewController : PSToolPropertyController, NSWindowDelegate {
         case NormalType
     }
     
-    var windowController : NSWindowController!
-    var listBuilder : PSListBuilder?
     var firstParse : Bool = false
     var listType : PSListType = PSListType.NormalType
     
@@ -69,6 +67,21 @@ class PSListViewController : PSToolPropertyController, NSWindowDelegate {
             fileText.enabled = false
             fileButton.enabled = false
             fileText.stringValue = ""
+        }
+        
+        //get any existing window controllers associated with entry
+        let exisitingWindowControllers = scriptData.getWindowControllersAssociatedWithEntry(self.entry)
+        
+        //close any windows if list type has changed and is no longer valid
+        for exisitingWindowController in exisitingWindowControllers {
+            guard let nibName = exisitingWindowController.windowNibName else { continue }
+            
+            let validListBuilder = nibName == "ListBuilder" && listType == .NormalType
+            let validFileListBuilder = nibName == "FileListBuilder" && listType == .FileType
+            
+            if !(validListBuilder || validFileListBuilder) {
+                exisitingWindowController.close()
+            }
         }
         
         //determine rough order
@@ -180,34 +193,38 @@ class PSListViewController : PSToolPropertyController, NSWindowDelegate {
     
     @IBAction func editObjectsButton(sender : AnyObject) {
         
-        if listType == .NormalType {
-            if let tb = self.listBuilder {
-                if (!tb.window.visible) {
-                    tb.window.makeKeyAndOrderFront(sender)            }
+        //first get any existing window controllers associated with entry
+        let exisitingWindowControllers = scriptData.getWindowControllersAssociatedWithEntry(self.entry)
+        
+        //make these front if they exist and are valid, otherwise close
+        var foundExistingWindowController = false
+        
+        for exisitingWindowController in exisitingWindowControllers {
+            guard let nibName = exisitingWindowController.windowNibName else { continue }
+            
+            let validListBuilder = nibName == "ListBuilder" && listType == .NormalType
+            let validFileListBuilder = nibName == "FileListBuilder" && listType == .FileType
+            
+            if validListBuilder || validFileListBuilder {
+                exisitingWindowController.window!.makeKeyAndOrderFront(sender)
+                foundExistingWindowController = true
             } else {
-                self.listBuilder = PSListBuilder(scriptData: self.scriptData, listEntry: self.entry)
-                self.listBuilder!.window.delegate = self
-                self.listBuilder!.showWindow()
-            }
-        } else {
-            if let windowController = self.windowController {
-                if (!windowController.window!.visible) {
-                    windowController.window!.makeKeyAndOrderFront(sender)
-                }
-            } else {
-                let listFileBuilder = PSFileListWindowController(windowNibName: "FileListBuilder")
-                listFileBuilder.setupWithEntryAndAddToDocument(self.entry, scriptData: self.scriptData)
-                self.windowController = listFileBuilder
-                listFileBuilder.showWindow(self)
+                exisitingWindowController.close()
             }
         }
         
-    }
-    
-    func windowShouldClose(sender: AnyObject) -> Bool {
-        listBuilder?.deregister() //releases object when list builder window closed
-        listBuilder = nil
-
-        return true
+        //no need to open new ones if already have one open
+        if foundExistingWindowController { return }
+        
+        //open as correct type
+        if listType == .NormalType {
+            let listBuilder = PSListBuilderWindowController(windowNibName: "ListBuilder")
+            listBuilder.setupWithEntryAndAddToDocument(self.entry, scriptData: self.scriptData)
+            listBuilder.showWindow(self)
+        } else {
+            let listFileBuilder = PSFileListWindowController(windowNibName: "FileListBuilder")
+            listFileBuilder.setupWithEntryAndAddToDocument(self.entry, scriptData: self.scriptData)
+            listFileBuilder.showWindow(self)
+        }
     }
 }

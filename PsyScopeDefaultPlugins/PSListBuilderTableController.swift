@@ -12,7 +12,7 @@ import Cocoa
 class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDataSource, NSTextFieldDelegate, NSMenuDelegate, PSTableHeaderViewDelegate, PSListTableViewDelegate {
     
     @IBOutlet var listTableView : PSListTableView!
-    @IBOutlet var listBuilder : PSListBuilder!
+    @IBOutlet var listBuilder : PSListBuilderWindowController!
     var scriptData : PSScriptData!
     var listEntry : Entry!
     var attributePicker : PSAttributePicker?
@@ -39,7 +39,7 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
         listTableView.target = self
         nameColumn = listTableView.tableColumns.first! as NSTableColumn
         scriptData = listBuilder.scriptData
-        listEntry = listBuilder.listEntry
+        listEntry = listBuilder.entry
         PSList.initializeEntry(listEntry, scriptData: scriptData)
         update()
                 
@@ -145,7 +145,7 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
         if listEntry.deleted ||
             listEntry.layoutObject == nil {
                 //object has been deleted, so need to close window
-                listBuilder.closeWindow()
+                listBuilder.close()
         }
         
         
@@ -156,7 +156,7 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
         addedColumns = []
         list = PSList(scriptData: scriptData, listEntry: listEntry)
         if list == nil {
-            listBuilder.closeWindow()
+            listBuilder.close()
             return
         }
         for field in list.fields {

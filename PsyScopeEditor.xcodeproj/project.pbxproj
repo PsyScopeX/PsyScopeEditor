@@ -514,7 +514,7 @@
 		1AFADC7D1A1BBCA50055346D /* EventPicker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AFADC7C1A1BBCA50055346D /* EventPicker.xib */; };
 		1AFC257619C9D06600858812 /* PSExperimentAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFC257519C9D06600858812 /* PSExperimentAttribute.swift */; };
 		1AFC257F19C9F17500858812 /* PSListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFC257E19C9F17500858812 /* PSListViewController.swift */; };
-		1AFC258119C9F1A000858812 /* PSListBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFC258019C9F1A000858812 /* PSListBuilder.swift */; };
+		1AFC258119C9F1A000858812 /* PSListBuilderWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFC258019C9F1A000858812 /* PSListBuilderWindowController.swift */; };
 		1AFC258319C9F26E00858812 /* ListBuilder.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AFC258219C9F26E00858812 /* ListBuilder.xib */; };
 		1AFC258519CC428100858812 /* PSListBuilderTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFC258419CC428100858812 /* PSListBuilderTableController.swift */; };
 		1AFCAA841A601B710023AB66 /* PSEventToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFCAA831A601B710023AB66 /* PSEventToolbarView.swift */; };
@@ -1151,7 +1151,7 @@
 		1AFADC7C1A1BBCA50055346D /* EventPicker.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EventPicker.xib; sourceTree = "<group>"; };
 		1AFC257519C9D06600858812 /* PSExperimentAttribute.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSExperimentAttribute.swift; sourceTree = "<group>"; };
 		1AFC257E19C9F17500858812 /* PSListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSListViewController.swift; sourceTree = "<group>"; };
-		1AFC258019C9F1A000858812 /* PSListBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSListBuilder.swift; sourceTree = "<group>"; };
+		1AFC258019C9F1A000858812 /* PSListBuilderWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSListBuilderWindowController.swift; sourceTree = "<group>"; };
 		1AFC258219C9F26E00858812 /* ListBuilder.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ListBuilder.xib; sourceTree = "<group>"; };
 		1AFC258419CC428100858812 /* PSListBuilderTableController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSListBuilderTableController.swift; sourceTree = "<group>"; };
 		1AFCAA831A601B710023AB66 /* PSEventToolbarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSEventToolbarView.swift; sourceTree = "<group>"; };
@@ -2515,7 +2515,7 @@
 		1AFC257919C9F0FC00858812 /* ListBuilder */ = {
 			isa = PBXGroup;
 			children = (
-				1AFC258019C9F1A000858812 /* PSListBuilder.swift */,
+				1AFC258019C9F1A000858812 /* PSListBuilderWindowController.swift */,
 				1AFC258219C9F26E00858812 /* ListBuilder.xib */,
 				1AFC258419CC428100858812 /* PSListBuilderTableController.swift */,
 				1A1E2DEF19CCB1C5006BD331 /* PSListBuilderColumn.swift */,
@@ -3106,7 +3106,7 @@
 				1A63BC181A3B45EE007B9318 /* PSSynchronizedScroller.m in Sources */,
 				1A9CE3631AA8BA1A00C846F4 /* PSAction_QuitBlock.swift in Sources */,
 				1A0B52461AEFCC3600E0ADDB /* PSDialogVariablePropertiesController.swift in Sources */,
-				1AFC258119C9F1A000858812 /* PSListBuilder.swift in Sources */,
+				1AFC258119C9F1A000858812 /* PSListBuilderWindowController.swift in Sources */,
 				1AE42F361A2F5A120003342A /* PSActionsBuilderCell.swift in Sources */,
 				1ADFD1D41AE95286002579AF /* PSVariableOutlineViewController.swift in Sources */,
 				1A55D6201AEA470F00B1D19C /* PSVariableOutlineViewCellView.swift in Sources */,

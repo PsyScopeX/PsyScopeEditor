@@ -83,6 +83,17 @@ public class PSScriptData : NSObject {
         self.document.addWindowController(windowController)
     }
     
+    public func getWindowControllersAssociatedWithEntry(entry : Entry) -> [PSEntryWindowController] {
+        var windowControllers : [PSEntryWindowController] = []
+        for windowController in self.document.windowControllers {
+            if let entryWindowController = windowController as? PSEntryWindowController
+                where entryWindowController.entry == entry {
+                    windowControllers.append(entryWindowController)
+            }
+        }
+        return windowControllers
+    }
+    
     //MARK: Directory
     
     public func documentDirectory() -> String? {
