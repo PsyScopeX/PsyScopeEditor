@@ -150,11 +150,9 @@ class PSDocumentTabDelegate: NSObject, NSTabViewDelegate {
             if let propertiesTabViewItemViewController = propertiesTabViewItemViewController {
                 propertiesTabViewItemViewController.closeAllWindows()
             }
-            selectEntry(selectedEntry)
-        }
+            selectEntry(selectedEntry) //will perform refresh (after window loaded)
+        } else if let pvc = propertiesTabViewItemViewController { pvc.refresh() } //refresh window
         
-        //refresh window
-        if let pvc = propertiesTabViewItemViewController { pvc.refresh() }
     }
     
     func showWindowNotification(notification : NSNotification) {
@@ -242,13 +240,13 @@ class PSDocumentTabDelegate: NSObject, NSTabViewDelegate {
         
         propertiesTabViewItemViewController = selectedViewController
         
-        /*if let selectedViewController = selectedViewController {
+        if let svc = selectedViewController {
             //set the view to the viewcontrollers view
-            propertiesTabViewItem.view = selectedViewController.view
+            propertiesTabViewItem.view = svc.view
         } else {
             // : TODO, have a placeholder view
             propertiesTabViewItem.view = NSView()
-        }*/
+        }
 
     }
     

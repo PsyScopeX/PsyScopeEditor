@@ -215,6 +215,7 @@
 		1A69F9CD1A84BD5200D60880 /* AddAttributeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A69F9CB1A84BD5200D60880 /* AddAttributeCell.xib */; };
 		1A6C92D51A014CEE00D24411 /* PSTableBuilderController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A6C92D41A014CEE00D24411 /* PSTableBuilderController.swift */; };
 		1A6D9A521B4ED37C0020D82D /* HFSFileTypeHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A6D9A511B4ED37C0020D82D /* HFSFileTypeHelper.m */; };
+		1A6ED6EA1B65121000ADDF4E /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A6ED6E91B65121000ADDF4E /* Document.swift */; };
 		1A70C7B11A31DAA1008628AF /* AddActionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A70C7B01A31DAA1008628AF /* AddActionCell.xib */; };
 		1A70C7B31A31DB04008628AF /* AddConditionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A70C7B21A31DB04008628AF /* AddConditionCell.xib */; };
 		1A70E6F21B4FF6590046B70B /* PSLayoutObjectComboBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A70E6F11B4FF6590046B70B /* PSLayoutObjectComboBox.swift */; };
@@ -854,6 +855,7 @@
 		1A6C92D41A014CEE00D24411 /* PSTableBuilderController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSTableBuilderController.swift; sourceTree = "<group>"; };
 		1A6D9A501B4ED37C0020D82D /* HFSFileTypeHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HFSFileTypeHelper.h; sourceTree = "<group>"; };
 		1A6D9A511B4ED37C0020D82D /* HFSFileTypeHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HFSFileTypeHelper.m; sourceTree = "<group>"; };
+		1A6ED6E91B65121000ADDF4E /* Document.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Document.swift; sourceTree = "<group>"; };
 		1A70C7B01A31DAA1008628AF /* AddActionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddActionCell.xib; sourceTree = "<group>"; };
 		1A70C7B21A31DB04008628AF /* AddConditionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddConditionCell.xib; sourceTree = "<group>"; };
 		1A70E6F11B4FF6590046B70B /* PSLayoutObjectComboBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSLayoutObjectComboBox.swift; sourceTree = "<group>"; };
@@ -1984,6 +1986,7 @@
 				1A9263741A94B25800DAFF3A /* PSProperty.swift */,
 				1AAF5FE41AB0BA3300AA1DC4 /* PSScriptErrors.swift */,
 				1A8752381AB1AD2E00D4D31A /* PSUpdateEntryWithGhostEntry.swift */,
+				1A6ED6E91B65121000ADDF4E /* Document.swift */,
 			);
 			name = Script;
 			sourceTree = "<group>";
@@ -3178,6 +3181,7 @@
 				1A4A64701B1109F300084A10 /* PSGroup.swift in Sources */,
 				1A710A0E1A86B94B00073CB6 /* PSAttributeParameter_SystemSound.swift in Sources */,
 				1A9263751A94B25800DAFF3A /* PSProperty.swift in Sources */,
+				1A6ED6EA1B65121000ADDF4E /* Document.swift in Sources */,
 				1A7E93391B1CC12C00498D2E /* PSAttributePopup.swift in Sources */,
 				1A811C231AC37C83000B44CE /* PSEntryValueParser.swift in Sources */,
 				1A710A2A1A86C67C00073CB6 /* PSCheckBoxListAttributePopup.swift in Sources */,

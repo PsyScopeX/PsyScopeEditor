@@ -16,7 +16,7 @@
                 <outlet property="experimentSetup" destination="Z0W-cp-4H8" id="cDm-YG-5GI"/>
                 <outlet property="layoutController" destination="lM2-Zh-cBk" id="QEA-tB-lXo"/>
                 <outlet property="layoutObjectComboBox" destination="Fhm-UL-YgA" id="0sf-4N-AaT"/>
-                <outlet property="objectToolbarDelegate" destination="iyE-X3-yvj" id="n6h-yc-1jk"/>
+                <outlet property="objectToolbarDelegate" destination="znO-0X-0g7" id="aBd-kB-Av5"/>
                 <outlet property="scriptDelegate" destination="pVe-g4-G0X" id="6uj-S6-VUW"/>
                 <outlet property="tabController" destination="VPD-gz-cgk" id="LAB-cl-tNk"/>
                 <outlet property="toolbar" destination="59H-7P-Qhl" id="fvu-2S-M02"/>
@@ -491,6 +491,7 @@
                                                                             <outlet property="actionPopup" destination="MjE-gb-jEH" id="vce-nN-R60"/>
                                                                             <outlet property="contextMenu" destination="IMa-D7-0dI" id="ydt-10-gJd"/>
                                                                             <outlet property="layoutController" destination="lM2-Zh-cBk" id="iXe-OE-blj"/>
+                                                                            <outlet property="mainWindow" destination="xOd-HO-29H" id="z4L-Wd-M3d"/>
                                                                             <outlet property="menu" destination="IMa-D7-0dI" id="U6K-Xk-gYr"/>
                                                                             <outlet property="scrollView" destination="CGh-F9-ajS" id="ct9-r8-LyH"/>
                                                                         </connections>

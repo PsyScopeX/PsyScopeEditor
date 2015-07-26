@@ -14,7 +14,7 @@ class PSGroupsViewController : PSToolPropertyController, NSTableViewDelegate, NS
     var subjectVariables : [PSSubjectVariable]
     
     init(entry : Entry, scriptData : PSScriptData) {
-        var bundle = NSBundle(forClass:self.dynamicType)
+        let bundle = NSBundle(forClass:self.dynamicType)
         group = PSGroup(entry: entry, scriptData: scriptData)
         criteria = []
         subjectVariables = []
@@ -50,7 +50,7 @@ class PSGroupsViewController : PSToolPropertyController, NSTableViewDelegate, NS
         self.view.addSubview(childTypeController.view)
         
         var frame = childTypeController.view.frame
-        var yposition = CGRectGetHeight(self.view.frame) - CGRectGetHeight(frame) - yOffSet
+        let yposition = CGRectGetHeight(self.view.frame) - CGRectGetHeight(frame) - yOffSet
         frame.origin = CGPointMake(0.0, ceil(yposition))
         childTypeController.view.frame = frame
     }
@@ -60,7 +60,7 @@ class PSGroupsViewController : PSToolPropertyController, NSTableViewDelegate, NS
         criteria = group.getCriteria()
         
         //get all subject variables
-        var subjectInfo = PSSubjectInformation(scriptData: scriptData)
+        let subjectInfo = PSSubjectInformation(scriptData: scriptData)
         subjectInfo.updateVariablesFromScript()
         subjectVariables = subjectInfo.subjectVariables.filter({ subjectVariable in subjectVariable.isGroupingVariable})
         
@@ -128,7 +128,7 @@ class PSGroupsViewController : PSToolPropertyController, NSTableViewDelegate, NS
         let subjectVariableName = subjectVariables[row].name
         for (index,criterium) in criteria.enumerate() {
             if criterium.variable.name == subjectVariableName {
-                var value = PSSubjectVariableDialog(criterium.variable, currentValue: criterium.value)
+                let value = PSSubjectVariableDialog(criterium.variable, currentValue: criterium.value)
                 criteria[index].value = value
                 group.setCriteria(criteria)
                 criteriaTableView.reloadData()

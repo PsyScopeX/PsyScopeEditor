@@ -99,15 +99,6 @@ class Document: NSPersistentDocument {
         self.selectionController.refreshGUI()
     }
     
-    
-    //MARK: Window
-    
-    var window : NSWindow {
-        get {
-            return mainWindow!
-        }
-    }
-    
     //MARK: NSPersistentDocument Override
     
     override var managedObjectModel : AnyObject! {

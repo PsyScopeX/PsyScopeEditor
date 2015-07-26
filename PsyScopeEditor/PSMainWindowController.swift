@@ -81,7 +81,6 @@ class PSMainWindowController : NSWindowController {
     }
     
     func selectEntry(entry : Entry?) {
-        tabController.selectEntry(entry)
         layoutController.selectEntry(entry)
         scriptDelegate.selectEntry(entry)
         experimentSetup.entrySelected()
