@@ -19,6 +19,14 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
     var list : PSList! = nil
     var nameColumn : NSTableColumn!
     var initialized : Bool = false
+    var lastClickedRow : Int = -1
+    var lastClickedCol : Int = -1
+    var editingHeader : Bool = false
+    var listColumns : [PSListBuilderColumn] = []
+    var lastCellEditedCoords : (col: Int, row: Int) = (-1, -1)
+    var itemTextFields : [NSTextField : Int] = [:]
+    
+    //MARK: Initialization
     
     override func awakeFromNib() {
         if initialized { return }
@@ -28,56 +36,63 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
         nameColumn = listTableView.tableColumns.first! as NSTableColumn
         scriptData = listBuilder.scriptData
         listEntry = listBuilder.entry
+        
+        //setup list entry correctly
         PSList.initializeEntry(listEntry, scriptData: scriptData)
         update()
                 
     }
     
-    func resetHeaders() {
-        //already editingheader so need to cancel that...
-        if editingHeader {
-            let tc = listTableView.tableColumns[lastClickedCol] as NSTableColumn
-            _ = listTableView.headerView!;
-            let hc = tc.headerCell as! PSFieldHeaderCell
-            hc.highlighted = false
-            let editor = listTableView.window!.fieldEditor(true, forObject: listTableView)
-            hc.endEditing(editor!)
+    //MARK: Update
+    
+    func update() {
+        
+        //remove existing columns
+        for ac in listColumns { listTableView.removeTableColumn(ac) }
+        listColumns = []
+        
+        //setup list
+        list = PSList(scriptData: scriptData, listEntry: listEntry)
+        
+        //close if no good
+        if list == nil {
+            listBuilder.close()
+            return
         }
+        
+        //add columns for each field
+        for field in list.fields { self.addNewColumn(field) }
+        
+        //clear array holding textFields for each item
+        itemTextFields = [:]
+        
+        //reload the data
+        self.listTableView.reloadData()
+        
+        //set the highlighted cell
+        if let lce = lastCellEdited { lce.highLight(true) }
     }
     
-    func validateMenu(menu: NSMenu, tableColumn: NSTableColumn, col : Int) {
-        for item in menu.itemArray as [NSMenuItem] {
-            item.tag = col
-        }
+    
+    func addNewColumn(field : PSField) {
+        
+        let new_column = PSListBuilderColumn(identifier: "\(listColumns.count + 1)", column_field: field)
+        let new_header = PSFieldHeaderCell()
+        new_header.editable = true
+        new_header.usesSingleLineMode = true
+        new_header.scrollable = false
+        new_header.lineBreakMode = NSLineBreakMode.ByTruncatingTail
+        new_column.headerCell = new_header
+        listColumns.append(new_column)
+        self.listTableView.addTableColumn(new_column)
+        
+        let header_cell = new_column.headerCell as NSTableHeaderCell
+        header_cell.title = field.entry.name
+        new_column.headerCell = header_cell
     }
     
-    @IBAction func setTypeMenuAction(sender : NSMenuItem) {
-        //open attribute picker to set the type
-            attributePicker = PSAttributePickerType(attributePickedCallback: {
-                (type : PSAttributeType, selected : Bool) -> () in
-                
-                if (selected) {
-                    self.list.fields[sender.tag - 1].changeType(type)
-                    self.listTableView.reloadData()
-                }
+    //MARK: Editable headers
     
-            }, scriptData: scriptData)
-     
-            let view : NSView = listTableView.headerView!
-            attributePicker!.showAttributeWindow(view)
-    }
-    
-    @IBAction func removeFieldMenuAction(sender : NSMenuItem) {
-        list.deleteColumn(sender.tag - 1)
-    }
-    
-    @IBAction func removeRowMenuAction(sender : NSMenuItem) {
-        list.deleteRow(sender.tag)
-    }
-    
-    var lastClickedRow : Int = -1
-    var lastClickedCol : Int = -1
-    var editingHeader : Bool = false
     func doubleClickInTableView(sender : AnyObject) {
         let row = listTableView.clickedRow
         let col = listTableView.clickedColumn
@@ -121,42 +136,34 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
             editingHeader = false
             
         }
-
+        
     }
- 
-    func update() {
-        if listEntry.deleted ||
-            listEntry.layoutObject == nil {
-                //object has been deleted, so need to close window
-                listBuilder.close()
-        }
-        
-        
-        
-        for ac in addedColumns {
-            listTableView.removeTableColumn(ac)
-        }
-        addedColumns = []
-        list = PSList(scriptData: scriptData, listEntry: listEntry)
-        if list == nil {
-            listBuilder.close()
-            return
-        }
-        for field in list.fields {
-            self.addNewColumn(field)
-        }
-        itemTextFields = [:]
-        self.listTableView.reloadData()
-        if let lce = lastCellEdited {
-            lce.highLight(true)
+    
+    func resetHeaders() {
+        //already editingheader so need to cancel that...
+        if editingHeader {
+            let tc = listTableView.tableColumns[lastClickedCol] as NSTableColumn
+            _ = listTableView.headerView!;
+            let hc = tc.headerCell as! PSFieldHeaderCell
+            hc.highlighted = false
+            let editor = listTableView.window!.fieldEditor(true, forObject: listTableView)
+            hc.endEditing(editor!)
         }
     }
     
-    func tableView(tableView: NSTableView, mouseDownInHeaderOfTableColumn tableColumn: NSTableColumn) {
-        resetHeaders()
+    //MARK: Item name delegate
+    
+    func control(control: NSControl, textShouldEndEditing fieldEditor: NSText) -> Bool {
+        if let tf = control as? NSTextField {
+            if let row = itemTextFields[tf] {
+                list.setName(tf.stringValue, forRow: row)
+            }
+        }
+        return true
     }
-
-
+    
+    //MARK: Item menu
+    
     func clickMenuItem(sender : NSMenuItem) {
         let field = list.fields[listTableView.columnForMenu - 1]
         let item = field[listTableView.rowForMenu]
@@ -166,6 +173,103 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
             field[listTableView.rowForMenu] = "NULL"
         }
     }
+    
+    func validateMenu(menu: NSMenu, tableColumn: NSTableColumn, col : Int) {
+        for item in menu.itemArray as [NSMenuItem] {
+            item.tag = col
+        }
+    }
+    
+    //MARK: Item menu actions
+    
+    @IBAction func setTypeMenuAction(sender : NSMenuItem) {
+        //open attribute picker to set the type
+            attributePicker = PSAttributePickerType(attributePickedCallback: {
+                (type : PSAttributeType, selected : Bool) -> () in
+                
+                if (selected) {
+                    self.list.fields[sender.tag - 1].changeType(type)
+                    self.listTableView.reloadData()
+                }
+    
+            }, scriptData: scriptData)
+     
+            let view : NSView = listTableView.headerView!
+            attributePicker!.showAttributeWindow(view)
+    }
+    
+    @IBAction func removeFieldMenuAction(sender : NSMenuItem) {
+        list.deleteColumn(sender.tag - 1)
+    }
+    
+    @IBAction func removeRowMenuAction(sender : NSMenuItem) {
+        list.deleteRow(sender.tag)
+    }
+    
+
+    //MARK: TableView
+    
+    func numberOfRowsInTableView(tableView: NSTableView) -> Int {
+        return list != nil ? list.count : 0
+    }
+    
+    func tableView(tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
+        return 30
+    }
+    
+    func tableView(tableView: NSTableView, mouseDownInHeaderOfTableColumn tableColumn: NSTableColumn) {
+        resetHeaders()
+    }
+    
+    func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
+        
+        guard let listBuilderColumn = tableColumn as? PSListBuilderColumn else {
+            
+            //column is for item names
+            let view = tableView.makeViewWithIdentifier(tableColumn!.identifier, owner: self) as! NSTableCellView
+            view.textField!.delegate = self
+            view.textField!.stringValue = list.nameForRow(row)
+            view.textField!.frame = view.frame
+            itemTextFields[view.textField!] = row
+            return view
+        }
+        
+
+        let item = listBuilderColumn.field[row]
+        var att_interface : PSAttributeInterface
+        
+        if let f = listBuilderColumn.field.interface {
+            att_interface = f
+        } else {
+            att_interface = PSAttributeGeneric()
+        }
+        
+        let attributeParameter = att_interface.attributeParameter() as! PSAttributeParameter
+        let cell = PSListCellView(attributeParameter: attributeParameter, interface: att_interface, scriptData: scriptData)
+        PSAttributeParameterBuilder(parameter: attributeParameter).setupTableCell(cell, currentValue: item)
+        
+        
+        cell.row = row
+        if let col = listColumns.indexOf(listBuilderColumn) {
+            cell.col = col + 1
+        } else {
+            fatalError("Could not find column in the controller's array")
+        }
+        
+        cell.updateScriptBlock = { () -> () in
+            self.lastCellEdited = cell
+            listBuilderColumn.field[row] = cell.attributeParameter.currentValue
+        }
+        
+        cell.firstResponderBlock = { self.lastCellEdited = cell }
+        return cell
+    }
+    
+    func tableView(tableView: NSTableView, selectionIndexesForProposedSelection proposedSelectionIndexes: NSIndexSet) -> NSIndexSet {
+        return NSIndexSet(index: -1)
+    }
+
+    //MARK: New Item/Field Buttons
     
     @IBAction func addNewItemButton(_: AnyObject) {
         list.addNewItem()
@@ -199,25 +303,8 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
         
     }
     
-    var addedColumns : [PSListBuilderColumn] = []
-    func addNewColumn(field : PSField) {
-        
-        let new_column = PSListBuilderColumn(identifier: "\(addedColumns.count + 1)", column_field: field)
-        let new_header = PSFieldHeaderCell()
-        new_header.editable = true
-        new_header.usesSingleLineMode = true
-        new_header.scrollable = false
-        new_header.lineBreakMode = NSLineBreakMode.ByTruncatingTail
-        new_column.headerCell = new_header
-        addedColumns.append(new_column)
-        self.listTableView.addTableColumn(new_column)
-        
-        let header_cell = new_column.headerCell as NSTableHeaderCell
-        header_cell.title = field.entry.name
-        new_column.headerCell = header_cell
-        
-        
-    }
+    //MARK: Deleteing
+    
     
     func deleteRow(name : String) {
         self.list.deleteRowByName(name)
@@ -241,20 +328,7 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
         self.list.deleteColumnByName(col.field.entry.name)
     }
     
-
-    func numberOfRowsInTableView(tableView: NSTableView) -> Int {
-        if list != nil {
-            return list.count
-        } else {
-            return 0
-        }
-    }
-    
-    func tableView(tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
-        return 30
-    }
-    
-    var lastCellEditedCoords : (col: Int, row: Int) = (-1, -1)
+    //MARK: Cell editing
     
     var lastCellEdited : PSListCellView? {
         get {
@@ -282,6 +356,8 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
             }
         }
     }
+    
+    //MARK: Keyboard shortcuts
     
     func keyDownMessage(theEvent: NSEvent) {
         let keyPressed = theEvent.keyCode
@@ -328,9 +404,6 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
                 
             }
             
-            
-            
-            
             if (switchView || tabbedView) && col >= 1 && row >= 0 && col < listTableView.numberOfColumns && row < listTableView.numberOfRows {
                 if let nc = listTableView.viewAtColumn(col, row: row, makeIfNecessary: true) as? PSListCellView {
                     lastCellEdited = nc
@@ -347,70 +420,5 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
         }
     }
     
-    func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        if let c = tableColumn as? PSListBuilderColumn {
-            let item = c.field[row]
-            var att_interface : PSAttributeInterface
-            
-            if let f = c.field.interface {
-                att_interface = f
-            } else {
-                att_interface = PSAttributeGeneric()
-            }
-            
-            let attributeParameter = att_interface.attributeParameter() as! PSAttributeParameter
-            let cell = PSListCellView(attributeParameter: attributeParameter, interface: att_interface, scriptData: scriptData)
-            PSAttributeParameterBuilder(parameter: attributeParameter).setupTableCell(cell, currentValue: item)
-            
-            
-            cell.row = row
-            if let col = addedColumns.indexOf(c) {
-                cell.col = col + 1
-            } else {
-                fatalError("Could not find column in the controller's array")
-            }
-            
-            cell.updateScriptBlock = { () -> () in
-                self.lastCellEdited = cell
-                c.field[row] = cell.attributeParameter.currentValue
-            }
-            
-            cell.firstResponderBlock = { self.lastCellEdited = cell }
-            return cell
-        } else {
-            let view = tableView.makeViewWithIdentifier(tableColumn!.identifier, owner: self) as! NSTableCellView
-            view.textField!.delegate = self
-            view.textField!.stringValue = list.nameForRow(row)
-            view.textField!.frame = view.frame
-            itemTextFields[view.textField!] = row
-            return view
-        }
-    }
-    
-    func tableView(tableView: NSTableView, selectionIndexesForProposedSelection proposedSelectionIndexes: NSIndexSet) -> NSIndexSet {
-        return NSIndexSet(index: -1)
-    }
-    
-    func tableView(tableView: NSTableView, clickedRow: NSInteger, clickedCol: NSInteger) {
-        print(clickedRow.description + " " + clickedCol.description)
-    }
-    
-    var itemTextFields : [NSTextField : Int] = [:]
-    
-    func control(control: NSControl, textShouldEndEditing fieldEditor: NSText) -> Bool {
-        if let tf = control as? NSTextField {
-            if let row = itemTextFields[tf] {
-                list.setName(tf.stringValue, forRow: row)
-            }
-        }
-        return true
-    }
-    
-    
-
-    
-   
-
-
 
 }

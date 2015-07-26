@@ -15,10 +15,10 @@ class PSList : NSObject {
     
     
     class func initializeEntry(entry : Entry, scriptData : PSScriptData) {
-        var is_list = scriptData.getOrCreateSubEntry("IsList", entry: entry, isProperty: true)
+        let is_list = scriptData.getOrCreateSubEntry("IsList", entry: entry, isProperty: true)
         is_list.currentValue = "True"
         
-        var levels = scriptData.getOrCreateSubEntry("Levels", entry: entry, isProperty: true)
+        _ = scriptData.getOrCreateSubEntry("Levels", entry: entry, isProperty: true)
     }
     
     init?(scriptData : PSScriptData, listEntry : Entry) {
@@ -31,13 +31,13 @@ class PSList : NSObject {
             return nil
         }
         
-        var levels : Entry! = scriptData.getSubEntry("Levels", entry: listEntry)!
+        let levels : Entry! = scriptData.getSubEntry("Levels", entry: listEntry)!
         if levels == nil {
             return nil
         }
         
         levelsEntry = PSStringList(entry: levels, scriptData: scriptData)
-        var sub_entries = listEntry.subEntries.array as! [Entry]
+        let sub_entries = listEntry.subEntries.array as! [Entry]
         for sub_entry in sub_entries {
             if sub_entry.name != "Levels" && sub_entry.name != "IsList" {
                 var attributetype = PSAttributeType(fullType: sub_entry.type)
@@ -55,7 +55,7 @@ class PSList : NSObject {
                     interface = PSAttributeGeneric()
                 }
                 
-                var new_field = PSField(entry: sub_entry, list: self, interface: interface, scriptData: scriptData)
+                let new_field = PSField(entry: sub_entry, list: self, interface: interface, scriptData: scriptData)
                 fields.append(new_field)
             }
         }
@@ -69,6 +69,39 @@ class PSList : NSObject {
         }
         set {
             scriptData.renameEntry(listEntry, nameSuggestion: newValue)
+        }
+    }
+    
+    var weightsColumn : [Int]? {
+        
+        get {
+            if let levels = scriptData.getSubEntry("Levels", entry: listEntry),
+                weights = scriptData.getSubEntry("Weights", entry: levels) {
+                    
+                    return weights.currentValue.componentsSeparatedByString(" ").map({
+                        if let i = Int($0){
+                            return i
+                        }else {
+                            return 1
+                        }
+                    })
+            }
+            return nil
+        }
+        
+        set {
+            scriptData.beginUndoGrouping("Edit Weights")
+            defer { scriptData.endUndoGrouping() }
+            
+            let levels = scriptData.getOrCreateSubEntry("Levels", entry: listEntry, isProperty: true)
+            
+            guard let newWeights = newValue else {
+                scriptData.deleteNamedSubEntryFromParentEntry(levels, name: "Weights")
+                return
+            }
+            
+            let weights = scriptData.getOrCreateSubEntry("Weights", entry: levels, isProperty: true)
+            weights.currentValue = " ".join(newWeights.map({ String($0) }))
         }
     }
     
@@ -86,11 +119,11 @@ class PSList : NSObject {
     
     
     func updateBlankEntries() {
-        var n_fields = levelsEntry.count
+        let n_fields = levelsEntry.count
         for field in fields {
-            var n_missing_values = n_fields - field.count
+            let n_missing_values = n_fields - field.count
             if n_missing_values > 0 {
-                for index in 1...n_missing_values {
+                for _ in 1...n_missing_values {
                     field.appendAsString("NULL")
                 }
             }
@@ -99,7 +132,7 @@ class PSList : NSObject {
     
     func addNewField(new_type : PSAttributeType, interface : PSAttributeInterface?) -> PSField {
         
-        var new_entry = scriptData.getOrCreateSubEntry(new_type.name, entry: listEntry, isProperty: true)
+        let new_entry = scriptData.getOrCreateSubEntry(new_type.name, entry: listEntry, isProperty: true)
         if let int = interface {
             new_entry.currentValue = int.defaultValue()
         } else {
@@ -108,7 +141,7 @@ class PSList : NSObject {
         
         new_entry.type = new_type.fullType
         
-        var new_field = PSField(entry: new_entry, list: self, interface: interface, scriptData: scriptData)
+        let new_field = PSField(entry: new_entry, list: self, interface: interface, scriptData: scriptData)
         fields.append(new_field)
         updateBlankEntries()
         return new_field
@@ -146,7 +179,7 @@ class PSList : NSObject {
     
     func itemAtColumn(col : Int, andRow row: Int) -> AnyObject {
         if col < fields.count && row < (fields[col].count) {
-            var return_val = fields[col][row]
+            let return_val = fields[col][row]
             return return_val
         } else {
             return ""
@@ -158,7 +191,7 @@ class PSList : NSObject {
     }
     
     func deleteColumn(col : Int) {
-        var toDelete = fields[col]
+        let toDelete = fields[col]
         scriptData.deleteSubEntryFromBaseEntry(toDelete.entry.parentEntry, subEntry: toDelete.entry)
         fields = fields.filter({ $0 != toDelete })
         updateBlankEntries()
@@ -181,7 +214,7 @@ class PSList : NSObject {
     
     func typeAtColumn(col : Int) -> PSAttributeType {
         if col < fields.count {
-            var return_val = fields[col].type
+            let return_val = fields[col].type
             return return_val
         } else {
             return PSAttributeType(fullType: "")

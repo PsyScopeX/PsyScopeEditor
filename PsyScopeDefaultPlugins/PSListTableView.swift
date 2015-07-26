@@ -9,7 +9,7 @@
 import Foundation
 
 @objc protocol PSListTableViewDelegate : class {
-    func tableView(tableView : NSTableView, clickedRow : NSInteger, clickedCol : NSInteger)
+    optional func tableView(tableView : NSTableView, clickedRow : NSInteger, clickedCol : NSInteger)
     func keyDownMessage(theEvent : NSEvent)
 }
 
@@ -19,7 +19,7 @@ class PSListTableView : NSTableView {
     var columnForMenu : Int = -1
     var rowForMenu : Int = -1
     override func menuForEvent(event: NSEvent) -> NSMenu? {
-        var point = self.convertPoint(event.locationInWindow, fromView: nil)
+        let point = self.convertPoint(event.locationInWindow, fromView: nil)
         columnForMenu = self.columnAtPoint(point)
         rowForMenu = self.rowAtPoint(point)
         if columnForMenu == 0 {
@@ -28,7 +28,7 @@ class PSListTableView : NSTableView {
             }
             return self.menu
         } else {
-            var theDelegate = self.delegate() as! PSListBuilderTableController
+            let theDelegate = self.delegate() as! PSListBuilderTableController
             return theDelegate.scriptData.getVaryByMenu(theDelegate, action: "clickMenuItem:")
         }
     }
@@ -39,7 +39,7 @@ class PSListTableView : NSTableView {
         let clickedCol = self.columnAtPoint(location)
         super.mouseDown(theEvent)
         if clickedRow != -1 && clickedCol != -1 {
-            self.extendedDelegate.tableView(self, clickedRow: clickedRow, clickedCol: clickedCol)
+            self.extendedDelegate.tableView?(self, clickedRow: clickedRow, clickedCol: clickedCol)
         }
     }
     
