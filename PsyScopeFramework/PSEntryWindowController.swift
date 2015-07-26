@@ -36,6 +36,7 @@ public class PSEntryWindowController : NSWindowController, NSWindowDelegate {
         if entry.deleted == true || entry.currentValue == nil {
             registeredForChanges = false
             close()
+            return
         }
     }
     

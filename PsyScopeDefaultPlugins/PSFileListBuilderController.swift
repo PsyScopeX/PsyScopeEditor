@@ -13,7 +13,7 @@ class PSFileListBuilderController : NSObject {
     @IBOutlet var filePathTextField : NSTextField!
     @IBOutlet var numberOfColumnsTextField : NSTextField!
     @IBOutlet var tableViewController : PSFileListBuilderTableController!
-    //@IBOutlet var weightsCheckButton : NSButton!
+    @IBOutlet var weightsCheckButton : NSButton!
     
     var scriptData : PSScriptData!
     var listEntry : Entry!
@@ -34,8 +34,27 @@ class PSFileListBuilderController : NSObject {
         numberOfColumnsTextField.integerValue = numberOfColumns
         
         
-        let previewData = fileList.previewOfContents
-        let columnNames : [String] = fileList.getColumnNames()
+        var previewData : [[String]] = fileList.previewOfContents
+        var columnNames : [String] = fileList.getColumnNames()
+        
+        if let weightsColumn = fileList.weightsColumn {
+            weightsCheckButton.state = 1
+            columnNames.insert("Weights", atIndex: 0)
+            
+            if previewData.count > 0 {
+                for index in 0...(previewData.count - 1) {
+                    var row : [String] = previewData[index]
+                    if index < weightsColumn.count {
+                        row.insert(String(weightsColumn[index]), atIndex: 0)
+                    } else {
+                        row.insert("1", atIndex: 0)
+                    }
+                    previewData[index] = row
+                }
+            }
+        } else {
+            weightsCheckButton.state = 0
+        }
         
         tableViewController.refresh(previewData, columnNames: columnNames)
         
@@ -52,6 +71,17 @@ class PSFileListBuilderController : NSObject {
         }
         
         refreshControls()
+    }
+    
+    //MARK: Change weights attribute
+    
+    @IBAction func weightsCheckButtonClicked(_:AnyObject) {
+        if weightsCheckButton.state == 1 {
+            let numberOfRows = fileList.previewOfContents.count
+            fileList.weightsColumn = [Int](count:numberOfRows, repeatedValue: 1)
+        } else {
+            fileList.weightsColumn = nil
+        }
     }
     
 }

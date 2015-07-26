@@ -10,12 +10,12 @@ import Foundation
 
 class PSFileListWindowController: PSEntryWindowController {
     
-    @IBOutlet var controller : PSListBuilderTableController!
+    @IBOutlet var controller : PSFileListBuilderController!
     
 
     override func docMocChanged(notification : NSNotification) {
         super.docMocChanged(notification)
-        controller.docMocChanged(notification)
+        controller.refreshControls()
     }
     
             

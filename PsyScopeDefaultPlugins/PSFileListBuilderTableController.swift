@@ -21,6 +21,8 @@ class PSFileListBuilderTableController : NSObject, NSTableViewDataSource, NSTabl
         previewTableView.target = self
     }
     
+
+    
     func refresh(latestPreviewData : [[String]], columnNames : [String]) {
         
         while(previewTableView.tableColumns.count > 0) {

@@ -110,6 +110,9 @@
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
+                        <connections>
+                            <action selector="weightsCheckButtonClicked:" target="bRQ-xO-Y0s" id="kFK-UA-qX9"/>
+                        </connections>
                     </button>
                     <button horizontalHuggingPriority="750" verticalHuggingPriority="750" id="8MI-uf-WO9">
                         <rect key="frame" x="491" y="296" width="25" height="15"/>
@@ -132,6 +135,7 @@
                 <outlet property="filePathTextField" destination="9CJ-QE-Dgj" id="YYj-gM-bXj"/>
                 <outlet property="numberOfColumnsTextField" destination="3cY-db-hde" id="g53-1m-oVS"/>
                 <outlet property="tableViewController" destination="0qt-H6-Ugq" id="Ib8-Ln-WjT"/>
+                <outlet property="weightsCheckButton" destination="Yfy-Hq-9Ak" id="0TH-Zg-f7D"/>
             </connections>
         </customObject>
         <customObject id="0qt-H6-Ugq" customClass="PSFileListBuilderTableController" customModule="PsyScopeDefaultPlugins" customModuleProvider="target">
