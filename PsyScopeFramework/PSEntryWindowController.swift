@@ -9,14 +9,14 @@
 import Foundation
 
 //window controller associated with an entry (will disapear if entry deleted)
-public class PSEntryWindowController : NSWindowController {
+public class PSEntryWindowController : NSWindowController, NSWindowDelegate {
     public var entry : Entry!
     public var scriptData : PSScriptData!
     
     public func setupWithEntryAndAddToDocument(entry : Entry, scriptData : PSScriptData) {
         self.entry = entry
         self.scriptData = scriptData
-        scriptData.document.addWindowController(self)
+        scriptData.addWindowController(self)
         registeredForChanges = true
     }
     
@@ -32,10 +32,15 @@ public class PSEntryWindowController : NSWindowController {
         }
     }
     
-    func docMocChanged(notification : NSNotification) {
+    public func docMocChanged(notification : NSNotification) {
         if entry.deleted == true || entry.currentValue == nil {
             registeredForChanges = false
             close()
         }
+    }
+    
+    public func windowWillClose(notification: NSNotification) {
+        registeredForChanges = false
+        scriptData.removeWindowController(self)
     }
 }

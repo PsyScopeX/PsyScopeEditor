@@ -4,7 +4,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="8164.2"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="PSFileListBuilder" customModule="PsyScopeDefaultPlugins" customModuleProvider="target">
+        <customObject id="-2" userLabel="File's Owner" customClass="PSFileListWindowController" customModule="PsyScopeDefaultPlugins" customModuleProvider="target">
             <connections>
                 <outlet property="controller" destination="bRQ-xO-Y0s" id="cfU-jF-QJV"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="xWE-1x-UKX"/>
@@ -30,7 +30,7 @@
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <tableView appearanceType="vibrantLight" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="none" alternatingRowBackgroundColors="YES" columnReordering="NO" multipleSelection="NO" autosaveColumns="NO" headerView="J3y-uT-sZp" id="usB-ds-jBM">
-                                    <rect key="frame" x="0.0" y="0.0" width="530" height="237"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="0.0" height="17"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                     <tableViewGridLines key="gridStyleMask" vertical="YES" horizontal="YES"/>

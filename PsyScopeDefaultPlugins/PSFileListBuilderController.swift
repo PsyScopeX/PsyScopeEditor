@@ -9,7 +9,7 @@
 import Foundation
 
 class PSFileListBuilderController : NSObject {
-    @IBOutlet var fileListBuilder : PSFileListBuilder!
+    @IBOutlet var fileListBuilder : PSFileListWindowController!
     @IBOutlet var filePathTextField : NSTextField!
     @IBOutlet var numberOfColumnsTextField : NSTextField!
     @IBOutlet var tableViewController : PSFileListBuilderTableController!
@@ -22,7 +22,7 @@ class PSFileListBuilderController : NSObject {
     
     override func awakeFromNib() {
         scriptData = fileListBuilder.scriptData
-        listEntry = fileListBuilder.listEntry
+        listEntry = fileListBuilder.entry
         fileList = PSFileList(entry: listEntry, scriptData: scriptData)
         
         refreshControls()

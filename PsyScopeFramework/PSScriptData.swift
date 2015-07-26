@@ -73,6 +73,16 @@ public class PSScriptData : NSObject {
     public let selectionInterface : PSSelectionInterface
     private var _scriptObject : Script?
     
+    //MARK: Windows
+    
+    public func addWindowController(windowController : NSWindowController) {
+        self.document.addWindowController(windowController)
+    }
+    
+    public func removeWindowController(windowController : NSWindowController) {
+        self.document.addWindowController(windowController)
+    }
+    
     //MARK: Directory
     
     public func documentDirectory() -> String? {

@@ -24,8 +24,8 @@ class PSListViewController : PSToolPropertyController, NSWindowDelegate {
         case NormalType
     }
     
+    var windowController : NSWindowController!
     var listBuilder : PSListBuilder?
-    var listFileBuilder : PSFileListBuilder?
     var firstParse : Bool = false
     var listType : PSListType = PSListType.NormalType
     
@@ -190,14 +190,15 @@ class PSListViewController : PSToolPropertyController, NSWindowDelegate {
                 self.listBuilder!.showWindow()
             }
         } else {
-            if let tb = self.listFileBuilder {
-                if (!tb.window.visible) {
-                    tb.window.makeKeyAndOrderFront(sender)
+            if let windowController = self.windowController {
+                if (!windowController.window!.visible) {
+                    windowController.window!.makeKeyAndOrderFront(sender)
                 }
             } else {
-                self.listFileBuilder = PSFileListBuilder(scriptData: scriptData, listEntry: self.entry)
-                self.listFileBuilder!.window.delegate = self
-                self.listFileBuilder!.showWindow()
+                let listFileBuilder = PSFileListWindowController(windowNibName: "FileListBuilder")
+                listFileBuilder.setupWithEntryAndAddToDocument(self.entry, scriptData: self.scriptData)
+                self.windowController = listFileBuilder
+                listFileBuilder.showWindow(self)
             }
         }
         
@@ -206,9 +207,7 @@ class PSListViewController : PSToolPropertyController, NSWindowDelegate {
     func windowShouldClose(sender: AnyObject) -> Bool {
         listBuilder?.deregister() //releases object when list builder window closed
         listBuilder = nil
-        
-        listFileBuilder?.deregister()
-        listFileBuilder = nil
+
         return true
     }
 }
