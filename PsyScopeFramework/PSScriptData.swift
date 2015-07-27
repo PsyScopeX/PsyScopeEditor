@@ -597,15 +597,17 @@ public class PSScriptData : NSObject {
     //default sub_entry should set up all values
     public func getOrCreateSubEntry(name : String, entry : Entry, isProperty : Bool, type : PSAttributeType! = nil) -> Entry {
         
-        let existing_entry = getSubEntry(name, entry: entry)
-        if let ee = existing_entry {
-            ee.isProperty = isProperty
-            if !isProperty && ee.type != type.fullType {
+        
+        if let existing_entry = getSubEntry(name, entry: entry) {
+            
+            if existing_entry.isProperty != isProperty { existing_entry.isProperty = isProperty }
+            
+            if !isProperty && existing_entry.type != type.fullType {
                 
                 //check if type is compatible?
                 fatalError("Types do not match on attribute!!")
             }
-            return ee
+            return existing_entry
         }
         
         if type == nil && isProperty == false {

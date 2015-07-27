@@ -14,6 +14,8 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
     @IBOutlet var listTableView : PSListTableView!
     @IBOutlet var listBuilder : PSListBuilderWindowController!
     @IBOutlet var weightsCheckButton : NSButton!
+    @IBOutlet var weightsColumn : NSTableColumn!
+    @IBOutlet var itemsColumn : NSTableColumn!
     
     var scriptData : PSScriptData!
     var listEntry : Entry!
@@ -28,7 +30,6 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
     var lastCellEditedCoords : (col: Int, row: Int) = (-1, -1)
     var itemTextFields : [NSTextField : Int] = [:]
     var weightsTextFields : [NSTextField : Int] = [:]
-    var weights : [Int]?
     
     //MARK: Initialization
     
@@ -40,11 +41,7 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
         nameColumn = listTableView.tableColumns.first! as NSTableColumn
         scriptData = listBuilder.scriptData
         listEntry = listBuilder.entry
-        
-        //setup list entry correctly
-        PSList.initializeEntry(listEntry, scriptData: scriptData)
         update()
-                
     }
     
     //MARK: Update
@@ -58,28 +55,19 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
         //setup list
         list = PSList(scriptData: scriptData, listEntry: listEntry)
         
-        //close if no good
-        if list == nil {
-            listBuilder.close()
-            return
-        }
-        
-        self.weights = list.weightsColumn
-        if self.weights != nil {
+
+        if list.hasWeights {
             weightsCheckButton.state = 1
-            let weightsTableColumn = NSTableColumn(identifier: "Weights")
-            weightsTableColumn.title = "Weights"
-            self.listTableView.addTableColumn(weightsTableColumn)
-            listColumns.append(weightsTableColumn)
+            weightsColumn.hidden = false
         } else {
             weightsCheckButton.state = 0
-            
+            weightsColumn.hidden = true
         }
         
         //add columns for each field
         for field in list.fields { self.addNewColumn(field) }
         
-        //clear array holding textFields for each item
+        //clear array holding textFields for each item and weights columns
         itemTextFields = [:]
         weightsTextFields = [:]
         
@@ -173,9 +161,9 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
     func control(control: NSControl, textShouldEndEditing fieldEditor: NSText) -> Bool {
         if let tf = control as? NSTextField {
             if let row = itemTextFields[tf] {
-                list.setName(tf.stringValue, forRow: row)
+                list.setItemName(tf.stringValue, forRow: row)
             } else if let row = weightsTextFields[tf] {
-                print("Edit weight")
+                list.setWeightsValueForRow(tf.stringValue, row: row)
             }
         }
         return true
@@ -218,11 +206,11 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
     }
     
     @IBAction func removeFieldMenuAction(sender : NSMenuItem) {
-        list.deleteColumn(sender.tag - 1)
+        list.removeField(sender.tag - 1)
     }
     
     @IBAction func removeRowMenuAction(sender : NSMenuItem) {
-        list.deleteRow(sender.tag)
+        list.removeRow(sender.tag)
     }
     
 
@@ -244,13 +232,14 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
         
         guard let listBuilderColumn = tableColumn as? PSListBuilderColumn else {
             
-            let view = tableView.makeViewWithIdentifier("PlainTextField", owner: self) as! NSTableCellView
+            let identifier = tableColumn!.identifier
+            let view = tableView.makeViewWithIdentifier(identifier, owner: self) as! NSTableCellView
             view.textField!.delegate = self
             view.textField!.frame = view.frame
             
             //column is for item names or weights
-            if tableColumn!.identifier == "Weights"  {
-                view.textField!.stringValue = String(self.weights![row])
+            if identifier == weightsColumn.identifier {
+                view.textField!.stringValue = String(list.weightForRow(row))
                 weightsTextFields[view.textField!] = row
             } else {
                 view.textField!.stringValue = list.nameForRow(row)
@@ -337,31 +326,7 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
             list.weightsColumn = nil
         }
     }
-    
-    //MARK: Deleteing
-    
-    
-    func deleteRow(name : String) {
-        self.list.deleteRowByName(name)
-        self.listTableView.reloadData()
-    }
-    
-    func deleteColumnByName(name : String) {
-        for tableColumn in listTableView.tableColumns  {
-            if let tc = tableColumn as? PSListBuilderColumn {
-                if name == tc.field.entry.name {
-                    self.listTableView.removeTableColumn(tc)
-                    self.list.deleteColumnByName(name)
-                    self.listTableView.reloadData()
-                }
-            }
-        }
-    }
-    
-    func deleteColumn(col : Int) {
-        let col = listTableView.tableColumns[col+1] as! PSListBuilderColumn
-        self.list.deleteColumnByName(col.field.entry.name)
-    }
+
     
     //MARK: Cell editing
     
@@ -449,8 +414,9 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
             }
         } else {
             if listTableView.numberOfColumns > 1 && listTableView.numberOfRows > 0 {
-                let newCell = listTableView.viewAtColumn(1, row: 0, makeIfNecessary: true) as! PSListCellView
-                lastCellEdited = newCell
+                if let newCell = listTableView.viewAtColumn(1, row: 0, makeIfNecessary: true) as?PSListCellView {
+                    lastCellEdited = newCell
+                }
             }
         }
     }

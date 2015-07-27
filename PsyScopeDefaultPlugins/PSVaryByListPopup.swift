@@ -26,12 +26,11 @@ class PSVaryByListPopup: PSAttributePopup, NSOutlineViewDataSource, NSOutlineVie
         super.init(nibName: "VaryByListPopup", bundle: NSBundle(forClass:self.dynamicType), currentValue: "", displayName: "", setCurrentValueBlock: setCurrentValueBlock)
         
         //get all lists
-        var all_lists = scriptData.getBaseEntriesOfType("List")
+        let all_lists = scriptData.getBaseEntriesOfType("List")
         
         for list in all_lists {
-            if let l = PSList(scriptData: scriptData, listEntry: list) {
-                lists.append(l)
-            }
+            let l = PSList(scriptData: scriptData, listEntry: list)
+            lists.append(l)
         }
     }
     
@@ -40,7 +39,7 @@ class PSVaryByListPopup: PSAttributePopup, NSOutlineViewDataSource, NSOutlineVie
         selectButton.enabled = false
     }
     
-    func outlineViewSelectionDidChange(notification: NSNotification!) {
+    func outlineViewSelectionDidChange(notification: NSNotification) {
         let selected_item : AnyObject? = outlineView.itemAtRow(outlineView.selectedRow)
         
         //check if item is attribute (rather than a block)
@@ -65,7 +64,7 @@ class PSVaryByListPopup: PSAttributePopup, NSOutlineViewDataSource, NSOutlineVie
     }
     
     
-    func outlineView(outlineView: NSOutlineView!, numberOfChildrenOfItem item: AnyObject!) -> Int {
+    func outlineView(outlineView: NSOutlineView, numberOfChildrenOfItem item: AnyObject?) -> Int {
         if (item == nil) {
             //return number of attributes
             return lists.count
@@ -80,7 +79,7 @@ class PSVaryByListPopup: PSAttributePopup, NSOutlineViewDataSource, NSOutlineVie
         return 0
     }
     
-    func outlineView(outlineView: NSOutlineView!, child index: Int, ofItem item: AnyObject!) -> AnyObject! {
+    func outlineView(outlineView: NSOutlineView, child index: Int, ofItem item: AnyObject?) -> AnyObject {
         if (item == nil) {
             //return attribute
             return lists[index]
@@ -94,7 +93,7 @@ class PSVaryByListPopup: PSAttributePopup, NSOutlineViewDataSource, NSOutlineVie
         return emptyNSString
     }
     
-    func outlineView(outlineView: NSOutlineView!, isItemExpandable item: AnyObject!) -> Bool {
+    func outlineView(outlineView: NSOutlineView, isItemExpandable item: AnyObject) -> Bool {
         //return true if item is attribute with unrepresented entries
         if let i = item as? PSList {
             if i.fields.count > 0 {
@@ -105,7 +104,7 @@ class PSVaryByListPopup: PSAttributePopup, NSOutlineViewDataSource, NSOutlineVie
         return false
     }
     
-    func outlineView(outlineView: NSOutlineView!, objectValueForTableColumn tableColumn: NSTableColumn!, byItem item: AnyObject!) -> AnyObject! {
+    func outlineView(outlineView: NSOutlineView, objectValueForTableColumn tableColumn: NSTableColumn?, byItem item: AnyObject?) -> AnyObject? {
         
         //if item is block return block name
         if let i = item as? PSList {

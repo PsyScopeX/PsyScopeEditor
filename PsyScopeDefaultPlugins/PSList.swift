@@ -11,20 +11,25 @@ class PSList : NSObject {
     var scriptData : PSScriptData
     var listEntry : Entry
     var fields : [PSField] = []
-    var levelsEntry : PSStringList! = nil
+    var currentWeights : [Int]?
+    var levelsStringList : PSStringList
     
-    init?(scriptData : PSScriptData, listEntry : Entry) {
+    init(scriptData : PSScriptData, listEntry : Entry) {
         
         self.scriptData = scriptData
         self.listEntry = listEntry
-        super.init()
         
-        //check for existing list / levels sub entries
-        if scriptData.getSubEntry("IsList", entry: listEntry) == nil { return nil }
-        guard let levels : Entry = scriptData.getSubEntry("Levels", entry: listEntry) else { return nil }
+        
+        //assert correct list things //WARNING MAY TRIGGER A REFRESH
+        let is_list = scriptData.getOrCreateSubEntry("IsList", entry: listEntry, isProperty: true)
+        if is_list.currentValue != "True" { is_list.currentValue = "True" }
+        let levels = scriptData.getOrCreateSubEntry("Levels", entry: listEntry, isProperty: true)
+        
         
         //get levels entry (contains names of items)
-        levelsEntry = PSStringList(entry: levels, scriptData: scriptData)
+        levelsStringList = PSStringList(entry: levels, scriptData: scriptData)
+        
+        super.init()
         
         //get each field entry (any entry which isn't levels or islist)
         let sub_entries = listEntry.subEntries.array as! [Entry]
@@ -41,14 +46,12 @@ class PSList : NSObject {
             }
         }
         
+        //get weights if they are there
+        self.currentWeights = weightsColumn
+        
         
     }
-    
-    func assertEntryIsList(entry : Entry, scriptData : PSScriptData) {
-        let is_list = scriptData.getOrCreateSubEntry("IsList", entry: entry, isProperty: true)
-        if is_list.currentValue != "True" { is_list.currentValue = "True" }
-        scriptData.getOrCreateSubEntry("Levels", entry: entry, isProperty: true)
-    }
+
     
     var name : String {
         get {
@@ -56,6 +59,15 @@ class PSList : NSObject {
         }
         set {
             scriptData.renameEntry(listEntry, nameSuggestion: newValue)
+        }
+    }
+    
+    var hasWeights : Bool {
+        get {
+            if let levels = scriptData.getSubEntry("Levels", entry: listEntry) {
+                return scriptData.getSubEntry("Weights", entry: levels) != nil
+            }
+            return false
         }
     }
     
@@ -92,16 +104,53 @@ class PSList : NSObject {
         }
     }
     
+    func weightForRow(row : Int) -> Int {
+        if let currentWeights = currentWeights where row < currentWeights.count && row > -1 {
+            return currentWeights[row]
+        } else {
+            return 1
+        }
+    }
+
+    
+    func setWeightsValueForRow(value : String, row: Int) {
+        
+        guard let intValue = Int(value) else { return }
+        
+        let nRows : Int = levelsStringList.count
+        var newWeights : [Int] = []
+        var oldWeights : [Int] = []
+        if let weightsColumn = self.weightsColumn {
+            oldWeights = weightsColumn
+        }
+        
+        
+        
+        if nRows > 0 {
+            for index in 0...(nRows - 1) {
+                if index == row {
+                    newWeights.append(intValue)
+                }else if index < oldWeights.count {
+                    newWeights.append(oldWeights[index])
+                } else {
+                    newWeights.append(1)
+                }
+            }
+        }
+        
+        self.weightsColumn = newWeights
+    }
+    
     func addNewItem() {
-        var number = levelsEntry.count + 1
+        var number = levelsStringList.count + 1
         var name = "Item\(number)"
-        while (levelsEntry.contains(name)) {
+        while (levelsStringList.contains(name)) {
             number++
             name = "Item\(number)"
         }
         
         scriptData.beginUndoGrouping("Add New Item")
-        levelsEntry.appendAsString(name)
+        levelsStringList.appendAsString(name)
         updateBlankEntries()
         scriptData.endUndoGrouping()
     }
@@ -109,7 +158,7 @@ class PSList : NSObject {
     
     
     func updateBlankEntries() {
-        let n_fields = levelsEntry.count
+        let n_fields = levelsStringList.count
         for field in fields {
             let n_missing_values = n_fields - field.count
             if n_missing_values > 0 {
@@ -145,9 +194,9 @@ class PSList : NSObject {
     
     func setItemName(name : String, forRow row : Int) -> Bool {
         
-        if row < (levelsEntry.count) && !levelsEntry.contains(name){
+        if row < (levelsStringList.count) && !levelsStringList.contains(name){
             scriptData.beginUndoGrouping("Edit Level Name")
-            levelsEntry[row] = name
+            levelsStringList[row] = name
             scriptData.endUndoGrouping()
             return true
         }
@@ -162,8 +211,8 @@ class PSList : NSObject {
     }
     
     func nameForRow(row : Int) -> String {
-        if row < (levelsEntry.count) {
-            return levelsEntry[row]
+        if row < (levelsStringList.count) {
+            return levelsStringList[row]
         } else {
             return ""
         }
@@ -187,7 +236,7 @@ class PSList : NSObject {
     }
     
     var count : Int {
-        get { return levelsEntry.count }
+        get { return levelsStringList.count }
     }
     
     func removeField(col : Int) {
@@ -219,7 +268,7 @@ class PSList : NSObject {
     }
     
     func removeRowByName(name : String) {
-        for (index, item) in levelsEntry.stringListRawUnstripped.enumerate() {
+        for (index, item) in levelsStringList.stringListRawUnstripped.enumerate() {
             if item == name {
                 removeRow(index)
                 return
@@ -232,7 +281,7 @@ class PSList : NSObject {
         for field in fields {
             scriptData.beginUndoGrouping("Remove Level")
             field.removeAtIndex(row)
-            levelsEntry.remove(name)
+            levelsStringList.remove(name)
             updateBlankEntries()
             scriptData.endUndoGrouping()
         }

@@ -35,7 +35,7 @@
                                     <tableViewGridLines key="gridStyleMask" vertical="YES" horizontal="YES"/>
                                     <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                     <tableColumns>
-                                        <tableColumn identifier="PlainTextField" width="100" minWidth="40" maxWidth="1000" id="bUe-xI-qn9">
+                                        <tableColumn identifier="" width="100" minWidth="40" maxWidth="1000" id="bUe-xI-qn9">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Items">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -64,6 +64,39 @@
                                                     </subviews>
                                                     <connections>
                                                         <outlet property="textField" destination="LJ6-Mh-sSJ" id="T04-D2-AiE"/>
+                                                    </connections>
+                                                </tableCellView>
+                                            </prototypeCellViews>
+                                        </tableColumn>
+                                        <tableColumn width="64" minWidth="10" maxWidth="3.4028234663852886e+38" id="C1k-jo-7Dq">
+                                            <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Weights">
+                                                <font key="font" metaFont="smallSystem"/>
+                                                <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
+                                            </tableHeaderCell>
+                                            <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" title="Text Cell" id="nLB-Qx-ARM">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                            <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                            <prototypeCellViews>
+                                                <tableCellView id="SQy-KP-gQR">
+                                                    <rect key="frame" x="100" y="0.0" width="64" height="17"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                    <subviews>
+                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="q02-On-kwr">
+                                                            <rect key="frame" x="0.0" y="0.0" width="64" height="17"/>
+                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                                            <textFieldCell key="cell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" title="Table View Cell" id="dlE-hr-T0c">
+                                                                <font key="font" metaFont="system"/>
+                                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                            </textFieldCell>
+                                                        </textField>
+                                                    </subviews>
+                                                    <connections>
+                                                        <outlet property="textField" destination="q02-On-kwr" id="T3c-np-QQT"/>
                                                     </connections>
                                                 </tableCellView>
                                             </prototypeCellViews>
@@ -138,9 +171,11 @@
         </window>
         <customObject id="bRQ-xO-Y0s" customClass="PSListBuilderTableController" customModule="PsyScopeDefaultPlugins" customModuleProvider="target">
             <connections>
+                <outlet property="itemsColumn" destination="bUe-xI-qn9" id="psA-bh-A2N"/>
                 <outlet property="listBuilder" destination="-2" id="p44-Es-Css"/>
                 <outlet property="listTableView" destination="usB-ds-jBM" id="Fmo-z4-3dU"/>
                 <outlet property="weightsCheckButton" destination="BQE-CP-PIX" id="1b3-5x-Yqo"/>
+                <outlet property="weightsColumn" destination="C1k-jo-7Dq" id="v8T-eH-FJR"/>
             </connections>
         </customObject>
         <menu id="YIT-IH-wnc">
