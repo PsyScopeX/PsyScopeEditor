@@ -228,16 +228,19 @@ public class PSScriptData : NSObject {
     //MARK: Attribute Interface
     
     public func getAttributeInterfaceForAttributeEntry(entry : Entry) -> PSAttributeInterface? {
+        return getAttributeInterfaceForFullType(entry.type)
+    }
+    
+    public func getAttributeInterfaceForFullType(fullType : String) -> PSAttributeInterface? {
         
         for att in pluginProvider.attributes {
-            if att.fullType == entry.type {
+            if att.fullType == fullType {
                 //found the extension
                 return att.interface
             }
         }
         
         return PSAttributeGeneric()
-        
     }
     
     //MARK: Sorting

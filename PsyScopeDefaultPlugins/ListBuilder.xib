@@ -22,20 +22,20 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="17" horizontalPageScroll="10" verticalLineScroll="17" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="YWU-Qf-aRp">
-                        <rect key="frame" x="-1" y="-1" width="530" height="323"/>
+                        <rect key="frame" x="-1" y="-1" width="530" height="288"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <clipView key="contentView" drawsBackground="NO" id="UAF-qi-sZo">
-                            <rect key="frame" x="1" y="17" width="238" height="117"/>
+                            <rect key="frame" x="0.0" y="17" width="530" height="271"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <tableView appearanceType="vibrantLight" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="none" alternatingRowBackgroundColors="YES" columnReordering="NO" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="J3y-uT-sZp" viewBased="YES" id="usB-ds-jBM" customClass="PSListTableView" customModule="PsyScopeDefaultPlugins" customModuleProvider="target">
-                                    <rect key="frame" x="0.0" y="0.0" width="100" height="0.0"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="530" height="271"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                     <tableViewGridLines key="gridStyleMask" vertical="YES" horizontal="YES"/>
                                     <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                     <tableColumns>
-                                        <tableColumn width="100" minWidth="40" maxWidth="1000" id="bUe-xI-qn9">
+                                        <tableColumn identifier="PlainTextField" width="100" minWidth="40" maxWidth="1000" id="bUe-xI-qn9">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Items">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -96,29 +96,41 @@
                             </connections>
                         </tableHeaderView>
                     </scrollView>
+                    <button verticalHuggingPriority="750" id="YDR-ZF-Net">
+                        <rect key="frame" x="8" y="285" width="127" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="Add Item" bezelStyle="rounded" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="JcT-i0-64o">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="addNewItemButton:" target="bRQ-xO-Y0s" id="9Nc-9h-NGb"/>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" id="guG-ye-65d">
+                        <rect key="frame" x="135" y="285" width="127" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="Add Field" bezelStyle="rounded" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="TU3-4V-FeA">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="addNewFieldButton:" target="bRQ-xO-Y0s" id="yU2-Fb-PRe"/>
+                        </connections>
+                    </button>
+                    <button id="BQE-CP-PIX">
+                        <rect key="frame" x="336" y="294" width="174" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="check" title="Set weight for each level" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="vhY-gy-QNZ">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="weightsCheckButtonClicked:" target="bRQ-xO-Y0s" id="PjF-Vp-wY0"/>
+                        </connections>
+                    </button>
                 </subviews>
             </view>
-            <toolbar key="toolbar" implicitIdentifier="E414DFCC-8FA4-4FAB-B208-159BE618CE96" autosavesConfiguration="NO" displayMode="labelOnly" sizeMode="small" id="s0V-OA-aLe">
-                <allowedToolbarItems>
-                    <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="GmR-ZW-dqx"/>
-                    <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="Qf5-Ea-wXR"/>
-                    <toolbarItem implicitItemIdentifier="378598C9-3D24-4966-A24B-0B557F01C8E7" label="New Level" paletteLabel="New Level" tag="-1" image="NSActionTemplate" id="UYo-Si-Tn9">
-                        <connections>
-                            <action selector="addNewItemButton:" target="bRQ-xO-Y0s" id="7mq-ZE-yci"/>
-                        </connections>
-                    </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="29D718CF-2923-40E3-AD5F-A7A1C6843A06" label="New Field" paletteLabel="New Field" tag="-1" image="NSAddTemplate" id="f5f-mP-U51">
-                        <connections>
-                            <action selector="addNewFieldButton:" target="bRQ-xO-Y0s" id="PhL-87-1QH"/>
-                        </connections>
-                    </toolbarItem>
-                </allowedToolbarItems>
-                <defaultToolbarItems>
-                    <toolbarItem reference="UYo-Si-Tn9"/>
-                    <toolbarItem reference="f5f-mP-U51"/>
-                    <toolbarItem reference="Qf5-Ea-wXR"/>
-                </defaultToolbarItems>
-            </toolbar>
             <connections>
                 <outlet property="delegate" destination="-2" id="Lnw-VW-ebO"/>
             </connections>
@@ -128,6 +140,7 @@
             <connections>
                 <outlet property="listBuilder" destination="-2" id="p44-Es-Css"/>
                 <outlet property="listTableView" destination="usB-ds-jBM" id="Fmo-z4-3dU"/>
+                <outlet property="weightsCheckButton" destination="BQE-CP-PIX" id="1b3-5x-Yqo"/>
             </connections>
         </customObject>
         <menu id="YIT-IH-wnc">
@@ -160,8 +173,4 @@
             </items>
         </menu>
     </objects>
-    <resources>
-        <image name="NSActionTemplate" width="14" height="14"/>
-        <image name="NSAddTemplate" width="11" height="11"/>
-    </resources>
 </document>

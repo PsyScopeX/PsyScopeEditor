@@ -8,59 +8,46 @@
 import Foundation
 
 class PSList : NSObject {
-    var scriptData : PSScriptData!
-    var listEntry : Entry!
+    var scriptData : PSScriptData
+    var listEntry : Entry
     var fields : [PSField] = []
     var levelsEntry : PSStringList! = nil
     
-    
-    class func initializeEntry(entry : Entry, scriptData : PSScriptData) {
-        let is_list = scriptData.getOrCreateSubEntry("IsList", entry: entry, isProperty: true)
-        is_list.currentValue = "True"
-        
-        _ = scriptData.getOrCreateSubEntry("Levels", entry: entry, isProperty: true)
-    }
-    
     init?(scriptData : PSScriptData, listEntry : Entry) {
-        super.init()
+        
         self.scriptData = scriptData
         self.listEntry = listEntry
+        super.init()
         
-        //1. check for existing list
-        if scriptData.getSubEntry("IsList", entry: listEntry) == nil {
-            return nil
-        }
+        //check for existing list / levels sub entries
+        if scriptData.getSubEntry("IsList", entry: listEntry) == nil { return nil }
+        guard let levels : Entry = scriptData.getSubEntry("Levels", entry: listEntry) else { return nil }
         
-        let levels : Entry! = scriptData.getSubEntry("Levels", entry: listEntry)!
-        if levels == nil {
-            return nil
-        }
-        
+        //get levels entry (contains names of items)
         levelsEntry = PSStringList(entry: levels, scriptData: scriptData)
+        
+        //get each field entry (any entry which isn't levels or islist)
         let sub_entries = listEntry.subEntries.array as! [Entry]
         for sub_entry in sub_entries {
             if sub_entry.name != "Levels" && sub_entry.name != "IsList" {
                 var attributetype = PSAttributeType(fullType: sub_entry.type)
-                var interface : PSAttributeInterface! = nil
+                
                 //get correct interface for type
-                for attribute in scriptData.pluginProvider.attributes {
-                    //println("\(attribute.fullType) =? \(attributetype.fullType)")
-                    if attribute.fullType == attributetype.fullType {
-                        interface = attribute.interface
-                        break
-                    }
-                }
+                let interface = scriptData.getAttributeInterfaceForFullType(attributetype.fullType)
                 
-                if interface == nil {
-                    interface = PSAttributeGeneric()
-                }
-                
+                //create field
                 let new_field = PSField(entry: sub_entry, list: self, interface: interface, scriptData: scriptData)
                 fields.append(new_field)
             }
         }
         
         
+    }
+    
+    func assertEntryIsList(entry : Entry, scriptData : PSScriptData) {
+        let is_list = scriptData.getOrCreateSubEntry("IsList", entry: entry, isProperty: true)
+        if is_list.currentValue != "True" { is_list.currentValue = "True" }
+        scriptData.getOrCreateSubEntry("Levels", entry: entry, isProperty: true)
     }
     
     var name : String {
@@ -112,8 +99,11 @@ class PSList : NSObject {
             number++
             name = "Item\(number)"
         }
+        
+        scriptData.beginUndoGrouping("Add New Item")
         levelsEntry.appendAsString(name)
         updateBlankEntries()
+        scriptData.endUndoGrouping()
     }
     
     
@@ -126,12 +116,17 @@ class PSList : NSObject {
                 for _ in 1...n_missing_values {
                     field.appendAsString("NULL")
                 }
+            } else if n_missing_values < 0 {
+                for _ in 1...abs(n_missing_values) {
+                    //remove last
+                    field.removeAtIndex(field.count - 1)
+                }
             }
         }
     }
     
     func addNewField(new_type : PSAttributeType, interface : PSAttributeInterface?) -> PSField {
-        
+        scriptData.beginUndoGrouping("Add New Field")
         let new_entry = scriptData.getOrCreateSubEntry(new_type.name, entry: listEntry, isProperty: true)
         if let int = interface {
             new_entry.currentValue = int.defaultValue()
@@ -144,13 +139,16 @@ class PSList : NSObject {
         let new_field = PSField(entry: new_entry, list: self, interface: interface, scriptData: scriptData)
         fields.append(new_field)
         updateBlankEntries()
+        scriptData.endUndoGrouping()
         return new_field
     }
     
-    func setName(name : String, forRow row : Int) -> Bool {
+    func setItemName(name : String, forRow row : Int) -> Bool {
         
         if row < (levelsEntry.count) && !levelsEntry.contains(name){
+            scriptData.beginUndoGrouping("Edit Level Name")
             levelsEntry[row] = name
+            scriptData.endUndoGrouping()
             return true
         }
         return false
@@ -173,7 +171,9 @@ class PSList : NSObject {
     
     func setItem(item : AnyObject, forCol col: Int, andRow row: Int) {
         if col < fields.count && row < (fields[col].count) {
+            scriptData.beginUndoGrouping("Edit Item")
             fields[col][row] = item as! String
+            scriptData.endUndoGrouping()
         }
     }
     
@@ -190,58 +190,56 @@ class PSList : NSObject {
         get { return levelsEntry.count }
     }
     
-    func deleteColumn(col : Int) {
-        let toDelete = fields[col]
-        scriptData.deleteSubEntryFromBaseEntry(toDelete.entry.parentEntry, subEntry: toDelete.entry)
-        fields = fields.filter({ $0 != toDelete })
-        updateBlankEntries()
+    func removeField(col : Int) {
+        if col < fields.count && col > 0 {
+            let toDelete = fields[col]
+            scriptData.beginUndoGrouping("Remove Field")
+            scriptData.deleteSubEntryFromBaseEntry(toDelete.entry.parentEntry, subEntry: toDelete.entry)
+            fields = fields.filter({ $0 != toDelete })
+            updateBlankEntries()
+            scriptData.endUndoGrouping()
+        }
     }
     
-    func deleteColumnByName(name : String) {
-        var to_remove : [PSField] = []
-        for f in fields {
-            if f.entry.name == name {
-                scriptData.deleteSubEntryFromBaseEntry(f.entry.parentEntry, subEntry:f.entry)
-                to_remove.append(f)
+    func removeFieldByName(name : String) {
+        for (index, field) in fields.enumerate() {
+            if field.entry.name == name {
+                removeField(index)
+                return
             }
         }
-        
-        for tr in to_remove {
-            fields = fields.filter({ $0 != tr })
-        }
-        updateBlankEntries()
     }
     
     func typeAtColumn(col : Int) -> PSAttributeType {
-        if col < fields.count {
-            let return_val = fields[col].type
-            return return_val
+        if col < fields.count && col > 0 {
+            return fields[col].type
         } else {
             return PSAttributeType(fullType: "")
         }
     }
-    func deleteRowByName(name : String) {
+    
+    func removeRowByName(name : String) {
         for (index, item) in levelsEntry.stringListRawUnstripped.enumerate() {
             if item == name {
-                for field in fields {
-                    field.removeAtIndex(index)
-                }
+                removeRow(index)
+                return
             }
         }
-        levelsEntry.remove(name)
-        updateBlankEntries()
+        
     }
     
-    func deleteRow(row : Int) {
-        levelsEntry.removeAtIndex(row)
+    func removeRow(row : Int) {
+        for field in fields {
+            scriptData.beginUndoGrouping("Remove Level")
+            field.removeAtIndex(row)
+            levelsEntry.remove(name)
+            updateBlankEntries()
+            scriptData.endUndoGrouping()
+        }
     }
     
     func fieldNames() -> [String] {
-        var names : [String] = []
-        for field in fields {
-            names.append(field.entry.name)
-        }
-        return names
+        return fields.map({ $0.entry.name })
     }
     
 }
