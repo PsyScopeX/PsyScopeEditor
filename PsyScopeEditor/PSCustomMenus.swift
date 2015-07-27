@@ -69,7 +69,6 @@ class PSCustomMenus : NSObject {
     }
     
     func menuItemSelected(menuItem : NSMenuItem) {
-        print(menuItem.title)
         let scriptData = mainWindowController.scriptData
         let selectedTitle = menuItem.title
         if let entry = scriptData.getBaseEntry(selectedTitle) {

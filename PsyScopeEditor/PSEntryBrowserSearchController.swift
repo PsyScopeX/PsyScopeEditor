@@ -43,10 +43,8 @@ class PSEntryBrowserSearchController : NSObject, NSTextFieldDelegate, NCRAutocom
 
             
         let toMatch : String = (textView.string! as NSString).substringWithRange(charRange).lowercaseString
-        print("tomatch \(toMatch)")
         let completions : [String] = entryNames.filter { $0.lowercaseString.rangeOfString(toMatch) != nil }
     
-        print(" ".join(completions))
         return completions
     }
     
@@ -59,7 +57,6 @@ class PSEntryBrowserSearchController : NSObject, NSTextFieldDelegate, NCRAutocom
     }
     
     func textViewDidEnterPress(textView : NSTextView) {
-        print("Entered \(textView.string!)")
         if let entry = scriptData.getBaseEntry(textView.string!) {
             selectionInterface.selectEntry(entry)
         }

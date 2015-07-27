@@ -322,7 +322,6 @@ class PSLayoutBoard: NSView {
             let bottomY = min(self.dragSelectionPoint.y, point.y)  - PSConstants.Spacing.halfIconSize
             let topY = max(self.dragSelectionPoint.y, point.y)  + PSConstants.Spacing.halfIconSize
             
-            Swift.print("From \(self.dragSelectionPoint) to \(point) ")
             for eachLayoutItem in layoutItems {
                 
                 let containsPoint = eachLayoutItem.icon.position.x <= rightX && eachLayoutItem.icon.position.x >= leftX && eachLayoutItem.icon.position.y <= topY && eachLayoutItem.icon.position.y >= bottomY

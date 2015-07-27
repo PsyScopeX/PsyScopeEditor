@@ -221,7 +221,7 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
     }
     
     func tableView(tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
-        return 30
+        return PSAttributeParameter.defaultHeight
     }
     
     func tableView(tableView: NSTableView, mouseDownInHeaderOfTableColumn tableColumn: NSTableColumn) {
@@ -235,7 +235,7 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
             let identifier = tableColumn!.identifier
             let view = tableView.makeViewWithIdentifier(identifier, owner: self) as! NSTableCellView
             view.textField!.delegate = self
-            view.textField!.frame = view.frame
+            //view.textField!.frame = view.frame
             
             //column is for item names or weights
             if identifier == weightsColumn.identifier {
@@ -249,8 +249,8 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
             return view
         }
         
-
-        let item = listBuilderColumn.field[row]
+        let validIndex = row > 0 && row < listBuilderColumn.field.count
+        let item = validIndex ? listBuilderColumn.field[row] : ""
         var att_interface : PSAttributeInterface
         
         if let f = listBuilderColumn.field.interface {

@@ -34,12 +34,7 @@ public class PSFontAttributePopup: PSAttributePopup, NSControlTextEditingDelegat
     @IBOutlet var fontSizeText : NSTextField!
     @IBOutlet var fontSizeStepper : NSStepper!
     
-    var fontSize : Int = 12 {
-        didSet {
-            print("DIDSET from \(oldValue) to \(fontSize)")
-        }
-    }
-    
+    var fontSize : Int = 12
 
     @IBAction func changeFontStylePressed(sender : AnyObject) {
         fontStylePopover.showRelativeToRect(sender.bounds, ofView: sender as! NSView, preferredEdge: NSRectEdge.MaxX)
@@ -57,8 +52,7 @@ public class PSFontAttributePopup: PSAttributePopup, NSControlTextEditingDelegat
     
     
     func parseCurrentValue() {
-        print("Parse")
-        
+
         let valueStringList = PSStringListContainer()
         valueStringList.stringValue = self.currentValue
         
@@ -202,7 +196,6 @@ public class PSFontAttributePopup: PSAttributePopup, NSControlTextEditingDelegat
     
     
     override public func changeFont(sender: AnyObject?) {
-        print("changed other")
         //var newFont = sender?.convertFont(font!)
         //font = newFont!
         //super.changeFont(sender)

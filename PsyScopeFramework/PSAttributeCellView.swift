@@ -15,7 +15,7 @@ public class PSAttributeCellView : PSCellView {
         self.attributeParameter = attributeParameter
         self.interface = interface
         
-        super.init(frame: NSRect(x: 0, y: 0, width: 200, height: 30))
+        super.init(frame: NSRect(x: 0, y: 0, width: 200, height: PSAttributeParameter.defaultHeight))
         self.scriptData = scriptData
         self.autoresizesSubviews = true
         self.toolTip = interface.helpfulDescription()

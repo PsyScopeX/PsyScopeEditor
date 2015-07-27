@@ -31,9 +31,4 @@ class PSFieldHeaderCell : NSTableHeaderCell, NSTextViewDelegate {
         NSBezierPath(rect: cellFrame).fill()
         controlView.unlockFocus()
     }
-    
-    override func menuForEvent(event: NSEvent, inRect cellFrame: NSRect, ofView view: NSView) -> NSMenu? {
-        print("menu for event")
-        return super.menuForEvent(event, inRect: cellFrame, ofView: view)
-    }
 }

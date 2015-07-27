@@ -11,7 +11,7 @@ import Foundation
 //can have default controls of label and varybyscript button - needs to be set up by PSAttributeParameterBuilder
 public class PSAttributeParameter : NSObject {
     
-    public static let defaultHeight : CGFloat = CGFloat(30)
+    public static let defaultHeight : CGFloat = CGFloat(25)
     
     public var attributeSourceLabel : NSTextField?
     public var currentValue : String = "NULL"

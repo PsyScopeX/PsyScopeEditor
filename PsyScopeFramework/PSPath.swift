@@ -16,7 +16,7 @@ public func PSPath(absolutePath : String, basePath : String) -> String {
     //two levels below relative ":::Deleted Users:james2.dmg:"
     
     var psyPath : String = ""
-    for (index, baseComponent) in relPath.pathComponents.enumerate() {
+    for (_, baseComponent) in relPath.pathComponents.enumerate() {
         if (baseComponent == "..") {
             psyPath = psyPath + ":"
         } else {
@@ -28,7 +28,7 @@ public func PSPath(absolutePath : String, basePath : String) -> String {
 
 public func PSStandardPath(psPath : String, basePath : String) -> String {
     if psPath == "" { return basePath }
-    var relativeNotationComps = psPath.componentsSeparatedByString("@")
+    _ = psPath.componentsSeparatedByString("@")
     var absolutePath : String = basePath
     
     let scanner = NSScanner(string: psPath)
@@ -37,9 +37,8 @@ public func PSStandardPath(psPath : String, basePath : String) -> String {
     if scanner.scanCharactersFromSet(NSCharacterSet(charactersInString: ":"), intoString: &colons) {
         let ncolons = colons!.length
         if ncolons > 1 {
-            for i in 2...ncolons {
+            for _ in 2...ncolons {
                 absolutePath = absolutePath.stringByDeletingLastPathComponent
-                print(absolutePath)
             }
         }
         

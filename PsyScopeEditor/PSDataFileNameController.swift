@@ -173,7 +173,6 @@ class PSDataFileNameController : NSObject, NSTokenFieldDelegate {
                 }
                 
                 let newValue = " ".join(previewString)
-                print(newValue)
                 strings.currentValue = newValue
             } else {
                 strings.currentValue = ""
