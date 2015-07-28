@@ -17,6 +17,8 @@ class PSActionsBuilderController : NSObject, NSTableViewDataSource, NSTableViewD
     @IBOutlet var addButton : NSButton!
     @IBOutlet var actionsTypePopup : NSPopUpButton!
     @IBOutlet var instancesActiveUntilMenuItem : NSMenuItem!
+    @IBOutlet var moveUpMenuItem : NSMenuItem!
+    @IBOutlet var moveDownMenuItem : NSMenuItem!
     
     var selectionInterface : PSSelectionInterface!
     var scriptData : PSScriptData!
@@ -183,6 +185,20 @@ class PSActionsBuilderController : NSObject, NSTableViewDataSource, NSTableViewD
             actionFunction = selectedActionCondition as? PSEventActionFunction {
                 actionFunction.setInstancesActiveUntilOn(!actionFunction.hasInstancesOrActiveUntilValueAttributes)
                 self.actionsAttribute!.updateAttributeEntry()
+        }
+    }
+    
+    @IBAction func moveUpClicked(sender : AnyObject) {
+        if let actionsAttribute = actionsAttribute,
+        selectedActionCondition = selectedActionCondition{
+            actionsAttribute.moveActionConditionUp(selectedActionCondition)
+        }
+    }
+    
+    @IBAction func moveDownClicked(sender : AnyObject) {
+        if let actionsAttribute = actionsAttribute,
+        selectedActionCondition = selectedActionCondition{
+            actionsAttribute.moveActionConditionDown(selectedActionCondition)
         }
     }
     

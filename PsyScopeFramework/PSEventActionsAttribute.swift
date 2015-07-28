@@ -88,6 +88,73 @@ public class PSEventActionsAttribute : PSStringListElement {
         return nil
     }
     
+    
+    private func getIndexesForActionCondition(actionCondition : PSEventActionCondition) -> (index1 : Int, index2 : Int, action : Bool)? {
+        for (index,ac) in actionConditionSets.enumerate() {
+            for (index2,a) in ac.actions.enumerate() {
+                if a == actionCondition {
+                    return (index,index2, true)
+                }
+            }
+            for (index2,a) in ac.conditions.enumerate() {
+                if a == actionCondition {
+                    return (index,index2, false)
+                }
+            }
+        }
+        return nil
+    }
+    
+    public func moveActionConditionUp(actionCondition : PSEventActionCondition) {
+        if let (index1, index2, isAction) = getIndexesForActionCondition(actionCondition) {
+            if isAction {
+                if index2 > 0 {
+                    let action = actionConditionSets[index1].actions[index2]
+                    scriptData.beginUndoGrouping("Move Action")
+                    actionConditionSets[index1].actions.removeAtIndex(index2)
+                    actionConditionSets[index1].actions.insert(action, atIndex: index2-1)
+                    updateAttributeEntry()
+                    scriptData.endUndoGrouping()
+                }
+                
+            }else {
+                if index2 < actionConditionSets[index1].conditions.count - 1 {
+                    let action = actionConditionSets[index1].conditions[index2]
+                    scriptData.beginUndoGrouping("Move Condition")
+                    actionConditionSets[index1].conditions.removeAtIndex(index2)
+                    actionConditionSets[index1].conditions.insert(action, atIndex: index2-1)
+                    updateAttributeEntry()
+                    scriptData.endUndoGrouping()
+                }
+            }
+        }
+    }
+    
+    public func moveActionConditionDown(actionCondition : PSEventActionCondition) {
+        if let (index1, index2, isAction) = getIndexesForActionCondition(actionCondition) {
+            if isAction {
+                if index2 < actionConditionSets[index1].actions.count - 1 {
+                    let action = actionConditionSets[index1].actions[index2]
+                    scriptData.beginUndoGrouping("Move Action")
+                    actionConditionSets[index1].actions.removeAtIndex(index2)
+                    actionConditionSets[index1].actions.insert(action, atIndex: index2+1)
+                    updateAttributeEntry()
+                    scriptData.endUndoGrouping()
+                }
+                
+            } else {
+                if index2 < actionConditionSets[index1].conditions.count - 1 {
+                    let action = actionConditionSets[index1].conditions[index2]
+                    scriptData.beginUndoGrouping("Move Condition")
+                    actionConditionSets[index1].conditions.removeAtIndex(index2)
+                    actionConditionSets[index1].conditions.insert(action, atIndex: index2+1)
+                    updateAttributeEntry()
+                    scriptData.endUndoGrouping()
+                }
+            }
+        }
+    }
+    
     public func appendAction(row : Int, action : PSActionInterface) {
         actionConditionSets[row].actions.append(PSEventActionFunction(action: action, values: []))
         setItemExpanded(row, itemIndex: actionConditionSets[row].actions.count - 1, action: true, expanded: true)

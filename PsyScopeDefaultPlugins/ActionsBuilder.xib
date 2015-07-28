@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="8121.17" systemVersion="14D136" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="8164.2" systemVersion="14E46" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="8121.17"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="8164.2"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="PSActionsBuilder" customModule="PsyScopeDefaultPlugins" customModuleProvider="target">
@@ -104,7 +104,7 @@
                 <popUpButton id="Znc-rZ-ih0">
                     <rect key="frame" x="443" y="275" width="47" height="26"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                    <popUpButtonCell key="cell" type="bevel" bezelStyle="regularSquare" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" pullsDown="YES" selectedItem="D3J-F2-bkX" id="dG1-sG-dYo">
+                    <popUpButtonCell key="cell" type="bevel" bezelStyle="regularSquare" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" pullsDown="YES" selectedItem="W1v-5p-FsM" id="dG1-sG-dYo">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="menu"/>
                         <menu key="menu" id="BWT-RE-hHb">
@@ -125,6 +125,19 @@ CA
                                     <modifierMask key="keyEquivalentModifierMask"/>
                                     <connections>
                                         <action selector="toggleInstancesActiveUntil:" target="D1K-zi-C4H" id="RIj-SU-DFZ"/>
+                                    </connections>
+                                </menuItem>
+                                <menuItem isSeparatorItem="YES" id="pMq-E3-Xeb"/>
+                                <menuItem title="Move Up" keyEquivalent="" id="2dN-wu-CIn">
+                                    <modifierMask key="keyEquivalentModifierMask" shift="YES"/>
+                                    <connections>
+                                        <action selector="moveUpClicked:" target="D1K-zi-C4H" id="LHx-o0-IMv"/>
+                                    </connections>
+                                </menuItem>
+                                <menuItem title="Move Down" keyEquivalent="" id="W1v-5p-FsM">
+                                    <modifierMask key="keyEquivalentModifierMask" shift="YES"/>
+                                    <connections>
+                                        <action selector="moveDownClicked:" target="D1K-zi-C4H" id="d6E-tP-KT1"/>
                                     </connections>
                                 </menuItem>
                             </items>
@@ -182,6 +195,8 @@ CA
                 <outlet property="addButton" destination="MF0-IY-7Dd" id="lJz-VA-tEO"/>
                 <outlet property="deleteButton" destination="bfp-9B-jJd" id="hkp-mS-bNE"/>
                 <outlet property="instancesActiveUntilMenuItem" destination="D3J-F2-bkX" id="2oC-u8-KVf"/>
+                <outlet property="moveDownMenuItem" destination="W1v-5p-FsM" id="Z36-bH-71t"/>
+                <outlet property="moveUpMenuItem" destination="2dN-wu-CIn" id="hu5-IR-Em5"/>
             </connections>
         </customObject>
     </objects>
