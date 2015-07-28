@@ -7,7 +7,7 @@
 import Foundation
 
 public class PSEventActionCondition : PSFunctionElement {
-
+    public var expanded : Bool = false
 }
 
 public class PSEventActionFunction : PSEventActionCondition {
@@ -17,6 +17,7 @@ public class PSEventActionFunction : PSEventActionCondition {
     public var activeUntilValue : String?
     
     public var currentValues : [String]
+    
     
     public var hasInstancesOrActiveUntilValueAttributes : Bool {
         return instancesValue != nil || activeUntilValue != nil

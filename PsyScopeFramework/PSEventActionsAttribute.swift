@@ -9,6 +9,7 @@ import Foundation
 
 public class PSEventActionsAttribute : PSStringListElement {
     public var actionConditionSets : [(conditions: [PSEventConditionFunction], actions: [PSEventActionFunction])] = []
+    
     public let scriptData : PSScriptData
     public let eventEntry : Entry
     public let attributeName : String
@@ -49,6 +50,7 @@ public class PSEventActionsAttribute : PSStringListElement {
             //delete if nothing there
             scriptData.deleteNamedSubEntryFromParentEntry(eventEntry, name: attributeName)
         }
+        saveMetaData()
         scriptData.endUndoGrouping(true)
     }
     
@@ -358,116 +360,100 @@ public class PSEventActionsAttribute : PSStringListElement {
         return true
     }
     
+    public func userSetItemExpanded(setIndex : Int, itemIndex : Int, action : Bool, expanded : Bool) {
+        setItemExpanded(setIndex, itemIndex: itemIndex, action: action, expanded: expanded)
+        saveMetaData()
+        
+    }
     
-    public func setItemExpanded(setIndex : Int, itemIndex : Int, action : Bool, expanded : Bool) {
+    private func saveMetaData() {
+        let actionsEntry = scriptData.getOrCreateSubEntry(attributeName, entry: eventEntry, isProperty: true)
+        actionsEntry.metaData = metaDataToString()
+    }
+    
+    private func setItemExpanded(setIndex : Int, itemIndex : Int, action : Bool, expanded : Bool) {
  
-        var name : String
-        var a : String
         if action {
-            name  = actionConditionSets[setIndex].actions[itemIndex].functionName
-            a = "1,"
+            if setIndex < actionConditionSets.count &&  itemIndex < actionConditionSets[setIndex].actions.count {
+                actionConditionSets[setIndex].actions[itemIndex].expanded = expanded
+            }
         } else {
-            name  = actionConditionSets[setIndex].conditions[itemIndex].functionName
-            a = "0,"
+            if setIndex < actionConditionSets.count &&  itemIndex < actionConditionSets[setIndex].conditions.count {
+                actionConditionSets[setIndex].conditions[itemIndex].expanded = expanded
+            }
         }
-        
-        let code = "\(setIndex),\(itemIndex)," + a + name
-        expandedItems[code] = expanded
-        
-        if actionConditionSets.count > 0 {
-            let actionsEntry = scriptData.getOrCreateSubEntry(attributeName, entry: eventEntry, isProperty: true)
-            actionsEntry.metaData = metaDataToString()
-        }
+
     }
     
     func loadMetaData(metaData : String?) {
 
-        if let md = metaData, data = md.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true) {
+        if let md = metaData, data = md.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
             do {
-                if let ei = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(rawValue: 0)) as? NSDictionary {
-                    expandedItems = ei as! [String : Bool]
-                    validateExpandedItems()
-                } else {
-                    expandedItems = [:]
+                if let ei = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(rawValue: 0)) as? NSArray,
+                expandedMetaData = ei as? [String] {
+
+                    parseExpandedItemsMetaData(expandedMetaData)
                 }
             } catch {
-                expandedItems = [:]
+              
             }
-        } else {
-            expandedItems = [:]
         }
     }
     
     func metaDataToString() -> String {
+        var savedExpandedMetaData : [String] = []
+        for (index,set) in actionConditionSets.enumerate() {
+            for (index2, action) in set.actions.enumerate() {
+                if action.expanded {
+                    savedExpandedMetaData.append(expandedCodeFor(index,itemIndex: index2,action: true)!)
+                }
+            }
+            
+            for (index2, condition) in set.conditions.enumerate() {
+                if condition.expanded {
+                    savedExpandedMetaData.append(expandedCodeFor(index,itemIndex: index2,action: false)!)
+                }
+            }
+        }
+        
 
-        var data: NSData?
         do {
-            data = try NSJSONSerialization.dataWithJSONObject(expandedItems, options:NSJSONWritingOptions(rawValue: 0))
-            return String(NSString(data: data!, encoding: NSUTF8StringEncoding)!)
+            let data = try NSJSONSerialization.dataWithJSONObject(savedExpandedMetaData, options:NSJSONWritingOptions(rawValue: 0))
+            return String(NSString(data: data, encoding: NSUTF8StringEncoding)!)
         } catch {
-            data = nil
             return ""
         }
         
     }
     
-    func validateExpandedItems() {
-        let codes = expandedItems.keys
-        for code in codes {
-            var  ok = false
-            var comps = code.componentsSeparatedByString(",")
-            let setIndex = Int(comps[0])!
-            if setIndex < actionConditionSets.count {
-                let itemIndex = Int(comps[1])!
-                if comps[2] == "1" {
-                    //action
-                    if itemIndex < actionConditionSets[setIndex].actions.count {
-                        if actionConditionSets[setIndex].actions[itemIndex].functionName == comps[3] {
-                            ok = true
-                        }
-                    }
-                } else {
-                    //condition
-                    if itemIndex < actionConditionSets[setIndex].conditions.count {
-                        if actionConditionSets[setIndex].conditions[itemIndex].functionName == comps[3] {
-                            ok = true
-                        }
-                    }
-                }
-            }
-            if (!ok) {
-                expandedItems[code] = nil
-            }
-            
+    func parseExpandedItemsMetaData(savedExpandedMetaData : [String]) {
+        for metaData in savedExpandedMetaData {
+            let (index1, index2, isAction) = indexesForCode(metaData)
+            setItemExpanded(index1,itemIndex: index2,action: isAction,expanded: true)
         }
     }
 
-    var expandedItems : [String:Bool] = [:]
-    
     public func itemIsExpanded(setIndex : Int, itemIndex : Int, action : Bool) -> Bool {
         
-        if setIndex >= actionConditionSets.count {
-            return false
-        }
-        
-        var name : String
-        var a : String
         if action {
-            if itemIndex >= actionConditionSets[setIndex].actions.count { return false }
-            name  = actionConditionSets[setIndex].actions[itemIndex].functionName
-            a = "1,"
+            if setIndex < actionConditionSets.count &&  itemIndex < actionConditionSets[setIndex].actions.count {
+                return actionConditionSets[setIndex].actions[itemIndex].expanded
+            }
         } else {
-            if itemIndex >= actionConditionSets[setIndex].conditions.count { return false }
-            name  = actionConditionSets[setIndex].conditions[itemIndex].functionName
-            a = "0,"
+            if setIndex < actionConditionSets.count &&  itemIndex < actionConditionSets[setIndex].conditions.count {
+                return actionConditionSets[setIndex].conditions[itemIndex].expanded
+            }
         }
-        
-        let code = "\(setIndex),\(itemIndex)," + a + name
-        if let e = expandedItems[code] {
-            return e
-        } else {
-            return false
-        }
+        return false
+    }
+    
+    public func expandedCodeFor(setIndex : Int, itemIndex : Int, action : Bool) -> String? {
+        return "\(setIndex),\(itemIndex)," + (action ? "1" : "0")
+    }
+    
+    public func indexesForCode(code : String) -> (setIndex : Int, itemIndex : Int, action : Bool) {
+        let components = code.componentsSeparatedByString(",")
+        return (Int(components[0])!,Int(components[1])!,components[2] == "1")
     }
 }
 

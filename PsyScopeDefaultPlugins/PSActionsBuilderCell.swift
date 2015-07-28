@@ -97,7 +97,7 @@ class PSActionsBuilderCell: NSView, NSTableViewDelegate, NSTableViewDataSource {
                 view.updateScriptBlock = { () -> () in self.actionsAttribute.updateAttributeEntry() }
                 
                 view.expandAction = { (expanded : Bool) -> () in
-                    self.actionsAttribute.setItemExpanded(self.rowIndex, itemIndex: row, action: true, expanded: expanded)
+                    self.actionsAttribute.userSetItemExpanded(self.rowIndex, itemIndex: row, action: true, expanded: expanded)
                 
                 }
                 let currentlyExpanded = currentViewMetaData.actions[row].expanded
@@ -119,7 +119,7 @@ class PSActionsBuilderCell: NSView, NSTableViewDelegate, NSTableViewDataSource {
                 view.setup(conditions[row].condition,function: conditions[row],scriptData: controller.scriptData, expandedHeight: currentViewMetaData.conditions[row].expandedCellHeight)
                 view.updateScriptBlock = { () -> () in self.actionsAttribute.updateAttributeEntry() }
                 view.expandAction = { (expanded : Bool) -> () in
-                    self.actionsAttribute.setItemExpanded(self.rowIndex, itemIndex: row, action: false, expanded: expanded)
+                    self.actionsAttribute.userSetItemExpanded(self.rowIndex, itemIndex: row, action: false, expanded: expanded)
                 }
                 let currentlyExpanded = currentViewMetaData.conditions[row].expanded
                 view.setExpanded(currentlyExpanded)

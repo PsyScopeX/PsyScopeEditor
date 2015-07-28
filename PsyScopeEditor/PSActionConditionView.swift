@@ -101,7 +101,7 @@ class PSActionConditionView: NSView, NSTableViewDelegate, NSTableViewDataSource 
                 let view = ac.action.createCellView(ac, scriptData: actionsBrowser.scriptData, expandedHeight: currentViewMetaData.actions[row].expandedCellHeight) //set up done inside
             view.updateScriptBlock = { () -> () in self.actionsBrowser.updateEventActions() }
             view.expandAction = { (expanded : Bool) -> () in
-                self.actionsAttribute.setItemExpanded(self.rowIndex, itemIndex: row, action: true, expanded: expanded)
+                self.actionsAttribute.userSetItemExpanded(self.rowIndex, itemIndex: row, action: true, expanded: expanded)
                 
             }
             let currentlyExpanded = actionsAttribute.itemIsExpanded(rowIndex, itemIndex: row, action: true)
@@ -124,7 +124,7 @@ class PSActionConditionView: NSView, NSTableViewDelegate, NSTableViewDataSource 
                 view.setup(ec.condition,function: conditions[row],scriptData: actionsBrowser.scriptData, expandedHeight: currentViewMetaData.conditions[row].expandedCellHeight)
                 view.updateScriptBlock = { () -> () in self.actionsBrowser.updateEventActions() }
                 view.expandAction = { (expanded : Bool) -> () in
-                    self.actionsAttribute.setItemExpanded(self.rowIndex, itemIndex: row, action: false, expanded: expanded)
+                    self.actionsAttribute.userSetItemExpanded(self.rowIndex, itemIndex: row, action: false, expanded: expanded)
                     
                 }
                 let currentlyExpanded = actionsAttribute.itemIsExpanded(rowIndex, itemIndex: row, action: false)
