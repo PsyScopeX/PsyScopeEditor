@@ -163,7 +163,7 @@ class PSListViewController : PSToolPropertyController, NSWindowDelegate {
             //is it changing
             let fileList = PSFileList(entry: entry, scriptData: scriptData)
             fileList.setupDefaultSubEntries()
-        
+            fileList.filePath = fileText.stringValue
             break
         default:
             break
