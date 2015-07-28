@@ -89,7 +89,7 @@ public class PSEventActionsAttribute : PSStringListElement {
     }
     
     
-    private func getIndexesForActionCondition(actionCondition : PSEventActionCondition) -> (index1 : Int, index2 : Int, action : Bool)? {
+    public func getIndexesForActionCondition(actionCondition : PSEventActionCondition) -> (index1 : Int, index2 : Int, action : Bool)? {
         for (index,ac) in actionConditionSets.enumerate() {
             for (index2,a) in ac.actions.enumerate() {
                 if a == actionCondition {
@@ -105,7 +105,7 @@ public class PSEventActionsAttribute : PSStringListElement {
         return nil
     }
     
-    public func moveActionConditionUp(actionCondition : PSEventActionCondition) {
+    public func moveActionConditionUp(actionCondition : PSEventActionCondition) -> Int {
         if let (index1, index2, isAction) = getIndexesForActionCondition(actionCondition) {
             if isAction {
                 if index2 > 0 {
@@ -115,6 +115,7 @@ public class PSEventActionsAttribute : PSStringListElement {
                     actionConditionSets[index1].actions.insert(action, atIndex: index2-1)
                     updateAttributeEntry()
                     scriptData.endUndoGrouping()
+                    return index2 - 1
                 }
                 
             }else {
@@ -125,12 +126,15 @@ public class PSEventActionsAttribute : PSStringListElement {
                     actionConditionSets[index1].conditions.insert(action, atIndex: index2-1)
                     updateAttributeEntry()
                     scriptData.endUndoGrouping()
+                    return index2 - 1
                 }
             }
+            return index2
         }
+        return -1
     }
     
-    public func moveActionConditionDown(actionCondition : PSEventActionCondition) {
+    public func moveActionConditionDown(actionCondition : PSEventActionCondition) -> Int {
         if let (index1, index2, isAction) = getIndexesForActionCondition(actionCondition) {
             if isAction {
                 if index2 < actionConditionSets[index1].actions.count - 1 {
@@ -140,6 +144,7 @@ public class PSEventActionsAttribute : PSStringListElement {
                     actionConditionSets[index1].actions.insert(action, atIndex: index2+1)
                     updateAttributeEntry()
                     scriptData.endUndoGrouping()
+                    return index2 + 1
                 }
                 
             } else {
@@ -150,9 +155,12 @@ public class PSEventActionsAttribute : PSStringListElement {
                     actionConditionSets[index1].conditions.insert(action, atIndex: index2+1)
                     updateAttributeEntry()
                     scriptData.endUndoGrouping()
+                    return index2 + 1
                 }
             }
+            return index2
         }
+        return -1
     }
     
     public func appendAction(row : Int, action : PSActionInterface) {

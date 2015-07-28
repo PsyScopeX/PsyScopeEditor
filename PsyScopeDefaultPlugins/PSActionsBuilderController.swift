@@ -32,6 +32,7 @@ class PSActionsBuilderController : NSObject, NSTableViewDataSource, NSTableViewD
     var views : [Int : PSActionsBuilderCell] = [ : ]
     
     var displayViewMetaData : [PSActionBuilderViewMetaDataSet] = []
+    var selectedActionConditionLocation : (index1 : Int, index2 : Int, action : Bool)?
     
     
     override func awakeFromNib() {
@@ -60,6 +61,8 @@ class PSActionsBuilderController : NSObject, NSTableViewDataSource, NSTableViewD
         self.views = [:]
         loadEvent()
         actionsTableView.reloadData()
+        
+        
     }
     
     func loadEvent() {
@@ -85,6 +88,8 @@ class PSActionsBuilderController : NSObject, NSTableViewDataSource, NSTableViewD
         
         self.displayViewMetaData = displayViewMetaData
         addButton.enabled = true
+        
+        
     }
 
     
@@ -107,6 +112,13 @@ class PSActionsBuilderController : NSObject, NSTableViewDataSource, NSTableViewD
             view.refresh(displayViewMetaData[row])
         } else {
             view.refresh(PSEmptyActionBuilderViewMetaDataSet)
+        }
+        
+        //restore selection
+        if let selectedActionConditionLocation = selectedActionConditionLocation where
+            row == selectedActionConditionLocation.index1 {
+                view.selectActionCondition(selectedActionConditionLocation.index2,action: selectedActionConditionLocation.action, window: scriptData.window)
+                
         }
 
         return view
@@ -162,6 +174,14 @@ class PSActionsBuilderController : NSObject, NSTableViewDataSource, NSTableViewD
                 view.deSelect()
             }
         }
+        
+        //remember selection
+        if let actionsAttribute = actionsAttribute,
+            actionCondition = actionCondition {
+            selectedActionConditionLocation = actionsAttribute.getIndexesForActionCondition(actionCondition)
+        } else {
+            selectedActionConditionLocation = nil
+        }
     }
     
     
@@ -184,6 +204,7 @@ class PSActionsBuilderController : NSObject, NSTableViewDataSource, NSTableViewD
         if let selectedActionCondition = selectedActionCondition,
             actionFunction = selectedActionCondition as? PSEventActionFunction {
                 actionFunction.setInstancesActiveUntilOn(!actionFunction.hasInstancesOrActiveUntilValueAttributes)
+                
                 self.actionsAttribute!.updateAttributeEntry()
         }
     }
@@ -191,14 +212,20 @@ class PSActionsBuilderController : NSObject, NSTableViewDataSource, NSTableViewD
     @IBAction func moveUpClicked(sender : AnyObject) {
         if let actionsAttribute = actionsAttribute,
         selectedActionCondition = selectedActionCondition{
-            actionsAttribute.moveActionConditionUp(selectedActionCondition)
+            let newIndex2 = actionsAttribute.moveActionConditionUp(selectedActionCondition)
+            if selectedActionConditionLocation != nil {
+                selectedActionConditionLocation!.index2 = newIndex2
+            }
         }
     }
     
     @IBAction func moveDownClicked(sender : AnyObject) {
         if let actionsAttribute = actionsAttribute,
         selectedActionCondition = selectedActionCondition{
-            actionsAttribute.moveActionConditionDown(selectedActionCondition)
+            let newIndex2 = actionsAttribute.moveActionConditionDown(selectedActionCondition)
+            if selectedActionConditionLocation != nil {
+                selectedActionConditionLocation!.index2 = newIndex2
+            }
         }
     }
     

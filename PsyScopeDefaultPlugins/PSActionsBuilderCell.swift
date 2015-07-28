@@ -74,6 +74,19 @@ class PSActionsBuilderCell: NSView, NSTableViewDelegate, NSTableViewDataSource {
         //controller.deleteActionCondition(actionConditionAt(tableView.selectedRow))
     }
     
+    
+    func selectActionCondition(index : Int, action : Bool, window : NSWindow) {
+        if action {
+            actionsTableView.selectRowIndexes(NSIndexSet(index: index), byExtendingSelection: false)
+            window.makeFirstResponder(actionsTableView)
+            self.tableView(actionsTableView, shouldSelectRow: index)
+        } else {
+            conditionsTableView.selectRowIndexes(NSIndexSet(index: index), byExtendingSelection: false)
+            window.makeFirstResponder(conditionsTableView)
+            self.tableView(conditionsTableView, shouldSelectRow: index)
+        }
+    }
+    
     func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
         //determine wether it is action or condition
         switch (tableView) {
