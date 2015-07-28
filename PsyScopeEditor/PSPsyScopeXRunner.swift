@@ -20,6 +20,7 @@ class PSPsyScopeXRunner : NSObject {
     let foregroundFlag = "-fg"
     let runOnOpen = "-r"
     let printHelp = "-h"
+    let saveOnExit = "-s"
     
     var currentlyRunningPsyScopeTask : NSTask?
     var currentlyRunningDocument : Document?
@@ -83,7 +84,7 @@ class PSPsyScopeXRunner : NSObject {
         //construct running command with NSTask
         let task = NSTask()
         task.launchPath = launchPath
-        task.arguments = [openFlag,psyXScriptFileName,runOnOpen,foregroundFlag,quitOnEndFlag]
+        task.arguments = [openFlag,psyXScriptFileName,runOnOpen,foregroundFlag,quitOnEndFlag,saveOnExit,"y"]
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "terminated:", name: NSTaskDidTerminateNotification, object: task)
         
         //launch the task
