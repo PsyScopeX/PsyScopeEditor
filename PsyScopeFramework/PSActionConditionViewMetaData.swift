@@ -35,10 +35,12 @@ public func PSActionConditionViewMetaData(actionsAttribute : PSEventActionsAttri
     
     
     
-    var actionsHeight = PSActionsButtonHeight
-    var conditionsHeight = PSConditionsButtonHeight
+    
     
     for (setNumber, set) in actionsAttribute.actionConditionSets.enumerate() {
+        
+        var actionsHeight = PSActionsButtonHeight
+        var conditionsHeight = PSConditionsButtonHeight
         
         //each set has data for both actions and conditions
         var newSet : PSActionBuilderViewMetaDataSet = PSActionBuilderViewMetaDataSet()
