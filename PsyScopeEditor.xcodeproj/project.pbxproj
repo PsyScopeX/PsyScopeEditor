@@ -513,6 +513,7 @@
 		1AFADC7D1A1BBCA50055346D /* EventPicker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AFADC7C1A1BBCA50055346D /* EventPicker.xib */; };
 		1AFC19191B67EC54007083DB /* PSTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFC19181B67EC54007083DB /* PSTextField.swift */; };
 		1AFC191B1B6915F3007083DB /* PSWhiteNSView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFC191A1B6915F3007083DB /* PSWhiteNSView.swift */; };
+		1AFC191D1B692E44007083DB /* PSLogFileNameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFC191C1B692E44007083DB /* PSLogFileNameController.swift */; };
 		1AFC257619C9D06600858812 /* PSExperimentAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFC257519C9D06600858812 /* PSExperimentAttribute.swift */; };
 		1AFC257F19C9F17500858812 /* PSListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFC257E19C9F17500858812 /* PSListViewController.swift */; };
 		1AFC258119C9F1A000858812 /* PSListBuilderWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFC258019C9F1A000858812 /* PSListBuilderWindowController.swift */; };
@@ -1151,6 +1152,7 @@
 		1AFADC7C1A1BBCA50055346D /* EventPicker.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EventPicker.xib; sourceTree = "<group>"; };
 		1AFC19181B67EC54007083DB /* PSTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSTextField.swift; sourceTree = "<group>"; };
 		1AFC191A1B6915F3007083DB /* PSWhiteNSView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSWhiteNSView.swift; sourceTree = "<group>"; };
+		1AFC191C1B692E44007083DB /* PSLogFileNameController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSLogFileNameController.swift; sourceTree = "<group>"; };
 		1AFC257519C9D06600858812 /* PSExperimentAttribute.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSExperimentAttribute.swift; sourceTree = "<group>"; };
 		1AFC257E19C9F17500858812 /* PSListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSListViewController.swift; sourceTree = "<group>"; };
 		1AFC258019C9F1A000858812 /* PSListBuilderWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSListBuilderWindowController.swift; sourceTree = "<group>"; };
@@ -1257,6 +1259,7 @@
 				1A4A64531B0D054C00084A10 /* PSGroupsCreator.swift */,
 				1ADCF51A1B1C7A550006C215 /* PSButtonTableViewCell.swift */,
 				1AFC191A1B6915F3007083DB /* PSWhiteNSView.swift */,
+				1AFC191C1B692E44007083DB /* PSLogFileNameController.swift */,
 			);
 			name = "Experiment Setup";
 			sourceTree = "<group>";
@@ -3281,6 +3284,7 @@
 				1A8F93D719C853830019F37A /* NSPoint.swift in Sources */,
 				1A8F93DD19C854070019F37A /* String.swift in Sources */,
 				1AF8D95619F166A600EB2921 /* PSDocumentController.swift in Sources */,
+				1AFC191D1B692E44007083DB /* PSLogFileNameController.swift in Sources */,
 				1AC3508C19A7C7C000372B27 /* PSPluginSingleton.swift in Sources */,
 				1A4802F2199A254D0095F2AD /* PSScriptConverter.swift in Sources */,
 				1AC0827519701F2F0038512B /* Document.swift in Sources */,

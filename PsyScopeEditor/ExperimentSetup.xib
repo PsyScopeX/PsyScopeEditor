@@ -26,6 +26,7 @@
                 <outlet property="experimentSetupController" destination="-2" id="FJR-eU-2GX"/>
                 <outlet property="groupingVariablesTableView" destination="T2p-VB-TDJ" id="udq-6T-UqD"/>
                 <outlet property="groupingVariablesTableViewController" destination="coy-mt-FTd" id="iGB-uX-Dpa"/>
+                <outlet property="logFileNameController" destination="utc-O4-Rfj" id="Mvc-Nw-VHS"/>
                 <outlet property="subjectInformationTableViewController" destination="sav-Gx-Pkn" id="mbl-fQ-e3A"/>
                 <outlet property="subjectVariablesSegmentedControl" destination="mpm-la-1bd" id="SNV-w3-tgv"/>
                 <outlet property="subjectVariablesTableView" destination="mKH-l3-TG6" id="gUl-AT-XZt"/>
@@ -339,7 +340,7 @@
                     </textFieldCell>
                 </textField>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="XeC-Li-gfw">
-                    <rect key="frame" x="22" y="208" width="57" height="17"/>
+                    <rect key="frame" x="293" y="262" width="57" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Preview:" id="nmI-iF-Hs5">
                         <font key="font" metaFont="system"/>
@@ -348,10 +349,10 @@
                     </textFieldCell>
                 </textField>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="QQi-P0-js8">
-                    <rect key="frame" x="87" y="208" width="612" height="17"/>
+                    <rect key="frame" x="354" y="262" width="345" height="17"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Label" id="qhb-pI-EGA">
-                        <font key="font" metaFont="system"/>
+                        <font key="font" metaFont="systemBold"/>
                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
@@ -368,19 +369,15 @@
                         <outlet property="delegate" destination="I7E-Xr-VhW" id="gOI-lu-nwk"/>
                     </connections>
                 </tokenField>
-                <button id="OWG-qZ-HOw">
-                    <rect key="frame" x="236" y="260" width="111" height="18"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <buttonCell key="cell" type="check" title="Auto-generate" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="6S8-Lp-zjp">
-                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                        <font key="font" metaFont="system"/>
-                    </buttonCell>
-                    <connections>
-                        <action selector="autoGenerateCheckButtonClicked:" target="I7E-Xr-VhW" id="UAx-vc-chR"/>
-                    </connections>
-                </button>
                 <box verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="lbJ-GA-rTu">
                     <rect key="frame" x="0.0" y="197" width="717" height="5"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                    <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
+                    <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <font key="titleFont" metaFont="system"/>
+                </box>
+                <box verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="KDn-Xn-Dy1">
+                    <rect key="frame" x="0.0" y="136" width="717" height="5"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
                     <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -402,6 +399,38 @@
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="1t7-3z-ezV">
+                    <rect key="frame" x="20" y="174" width="97" height="17"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Log File Name:" id="9yk-Cv-rAR">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <button id="OWG-qZ-HOw">
+                    <rect key="frame" x="127" y="261" width="111" height="18"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="check" title="Auto-generate" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="6S8-Lp-zjp">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="autoGenerateCheckButtonClicked:" target="I7E-Xr-VhW" id="UAx-vc-chR"/>
+                    </connections>
+                </button>
+                <textField verticalHuggingPriority="750" id="04x-SE-DSJ">
+                    <rect key="frame" x="22" y="147" width="675" height="22"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="ahj-LM-QRv">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                    <connections>
+                        <outlet property="delegate" destination="utc-O4-Rfj" id="q6Z-y6-VoC"/>
+                    </connections>
+                </textField>
             </subviews>
             <point key="canvasLocation" x="259.5" y="307"/>
         </view>
@@ -410,6 +439,11 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <point key="canvasLocation" x="-307.5" y="338"/>
         </customView>
+        <customObject id="utc-O4-Rfj" customClass="PSLogFileNameController" customModule="PsyScopeEditor" customModuleProvider="target">
+            <connections>
+                <outlet property="logFileTextField" destination="04x-SE-DSJ" id="lgz-lQ-tOZ"/>
+            </connections>
+        </customObject>
     </objects>
     <resources>
         <image name="NSActionTemplate" width="14" height="14"/>

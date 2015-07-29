@@ -720,17 +720,26 @@ public class PSScriptData : NSObject {
     
     public func beginUndoGrouping(name : String) {
         print("Begin undo grouping: \(name)")
+        if undoLevel == 0 {
+            docMoc.undoManager!.beginUndoGrouping()
+            docMoc.undoManager!.setActionName(name)
+        }
         undoLevel++
-        docMoc.undoManager!.beginUndoGrouping()
-        docMoc.undoManager!.setActionName(name)
+        
     }
     
     public func endUndoGrouping(success : Bool = true) {
+        if undoLevel > 0 {
         print("End undo grouping")
-        undoLevel--
-        docMoc.undoManager!.endUndoGrouping()
-        if (!success) { docMoc.undoManager!.undoNestedGroup() }
-        selectionInterface.refresh()
+        
+            undoLevel--
+            
+            if undoLevel == 0 {
+                docMoc.undoManager!.endUndoGrouping()
+                if (!success) { docMoc.undoManager!.undoNestedGroup() }
+                selectionInterface.refresh()
+            }
+        }
     }
     
     public var inUndoGroup : Bool {

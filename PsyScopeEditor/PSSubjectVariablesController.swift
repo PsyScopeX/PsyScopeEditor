@@ -17,6 +17,7 @@ class PSSubjectVariablesController : NSObject, NSTextFieldDelegate, NSTableViewD
     @IBOutlet var groupingVariablesTableView : NSTableView!
     @IBOutlet var subjectVariablesTableView : NSTableView!
     @IBOutlet var dataFileNameController : PSDataFileNameController!
+    @IBOutlet var logFileNameController : PSLogFileNameController!
     
     var subjectInformation : PSSubjectInformation!
     var scriptData : PSScriptData!
@@ -25,6 +26,7 @@ class PSSubjectVariablesController : NSObject, NSTextFieldDelegate, NSTableViewD
     override func awakeFromNib() {
         super.awakeFromNib()
         self.scriptData = experimentSetupController.scriptData
+        logFileNameController.scriptData = experimentSetupController.scriptData
         dataFileNameController.scriptData = experimentSetupController.scriptData
         self.subjectInformation = PSSubjectInformation(scriptData: scriptData)
     }
@@ -55,6 +57,7 @@ class PSSubjectVariablesController : NSObject, NSTextFieldDelegate, NSTableViewD
         self.subjectInformationTableViewController.reloadData(subjectInformation.subjectVariables)
         self.dataFileNameController.reloadData(subjectInformation.subjectVariables)
         self.dataFileNameController.updatePreviewTextView()
+        self.logFileNameController.reload()
     }
     
     @IBAction func subjectVariablesSegmentedControlClick(segmentedControl : NSSegmentedControl) {
