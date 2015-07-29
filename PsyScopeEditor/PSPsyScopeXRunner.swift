@@ -105,6 +105,18 @@ class PSPsyScopeXRunner : NSObject {
                 return
         }
         
+        defer {
+            //convert old log and script file to text format
+            if let documentPath = currentlyRunningDocument.scriptData.documentDirectory() {
+            
+                let dataFileName = documentPath.stringByAppendingPathComponent(PSGetDataFileName(currentlyRunningDocument.scriptData))
+                let logFileName = documentPath.stringByAppendingPathComponent(PSGetLogFileName(currentlyRunningDocument.scriptData))
+                
+                HFSFileTypeHelper.setTextFileAttribs(dataFileName)
+                HFSFileTypeHelper.setTextFileAttribs(logFileName)
+            }
+        }
+        
         do {
             let changedScript = try String(contentsOfFile: currentlyRunningScriptFileName, encoding: NSUTF8StringEncoding)
             
