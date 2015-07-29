@@ -30,69 +30,69 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" unifiedTitleAndToolbar="YES"/>
             <windowCollectionBehavior key="collectionBehavior" fullScreenPrimary="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="330" y="177" width="800" height="500"/>
+            <rect key="contentRect" x="330" y="177" width="1000" height="500"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1440" height="878"/>
-            <value key="minSize" type="size" width="660" height="400"/>
+            <value key="minSize" type="size" width="1000" height="400"/>
             <view key="contentView" id="gIp-Ho-8D9">
-                <rect key="frame" x="0.0" y="0.0" width="800" height="500"/>
+                <rect key="frame" x="0.0" y="0.0" width="1000" height="500"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <box verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="LXs-N4-EEa">
-                        <rect key="frame" x="0.0" y="17" width="800" height="5"/>
+                        <rect key="frame" x="0.0" y="17" width="1000" height="5"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                         <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
                         <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <font key="titleFont" metaFont="system"/>
                     </box>
                     <splitView dividerStyle="thin" vertical="YES" id="jsf-aQ-s5w">
-                        <rect key="frame" x="0.0" y="20" width="800" height="480"/>
+                        <rect key="frame" x="0.0" y="20" width="1000" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <customView id="tIm-7g-5ox" userLabel="Left Panel">
-                                <rect key="frame" x="0.0" y="0.0" width="200.5" height="480"/>
+                                <rect key="frame" x="0.0" y="0.0" width="251.5" height="480"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <subviews>
                                     <box verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="DK6-gs-GW3">
-                                        <rect key="frame" x="0.0" y="448" width="200.5" height="5"/>
+                                        <rect key="frame" x="0.0" y="448" width="251.5" height="5"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                         <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
                                         <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <font key="titleFont" metaFont="system"/>
                                     </box>
                                     <tabView type="noTabsNoBorder" initialItem="Ilq-5o-hZc" id="FKI-WQ-PUY">
-                                        <rect key="frame" x="0.0" y="0.0" width="199.5" height="450"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="250.5" height="450"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <font key="font" metaFont="system"/>
                                         <tabViewItems>
                                             <tabViewItem label="Tools" identifier="1" id="Ilq-5o-hZc">
                                                 <view key="view" id="WWn-Ff-wRQ">
-                                                    <rect key="frame" x="0.0" y="0.0" width="199.5" height="451"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="250.5" height="450"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <tabView controlSize="small" id="Evb-2K-3TQ">
-                                                            <rect key="frame" x="0.0" y="0.0" width="199.5" height="451"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="250.5" height="450"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <tabViewItems>
                                                                 <tabViewItem label="Tools" identifier="1" id="wGu-IX-Hho">
                                                                     <view key="view" id="Df2-sW-M7X">
-                                                                        <rect key="frame" x="10" y="25" width="179.5" height="413"/>
+                                                                        <rect key="frame" x="10" y="25" width="230.5" height="412"/>
                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                         <subviews>
                                                                             <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="1002" horizontalPageScroll="10" verticalLineScroll="1002" verticalPageScroll="10" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" verticalScrollElasticity="none" id="e3Y-DK-9wM">
-                                                                                <rect key="frame" x="0.0" y="-2" width="180" height="408"/>
+                                                                                <rect key="frame" x="0.0" y="-2" width="231" height="407"/>
                                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                 <clipView key="contentView" id="umK-0q-CXG">
-                                                                                    <rect key="frame" x="0.0" y="0.0" width="179.5" height="413"/>
+                                                                                    <rect key="frame" x="0.0" y="0.0" width="231" height="407"/>
                                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                     <subviews>
                                                                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="1000" viewBased="YES" id="ipA-6F-Snl" customClass="PSToolBrowserView" customModule="PsyScopeEditor" customModuleProvider="target">
-                                                                                            <rect key="frame" x="0.0" y="0.0" width="180.5" height="0.0"/>
+                                                                                            <rect key="frame" x="0.0" y="0.0" width="231" height="407"/>
                                                                                             <autoresizingMask key="autoresizingMask"/>
                                                                                             <size key="intercellSpacing" width="3" height="2"/>
                                                                                             <color key="backgroundColor" red="0.85882352941176465" green="0.85882352941176465" blue="0.85882352941176465" alpha="1" colorSpace="calibratedRGB"/>
                                                                                             <color key="gridColor" red="0.85882352939999995" green="0.85882352939999995" blue="0.85882352939999995" alpha="1" colorSpace="calibratedRGB"/>
                                                                                             <tableColumns>
-                                                                                                <tableColumn identifier="AutomaticTableColumnIdentifier.0" width="177.5" minWidth="40" maxWidth="1000" id="MwS-6K-2T8">
+                                                                                                <tableColumn identifier="AutomaticTableColumnIdentifier.0" width="228" minWidth="40" maxWidth="1000" id="MwS-6K-2T8">
                                                                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
                                                                                                         <font key="font" metaFont="smallSystem"/>
                                                                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -406,17 +406,17 @@
                                 </subviews>
                             </customView>
                             <customView id="3gl-Ni-LHQ" userLabel="Centre Panel">
-                                <rect key="frame" x="201.5" y="0.0" width="317.5" height="480"/>
+                                <rect key="frame" x="252.5" y="0.0" width="396.5" height="480"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <subviews>
                                     <tabView type="noTabsNoBorder" initialItem="iJr-EN-3uT" id="eUt-Ml-iyR">
-                                        <rect key="frame" x="0.0" y="0.0" width="317.5" height="480"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="396.5" height="480"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <font key="font" metaFont="system"/>
                                         <tabViewItems>
                                             <tabViewItem label="Layout" identifier="1" id="iJr-EN-3uT" userLabel="Layout Tab">
                                                 <view key="view" id="lf0-fh-1x9">
-                                                    <rect key="frame" x="0.0" y="0.0" width="317.5" height="480"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="396.5" height="480"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <button verticalHuggingPriority="750" id="P43-Vl-3oi">
@@ -431,7 +431,7 @@
                                                             </connections>
                                                         </button>
                                                         <box verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="vza-b5-1b7">
-                                                            <rect key="frame" x="0.0" y="448" width="317.5" height="5"/>
+                                                            <rect key="frame" x="0.0" y="448" width="396.5" height="5"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                             <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
                                                             <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -449,7 +449,7 @@
                                                             </connections>
                                                         </button>
                                                         <popUpButton id="MjE-gb-jEH">
-                                                            <rect key="frame" x="261.5" y="452" width="47" height="26"/>
+                                                            <rect key="frame" x="340.5" y="452" width="47" height="26"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                                             <popUpButtonCell key="cell" type="bevel" bezelStyle="regularSquare" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" pullsDown="YES" id="9YY-Lm-02D">
                                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -478,10 +478,10 @@
                                                             </connections>
                                                         </popUpButton>
                                                         <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="CGh-F9-ajS">
-                                                            <rect key="frame" x="0.0" y="0.0" width="317.5" height="450"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="396.5" height="450"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <clipView key="contentView" id="yre-eR-KAO">
-                                                                <rect key="frame" x="0.0" y="0.0" width="317.5" height="450"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="396.5" height="450"/>
                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                 <subviews>
                                                                     <customView id="zck-4U-xpq" customClass="PSLayoutBoard" customModule="PsyScopeEditor" customModuleProvider="target">
@@ -499,11 +499,11 @@
                                                                 </subviews>
                                                             </clipView>
                                                             <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="4t2-P4-APE">
-                                                                <rect key="frame" x="1" y="80" width="166" height="15"/>
+                                                                <rect key="frame" x="0.0" y="434" width="396.5" height="16"/>
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                             </scroller>
                                                             <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="evC-fz-EAi">
-                                                                <rect key="frame" x="167" y="1" width="15" height="79"/>
+                                                                <rect key="frame" x="380.5" y="0.0" width="16" height="450"/>
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                             </scroller>
                                                         </scrollView>
@@ -587,17 +587,17 @@
                                 </subviews>
                             </customView>
                             <customView id="liU-pF-b9e" userLabel="Right Panel">
-                                <rect key="frame" x="520" y="0.0" width="280" height="480"/>
+                                <rect key="frame" x="650" y="0.0" width="350" height="480"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <subviews>
                                     <tabView controlSize="mini" type="noTabsNoBorder" initialItem="YhT-1j-5mn" id="IoO-rg-86e">
-                                        <rect key="frame" x="0.0" y="0.0" width="280" height="450"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="350" height="450"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <font key="font" metaFont="miniSystem"/>
                                         <tabViewItems>
                                             <tabViewItem label="Design" identifier="1" id="jEZ-oD-ASe">
                                                 <view key="view" id="7WB-ji-cnm">
-                                                    <rect key="frame" x="0.0" y="0.0" width="280" height="450"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="350" height="450"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 </view>
                                             </tabViewItem>

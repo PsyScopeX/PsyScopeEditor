@@ -16,7 +16,7 @@ class PSExperimentSetup: NSObject {
     @IBOutlet var subjectVariablesController: PSSubjectVariablesController!
     @IBOutlet var midPanelView : NSView!
     @IBOutlet var leftPanelView : NSView!
-    @IBOutlet var selectedSubjectController : PSSelectedSubjectVariableController!
+
     
     
     var topLevelObjects : NSArray?

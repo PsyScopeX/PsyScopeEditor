@@ -16,7 +16,6 @@ class PSSubjectVariablesController : NSObject, NSTextFieldDelegate, NSTableViewD
     @IBOutlet var subjectVariablesSegmentedControl : NSSegmentedControl!
     @IBOutlet var groupingVariablesTableView : NSTableView!
     @IBOutlet var subjectVariablesTableView : NSTableView!
-    @IBOutlet var selectedSubjectVariableController : PSSelectedSubjectVariableController!
     @IBOutlet var dataFileNameController : PSDataFileNameController!
     
     var subjectInformation : PSSubjectInformation!
@@ -56,7 +55,6 @@ class PSSubjectVariablesController : NSObject, NSTextFieldDelegate, NSTableViewD
         self.subjectInformationTableViewController.reloadData(subjectInformation.subjectVariables)
         self.dataFileNameController.reloadData(subjectInformation.subjectVariables)
         self.dataFileNameController.updatePreviewTextView()
-        self.selectedSubjectVariableController.refreshControls()
     }
     
     @IBAction func subjectVariablesSegmentedControlClick(segmentedControl : NSSegmentedControl) {

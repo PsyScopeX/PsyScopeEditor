@@ -44,8 +44,7 @@ class PSMainWindowController : NSWindowController {
         self.mainDocument = document
         self.scriptData = scriptData
         self.selectionController = selectionController
-        
-        
+    
         
         initialized = true
         

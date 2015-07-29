@@ -12,7 +12,6 @@ class PSSubjectVariablesTableViewController : NSObject, NSTableViewDelegate, NST
     
     @IBOutlet var nameColumn : NSTableColumn!
     @IBOutlet var subjectVariablesController: PSSubjectVariablesController!
-    @IBOutlet var selectedSubjectVariableController : PSSelectedSubjectVariableController!
     @IBOutlet var tableView : NSTableView!
     @IBOutlet var valueColumn : NSTableColumn!
     @IBOutlet var experimentSetup : PSExperimentSetup!
