@@ -40,7 +40,7 @@ class PSDataFileNameController : NSObject, NSTokenFieldDelegate {
 
             //update tokenfield with autodatafile contents
             var objectsToAdd : [String] = []
-            if let adf = scriptData.getBaseEntry("AutoDatafile"),
+            if let adf = scriptData.getBaseEntry("AutoDataFile"),
                 stringSubEntry = scriptData.getSubEntry("Strings", entry: adf) {
                     let strings = PSStringList(entry: stringSubEntry, scriptData: scriptData)
                     
@@ -117,10 +117,7 @@ class PSDataFileNameController : NSObject, NSTokenFieldDelegate {
     
     override func controlTextDidChange(obj: NSNotification) {
         updatePreviewTextView()
-        updateAutoDataFileScriptEntry()
     }
-    
-
     
     override func controlTextDidEndEditing(obj: NSNotification) {
         updatePreviewTextView()
@@ -129,8 +126,10 @@ class PSDataFileNameController : NSObject, NSTokenFieldDelegate {
     
     func updateAutoDataFileScriptEntry() {
         
+        print("Updating auto file script entry")
         if autoGenerateCheckButton.state == 1 {
         
+            
             let autoDatafile = scriptData.getOrCreateBaseEntry("AutoDataFile", type: "DialogVariable", user_friendly_name: "AutoDatafile", section_name: "SubjectInfo", zOrder: 78)
             
             //make experiment entry datafile link to this entry
@@ -173,10 +172,13 @@ class PSDataFileNameController : NSObject, NSTokenFieldDelegate {
                 }
                 
                 let newValue = " ".join(previewString)
+                
                 strings.currentValue = newValue
             } else {
                 strings.currentValue = ""
             }
+            
+            print("Strings: " + strings.currentValue)
             
             //if there are tokens then the dialog should be MakeFileName otherwise it should be 'NULL' with the name of the file name as the main Entry's value
             if includesTokens {
@@ -185,8 +187,13 @@ class PSDataFileNameController : NSObject, NSTokenFieldDelegate {
                 dialog.currentValue = "NULL"
             }
             
+            print("Dialog: " + dialog.currentValue)
+            
             //update current value
             autoDatafile.currentValue = getCurrentValue()
+            
+            print("AutoDataFile: " + autoDatafile.currentValue)
+            
         } else {
             //not auto generated
             if let stringArray = tokenField.objectValue as? [String] {
@@ -198,7 +205,6 @@ class PSDataFileNameController : NSObject, NSTokenFieldDelegate {
                 dataFileEntry.currentValue = newValue
             }
         }
-        
     }
     
     func updatePreviewTextView() {
