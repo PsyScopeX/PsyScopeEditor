@@ -18,7 +18,11 @@ public struct PSSubjectVariableStorageOptions {
         self.inDataFileColumns = all
         self.inDataHeader = all
         self.inLogFile = all
-        self.schedule = .RunStart
+        if all {
+            self.schedule = .RunStart
+        } else {
+            self.schedule = .Never
+        }
     }
     
     init(inDataFileColumns : Bool, inDataHeader : Bool, inLogFile : Bool, schedule : PSSubjectVariableSchedule) {

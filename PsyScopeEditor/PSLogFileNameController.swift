@@ -23,7 +23,7 @@ class PSLogFileNameController : NSObject {
     override func controlTextDidChange(obj: NSNotification) {
         let logfile = scriptData.getOrCreateBaseEntry("Log File", type: "Log File", user_friendly_name: "Log File", section_name: "Log File", zOrder: 77)
         
-        logfile.currentValue = logFileTextField.stringValue
+        logfile.currentValue = "\"\(logFileTextField.stringValue)\""
     }
     
     override func controlTextDidEndEditing(obj: NSNotification) {
@@ -33,7 +33,7 @@ class PSLogFileNameController : NSObject {
 
 func PSGetLogFileName(scriptData : PSScriptData) -> String {
     if let logFile = scriptData.getBaseEntry("Log File") {
-        return logFile.currentValue
+        return logFile.currentValue.stringByTrimmingCharactersInSet(NSCharacterSet(charactersInString: "\" "))
     } else {
         return "PsyScope.psylog"
     }
