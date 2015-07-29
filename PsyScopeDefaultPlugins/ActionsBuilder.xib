@@ -104,7 +104,7 @@
                 <popUpButton id="Znc-rZ-ih0">
                     <rect key="frame" x="443" y="275" width="47" height="26"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                    <popUpButtonCell key="cell" type="bevel" bezelStyle="regularSquare" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" pullsDown="YES" id="dG1-sG-dYo">
+                    <popUpButtonCell key="cell" type="bevel" bezelStyle="regularSquare" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" pullsDown="YES" selectedItem="27a-DI-h7I" id="dG1-sG-dYo">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="menu"/>
                         <menu key="menu" id="BWT-RE-hHb">
@@ -164,6 +164,9 @@ CA
                             </items>
                         </menu>
                     </popUpButtonCell>
+                    <connections>
+                        <action selector="actionButtonSelected:" target="D1K-zi-C4H" id="UTD-6F-FKz"/>
+                    </connections>
                 </popUpButton>
                 <popUpButton verticalHuggingPriority="750" id="Icd-VH-sLm">
                     <rect key="frame" x="316" y="275" width="124" height="26"/>

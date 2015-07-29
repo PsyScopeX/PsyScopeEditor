@@ -15,8 +15,8 @@ class PSActionsBuilderController : NSObject, NSTableViewDataSource, NSTableViewD
     @IBOutlet var actionButton : NSPopUpButton!
     @IBOutlet var addButton : NSButton!
     @IBOutlet var actionsTypePopup : NSPopUpButton!
-    @IBOutlet var instancesActiveUntilMenuItem : NSMenuItem!
     
+    @IBOutlet var instancesActiveUntilMenuItem : NSMenuItem!
     @IBOutlet var deleteSetMenuItem : NSMenuItem!
     @IBOutlet var deleteMenuItem : NSMenuItem!
     @IBOutlet var moveUpMenuItem : NSMenuItem!
@@ -119,7 +119,11 @@ class PSActionsBuilderController : NSObject, NSTableViewDataSource, NSTableViewD
         //restore selection
         if let selectedActionConditionLocation = selectedActionConditionLocation where
             row == selectedActionConditionLocation.index1 {
-                view.selectActionCondition(selectedActionConditionLocation.index2,action: selectedActionConditionLocation.action, window: scriptData.window)
+                let selected = view.selectActionCondition(selectedActionConditionLocation.index2,action: selectedActionConditionLocation.action, window: scriptData.window)
+                
+                if !selected {
+                    disableMenuItemsAndDeselectEverything()
+                }
                 
         }
 
@@ -139,13 +143,7 @@ class PSActionsBuilderController : NSObject, NSTableViewDataSource, NSTableViewD
     }
     
     func tableView(tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
-        ////tableViewSelectionIsChanging?
-        selectedActionCondition(nil, fromView: nil)
-        if row == -1 {
-            //deleteButton.enabled = false
-        }
-        
-        return true
+        return false
     }
     
     func selectedActionCondition(actionCondition : PSEventActionCondition?, fromView : PSActionsBuilderCell?) {
@@ -187,7 +185,73 @@ class PSActionsBuilderController : NSObject, NSTableViewDataSource, NSTableViewD
     }
     
     
-    //MARK: Action button
+    //MARK: Action button / validating menu items
+    
+    @IBAction func actionButtonSelected(_:AnyObject) {
+        validateMenuItems()
+    }
+    
+    func validateMenuItems() {
+        
+        guard let s = selectedActionConditionLocation else {
+            disableMenuItemsAndDeselectEverything()
+            return
+        }
+        
+        //verify actual selection
+        if s.index1 >= views.count || s.index1 < 0 {
+            disableMenuItemsAndDeselectEverything()
+            return
+        }
+        
+        let selectedSetView = views[s.index1]!
+            
+        if s.action {
+            let actionsSelectedRow = selectedSetView.actionsTableView.selectedRow
+            if actionsSelectedRow != s.index2 {
+                disableMenuItemsAndDeselectEverything()
+                return
+            }
+        } else {
+            let conditionsSelectedRow = selectedSetView.conditionsTableView.selectedRow
+            if conditionsSelectedRow != s.index2 {
+                disableMenuItemsAndDeselectEverything()
+                return
+            }
+        }
+        
+        enableMenuItems()
+    }
+    
+    func disableMenuItemsAndDeselectEverything() {
+        //deselect in all other tableviews
+        for (_,view) in views {
+            view.deSelect()
+        }
+        deleteSetMenuItem.enabled = false
+        deleteMenuItem.enabled = false
+        moveUpMenuItem.enabled = false
+        moveDownMenuItem.enabled = false
+        moveSetUpMenuItem.enabled = false
+        moveSetDownMenuItem.enabled = false
+        instancesActiveUntilMenuItem.state = NSOffState
+        instancesActiveUntilMenuItem.enabled = false
+        selectedActionCondition = nil
+        selectedActionConditionLocation = nil
+        actionButton.enabled = false
+    }
+    
+    func enableMenuItems() {
+        deleteSetMenuItem.enabled = true
+        deleteMenuItem.enabled = true
+        moveUpMenuItem.enabled = true
+        moveDownMenuItem.enabled = true
+        moveSetUpMenuItem.enabled = true
+        moveSetDownMenuItem.enabled = true
+        instancesActiveUntilMenuItem.enabled = true
+    }
+    
+    //MARK: Action button menu items
     
     @IBAction func deleteActionMenuClicked(sender : AnyObject) {
         if let s = selectedActionCondition, actionsAttribute = actionsAttribute {

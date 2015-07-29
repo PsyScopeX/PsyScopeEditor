@@ -75,16 +75,19 @@ class PSActionsBuilderCell: NSView, NSTableViewDelegate, NSTableViewDataSource {
     }
     
     
-    func selectActionCondition(index : Int, action : Bool, window : NSWindow) {
-        if action {
+    func selectActionCondition(index : Int, action : Bool, window : NSWindow) -> Bool {
+        if action && self.tableView(actionsTableView, shouldSelectRow: index) {
             actionsTableView.selectRowIndexes(NSIndexSet(index: index), byExtendingSelection: false)
             window.makeFirstResponder(actionsTableView)
             self.tableView(actionsTableView, shouldSelectRow: index)
-        } else {
+            return true
+        } else if self.tableView(conditionsTableView,  shouldSelectRow: index) {
             conditionsTableView.selectRowIndexes(NSIndexSet(index: index), byExtendingSelection: false)
             window.makeFirstResponder(conditionsTableView)
             self.tableView(conditionsTableView, shouldSelectRow: index)
+            return true
         }
+        return false
     }
     
     func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
