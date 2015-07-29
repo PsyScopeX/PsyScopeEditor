@@ -13,12 +13,16 @@ class PSActionsBuilderController : NSObject, NSTableViewDataSource, NSTableViewD
     @IBOutlet var actionsMenu : NSMenu!
     @IBOutlet var actionsTableView : NSTableView!
     @IBOutlet var actionButton : NSPopUpButton!
-    @IBOutlet var deleteButton : NSButton!
     @IBOutlet var addButton : NSButton!
     @IBOutlet var actionsTypePopup : NSPopUpButton!
     @IBOutlet var instancesActiveUntilMenuItem : NSMenuItem!
+    
+    @IBOutlet var deleteSetMenuItem : NSMenuItem!
+    @IBOutlet var deleteMenuItem : NSMenuItem!
     @IBOutlet var moveUpMenuItem : NSMenuItem!
     @IBOutlet var moveDownMenuItem : NSMenuItem!
+    @IBOutlet var moveSetUpMenuItem : NSMenuItem!
+    @IBOutlet var moveSetDownMenuItem : NSMenuItem!
     
     var selectionInterface : PSSelectionInterface!
     var scriptData : PSScriptData!
@@ -43,8 +47,6 @@ class PSActionsBuilderController : NSObject, NSTableViewDataSource, NSTableViewD
 
         //if nothing selected don't allow the pressing of action button
         actionButton.enabled = (selectedActionCondition != nil)
-        deleteButton.enabled = actionsTableView.selectedRow != -1
-
     }
     
     func docMocChanged(notification : NSNotification) {
@@ -185,18 +187,17 @@ class PSActionsBuilderController : NSObject, NSTableViewDataSource, NSTableViewD
     }
     
     
-    func deleteActionCondition(actionCondition : PSEventActionCondition) {
-        if let aa = actionsAttribute, _ = aa.removeActionCondition(actionCondition) {
-            deleteButton.enabled = false //nothing selected when deleted
-        }
-        
-    }
-    
     //MARK: Action button
     
     @IBAction func deleteActionMenuClicked(sender : AnyObject) {
-        if let s = selectedActionCondition {
-            deleteActionCondition(s)
+        if let s = selectedActionCondition, actionsAttribute = actionsAttribute {
+            actionsAttribute.removeActionCondition(s)
+        }
+    }
+    
+    @IBAction func deleteSetMenuClicked(_ : AnyObject) {
+        if let s = selectedActionConditionLocation {
+            actionsAttribute?.removeActionConditionSet(s.index1)
         }
     }
     
@@ -229,17 +230,36 @@ class PSActionsBuilderController : NSObject, NSTableViewDataSource, NSTableViewD
         }
     }
     
+    @IBAction func moveSetUpClicked(_ : AnyObject) {
+        actionsAttribute?.moveSetUp(selectedActionCondition)
+        //update selection
+        if let s = selectedActionConditionLocation {
+            if s.index1 > 0 {
+                selectedActionConditionLocation!.index1--
+            }
+        }
+        
+    }
+    
+    @IBAction func moveSetDownClicked(_ : AnyObject) {
+        if let actionsAttribute = actionsAttribute {
+            actionsAttribute.moveSetDown(selectedActionCondition)
+            //update selection
+            if let s = selectedActionConditionLocation {
+                if s.index1 < actionsAttribute.actionConditionSets.count - 1 {
+                    selectedActionConditionLocation!.index1++
+                }
+            }
+        }
+    }
+    
     //MARK: Add / Delete Button
     
     @IBAction func addActionButton(sender : AnyObject) {
         actionsAttribute?.newActionConditionSet()
         actionsTableView.reloadData()
     }
-    
-    @IBAction func deleteActionButton(sender : AnyObject) {
-        actionsAttribute?.removeActionConditionSet(actionsTableView.selectedRow)
-    }
-    
+
     //MARK: Actions for chosing trial/event actions attribute
     
     @IBAction func eventActionsMenuClicked(_: AnyObject) {

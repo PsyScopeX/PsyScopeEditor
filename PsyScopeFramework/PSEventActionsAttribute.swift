@@ -121,7 +121,7 @@ public class PSEventActionsAttribute : PSStringListElement {
                 }
                 
             }else {
-                if index2 < actionConditionSets[index1].conditions.count - 1 {
+                if index2 > 0 {
                     let action = actionConditionSets[index1].conditions[index2]
                     scriptData.beginUndoGrouping("Move Condition")
                     actionConditionSets[index1].conditions.removeAtIndex(index2)
@@ -163,6 +163,32 @@ public class PSEventActionsAttribute : PSStringListElement {
             return index2
         }
         return -1
+    }
+    
+    public func moveSetUp(actionCondition : PSEventActionCondition?) {
+        guard let actionCondition = actionCondition else { return }
+        if let (index1, _, _) = getIndexesForActionCondition(actionCondition) where
+            index1 > 0 {
+            scriptData.beginUndoGrouping("Move Action Set")
+            let set = actionConditionSets[index1]
+            actionConditionSets.removeAtIndex(index1)
+            actionConditionSets.insert(set, atIndex: index1 - 1)
+            updateAttributeEntry()
+            scriptData.endUndoGrouping()
+        }
+    }
+    
+    public func moveSetDown(actionCondition : PSEventActionCondition?) {
+        guard let actionCondition = actionCondition else { return }
+        if let (index1, _, _) = getIndexesForActionCondition(actionCondition) where
+            index1 < actionConditionSets.count - 1 {
+                scriptData.beginUndoGrouping("Move Action Set")
+                let set = actionConditionSets[index1]
+                actionConditionSets.removeAtIndex(index1)
+                actionConditionSets.insert(set, atIndex: index1 + 1)
+                updateAttributeEntry()
+                scriptData.endUndoGrouping()
+        }
     }
     
     public func appendAction(row : Int, action : PSActionInterface) {

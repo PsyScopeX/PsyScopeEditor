@@ -91,9 +91,9 @@
                     </scroller>
                 </scrollView>
                 <button verticalHuggingPriority="750" id="MF0-IY-7Dd">
-                    <rect key="frame" x="14" y="271" width="109" height="32"/>
+                    <rect key="frame" x="14" y="271" width="181" height="32"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <buttonCell key="cell" type="push" title="Add Action" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="UX5-vv-YJz">
+                    <buttonCell key="cell" type="push" title="Add Action / Condition" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="UX5-vv-YJz">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
                         <connections>
@@ -104,7 +104,7 @@
                 <popUpButton id="Znc-rZ-ih0">
                     <rect key="frame" x="443" y="275" width="47" height="26"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                    <popUpButtonCell key="cell" type="bevel" bezelStyle="regularSquare" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" pullsDown="YES" selectedItem="W1v-5p-FsM" id="dG1-sG-dYo">
+                    <popUpButtonCell key="cell" type="bevel" bezelStyle="regularSquare" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" pullsDown="YES" id="dG1-sG-dYo">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="menu"/>
                         <menu key="menu" id="BWT-RE-hHb">
@@ -119,6 +119,14 @@ CA
                                     <modifierMask key="keyEquivalentModifierMask"/>
                                     <connections>
                                         <action selector="deleteActionMenuClicked:" target="D1K-zi-C4H" id="CHJ-Np-Eri"/>
+                                    </connections>
+                                </menuItem>
+                                <menuItem title="Delete Set" id="rWC-aq-xrG">
+                                    <string key="keyEquivalent" base64-UTF8="YES">
+CA
+</string>
+                                    <connections>
+                                        <action selector="deleteSetMenuClicked:" target="D1K-zi-C4H" id="FYU-IY-l1w"/>
                                     </connections>
                                 </menuItem>
                                 <menuItem title="Instances / Active Until..." keyEquivalent="I" id="D3J-F2-bkX" userLabel="Instances / Active Until...">
@@ -140,21 +148,23 @@ CA
                                         <action selector="moveDownClicked:" target="D1K-zi-C4H" id="d6E-tP-KT1"/>
                                     </connections>
                                 </menuItem>
+                                <menuItem isSeparatorItem="YES" id="64s-iP-j2A"/>
+                                <menuItem title="Move Set Up" keyEquivalent="" id="ehn-7e-CWT">
+                                    <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
+                                    <connections>
+                                        <action selector="moveSetUpClicked:" target="D1K-zi-C4H" id="Xzs-Ku-O1g"/>
+                                    </connections>
+                                </menuItem>
+                                <menuItem title="Move Set Down" keyEquivalent="" id="ho6-8Q-7po">
+                                    <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
+                                    <connections>
+                                        <action selector="moveSetDownClicked:" target="D1K-zi-C4H" id="XBf-Zy-PIP"/>
+                                    </connections>
+                                </menuItem>
                             </items>
                         </menu>
                     </popUpButtonCell>
                 </popUpButton>
-                <button verticalHuggingPriority="750" id="bfp-9B-jJd">
-                    <rect key="frame" x="123" y="271" width="123" height="32"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <buttonCell key="cell" type="push" title="Delete Action" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Yr6-Z9-FfQ">
-                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="system"/>
-                    </buttonCell>
-                    <connections>
-                        <action selector="deleteActionButton:" target="D1K-zi-C4H" id="s1p-90-Qm7"/>
-                    </connections>
-                </button>
                 <popUpButton verticalHuggingPriority="750" id="Icd-VH-sLm">
                     <rect key="frame" x="316" y="275" width="124" height="26"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -193,9 +203,12 @@ CA
                 <outlet property="actionsTableView" destination="2pS-YC-cwD" id="ePa-cA-1ic"/>
                 <outlet property="actionsTypePopup" destination="Icd-VH-sLm" id="19W-uU-8rv"/>
                 <outlet property="addButton" destination="MF0-IY-7Dd" id="lJz-VA-tEO"/>
-                <outlet property="deleteButton" destination="bfp-9B-jJd" id="hkp-mS-bNE"/>
+                <outlet property="deleteMenuItem" destination="27a-DI-h7I" id="wtP-P3-DLq"/>
+                <outlet property="deleteSetMenuItem" destination="rWC-aq-xrG" id="SbI-Ri-m41"/>
                 <outlet property="instancesActiveUntilMenuItem" destination="D3J-F2-bkX" id="2oC-u8-KVf"/>
                 <outlet property="moveDownMenuItem" destination="W1v-5p-FsM" id="Z36-bH-71t"/>
+                <outlet property="moveSetDownMenuItem" destination="ho6-8Q-7po" id="Fgt-1P-egs"/>
+                <outlet property="moveSetUpMenuItem" destination="ehn-7e-CWT" id="6Bx-zx-vSg"/>
                 <outlet property="moveUpMenuItem" destination="2dN-wu-CIn" id="hu5-IR-Em5"/>
             </connections>
         </customObject>
