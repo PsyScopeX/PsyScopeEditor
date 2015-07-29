@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="8164.2" systemVersion="14E46" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="7706"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="8164.2"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="PSTemplateBuilder" customModule="PsyScopeEditor">
@@ -125,7 +125,7 @@
                     <font key="titleFont" metaFont="system"/>
                 </box>
                 <popUpButton verticalHuggingPriority="750" id="Xut-pK-2Iz">
-                    <rect key="frame" x="459" y="456" width="161" height="22"/>
+                    <rect key="frame" x="470" y="454" width="161" height="22"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                     <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="I0n-ho-7AP" id="5Bw-8T-3j7">
                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -143,7 +143,7 @@
                     </connections>
                 </popUpButton>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="yNz-Xl-5j7">
-                    <rect key="frame" x="392" y="461" width="64" height="14"/>
+                    <rect key="frame" x="403" y="459" width="64" height="14"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Template:" id="wbf-Hs-2Gq">
                         <font key="font" metaFont="smallSystem"/>
@@ -152,22 +152,22 @@
                     </textFieldCell>
                 </textField>
                 <splitView dividerStyle="thin" vertical="YES" id="Cv6-Xb-7se">
-                    <rect key="frame" x="0.0" y="0.0" width="637" height="453"/>
+                    <rect key="frame" x="0.0" y="0.0" width="637" height="450"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <subviews>
                         <customView id="fqM-e3-dER">
-                            <rect key="frame" x="0.0" y="0.0" width="120" height="453"/>
+                            <rect key="frame" x="0.0" y="0.0" width="120" height="450"/>
                             <autoresizingMask key="autoresizingMask"/>
                             <subviews>
                                 <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" hasHorizontalScroller="NO" hasVerticalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" verticalScrollElasticity="none" id="xZy-L1-XEA" customClass="PSSynchronizedScroller">
-                                    <rect key="frame" x="0.0" y="0.0" width="120" height="453"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="120" height="450"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <clipView key="contentView" id="lB5-NH-5Lu">
-                                        <rect key="frame" x="0.0" y="0.0" width="120" height="453"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="120" height="450"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <subviews>
                                             <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" id="CEx-ZZ-dpO">
-                                                <rect key="frame" x="0.0" y="0.0" width="120" height="453"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="120" height="450"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <size key="intercellSpacing" width="3" height="2"/>
                                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -230,18 +230,18 @@
                             </subviews>
                         </customView>
                         <customView id="Sny-i9-NDU">
-                            <rect key="frame" x="121" y="0.0" width="516" height="453"/>
+                            <rect key="frame" x="121" y="0.0" width="516" height="450"/>
                             <autoresizingMask key="autoresizingMask"/>
                             <subviews>
                                 <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" verticalScrollElasticity="none" id="79x-A2-KkQ" customClass="PSSynchronizedScroller">
-                                    <rect key="frame" x="0.0" y="0.0" width="516" height="453"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="516" height="450"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <clipView key="contentView" id="BLN-mE-cxP">
-                                        <rect key="frame" x="0.0" y="0.0" width="516" height="453"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="516" height="450"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <subviews>
                                             <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" viewBased="YES" id="pr4-00-8N4" customClass="PSTimeLineTableView" customModule="PsyScopeDefaultPlugins" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="516" height="453"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="516" height="450"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <size key="intercellSpacing" width="3" height="2"/>
                                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -310,7 +310,7 @@
                     </holdingPriorities>
                 </splitView>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="3XT-Og-yb6">
-                    <rect key="frame" x="3" y="461" width="44" height="14"/>
+                    <rect key="frame" x="3" y="459" width="44" height="14"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Zoom:" id="dMT-1s-akJ">
                         <font key="font" metaFont="smallSystem"/>
@@ -319,7 +319,7 @@
                     </textFieldCell>
                 </textField>
                 <segmentedControl verticalHuggingPriority="750" id="qXS-A6-Chw">
-                    <rect key="frame" x="43" y="458" width="71" height="18"/>
+                    <rect key="frame" x="43" y="457" width="71" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <segmentedCell key="cell" controlSize="small" borderStyle="border" alignment="left" style="roundRect" trackingMode="momentary" id="N09-0Q-Xnd">
                         <font key="font" metaFont="smallSystem"/>

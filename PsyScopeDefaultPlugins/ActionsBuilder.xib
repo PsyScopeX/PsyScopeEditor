@@ -170,7 +170,7 @@ CA
                 </popUpButton>
                 <popUpButton verticalHuggingPriority="750" id="Icd-VH-sLm">
                     <rect key="frame" x="316" y="275" width="124" height="26"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                     <popUpButtonCell key="cell" type="push" title="EventActions" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="vpP-Ke-wQ7" id="TYV-45-cYo">
                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="menu"/>
