@@ -13,11 +13,7 @@ class PSLogFileNameController : NSObject {
     var scriptData : PSScriptData! //gets populated by subjectvariablescontroller
     
     func reload() {
-        if let logFile = scriptData.getBaseEntry("Log File") {
-            logFileTextField.stringValue = logFile.currentValue
-        } else {
-            logFileTextField.stringValue = "PsyScope.psylog"
-        }
+        logFileTextField.stringValue = PSGetLogFileName(scriptData)
     }
     
     override func controlTextDidBeginEditing(obj: NSNotification) {
@@ -32,5 +28,13 @@ class PSLogFileNameController : NSObject {
     
     override func controlTextDidEndEditing(obj: NSNotification) {
         scriptData.endUndoGrouping()
+    }
+}
+
+func PSGetLogFileName(scriptData : PSScriptData) -> String {
+    if let logFile = scriptData.getBaseEntry("Log File") {
+        return logFile.currentValue
+    } else {
+        return "PsyScope.psylog"
     }
 }
