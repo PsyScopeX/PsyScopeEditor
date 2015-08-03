@@ -142,7 +142,11 @@ public class PSScriptData : NSObject {
     
     //if tag 1, then re
     public func valueForMenuItem(menuItem : NSMenuItem, original : String) -> String? {
-        if menuItem.title != "Define Value" {
+        if menuItem.title == "Define Value" {
+            return nil
+        } else if menuItem.title == "Enter Formula" {
+            return nil
+        } else {
             if menuItem.tag == 1 {
                 return (menuItem.representedObject as! String)
             } else {
@@ -152,7 +156,7 @@ public class PSScriptData : NSObject {
                 return original
             }
         } 
-        return nil
+        
     }
     
     

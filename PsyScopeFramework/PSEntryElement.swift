@@ -40,6 +40,19 @@ public enum PSEntryElement : Equatable {
     func dump() -> String {
         return self.dumpElement(0)
     }
+    
+    func stringValue() -> String {
+        switch (self) {
+        case .StringToken(let stringElement):
+            return stringElement.quotedValue
+        case .Function(let functionElement):
+            return functionElement.stringValue
+        case .Null:
+            return "NULL"
+        case .List(let listElement):
+            return listElement.stringValue
+        }
+    }
 }
 
 public func ==(a: PSEntryElement, b: PSEntryElement) -> Bool {

@@ -514,6 +514,9 @@
 		1AFC19191B67EC54007083DB /* PSTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFC19181B67EC54007083DB /* PSTextField.swift */; };
 		1AFC191B1B6915F3007083DB /* PSWhiteNSView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFC191A1B6915F3007083DB /* PSWhiteNSView.swift */; };
 		1AFC191D1B692E44007083DB /* PSLogFileNameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFC191C1B692E44007083DB /* PSLogFileNameController.swift */; };
+		1AFC191F1B6F86ED007083DB /* PSEntryValueControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFC191E1B6F86ED007083DB /* PSEntryValueControl.swift */; };
+		1AFC19221B6F8709007083DB /* PSEntryValueControlDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFC19211B6F8709007083DB /* PSEntryValueControlDelegate.swift */; };
+		1AFC19241B6FD875007083DB /* PSFunctionTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFC19231B6FD875007083DB /* PSFunctionTextField.swift */; };
 		1AFC257619C9D06600858812 /* PSExperimentAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFC257519C9D06600858812 /* PSExperimentAttribute.swift */; };
 		1AFC257F19C9F17500858812 /* PSListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFC257E19C9F17500858812 /* PSListViewController.swift */; };
 		1AFC258119C9F1A000858812 /* PSListBuilderWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFC258019C9F1A000858812 /* PSListBuilderWindowController.swift */; };
@@ -1153,6 +1156,9 @@
 		1AFC19181B67EC54007083DB /* PSTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSTextField.swift; sourceTree = "<group>"; };
 		1AFC191A1B6915F3007083DB /* PSWhiteNSView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSWhiteNSView.swift; sourceTree = "<group>"; };
 		1AFC191C1B692E44007083DB /* PSLogFileNameController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSLogFileNameController.swift; sourceTree = "<group>"; };
+		1AFC191E1B6F86ED007083DB /* PSEntryValueControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSEntryValueControl.swift; sourceTree = "<group>"; };
+		1AFC19211B6F8709007083DB /* PSEntryValueControlDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSEntryValueControlDelegate.swift; sourceTree = "<group>"; };
+		1AFC19231B6FD875007083DB /* PSFunctionTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSFunctionTextField.swift; sourceTree = "<group>"; };
 		1AFC257519C9D06600858812 /* PSExperimentAttribute.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSExperimentAttribute.swift; sourceTree = "<group>"; };
 		1AFC257E19C9F17500858812 /* PSListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSListViewController.swift; sourceTree = "<group>"; };
 		1AFC258019C9F1A000858812 /* PSListBuilderWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSListBuilderWindowController.swift; sourceTree = "<group>"; };
@@ -2180,6 +2186,7 @@
 		1A9E5E51198A7C5800312743 /* PsyScopeFramework */ = {
 			isa = PBXGroup;
 			children = (
+				1AFC19201B6F86F7007083DB /* Control */,
 				1A4A646E1B1109E500084A10 /* Group */,
 				1A45C0C71B0103450029EF9F /* SubjectVariable */,
 				1AA0ADD11ADFF5AB009BF2F2 /* Pickers */,
@@ -2516,6 +2523,16 @@
 				1AF33D9F1B4190CB00925F82 /* PSPsyScopeXRunner.swift */,
 			);
 			name = PsyScopeXRunner;
+			sourceTree = "<group>";
+		};
+		1AFC19201B6F86F7007083DB /* Control */ = {
+			isa = PBXGroup;
+			children = (
+				1AFC191E1B6F86ED007083DB /* PSEntryValueControl.swift */,
+				1AFC19211B6F8709007083DB /* PSEntryValueControlDelegate.swift */,
+				1AFC19231B6FD875007083DB /* PSFunctionTextField.swift */,
+			);
+			name = Control;
 			sourceTree = "<group>";
 		};
 		1AFC257919C9F0FC00858812 /* ListBuilder */ = {
@@ -3139,6 +3156,7 @@
 				1A7109FE1A86AFFB00073CB6 /* PSStringList.swift in Sources */,
 				1A710A2E1A86C67C00073CB6 /* PSFontAttributePopUpType.swift in Sources */,
 				1A4A646D1B11008600084A10 /* PSSubjectVariableView.swift in Sources */,
+				1AFC19241B6FD875007083DB /* PSFunctionTextField.swift in Sources */,
 				1A710A3C1A86CF1100073CB6 /* PSAttributePicker.swift in Sources */,
 				1AACB2D11A8F5B22002A9B74 /* PSAttributeParameter_FontAll.swift in Sources */,
 				1A45C0CB1B0107FC0029EF9F /* PSSubjectInformation.swift in Sources */,
@@ -3197,6 +3215,7 @@
 				1A34625A1A892C4500E0D443 /* PSActionCell.swift in Sources */,
 				1A58081F1B1794EE00186E7E /* PSButtonCell.swift in Sources */,
 				1AACB2D91A8F5B79002A9B74 /* PSAttributeParameter_Float.swift in Sources */,
+				1AFC19221B6F8709007083DB /* PSEntryValueControlDelegate.swift in Sources */,
 				1A567B831A8B694400FC9DC9 /* PSExtension.swift in Sources */,
 				1A27042A19A7DE35002AD682 /* Script.xcdatamodeld in Sources */,
 				1AA41FFB1AA9C51000CB8D95 /* PSAttributeParameter_CustomPopup.swift in Sources */,
@@ -3220,6 +3239,7 @@
 				1A5564701B3F26DE00310A7F /* PSActionConditionViewMetaData.swift in Sources */,
 				1AD032851B13CA02002516ED /* PSSubjectVariableDialog.swift in Sources */,
 				1A5C661D1A892805009EED35 /* PSCellView.swift in Sources */,
+				1AFC191F1B6F86ED007083DB /* PSEntryValueControl.swift in Sources */,
 				1AA41FF91AA9C37100CB8D95 /* PSAttributeParameter_Variable.swift in Sources */,
 				1A4CA3A11B62CCDE00CB1BD2 /* PSEntryWindowController.swift in Sources */,
 				1ABD89001AAF26DD00B43779 /* PSPreferences.swift in Sources */,

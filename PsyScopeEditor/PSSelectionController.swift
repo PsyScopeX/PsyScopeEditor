@@ -211,6 +211,13 @@ class PSSelectionController : NSObject, PSSelectionInterface {
                 vary_menu.addItem(tool.constructAttributeSourceSubMenu(scriptData))
             }
         }
+        
+        
+        let enterFormula = NSMenuItem()
+        enterFormula.title = "Enter Formula"
+        enterFormula.keyEquivalent = "f"
+        new_menu.addItem(enterFormula)
+        
         menu = new_menu
     }
     
