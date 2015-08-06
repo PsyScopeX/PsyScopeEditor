@@ -9,7 +9,7 @@
 import Foundation
 
 //
-class PSMainWindowController : NSWindowController {
+class PSMainWindowController : NSWindowController, NSWindowDelegate {
     
     //MARK: Outlets
     @IBOutlet var toolbar : NSToolbar!
@@ -152,4 +152,22 @@ class PSMainWindowController : NSWindowController {
             break
         }
     }
+    
+    //MARK: Custom field editor
+    
+    lazy var customFieldEditor : PSFieldEditor = {
+       let fieldEditor = PSFieldEditor(frame: NSZeroRect)
+        fieldEditor.fieldEditor = true
+        fieldEditor.setup(self.scriptData)
+        return fieldEditor
+    }()
+    
+    func windowWillReturnFieldEditor(sender: NSWindow, toObject client: AnyObject?) -> AnyObject? {
+        if let client = client as? PSFieldEditorProtocol {
+            return customFieldEditor
+        } else {
+            return nil
+        }
+    }
+    
 }

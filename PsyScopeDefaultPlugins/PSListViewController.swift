@@ -1,4 +1,4 @@
-p file//
+//
 //  PSListViewControlller.swift
 //  PsyScopeEditor
 //

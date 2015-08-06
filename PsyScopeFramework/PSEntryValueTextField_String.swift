@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class PSEntryValueTextField_String : NSTextField {
+public class PSEntryValueTextField_String : PSEntryValueTextField {
     
     var controller : PSEntryValueController!
     
