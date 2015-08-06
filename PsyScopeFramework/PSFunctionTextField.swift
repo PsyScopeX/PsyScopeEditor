@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class PSFunctionTextField : NSTextField, NSTextViewDelegate, PSFieldEditorProtocol {
+public class PSFunctionTextField : NSTextField, NSTextViewDelegate {
     
 
     var controller : PSEntryValueController!

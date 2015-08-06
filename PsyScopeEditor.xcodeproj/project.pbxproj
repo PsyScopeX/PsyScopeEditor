@@ -511,7 +511,6 @@
 		1AF964F71B3986A50036219E /* PSQuickFirstResponderTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF964F61B3986A50036219E /* PSQuickFirstResponderTableView.swift */; };
 		1AFADC7B1A1BBB3E0055346D /* PSAttributeEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFADC7A1A1BBB3E0055346D /* PSAttributeEvent.swift */; };
 		1AFADC7D1A1BBCA50055346D /* EventPicker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AFADC7C1A1BBCA50055346D /* EventPicker.xib */; };
-		1AFB0AA21B73BE0E0090C954 /* PSFieldEditorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFB0AA11B73BE0E0090C954 /* PSFieldEditorProtocol.swift */; };
 		1AFB0AA41B73C4EF0090C954 /* PSEntryValueTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFB0AA31B73C4EF0090C954 /* PSEntryValueTextField.swift */; };
 		1AFB0AA61B73C5630090C954 /* PSFieldEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFB0AA51B73C5630090C954 /* PSFieldEditor.swift */; };
 		1AFC19191B67EC54007083DB /* PSTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFC19181B67EC54007083DB /* PSTextField.swift */; };
@@ -1158,7 +1157,6 @@
 		1AF964F61B3986A50036219E /* PSQuickFirstResponderTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSQuickFirstResponderTableView.swift; sourceTree = "<group>"; };
 		1AFADC7A1A1BBB3E0055346D /* PSAttributeEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSAttributeEvent.swift; sourceTree = "<group>"; };
 		1AFADC7C1A1BBCA50055346D /* EventPicker.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EventPicker.xib; sourceTree = "<group>"; };
-		1AFB0AA11B73BE0E0090C954 /* PSFieldEditorProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSFieldEditorProtocol.swift; sourceTree = "<group>"; };
 		1AFB0AA31B73C4EF0090C954 /* PSEntryValueTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSEntryValueTextField.swift; sourceTree = "<group>"; };
 		1AFB0AA51B73C5630090C954 /* PSFieldEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSFieldEditor.swift; sourceTree = "<group>"; };
 		1AFC19181B67EC54007083DB /* PSTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSTextField.swift; sourceTree = "<group>"; };
@@ -2543,7 +2541,6 @@
 				1AFC19231B6FD875007083DB /* PSFunctionTextField.swift */,
 				1AFC19251B700E86007083DB /* PSEntryValueTextField_String.swift */,
 				1AFC19271B70161D007083DB /* PSEntryValueTextField_Path.swift */,
-				1AFB0AA11B73BE0E0090C954 /* PSFieldEditorProtocol.swift */,
 				1AFB0AA31B73C4EF0090C954 /* PSEntryValueTextField.swift */,
 				1AFB0AA51B73C5630090C954 /* PSFieldEditor.swift */,
 			);
@@ -3220,7 +3217,6 @@
 				1A4A64701B1109F300084A10 /* PSGroup.swift in Sources */,
 				1AFC19261B700E86007083DB /* PSEntryValueTextField_String.swift in Sources */,
 				1A710A0E1A86B94B00073CB6 /* PSAttributeParameter_SystemSound.swift in Sources */,
-				1AFB0AA21B73BE0E0090C954 /* PSFieldEditorProtocol.swift in Sources */,
 				1A9263751A94B25800DAFF3A /* PSProperty.swift in Sources */,
 				1A7E93391B1CC12C00498D2E /* PSAttributePopup.swift in Sources */,
 				1A811C231AC37C83000B44CE /* PSEntryValueParser.swift in Sources */,

@@ -12,12 +12,16 @@ public class PSFieldEditor : NSTextView {
     var scriptData : PSScriptData!
     
     override public func menuForEvent(event: NSEvent) -> NSMenu? {
-        return scriptData.getVaryByMenu(self, action: "optionPressed:")
+        return self.menu
     }
     
     override public var menu : NSMenu? {
         get {
-            return scriptData.getVaryByMenu(self, action: "optionPressed:")
+            if let entryValueTextField = self.delegate as? PSEntryValueTextField {
+                return scriptData.getVaryByMenu(entryValueTextField, action: "menuItemClicked:")
+            } else {
+                fatalError("Incorrect field editor used - should only be for PSEveryValueTextField and subclasses")
+            }
         }
         
         set {

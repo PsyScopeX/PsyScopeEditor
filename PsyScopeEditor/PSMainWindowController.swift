@@ -163,7 +163,7 @@ class PSMainWindowController : NSWindowController, NSWindowDelegate {
     }()
     
     func windowWillReturnFieldEditor(sender: NSWindow, toObject client: AnyObject?) -> AnyObject? {
-        if let client = client as? PSFieldEditorProtocol {
+        if let client = client as? PSEntryValueTextField {
             return customFieldEditor
         } else {
             return nil
