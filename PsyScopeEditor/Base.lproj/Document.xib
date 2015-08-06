@@ -86,7 +86,7 @@
                                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                     <subviews>
                                                                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="1000" viewBased="YES" id="ipA-6F-Snl" customClass="PSToolBrowserView" customModule="PsyScopeEditor" customModuleProvider="target">
-                                                                                            <rect key="frame" x="0.0" y="0.0" width="231" height="407"/>
+                                                                                            <rect key="frame" x="0.0" y="0.0" width="231" height="0.0"/>
                                                                                             <autoresizingMask key="autoresizingMask"/>
                                                                                             <size key="intercellSpacing" width="3" height="2"/>
                                                                                             <color key="backgroundColor" red="0.85882352941176465" green="0.85882352941176465" blue="0.85882352941176465" alpha="1" colorSpace="calibratedRGB"/>
@@ -116,7 +116,7 @@
                                                                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                                 </clipView>
                                                                                 <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="fku-rb-YuV">
-                                                                                    <rect key="frame" x="1" y="118.86240518093109" width="237.5" height="15"/>
+                                                                                    <rect key="frame" x="1" y="119" width="237.5" height="15"/>
                                                                                     <autoresizingMask key="autoresizingMask"/>
                                                                                 </scroller>
                                                                                 <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="0pJ-N2-pXU">

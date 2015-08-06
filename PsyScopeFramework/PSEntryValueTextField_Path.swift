@@ -10,12 +10,7 @@ import Foundation
 
 public class PSEntryValueTextField_Path : PSEntryValueTextField {
     
-    var controller : PSEntryValueController!
-
     
-    public func setup(delegate : PSEntryValueControllerDelegate) {
-        controller = PSEntryValueController(mainControl: self, delegate: delegate)
-    }
     
     //accepts input of a file ref (or other kind of function)
     override public var stringValue : String {
@@ -35,16 +30,6 @@ public class PSEntryValueTextField_Path : PSEntryValueTextField {
                 superStringValue = newValue
                 controller.stringValue = newValue
             }
-        }
-    }
-    
-    public var superStringValue : String {
-        get {
-            return super.stringValue
-        }
-        
-        set {
-            super.stringValue = newValue
         }
     }
     

@@ -196,10 +196,18 @@ class PSSelectionController : NSObject, PSSelectionInterface {
         define.title = "Define Value"
         define.keyEquivalent = "d"
         define.tag = 1
+        
+        let enterFormula = NSMenuItem()
+        enterFormula.title = "Enter Formula"
+        enterFormula.keyEquivalent = "f"
+        enterFormula.tag = 2
+        
         let vary = NSMenuItem()
         vary.title = "Vary value"
         vary.keyEquivalent = "v"
+        
         new_menu.addItem(define)
+        new_menu.addItem(enterFormula)
         new_menu.addItem(vary)
         
         let vary_menu = NSMenu()
@@ -213,10 +221,7 @@ class PSSelectionController : NSObject, PSSelectionInterface {
         }
         
         
-        let enterFormula = NSMenuItem()
-        enterFormula.title = "Enter Formula"
-        enterFormula.keyEquivalent = "f"
-        new_menu.addItem(enterFormula)
+        
         
         menu = new_menu
     }

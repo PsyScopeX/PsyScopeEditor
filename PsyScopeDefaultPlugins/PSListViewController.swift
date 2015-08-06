@@ -42,7 +42,6 @@ class PSListViewController : PSToolPropertyController, NSWindowDelegate, PSEntry
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        fileText.setup(self)
         
         if !firstParse {
             parseList()

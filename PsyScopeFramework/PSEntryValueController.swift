@@ -81,6 +81,7 @@ public class PSEntryValueController : NSObject, NSTextFieldDelegate {
             superview.addSubview(functionTextField)
             functionTextField.frame = mainControl.frame
             functionTextField.delegate = self
+            functionTextField.textColor = NSColor.redColor()
             functionTextField.setupContextMenu(self, action: "varyByMenuCommandClicked:", scriptData: scriptData, controller: self)
         }
         
