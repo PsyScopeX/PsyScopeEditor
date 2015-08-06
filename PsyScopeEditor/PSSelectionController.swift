@@ -220,9 +220,6 @@ class PSSelectionController : NSObject, PSSelectionInterface {
             }
         }
         
-        
-        
-        
         menu = new_menu
     }
     

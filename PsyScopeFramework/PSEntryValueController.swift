@@ -34,6 +34,7 @@ public class PSEntryValueController : NSObject, NSTextFieldDelegate {
         }
         
         set {
+            _entryElement = newValue
             switch (newValue) {
             case .Function(_):
                 hideMainControlDisplayFunctionTextField()
