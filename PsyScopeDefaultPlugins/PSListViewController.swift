@@ -1,4 +1,4 @@
-//
+p file//
 //  PSListViewControlller.swift
 //  PsyScopeEditor
 //
@@ -9,13 +9,13 @@ import Foundation
 
 
 
-class PSListViewController : PSToolPropertyController, NSWindowDelegate {
+class PSListViewController : PSToolPropertyController, NSWindowDelegate, PSEntryValueControllerDelegate {
     
     @IBOutlet var typePopup : NSPopUpButton!
     @IBOutlet var orderPopup : NSPopUpButton!
     @IBOutlet var offsetText : NSTextField!
     @IBOutlet var gripText : NSTextField!
-    @IBOutlet var fileText : NSTextField!
+    @IBOutlet var fileText : PSEntryValueTextField_Path!
     @IBOutlet var fileButton : NSButton!
     @IBOutlet var editListButton : NSButton!
     
@@ -42,10 +42,22 @@ class PSListViewController : PSToolPropertyController, NSWindowDelegate {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        fileText.setup(self)
         
         if !firstParse {
             parseList()
         }
+        
+        
+    }
+    
+    func control(controlShouldEndEditing: PSEntryValueController) -> Bool {
+        updateEntry()
+        return true
+    }
+    
+    func getScriptData() -> PSScriptData {
+        return self.scriptData
     }
     
     override func refresh() {
@@ -55,12 +67,12 @@ class PSListViewController : PSToolPropertyController, NSWindowDelegate {
     
     func parseList() {
         //determine type of list
-        if let file_attrib = scriptData.getSubEntry("ListFile", entry: entry) {
+        if let listFile = scriptData.getSubEntry("ListFile", entry: entry) {
             listType = .FileType
             typePopup.selectItemWithTitle("File list")
             fileText.enabled = true
             fileButton.enabled = true
-            fileText.stringValue = PSScriptFile.PathFromFileRef(file_attrib.currentValue, scriptData: scriptData)
+            fileText.stringValue = listFile.currentValue
         } else {
             listType = .NormalType
             typePopup.selectItemWithTitle("Regular list")
@@ -130,7 +142,7 @@ class PSListViewController : PSToolPropertyController, NSWindowDelegate {
                 let fileList = PSFileList(entry: self.entry, scriptData: self.scriptData)
                 fileList.filePath = path as String
                 self.scriptData.endUndoGrouping(true)
-                self.updateEntry()
+                
             }
             return
         })

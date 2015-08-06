@@ -9,27 +9,40 @@
 import Foundation
 
 public class PSScriptFile : NSObject {
-    public class func FileRefFromPath(path : String, scriptData : PSScriptData) -> String {
-        if let docPath = scriptData.documentDirectory() {
-            let pspath = PSPath(path, basePath: docPath)
+    public class func FileRefFromPath(path : String, scriptData : PSScriptData) -> String? {
+        if let docPath = scriptData.documentDirectory(),
+            pspath = PSPath(path, basePath: docPath) {
             return "FileRef(\"\(pspath)\")"
         } else {
-            return ""
+            return nil
         }
     }
     
-    public class func PathFromFileRef(fileref : String, scriptData : PSScriptData) -> String {
-        let range = fileref.rangeOfString("FileRef", options: NSStringCompareOptions.CaseInsensitiveSearch)
-        var path = fileref
-        if let r = range {
-            path.removeRange(r)
+    public class func PathFromFileRef(fileref : String, scriptData : PSScriptData) -> String? {
+        
+        //should be fileref function nothing else
+        
+        let function = PSFunctionElement()
+        function.stringValue = fileref
+        
+        //check function is named fileref
+        if function.functionName == "FileRef" {
+            
+            //check there are no other functions contained within
+            for value in function.values {
+                if case .Function = value {
+                    return nil
+                }
+            }
+            var path = function.getParametersStringValue()
+            path = path.stringByTrimmingCharactersInSet(NSCharacterSet(charactersInString: "\" ()"))
+            if scriptData.alertIfNoValidDocumentDirectory() {
+                if let docPath = scriptData.documentDirectory() {
+                    return PSStandardPath(path, basePath: docPath)
+                }
+            }
         }
-        path = path.stringByTrimmingCharactersInSet(NSCharacterSet(charactersInString: "\" ()"))
-        if scriptData.alertIfNoValidDocumentDirectory() {
-            let docPath = scriptData.documentDirectory()!
-            return PSStandardPath(path, basePath: docPath)
-        } else {
-            return ""
-        }
+        
+        return nil
     }
 }

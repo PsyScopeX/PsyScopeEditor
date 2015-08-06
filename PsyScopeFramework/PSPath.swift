@@ -8,8 +8,15 @@
 
 import Foundation
 
-public func PSPath(absolutePath : String, basePath : String) -> String {
+public func PSPath(absolutePath : String, basePath : String) -> String? {
     var relPath = relativePath(absolutePath, basePath: basePath)
+    
+    //check for illegal characters
+    let illegalCharacters = NSCharacterSet(charactersInString: ":?%*|\"<>{}[]()")
+    if absolutePath.rangeOfCharacterFromSet(illegalCharacters) != nil ||
+        basePath.rangeOfCharacterFromSet(illegalCharacters) != nil {
+            return nil
+    }
     
     //relative: ":deleteme:delete:untitled text.txt"
     //one level below relativee "::james.jks:"
@@ -26,9 +33,18 @@ public func PSPath(absolutePath : String, basePath : String) -> String {
     return psyPath
 }
 
-public func PSStandardPath(psPath : String, basePath : String) -> String {
+public func PSStandardPath(psPath : String, basePath : String) -> String? {
+    
+    //check for illegal characters
+    let psillegalCharacters = NSCharacterSet(charactersInString: "/\\?%*|\"<>{}[]()")
+    let illegalCharacters = NSCharacterSet(charactersInString: ":?%*|\"<>{}[]()")
+    if psPath.rangeOfCharacterFromSet(psillegalCharacters) != nil ||
+        basePath.rangeOfCharacterFromSet(illegalCharacters) != nil {
+            return nil
+    }
+    
+    
     if psPath == "" { return basePath }
-    _ = psPath.componentsSeparatedByString("@")
     var absolutePath : String = basePath
     
     let scanner = NSScanner(string: psPath)

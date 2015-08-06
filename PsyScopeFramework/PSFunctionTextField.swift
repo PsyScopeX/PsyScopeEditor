@@ -11,14 +11,20 @@ import Foundation
 public class PSFunctionTextField : NSTextField, NSTextViewDelegate {
     
 
+    var controller : PSEntryValueController!
     var scriptData : PSScriptData!
     var menuTarget : AnyObject!
     var menuAction : Selector!
     
-    func setupContextMenu(target: AnyObject, action: Selector, scriptData: PSScriptData) {
+    func setupContextMenu(target: AnyObject, action: Selector, scriptData: PSScriptData, controller : PSEntryValueController) {
         self.scriptData = scriptData
         menuTarget = target
         menuAction = action
+        self.controller = controller
+    }
+    
+    public func update() {
+        self.stringValue = controller.stringValue
     }
     
     override public var menu : NSMenu? {

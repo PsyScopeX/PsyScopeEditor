@@ -8,9 +8,23 @@
 
 import Foundation
 
-public class PSEntryValueControl : NSView, NSTextFieldDelegate {
-    @IBOutlet var mainControl : NSControl!
-    @IBOutlet var delegate : PSEntryValueControlDelegate!
+public class PSEntryValueController : NSObject, NSTextFieldDelegate {
+    
+    
+    let mainControl : NSControl
+    let delegate : PSEntryValueControllerDelegate
+    public let scriptData : PSScriptData
+    public enum Mode { case MainControl, Function }
+    public var mode : Mode
+    
+    public init(mainControl : NSControl, delegate : PSEntryValueControllerDelegate) {
+        self.mainControl = mainControl
+        self.delegate = delegate
+        self.scriptData = delegate.getScriptData()
+        self.mode = .MainControl
+        super.init()
+    }
+    
     private var _entryElement : PSEntryElement = .Null
     private lazy var functionTextField : PSFunctionTextField = PSFunctionTextField()
     
@@ -21,21 +35,25 @@ public class PSEntryValueControl : NSView, NSTextFieldDelegate {
         
         set {
             switch (newValue) {
-            case let .Function(functionElement):
+            case .Function(_):
+                hideMainControlDisplayFunctionTextField()
                 break
-            case let .StringToken(stringValue):
+            case .StringToken(_):
+                displayMainControlHideFunctionTextField()
                 break
-            case let .List(listElement):
+            case .List(_):
+                hideMainControlDisplayFunctionTextField()
                 break
             case .Null:
+                displayMainControlHideFunctionTextField()
                 break
             }
         }
     }
     
     public func varyByMenuCommandClicked(menuItem : NSMenuItem) {
-        if let val = delegate.scriptData().valueForMenuItem(menuItem, original: self.stringValue) {
-            
+        if let val = scriptData.valueForMenuItem(menuItem, original: self.stringValue) {
+            print(val)
         } else {
             //either define value or enter formula
             if menuItem.title == "Define Value" {
@@ -47,20 +65,33 @@ public class PSEntryValueControl : NSView, NSTextFieldDelegate {
     }
 
     public func displayMainControlHideFunctionTextField() {
-        
+        mainControl.hidden = false
+        mainControl.enabled = true
+        functionTextField.hidden = true
+        functionTextField.enabled = false
+        if mode == .Function {
+            mainControl.stringValue = self.stringValue
+            mode = .MainControl
+        }
     }
         
     public func hideMainControlDisplayFunctionTextField() {
-        mainControl.hidden = true
-        mainControl.enabled = false
-        if let superview = superview where functionTextField.superview != superview {
+        
+        if let superview = mainControl.superview where functionTextField.superview != superview {
             superview.addSubview(functionTextField)
             functionTextField.frame = mainControl.frame
             functionTextField.delegate = self
-            functionTextField.setupContextMenu(self, action: "varyByMenuCommandClicked:", scriptData: delegate.scriptData())
+            functionTextField.setupContextMenu(self, action: "varyByMenuCommandClicked:", scriptData: scriptData, controller: self)
         }
+        
+        mainControl.hidden = true
+        mainControl.enabled = false
         functionTextField.hidden = false
         functionTextField.enabled = true
+        if mode == .MainControl {
+            functionTextField.stringValue = self.stringValue
+            mode = .Function
+        }
     }
 
 
@@ -80,6 +111,8 @@ public class PSEntryValueControl : NSView, NSTextFieldDelegate {
                 } else {
                     fatalError()
                 }
+            } else if parsedList.values.count == 0 {
+                entryElement = .Null
             } else {
                 entryElement = parsedList.listElement
             }
@@ -94,7 +127,8 @@ public class PSEntryValueControl : NSView, NSTextFieldDelegate {
                 NSBeep()
                 return false
             } else {
-                return true
+                
+                return delegate.control(self)
             }
         }
         return true

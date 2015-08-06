@@ -20,8 +20,10 @@ class PSFileList {
     
     var filePath : String {
         get {
-            if let fileListEntry = scriptData.getSubEntry("ListFile", entry: entry) {
-                return PSScriptFile.PathFromFileRef(fileListEntry.currentValue, scriptData: scriptData)
+            if let fileListEntry = scriptData.getSubEntry("ListFile", entry: entry),
+                path = PSScriptFile.PathFromFileRef(fileListEntry.currentValue, scriptData: scriptData) {
+                
+                return path
             } else {
                 return ""
             }
@@ -29,7 +31,11 @@ class PSFileList {
         set {
             if "" != newValue {
                 let fileListEntry = scriptData.getOrCreateSubEntry("ListFile", entry: entry, isProperty: true)
-                fileListEntry.currentValue = PSScriptFile.FileRefFromPath(newValue, scriptData: scriptData)
+                if let path = PSScriptFile.FileRefFromPath(newValue, scriptData: scriptData) {
+                    fileListEntry.currentValue = path
+                } else {
+                    fileListEntry.currentValue = newValue
+                }
             } else {
                 scriptData.deleteNamedSubEntryFromParentEntry(entry, name: "ListFile")
             }
