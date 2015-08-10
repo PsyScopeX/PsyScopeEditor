@@ -86,3 +86,15 @@ class PSExperimentDecimalPlaces : PSExperimentAttribute {
         defaultValueString = PSDefaultConstants.DefaultAttributeValues.PSExperimentDecimalPlaces
     }
 }
+
+class PSAttribute_ExperimentPrecompile : PSExperimentAttribute {
+    override init() {
+        super.init()
+        userFriendlyNameString = "Precompile"
+        helpfulDescriptionString = "Make the experiment precompile trials - useful if trials require long loading (but can cause issues with complicated designs)"
+        codeNameString = "Precompile"
+        attributeClass = PSAttributeParameter_Precompile.self
+        defaultValueString = PSDefaultConstants.DefaultAttributeValues.PSExperimentDecimalPlaces
+
+    }
+}

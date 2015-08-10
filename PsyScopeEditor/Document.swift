@@ -34,7 +34,7 @@ class Document: NSPersistentDocument {
     }
     
     override func readFromURL(absoluteURL: NSURL!, ofType typeName: String!) throws {
-        
+        print("read from url")
         if typeName == "DocumentType" {
             try super.readFromURL(absoluteURL, ofType: typeName)
         } else if let path = absoluteURL {

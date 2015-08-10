@@ -46,6 +46,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func applicationWillFinishLaunching(notification: NSNotification) {
+        print("Will finish launching")
     }
     
     
