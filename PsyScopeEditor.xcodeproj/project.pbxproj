@@ -406,6 +406,7 @@
 		1AADBC221AD73EBB0004999D /* PsyScopeFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A9E5E50198A7C5800312743 /* PsyScopeFramework.framework */; };
 		1AAE1FA31B78FB3C00F72E8D /* PSAttributeParameter_Precompile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AAE1FA21B78FB3C00F72E8D /* PSAttributeParameter_Precompile.swift */; };
 		1AAE1FA51B7B6B0400F72E8D /* PSAttribute_ExperimentInputDevices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AAE1FA41B7B6B0400F72E8D /* PSAttribute_ExperimentInputDevices.swift */; };
+		1AAE1FAB1B7BCF6700F72E8D /* PsyScopeX.zip in Resources */ = {isa = PBXBuildFile; fileRef = 1AAE1FAA1B7BCF6700F72E8D /* PsyScopeX.zip */; };
 		1AAF5FE51AB0BA3300AA1DC4 /* PSScriptErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AAF5FE41AB0BA3300AA1DC4 /* PSScriptErrors.swift */; };
 		1AB2590919BD9A6900640BF4 /* PSTemplateLayoutBoardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB2590819BD9A6900640BF4 /* PSTemplateLayoutBoardController.swift */; };
 		1ABA533819C4B079000B8171 /* PSEventStringParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABA533719C4B079000B8171 /* PSEventStringParser.swift */; };
@@ -642,15 +643,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				1A24499A19F5AF18004C1C40 /* PsyScopeFramework.framework in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		1AFFEF2119ED5EE300061066 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 0;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1055,6 +1047,7 @@
 		1AADBC231AD73FDA0004999D /* PsyScopeEditorTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PsyScopeEditorTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		1AAE1FA21B78FB3C00F72E8D /* PSAttributeParameter_Precompile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSAttributeParameter_Precompile.swift; sourceTree = "<group>"; };
 		1AAE1FA41B7B6B0400F72E8D /* PSAttribute_ExperimentInputDevices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSAttribute_ExperimentInputDevices.swift; sourceTree = "<group>"; };
+		1AAE1FAA1B7BCF6700F72E8D /* PsyScopeX.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = PsyScopeX.zip; sourceTree = "<group>"; };
 		1AAF5FE41AB0BA3300AA1DC4 /* PSScriptErrors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSScriptErrors.swift; sourceTree = "<group>"; };
 		1AB2590819BD9A6900640BF4 /* PSTemplateLayoutBoardController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSTemplateLayoutBoardController.swift; sourceTree = "<group>"; };
 		1ABA533719C4B079000B8171 /* PSEventStringParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSEventStringParser.swift; sourceTree = "<group>"; };
@@ -2125,6 +2118,7 @@
 		1A94B08F1981488900DADC59 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				1AAE1FAA1B7BCF6700F72E8D /* PsyScopeX.zip */,
 				1AC0827C19701F2F0038512B /* Images.xcassets */,
 				1ABE80D119E4436E00B62B8E /* CoreDataExtensions.swift */,
 				1A2FBE3719757B2700F5FFB5 /* PsyScopeEditor-Bridging-Header.h */,
@@ -2679,7 +2673,7 @@
 				1AC0826B19701F2F0038512B /* Resources */,
 				1A2FBE5519759FAA00F5FFB5 /* CopyFiles */,
 				1A58872419A66ECF00AF2109 /* CopyFiles */,
-				1AFFEF2119ED5EE300061066 /* CopyFiles */,
+				1AAE1FA91B7BC79500F72E8D /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -2922,6 +2916,7 @@
 				1AC977A41AC1D29C00E9E2D7 /* DefaultPropertiesView.xib in Resources */,
 				1AC0827D19701F2F0038512B /* Images.xcassets in Resources */,
 				1AC0828019701F2F0038512B /* MainMenu.xib in Resources */,
+				1AAE1FAB1B7BCF6700F72E8D /* PsyScopeX.zip in Resources */,
 				1A5C660D1A88C04A009EED35 /* ActionConditionView.xib in Resources */,
 				1A92636B1A93664F00DAFF3A /* ImportFilesAs.xib in Resources */,
 				81BFFA3C1A2336C200C1F22F /* Template-icon-128-0.TIF in Resources */,
@@ -2941,6 +2936,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1AAE1FA91B7BC79500F72E8D /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "echo \"Unzipping PsyScopeX default version into ${TARGET_BUILD_DIR}/\"\nunzip ${TARGET_BUILD_DIR}/PsyScopeEditor.app/Contents/Resources/PsyScopeX.zip\n\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1A2FBE471975827300F5FFB5 /* Sources */ = {
