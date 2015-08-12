@@ -46,6 +46,7 @@ class DefaultPlugins: NSObject, PSPluginInterface {
                     "PSAttribute_ExperimentPrecompile",
                     "PSAttribute_ExperimentDefaultColour",
                     "PSAttribute_ExperimentBackColour",
+                    "PSAttribute_ExperimentInputDevices",
                     "PSAttribute_Port",
                     "PSAttribute_Position",
                     "PSAttribute_TextStimulus",

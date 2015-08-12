@@ -59,6 +59,7 @@ class PSDefaultConstants {
     
     struct DefaultAttributeValues {
         //Basic attributes
+        static let PSExperimentInputDevices = "Mouse Key"
         static let PSExperimentBackColour = "White"
         static let PSExperimentDefaultColour = "Black"
         static let PSExperimentPrecompile = "All"
