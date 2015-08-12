@@ -50,7 +50,7 @@ class PSPsyScopeXRunner : NSObject {
         
         //check for existence of psyscope x
         guard let launchPath = executablePath where launchPath != "" else {
-            PSModalAlert("You need to set the path for PsyScopeX in the Preferences before continuing")
+            PSModalAlert("You need to set the path for PsyScopeX in the Preferences before continuing.  It may need to be refreshed, if you have moved the application.  To do this, go to Preferences, then click the button to reset it to the default internal copy of PsyScopeX")
             return
         }
         
