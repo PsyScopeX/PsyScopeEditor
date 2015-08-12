@@ -2949,7 +2949,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "echo \"Unzipping PsyScopeX default version into ${TARGET_BUILD_DIR}/\"\nunzip ${TARGET_BUILD_DIR}/PsyScopeEditor.app/Contents/Resources/PsyScopeX.zip\n\n";
+			shellScript = "echo \"Unzipping PsyScopeX default version into ${TARGET_BUILD_DIR}/\"\nunzip -o ${TARGET_BUILD_DIR}/PsyScopeEditor.app/Contents/Resources/PsyScopeX.zip\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

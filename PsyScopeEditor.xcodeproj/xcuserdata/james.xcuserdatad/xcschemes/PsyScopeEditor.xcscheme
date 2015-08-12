@@ -81,7 +81,7 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
-      ignoresPersistentStateOnLaunch = "NO"
+      ignoresPersistentStateOnLaunch = "YES"
       debugDocumentVersioning = "YES"
       debugXPCServices = "NO"
       debugServiceExtension = "internal"
