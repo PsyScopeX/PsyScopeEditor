@@ -27,6 +27,10 @@ class PSCondition_Key : PSCondition {
         let image : NSImage = NSImage(contentsOfFile: NSBundle(forClass:self.dynamicType).pathForImageResource("Key")!)!
         return image
     }
+    
+    override func isInputDevice() -> Bool {
+        return true
+    }
 }
 
 class PSCondition_Key_Popup : PSAttributePopup, NSTableViewDelegate, NSTableViewDataSource, NSTextFieldDelegate, NSMenuDelegate {

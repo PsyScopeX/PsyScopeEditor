@@ -24,6 +24,10 @@ class PSCondition_TCP : PSCondition {
         let image : NSImage = NSImage(contentsOfFile: NSBundle(forClass:self.dynamicType).pathForImageResource("MouseClick")!)!
         return image
     }
+    
+    override func isInputDevice() -> Bool {
+        return true
+    }
 }
 
 class PSCondition_TCP_Popup : PSAttributePopup, NSTextFieldDelegate, NSMenuDelegate {

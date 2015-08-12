@@ -25,6 +25,10 @@ class PSCondition_SysCmd : PSCondition {
         let image : NSImage = NSImage(contentsOfFile: NSBundle(forClass:self.dynamicType).pathForImageResource("MouseClick")!)!
         return image
     }
+    
+    override func isInputDevice() -> Bool {
+        return true
+    }
 }
 
 class PSCondition_SysCmd_Popup : PSAttributePopup, NSTextFieldDelegate, NSMenuDelegate {

@@ -27,6 +27,10 @@ class PSCondition_TobiiPlus : PSCondition {
         let image : NSImage = NSImage(contentsOfFile: NSBundle(forClass:self.dynamicType).pathForImageResource("MouseClick")!)!
         return image
     }
+    
+    override func isInputDevice() -> Bool {
+        return true
+    }
 }
 
 class PSCondition_TobiiPlusCell : PSConditionCell {

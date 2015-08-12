@@ -38,7 +38,6 @@ class PSCondition : NSObject, PSConditionInterface {
         return nil
     }
     
-    
     func conditionCellInterface() -> AnyObject! {
         return nil
     }
@@ -49,5 +48,9 @@ class PSCondition : NSObject, PSConditionInterface {
     
     func expandedCellHeight() -> CGFloat {
         return expandedHeight
+    }
+    
+    func isInputDevice() -> Bool {
+        return false
     }
 }

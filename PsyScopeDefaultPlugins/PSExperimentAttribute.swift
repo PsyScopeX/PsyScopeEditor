@@ -98,3 +98,28 @@ class PSAttribute_ExperimentPrecompile : PSExperimentAttribute {
 
     }
 }
+
+
+class PSAttribute_ExperimentDefaultColour : PSExperimentAttribute {
+    override init() {
+        super.init()
+        userFriendlyNameString = "Default Color"
+        helpfulDescriptionString = "The default color used to draw text etc"
+        codeNameString = "DefaultColor"
+        attributeClass = PSAttributeParameter_Color.self
+        defaultValueString = PSDefaultConstants.DefaultAttributeValues.PSExperimentDefaultColour
+        
+    }
+}
+
+class PSAttribute_ExperimentBackColour : PSExperimentAttribute {
+    override init() {
+        super.init()
+        userFriendlyNameString = "Background Color"
+        helpfulDescriptionString = "The default color used to draw text etc"
+        codeNameString = "BackColor"
+        attributeClass = PSAttributeParameter_Color.self
+        defaultValueString = PSDefaultConstants.DefaultAttributeValues.PSExperimentBackColour
+        
+    }
+}

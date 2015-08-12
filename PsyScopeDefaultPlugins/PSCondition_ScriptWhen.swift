@@ -27,6 +27,10 @@ class PSCondition_ScriptWhen : PSCondition {
         let image : NSImage = NSImage(contentsOfFile: NSBundle(forClass:self.dynamicType).pathForImageResource("MouseClick")!)!
         return image
     }
+    
+    override func isInputDevice() -> Bool {
+        return true
+    }
 }
 
 class PSCondition_ScriptWhenCell : PSConditionCell, NSTextFieldDelegate {

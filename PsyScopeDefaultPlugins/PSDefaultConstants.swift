@@ -59,6 +59,9 @@ class PSDefaultConstants {
     
     struct DefaultAttributeValues {
         //Basic attributes
+        static let PSExperimentBackColour = "White"
+        static let PSExperimentDefaultColour = "Black"
+        static let PSExperimentPrecompile = "All"
         static let PSExperimentDataFields = ""
         static let PSExperimentInstructions = ""
         static let PSExperimentLogFile = ""

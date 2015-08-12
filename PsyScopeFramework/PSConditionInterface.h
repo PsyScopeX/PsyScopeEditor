@@ -20,11 +20,14 @@
 - (NSString*)helpfulDescription;
 
 //return an icon for the tool
--(NSImage*)icon;
+- (NSImage*)icon;
 
--(NSNib*)nib;
+- (NSNib*)nib;
 
 //returns height of the cell when expanded
 - (CGFloat)expandedCellHeight;
+
+//determines if condition is an input device
+- (bool)isInputDevice;
 
 @end
