@@ -22,8 +22,13 @@ class Document: NSPersistentDocument {
     //MARK: Initialization
     
     func setupInitialState() {
-        self.isNewDocument = true
-        if self.mainWindowController.initialized { scriptData.setUpInitialScriptState() }
+        
+        if let scriptData = scriptData where self.mainWindowController.initialized {
+            scriptData.setUpInitialScriptState()
+            self.isNewDocument = false
+        } else {
+            self.isNewDocument = true
+        }
     }
     
     //MARK: NSDocument Overrides
