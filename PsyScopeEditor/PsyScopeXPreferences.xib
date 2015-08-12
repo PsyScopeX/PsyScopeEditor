@@ -46,11 +46,21 @@
                     </connections>
                 </button>
                 <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hQP-hk-X0u">
-                    <rect key="frame" x="18" y="94" width="287" height="18"/>
+                    <rect key="frame" x="18" y="19" width="287" height="18"/>
                     <buttonCell key="cell" type="check" title="Convert data file and log file to text format." bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="ajh-1f-Sp6">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
+                </button>
+                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kS4-78-7Am">
+                    <rect key="frame" x="14" y="104" width="170" height="32"/>
+                    <buttonCell key="cell" type="push" title="Reset to default" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="HuJ-p5-6KO">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="resetToDefaultButtonClicked:" target="-2" id="s7x-wY-xjA"/>
+                    </connections>
                 </button>
             </subviews>
             <point key="canvasLocation" x="249" y="226.5"/>

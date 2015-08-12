@@ -38,4 +38,8 @@ class PSPsyScopeXPreferences : NSViewController, MASPreferencesViewController {
         })
     }
     
+    @IBAction func resetToDefaultButtonClicked(_:NSButton) {
+        NSUserDefaults.standardUserDefaults().setObject(PSPreferences.psyScopeXPath.defaultValue as! String, forKey: "psyScopeXPath")
+    }
+    
 }

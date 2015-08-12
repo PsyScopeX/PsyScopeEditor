@@ -21,6 +21,6 @@ class PSDocumentController: NSDocumentController {
     
     override func openDocumentWithContentsOfURL(url: NSURL, display displayDocument: Bool, completionHandler: (NSDocument?, Bool, NSError?) -> Void) {
         print("Open document with contents of url")
-        try super.openDocumentWithContentsOfURL(url, display: displayDocument, completionHandler: completionHandler)
+        super.openDocumentWithContentsOfURL(url, display: displayDocument, completionHandler: completionHandler)
     }
 }

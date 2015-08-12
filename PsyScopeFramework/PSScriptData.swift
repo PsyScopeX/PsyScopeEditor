@@ -107,7 +107,7 @@ public class PSScriptData : NSObject {
         if let _ = documentDirectory() {
             return true
         } else {
-            PSModalAlert("You need to save the document before storing file names")
+            PSModalAlert("You need to save the document before running or storing file names")
         }
         return false
     }
