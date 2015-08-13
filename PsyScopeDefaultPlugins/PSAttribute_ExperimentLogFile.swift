@@ -14,7 +14,7 @@ class PSAttribute_ExperimentLogFile : PSExperimentAttribute {
         super.init()
         userFriendlyNameString = "Log File"
         helpfulDescriptionString = "A location to store the log file"
-        codeNameString = "LogFile"
+        codeNameString = "Log File"
         attributeClass = PSAttributeParameter_FileSave.self
         defaultValueString = PSDefaultConstants.DefaultAttributeValues.PSExperimentLogFile
     }

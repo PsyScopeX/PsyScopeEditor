@@ -21,7 +21,7 @@ class PSLogFileNameController : NSObject {
     }
     
     override func controlTextDidChange(obj: NSNotification) {
-        let logfile = scriptData.getOrCreateBaseEntry("Log File", type: "Log File", user_friendly_name: "Log File", section_name: "Log File", zOrder: 77)
+        let logfile = scriptData.getOrCreateBaseEntry("Log File", type: "LogFile", user_friendly_name: "Log File", section_name: "LogFile", zOrder: 77)//messy logfile vs log file
         
         logfile.currentValue = "\"\(logFileTextField.stringValue)\""
     }
@@ -32,7 +32,7 @@ class PSLogFileNameController : NSObject {
 }
 
 func PSGetLogFileName(scriptData : PSScriptData) -> String {
-    if let logFile = scriptData.getBaseEntry("Log File") {
+    if let logFile = scriptData.getBaseEntry("LogFile") {
         return logFile.currentValue.stringByTrimmingCharactersInSet(NSCharacterSet(charactersInString: "\" "))
     } else {
         return "PsyScope.psylog"

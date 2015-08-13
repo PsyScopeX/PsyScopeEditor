@@ -24,7 +24,7 @@ class PSExperimentTool: PSTool, PSToolInterface {
     
     
     struct ExperimentProperties {
-        static let LogFile = PSProperty(name: "LogFile", defaultValue: "\"PsyScope.log\"", essential: true)
+        static let LogFile = PSProperty(name: "Log File", defaultValue: "\"PsyScope.log\"", essential: true)//tricky: Logfile vs Log File
         static let Format = PSProperty(name: "Format", defaultValue: "Factor", essential: true)
         static let InputDevices = PSProperty(name: "InputDevices", defaultValue: "MOUSE KEY", essential: true)
         static let Timer = PSProperty(name: "Timer", defaultValue: "Macintosh", essential: true)
@@ -121,7 +121,7 @@ class PSExperimentTool: PSTool, PSToolInterface {
                     errors.append(PSErrorDataFileEntry())
                 }
                 
-                if let logfile = scriptData.getSubEntry("LogFile", entry: entry) {
+                if let logfile = scriptData.getSubEntry("Log File", entry: entry) {
                     //ok we have data file
                     if logfile.currentValue == "" {
                         errors.append(PSErrorLogFileEntry())

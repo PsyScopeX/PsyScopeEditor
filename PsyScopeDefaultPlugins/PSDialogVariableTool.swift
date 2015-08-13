@@ -32,7 +32,7 @@ class PSDialogVariableTool: PSTool, PSToolInterface {
         iconName = "Variable-icon-small"
         iconColor = NSColor.blueColor()
         classNameString = "PSDialogVariableTool"
-        section = (name: "SubjectVariables", zorder: 13)
+        section = (name: "SubjectInfo", zorder: 13) // changing from SubjectVariables as this is not recognised by psyscope
         properties = [Properties.VariableType, Properties.Dialog]
         identityProperty = Properties.Dialog
         
