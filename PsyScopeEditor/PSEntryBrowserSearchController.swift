@@ -31,7 +31,7 @@ class PSEntryBrowserSearchController : NSObject, NSTextFieldDelegate, NCRAutocom
     
     func update( iconsForNames : [String : NSImage] ) {
         self.iconsForNames = iconsForNames
-        self.entryNames = iconsForNames.keys.array as [String]
+        self.entryNames = Array(iconsForNames.keys)
     }
 
 

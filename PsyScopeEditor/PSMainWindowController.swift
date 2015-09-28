@@ -111,8 +111,8 @@ class PSMainWindowController : NSWindowController, NSWindowDelegate {
         
         errorHandler.reset()
         //validate the script
-        let tools : [PSToolInterface] = PSPluginSingleton.sharedInstance.toolObjects.values.array
-        let events : [PSToolInterface] = PSPluginSingleton.sharedInstance.eventObjects.values.array
+        let tools : [PSToolInterface] = Array(PSPluginSingleton.sharedInstance.toolObjects.values)
+        let events : [PSToolInterface] = Array(PSPluginSingleton.sharedInstance.eventObjects.values)
         let plugins = tools + events
         
         for plugin in plugins {

@@ -204,7 +204,7 @@ public class PSEventActionsAttribute : PSStringListElement {
     }
     
     public func removeCondition(row : Int, condition : PSConditionInterface) {
-        if let index = lazy(actionConditionSets[row].conditions).map({ return $0.functionName }).indexOf(condition.type()) {
+        if let index = actionConditionSets[row].conditions.lazy.map({ return $0.functionName }).indexOf(condition.type()) {
             actionConditionSets[row].conditions.removeAtIndex(index)
             updateAttributeEntry()
         }

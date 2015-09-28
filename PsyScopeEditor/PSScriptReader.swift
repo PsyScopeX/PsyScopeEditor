@@ -163,7 +163,7 @@ public class PSScriptReader {
         
         var success = true
         var name : NSString?
-        var entryToken : NSString?
+        //var entryToken : NSString?
         
         //scans everything up to colon/hashtag/newline/gt into name
         success = scanner.scanCharactersFromSet(entryNameCharacterSet, intoString: &name)
@@ -175,7 +175,7 @@ public class PSScriptReader {
             
             //check for valid name i.e. matched quotes on outside or no quotes.
             if name!.containsString("\"") {
-                var trimmedName : NSString = name!.stringByTrimmingCharactersInSet(quote)
+                let trimmedName : NSString = name!.stringByTrimmingCharactersInSet(quote)
                 if (trimmedName.length == name!.length - 2) && !trimmedName.containsString("\"") {
                     success = true
                 } else {
@@ -189,7 +189,7 @@ public class PSScriptReader {
         let entryNameLocation = scanner.scanLocation
         
         //scan the token  (i.e. :: :> etc)
-        var level : Int?
+        //var level : Int?
         success = success && scanNextEntryToken(scanner, justACheck: justACheck)
         
         
@@ -270,11 +270,11 @@ public class PSScriptReader {
         } else {
             
             //need to check it consists of a : followed by x amount of >s
-            if success && token[advance(token.startIndex, 0)] != ":" {
+            if success && token[token.startIndex.advancedBy(0)] != ":" {
                 success = false
             }
-            var gts = token.stringByTrimmingCharactersInSet(colon)
-            var cls = gts.stringByTrimmingCharactersInSet(gt)
+            let gts = token.stringByTrimmingCharactersInSet(colon)
+            let cls = gts.stringByTrimmingCharactersInSet(gt)
             if success &&  (gts.characters.count + 1 != token.characters.count || cls.characters.count != 0) {
                 success  = false
             }

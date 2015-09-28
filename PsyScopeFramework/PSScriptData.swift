@@ -98,7 +98,7 @@ public class PSScriptData : NSObject {
     
     public func documentDirectory() -> String? {
         if let url = document.fileURL, abs = url.path {
-            return abs.stringByDeletingLastPathComponent
+            return (abs as NSString).stringByDeletingLastPathComponent
         }
         return nil
     }
@@ -511,7 +511,7 @@ public class PSScriptData : NSObject {
             return
         } else {
             let splitByBadChars = nameSuggestion.componentsSeparatedByCharactersInSet(entryNameCharacterSet.invertedSet)
-            renameEntry(entry, nameSuggestion: "_".join(splitByBadChars))
+            renameEntry(entry, nameSuggestion: splitByBadChars.joinWithSeparator("_"))
         }
     }
     
@@ -890,7 +890,7 @@ public class PSScriptData : NSObject {
         var dict : [NSObject : AnyObject] = [:]
         
         //archive attributes
-        let attributes : [NSString] = entry.entity.attributesByName.keys.array
+        let attributes : [NSString] = Array(entry.entity.attributesByName.keys)
         for at in attributes {
             let val = entry.valueForKey(at as NSString as String) as! NSObject?
             if let v = val {
@@ -1106,8 +1106,8 @@ public class PSScriptData : NSObject {
 
 //warning only use this to copy attributes, and things which dont have a layout object / section
 public func PSAttributeEntryToNSDictionary(object : NSManagedObject) -> NSDictionary {
-    let attributes = object.entity.attributesByName.keys.array
-    let relationships = object.entity.relationshipsByName.keys.array
+    let attributes = Array(object.entity.attributesByName.keys)
+    let relationships = Array(object.entity.relationshipsByName.keys)
     let dict : NSMutableDictionary = [:]
     for at in attributes as [NSString] {
         let val = object.valueForKey(at as String) as! NSObject?

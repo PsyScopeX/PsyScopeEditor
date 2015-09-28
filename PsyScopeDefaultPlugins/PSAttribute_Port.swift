@@ -28,7 +28,7 @@ public class PSAttribute_Port: PSAttributeGeneric {
             let functionElement = PSFunctionElement()
             functionElement.stringValue = before
             if functionElement.functionName == "PortName" && !functionElement.foundErrors {
-                return " ".join(functionElement.getStrippedStringValues())
+                return functionElement.getStrippedStringValues().joinWithSeparator(" ")
             } else {
                 return before
             }

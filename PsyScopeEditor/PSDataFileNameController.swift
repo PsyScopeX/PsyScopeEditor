@@ -171,7 +171,7 @@ class PSDataFileNameController : NSObject, NSTokenFieldDelegate {
                     }
                 }
                 
-                let newValue = " ".join(previewString)
+                let newValue = previewString.joinWithSeparator(" ")
                 
                 strings.currentValue = newValue
             } else {
@@ -197,7 +197,7 @@ class PSDataFileNameController : NSObject, NSTokenFieldDelegate {
         } else {
             //not auto generated
             if let stringArray = tokenField.objectValue as? [String] {
-                let dataFileName = " ".join(stringArray)
+                let dataFileName = stringArray.joinWithSeparator(" ")
                 let experimentsEntry = scriptData.getMainExperimentEntry()
                 let dataFileEntry = scriptData.getOrCreateSubEntry("DataFile", entry: experimentsEntry, isProperty: true)
                 let newValue = "\"\(dataFileName)\""

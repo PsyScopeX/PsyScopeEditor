@@ -33,17 +33,17 @@ class Document: NSPersistentDocument {
     
     //MARK: NSDocument Overrides
     
-    override func revertToContentsOfURL(inAbsoluteURL: NSURL!, ofType inTypeName: String!) throws {
+    override func revertToContentsOfURL(inAbsoluteURL: NSURL, ofType inTypeName: String) throws {
         try super.revertToContentsOfURL(inAbsoluteURL, ofType: inTypeName)
         self.mainWindowController.layoutController.refresh()
     }
     
-    override func readFromURL(absoluteURL: NSURL!, ofType typeName: String!) throws {
+    override func readFromURL(absoluteURL: NSURL, ofType typeName: String) throws {
         print("read from url")
         if typeName == "DocumentType" {
             try super.readFromURL(absoluteURL, ofType: typeName)
-        } else if let path = absoluteURL {
-            scriptToImport = try String(contentsOfURL: path, encoding: NSUTF8StringEncoding)
+        } else {
+            scriptToImport = try String(contentsOfURL: absoluteURL, encoding: NSUTF8StringEncoding)
         }
     }
     
@@ -58,7 +58,7 @@ class Document: NSPersistentDocument {
     override func makeWindowControllers() {
         //create scriptData and selectionController
         let pluginProvider = PSPluginSingleton.sharedInstance.createPluginProvider()
-        self.scriptData = PSScriptData(docMoc: self.managedObjectContext, pluginProvider: pluginProvider, document: self, selectionInterface: self.selectionController)
+        self.scriptData = PSScriptData(docMoc: self.managedObjectContext!, pluginProvider: pluginProvider, document: self, selectionInterface: self.selectionController)
         self.selectionController.initialize(self, scriptData: scriptData)
         
         //make main window controller
@@ -106,7 +106,7 @@ class Document: NSPersistentDocument {
     
     //MARK: NSPersistentDocument Override
     
-    override var managedObjectModel : AnyObject! {
+    override var managedObjectModel : NSManagedObjectModel! {
         // Creates if necessary and returns the managed object model for the application.
         if let mom = _managedObjectModel {
             return mom
@@ -119,7 +119,7 @@ class Document: NSPersistentDocument {
         return _managedObjectModel!
     }
     
-    override func configurePersistentStoreCoordinatorForURL(url: NSURL!, ofType fileType: String!, modelConfiguration configuration: String?, storeOptions: [String : AnyObject]!) throws {
+    override func configurePersistentStoreCoordinatorForURL(url: NSURL, ofType fileType: String, modelConfiguration configuration: String?, storeOptions: [String : AnyObject]!) throws {
         var error: NSError! = NSError(domain: "Migrator", code: 0, userInfo: nil)
         //http://stackoverflow.com/questions/10001026/lightweight-migration-of-a-nspersistentdocument
         //options provide automatic data migration - for simple cases
@@ -134,7 +134,7 @@ class Document: NSPersistentDocument {
         do {
             try super.configurePersistentStoreCoordinatorForURL(url, ofType: fileType, modelConfiguration: configuration, storeOptions: newStoreOptions)
             result = true
-        } catch var error1 as NSError {
+        } catch let error1 as NSError {
             error = error1
             result = false
         }

@@ -33,7 +33,7 @@ class PSPictureEvent : PSEventTool {
     
     override func createFromDraggedFile(fileName : String!, scriptData: PSScriptData!) -> Entry! {
         let mainEntry = self.createObject(scriptData)
-        var new_name = fileName.lastPathComponent.stringByDeletingPathExtension
+        var new_name = ((fileName as NSString).lastPathComponent as NSString).stringByDeletingPathExtension
         
         //delete non alphanumerics
         let deleteCharacters = NSCharacterSet.alphanumericCharacterSet().invertedSet

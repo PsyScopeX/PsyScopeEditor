@@ -252,11 +252,11 @@ class PSLayoutBoard: NSView {
             dragSelectedLayoutItems[tl] = nil
         }
         //update context menu
-        contextMenuObject = ContextMenuObject.MultipleObjects(dragSelectedLayoutItems.keys.array)
+        contextMenuObject = ContextMenuObject.MultipleObjects(Array(dragSelectedLayoutItems.keys))
     }
     
     func unDragSelectLayoutItems() {
-        for eachLayoutItem in dragSelectedLayoutItems.keys.array {
+        for eachLayoutItem in Array(dragSelectedLayoutItems.keys) {
             //reestablishing colors and opacity when undragged
             eachLayoutItem.icon.borderWidth = 0.0
             eachLayoutItem.icon.borderColor = NSColor.whiteColor().CGColor
@@ -292,7 +292,7 @@ class PSLayoutBoard: NSView {
             CATransaction.setDisableActions(true)
             
             if (dragSelectedLayoutItems != [:]) {
-                for eachLayoutItem in dragSelectedLayoutItems.keys.array {
+                for eachLayoutItem in dragSelectedLayoutItems.keys {
                     let new_position = dragSelectedLayoutItems[eachLayoutItem]!.plusPoint(displacement)
                     updateObjectLayoutItem(eachLayoutItem, x: Int(new_position.x), y:Int(new_position.y))
                 }
@@ -351,7 +351,7 @@ class PSLayoutBoard: NSView {
                 //detect whether object has moved
                 if info.mouseDownPoint != theEvent.locationInWindow {
                     layoutController.layoutItemMoved(info.clickedLayoutItem)
-                    for eachLayoutItem in dragSelectedLayoutItems.keys.array {
+                    for eachLayoutItem in dragSelectedLayoutItems.keys {
                         dragSelectedLayoutItems[eachLayoutItem] = eachLayoutItem.icon.position
                         layoutController.layoutItemMoved(eachLayoutItem)
                     }
@@ -434,7 +434,7 @@ class PSLayoutBoard: NSView {
                 break
             case .MultipleObjects(_):
                 var found = false
-                for obj in dragSelectedLayoutItems.keys.array {
+                for obj in dragSelectedLayoutItems.keys {
                     if obj == l {
                         found = true
                         break
@@ -509,7 +509,7 @@ class PSLayoutBoard: NSView {
         if let hl = highlightedLayoutItem {
             linkingObjects!.append(hl)
         } else {
-            for dsl in dragSelectedLayoutItems.keys.array {
+            for dsl in dragSelectedLayoutItems.keys {
                 linkingObjects!.append(dsl)
             }
         }

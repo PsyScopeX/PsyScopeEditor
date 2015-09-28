@@ -20,10 +20,10 @@ class PSScriptConverter: NSObject {
     var entryValueChecker : PSEntryValueChecker!
     
     override func awakeFromNib() {
-        let tools : [PSToolInterface] = PSPluginSingleton.sharedInstance.toolObjects.values.array
-        let events : [PSToolInterface] = PSPluginSingleton.sharedInstance.eventObjects.values.array
+        let tools : [PSToolInterface] = Array(PSPluginSingleton.sharedInstance.toolObjects.values)
+        let events : [PSToolInterface] = Array(PSPluginSingleton.sharedInstance.eventObjects.values)
         plugins = tools + events
-        attributePlugins = PSPluginSingleton.sharedInstance.attributeObjects.values.array
+        attributePlugins = Array(PSPluginSingleton.sharedInstance.attributeObjects.values)
     }
     
     var ghostScript : PSGhostScript = PSGhostScript()
@@ -187,7 +187,7 @@ class PSScriptConverter: NSObject {
         }
         
         print("Entries before deletion")
-        for e in scriptData.getBaseEntries() { print(e.name, appendNewline: false) }
+        for e in scriptData.getBaseEntries() { print(e.name, terminator: "") }
         
         for delete_entry in entries_to_delete {
             print("Deleting former entry \(delete_entry.name)")
@@ -197,7 +197,7 @@ class PSScriptConverter: NSObject {
         
         print("-")
         print("Entries after deletion")
-        for e in scriptData.getBaseEntries() { print(e.name, appendNewline: false) }
+        for e in scriptData.getBaseEntries() { print(e.name, terminator: "") }
         
         var all_new_lobjects : [LayoutObject] = []
         

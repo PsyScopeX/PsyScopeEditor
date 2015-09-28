@@ -25,7 +25,7 @@ class PSTextEventSpecial : PSAttributePopup {
     override func awakeFromNib() {
         super.awakeFromNib()
         //set up options
-        var options : [String] = optionsArray.keys.array
+        var options : [String] = Array(optionsArray.keys)
         positionOptions.addItemsWithTitles(options)
         
         //parse current value

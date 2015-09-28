@@ -29,7 +29,7 @@ class PSPsyScopeXRunner : NSObject {
     var executablePath : String? {
         get {
             let appBundlePath = PSPreferences.psyScopeXPath.value as! String
-            kUTTypeContent
+
             let appBundleName = appBundlePath.lastPathComponent.stringByDeletingPathExtension
             
             let executablePathFinal = appBundlePath.stringByAppendingPathComponent("Contents").stringByAppendingPathComponent("MacOS").stringByAppendingPathComponent(appBundleName)
@@ -108,6 +108,7 @@ class PSPsyScopeXRunner : NSObject {
         defer {
             //convert old log and script file to text format
             if let documentPath = currentlyRunningDocument.scriptData.documentDirectory() {
+            
             
                 let dataFileName = documentPath.stringByAppendingPathComponent(PSGetDataFileName(currentlyRunningDocument.scriptData))
                 let logFileName = documentPath.stringByAppendingPathComponent(PSGetLogFileName(currentlyRunningDocument.scriptData))

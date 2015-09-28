@@ -100,7 +100,7 @@ class PSList : NSObject {
             }
             
             let weights = scriptData.getOrCreateSubEntry("Weights", entry: levels, isProperty: true)
-            weights.currentValue = " ".join(newWeights.map({ String($0) }))
+            weights.currentValue = newWeights.map({ String($0) }).joinWithSeparator(" ")
         }
     }
     

@@ -153,7 +153,7 @@ func UpdateInlineEntryCurrentValuesWithVariableValues(values : PSVariableValues)
         inlineEntry += "]"
         return inlineEntry
     case .Array:
-        return " ".join(values.subValues.map { UpdateInlineEntryCurrentValuesWithVariableValues($0) })
+        return values.subValues.map { UpdateInlineEntryCurrentValuesWithVariableValues($0) }.joinWithSeparator(" ")
     case .SingleValue:
         if let stringElement = PSStringElement(strippedValue: values.currentValue) {
             return stringElement.quotedValue
@@ -183,7 +183,7 @@ func UpdateEntryCurrentValuesWithVariableValues(baseEntry : Entry, values : PSVa
         
         baseEntry.currentValue = ""
     case .Array:
-        let stringList = " ".join(values.subValues.map { UpdateInlineEntryCurrentValuesWithVariableValues($0) })
+        let stringList = values.subValues.map { UpdateInlineEntryCurrentValuesWithVariableValues($0) }.joinWithSeparator(" ")
         baseEntry.currentValue = stringList
     case .SingleValue:
         baseEntry.currentValue = values.currentValue

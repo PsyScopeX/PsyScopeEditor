@@ -143,7 +143,7 @@ public class PSCompoundEntryElement : NSObject {
     }
     
     public func setStringValues(stringList : [String]) {
-        let value = " ".join(stringList)
+        let value = stringList.joinWithSeparator(" ")
         let parse = PSEntryValueParser(stringValue: value)
         self.values = parse.values
         self.foundErrors = parse.foundErrors
@@ -168,7 +168,7 @@ public class PSCompoundEntryElement : NSObject {
         case .Function(let function):
             //takes care of itself
             if stripped {
-                return " ".join(function.getStringValues())
+                return function.getStringValues().joinWithSeparator(" ")
             } else {
                 return function.stringValue
             }
@@ -265,7 +265,7 @@ public class PSStringListElement : PSCompoundEntryElement {
     override public var stringValue : String {
         get {
             let elements = getStringValues()
-            return " ".join(elements)
+            return elements.joinWithSeparator(" ")
         }
         
         set {
@@ -301,23 +301,22 @@ public class PSFunctionElement : PSCompoundEntryElement {
     public func getParametersStringValue() -> String {
         let elements = getStringValues()
         let seperator : String = " "
-        return seperator.join(elements)
+        return elements.joinWithSeparator(seperator)
     }
     
     override public var stringValue : String {
         get {
-            let elements = getStringValues()
-            let seperator : String = " "
+            let joinedElements = getParametersStringValue()
             
             switch(bracketType) {
             case .Square:
-                return functionName + "[" + seperator.join(elements) + "]"
+                return functionName + "[" + joinedElements + "]"
             case .Round:
-                return functionName + "(" + seperator.join(elements) + ")"
+                return functionName + "(" + joinedElements + ")"
             case .Expression:
-                return seperator.join(elements)
+                return joinedElements
             case .InlineEntry:
-                return functionName + ":" + seperator.join(elements)
+                return functionName + ":" + joinedElements
             }
         }
         set {

@@ -76,11 +76,11 @@ var PSSystemSoundStringList : [String] {
         var sounds : [String] = []
         
         for sourcePath in librarySources {
-            let soundSource = NSFileManager.defaultManager().enumeratorAtPath(sourcePath.stringByAppendingPathComponent("Sounds"))
+            let soundSource = NSFileManager.defaultManager().enumeratorAtPath((sourcePath as NSString).stringByAppendingPathComponent("Sounds"))
             if let ss = soundSource {
                 while let soundFile = ss.nextObject() as? String {
-                    if NSSound(named: soundFile.stringByDeletingPathExtension) != nil {
-                        sounds.append(soundFile.stringByDeletingPathExtension)
+                    if NSSound(named: (soundFile as NSString).stringByDeletingPathExtension) != nil {
+                        sounds.append((soundFile as NSString).stringByDeletingPathExtension)
                     }
                 }
             }

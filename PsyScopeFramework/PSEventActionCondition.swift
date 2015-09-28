@@ -63,16 +63,17 @@ public class PSEventActionFunction : PSEventActionCondition {
         get {
             let elements = getStringValues()
             let seperator : String = " "
+            let values = elements.joinWithSeparator(seperator)
             
             switch(bracketType) {
             case .Square:
-                return functionName + "[" + seperator.join(elements) + "]"
+                return functionName + "[" + values + "]"
             case .Round:
-                return functionName + "(" + seperator.join(elements) + ")"
+                return functionName + "(" + values + ")"
             case .Expression:
-                return seperator.join(elements)
+                return values
             case .InlineEntry:
-                return functionName + ":" + seperator.join(elements)
+                return functionName + ":" + values
             }
         }
         set {
@@ -94,7 +95,7 @@ public class PSEventActionFunction : PSEventActionCondition {
     }
     
     public func setActionParameterValues(values : [String], instances : String?, activeUntil : String?) {
-        let value = " ".join(values)
+        let value = values.joinWithSeparator(" ")
         
         let parse = PSEntryValueParser(stringValue: value)
         self.values = parse.values

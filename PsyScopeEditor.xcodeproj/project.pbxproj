@@ -331,6 +331,7 @@
 		1A963D0C19B9EBAE000B6C91 /* PSDefaultResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A963D0B19B9EBAE000B6C91 /* PSDefaultResources.swift */; };
 		1A963D0F19B9ED6B000B6C91 /* DefaultResources.json in Resources */ = {isa = PBXBuildFile; fileRef = 1A963D0E19B9ED6B000B6C91 /* DefaultResources.json */; };
 		1A963D1719BA203B000B6C91 /* PSTemplateBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A963D1619BA203B000B6C91 /* PSTemplateBuilder.swift */; };
+		1A9679751BB95EBE003291C0 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A9679741BB95EBE003291C0 /* StringExtension.swift */; settings = {ASSET_TAGS = (); }; };
 		1A9CE34E1AA77F3300C846F4 /* PSScriptViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A9CE34D1AA77F3300C846F4 /* PSScriptViewDelegate.swift */; };
 		1A9CE3511AA8B98500C846F4 /* PSAction_ChanceEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A9CE3501AA8B98500C846F4 /* PSAction_ChanceEvent.swift */; };
 		1A9CE3531AA8B99500C846F4 /* PSAction_ClearScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A9CE3521AA8B99500C846F4 /* PSAction_ClearScreen.swift */; };
@@ -969,6 +970,7 @@
 		1A963D0B19B9EBAE000B6C91 /* PSDefaultResources.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PSDefaultResources.swift; path = ../PsyScopeDefaultPlugins/PSDefaultResources.swift; sourceTree = "<group>"; };
 		1A963D0E19B9ED6B000B6C91 /* DefaultResources.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DefaultResources.json; sourceTree = "<group>"; };
 		1A963D1619BA203B000B6C91 /* PSTemplateBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSTemplateBuilder.swift; sourceTree = "<group>"; };
+		1A9679741BB95EBE003291C0 /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		1A9CE34D1AA77F3300C846F4 /* PSScriptViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSScriptViewDelegate.swift; sourceTree = "<group>"; };
 		1A9CE3501AA8B98500C846F4 /* PSAction_ChanceEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSAction_ChanceEvent.swift; sourceTree = "<group>"; };
 		1A9CE3521AA8B99500C846F4 /* PSAction_ClearScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSAction_ClearScreen.swift; sourceTree = "<group>"; };
@@ -2215,6 +2217,7 @@
 				1A69F9BA1A837CCF00D60880 /* images */,
 				1A3434ED19FA7744007202E0 /* PSAttributePopup.txt */,
 				1A9E5E53198A7C5800312743 /* Info.plist */,
+				1A9679741BB95EBE003291C0 /* StringExtension.swift */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -3224,6 +3227,7 @@
 				1A8ADC0F1A82D990003C2509 /* PSSmoothTextLayer.m in Sources */,
 				1AA0ADD51AE0027A009BF2F2 /* PSAttributePickerCategories.swift in Sources */,
 				1A55B2441ADC2FAA00CD21AB /* PSEventInterface.swift in Sources */,
+				1A9679751BB95EBE003291C0 /* StringExtension.swift in Sources */,
 				1AA0ADDD1AE12188009BF2F2 /* PSGhostEntry.swift in Sources */,
 				1AF890E31AB8369E00706AAA /* PSPath.swift in Sources */,
 				1AA5D1B1198FA03A00DD9DC5 /* PSPluginViewController.m in Sources */,

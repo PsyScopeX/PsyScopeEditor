@@ -74,7 +74,7 @@ class PSTokenizer {
                 return ""
             }})
         
-        return " / ".join(tokensAsStrings)
+        return tokensAsStrings.joinWithSeparator(" / ")
     }
     
     let whiteSpaceNewLine = NSCharacterSet.whitespaceAndNewlineCharacterSet()

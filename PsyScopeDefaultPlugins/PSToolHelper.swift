@@ -123,7 +123,7 @@ class PSToolHelper: NSObject {
             
             //create string part
             let values = function.getStrippedStringValues()
-            let valueString = " \u{21d2} ".join(values)
+            let valueString = values.joinWithSeparator(" \u{21d2} ")
             
             let stringPart = NSAttributedString(string: "  " + valueString, attributes: [NSBaselineOffsetAttributeName : PSDefaultConstants.Spacing.VaryByTextYOffset])
             

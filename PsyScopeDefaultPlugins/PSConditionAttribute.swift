@@ -34,7 +34,7 @@ public class PSConditionAttribute : PSStringListElement {
     //returns index of actionCondition so can refresh it
     func removeCondition(condition : PSConditionInterface) {
         let name = condition.type()
-        if let index = lazy(conditions).map({ $0.functionName }).indexOf(name) {
+        if let index = conditions.lazy.map({ $0.functionName }).indexOf(name) {
             conditions.removeAtIndex(index)
         }
         updateEntry()

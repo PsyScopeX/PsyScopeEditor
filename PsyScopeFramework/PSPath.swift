@@ -9,7 +9,7 @@
 import Foundation
 
 public func PSPath(absolutePath : String, basePath : String) -> String? {
-    var relPath = relativePath(absolutePath, basePath: basePath)
+    let relPath = relativePath(absolutePath, basePath: basePath)
     
     //check for illegal characters
     let illegalCharacters = NSCharacterSet(charactersInString: ":?%*|\"<>{}[]()")
@@ -23,7 +23,7 @@ public func PSPath(absolutePath : String, basePath : String) -> String? {
     //two levels below relative ":::Deleted Users:james2.dmg:"
     
     var psyPath : String = ""
-    for (_, baseComponent) in relPath.pathComponents.enumerate() {
+    for (_, baseComponent) in (relPath as NSString).pathComponents.enumerate() {
         if (baseComponent == "..") {
             psyPath = psyPath + ":"
         } else {
@@ -54,7 +54,7 @@ public func PSStandardPath(psPath : String, basePath : String) -> String? {
         let ncolons = colons!.length
         if ncolons > 1 {
             for _ in 2...ncolons {
-                absolutePath = absolutePath.stringByDeletingLastPathComponent
+                absolutePath = (absolutePath as NSString).stringByDeletingLastPathComponent
             }
         }
         
@@ -64,15 +64,15 @@ public func PSStandardPath(psPath : String, basePath : String) -> String? {
     let pstrimmedpath = psPath.stringByTrimmingCharactersInSet(NSCharacterSet(charactersInString: ":"))
     let components = pstrimmedpath.componentsSeparatedByString(":")
     for c in components {
-        absolutePath = absolutePath.stringByAppendingPathComponent(c)
+        absolutePath = (absolutePath as NSString).stringByAppendingPathComponent(c)
     }
     
     return absolutePath
 }
 
 func relativePath(absolutePath : String, basePath : String) -> String {
-    var absolutePathComponents = absolutePath.pathComponents
-    let basePathComponents = basePath.pathComponents
+    var absolutePathComponents = (absolutePath as NSString).pathComponents
+    let basePathComponents = (basePath as NSString).pathComponents
     
     if absolutePathComponents.count < basePathComponents.count {
         return absolutePath
@@ -94,13 +94,13 @@ func relativePath(absolutePath : String, basePath : String) -> String {
     if levelIndex < basePathComponents.count {
         //outside of base path
         for (var index = levelIndex; index < basePathComponents.count; index++) {
-            relativePath = relativePath.stringByAppendingPathComponent("../")
+            relativePath = (relativePath as NSString).stringByAppendingPathComponent("../")
         }
     }
     
     
     for(var index = levelIndex; index < absolutePathComponents.count; index++) {
-        relativePath = relativePath.stringByAppendingPathComponent(absolutePathComponents[index])
+        relativePath = (relativePath as NSString).stringByAppendingPathComponent(absolutePathComponents[index])
     }
     
     return relativePath

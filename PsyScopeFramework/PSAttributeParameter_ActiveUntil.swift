@@ -15,7 +15,7 @@ public class PSAttributeParameter_ActiveUntil : PSAttributeParameter {
     
     override public func setCustomControl(visible: Bool) {
         
-        values = defaultValues.keys.array
+        values = Array(defaultValues.keys)
         values += scriptData.getAllEvents().map({ $0.name })
         
         if visible {

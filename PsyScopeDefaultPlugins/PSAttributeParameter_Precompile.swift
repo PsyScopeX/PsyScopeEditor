@@ -30,7 +30,7 @@ public class PSAttributeParameter_Precompile : PSAttributeParameter {
                 cell.addSubview(allCheck)
                 
                 
-                let locationAlong = halfAttributeValueControlFrame.rectByOffsetting(dx: halfAttributeValueControlFrame.size.width, dy: 0)
+                let locationAlong = halfAttributeValueControlFrame.offsetBy(dx: halfAttributeValueControlFrame.size.width, dy: 0)
                 
                 //add number text field
                 numberText = NSTextField(frame: locationAlong)

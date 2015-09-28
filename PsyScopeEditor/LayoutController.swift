@@ -74,7 +74,7 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
         }
         
         //remove non-existent layoutObjects
-        for layoutObject in objectsTolayoutItems.keys.array {
+        for layoutObject in Array(objectsTolayoutItems.keys) {
             if !layoutObjects.contains(layoutObject) {
                 deleteObject(layoutObject)
             }

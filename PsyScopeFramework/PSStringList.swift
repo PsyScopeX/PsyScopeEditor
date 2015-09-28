@@ -86,7 +86,7 @@ public class PSStringListCachedContainer : PSStringListContainer {
         }
         
         set {
-            self.stringValue = " ".join(newValue)
+            self.stringValue = newValue.joinWithSeparator(" ")
         }
     }
     

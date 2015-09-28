@@ -151,7 +151,7 @@ class PSStringListCached_Tests: XCTestCase {
         
         XCTAssert(stringListRawUnstripped.count == 3, "StringList should have three elements, found \(stringListRawUnstripped.count)")
         
-        let selfReconstructed = " ".join(stringListRawUnstripped)
+        let selfReconstructed = stringListRawUnstripped.joinWithSeparator(" ")
         let stringValueReconstred = stringList.stringValue
         XCTAssert(selfReconstructed == originalValue, "Original value was \(originalValue), self reconstructed was \(selfReconstructed)")
         XCTAssert(selfReconstructed == originalValue, "Original value was \(originalValue), stringValue reconstructed was \(stringValueReconstred)")
@@ -169,7 +169,7 @@ class PSStringListCached_Tests: XCTestCase {
         
         XCTAssert(stringListRawUnstripped.count == 3, "StringList should have three elements, found \(stringListRawUnstripped.count)")
         
-        let selfReconstructed = " ".join(stringListRawUnstripped)
+        let selfReconstructed = stringListRawUnstripped.joinWithSeparator(" ")
         let stringValueReconstred = stringList.stringValue
         XCTAssert(selfReconstructed == originalValue, "Original value was \(originalValue), self reconstructed was \(selfReconstructed)")
         XCTAssert(selfReconstructed == originalValue, "Original value was \(originalValue), stringValue reconstructed was \(stringValueReconstred)")
@@ -188,7 +188,7 @@ class PSStringListCached_Tests: XCTestCase {
         
         XCTAssert(stringListRawStripped.count == 3, "StringList should have three elements, found \(stringListRawStripped.count)")
         
-        let selfReconstructed = " ".join(stringListRawStripped)
+        let selfReconstructed = stringListRawStripped.joinWithSeparator(" ")
 
         XCTAssert(selfReconstructed == expectedValue, "Original value was \(originalValue), self reconstructed was \(selfReconstructed), expected \(expectedValue)")
  

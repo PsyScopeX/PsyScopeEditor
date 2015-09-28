@@ -41,7 +41,7 @@ public func PSSubjectVariableDialog(variable : PSSubjectVariable, currentValue :
             }
         }
         
-        returnValue = " ".join(stringValues)
+        returnValue = stringValues.joinWithSeparator(" ")
     case let .RadioButtons(values):
         
         if values.count == 0 {

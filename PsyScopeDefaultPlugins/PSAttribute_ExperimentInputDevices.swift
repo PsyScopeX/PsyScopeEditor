@@ -21,7 +21,7 @@ class PSAttribute_ExperimentInputDevices : PSExperimentAttribute {
             
             let checkBoxStrings : [(String,String)] = scriptData.pluginProvider.conditionPlugins.values.filter( {
                 return $0.isInputDevice()
-            }).array.map({
+            }).map({
                 let type = $0.type()
                 return (type,type)
             })

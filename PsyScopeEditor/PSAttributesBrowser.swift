@@ -164,7 +164,7 @@ class PSAttributesBrowser: NSObject, NSTableViewDelegate, NSTableViewDataSource,
             for item in items {
                 if let data = item.dataForType(PSPasteboardTypeAttribute  as String) {
                     let dict = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! NSDictionary
-                    let new_entry = PSCreateEntryFromDictionary(mainWindowController.mainDocument.managedObjectContext, dict: dict)
+                    let new_entry = PSCreateEntryFromDictionary(mainWindowController.mainDocument.managedObjectContext!, dict: dict)
                     se.addSubEntriesObject(new_entry)
                 }
             }
@@ -173,7 +173,10 @@ class PSAttributesBrowser: NSObject, NSTableViewDelegate, NSTableViewDataSource,
     
     
     
-    func pasteboard(pasteboard: NSPasteboard!, item: NSPasteboardItem!, provideDataForType type: String!) {
+    func pasteboard(pasteboard: NSPasteboard?, item: NSPasteboardItem, provideDataForType type: String) {
+        
+        guard let pasteboard = pasteboard else { return }
+        
         if let ce = copiedAttribute {
             switch (type) {
             case NSPasteboardTypeString:
@@ -181,7 +184,7 @@ class PSAttributesBrowser: NSObject, NSTableViewDelegate, NSTableViewDataSource,
                 
                 let string = writer.entryToText(ce, level: 1)
                 pasteboard.setString(string, forType: NSPasteboardTypeString)
-            case PSPasteboardTypeAttribute as String:
+            case PSPasteboardTypeAttribute:
                 let dataDictionary = PSAttributeEntryToNSDictionary(ce)
                 let archive = NSKeyedArchiver.archivedDataWithRootObject(dataDictionary)
                 pasteboard.setData(archive, forType: PSPasteboardTypeAttribute as String)

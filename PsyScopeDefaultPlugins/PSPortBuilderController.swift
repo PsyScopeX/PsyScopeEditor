@@ -464,7 +464,7 @@ class PSPortBuilderController: NSObject, NSOutlineViewDataSource, NSOutlineViewD
             if referencedEntries.count > 0 {
                 let alert = NSAlert()
                 
-                let entryNames = "\n".join(referencedEntries.map { $0.name })
+                let entryNames = referencedEntries.map { $0.name }.joinWithSeparator("\n")
                 
                 alert.messageText = "This port is referenced in the following entries:\n\n" + entryNames
                 alert.addButtonWithTitle("Yes")
@@ -487,7 +487,7 @@ class PSPortBuilderController: NSObject, NSOutlineViewDataSource, NSOutlineViewD
             
             if referencedEntries.count > 0 {
                 let alert = NSAlert()
-                let entryNames = "\n".join(referencedEntries.map{ $0.name })
+                let entryNames = referencedEntries.map{ $0.name }.joinWithSeparator("\n")
                 
                 alert.messageText = "This position is referenced in the following entries:\n\n" + entryNames
                 alert.addButtonWithTitle("Yes")

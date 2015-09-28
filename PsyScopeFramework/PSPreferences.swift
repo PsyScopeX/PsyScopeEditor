@@ -38,7 +38,7 @@ public class PSPreferences {
     public static let showEvents : PSPreference = PSPreference(key: "showingEvents", defaultValue: true)
     public static let showLists : PSPreference = PSPreference(key: "showingLists", defaultValue: true)
     
-    public static let psyScopeXPath : PSPreference = PSPreference(key: "psyScopeXPath", defaultValue: NSBundle.mainBundle().resourcePath!.stringByAppendingPathComponent("PsyScopeXCurrentVersion").stringByAppendingPathComponent("PsyScope X B77.app"))
+    public static let psyScopeXPath : PSPreference = PSPreference(key: "psyScopeXPath", defaultValue: ((NSBundle.mainBundle().resourcePath! as NSString).stringByAppendingPathComponent("PsyScopeXCurrentVersion") as NSString).stringByAppendingPathComponent("PsyScope X B77.app"))
     
     public class func getDefaults() -> [String : AnyObject] {
         let defaults : [PSPreference] = [cleanUpXSpacing, cleanUpYSpacing, showEvents, showLists, psyScopeXPath]
