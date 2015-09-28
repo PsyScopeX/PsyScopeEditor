@@ -145,8 +145,6 @@ class PSStringListCached_Tests: XCTestCase {
         let originalValue = "Hello1 Hello2 Hello3"
         stringList.stringValue = originalValue
         
-        var success = true
-        
         let stringListRawUnstripped = stringList.stringListRawUnstripped
         
         XCTAssert(stringListRawUnstripped.count == 3, "StringList should have three elements, found \(stringListRawUnstripped.count)")
@@ -162,8 +160,6 @@ class PSStringListCached_Tests: XCTestCase {
         // This is an example of a functional test case.
         let originalValue = "[Hello1 Hello2] [Hello3 Hello4] [Hello5 Hello6]"
         stringList.stringValue = originalValue
-        
-        var success = true
         
         let stringListRawUnstripped = stringList.stringListRawUnstripped
         
@@ -181,8 +177,6 @@ class PSStringListCached_Tests: XCTestCase {
         let originalValue = "[Hello1 Hello2] [Hello3 Hello4] [Hello5 Hello6]"
         let expectedValue = "Hello1 Hello2 Hello3 Hello4 Hello5 Hello6"
         stringList.stringValue = originalValue
-        
-        var success = true
         
         let stringListRawStripped = stringList.stringListRawStripped
         

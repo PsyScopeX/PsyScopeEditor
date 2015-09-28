@@ -25,12 +25,14 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
     @IBOutlet var timeLineTableView : NSTableView!
     @IBOutlet var timeLineTableViewClipView : NSView!
     @IBOutlet var timeLineTableViewScrollView : NSScrollView!
+    @IBOutlet var eventHeadingTableViewScrollView : NSScrollView!
     @IBOutlet var timeLineTableViewColumn : NSTableColumn!
     
     //MARK: Other non event/template related objects
     
     var scriptData : PSScriptData!
     var selectionInterface : PSSelectionInterface!
+    var rulerView : NSRulerView!
     var overlayView : NSFlippedView! //this view goes over the timeline table view, and draws lines connecteing etc
     var initialized : Bool = false
     
@@ -68,6 +70,18 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
             overlayView.layer = CALayer()
             overlayView.wantsLayer = true
             
+            //setup up nsrulerview
+            timeLineTableViewScrollView.hasHorizontalRuler = true;
+            timeLineTableViewScrollView.rulersVisible = true;
+
+            
+   
+            
+            if let horizontalRulerView = timeLineTableViewScrollView.horizontalRulerView {
+                rulerView = horizontalRulerView
+            }
+            
+            //rulerView = NSRulerView(scrollView: timeLineTableViewScrollView, orientation: NSRulerOrientation.HorizontalRuler)
             
             timeLineTableView.superview!.addSubview(overlayView)
         }
@@ -86,6 +100,8 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
         
         return false
     }
+    
+    //MARK: Refreshing methods
     
     func refresh() {
         
@@ -121,9 +137,6 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
         templateObject = nil
         selectedEvent = nil
     }
-    
-    
-    //MARK: Refreshing methods
     
     func fullRefresh() {
         //reset arrays containing events and layout objects
@@ -175,10 +188,10 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
         
         
         
-        //get the width for the time line
-        var minimumframeWidth = timeLineTableViewScrollView.frame.size.width
+        //get the width for the time line table view - which will be the the maximum from the frames width and the length of the longest event (plus some leeway)
+        var minimumframeWidth : CGFloat = 0
         
-        //store eventTimes for later use
+        //store eventTimes for later use, whilst getting longest one
         var eventTimes : [PSTemplateEvent : (start: EventMSecs, duration : EventMSecs)] = [:]
         for (_,event) in events.enumerate() {
             let (start, duration) = event.getMS()
@@ -188,14 +201,22 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
             minimumframeWidth = max(width, minimumframeWidth)
         }
         
-        minimumframeWidth *= zoomMultiplier //adjust for zoom
-        minimumframeWidth += 150 //add some leeway
+        //adjust for zoom and add some leeway
+        minimumframeWidth *= zoomMultiplier
+        minimumframeWidth += 150
         
+        //ensure at least as wide as frame
+        minimumframeWidth = max(timeLineTableViewScrollView.frame.size.width, minimumframeWidth)
+        
+        //set the width
         var timeLineTableViewFrame = timeLineTableView.frame
         timeLineTableViewFrame.size.width = minimumframeWidth
         timeLineTableView.frame = timeLineTableViewFrame
         timeLineTableViewColumn.minWidth = minimumframeWidth
         timeLineTableViewColumn.maxWidth = minimumframeWidth
+        
+        
+        //trigger the reloading of the events.
         eventIconTableView.reloadData()
         timeLineTableView.reloadData()
         
@@ -206,7 +227,7 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
             cellYLocations[event] = cellFrame.origin.y + (cellFrame.height / 2)
         }
         
-        //now update lines
+        //now update lines (first removing old ones)
         for ll in linkLines {
             ll.removeFromSuperlayer()
         }
@@ -242,6 +263,17 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
             }
         }
         
+        //add scale to timeline
+        /*
+        let startPoint = CGPoint(x: 0, y: 10)
+        let endPoint = CGPoint(x: minimumframeWidth, y: 10)
+        let scaleLine = makeLineLayer(startPoint, to: endPoint)
+        overlayView.layer!.addSublayer(scaleLine)*/
+        
+        
+        //update nsrulerview
+        NSRulerView.registerUnitWithName("Milliseconds", abbreviation: "ms", unitToPointsConversionFactor: zoomMultiplier, stepUpCycle: [10], stepDownCycle: [0.5])
+        rulerView.measurementUnits = "Milliseconds"
         CATransaction.commit()
         refreshVisualSelection()
     }
