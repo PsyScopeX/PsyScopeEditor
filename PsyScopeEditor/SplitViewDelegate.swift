@@ -43,8 +43,8 @@ class SplitViewDelegate: NSObject, NSSplitViewDelegate {
     }
     
     func splitView(splitView: NSSplitView, resizeSubviewsWithOldSize oldSize: NSSize) {
-        var horizontalDiff : CGFloat = splitView.bounds.width - oldSize.width
-        var verticalDiff : CGFloat = splitView.bounds.width - oldSize.height
+        //var horizontalDiff : CGFloat = splitView.bounds.width - oldSize.width
+        //var verticalDiff : CGFloat = splitView.bounds.width - oldSize.height
         
         var oLeftFrame = leftPanel.frame
         var oRightFrame = rightPanel.frame

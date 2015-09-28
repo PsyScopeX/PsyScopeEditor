@@ -52,6 +52,7 @@ class PSDocumentTabDelegate: NSObject, NSTabViewDelegate {
 
     //window segmented control
     @IBOutlet var toolbarSegmentedControl : NSSegmentedControl!
+    
     //key = tag of segment, value = the tab items to display
     var items : [Int : TabItems] = [:]
     var identifiers : [String : Int] = [:]
@@ -94,27 +95,27 @@ class PSDocumentTabDelegate: NSObject, NSTabViewDelegate {
         var totalTags = 2
         
         //load all tabitems from plugins
-        let tabitems = PSPluginSingleton.sharedInstance.pluginLoader.instantiatePluginsOfType(.WindowView) as! [PSWindowViewInterface]
+        let windowViewInterfaces = PSPluginSingleton.sharedInstance.pluginLoader.instantiatePluginsOfType(.WindowView) as! [PSWindowViewInterface]
         
         //layout view + script view already on segmented control (whence + 2)
-        toolbarSegmentedControl.segmentCount = totalTags + tabitems.count
+        toolbarSegmentedControl.segmentCount = totalTags + windowViewInterfaces.count
         
-        for tabitem in tabitems {
-            tabitem.setup(mainWindowController.scriptData, selectionInterface: selectionInterface)
+        for windowViewInterface in windowViewInterfaces {
+            windowViewInterface.setup(mainWindowController.scriptData, selectionInterface: selectionInterface)
             let tag = totalTags
-            let identifier = tabitem.identifier()
-            let icon = tabitem.icon()
-            let leftP = tabitem.leftPanelTab()
-            let midP = tabitem.midPanelTab()
-            selectionInterface.registerSelectionInterface(tabitem)
+            let identifier = windowViewInterface.identifier()
+            let icon = windowViewInterface.icon()
+            let leftP = windowViewInterface.leftPanelTab()
+            let midP = windowViewInterface.midPanelTab()
+            selectionInterface.registerSelectionInterface(windowViewInterface)
             
-            let i = (tag: tag, midPanelItem: midP, leftPanelItem: leftP)
-            items[tag] = i
+            let tabItem = (tag: tag, midPanelItem: midP, leftPanelItem: leftP)
+            items[tag] = tabItem
             identifiers[identifier] = tag
             
             //add the items to the respective tabs
-            midPanelTabView.addTabViewItem(i.midPanelItem)
-            leftPanelTabView.addTabViewItem(i.leftPanelItem)
+            midPanelTabView.addTabViewItem(tabItem.midPanelItem)
+            leftPanelTabView.addTabViewItem(tabItem.leftPanelItem)
             
             let segmentIndex = tag
             toolbarSegmentedControl.setImage(icon, forSegment: segmentIndex)
@@ -217,6 +218,7 @@ class PSDocumentTabDelegate: NSObject, NSTabViewDelegate {
         if toolsShowing {
             leftPanelTabView.selectTabViewItem(items.leftPanelItem)
         }
+        toolbarSegmentedControl.selectedSegment = items.tag
     }
     
     //handles selecting objects
