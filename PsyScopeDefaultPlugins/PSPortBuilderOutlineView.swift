@@ -11,23 +11,20 @@ import Foundation
 class PSPortBuilderOutlineView : NSOutlineView {
     var portController : PSPortBuilderController!
     override func rightMouseDown(theEvent: NSEvent) {
-        var localLocation = self.convertPoint(theEvent.locationInWindow, fromView: nil)
-        var clickedRow = self.rowAtPoint(localLocation)
-        var clickedCol = self.columnAtPoint(localLocation)
+        let localLocation = self.convertPoint(theEvent.locationInWindow, fromView: nil)
+        let clickedRow = self.rowAtPoint(localLocation)
+        let clickedCol = self.columnAtPoint(localLocation)
         self.selectRowIndexes(NSIndexSet(index: clickedRow), byExtendingSelection: false)
         if let view = self.viewAtColumn(clickedCol, row: clickedRow, makeIfNecessary: false) {
             
-            var item: AnyObject! = self.itemAtRow(clickedRow)
+            let item: AnyObject! = self.itemAtRow(clickedRow)
             
-            if let i = item as? PSPort {
+            if let _ = item as? PSPort {
                 portController.rightClickedPort(view)
-            } else if let i = item as? PSPosition {
+            } else if let _ = item as? PSPosition {
                 portController.rightClickedPosition(view)
             }
-            
-            
         }
-        
     }
     
     override func keyDown(theEvent: NSEvent) {

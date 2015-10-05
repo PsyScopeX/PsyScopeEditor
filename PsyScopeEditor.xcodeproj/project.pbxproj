@@ -258,7 +258,6 @@
 		1A7E933B1B1DE83600498D2E /* PSPortPopoverController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7E933A1B1DE83600498D2E /* PSPortPopoverController.swift */; };
 		1A7E933D1B1DE87C00498D2E /* PSPositionPopoverController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7E933C1B1DE87C00498D2E /* PSPositionPopoverController.swift */; };
 		1A7E933F1B1DF1C700498D2E /* PSPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7E933E1B1DF1C700498D2E /* PSPosition.swift */; };
-		1A7E93411B1DF25A00498D2E /* PSScreenRes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7E93401B1DF25A00498D2E /* PSScreenRes.swift */; };
 		1A7FB9341AC86DDD00C81723 /* PSNullRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7FB9331AC86DDD00C81723 /* PSNullRange.swift */; };
 		1A811C211AC37C2D000B44CE /* PSStringListContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A811C201AC37C2D000B44CE /* PSStringListContainer.swift */; };
 		1A811C231AC37C83000B44CE /* PSEntryValueParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A811C221AC37C83000B44CE /* PSEntryValueParser.swift */; };
@@ -362,6 +361,7 @@
 		1A9E5E69198A7DA900312743 /* PSPluginInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A2FBE3B19757B8100F5FFB5 /* PSPluginInterface.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1A9E5E6A198A7DB500312743 /* PSToolInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AA376321975B08100A3DE6E /* PSToolInterface.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1A9F6D2619DACE90008A313F /* PSPort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A9F6D2519DACE90008A313F /* PSPort.swift */; };
+		1AA02FA81BB99C410084E83E /* PSScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA02FA71BB99C410084E83E /* PSScreen.swift */; settings = {ASSET_TAGS = (); }; };
 		1AA0ADD31ADFFFB6009BF2F2 /* PSAttributeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA0ADD21ADFFFB6009BF2F2 /* PSAttributeType.swift */; };
 		1AA0ADD51AE0027A009BF2F2 /* PSAttributePickerCategories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA0ADD41AE0027A009BF2F2 /* PSAttributePickerCategories.swift */; };
 		1AA0ADD71AE01A24009BF2F2 /* PSAttributePickerEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA0ADD61AE01A24009BF2F2 /* PSAttributePickerEntry.swift */; };
@@ -899,7 +899,6 @@
 		1A7E933A1B1DE83600498D2E /* PSPortPopoverController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSPortPopoverController.swift; sourceTree = "<group>"; };
 		1A7E933C1B1DE87C00498D2E /* PSPositionPopoverController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSPositionPopoverController.swift; sourceTree = "<group>"; };
 		1A7E933E1B1DF1C700498D2E /* PSPosition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSPosition.swift; sourceTree = "<group>"; };
-		1A7E93401B1DF25A00498D2E /* PSScreenRes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSScreenRes.swift; sourceTree = "<group>"; };
 		1A7FB9331AC86DDD00C81723 /* PSNullRange.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSNullRange.swift; sourceTree = "<group>"; };
 		1A811C201AC37C2D000B44CE /* PSStringListContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSStringListContainer.swift; sourceTree = "<group>"; };
 		1A811C221AC37C83000B44CE /* PSEntryValueParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSEntryValueParser.swift; sourceTree = "<group>"; };
@@ -1001,6 +1000,7 @@
 		1A9E5E53198A7C5800312743 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1A9E5E54198A7C5800312743 /* PsyScopeFramework.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PsyScopeFramework.h; sourceTree = "<group>"; };
 		1A9F6D2519DACE90008A313F /* PSPort.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSPort.swift; sourceTree = "<group>"; };
+		1AA02FA71BB99C410084E83E /* PSScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSScreen.swift; sourceTree = "<group>"; };
 		1AA0ADD21ADFFFB6009BF2F2 /* PSAttributeType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSAttributeType.swift; sourceTree = "<group>"; };
 		1AA0ADD41AE0027A009BF2F2 /* PSAttributePickerCategories.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSAttributePickerCategories.swift; sourceTree = "<group>"; };
 		1AA0ADD61AE01A24009BF2F2 /* PSAttributePickerEntry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSAttributePickerEntry.swift; sourceTree = "<group>"; };
@@ -2415,8 +2415,8 @@
 				1A72A21C1AD436A1000C0176 /* PSPortEnums.swift */,
 				1A7E933A1B1DE83600498D2E /* PSPortPopoverController.swift */,
 				1A7E933C1B1DE87C00498D2E /* PSPositionPopoverController.swift */,
-				1A7E93401B1DF25A00498D2E /* PSScreenRes.swift */,
 				1A53068E1B2AEAF700ECACE0 /* PSPortBuilderWindow.swift */,
+				1AA02FA71BB99C410084E83E /* PSScreen.swift */,
 			);
 			name = PortBuilder;
 			sourceTree = "<group>";
@@ -3069,6 +3069,7 @@
 				1A1E3EA31AE56E550075E47E /* PSVariableType.swift in Sources */,
 				1A56ED451AC9D12300498F09 /* PSAttributeParameter_Mask.swift in Sources */,
 				1ABE80CE19E419B100B62B8E /* PSVaryByAttributePopup.swift in Sources */,
+				1AA02FA81BB99C410084E83E /* PSScreen.swift in Sources */,
 				1A8ADC0B1A82852D003C2509 /* PSAction_ClearPort.swift in Sources */,
 				1A8F93E619C87E960019F37A /* PSEntryNameFormatter.swift in Sources */,
 				1A9CE36F1AA8BC0400C846F4 /* PSAction_RunEvent.swift in Sources */,
@@ -3159,7 +3160,6 @@
 				1A8F13A619B729BD0038C331 /* PSDefaultConstants.swift in Sources */,
 				1AD385D71B28706A0048C250 /* NSFlippedView.swift in Sources */,
 				1A9388A719DEA55F00F1EB30 /* PSAttribute_Position.swift in Sources */,
-				1A7E93411B1DF25A00498D2E /* PSScreenRes.swift in Sources */,
 				1A63BC181A3B45EE007B9318 /* PSSynchronizedScroller.m in Sources */,
 				1A9CE3631AA8BA1A00C846F4 /* PSAction_QuitBlock.swift in Sources */,
 				1A0B52461AEFCC3600E0ADDB /* PSDialogVariablePropertiesController.swift in Sources */,

@@ -9,7 +9,12 @@
 import Foundation
 
 //to allow menu events to trigger on relevent things
-class PSPortBuilderWindow : NSWindow {
+class PSPortBuilderWindow : NSWindow, NSWindowDelegate {
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        self.delegate = self
+    }
     
     var controller : PSPortBuilderController!
     
@@ -35,5 +40,9 @@ class PSPortBuilderWindow : NSWindow {
         }
         
         super.keyDown(theEvent)
+    }
+    
+    func windowDidResize(notification: NSNotification) {
+        if controller != nil {controller.refreshDisplay() }
     }
 }

@@ -163,17 +163,21 @@ class PSPortBuilderController: NSObject, NSOutlineViewDataSource, NSOutlineViewD
     
     func refreshDisplay() {
         //update controls from ports
+        previewView.resetDisplayToScreensOnly()
+        
+        //now add all the port and position layers
+        for port in portScript.portEntries { previewView.addNewPort(port) }
+        for position in portScript.positionEntries { previewView.addNewPosition(position) }
+        
+        //set up the entire screen port (special, cant be clicked)
         if let entireScreenPort = portScript.entireScreenPort {
-            previewView.entireScreenPortLayer = entireScreenPort.layer
+            previewView.setEntireScreenPort(entireScreenPort)
         }
         
-        for portEntry in portScript.portEntries {
-            displayPort(portEntry)
-            for positionEntry in portEntry.positions {
-                displayPosition(positionEntry)
-            }
-        }
+        //update the outline view's data
         outlineView.reloadData()
+        
+        //update the other controls (e.g. buttons and visual selection)
         updateControls()
     }
     
@@ -421,29 +425,23 @@ class PSPortBuilderController: NSObject, NSOutlineViewDataSource, NSOutlineViewD
         }
         return ""
     }
-    
-    //MARK: Routines to display ports/ positions
-    
-    func displayPort(port : PSPort) {
-        previewView.screenLayer.addSublayer(port.layer)
-        port.updateLayer()
-    }
-    
-    func displayPosition(position : PSPosition) {
-        previewView.screenLayer.addSublayer(position.layer)
-        position.updateLayer()
-    }
+
     
     //MARK: New port/position buttons
     
     @IBAction func newPortButton(_: AnyObject) {
         let name = scriptData.getNextFreeBaseEntryName("Port")
-        portScript.addPort(name)
+        if let port = portScript.addPort(name) {
+            previewView.addNewPort(port)
+        }
     }
     
     @IBAction func newPositionButtonClick(_: AnyObject) {
+        guard let currentSelectedPort = selectedPort else { return }
         let name = scriptData.getNextFreeBaseEntryName("Position")
-        portScript.addPosition(name, port: selectedPort!)
+        if let position = portScript.addPosition(name, port: currentSelectedPort) {
+            previewView.addNewPosition(position)
+        }
     }
     
     //MARK: Delete button / menu item

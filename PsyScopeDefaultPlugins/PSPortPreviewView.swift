@@ -13,6 +13,7 @@ struct PSPortClickedLayer {
     var originalPosition : NSPoint = NSPoint()
 }
 
+//this contains a layer, which has the screen layers (representing the screen layout) as well as the ports and positions
 @objc class PSPortPreviewView: NSView {
 
     var controller : PSPortBuilderController!
@@ -21,30 +22,114 @@ struct PSPortClickedLayer {
     var dragged : Bool = false
     var highlightedIndex : Int = 0
     var fullScreen : Bool = false
-    var screenLayer : CALayer!
-    var entireScreenPortLayer : CALayer!
+    var mainLayer : CALayer? //the main layer where coordinates make sense....
+    var screenLayers : [CALayer] = []  //blueish rectangles representing the screen layout
+    var centreOffset : CGPoint = CGPointZero
+    var portScript : PSPortScript!
+    
+    var entireScreenPortLayer : CALayer? //holds the layer for the port for the entire screen (if it exists)
     
     override func awakeFromNib() {
+        portScript = controller.portScript
         self.layer = CALayer()
-        self.screenLayer = CALayer()
+        self.mainLayer = CALayer()
         self.wantsLayer = true
-        self.layer?.addSublayer(screenLayer)
-        self.layer!.backgroundColor = NSColor.lightGrayColor().CGColor
-        self.screenLayer.backgroundColor = PSConstants.BasicDefaultColors.backgroundColor
-        self.screenLayer.anchorPoint = CGPoint(x: 0.0, y: 0.5)
-        resizeScreenLayer()
+        self.layer?.backgroundColor = NSColor.lightGrayColor().CGColor
+        self.layer?.addSublayer(mainLayer!)
+        
+        resetDisplayToScreensOnly()
     }
     
-    //sets the layer to match the size of the screen / and fit into the view
-    func resizeScreenLayer() {
-        let res = PSScreenRes()
-        self.screenLayer.bounds = CGRect(origin: NSZeroPoint, size: CGSizeMake(CGFloat(res.width), CGFloat(res.height)))
-        let view_size = self.layer!.bounds.size
-        let view_width : CGFloat = view_size.width
-        let view_height : CGFloat = view_size.height
-        self.screenLayer.position = CGPoint(x: 0, y: view_height / 2)
-        let ratio = (view_width / res.width)
-        screenLayer.transform = CATransform3DMakeScale(ratio, ratio, 1.0)
+    override var flipped : Bool { get { return true }}
+    
+    //MARK: Refresh methods
+    
+    
+    //removes all layers except the screen layers (e.g. all ports and positions)
+    func resetDisplayToScreensOnly() {
+        guard let mainLayer = mainLayer else { fatalError("No layer detected") }
+        let subLayers : [CALayer] = mainLayer.sublayers == nil ? [] : mainLayer.sublayers!
+        
+        CATransaction.begin()
+        CATransaction.setDisableActions(true)
+        
+        //remove existing layers
+        for layer in subLayers {
+            layer.removeFromSuperlayer()
+        }
+        
+        //add the screen layers
+        updateScreenLayers()
+        
+        CATransaction.commit()
+    }
+    
+    //sets the layer to match the size of the screen(s) / and fit into the view
+    func updateScreenLayers() {
+        
+        guard let mainLayer = mainLayer else { fatalError("No layer detected") }
+        
+        //format the main bg layer
+        mainLayer.backgroundColor = NSColor.lightGrayColor().CGColor
+        
+        //get the effective size of the screens and their origin
+        let effectiveResolution = PSScreen.getEffectiveResolution()
+        let effectiveOrigin = effectiveResolution.origin
+        
+        //Swift.print("EffectiveRes:  \(effectiveResolution)  EffectiveOrig: \(effectiveOrigin)")
+        
+        //get the size of the view in which to position the layers
+        
+        let viewSize = self.bounds.size
+        let viewWidth : CGFloat = viewSize.width
+        let viewHeight : CGFloat = viewSize.height
+        
+        
+        
+        //to resize the layers to fit within the mainLayer, find the ratio to fit them in
+        let ratio1 = viewWidth / (effectiveResolution.width)
+        let ratio2 = viewHeight / (effectiveResolution.height)
+        let ratio = min(ratio1, ratio2)
+        
+        if ratio == ratio1 {
+            //width used to create ratio, so can centre height
+            centreOffset = CGPoint(x: 0, y: ((viewHeight / ratio1) - effectiveResolution.height) / 2)
+            
+        } else {
+            //height used to create ratio, so can centre width
+            centreOffset = CGPoint(x: ((viewWidth / ratio2) - effectiveResolution.width) / 2, y: 0)
+        }
+        
+        Swift.print("View size: \(viewSize), ratio \(ratio)")
+        
+        //transform the layers scale
+        
+        var transform = CATransform3DMakeScale(ratio, ratio, 1.0)
+        transform = CATransform3DTranslate(transform, centreOffset.x, centreOffset.y, 0)
+        mainLayer.bounds = self.bounds
+        mainLayer.transform = transform
+        
+        
+        //add the layers representing screens
+        for screen in PSScreen.getScreens() {
+            let screenLayer = CALayer()
+            screenLayer.backgroundColor = PSConstants.BasicDefaultColors.backgroundColor
+            screenLayer.anchorPoint = CGPoint(x: 0.0, y: 0.0)
+            
+        
+            screenLayer.bounds = NSRectToCGRect(screen.frame)
+            
+            
+            //screens come in with flipped y coords
+            let position = CGPoint(x: screen.frame.origin.x - effectiveOrigin.x, y: effectiveResolution.height - (screen.frame.origin.y + screen.frame.height))
+            
+            //Swift.print("Screen:  \(screen.frame)  Position: \(position)")
+            screenLayer.position = position
+            screenLayers.append(screenLayer)
+            mainLayer.addSublayer(screenLayer)
+        }
+        
+        
     }
     
     //MARK: Key events
@@ -111,7 +196,7 @@ struct PSPortClickedLayer {
     override func mouseUp(theEvent: NSEvent) {
         if !dragged {
             let click_point = self.convertPoint(theEvent.locationInWindow, fromView: nil)
-            Swift.print("View: \(click_point)")
+            //Swift.print("View: \(click_point)")
             let hit_layers = hitLayers(NSPointToCGPoint(click_point))
             
             var same = true
@@ -159,19 +244,28 @@ struct PSPortClickedLayer {
     
     func hitLayers(point : CGPoint) -> [CALayer] {
         var return_val : [CALayer] = []
-        var point2 = screenLayer.convertPoint(point, fromLayer: layer)
-        if screenLayer.sublayers != nil {
-            for eachLayer in screenLayer.sublayers! {
-                
-                if eachLayer !== self.entireScreenPortLayer {
-                
-                    var point3 = eachLayer.convertPoint(point2, fromLayer: screenLayer)
-                    if eachLayer.containsPoint(point3) {
-                        return_val.append(eachLayer as! CALayer)
+        guard let mainLayer = mainLayer else { fatalError("No layer detected") }
+    
+        let viewCoordsPoint = mainLayer.convertPoint(point, fromLayer: nil)
+        let convertedPoint = CGPoint(x: viewCoordsPoint.x + centreOffset.x, y: viewCoordsPoint.y + centreOffset.y)
+        Swift.print("Converted \(convertedPoint)")
+        
+        //cycle through each screen
+        for screenLayer in screenLayers {
+            if screenLayer.sublayers != nil {
+                for eachLayer in screenLayer.sublayers! {
+                    
+                    if eachLayer !== self.entireScreenPortLayer {
+                        
+                        let pointInScreenLayer = eachLayer.convertPoint(convertedPoint, fromLayer: screenLayer)
+                        if eachLayer.containsPoint(pointInScreenLayer) {
+                            return_val.append(eachLayer )
+                        }
                     }
                 }
             }
         }
+        
         return return_val
     }
     
@@ -181,7 +275,7 @@ struct PSPortClickedLayer {
         if (!fullScreen) {
             enterFullScreenMode(self.window!.screen!, withOptions: nil)
             Swift.print(self.window)
-            resizeScreenLayer()
+            updateScreenLayers()
             fullScreen = true
             self.becomeFirstResponder()
         }
@@ -191,7 +285,7 @@ struct PSPortClickedLayer {
         if (fullScreen) {
             exitFullScreenModeWithOptions([:])
             Swift.print(self.window)
-            resizeScreenLayer()
+            updateScreenLayers()
             fullScreen = false
             Swift.print(self.window)
         }
@@ -205,5 +299,29 @@ struct PSPortClickedLayer {
     override func acceptsFirstMouse(theEvent: NSEvent?) -> Bool {
         Swift.print("Accepts first mouse")
         return true
+    }
+    
+ 
+    
+    
+    //MARK: For Adding new port layers
+    func addNewPort(port : PSPort) {
+        addLayerAtTop(port.layer)
+    }
+    
+    func addNewPosition(position : PSPosition) {
+        addLayerAtTop(position.layer)
+    }
+    
+    func addLayerAtTop(layer : CALayer) {
+        Swift.print(layer.position)
+        guard let mainLayer = mainLayer, sublayers = mainLayer.sublayers else { fatalError("No layer detected") }
+        mainLayer.insertSublayer(layer, atIndex: UInt32(sublayers.count))
+    }
+    
+    //MARK: To set a layer as being the entire screen port (immovable etc)
+    
+    func setEntireScreenPort(port : PSPort?) {
+        entireScreenPortLayer = port?.layer
     }
 }

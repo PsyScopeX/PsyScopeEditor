@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="8152.3" systemVersion="14D136" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="8152.3"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="8191"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="PSPortBuilderController" customModule="PsyScopeDefaultPlugins">
@@ -31,14 +31,14 @@
                 <subviews>
                     <customView id="FKv-GK-e65" customClass="PSPortPreviewView" customModule="PsyScopeDefaultPlugins" customModuleProvider="target">
                         <rect key="frame" x="247" y="69" width="462" height="325"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <connections>
                             <outlet property="controller" destination="-2" id="wRZ-UY-7Ai"/>
                         </connections>
                     </customView>
                     <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="kFd-7y-fNK">
                         <rect key="frame" x="20" y="69" width="211" height="325"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES"/>
                         <clipView key="contentView" id="CC5-9l-VZb">
                             <rect key="frame" x="1" y="1" width="209" height="323"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -121,7 +121,7 @@
                     </button>
                     <button verticalHuggingPriority="750" id="hLi-gI-Vgv">
                         <rect key="frame" x="485" y="13" width="147" height="32"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                         <buttonCell key="cell" type="push" title="Select Port" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="kp6-cG-uhJ">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
@@ -146,7 +146,7 @@ DQ
                     </button>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="Xci-Ov-wIS">
                         <rect key="frame" x="18" y="24" width="228" height="17"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Selected Port:" id="Ged-ml-PNb">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -155,7 +155,7 @@ DQ
                     </textField>
                     <button verticalHuggingPriority="750" id="el7-IS-nKN">
                         <rect key="frame" x="241" y="13" width="65" height="32"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <buttonCell key="cell" type="push" title="Edit" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="SDF-Zb-EYe">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
@@ -166,7 +166,7 @@ DQ
                     </button>
                     <button verticalHuggingPriority="750" id="exB-ek-KP2">
                         <rect key="frame" x="632" y="13" width="83" height="32"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                         <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Hg2-l9-U9g">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
@@ -198,7 +198,7 @@ Gw
             <point key="canvasLocation" x="162.5" y="180.5"/>
         </window>
         <view id="02N-RJ-Ev5" userLabel="Port View">
-            <rect key="frame" x="0.0" y="6" width="278" height="295"/>
+            <rect key="frame" x="0.0" y="0.0" width="278" height="295"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="KXo-c9-Zd7">
@@ -593,7 +593,7 @@ Gw
                 <outlet property="view" destination="02N-RJ-Ev5" id="2EI-cD-5Pb"/>
             </connections>
         </viewController>
-        <popover behavior="t" id="m65-Ks-hY4" userLabel="Port Popover">
+        <popover behavior="semitransient" id="m65-Ks-hY4" userLabel="Port Popover">
             <connections>
                 <outlet property="contentViewController" destination="bSI-2l-ksd" id="ep5-8E-3NF"/>
             </connections>
@@ -616,7 +616,7 @@ Gw
                 <outlet property="view" destination="HbK-c7-uV7" id="RYe-VA-1yT"/>
             </connections>
         </viewController>
-        <popover behavior="t" id="NTT-Hp-ioI" userLabel="Position Popover">
+        <popover behavior="semitransient" id="NTT-Hp-ioI" userLabel="Position Popover">
             <connections>
                 <outlet property="contentViewController" destination="Yar-DK-nqN" id="ic6-rW-8pq"/>
             </connections>

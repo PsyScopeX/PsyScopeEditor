@@ -8,6 +8,8 @@
 import Foundation
 
 
+//parses a port entry as an object - has a layer which updates it's coordinates automatically
+
 
 class PSPort : Hashable, Equatable {
     
@@ -34,7 +36,7 @@ class PSPort : Hashable, Equatable {
         didSet { updateIfNotParsing() }
     }
     
-    //parsing
+    //flag to determine if currently parsing
     var parsing = false
     
     //positions
