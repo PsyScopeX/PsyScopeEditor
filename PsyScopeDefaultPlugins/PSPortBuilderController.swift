@@ -166,7 +166,11 @@ class PSPortBuilderController: NSObject, NSOutlineViewDataSource, NSOutlineViewD
         previewView.resetDisplayToScreensOnly()
         
         //now add all the port and position layers
-        for port in portScript.portEntries { previewView.addNewPort(port) }
+        for port in portScript.portEntries {
+            port.updateLayer()
+            previewView.addNewPort(port)
+        }
+        
         for position in portScript.positionEntries { previewView.addNewPosition(position) }
         
         //set up the entire screen port (special, cant be clicked)

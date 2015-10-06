@@ -166,31 +166,28 @@ class PSPort : Hashable, Equatable {
     func setHighlight(on : Bool) {
         highlighted = on
         if (on) {
+            //format for selected port
             layer.fillColor = PSConstants.BasicDefaultColors.foregroundColorLowAlpha // luca added to fill the color of the selected port darker blue, as in the default interface
             layer.strokeColor =  NSColor.whiteColor().CGColor // luca trying to use the same convention as in the main interface: selected objects have white border
             
-            let super_layer : CALayer = layer.superlayer!
-            
-            if let sl = super_layer.sublayers {
-                //bring to front
+            //bring to front
+            if let superlayer = layer.superlayer, sublayers = superlayer.sublayers {
                 layer.removeFromSuperlayer()
-                let index : UInt32 = UInt32(sl.count)
-                super_layer.insertSublayer(layer, atIndex: index)
+                superlayer.insertSublayer(layer, atIndex: UInt32(sublayers.count))
             }
         } else {
-            
+            //format for unselected port
             layer.strokeColor = NSColor.lightGrayColor().CGColor // this is the default color of the border. Light gray by popular demand
             layer.fillColor = NSColor.clearColor().CGColor
         }
         
         layer.borderWidth = 0
-        // layer.fillColor = NSColor.clearColor().CGColor // luca commented to get the inner space  of selected ports a bit darker
     }
     
     func updateLayer() {
-        // TODO: Streamline this
-        if (border>0) {
-            //layer.borderColor = NSColor.redColor().CGColor // this is the default color
+        
+        //the port uses line rather than border to display the border.
+        if (border > 0) {
             layer.lineWidth = CGFloat(border)// luca to show the right border size
             layer.lineDashPattern = nil
         } else { // consider the case in which borders are 0
@@ -200,11 +197,17 @@ class PSPort : Hashable, Equatable {
         
         setHighlight(highlighted) //set correct border color
         
-        let res = PSScreenRes()
+        //get the resolution of the screen
+        let res = PSScreen.getEffectiveResolution()
+        
+        //get the height and width of the port
         let cgwidth : CGFloat = CGFloat(width.pixels(Int(res.width)))
         let cgheight : CGFloat = CGFloat(height.pixels(Int(res.height)))
-        var anchorX : CGFloat = CGFloat(0.5)
-        var anchorY : CGFloat = CGFloat(0.5)
+        
+        
+        //get the anchor for the position
+        var anchorX : CGFloat
+        var anchorY : CGFloat
         
         switch(alignmentPoint) {
         case .Center:
@@ -241,28 +244,36 @@ class PSPort : Hashable, Equatable {
             anchorY = 1 - (CGFloat(y) / cgheight)
         }
         
+        //compute the offset implied by the anchor
         let anchorOffsetX : CGFloat = anchorX * cgwidth
         let anchorOffsetY : CGFloat = anchorY * cgheight
+        
+        //compute the offset due to the border
         let borderOffset : CGFloat = CGFloat(border) / 2
+        
+        //the actual layers point will be top left corner
         layer.anchorPoint = CGPoint(x: 0, y: 0)
         
+        //the final geomtry for the port layer
         let loc_x = CGFloat(x.pixels(Int(res.width))) - anchorOffsetX - borderOffset
         let loc_y = res.height - CGFloat(y.pixels(Int(res.height))) - anchorOffsetY - borderOffset
         layer.bounds = CGRect(origin: NSZeroPoint, size: CGSizeMake(cgwidth + CGFloat(border), cgheight + CGFloat(border)))
         layer.position = CGPoint(x: loc_x, y: loc_y)
         
+        //print("Layer bounds: \(layer.bounds) \nLayer positn: \(layer.position)")
+        
+        
+        //create the line for the border
         let path = CGPathCreateMutable();
         CGPathMoveToPoint(path, nil, 0, 0);
-        
         CGPathAddLineToPoint(path, nil, 0, layer.bounds.height);
         CGPathAddLineToPoint(path, nil, layer.bounds.width, layer.bounds.height);
         CGPathAddLineToPoint(path, nil, layer.bounds.width, 0);
         CGPathCloseSubpath(path);
-        
         layer.path = path;
         
-        // layer.borderWidth = CGFloat(border)
-        
+
+        //update the sub positions
         for pos in positions {
             pos.updateLayer()
         }

@@ -93,21 +93,30 @@ struct PSPortClickedLayer {
         
         if ratio == ratio1 {
             //width used to create ratio, so can centre height
-            centreOffset = CGPoint(x: 0, y: ((viewHeight / ratio1) - effectiveResolution.height) / 2)
+            let heightOfScreenInViewCoords = (ratio1 * effectiveResolution.height)
+            let offset = (heightOfScreenInViewCoords - viewHeight) / CGFloat(2)
+            centreOffset = CGPoint(x: 0, y: heightOfScreenInViewCoords - offset)
             
         } else {
             //height used to create ratio, so can centre width
-            centreOffset = CGPoint(x: ((viewWidth / ratio2) - effectiveResolution.width) / 2, y: 0)
+            
+            let widthOfScreenInViewCoords = (ratio2 * effectiveResolution.width)
+            let offset = (widthOfScreenInViewCoords - viewWidth) / CGFloat(2)
+            centreOffset = CGPoint(x: 0 - offset, y: viewHeight)
         }
         
+        Swift.print("Centre offset \(centreOffset) ER: \(effectiveResolution)")
         Swift.print("View size: \(viewSize), ratio \(ratio)")
         
         //transform the layers scale
         
-        var transform = CATransform3DMakeScale(ratio, ratio, 1.0)
-        transform = CATransform3DTranslate(transform, centreOffset.x, centreOffset.y, 0)
+        //var transform = CATransform3DMakeScale(ratio, 0 - ratio, 1.0)
+        var transform = CATransform3DMakeTranslation(centreOffset.x, centreOffset.y, 0)
+        transform = CATransform3DScale(transform, ratio, 0 - ratio, 1.0)
         mainLayer.bounds = self.bounds
         mainLayer.transform = transform
+        mainLayer.anchorPoint = CGPointZero
+        mainLayer.position = CGPointZero
         
         
         //add the layers representing screens
@@ -314,7 +323,6 @@ struct PSPortClickedLayer {
     }
     
     func addLayerAtTop(layer : CALayer) {
-        Swift.print(layer.position)
         guard let mainLayer = mainLayer, sublayers = mainLayer.sublayers else { fatalError("No layer detected") }
         mainLayer.insertSublayer(layer, atIndex: UInt32(sublayers.count))
     }
