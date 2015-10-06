@@ -42,34 +42,28 @@ class PSScreen {
         
         _screens = screens;
         
-        var width : CGFloat = 0
-        var height : CGFloat = 0
+        var leftMost : CGFloat = 0
+        var rightMost : CGFloat = 0
+        var upMost : CGFloat = 0
+        var downMost : CGFloat = 0
         
-        var originX : CGFloat = 0
-        var originY : CGFloat = 0
+
         
         
         for screen in screens {
             let frame = screen.frame
             
-            if frame.origin.x < 0 {
-                width = max(width, frame.width - frame.origin.x)
-            } else {
-                width = max(width, frame.width + frame.origin.x)
-            }
+            leftMost = min(leftMost, frame.origin.x)
+            rightMost = max(rightMost, frame.origin.x + frame.width)
+            upMost = min(upMost, frame.origin.y)
+            downMost = max(downMost, frame.origin.y + frame.height)
             
+  
             
-            if frame.origin.y < 0 {
-                height = max(height, frame.height - frame.origin.y)
-            } else {
-                height = max(height, frame.height + frame.origin.y)
-            }
-            
-            originX = min(originX, frame.origin.x)
-            originY = min(originY, frame.origin.y)
+
         }
         
-        _effectiveResolution = NSRect(x: originX, y: originY, width: width, height: height)
+        _effectiveResolution = NSRect(x: leftMost, y: upMost, width: rightMost - leftMost, height: downMost - upMost)
         cached = true
 
         

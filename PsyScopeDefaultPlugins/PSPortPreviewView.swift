@@ -130,9 +130,9 @@ struct PSPortClickedLayer {
             
             
             //screens come in with flipped y coords
-            let position = CGPoint(x: screen.frame.origin.x - effectiveOrigin.x, y: effectiveResolution.height - (screen.frame.origin.y + screen.frame.height))
+            let position = CGPoint(x: screen.frame.origin.x - effectiveOrigin.x, y: screen.frame.origin.y - effectiveOrigin.y)
             
-            //Swift.print("Screen:  \(screen.frame)  Position: \(position)")
+            Swift.print("Screen:  \(screen.frame)  Position: \(position)")
             screenLayer.position = position
             screenLayers.append(screenLayer)
             mainLayer.addSublayer(screenLayer)
