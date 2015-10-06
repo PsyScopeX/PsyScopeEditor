@@ -183,24 +183,20 @@ class PSPortBuilderController: NSObject, NSOutlineViewDataSource, NSOutlineViewD
             previewView.setEntireScreenPort(entireScreenPort)
         }
         
-        //check if selected port / positionstill exists
-        if let selectedPort = selectedPort {
-            if !portScript.portEntries.contains(selectedPort) {
-                self.selectedPort = nil
-                self.selectedPosition = nil
-            } else {
-                if let selectedPosition = selectedPosition {
-                    if !portScript.positionEntries.contains(selectedPosition) {
-                        self.selectedPort = nil
-                        self.selectedPosition = nil
-                    }
-                }
-                
-            }
+        //check if selected port / positionstill exists + update popovers
+        if let selectedPort = selectedPort where portScript.portEntries.contains(selectedPort) {
+            
+            portPopoverController.updatePopoverControls(selectedPort)
+            if let selectedPosition = selectedPosition where portScript.positionEntries.contains(selectedPosition) {
+                    positionPopoverController.updatePopoverControls(selectedPosition)
+            } 
+        } else {
+            self.selectedPort = nil
+            self.selectedPosition = nil
         }
         
         //remember which controller was being shown
-        //let showingPositionPopover = positionPopoverController.shown
+        
         //let showingPortPopover = portPopoverController.shown
         
         

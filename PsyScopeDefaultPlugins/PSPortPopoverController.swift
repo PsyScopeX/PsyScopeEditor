@@ -60,12 +60,6 @@ class PSPortPopoverController : NSObject {
     func updatePopoverControls(port : PSPort) {
         portNameText.stringValue = port.name as String
         
-        hideControls(hotspotPopup, controls: [hotspotXText, hotspotYText])
-        hideControls(xPopup, controls: [xInc, xText])
-        hideControls(yPopup, controls: [yInc, yText])
-        hideControls(widthPopup, controls: [widthInc, widthText])
-        hideControls(heightPopup, controls: [heightInc, heightText])
-        
         switch (port.height) {
         case let .Percentage(perc):
             heightText.stringValue = "\(perc)"
@@ -182,6 +176,12 @@ class PSPortPopoverController : NSObject {
             hotspotXText.stringValue = "0"
             hotspotYText.stringValue = "0"
         }
+        
+        hideControls(hotspotPopup, controls: [hotspotXText, hotspotYText])
+        hideControls(xPopup, controls: [xInc, xText])
+        hideControls(yPopup, controls: [yInc, yText])
+        hideControls(widthPopup, controls: [widthInc, widthText])
+        hideControls(heightPopup, controls: [heightInc, heightText])
     }
     
     func hideControls(button : NSPopUpButton, controls : [NSView]) {
