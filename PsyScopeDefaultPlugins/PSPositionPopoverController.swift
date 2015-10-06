@@ -24,6 +24,8 @@ class PSPositionPopoverController : NSObject {
     @IBOutlet var posyPopup : NSPopUpButton!
     @IBOutlet var posxPopup : NSPopUpButton!
     
+    var view : NSView! = nil
+    
     var selectedPosition : PSPosition {
         get {
             return portBuilderController.selectedPosition!
@@ -35,6 +37,7 @@ class PSPositionPopoverController : NSObject {
     }
     
     func show(view : NSView) {
+        self.view = view
         positionPopover.showRelativeToRect(view.bounds, ofView: view, preferredEdge: NSRectEdge.MinY)
     }
     

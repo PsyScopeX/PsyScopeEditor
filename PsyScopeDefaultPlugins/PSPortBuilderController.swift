@@ -19,6 +19,37 @@ class PSPortBuilderController: NSObject, NSOutlineViewDataSource, NSOutlineViewD
     internal var parentWindow : NSWindow!
     internal var setCurrentValueBlock : ((String) -> ())?
     
+    //return value variables
+    let functionName : String
+    let originalValue : String
+    let functionElement : PSFunctionElement
+    
+    var positionMode : Bool
+    var scriptData : PSScriptData
+    var portScript : PSPortScript
+    
+    //Main controls
+    @IBOutlet var outlineView : PSPortBuilderOutlineView!
+    @IBOutlet var mainPortWindow : NSWindow!
+    @IBOutlet var previewView : PSPortPreviewView!
+    @IBOutlet var newPositionButton : NSButton!
+    @IBOutlet var chosenPortLabel : NSTextField!
+    @IBOutlet var okButton : NSButton!
+    @IBOutlet var editButton : NSButton!
+    
+    //Popover controllers
+    @IBOutlet var portPopoverController : PSPortPopoverController!
+    @IBOutlet var positionPopoverController : PSPositionPopoverController!
+    
+    
+    //Selected object
+    var selectedPort : PSPort?
+    var selectedPosition : PSPosition?
+    var preventSelectingObject : Bool = false  //prevent looping when using outline view delegate to make selections
+    
+    
+    var initialized : Bool = false
+    
 
     func showAttributeModalForWindow(window : NSWindow) {
         if (attributeSheet == nil) {
@@ -76,36 +107,7 @@ class PSPortBuilderController: NSObject, NSOutlineViewDataSource, NSOutlineViewD
         registeredForChanges = false
     }
     
-    //return value variables
-    let functionName : String
-    let originalValue : String
-    let functionElement : PSFunctionElement
     
-    var positionMode : Bool
-    var scriptData : PSScriptData
-    var portScript : PSPortScript
-
-    //Main controls
-    @IBOutlet var outlineView : PSPortBuilderOutlineView!
-    @IBOutlet var mainPortWindow : NSWindow!
-    @IBOutlet var previewView : PSPortPreviewView!
-    @IBOutlet var newPositionButton : NSButton!
-    @IBOutlet var chosenPortLabel : NSTextField!
-    @IBOutlet var okButton : NSButton!
-    @IBOutlet var editButton : NSButton!
-    
-    //Popover controllers
-    @IBOutlet var portPopoverController : PSPortPopoverController!
-    @IBOutlet var positionPopoverController : PSPositionPopoverController!
-    
-
-    //Selected object
-    var selectedPort : PSPort?
-    var selectedPosition : PSPosition?
-    var preventSelectingObject : Bool = false  //prevent looping when using outline view delegate to make selections
-    
-
-    var initialized : Bool = false
     override func awakeFromNib() {
         super.awakeFromNib()
         if (!initialized) {
@@ -119,6 +121,9 @@ class PSPortBuilderController: NSObject, NSOutlineViewDataSource, NSOutlineViewD
             
             registeredForChanges = true
             refreshDisplay()
+            
+            //update the outline view's data
+            outlineView.reloadData()
             
             //setting initialized to true now means we can get currently selected item from currentValue
             initialized = true
@@ -178,11 +183,47 @@ class PSPortBuilderController: NSObject, NSOutlineViewDataSource, NSOutlineViewD
             previewView.setEntireScreenPort(entireScreenPort)
         }
         
-        //update the outline view's data
-        outlineView.reloadData()
+        //check if selected port / positionstill exists
+        if let selectedPort = selectedPort {
+            if !portScript.portEntries.contains(selectedPort) {
+                self.selectedPort = nil
+                self.selectedPosition = nil
+            } else {
+                if let selectedPosition = selectedPosition {
+                    if !portScript.positionEntries.contains(selectedPosition) {
+                        self.selectedPort = nil
+                        self.selectedPosition = nil
+                    }
+                }
+                
+            }
+        }
         
+        //remember which controller was being shown
+        //let showingPositionPopover = positionPopoverController.shown
+        //let showingPortPopover = portPopoverController.shown
+        
+        
+    
         //update the other controls (e.g. buttons and visual selection)
         updateControls()
+        
+        /*
+        if showingPositionPopover {
+            if positionPopoverController.view == editButton {
+                positionPopoverController.show(editButton)
+            } else if let view = outlineView.viewAtColumn(0, row: outlineView.rowForItem(selectedPosition), makeIfNecessary: true) {
+                    positionPopoverController.show(view)
+                }
+
+        } else if showingPortPopover {
+            if portPopoverController.view == editButton {
+                portPopoverController.show(editButton)
+            } else if let view = outlineView.viewAtColumn(0, row: outlineView.rowForItem(selectedPort), makeIfNecessary: true) {
+                portPopoverController.show(view)
+            }
+        }*/
+        
     }
     
     func updateControls() {
@@ -208,11 +249,14 @@ class PSPortBuilderController: NSObject, NSOutlineViewDataSource, NSOutlineViewD
                 editButton.enabled = true
             }
             
+            /*
+            preventSelectingObject = true
             if let selectedPosition = selectedPosition {
                 outlineView.selectRowIndexes(NSIndexSet(index: outlineView.rowForItem(selectedPosition)), byExtendingSelection: false)
             } else {
                 outlineView.selectRowIndexes(NSIndexSet(index: outlineView.rowForItem(selectedPort)), byExtendingSelection: false)
             }
+            preventSelectingObject = false*/
  
         } else {
             if positionMode {
@@ -224,6 +268,7 @@ class PSPortBuilderController: NSObject, NSOutlineViewDataSource, NSOutlineViewD
             }
             newPositionButton.enabled = false
             editButton.enabled = false
+            outlineView.deselectAll(nil)
         }
         
         if (initialized) {
@@ -348,42 +393,48 @@ class PSPortBuilderController: NSObject, NSOutlineViewDataSource, NSOutlineViewD
         let selected_item : AnyObject? = outlineView.itemAtRow(outlineView.selectedRow)
         
         if let port = selected_item as? PSPort {
-            editButton.enabled = true
-            selectPort(port)
-            
-            if portPopoverController.shown || positionPopoverController.shown {
-                positionPopoverController.close()
-                let clickedCol = outlineView.selectedColumn
-                let clickedRow = outlineView.selectedRow
+
+                editButton.enabled = true
+                selectPort(port)
                 
-                if clickedRow > -1 && port.name != "Entire Screen" {
-                    if let view = outlineView.viewAtColumn(clickedCol, row: clickedRow, makeIfNecessary: false) {
-                        portPopoverController.show(view)
-                        return
+                if portPopoverController.shown || positionPopoverController.shown {
+                    positionPopoverController.close()
+                    let clickedCol = outlineView.selectedColumn
+                    let clickedRow = outlineView.selectedRow
+                    
+                    if clickedRow > -1 && port.name != "Entire Screen" {
+                        if let view = outlineView.viewAtColumn(clickedCol, row: clickedRow, makeIfNecessary: false) {
+                            portPopoverController.show(view)
+                            return
+                        }
                     }
+                    portPopoverController.close()
                 }
-                portPopoverController.close()
-            }
+       
         } else if let position = selected_item as? PSPosition {
-            editButton.enabled = true
-            selectPosition(position)
-            
-            if portPopoverController.shown || positionPopoverController.shown {
-                portPopoverController.close()
-                let clickedCol = outlineView.selectedColumn
-                let clickedRow = outlineView.selectedRow
+
+                editButton.enabled = true
+                selectPosition(position)
                 
-                if clickedRow > -1 {
-                    if let view = outlineView.viewAtColumn(clickedCol, row: clickedRow, makeIfNecessary: false) {
-                        positionPopoverController.show(view)
-                        return
+                if portPopoverController.shown || positionPopoverController.shown {
+                    portPopoverController.close()
+                    let clickedCol = outlineView.selectedColumn
+                    let clickedRow = outlineView.selectedRow
+                    
+                    if clickedRow > -1 {
+                        if let view = outlineView.viewAtColumn(clickedCol, row: clickedRow, makeIfNecessary: false) {
+                            positionPopoverController.show(view)
+                            return
+                        }
                     }
+                    positionPopoverController.close()
                 }
-                positionPopoverController.close()
-            }
+     
         } else {
             //no selected
             editButton.enabled = false
+            positionPopoverController.close()
+            portPopoverController.close()
         }
         updateControls()
     }
@@ -438,6 +489,9 @@ class PSPortBuilderController: NSObject, NSOutlineViewDataSource, NSOutlineViewD
         if let port = portScript.addPort(name) {
             previewView.addNewPort(port)
         }
+        //update the outline view's data
+        outlineView.reloadData()
+        refreshDisplay()
     }
     
     @IBAction func newPositionButtonClick(_: AnyObject) {
@@ -446,6 +500,9 @@ class PSPortBuilderController: NSObject, NSOutlineViewDataSource, NSOutlineViewD
         if let position = portScript.addPosition(name, port: currentSelectedPort) {
             previewView.addNewPosition(position)
         }
+        //update the outline view's data
+        outlineView.reloadData()
+        refreshDisplay()
     }
     
     //MARK: Delete button / menu item
@@ -526,6 +583,9 @@ class PSPortBuilderController: NSObject, NSOutlineViewDataSource, NSOutlineViewD
         if selectedRow >= outlineView.numberOfRows {
             selectedRow -= 1
         }
+        //update the outline view's data
+        outlineView.reloadData()
+        refreshDisplay()
         
         outlineView.selectRowIndexes(NSIndexSet(index: selectedRow), byExtendingSelection: false)
     }

@@ -42,11 +42,14 @@ class PSPortPopoverController : NSObject {
         }
     }
     
+    var view : NSView! = nil
+    
     func close() {
         portPopover.close()
     }
     
     func show(view : NSView) {
+        self.view = view
         portPopover.showRelativeToRect(view.bounds, ofView: view, preferredEdge: NSRectEdge.MinY)
     }
     
