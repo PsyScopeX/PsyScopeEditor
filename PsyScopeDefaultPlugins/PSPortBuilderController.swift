@@ -91,11 +91,15 @@ class PSPortBuilderController: NSObject, NSOutlineViewDataSource, NSOutlineViewD
         
     }
     
+
+    
     var registeredForChanges : Bool = false {
         willSet {
             if newValue != registeredForChanges {
                 if newValue {
-                    NSNotificationCenter.defaultCenter().addObserver(self, selector: "docMocChanged:", name: NSManagedObjectContextObjectsDidChangeNotification, object: scriptData.docMoc)
+                    NSNotificationCenter.defaultCenter().addObserver(self, selector: "refreshNotification:", name: NSManagedObjectContextObjectsDidChangeNotification, object: scriptData.docMoc)
+
+                    NSNotificationCenter.defaultCenter().addObserver(self, selector: "refreshNotification:", name: PSScreenChangeNotification, object: nil)
                 } else {
                     NSNotificationCenter.defaultCenter().removeObserver(self)
                 }
@@ -157,12 +161,20 @@ class PSPortBuilderController: NSObject, NSOutlineViewDataSource, NSOutlineViewD
                 }
             }
             
+            
+            
         }
     }
     
     //MARK: RefreshDisplay
-    func docMocChanged(notification : NSNotification) {
+    func refreshNotification(notification : NSNotification) {
         refreshDisplay()
+    }
+    
+    
+    func DisplayCallback(_ :CGDirectDisplayID, _: CGDisplayChangeSummaryFlags,_: UnsafeMutablePointer<Void>) -> Void {
+        //reset caches
+        PSScreen.cached = false
     }
     
     

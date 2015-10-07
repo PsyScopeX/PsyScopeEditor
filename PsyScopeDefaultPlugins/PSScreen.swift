@@ -11,7 +11,10 @@ import Foundation
 func DisplayCallback(_ :CGDirectDisplayID, _: CGDisplayChangeSummaryFlags,_: UnsafeMutablePointer<Void>) -> Void {
     //reset caches
     PSScreen.cached = false
+    NSNotificationCenter.defaultCenter().postNotificationName(PSScreenChangeNotification, object: nil)
 }
+
+let PSScreenChangeNotification = "PSScreenChangeNotification"
 
 class PSScreen {
     static var registered : Bool = false
