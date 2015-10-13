@@ -75,7 +75,7 @@ class Document: NSPersistentDocument {
         if let mainWindow = mainWindowController.window {
             self.mainWindow = mainWindow
             //setup view options for window
-            mainWindow.titleVisibility = NSWindowTitleVisibility.Hidden
+            //mainWindow.titleVisibility = NSWindowTitleVisibility.Hidden
             mainWindow.titlebarAppearsTransparent = false
             mainWindow.movableByWindowBackground  = true
             //window.styleMask = window.styleMask | NSFullSizeContentViewWindowMask
