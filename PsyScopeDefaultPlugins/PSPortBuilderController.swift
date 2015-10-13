@@ -337,13 +337,13 @@ class PSPortBuilderController: NSObject, NSOutlineViewDataSource, NSOutlineViewD
     }
     
     func updatePositionFromLayer(layer : CALayer, originalPosition: NSPoint) {
-        for (_, p) in portScript.portEntries.enumerate() {
-            if p.layer === layer {
-                let res = PSScreenRes()
+        for port in portScript.portEntries {
+            if port.layer === layer {
+                let res = PSScreen.getEffectiveResolution()
                 let xDiff : Int = Int(layer.position.x - originalPosition.x)
-                let yDiff : Int = 0 - Int(layer.position.y - originalPosition.y)
-                p.x = p.x.transposeByPixels(xDiff, res: Int(res.width))
-                p.y = p.y.transposeByPixels(yDiff, res: Int(res.height))
+                let yDiff : Int = Int(layer.position.y - originalPosition.y)
+                port.x = port.x.transposeByPixels(xDiff, res: Int(res.width))
+                port.y = port.y.transposeByPixels(yDiff, res: Int(res.height))
                 return
             }
         }

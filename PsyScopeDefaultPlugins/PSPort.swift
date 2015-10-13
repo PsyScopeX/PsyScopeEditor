@@ -256,7 +256,7 @@ class PSPort : Hashable, Equatable {
         
         //the final geomtry for the port layer
         let loc_x = CGFloat(x.pixels(Int(res.width))) - anchorOffsetX - borderOffset
-        let loc_y = res.height - CGFloat(y.pixels(Int(res.height))) - anchorOffsetY - borderOffset
+        let loc_y = CGFloat(y.pixels(Int(res.height))) - anchorOffsetY - borderOffset
         layer.bounds = CGRect(origin: NSZeroPoint, size: CGSizeMake(cgwidth + CGFloat(border), cgheight + CGFloat(border)))
         layer.position = CGPoint(x: loc_x, y: loc_y)
         

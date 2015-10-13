@@ -22,9 +22,9 @@ struct PSPortClickedLayer {
     var dragged : Bool = false
     var highlightedIndex : Int = 0
     var fullScreen : Bool = false
-    var mainLayer : CALayer? //the main layer where coordinates make sense....
+    var mainLayer : CALayer? //the main layer where coordinates match those used by psyscopex
     var screenLayers : [CALayer] = []  //blueish rectangles representing the screen layout
-    var centreOffset : CGPoint = CGPointZero
+    
     var portScript : PSPortScript!
     
     var entireScreenPortLayer : CALayer? //holds the layer for the port for the entire screen (if it exists)
@@ -39,8 +39,6 @@ struct PSPortClickedLayer {
         
         resetDisplayToScreensOnly()
     }
-    
-    override var flipped : Bool { get { return true }}
     
     //MARK: Refresh methods
     
@@ -90,6 +88,7 @@ struct PSPortClickedLayer {
         let ratio1 = viewWidth / (effectiveResolution.width)
         let ratio2 = viewHeight / (effectiveResolution.height)
         let ratio = min(ratio1, ratio2)
+        var centreOffset : CGPoint = CGPointZero
         
         if ratio == ratio1 {
             //width used to create ratio, so can centre height
@@ -126,10 +125,8 @@ struct PSPortClickedLayer {
             screenLayer.anchorPoint = CGPoint(x: 0.0, y: 0.0)
             
         
-            screenLayer.bounds = NSRectToCGRect(screen.frame)
-            
-            
-            //screens come in with flipped y coords
+            screenLayer.frame = NSRectToCGRect(screen.frame)
+
             let position = CGPoint(x: screen.frame.origin.x - effectiveOrigin.x, y: screen.frame.origin.y - effectiveOrigin.y)
             
             Swift.print("Screen:  \(screen.frame)  Position: \(position)")
@@ -160,23 +157,26 @@ struct PSPortClickedLayer {
         clickedLayer = nil
         
         //get clicked layers
-        let click_point = self.convertPoint(theEvent.locationInWindow, fromView: nil)
-        let hit_layers = hitLayers(NSPointToCGPoint(click_point))
+        let clickPoint = convertMousePoint(theEvent.locationInWindow)
+        let currentHitLayers = hitLayers(NSPointToCGPoint(clickPoint))
 
-        //determine if currently selected layer is clicked
+        //determine if there is a currently selected layer
         if highlightedIndex > -1 && highlightedIndex < previousClickedLayers.count {
             let currentlySelectedLayer = previousClickedLayers[highlightedIndex]
-            if hit_layers.contains(currentlySelectedLayer) {
+            
+            //determine if currently selected layer is one of those that is clicked (nothing to do here if not - mouse up changes selection in this case)
+            if currentHitLayers.contains(currentlySelectedLayer) {
                 //yes
-                clickedLayer = PSPortClickedLayer(clickedLayer: currentlySelectedLayer, mouseDownPoint: theEvent.locationInWindow, originalPosition: currentlySelectedLayer.position)
+                clickedLayer = PSPortClickedLayer(clickedLayer: currentlySelectedLayer, mouseDownPoint: convertMousePoint(theEvent.locationInWindow), originalPosition: currentlySelectedLayer.position)
             }
         } else {
-            if hit_layers.count > 0 {
-                //new layer
-                previousClickedLayers = hit_layers
+            //determine if any layers have been hit, if so highlight first
+            if currentHitLayers.count > 0 {
+                
+                previousClickedLayers = currentHitLayers
                 highlightedIndex = 0
                 let newSelectedLayer = previousClickedLayers[highlightedIndex]
-                clickedLayer = PSPortClickedLayer(clickedLayer: newSelectedLayer, mouseDownPoint: theEvent.locationInWindow, originalPosition: newSelectedLayer.position)
+                clickedLayer = PSPortClickedLayer(clickedLayer: newSelectedLayer, mouseDownPoint: convertMousePoint(theEvent.locationInWindow), originalPosition: newSelectedLayer.position)
                 controller.selectLayer(newSelectedLayer)
             }
         }
@@ -184,17 +184,15 @@ struct PSPortClickedLayer {
     }
     
     override func mouseDragged(theEvent: NSEvent) {
+
         dragged = true
         
         if let clickedLayer = clickedLayer {
-            let displacement = theEvent.locationInWindow.minusPoint(clickedLayer.mouseDownPoint)
-            //displacement.y = 0 - displacement.y
-            
-            
+            let displacement = convertMousePoint(theEvent.locationInWindow).minusPoint(clickedLayer.mouseDownPoint)
+  
             CATransaction.begin()
             CATransaction.setDisableActions(true)
             
-     
             let new_position = clickedLayer.originalPosition.plusPoint(displacement)
             clickedLayer.clickedLayer.position = new_position
             
@@ -204,12 +202,14 @@ struct PSPortClickedLayer {
     
     override func mouseUp(theEvent: NSEvent) {
         if !dragged {
-            let click_point = self.convertPoint(theEvent.locationInWindow, fromView: nil)
-            //Swift.print("View: \(click_point)")
-            let hit_layers = hitLayers(NSPointToCGPoint(click_point))
             
+            //layer has not been dragged, so potentialy, change selection
+            let clickPoint = convertMousePoint(theEvent.locationInWindow)
+            let currentHitLayers = hitLayers(NSPointToCGPoint(clickPoint))
+            
+            //determine if the currentHitLayers are the same as the previous (e.g. user hasn't selected some new combo of layers)
             var same = true
-            for nl in hit_layers {
+            for nl in currentHitLayers {
                 var found = false
                 for nl2 in previousClickedLayers {
                     if nl == nl2 {
@@ -223,10 +223,11 @@ struct PSPortClickedLayer {
                 }
             }
             
-            if hit_layers.count != previousClickedLayers.count {
+            if currentHitLayers.count != previousClickedLayers.count {
                 same = false
             }
             
+            //if in the same area, then switch the selection, otherwise update the memory for previous clicked layers
             if (same) {
                 //switch index (unelss nothing selected)
                 if previousClickedLayers.count > 0 {
@@ -234,11 +235,12 @@ struct PSPortClickedLayer {
                     highlightedIndex = new_index % previousClickedLayers.count
                 }
             } else {
-                previousClickedLayers = hit_layers
+                previousClickedLayers = currentHitLayers
                 highlightedIndex = 0
                 
             }
             
+            //update the selection
             if highlightedIndex < previousClickedLayers.count {
                 let selected_layer : CALayer = previousClickedLayers[highlightedIndex]
                 controller.selectLayer(selected_layer)
@@ -251,31 +253,37 @@ struct PSPortClickedLayer {
         dragged = false
     }
     
-    func hitLayers(point : CGPoint) -> [CALayer] {
-        var return_val : [CALayer] = []
+    func convertMousePoint(point : CGPoint) -> CGPoint {
         guard let mainLayer = mainLayer else { fatalError("No layer detected") }
+        let clickPoint = self.convertPoint(point, fromView: nil)
+        let convertedPoint = mainLayer.convertPoint(clickPoint, fromLayer: nil)
+        //Swift.print("Converted \(point) to \(convertedPoint)")
+        return convertedPoint
+    }
     
-        let viewCoordsPoint = mainLayer.convertPoint(point, fromLayer: nil)
-        let convertedPoint = CGPoint(x: viewCoordsPoint.x + centreOffset.x, y: viewCoordsPoint.y + centreOffset.y)
-        Swift.print("Converted \(convertedPoint)")
+    func hitLayers(point : CGPoint) -> [CALayer] {
+        var hitLayers : [CALayer] = []
+        guard let mainLayer = mainLayer, sublayers = mainLayer.sublayers else { fatalError("No layer detected") }
         
         //cycle through each screen
-        for screenLayer in screenLayers {
-            if screenLayer.sublayers != nil {
-                for eachLayer in screenLayer.sublayers! {
+        for layer in sublayers {
                     
-                    if eachLayer !== self.entireScreenPortLayer {
-                        
-                        let pointInScreenLayer = eachLayer.convertPoint(convertedPoint, fromLayer: screenLayer)
-                        if eachLayer.containsPoint(pointInScreenLayer) {
-                            return_val.append(eachLayer )
-                        }
-                    }
+            if layer !== self.entireScreenPortLayer && !screenLayers.contains(layer) {
+                
+                
+                let convertedPoint = layer.convertPoint(point, fromLayer: mainLayer)
+                
+                if layer.containsPoint(convertedPoint) {
+                    Swift.print("Then converted \(point) to \(convertedPoint)")
+                    Swift.print(layer.position)
+                    Swift.print(layer.bounds)
+                    Swift.print(layer.frame)
+                    hitLayers.append(layer)
                 }
             }
         }
         
-        return return_val
+        return hitLayers
     }
     
     //MARK: Full screen methods
