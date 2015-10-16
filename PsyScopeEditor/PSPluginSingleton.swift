@@ -21,19 +21,18 @@ class PSPluginSingleton: NSObject {
         dispatch_once(&Static.token) {
             Static.instance = PSPluginSingleton()
             
-            var loader : PSPluginLoader! = Static.instance?.pluginLoader
             var pstools : [NSObject : AnyObject]! = Static.instance?.toolObjects
-            var psattributes : [NSObject : AnyObject]! = Static.instance?.attributeObjects
+            let psattributes : [NSObject : AnyObject]! = Static.instance?.attributeObjects
             var psevents : [NSObject : AnyObject]! = Static.instance?.eventObjects
             Static.instance?.tools = []
             Static.instance?.eventTools = []
             Static.instance?.attributes = []
-            var tool_names =  Static.instance?.toolObjectOrder
+            let tool_names =  Static.instance?.toolObjectOrder
             for tool_name in tool_names!  {
                 
-                var tool = pstools[tool_name] as! PSToolInterface
+                let tool = pstools[tool_name] as! PSToolInterface
                 
-                var empty_object : PSExtension = PSExtension()
+                let empty_object : PSExtension = PSExtension()
                 empty_object.type = tool.type()
                 empty_object.helpString = tool.helpfulDescription()
                 empty_object.icon = tool.icon()
@@ -43,12 +42,12 @@ class PSPluginSingleton: NSObject {
                 Static.instance?.tools.append(empty_object)
             }
             
-            var event_names = Static.instance?.eventObjectOrder
+            let event_names = Static.instance?.eventObjectOrder
             for event_name in event_names! {
                 
-                var tool = psevents[event_name] as! PSToolInterface
+                let tool = psevents[event_name] as! PSToolInterface
       
-                var empty_object = PSExtension()
+                let empty_object = PSExtension()
                 empty_object.type = tool.type()
                 empty_object.helpString = tool.helpfulDescription()
                 empty_object.icon = tool.icon()
@@ -58,19 +57,19 @@ class PSPluginSingleton: NSObject {
                 Static.instance?.eventTools.append(empty_object)
             }
             
-            var loadedTools : [PSExtension]! = Static.instance?.tools
+            let loadedTools : [PSExtension]! = Static.instance?.tools
             
             for plugin in psattributes {
                 
-                var attribute = plugin.1 as! PSAttributeInterface
+                let attribute = plugin.1 as! PSAttributeInterface
                 
                 //which entry types is this attribute for?
-                var entryTypes = attribute.tools() as! [String]
+                let entryTypes = attribute.tools() as! [String]
                 
                 for type in entryTypes {
                 
                     //write your code to add data
-                    var empty_object = PSAttribute()
+                    let empty_object = PSAttribute()
                     
                     empty_object.name = attribute.codeName()
                     empty_object.interface = attribute
@@ -139,9 +138,9 @@ class PSPluginSingleton: NSObject {
         if let loaded = _actionObjects {
             return loaded
         }
-        var loader : PSPluginLoader! = pluginLoader
+        let loader : PSPluginLoader! = pluginLoader
         var new_actionObjects  : [String : PSActionInterface] = [:]
-        var initial_actionObjects : [AnyObject] = loader.instantiatePluginsOfType(PSPluginType.Action)
+        let initial_actionObjects : [AnyObject] = loader.actions
         for obj in initial_actionObjects {
             if let psattr = obj as? PSActionInterface {
                 new_actionObjects[psattr.type()] = psattr
@@ -156,9 +155,9 @@ class PSPluginSingleton: NSObject {
         if let loaded = _conditionObjects {
             return loaded
         }
-        var loader : PSPluginLoader! = pluginLoader
+        let loader : PSPluginLoader! = pluginLoader
         var new_conditionObjects  : [String : PSConditionInterface] = [:]
-        var initial_conditionObjects : [AnyObject] = loader.instantiatePluginsOfType(PSPluginType.Condition)
+        let initial_conditionObjects : [AnyObject] = loader.conditions
         for obj in initial_conditionObjects {
             if let psattr = obj as? PSConditionInterface {
                 new_conditionObjects[psattr.type()] = psattr
@@ -174,10 +173,10 @@ class PSPluginSingleton: NSObject {
         if let loaded = _eventObjects {
             return loaded
             }
-            var loader : PSPluginLoader! = pluginLoader
+            let loader : PSPluginLoader! = pluginLoader
             var new_toolObjects  : [String : PSToolInterface] = [:]
             eventObjectOrder = []
-            var initial_toolObjects : [AnyObject] = loader.instantiatePluginsOfType(PSPluginType.Event)
+            let initial_toolObjects : [AnyObject] = loader.events
             for obj in initial_toolObjects {
                 if let psattr = obj as? PSToolInterface {
                     eventObjectOrder.append(psattr.type())
@@ -193,9 +192,9 @@ class PSPluginSingleton: NSObject {
         if let loaded = _attributeObjects {
             return loaded
             }
-            var loader : PSPluginLoader! = pluginLoader
+            let loader : PSPluginLoader! = pluginLoader
             var new_toolObjects  : [String : PSAttributeInterface] = [:]
-            var initial_toolObjects : [AnyObject] = loader.instantiatePluginsOfType(PSPluginType.Attribute)
+            let initial_toolObjects : [AnyObject] = loader.attributes
             for obj in initial_toolObjects {
                 if let psattr = obj as? PSAttributeInterface {
                     new_toolObjects[psattr.psclassName()] = psattr
@@ -211,10 +210,10 @@ class PSPluginSingleton: NSObject {
         if let loaded = _toolObjects {
             return loaded
             }
-            var loader : PSPluginLoader! = pluginLoader
+            let loader : PSPluginLoader! = pluginLoader
             var new_toolObjects  : [String : PSToolInterface] = [:]
             toolObjectOrder = []
-            var initial_toolObjects : [AnyObject] = loader.instantiatePluginsOfType(PSPluginType.Tool)
+            let initial_toolObjects : [AnyObject] = loader.tools
             for obj in initial_toolObjects {
                 if let pstool = obj as? PSToolInterface {
                     toolObjectOrder.append(pstool.type())

@@ -1,0 +1,1 @@
+This is an example of a standalone plugin for PsyScopeEditor

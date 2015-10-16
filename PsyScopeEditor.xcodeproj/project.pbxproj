@@ -42,11 +42,8 @@
 		1A2DF0ED1B29CCAC0080C11E /* PSTrialsToolTablePropertyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2DF0EC1B29CCAC0080C11E /* PSTrialsToolTablePropertyController.swift */; };
 		1A2FBE301973E33600F5FFB5 /* PSToolBrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2FBE2F1973E33600F5FFB5 /* PSToolBrowserView.swift */; };
 		1A2FBE361975780100F5FFB5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2FBE351975780100F5FFB5 /* AppDelegate.swift */; };
-		1A2FBE3A19757B2700F5FFB5 /* PSPluginLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A2FBE3919757B2700F5FFB5 /* PSPluginLoader.m */; };
 		1A2FBE5619759FC500F5FFB5 /* PsyScopeDefaultPlugins.psyplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1A2FBE4B1975827300F5FFB5 /* PsyScopeDefaultPlugins.psyplugin */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		1A2FBE5E1975A10D00F5FFB5 /* DefaultPlugins.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2FBE5D1975A10D00F5FFB5 /* DefaultPlugins.swift */; };
-		1A2FCD4F199292CB00C6CC0B /* PsyScopeFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A9E5E50198A7C5800312743 /* PsyScopeFramework.framework */; };
-		1A2FCD521992931200C6CC0B /* PsyScopeFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A9E5E50198A7C5800312743 /* PsyScopeFramework.framework */; };
 		1A3040701AD538E300510174 /* PSAttribute_PasteBoardDegradation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A30406F1AD538E300510174 /* PSAttribute_PasteBoardDegradation.swift */; };
 		1A3040721AD5392600510174 /* PSAttibute_PasteBoardFlip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3040711AD5392600510174 /* PSAttibute_PasteBoardFlip.swift */; };
 		1A3040741AD5394700510174 /* PSAttribute_PasteBoardPort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3040731AD5394700510174 /* PSAttribute_PasteBoardPort.swift */; };
@@ -75,6 +72,9 @@
 		1A3A7D271A28B1E900EC91CC /* Section.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A3A7D251A28B1E900EC91CC /* Section.m */; };
 		1A3A7D2E1A28B1E900EC91CC /* Script.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A3A7D2C1A28B1E900EC91CC /* Script.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1A3A7D2F1A28B1E900EC91CC /* Script.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A3A7D2D1A28B1E900EC91CC /* Script.m */; };
+		1A3C190A1BD145C300274D5B /* PsyScopeFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AAAC0F81BD1416300A9BA3A /* PsyScopeFramework.framework */; };
+		1A3C19121BD156C700274D5B /* PSPluginLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3C19111BD156C700274D5B /* PSPluginLoader.swift */; settings = {ASSET_TAGS = (); }; };
+		1A3C19141BD1635700274D5B /* PSPluginInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3C19131BD1635700274D5B /* PSPluginInterface.swift */; settings = {ASSET_TAGS = (); }; };
 		1A3E705A19AE87AE00FD33C9 /* PSTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3E705919AE87AE00FD33C9 /* PSTool.swift */; };
 		1A3E70A219B0AEAF00FD33C9 /* PSGroupTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3E70A119B0AEAF00FD33C9 /* PSGroupTool.swift */; };
 		1A3E70A819B1E23600FD33C9 /* EventsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A3E70A719B1E23600FD33C9 /* EventsView.xib */; };
@@ -358,7 +358,6 @@
 		1A9E5E1219882E5F00312743 /* PSDocumentTabDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A9E5E1119882E5F00312743 /* PSDocumentTabDelegate.swift */; };
 		1A9E5E21198A757B00312743 /* PSToolHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A9E5E20198A757B00312743 /* PSToolHelper.swift */; };
 		1A9E5E55198A7C5800312743 /* PsyScopeFramework.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A9E5E54198A7C5800312743 /* PsyScopeFramework.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1A9E5E69198A7DA900312743 /* PSPluginInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A2FBE3B19757B8100F5FFB5 /* PSPluginInterface.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1A9E5E6A198A7DB500312743 /* PSToolInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AA376321975B08100A3DE6E /* PSToolInterface.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1A9F6D2619DACE90008A313F /* PSPort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A9F6D2519DACE90008A313F /* PSPort.swift */; };
 		1AA02FA81BB99C410084E83E /* PSScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA02FA71BB99C410084E83E /* PSScreen.swift */; settings = {ASSET_TAGS = (); }; };
@@ -392,6 +391,7 @@
 		1AA420071AA9CDF200CB8D95 /* PSAttributeParameter_SetGetPlayPause.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA420061AA9CDF200CB8D95 /* PSAttributeParameter_SetGetPlayPause.swift */; };
 		1AA5D1B0198FA03A00DD9DC5 /* PSPluginViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AA5D1AD198FA03A00DD9DC5 /* PSPluginViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1AA5D1B1198FA03A00DD9DC5 /* PSPluginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AA5D1AE198FA03A00DD9DC5 /* PSPluginViewController.m */; };
+		1AAAC0F91BD1416300A9BA3A /* PsyScopeFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AAAC0F81BD1416300A9BA3A /* PsyScopeFramework.framework */; };
 		1AACB2C91A8F52D6002A9B74 /* PSModalAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AACB2C81A8F52D6002A9B74 /* PSModalAlert.swift */; };
 		1AACB2CB1A8F58E8002A9B74 /* PSAttributeParameter_FileOpen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AACB2CA1A8F58E8002A9B74 /* PSAttributeParameter_FileOpen.swift */; };
 		1AACB2CD1A8F59F2002A9B74 /* PSAttributeParameter_Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AACB2CC1A8F59F2002A9B74 /* PSAttributeParameter_Button.swift */; };
@@ -587,14 +587,21 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		1A2FCD50199292CF00C6CC0B /* PBXContainerItemProxy */ = {
+		1A3C190B1BD145EB00274D5B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1AC0826519701F2F0038512B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1A2FBE4A1975827300F5FFB5;
+			remoteInfo = PsyScopeDefaultPlugins;
+		};
+		1A3C190D1BD145EF00274D5B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 1AC0826519701F2F0038512B /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 1A9E5E4F198A7C5800312743;
 			remoteInfo = PsyScopeFramework;
 		};
-		1A2FCD531992931800C6CC0B /* PBXContainerItemProxy */ = {
+		1A3C190F1BD145FC00274D5B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 1AC0826519701F2F0038512B /* Project object */;
 			proxyType = 1;
@@ -688,9 +695,6 @@
 		1A2FBE2F1973E33600F5FFB5 /* PSToolBrowserView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSToolBrowserView.swift; sourceTree = "<group>"; };
 		1A2FBE351975780100F5FFB5 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1A2FBE3719757B2700F5FFB5 /* PsyScopeEditor-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PsyScopeEditor-Bridging-Header.h"; sourceTree = "<group>"; };
-		1A2FBE3819757B2700F5FFB5 /* PSPluginLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSPluginLoader.h; sourceTree = "<group>"; };
-		1A2FBE3919757B2700F5FFB5 /* PSPluginLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSPluginLoader.m; sourceTree = "<group>"; };
-		1A2FBE3B19757B8100F5FFB5 /* PSPluginInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PSPluginInterface.h; path = ../PsyScopeFramework/PSPluginInterface.h; sourceTree = "<group>"; };
 		1A2FBE4B1975827300F5FFB5 /* PsyScopeDefaultPlugins.psyplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PsyScopeDefaultPlugins.psyplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A2FBE4E1975827300F5FFB5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1A2FBE5C1975A10D00F5FFB5 /* PsyScopeDefaultPlugins-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "PsyScopeDefaultPlugins-Bridging-Header.h"; path = "PsyScopeDefaultPlugins/PsyScopeDefaultPlugins-Bridging-Header.h"; sourceTree = SOURCE_ROOT; };
@@ -724,6 +728,8 @@
 		1A3A7D251A28B1E900EC91CC /* Section.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Section.m; sourceTree = "<group>"; };
 		1A3A7D2C1A28B1E900EC91CC /* Script.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Script.h; sourceTree = "<group>"; };
 		1A3A7D2D1A28B1E900EC91CC /* Script.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Script.m; sourceTree = "<group>"; };
+		1A3C19111BD156C700274D5B /* PSPluginLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSPluginLoader.swift; sourceTree = "<group>"; };
+		1A3C19131BD1635700274D5B /* PSPluginInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSPluginInterface.swift; sourceTree = "<group>"; };
 		1A3E705919AE87AE00FD33C9 /* PSTool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSTool.swift; sourceTree = "<group>"; };
 		1A3E70A119B0AEAF00FD33C9 /* PSGroupTool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSGroupTool.swift; sourceTree = "<group>"; };
 		1A3E70A719B1E23600FD33C9 /* EventsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EventsView.xib; sourceTree = "<group>"; };
@@ -1032,6 +1038,7 @@
 		1AA420061AA9CDF200CB8D95 /* PSAttributeParameter_SetGetPlayPause.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSAttributeParameter_SetGetPlayPause.swift; sourceTree = "<group>"; };
 		1AA5D1AD198FA03A00DD9DC5 /* PSPluginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSPluginViewController.h; sourceTree = "<group>"; };
 		1AA5D1AE198FA03A00DD9DC5 /* PSPluginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSPluginViewController.m; sourceTree = "<group>"; };
+		1AAAC0F81BD1416300A9BA3A /* PsyScopeFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PsyScopeFramework.framework; path = ../../../../Library/Frameworks/PsyScopeFramework.framework; sourceTree = "<group>"; };
 		1AACB2C81A8F52D6002A9B74 /* PSModalAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSModalAlert.swift; sourceTree = "<group>"; };
 		1AACB2CA1A8F58E8002A9B74 /* PSAttributeParameter_FileOpen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSAttributeParameter_FileOpen.swift; sourceTree = "<group>"; };
 		1AACB2CC1A8F59F2002A9B74 /* PSAttributeParameter_Button.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSAttributeParameter_Button.swift; sourceTree = "<group>"; };
@@ -1208,7 +1215,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1A2FCD521992931200C6CC0B /* PsyScopeFramework.framework in Frameworks */,
+				1AAAC0F91BD1416300A9BA3A /* PsyScopeFramework.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1231,10 +1238,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A3C190A1BD145C300274D5B /* PsyScopeFramework.framework in Frameworks */,
 				1A86C1861B597B2300004292 /* Carbon.framework in Frameworks */,
 				1A86C1851B597B1100004292 /* CoreServices.framework in Frameworks */,
 				1A63BC0B1A3B25FC007B9318 /* QuartzCore.framework in Frameworks */,
-				1A2FCD4F199292CB00C6CC0B /* PsyScopeFramework.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1435,7 +1442,6 @@
 		1A2FBE52197585A100F5FFB5 /* Interfaces */ = {
 			isa = PBXGroup;
 			children = (
-				1A2FBE3B19757B8100F5FFB5 /* PSPluginInterface.h */,
 				1AA376321975B08100A3DE6E /* PSToolInterface.h */,
 				1A58046019A3C93400278D18 /* PSAttributeInterface.h */,
 				1AA1791919CC695F002A8649 /* PSDoubleClickAction.h */,
@@ -1445,6 +1451,7 @@
 				1A30BE361ABB7C0E0016319C /* PSHighLightOnMouseHoverProtocol.swift */,
 				1A55B2431ADC2FAA00CD21AB /* PSEventInterface.swift */,
 				1AFEBCB71B322CE000A3437E /* PSSelectionInterface.swift */,
+				1A3C19131BD1635700274D5B /* PSPluginInterface.swift */,
 			);
 			name = Interfaces;
 			sourceTree = "<group>";
@@ -2104,8 +2111,6 @@
 			children = (
 				1A5E27B21AAF1518001E6D89 /* Preferences */,
 				1A5448751AAF118E00151602 /* MASPreferences */,
-				1A2FBE3819757B2700F5FFB5 /* PSPluginLoader.h */,
-				1A2FBE3919757B2700F5FFB5 /* PSPluginLoader.m */,
 				1A2FBE351975780100F5FFB5 /* AppDelegate.swift */,
 				1AC0827E19701F2F0038512B /* MainMenu.xib */,
 				1AC3508B19A7C7C000372B27 /* PSPluginSingleton.swift */,
@@ -2113,6 +2118,7 @@
 				1AC0827219701F2F0038512B /* main.swift */,
 				1A6D9A501B4ED37C0020D82D /* HFSFileTypeHelper.h */,
 				1A6D9A511B4ED37C0020D82D /* HFSFileTypeHelper.m */,
+				1A3C19111BD156C700274D5B /* PSPluginLoader.swift */,
 			);
 			name = Application;
 			sourceTree = "<group>";
@@ -2321,6 +2327,7 @@
 		1AC0826419701F2F0038512B = {
 			isa = PBXGroup;
 			children = (
+				1AAAC0F81BD1416300A9BA3A /* PsyScopeFramework.framework */,
 				1A86C1821B597B1100004292 /* Carbon.framework */,
 				1A86C1831B597B1100004292 /* CoreServices.framework */,
 				1A63BC0A1A3B25FC007B9318 /* QuartzCore.framework */,
@@ -2594,7 +2601,6 @@
 				1A2686201A0BB93300966271 /* PSWindowViewInterface.h in Headers */,
 				1A8ADC0E1A82D990003C2509 /* PSSmoothTextLayer.h in Headers */,
 				1A55B2411ADC1EE200CD21AB /* LayoutObject.h in Headers */,
-				1A9E5E69198A7DA900312743 /* PSPluginInterface.h in Headers */,
 				1AA1791A19CC6A08002A8649 /* PSDoubleClickAction.h in Headers */,
 				1A9E5E55198A7C5800312743 /* PsyScopeFramework.h in Headers */,
 				1A9E5E6A198A7DB500312743 /* PSToolInterface.h in Headers */,
@@ -2622,7 +2628,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				1A2FCD541992931800C6CC0B /* PBXTargetDependency */,
+				1A3C19101BD145FC00274D5B /* PBXTargetDependency */,
 			);
 			name = PsyScopeDefaultPlugins;
 			productName = PsyScopeDefaultPlugins;
@@ -2681,7 +2687,8 @@
 			buildRules = (
 			);
 			dependencies = (
-				1A2FCD51199292CF00C6CC0B /* PBXTargetDependency */,
+				1A3C190E1BD145EF00274D5B /* PBXTargetDependency */,
+				1A3C190C1BD145EB00274D5B /* PBXTargetDependency */,
 			);
 			name = PsyScopeEditor;
 			productName = PsyScopeEditor;
@@ -3279,6 +3286,7 @@
 				1AD032851B13CA02002516ED /* PSSubjectVariableDialog.swift in Sources */,
 				1A5C661D1A892805009EED35 /* PSCellView.swift in Sources */,
 				1AFC191F1B6F86ED007083DB /* PSEntryValueController.swift in Sources */,
+				1A3C19141BD1635700274D5B /* PSPluginInterface.swift in Sources */,
 				1AA41FF91AA9C37100CB8D95 /* PSAttributeParameter_Variable.swift in Sources */,
 				1A4CA3A11B62CCDE00CB1BD2 /* PSEntryWindowController.swift in Sources */,
 				1ABD89001AAF26DD00B43779 /* PSPreferences.swift in Sources */,
@@ -3335,7 +3343,6 @@
 				1A0B524D1AEFF97300E0ADDB /* PSSubjectVariablesController.swift in Sources */,
 				1A5306921B2B4FFC00ECACE0 /* PSVariableSelector.swift in Sources */,
 				1AF33DA61B41A2C900925F82 /* PSPsyScopeXPreferences.swift in Sources */,
-				1A2FBE3A19757B2700F5FFB5 /* PSPluginLoader.m in Sources */,
 				1A0554FE1AAF394000618032 /* LICENSE.md in Sources */,
 				1A6D9A521B4ED37C0020D82D /* HFSFileTypeHelper.m in Sources */,
 				1A903E64198CFEDF0076D05C /* PSAttributesBrowser.swift in Sources */,
@@ -3359,6 +3366,7 @@
 				1ADCF51D1B1C80A00006C215 /* PSEntryValueChecker.swift in Sources */,
 				1A581A291ADBB75E003D970B /* PSActionConditionTableView.swift in Sources */,
 				1A45C0C41B00C5140029EF9F /* PSSubjectVariablesTableViewController.swift in Sources */,
+				1A3C19121BD156C700274D5B /* PSPluginLoader.swift in Sources */,
 				1AC0827319701F2F0038512B /* main.swift in Sources */,
 				1A5C66111A88C062009EED35 /* PSActionConditionView.swift in Sources */,
 			);
@@ -3367,15 +3375,20 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		1A2FCD51199292CF00C6CC0B /* PBXTargetDependency */ = {
+		1A3C190C1BD145EB00274D5B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 1A9E5E4F198A7C5800312743 /* PsyScopeFramework */;
-			targetProxy = 1A2FCD50199292CF00C6CC0B /* PBXContainerItemProxy */;
+			target = 1A2FBE4A1975827300F5FFB5 /* PsyScopeDefaultPlugins */;
+			targetProxy = 1A3C190B1BD145EB00274D5B /* PBXContainerItemProxy */;
 		};
-		1A2FCD541992931800C6CC0B /* PBXTargetDependency */ = {
+		1A3C190E1BD145EF00274D5B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 1A9E5E4F198A7C5800312743 /* PsyScopeFramework */;
-			targetProxy = 1A2FCD531992931800C6CC0B /* PBXContainerItemProxy */;
+			targetProxy = 1A3C190D1BD145EF00274D5B /* PBXContainerItemProxy */;
+		};
+		1A3C19101BD145FC00274D5B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1A9E5E4F198A7C5800312743 /* PsyScopeFramework */;
+			targetProxy = 1A3C190F1BD145FC00274D5B /* PBXContainerItemProxy */;
 		};
 		1AADBC171AD71EF20004999D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -3414,6 +3427,10 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -3436,6 +3453,10 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+				);
 				INFOPLIST_FILE = PsyScopeDefaultPlugins/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
@@ -3455,6 +3476,8 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
+				DEPLOYMENT_LOCATION = YES;
+				DSTROOT = /;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -3470,12 +3493,12 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = PsyScopeFramework/Info.plist;
-				INSTALL_PATH = "";
+				INSTALL_PATH = /Library/Frameworks;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
-				SKIP_INSTALL = YES;
+				SKIP_INSTALL = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -3490,6 +3513,8 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
+				DEPLOYMENT_LOCATION = YES;
+				DSTROOT = /;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -3501,12 +3526,12 @@
 				);
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = PsyScopeFramework/Info.plist;
-				INSTALL_PATH = "";
+				INSTALL_PATH = /Library/Frameworks;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
-				SKIP_INSTALL = YES;
+				SKIP_INSTALL = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -3678,6 +3703,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/Frameworks",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
 				);
 				INFOPLIST_FILE = PsyScopeEditor/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
@@ -3702,6 +3728,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/Frameworks",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
 				);
 				GCC_OPTIMIZATION_LEVEL = 0;
 				INFOPLIST_FILE = PsyScopeEditor/Info.plist;

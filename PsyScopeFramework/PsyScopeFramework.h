@@ -4,6 +4,7 @@
 //
 //  Created by James on 31/07/2014.
 //
+// Many of these can be converted to swift now - this project was started when Swift was still in beta.
 
 //IMPORTANT:
 //Remember to make all these headers 'public' rather than 'project' in target membership - otherwise you will get errors.
@@ -13,7 +14,6 @@
 #import "Entry.h"
 #import "LayoutObject.h"
 #import "Section.h"
-#import "PSPluginInterface.h"
 #import "PSToolInterface.h"
 #import "PSPluginViewController.h"
 #import "Script.h"

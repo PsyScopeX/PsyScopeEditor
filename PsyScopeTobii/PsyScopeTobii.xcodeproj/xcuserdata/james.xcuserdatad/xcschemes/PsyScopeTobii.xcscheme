@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0610"
+   LastUpgradeVersion = "0700"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,56 +14,59 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "1A2F680A19D06D8200CD1872"
-               BuildableName = "PsyScopeMediaLayer.framework"
-               BlueprintName = "PsyScopeMediaLayer"
-               ReferencedContainer = "container:PsyScopeEditor.xcodeproj">
+               BlueprintIdentifier = "1AAAC0E61BD134B600A9BA3A"
+               BuildableName = "PsyScopeTobii.framework"
+               BlueprintName = "PsyScopeTobii"
+               ReferencedContainer = "container:PsyScopeTobii.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
+      buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES"
-      buildConfiguration = "Debug">
+      shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
       </Testables>
+      <AdditionalOptions>
+      </AdditionalOptions>
    </TestAction>
    <LaunchAction
+      buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
-      buildConfiguration = "Debug"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
+      debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "1A2F680A19D06D8200CD1872"
-            BuildableName = "PsyScopeMediaLayer.framework"
-            BlueprintName = "PsyScopeMediaLayer"
-            ReferencedContainer = "container:PsyScopeEditor.xcodeproj">
+            BlueprintIdentifier = "1AAAC0E61BD134B600A9BA3A"
+            BuildableName = "PsyScopeTobii.framework"
+            BlueprintName = "PsyScopeTobii"
+            ReferencedContainer = "container:PsyScopeTobii.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
    <ProfileAction
+      buildConfiguration = "Release"
       shouldUseLaunchSchemeArgsEnv = "YES"
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
-      buildConfiguration = "Release"
       debugDocumentVersioning = "YES">
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "1A2F680A19D06D8200CD1872"
-            BuildableName = "PsyScopeMediaLayer.framework"
-            BlueprintName = "PsyScopeMediaLayer"
-            ReferencedContainer = "container:PsyScopeEditor.xcodeproj">
+            BlueprintIdentifier = "1AAAC0E61BD134B600A9BA3A"
+            BuildableName = "PsyScopeTobii.framework"
+            BlueprintName = "PsyScopeTobii"
+            ReferencedContainer = "container:PsyScopeTobii.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

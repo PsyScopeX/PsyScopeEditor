@@ -95,7 +95,7 @@ class PSDocumentTabDelegate: NSObject, NSTabViewDelegate {
         var totalTags = 2
         
         //load all tabitems from plugins
-        let windowViewInterfaces = PSPluginSingleton.sharedInstance.pluginLoader.instantiatePluginsOfType(.WindowView) as! [PSWindowViewInterface]
+        let windowViewInterfaces = PSPluginSingleton.sharedInstance.pluginLoader.windowViews
         
         //layout view + script view already on segmented control (whence + 2)
         toolbarSegmentedControl.segmentCount = totalTags + windowViewInterfaces.count

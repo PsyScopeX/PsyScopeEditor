@@ -8,6 +8,7 @@
 
 import Foundation
 
+
 public class PSScriptFile : NSObject {
     public class func FileRefFromPath(path : String, scriptData : PSScriptData) -> String? {
         if let docPath = scriptData.documentDirectory(),

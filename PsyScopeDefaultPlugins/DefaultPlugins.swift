@@ -7,122 +7,68 @@
 
 import Cocoa
 
-var PSDefaultPlugins : [PSToolInterface] = DefaultPlugins.getAllTools()
-
 var PSDefaultPluginBundle : NSBundle = NSBundle(forClass:DefaultPlugins.self)
 
-class DefaultPlugins: NSObject, PSPluginInterface {
+public class DefaultPlugins: NSObject, PSPluginInterface {
     
-    class func getAllTools() -> [PSToolInterface] {
-        var return_array : [PSToolInterface] = []
-        for tool in pluginsFor(.Tool)! {
-            if let tool_name = tool as? String {
-                let instance = instantiatePlugin(tool_name) as! PSToolInterface
-                return_array.append(instance)
-            }
-        }
-        
-        for event in pluginsFor(.Event)! {
-            if let tool_name = event as? String {
-                let instance = instantiatePlugin(tool_name) as! PSToolInterface
-                return_array.append(instance)
-            }
-        }
-        return return_array
-    }
-  
-    class func initializeClass(theBundle : NSBundle?) -> Bool {
-        return true
-    }
-    
-    class func pluginsFor(pluginTypeName: PSPluginType) -> [AnyObject]? {
+
+    public static func pluginsFor(pluginTypeName: PSPluginType) -> [NSObject.Type] {
         switch pluginTypeName {
             case .Tool:
-                return ["PSExperimentTool","PSGroupTool", "PSBlockTool","PSTemplateTool","PSListTool", "PSTableTool", "PSVariableTool","PSBlankEntryTool", "PSDialogVariableTool"]
+                return [PSExperimentTool.self,PSGroupTool.self, PSBlockTool.self, PSTemplateTool.self, PSListTool.self, PSTableTool.self, PSVariableTool.self, PSBlankEntryTool.self, PSDialogVariableTool.self]
             case .Attribute:
-                return ["PSExperimentDataFields", "PSExperimentInstructions", "PSExperimentDebriefing", "PSExperimentRestPeriod", "PSExperimentNumberRestPeriods",
-                    "PSExperimentTrialsPerRest",
-                    "PSExperimentDecimalPlaces",
-                    "PSAttribute_ExperimentPrecompile",
-                    "PSAttribute_ExperimentDefaultColour",
-                    "PSAttribute_ExperimentBackColour",
-                    "PSAttribute_ExperimentInputDevices",
-                    "PSAttribute_Port",
-                    "PSAttribute_Position",
-                    "PSAttribute_TextStimulus",
-                        "PSAttribute_TextStyle",
-                        "PSAttribute_TextColor",
-                        "PSAttribute_TextFont",
-                        "PSAttribute_TextFace",
+                return [PSExperimentDataFields.self, PSExperimentInstructions.self, PSExperimentDebriefing.self, PSExperimentRestPeriod.self, PSExperimentNumberRestPeriods.self, 
+                    PSExperimentTrialsPerRest.self, 
+                    PSExperimentDecimalPlaces.self, 
+                    PSAttribute_ExperimentPrecompile.self, 
+                    PSAttribute_ExperimentDefaultColour.self, 
+                    PSAttribute_ExperimentBackColour.self, 
+                    PSAttribute_ExperimentInputDevices.self, 
+                    PSAttribute_Port.self, 
+                    PSAttribute_Position.self, 
+                    PSAttribute_TextStimulus.self, 
+                        PSAttribute_TextStyle.self, 
+                        PSAttribute_TextColor.self, 
+                        PSAttribute_TextFont.self, 
+                        PSAttribute_TextFace.self, 
                     
-                        "PSAttribute_TextSize",
-                        "PSAttribute_TextEventDegradation",
-                        "PSAttribute_TextEventSpecial",
-                        "PSAttribute_TextMask",
-                        "PSAttributeFlip",
-                        "PSAttribute_PictureEventFeature",
-                        "PSAttribute_PictureEventDegradation",
-                        "PSAttribute_PictureEventDepth",
-                        "PSAttribute_PictureEventFilename",
-                        "PSDocumentFileAttribute",
-                        "PSParagraphStimulusAttribute",
-                        "PSAttribute_PasteBoardEventDegradation",
-                        "PSAttribute_PasteBoardEventFlip",
-                        "PSAttribute_PasteBoardEventPort",
-                        "PSAttribute_PasteBoardEventDepth",
-                        "PSAttribute_KeySequenceStimulus",
-            "PSAttribute_SoundFile",
-            "PSAttribute_SoundVolume",
-            "PSAttribute_SoundFeature",
-            "PSAttribute_SoundChannel",
-            "PSAttribute_MovieStimulus",
-            "PSAttribute_MovieTag",
-            "PSAttribute_MovieRate",
-            "PSAttribute_MovieRepeat",
-            "PSAttribute_MovieFromTime",
-            "PSAttribute_MovieToTime",
-            "PSAttribute_MovieVolume"]
+                        PSAttribute_TextSize.self, 
+                        PSAttribute_TextEventDegradation.self, 
+                        PSAttribute_TextEventSpecial.self, 
+                        PSAttribute_TextMask.self, 
+                        PSAttributeFlip.self, 
+                        PSAttribute_PictureEventFeature.self, 
+                        PSAttribute_PictureEventDegradation.self, 
+                        PSAttribute_PictureEventDepth.self, 
+                        PSAttribute_PictureEventFilename.self, 
+                        PSDocumentFileAttribute.self, 
+                        PSParagraphStimulusAttribute.self, 
+                        PSAttribute_PasteBoardEventDegradation.self, 
+                        PSAttribute_PasteBoardEventFlip.self, 
+                        PSAttribute_PasteBoardEventPort.self, 
+                        PSAttribute_PasteBoardEventDepth.self, 
+                        PSAttribute_KeySequenceStimulus.self, 
+            PSAttribute_SoundFile.self, 
+            PSAttribute_SoundVolume.self, 
+            PSAttribute_SoundFeature.self, 
+            PSAttribute_SoundChannel.self, 
+            PSAttribute_MovieStimulus.self, 
+            PSAttribute_MovieTag.self, 
+            PSAttribute_MovieRate.self, 
+            PSAttribute_MovieRepeat.self, 
+            PSAttribute_MovieFromTime.self, 
+            PSAttribute_MovieToTime.self, 
+            PSAttribute_MovieVolume.self]
             case .Event:
-                return ["PSTimeEvent", "PSTextEvent", "PSPictureEvent", "PSKeySequenceEvent", "PSMovieEvent", "PSInputEvent", "PSSoundEvent", "PSPasteBoardEvent", "PSDocumentEvent", "PSParagraphEvent"]
+                return [PSTimeEvent.self, PSTextEvent.self, PSPictureEvent.self, PSKeySequenceEvent.self, PSMovieEvent.self, PSInputEvent.self, PSSoundEvent.self, PSPasteBoardEvent.self, PSDocumentEvent.self, PSParagraphEvent.self]
             case .WindowView:
-                return ["PSTemplateBuilder", "PSActionsBuilder"]
+                return [PSTemplateBuilder.self, PSActionsBuilder.self]
             case .Action:
-                return ["PSAction_AbortEvent", "PSAction_AddToList","PSAction_Beep","PSAction_CancelAction","PSAction_ClearPort",
-                    "PSAction_AbortEvent", "PSAction_ChanceEvent", "PSAction_ClearScreen", "PSAction_ClearStim", "PSAction_DrawAllPortBorders", "PSAction_DrawPortBorder","PSAction_EndEvent","PSAction_MaskStim","PSAction_NewListItem","PSAction_NextCrossing","PSAction_QuitBlock","PSAction_RemoveFromList","PSAction_RemovePortBorder","PSAction_RerunTrial","PSAction_ReverseVideo","PSAction_RT","PSAction_RunEvent","PSAction_Set","PSAction_SetBackColor","PSAction_SetDefaultColor","PSAction_ScriptEval","PSAction_ScheduleEvent","PSAction_ShowStim","PSAction_UnscheduleEvent","PSAction_MousePos","PSAction_MouseSwitch","PSAction_MouseTo","PSAction_MovieDo", "PSAction_QuitTrial","PSAction_SerialOut","PSAction_SysCmd", "PSAction_TCPDo", "PSAction_Tobii", "PSAction_TobiiPlus", "PSAction_GetTimestamp"]
+                return [PSAction_AbortEvent.self, PSAction_AddToList.self, PSAction_Beep.self, PSAction_CancelAction.self, PSAction_ClearPort.self, 
+                    PSAction_AbortEvent.self, PSAction_ChanceEvent.self, PSAction_ClearScreen.self, PSAction_ClearStim.self, PSAction_DrawAllPortBorders.self, PSAction_DrawPortBorder.self, PSAction_EndEvent.self, PSAction_MaskStim.self, PSAction_NewListItem.self, PSAction_NextCrossing.self, PSAction_QuitBlock.self, PSAction_RemoveFromList.self, PSAction_RemovePortBorder.self, PSAction_RerunTrial.self, PSAction_ReverseVideo.self, PSAction_RT.self, PSAction_RunEvent.self, PSAction_Set.self, PSAction_SetBackColor.self, PSAction_SetDefaultColor.self, PSAction_ScriptEval.self, PSAction_ScheduleEvent.self, PSAction_ShowStim.self, PSAction_UnscheduleEvent.self, PSAction_MousePos.self, PSAction_MouseSwitch.self, PSAction_MouseTo.self, PSAction_MovieDo.self, PSAction_QuitTrial.self, PSAction_SerialOut.self, PSAction_SysCmd.self, PSAction_TCPDo.self, PSAction_Tobii.self, PSAction_TobiiPlus.self, PSAction_GetTimestamp.self]
             case .Condition:
-                return ["PSCondition_Key","PSCondition_Mouse","PSCondition_Movie", "PSCondition_Sound", "PSCondition_SysCmd", "PSCondition_TCP","PSCondition_TobiiPlus", "PSCondition_End", "PSCondition_Start", "PSCondition_When", "PSCondition_ScriptWhen"]
-            default:
-                return []
+                return [PSCondition_Key.self, PSCondition_Mouse.self, PSCondition_Movie.self, PSCondition_Sound.self, PSCondition_SysCmd.self, PSCondition_TCP.self, PSCondition_TobiiPlus.self, PSCondition_End.self, PSCondition_Start.self, PSCondition_When.self, PSCondition_ScriptWhen.self]
         }
     }
     
-    class func getInstanceOfType(pluginType : String) -> PSToolInterface {
-        for plugin in PSDefaultPlugins {
-            if plugin.type() == pluginType {
-                return plugin
-            }
-        }
-        fatalError("Plugin \"\(pluginType)\" not found")
-    }
-    
-    class func instantiatePlugin(pluginName: String!) -> AnyObject! {
-        let className = fixSwiftClassName(pluginName)
-        let anyobjectype : AnyObject.Type = NSClassFromString(className)!
-        let nsobjectype : NSObject.Type = anyobjectype as! NSObject.Type
-        return nsobjectype.init()
-
-    }
-    
-    class func getPSExtensionClass(pluginName: String!) -> AnyObject! {
-        let className = fixSwiftClassName(pluginName)
-        let class_from_string: AnyClass! = NSClassFromString(className)
-        return class_from_string
-    }
-    
-    class func fixSwiftClassName(string : String) -> String {
-        if string.rangeOfString("PsyScopeDefaultPlugins.") == nil {
-            return "PsyScopeDefaultPlugins.\(string)"
-        }
-        return string
-    }
 }
