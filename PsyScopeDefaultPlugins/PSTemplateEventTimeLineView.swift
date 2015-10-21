@@ -150,6 +150,15 @@ class PSTemplateEventTimeLineView : NSView {
         
         //update color of bar
         boxLayer.backgroundColor = event.durationCondition.durationKnown() ? PSDefaultConstants.TemplateLayoutBoard.fixedTimeColor : PSDefaultConstants.TemplateLayoutBoard.unknownTimeColor
+        
+        //Change the color for the events with termination trial end. Trying purple (luca 21 oct)
+        if let dc = event.durationCondition as? EventDurationConditionTrialEnd {
+            
+            canDragDurationTime = true
+            boxLayer.backgroundColor = NSColor.purpleColor().CGColor
+        }
+        
+        
 
         //update box layer
         let frame : CGRect = CGRect(origin: CGPoint(x: startTime, y: y_pos), size: CGSizeMake(durationTime, PSDefaultConstants.Spacing.TLBtimeBarWidth))
