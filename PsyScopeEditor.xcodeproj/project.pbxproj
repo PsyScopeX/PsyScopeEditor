@@ -31,6 +31,19 @@
 		1A1E3EA71AE56F480075E47E /* PSVariableBaseType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1E3EA61AE56F480075E47E /* PSVariableBaseType.swift */; };
 		1A206BAA1A0134D100F27216 /* ListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A206BA91A0134D100F27216 /* ListView.xib */; };
 		1A229BD01A8E40A100A06A54 /* PSAttributeCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A229BCF1A8E40A100A06A54 /* PSAttributeCellView.swift */; };
+		1A2339EA1BD9408600B6D805 /* PSPort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A9F6D2519DACE90008A313F /* PSPort.swift */; settings = {ASSET_TAGS = (); }; };
+		1A2339EB1BD9408600B6D805 /* PSPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7E933E1B1DF1C700498D2E /* PSPosition.swift */; settings = {ASSET_TAGS = (); }; };
+		1A2339EC1BD9408600B6D805 /* PortBuilder.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1ACFF15E19D3096800B43446 /* PortBuilder.xib */; settings = {ASSET_TAGS = (); }; };
+		1A2339ED1BD9408600B6D805 /* PSPortPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACFF16019D309B200B43446 /* PSPortPreviewView.swift */; settings = {ASSET_TAGS = (); }; };
+		1A2339EE1BD9408600B6D805 /* PSPortBuilderController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACFF16219D309F100B43446 /* PSPortBuilderController.swift */; settings = {ASSET_TAGS = (); }; };
+		1A2339EF1BD9408600B6D805 /* PSPortBuilderOutlineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A72A2141AD426C7000C0176 /* PSPortBuilderOutlineView.swift */; settings = {ASSET_TAGS = (); }; };
+		1A2339F01BD9408600B6D805 /* PSPortScript.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A72A21A1AD42741000C0176 /* PSPortScript.swift */; settings = {ASSET_TAGS = (); }; };
+		1A2339F11BD9408600B6D805 /* PSPortEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A72A21C1AD436A1000C0176 /* PSPortEnums.swift */; settings = {ASSET_TAGS = (); }; };
+		1A2339F21BD9408600B6D805 /* PSPortPopoverController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7E933A1B1DE83600498D2E /* PSPortPopoverController.swift */; settings = {ASSET_TAGS = (); }; };
+		1A2339F31BD9408600B6D805 /* PSPositionPopoverController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7E933C1B1DE87C00498D2E /* PSPositionPopoverController.swift */; settings = {ASSET_TAGS = (); }; };
+		1A2339F41BD9408600B6D805 /* PSPortBuilderWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A53068E1B2AEAF700ECACE0 /* PSPortBuilderWindow.swift */; settings = {ASSET_TAGS = (); }; };
+		1A2339F51BD9408600B6D805 /* PSScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA02FA71BB99C410084E83E /* PSScreen.swift */; settings = {ASSET_TAGS = (); }; };
+		1A2339F61BD9411800B6D805 /* NSPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8F93D619C853830019F37A /* NSPoint.swift */; settings = {ASSET_TAGS = (); }; };
 		1A23DED71AF18FED003AD0E6 /* PSEntryBrowserSearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A23DED61AF18FED003AD0E6 /* PSEntryBrowserSearchController.swift */; };
 		1A23DEDB1AF19ED1003AD0E6 /* NCRAutocompleteTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A23DEDA1AF19ED1003AD0E6 /* NCRAutocompleteTextView.m */; };
 		1A24499A19F5AF18004C1C40 /* PsyScopeFramework.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1A9E5E50198A7C5800312743 /* PsyScopeFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -130,7 +143,6 @@
 		1A522FB21A41BD2500D5B983 /* PSTimeEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A522FB11A41BD2500D5B983 /* PSTimeEvent.swift */; };
 		1A522FB41A41CA1100D5B983 /* PSAttribute_PasteBoardDepth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A522FB31A41CA1100D5B983 /* PSAttribute_PasteBoardDepth.swift */; };
 		1A522FB61A41CBC800D5B983 /* PSParagraphStimulusAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A522FB51A41CBC800D5B983 /* PSParagraphStimulusAttribute.swift */; };
-		1A53068F1B2AEAF700ECACE0 /* PSPortBuilderWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A53068E1B2AEAF700ECACE0 /* PSPortBuilderWindow.swift */; };
 		1A5306921B2B4FFC00ECACE0 /* PSVariableSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5306911B2B4FFC00ECACE0 /* PSVariableSelector.swift */; };
 		1A534A9819FE7B08003FFD0C /* Upgrading Core Data Model.txt in Resources */ = {isa = PBXBuildFile; fileRef = 1A534A9719FE7B08003FFD0C /* Upgrading Core Data Model.txt */; };
 		1A5461B31A091C5C00C3CFAB /* PSPictureEventAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5461B21A091C5C00C3CFAB /* PSPictureEventAttribute.swift */; };
@@ -251,15 +263,9 @@
 		1A7226FD1AC4295C001E8E9E /* PSVaryByButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7226FB1AC42875001E8E9E /* PSVaryByButton.swift */; };
 		1A72A2111AD3FDC1000C0176 /* flag86.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A72A20F1AD3FDC1000C0176 /* flag86.png */; };
 		1A72A2121AD3FDC1000C0176 /* hand225.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A72A2101AD3FDC1000C0176 /* hand225.png */; };
-		1A72A2151AD426C7000C0176 /* PSPortBuilderOutlineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A72A2141AD426C7000C0176 /* PSPortBuilderOutlineView.swift */; };
-		1A72A21B1AD42741000C0176 /* PSPortScript.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A72A21A1AD42741000C0176 /* PSPortScript.swift */; };
-		1A72A21D1AD436A1000C0176 /* PSPortEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A72A21C1AD436A1000C0176 /* PSPortEnums.swift */; };
 		1A7886141BD907D90030EBCF /* PluginPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A7886131BD907D90030EBCF /* PluginPreferences.xib */; settings = {ASSET_TAGS = (); }; };
 		1A7886161BD907EC0030EBCF /* PSPluginPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7886151BD907EC0030EBCF /* PSPluginPreferences.swift */; settings = {ASSET_TAGS = (); }; };
 		1A7E93391B1CC12C00498D2E /* PSAttributePopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7E93381B1CC12C00498D2E /* PSAttributePopup.swift */; };
-		1A7E933B1B1DE83600498D2E /* PSPortPopoverController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7E933A1B1DE83600498D2E /* PSPortPopoverController.swift */; };
-		1A7E933D1B1DE87C00498D2E /* PSPositionPopoverController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7E933C1B1DE87C00498D2E /* PSPositionPopoverController.swift */; };
-		1A7E933F1B1DF1C700498D2E /* PSPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7E933E1B1DF1C700498D2E /* PSPosition.swift */; };
 		1A7FB9341AC86DDD00C81723 /* PSNullRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7FB9331AC86DDD00C81723 /* PSNullRange.swift */; };
 		1A811C211AC37C2D000B44CE /* PSStringListContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A811C201AC37C2D000B44CE /* PSStringListContainer.swift */; };
 		1A811C231AC37C83000B44CE /* PSEntryValueParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A811C221AC37C83000B44CE /* PSEntryValueParser.swift */; };
@@ -359,8 +365,6 @@
 		1A9E5E21198A757B00312743 /* PSToolHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A9E5E20198A757B00312743 /* PSToolHelper.swift */; };
 		1A9E5E55198A7C5800312743 /* PsyScopeFramework.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A9E5E54198A7C5800312743 /* PsyScopeFramework.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1A9E5E6A198A7DB500312743 /* PSToolInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AA376321975B08100A3DE6E /* PSToolInterface.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1A9F6D2619DACE90008A313F /* PSPort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A9F6D2519DACE90008A313F /* PSPort.swift */; };
-		1AA02FA81BB99C410084E83E /* PSScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA02FA71BB99C410084E83E /* PSScreen.swift */; settings = {ASSET_TAGS = (); }; };
 		1AA0ADD31ADFFFB6009BF2F2 /* PSAttributeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA0ADD21ADFFFB6009BF2F2 /* PSAttributeType.swift */; };
 		1AA0ADD51AE0027A009BF2F2 /* PSAttributePickerCategories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA0ADD41AE0027A009BF2F2 /* PSAttributePickerCategories.swift */; };
 		1AA0ADD71AE01A24009BF2F2 /* PSAttributePickerEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA0ADD61AE01A24009BF2F2 /* PSAttributePickerEntry.swift */; };
@@ -451,9 +455,6 @@
 		1ACFF15A19D2ECD100B43446 /* Question-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1ACFF15619D2ECD100B43446 /* Question-icon.png */; };
 		1ACFF15B19D2ECD100B43446 /* TextEvent-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1ACFF15719D2ECD100B43446 /* TextEvent-icon.png */; };
 		1ACFF15C19D2ECD100B43446 /* Timer-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1ACFF15819D2ECD100B43446 /* Timer-icon.png */; };
-		1ACFF15F19D3096800B43446 /* PortBuilder.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1ACFF15E19D3096800B43446 /* PortBuilder.xib */; };
-		1ACFF16119D309B200B43446 /* PSPortPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACFF16019D309B200B43446 /* PSPortPreviewView.swift */; };
-		1ACFF16319D309F100B43446 /* PSPortBuilderController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACFF16219D309F100B43446 /* PSPortBuilderController.swift */; };
 		1ACFF16519D3115000B43446 /* PSAttribute_Port.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACFF16419D3115000B43446 /* PSAttribute_Port.swift */; };
 		1AD032851B13CA02002516ED /* PSSubjectVariableDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD032841B13CA02002516ED /* PSSubjectVariableDialog.swift */; };
 		1AD032871B13CF53002516ED /* PSGroupValueCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD032861B13CF53002516ED /* PSGroupValueCellView.swift */; };
@@ -1407,7 +1408,6 @@
 				1AD6D41419E80EB000A623B1 /* TableBuilder */,
 				1A57F6D919E5611F0085FE6E /* VarByList */,
 				1ABE80CC19E4196B00B62B8E /* VaryByAttribute */,
-				1ACFF15D19D3095300B43446 /* PortBuilder */,
 				1A64356419BA34C800C21DB0 /* Events */,
 				1A3E709F19B0AD4600FD33C9 /* Tools */,
 				1A963D0D19B9ECD5000B6C91 /* Resources */,
@@ -2192,6 +2192,7 @@
 		1A9E5E51198A7C5800312743 /* PsyScopeFramework */ = {
 			isa = PBXGroup;
 			children = (
+				1ACFF15D19D3095300B43446 /* PortBuilder */,
 				1AFC19201B6F86F7007083DB /* Control */,
 				1A4A646E1B1109E500084A10 /* Group */,
 				1A45C0C71B0103450029EF9F /* SubjectVariable */,
@@ -2415,6 +2416,7 @@
 				1AA02FA71BB99C410084E83E /* PSScreen.swift */,
 			);
 			name = PortBuilder;
+			path = ../PsyScopeDefaultPlugins;
 			sourceTree = "<group>";
 		};
 		1AD032921B152863002516ED /* FileListBuilder */ = {
@@ -2792,7 +2794,6 @@
 				1ACFF15A19D2ECD100B43446 /* Question-icon.png in Resources */,
 				1AC112DF1A41D79B00D7521E /* ParagraphDialog.xib in Resources */,
 				1A522FAF1A41BC8100D5B983 /* PasteBoardIcon-old.png in Resources */,
-				1ACFF15F19D3096800B43446 /* PortBuilder.xib in Resources */,
 				1A4A64591B0F9E9F00084A10 /* GroupsTable.xib in Resources */,
 				1A522FAA1A41BC8100D5B983 /* DocumentIcon-old.png in Resources */,
 				1AF551961A668EFF00E49C23 /* SelfTerminate.png in Resources */,
@@ -2875,6 +2876,7 @@
 				1A534A9819FE7B08003FFD0C /* Upgrading Core Data Model.txt in Resources */,
 				81BFFA3A1A2336C200C1F22F /* BlockTemplate-icon-128-0.TIF in Resources */,
 				1A3434EE19FA7744007202E0 /* PSAttributePopup.txt in Resources */,
+				1A2339EC1BD9408600B6D805 /* PortBuilder.xib in Resources */,
 				1A710A3B1A86CF1100073CB6 /* AttributePickerCell.xib in Resources */,
 				1A5C66001A88BEBC009EED35 /* ActionPickerCell.xib in Resources */,
 				1A69F9BC1A837CE800D60880 /* search-icon.png in Resources */,
@@ -2958,7 +2960,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1ACFF16319D309F100B43446 /* PSPortBuilderController.swift in Sources */,
 				1A6C92D51A014CEE00D24411 /* PSTableBuilderController.swift in Sources */,
 				1A8FAC841AC9E03B00748053 /* PSAttribute_SoundFile.swift in Sources */,
 				1A58046319A3CB4C00278D18 /* PSExperimentDataFields.swift in Sources */,
@@ -2970,20 +2971,17 @@
 				1A4FE4BE1A3F2D1700E581CB /* PSConditionAttribute.swift in Sources */,
 				1AA41FED1AA9BC2600CB8D95 /* PSAction_QuitTrial.swift in Sources */,
 				1A3040701AD538E300510174 /* PSAttribute_PasteBoardDegradation.swift in Sources */,
-				1A72A21B1AD42741000C0176 /* PSPortScript.swift in Sources */,
 				1A8ADC051A828025003C2509 /* PSAction_CancelAction.swift in Sources */,
 				1A8ADC031A827F6E003C2509 /* PSAction_Beep.swift in Sources */,
 				1AA420011AA9C6C500CB8D95 /* PSAttributeParameter_RTFlag.swift in Sources */,
 				1A5B680B1A7BEFC900B81888 /* PSVariablePropertiesController.swift in Sources */,
 				1A3E705A19AE87AE00FD33C9 /* PSTool.swift in Sources */,
 				1A3434F219FA8108007202E0 /* PSTextEventSpecial.swift in Sources */,
-				1A72A2151AD426C7000C0176 /* PSPortBuilderOutlineView.swift in Sources */,
 				1AD032981B160571002516ED /* PSFileListBuilderController.swift in Sources */,
 				1ACFF16519D3115000B43446 /* PSAttribute_Port.swift in Sources */,
 				1A2686241A0BCECF00966271 /* PSEventPropertiesController.swift in Sources */,
 				1A4A64601B0FA11700084A10 /* PSExperimentViewController.swift in Sources */,
 				1A58045919A3B54F00278D18 /* PSEventTool.swift in Sources */,
-				1A7E933F1B1DF1C700498D2E /* PSPosition.swift in Sources */,
 				1A1E3EA51AE56E660075E47E /* PSVariableTypeEntry.swift in Sources */,
 				1A345DCD1AE7A6D4003356BD /* PSVariableTypeController.swift in Sources */,
 				1A8F139D19B38A2D0038C331 /* PSEventsViewController.swift in Sources */,
@@ -3027,7 +3025,6 @@
 				1AA41FEB1AA9BC0B00CB8D95 /* PSAction_MovieDo.swift in Sources */,
 				1AA376341976752200A3DE6E /* PSBlockTool.swift in Sources */,
 				1AD9630E1A7CE7A400C83612 /* PSCondition_TCP.swift in Sources */,
-				1A7E933B1B1DE83600498D2E /* PSPortPopoverController.swift in Sources */,
 				1AFCAA861A601D0A0023AB66 /* PSToolBrowserView.swift in Sources */,
 				1AD6D41019E80D6F00A623B1 /* PSTableViewController.swift in Sources */,
 				1A9CE35F1AA8B9FC00C846F4 /* PSAction_NewListItem.swift in Sources */,
@@ -3063,7 +3060,6 @@
 				1A1E3EA31AE56E550075E47E /* PSVariableType.swift in Sources */,
 				1A56ED451AC9D12300498F09 /* PSAttributeParameter_Mask.swift in Sources */,
 				1ABE80CE19E419B100B62B8E /* PSVaryByAttributePopup.swift in Sources */,
-				1AA02FA81BB99C410084E83E /* PSScreen.swift in Sources */,
 				1A8ADC0B1A82852D003C2509 /* PSAction_ClearPort.swift in Sources */,
 				1A8F93E619C87E960019F37A /* PSEntryNameFormatter.swift in Sources */,
 				1A9CE36F1AA8BC0400C846F4 /* PSAction_RunEvent.swift in Sources */,
@@ -3089,13 +3085,11 @@
 				1A9CE3551AA8B9A900C846F4 /* PSAction_ClearStim.swift in Sources */,
 				1AD6D40F19E80D6F00A623B1 /* PSTableTool.swift in Sources */,
 				1AD032911B15239C002516ED /* PSListFileReader.swift in Sources */,
-				1A7E933D1B1DE87C00498D2E /* PSPositionPopoverController.swift in Sources */,
 				1A0B52081AEF906900E0ADDB /* PSAttribute_ExperimentLogFile.swift in Sources */,
 				1A61E58E1ACB3F5900BB775D /* PSAttribute_TextColor.swift in Sources */,
 				1A345DD11AE8040A003356BD /* PSVariableTypeTextFieldCellView.swift in Sources */,
 				1A3E70B219B3590200FD33C9 /* PSGroupsViewController.swift in Sources */,
 				1A522FB61A41CBC800D5B983 /* PSParagraphStimulusAttribute.swift in Sources */,
-				1A72A21D1AD436A1000C0176 /* PSPortEnums.swift in Sources */,
 				1A58045719A3B54400278D18 /* PSListTool.swift in Sources */,
 				1A1E3EA71AE56F480075E47E /* PSVariableBaseType.swift in Sources */,
 				1A1E2DF019CCB1C5006BD331 /* PSListBuilderColumn.swift in Sources */,
@@ -3104,14 +3098,12 @@
 				1A9CE3571AA8B9C000C846F4 /* PSAction_DrawAllPortBorders.swift in Sources */,
 				1A0B52441AEFC4B200E0ADDB /* PSDialogVariableTool.swift in Sources */,
 				1A8FAC881AC9E0F000748053 /* PSAttribute_SoundFeature.swift in Sources */,
-				1A53068F1B2AEAF700ECACE0 /* PSPortBuilderWindow.swift in Sources */,
 				1A9CE36B1AA8BBE900C846F4 /* PSAction_ReverseVideo.swift in Sources */,
 				1A9CE3691AA8BBD700C846F4 /* PSAction_RerunTrial.swift in Sources */,
 				1A345DCF1AE7AC3E003356BD /* PSVariableTypeComboBoxTableCellView.swift in Sources */,
 				1A522F981A41B77700D5B983 /* PSMovieEvent.swift in Sources */,
 				1A61E5901ACB3F5900BB775D /* PSAttribute_TextFont.swift in Sources */,
 				1A9CE37B1AA8BCBD00C846F4 /* PSAction_ShowStim.swift in Sources */,
-				1ACFF16119D309B200B43446 /* PSPortPreviewView.swift in Sources */,
 				1A8FAC861AC9E0CE00748053 /* PSAttribute_SoundVolume.swift in Sources */,
 				1AC93EF81A19167600AB40EC /* PSCondition_Key.swift in Sources */,
 				1A522F9E1A41B7BF00D5B983 /* PSPasteBoardEvent.swift in Sources */,
@@ -3162,7 +3154,6 @@
 				1ADFD1D41AE95286002579AF /* PSVariableOutlineViewController.swift in Sources */,
 				1A55D6201AEA470F00B1D19C /* PSVariableOutlineViewCellView.swift in Sources */,
 				1A9CE3651AA8BBB700C846F4 /* PSAction_RemoveFromList.swift in Sources */,
-				1A9F6D2619DACE90008A313F /* PSPort.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3182,12 +3173,14 @@
 				1A581A2B1ADBB845003D970B /* PSAttributeParameterBuilder.swift in Sources */,
 				1AFB0AA61B73C5630090C954 /* PSFieldEditor.swift in Sources */,
 				1AACB2CF1A8F5A82002A9B74 /* PSAttributeParameter_FileSave.swift in Sources */,
+				1A2339F01BD9408600B6D805 /* PSPortScript.swift in Sources */,
 				1A7109FE1A86AFFB00073CB6 /* PSStringList.swift in Sources */,
 				1AFC19281B70161D007083DB /* PSEntryValueTextField_Path.swift in Sources */,
 				1A710A2E1A86C67C00073CB6 /* PSFontAttributePopUpType.swift in Sources */,
 				1A4A646D1B11008600084A10 /* PSSubjectVariableView.swift in Sources */,
 				1AFC19241B6FD875007083DB /* PSFunctionTextField.swift in Sources */,
 				1A710A3C1A86CF1100073CB6 /* PSAttributePicker.swift in Sources */,
+				1A2339F21BD9408600B6D805 /* PSPortPopoverController.swift in Sources */,
 				1AACB2D11A8F5B22002A9B74 /* PSAttributeParameter_FontAll.swift in Sources */,
 				1A45C0CB1B0107FC0029EF9F /* PSSubjectInformation.swift in Sources */,
 				1A710A0D1A86B94B00073CB6 /* PSAttributeParameter_String.swift in Sources */,
@@ -3196,9 +3189,12 @@
 				1A7109FC1A86AF7C00073CB6 /* PSScriptData.swift in Sources */,
 				1A7109FF1A86B06100073CB6 /* PSDefaultConstants.swift in Sources */,
 				1A5C66171A88C166009EED35 /* PSEventActionCondition.swift in Sources */,
+				1A2339F31BD9408600B6D805 /* PSPositionPopoverController.swift in Sources */,
 				1A567B851A8B695000FC9DC9 /* PSAttribute.swift in Sources */,
+				1A2339EE1BD9408600B6D805 /* PSPortBuilderController.swift in Sources */,
 				1A8752391AB1AD2E00D4D31A /* PSUpdateEntryWithGhostEntry.swift in Sources */,
 				1A710A2C1A86C67C00073CB6 /* PSFloatAttributeView.swift in Sources */,
+				1A2339EF1BD9408600B6D805 /* PSPortBuilderOutlineView.swift in Sources */,
 				1A710A001A86B0BD00073CB6 /* PSConstants.swift in Sources */,
 				1A5C66011A88BEBC009EED35 /* PSActionPicker.swift in Sources */,
 				1A7226FD1AC4295C001E8E9E /* PSVaryByButton.swift in Sources */,
@@ -3236,7 +3232,9 @@
 				1A710A0E1A86B94B00073CB6 /* PSAttributeParameter_SystemSound.swift in Sources */,
 				1A9263751A94B25800DAFF3A /* PSProperty.swift in Sources */,
 				1A7E93391B1CC12C00498D2E /* PSAttributePopup.swift in Sources */,
+				1A2339F11BD9408600B6D805 /* PSPortEnums.swift in Sources */,
 				1A811C231AC37C83000B44CE /* PSEntryValueParser.swift in Sources */,
+				1A2339EB1BD9408600B6D805 /* PSPosition.swift in Sources */,
 				1A710A2A1A86C67C00073CB6 /* PSCheckBoxListAttributePopup.swift in Sources */,
 				1A710A3D1A86CF1100073CB6 /* PSAttributePickerCell.swift in Sources */,
 				1A30BE371ABB7C0E0016319C /* PSHighLightOnMouseHoverProtocol.swift in Sources */,
@@ -3253,6 +3251,7 @@
 				1A27042A19A7DE35002AD682 /* Script.xcdatamodeld in Sources */,
 				1AA41FFB1AA9C51000CB8D95 /* PSAttributeParameter_CustomPopup.swift in Sources */,
 				1A9263731A94A6A100DAFF3A /* PSScriptFile.swift in Sources */,
+				1A2339ED1BD9408600B6D805 /* PSPortPreviewView.swift in Sources */,
 				1AACB2D71A8F5B64002A9B74 /* PSAttributeParameter_FontFace.swift in Sources */,
 				1AACB2C91A8F52D6002A9B74 /* PSModalAlert.swift in Sources */,
 				1A710A0B1A86B94B00073CB6 /* PSAttributeParameter_Event.swift in Sources */,
@@ -3263,20 +3262,24 @@
 				1AFC19191B67EC54007083DB /* PSTextField.swift in Sources */,
 				1A710A2B1A86C67C00073CB6 /* PSColorAttributePopup.swift in Sources */,
 				1A30407D1AD586BF00510174 /* Entry.m in Sources */,
+				1A2339F41BD9408600B6D805 /* PSPortBuilderWindow.swift in Sources */,
 				1A710A0C1A86B94B00073CB6 /* PSAttributeParameter_Int.swift in Sources */,
 				1A5E6E7C1A605C850098FEBE /* PSSegmentedCell.m in Sources */,
 				1A3A7D2F1A28B1E900EC91CC /* Script.m in Sources */,
 				1A2929561B03A304000DC32E /* PSSubjectVariableStorageOptions.swift in Sources */,
 				1A811C271AC37CBF000B44CE /* PSEntryTokenizer.swift in Sources */,
+				1A2339F61BD9411800B6D805 /* NSPoint.swift in Sources */,
 				1A567B871A8B6B2600FC9DC9 /* PSPluginProvider.swift in Sources */,
 				1A5564701B3F26DE00310A7F /* PSActionConditionViewMetaData.swift in Sources */,
 				1AD032851B13CA02002516ED /* PSSubjectVariableDialog.swift in Sources */,
 				1A5C661D1A892805009EED35 /* PSCellView.swift in Sources */,
 				1AFC191F1B6F86ED007083DB /* PSEntryValueController.swift in Sources */,
+				1A2339F51BD9408600B6D805 /* PSScreen.swift in Sources */,
 				1A3C19141BD1635700274D5B /* PSPluginInterface.swift in Sources */,
 				1AA41FF91AA9C37100CB8D95 /* PSAttributeParameter_Variable.swift in Sources */,
 				1A4CA3A11B62CCDE00CB1BD2 /* PSEntryWindowController.swift in Sources */,
 				1ABD89001AAF26DD00B43779 /* PSPreferences.swift in Sources */,
+				1A2339EA1BD9408600B6D805 /* PSPort.swift in Sources */,
 				1A710A111A86BA3200073CB6 /* PSIntegerOnlyNumberFormatter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

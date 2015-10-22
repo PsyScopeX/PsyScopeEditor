@@ -11,7 +11,7 @@ import Foundation
 //parses a port entry as an object - has a layer which updates it's coordinates automatically
 
 
-class PSPort : Hashable, Equatable {
+public class PSPort : Hashable, Equatable {
     
     //port parameters
     var shape : PSPortShape {
@@ -139,7 +139,7 @@ class PSPort : Hashable, Equatable {
     }
     
     //MARK: Hashable / Equatable
-    var hashValue: Int { return entry.hashValue }
+    public var hashValue: Int { return entry.hashValue }
     
     var currentValue : String {
         get { return entry.currentValue }
@@ -281,6 +281,6 @@ class PSPort : Hashable, Equatable {
     }
 }
 
-func ==(lhs: PSPort, rhs: PSPort) -> Bool {
+public func ==(lhs: PSPort, rhs: PSPort) -> Bool {
     return lhs.hashValue == rhs.hashValue
 }

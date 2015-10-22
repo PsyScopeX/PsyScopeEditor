@@ -7,7 +7,7 @@
 
 import Cocoa
 
-class PSPortBuilderController: NSObject, NSOutlineViewDataSource, NSOutlineViewDelegate {
+public class PSPortBuilderController: NSObject, NSOutlineViewDataSource, NSOutlineViewDelegate {
     
     
     internal var currentValue : String
@@ -51,7 +51,7 @@ class PSPortBuilderController: NSObject, NSOutlineViewDataSource, NSOutlineViewD
     var initialized : Bool = false
     
 
-    func showAttributeModalForWindow(window : NSWindow) {
+    public func showAttributeModalForWindow(window : NSWindow) {
         if (attributeSheet == nil) {
             bundle.loadNibNamed(nibName, owner: self, topLevelObjects: &topLevelObjects)
         }
@@ -67,7 +67,7 @@ class PSPortBuilderController: NSObject, NSOutlineViewDataSource, NSOutlineViewD
         //NSApp.runModalForWindow(attributeSheet)
     }
     
-    @IBAction func closeMyCustomSheet(_: AnyObject) {
+    @IBAction public func closeMyCustomSheet(_: AnyObject) {
         parentWindow.endSheet(attributeSheet)
         if let setCurrentValueBlock = setCurrentValueBlock {
             setCurrentValueBlock(self.currentValue)
@@ -75,7 +75,7 @@ class PSPortBuilderController: NSObject, NSOutlineViewDataSource, NSOutlineViewD
     }
     
 
-    init(currentValue: String, scriptData: PSScriptData, positionMode : Bool, setCurrentValueBlock : ((String) -> ())?){
+    public init(currentValue: String, scriptData: PSScriptData, positionMode : Bool, setCurrentValueBlock : ((String) -> ())?){
         self.originalValue = currentValue
         self.functionName = positionMode ? "PointName" : "PortName"
         self.functionElement = PSFunctionElement()
@@ -112,7 +112,7 @@ class PSPortBuilderController: NSObject, NSOutlineViewDataSource, NSOutlineViewD
     }
     
     
-    override func awakeFromNib() {
+    override public func awakeFromNib() {
         super.awakeFromNib()
         if (!initialized) {
             
@@ -394,7 +394,7 @@ class PSPortBuilderController: NSObject, NSOutlineViewDataSource, NSOutlineViewD
     
     //MARK: Outline view
     
-    func outlineViewSelectionDidChange(notification: NSNotification) {
+    public func outlineViewSelectionDidChange(notification: NSNotification) {
         
         if preventSelectingObject { return }
         
@@ -448,7 +448,7 @@ class PSPortBuilderController: NSObject, NSOutlineViewDataSource, NSOutlineViewD
     }
     
     
-    func outlineView(outlineView: NSOutlineView, numberOfChildrenOfItem item: AnyObject?) -> Int {
+    public func outlineView(outlineView: NSOutlineView, numberOfChildrenOfItem item: AnyObject?) -> Int {
         if (item == nil) {
             return portScript.portEntries.count
         }
@@ -459,7 +459,7 @@ class PSPortBuilderController: NSObject, NSOutlineViewDataSource, NSOutlineViewD
         return 0
     }
     
-    func outlineView(outlineView: NSOutlineView, child index: Int, ofItem item: AnyObject?) -> AnyObject {
+    public func outlineView(outlineView: NSOutlineView, child index: Int, ofItem item: AnyObject?) -> AnyObject {
         if (item == nil) {
             return portScript.portEntries[index]
         }
@@ -469,7 +469,7 @@ class PSPortBuilderController: NSObject, NSOutlineViewDataSource, NSOutlineViewD
         return ""
     }
     
-    func outlineView(outlineView: NSOutlineView, isItemExpandable item: AnyObject) -> Bool {
+    public func outlineView(outlineView: NSOutlineView, isItemExpandable item: AnyObject) -> Bool {
         if let port = item as? PSPort {
             if port.positions.count > 0 {
                 return true
@@ -478,7 +478,7 @@ class PSPortBuilderController: NSObject, NSOutlineViewDataSource, NSOutlineViewD
         return false
     }
     
-    func outlineView(outlineView: NSOutlineView, objectValueForTableColumn tableColumn: NSTableColumn?, byItem item: AnyObject?) -> AnyObject? {
+    public func outlineView(outlineView: NSOutlineView, objectValueForTableColumn tableColumn: NSTableColumn?, byItem item: AnyObject?) -> AnyObject? {
         if let port = item as? PSPort {
             return port.name
         }

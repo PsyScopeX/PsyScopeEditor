@@ -8,7 +8,7 @@
 
 import Foundation
 
-class PSPosition : Hashable, Equatable {
+public class PSPosition : Hashable, Equatable {
     
     init(parent_port: PSPort, entry : Entry, scriptData : PSScriptData) {
         self.port = parent_port
@@ -61,7 +61,7 @@ class PSPosition : Hashable, Equatable {
     }
     
     //MARK: Hashable / Equatable
-    var hashValue: Int { return entry.hashValue }
+    public var hashValue: Int { return entry.hashValue }
     
     var parsing = false
     
@@ -162,10 +162,9 @@ class PSPosition : Hashable, Equatable {
         layer.position = CGPoint(x: loc_x, y: loc_y)
     }
     
-    
 }
 
-func ==(lhs: PSPosition, rhs: PSPosition) -> Bool {
+public func ==(lhs: PSPosition, rhs: PSPosition) -> Bool {
     return lhs.hashValue == rhs.hashValue
 }
 
