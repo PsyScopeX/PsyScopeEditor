@@ -129,12 +129,24 @@ class PSConditionTableViewController: NSObject, NSTableViewDelegate, NSTableView
                 self.conditionAttribute.appendCondition(conditionInterface)
             } else {
                 //remove
-                self.conditionAttribute.removeCondition(conditionInterface)
+                
             }
         }
         
         self.conditionPicker = PSConditionPicker(scriptData: scriptData, existingConditionTypes: existingConditionTypes, selectConditionCallback: selectConditionFunction)
         
         self.conditionPicker!.showConditionWindow(conditionsTableView)
+    }
+    
+    // MARK: Deleteing conditions
+    @IBAction func deleteMenuClicked(menuItem : NSMenuItem) {
+        //get selected item
+        let selectedIndex = conditionsTableView.selectedRow
+        
+        //delete it
+        if selectedIndex > -1 {
+            self.conditionAttribute.removeConditionAtIndex(selectedIndex)
+        }
+        
     }
 }

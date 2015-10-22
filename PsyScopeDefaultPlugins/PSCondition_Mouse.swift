@@ -140,7 +140,7 @@ class PSCondition_Mouse_Cell : PSConditionCell {
                     
                 }
                 break
-            case .List(let stringListElement):
+            case .List:
                 break
             case .Null:
                 break

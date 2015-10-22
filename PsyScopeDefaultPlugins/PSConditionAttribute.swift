@@ -31,12 +31,15 @@ public class PSConditionAttribute : PSStringListElement {
         scriptData.endUndoGrouping(true)
     }
     
-    //returns index of actionCondition so can refresh it
     func removeCondition(condition : PSConditionInterface) {
         let name = condition.type()
         if let index = conditions.lazy.map({ $0.functionName }).indexOf(name) {
-            conditions.removeAtIndex(index)
+            removeConditionAtIndex(index)
         }
+    }
+    
+    func removeConditionAtIndex(index : Int) {
+        conditions.removeAtIndex(index)
         updateEntry()
     }
     
