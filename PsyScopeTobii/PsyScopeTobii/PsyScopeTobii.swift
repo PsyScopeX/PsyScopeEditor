@@ -11,7 +11,19 @@ import PsyScopeFramework
 
 class PsyScopeTobii: NSObject, PSPluginInterface {
    static func pluginsFor(pluginTypeName: PSPluginType) -> [NSObject.Type] {
-        Swift.print("Helllo")
-        return []
+        switch pluginTypeName {
+        case .Tool:
+            return []
+        case .Attribute:
+            return []
+        case .Event:
+            return []
+        case .WindowView:
+            return []
+        case .Action:
+            return [PSAction_TobiiPlus.self]
+        case .Condition:
+            return [PSCondition_TobiiPlus.self]
+        }
     }
 }

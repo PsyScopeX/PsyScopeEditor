@@ -7,14 +7,6 @@
 
 import Foundation
 
-//
-//  PSAction.swift
-//  PsyScopeEditor
-//
-//  Created by James on 16/11/2014.
-//
-
-import Foundation
 
 class PSCondition : NSObject, PSConditionInterface {
     var typeString : String = ""
@@ -35,10 +27,6 @@ class PSCondition : NSObject, PSConditionInterface {
     }
     
     func icon() -> NSImage! {
-        return nil
-    }
-    
-    func conditionCellInterface() -> AnyObject! {
         return nil
     }
     

@@ -47,7 +47,8 @@ class PSPluginLoader : NSObject {
         guard let pluginBundle = NSBundle(path: resourcePath),
             pluginClass = pluginBundle.principalClass,
             pluginInterface = pluginClass as? PSPluginInterface.Type else {
-                fatalError("Incorrect setup for plugin at \(resourcePath) - bundle principal class must be PSPluginInterface")
+                print("Incorrect setup for plugin at \(resourcePath) - bundle principal class must be PSPluginInterface")
+                return
         }
         
         let toolPlugins = setupPluginsFor(PSPluginType.Tool, pluginInterface: pluginInterface, resourcePath: resourcePath)

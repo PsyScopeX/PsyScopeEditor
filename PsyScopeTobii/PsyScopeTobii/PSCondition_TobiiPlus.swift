@@ -7,38 +7,51 @@
 //
 
 import Foundation
+import PsyScopeFramework
 
-class PSCondition_TobiiPlus : PSCondition {
-    override init() {
-        super.init()
-        expandedHeight = 51
-        typeString = "TobiiPlus"
-        userFriendlyNameString = "Tobii Plus"
-        helpfulDescriptionString = "This condition allows events to trigger when eye movement enters a port area."
-        
-    }
-
+class PSCondition_TobiiPlus : NSObject, PSConditionInterface {
+    var typeString : String = ""
+    var userFriendlyNameString : String = ""
+    var helpfulDescriptionString : String = ""
     
-    override func nib() -> NSNib! {
-        return NSNib(nibNamed: "Condition_TobiiPlusCell", bundle: NSBundle(forClass:self.dynamicType))
+    func type() -> String! {
+        return "TobiiPlus"
     }
     
-    override func icon() -> NSImage! {
+    func userFriendlyName() -> String! {
+        return "Tobii Plus"
+    }
+    
+    func helpfulDescription() -> String! {
+        return "This condition allows events to trigger when eye movement enters a port area."
+    }
+    
+    func icon() -> NSImage! {
         let image : NSImage = NSImage(contentsOfFile: NSBundle(forClass:self.dynamicType).pathForImageResource("MouseClick")!)!
         return image
     }
     
-    override func isInputDevice() -> Bool {
+    func nib() -> NSNib! {
+        return NSNib(nibNamed: "Condition_TobiiPlusCell", bundle: NSBundle(forClass:self.dynamicType))
+    }
+    
+    func expandedCellHeight() -> CGFloat {
+        return 51
+    }
+    
+    func isInputDevice() -> Bool {
         return true
     }
 }
+
+
 
 class PSCondition_TobiiPlusCell : PSConditionCell {
     
     @IBOutlet var portButton : NSButton!
     
     @IBAction func portButton_Click(_: AnyObject) {
-        var popup = PSPortBuilderController(currentValue: portValue, scriptData: scriptData, positionMode: false, setCurrentValueBlock : { (cValue: String) -> () in
+        /*var popup = PSPortBuilderController(currentValue: portValue, scriptData: scriptData, positionMode: false, setCurrentValueBlock : { (cValue: String) -> () in
             self.portValue = cValue
             
             var outputString = self.portValue
@@ -46,7 +59,7 @@ class PSCondition_TobiiPlusCell : PSConditionCell {
             self.entryFunction.setStringValues( [outputString] )
             self.updateScript()
         })
-        popup.showAttributeModalForWindow(window!)
+        popup.showAttributeModalForWindow(window!)*/
         
     }
     
@@ -55,7 +68,7 @@ class PSCondition_TobiiPlusCell : PSConditionCell {
     
     func parse() {
         
-        var inputValue = entryFunction.getStringValues()
+        let inputValue = entryFunction.getStringValues()
         
         for v in inputValue {
             

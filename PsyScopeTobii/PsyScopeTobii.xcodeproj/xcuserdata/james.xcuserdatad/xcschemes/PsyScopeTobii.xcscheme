@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "1AAAC0E61BD134B600A9BA3A"
-               BuildableName = "PsyScopeTobii.framework"
+               BuildableName = "PsyScopeTobii.psyplugin"
                BlueprintName = "PsyScopeTobii"
                ReferencedContainer = "container:PsyScopeTobii.xcodeproj">
             </BuildableReference>
@@ -46,7 +46,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1AAAC0E61BD134B600A9BA3A"
-            BuildableName = "PsyScopeTobii.framework"
+            BuildableName = "PsyScopeTobii.psyplugin"
             BlueprintName = "PsyScopeTobii"
             ReferencedContainer = "container:PsyScopeTobii.xcodeproj">
          </BuildableReference>
@@ -64,7 +64,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1AAAC0E61BD134B600A9BA3A"
-            BuildableName = "PsyScopeTobii.framework"
+            BuildableName = "PsyScopeTobii.psyplugin"
             BlueprintName = "PsyScopeTobii"
             ReferencedContainer = "container:PsyScopeTobii.xcodeproj">
          </BuildableReference>

@@ -265,12 +265,10 @@
 		1A811C231AC37C83000B44CE /* PSEntryValueParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A811C221AC37C83000B44CE /* PSEntryValueParser.swift */; };
 		1A811C251AC37CA4000B44CE /* PSEntryElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A811C241AC37CA4000B44CE /* PSEntryElement.swift */; };
 		1A811C271AC37CBF000B44CE /* PSEntryTokenizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A811C261AC37CBF000B44CE /* PSEntryTokenizer.swift */; };
-		1A8376941AADAFD1007B0B4B /* Condition_TobiiPlusCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A8376931AADAFD1007B0B4B /* Condition_TobiiPlusCell.xib */; };
 		1A8376961AADAFDE007B0B4B /* Condition_EndCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A8376951AADAFDE007B0B4B /* Condition_EndCell.xib */; };
 		1A8376981AADAFEB007B0B4B /* Condition_StartCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A8376971AADAFEB007B0B4B /* Condition_StartCell.xib */; };
 		1A83769A1AADAFF8007B0B4B /* Condition_WhenCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A8376991AADAFF8007B0B4B /* Condition_WhenCell.xib */; };
 		1A83769C1AADB005007B0B4B /* Condition_ScriptWhenCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A83769B1AADB005007B0B4B /* Condition_ScriptWhenCell.xib */; };
-		1A8376A81AADB063007B0B4B /* PSCondition_TobiiPlus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8376A71AADB063007B0B4B /* PSCondition_TobiiPlus.swift */; };
 		1A8376AA1AADB071007B0B4B /* PSCondition_End.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8376A91AADB071007B0B4B /* PSCondition_End.swift */; };
 		1A8376AC1AADB07C007B0B4B /* PSCondition_Start.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8376AB1AADB07C007B0B4B /* PSCondition_Start.swift */; };
 		1A8376AE1AADB089007B0B4B /* PSCondition_When.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8376AD1AADB089007B0B4B /* PSCondition_When.swift */; };
@@ -381,8 +379,6 @@
 		1AA41FEF1AA9BC4600CB8D95 /* PSAction_SerialOut.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA41FEE1AA9BC4600CB8D95 /* PSAction_SerialOut.swift */; };
 		1AA41FF11AA9BC6300CB8D95 /* PSAction_SysCmd.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA41FF01AA9BC6300CB8D95 /* PSAction_SysCmd.swift */; };
 		1AA41FF31AA9BC7700CB8D95 /* PSAction_TCPDo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA41FF21AA9BC7700CB8D95 /* PSAction_TCPDo.swift */; };
-		1AA41FF51AA9BC9500CB8D95 /* PSAction_Tobii.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA41FF41AA9BC9500CB8D95 /* PSAction_Tobii.swift */; };
-		1AA41FF71AA9BCAC00CB8D95 /* PSAction_TobiiPlus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA41FF61AA9BCAC00CB8D95 /* PSAction_TobiiPlus.swift */; };
 		1AA41FF91AA9C37100CB8D95 /* PSAttributeParameter_Variable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA41FF81AA9C37100CB8D95 /* PSAttributeParameter_Variable.swift */; };
 		1AA41FFB1AA9C51000CB8D95 /* PSAttributeParameter_CustomPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA41FFA1AA9C51000CB8D95 /* PSAttributeParameter_CustomPopup.swift */; };
 		1AA41FFD1AA9C58C00CB8D95 /* PSAttributeParameter_MixEnd.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA41FFC1AA9C58C00CB8D95 /* PSAttributeParameter_MixEnd.swift */; };
@@ -915,12 +911,10 @@
 		1A811C221AC37C83000B44CE /* PSEntryValueParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSEntryValueParser.swift; sourceTree = "<group>"; };
 		1A811C241AC37CA4000B44CE /* PSEntryElement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSEntryElement.swift; sourceTree = "<group>"; };
 		1A811C261AC37CBF000B44CE /* PSEntryTokenizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSEntryTokenizer.swift; sourceTree = "<group>"; };
-		1A8376931AADAFD1007B0B4B /* Condition_TobiiPlusCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Condition_TobiiPlusCell.xib; sourceTree = "<group>"; };
 		1A8376951AADAFDE007B0B4B /* Condition_EndCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Condition_EndCell.xib; sourceTree = "<group>"; };
 		1A8376971AADAFEB007B0B4B /* Condition_StartCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Condition_StartCell.xib; sourceTree = "<group>"; };
 		1A8376991AADAFF8007B0B4B /* Condition_WhenCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Condition_WhenCell.xib; sourceTree = "<group>"; };
 		1A83769B1AADB005007B0B4B /* Condition_ScriptWhenCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Condition_ScriptWhenCell.xib; sourceTree = "<group>"; };
-		1A8376A71AADB063007B0B4B /* PSCondition_TobiiPlus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSCondition_TobiiPlus.swift; sourceTree = "<group>"; };
 		1A8376A91AADB071007B0B4B /* PSCondition_End.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSCondition_End.swift; sourceTree = "<group>"; };
 		1A8376AB1AADB07C007B0B4B /* PSCondition_Start.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSCondition_Start.swift; sourceTree = "<group>"; };
 		1A8376AD1AADB089007B0B4B /* PSCondition_When.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSCondition_When.swift; sourceTree = "<group>"; };
@@ -1031,8 +1025,6 @@
 		1AA41FEE1AA9BC4600CB8D95 /* PSAction_SerialOut.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSAction_SerialOut.swift; sourceTree = "<group>"; };
 		1AA41FF01AA9BC6300CB8D95 /* PSAction_SysCmd.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSAction_SysCmd.swift; sourceTree = "<group>"; };
 		1AA41FF21AA9BC7700CB8D95 /* PSAction_TCPDo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSAction_TCPDo.swift; sourceTree = "<group>"; };
-		1AA41FF41AA9BC9500CB8D95 /* PSAction_Tobii.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSAction_Tobii.swift; sourceTree = "<group>"; };
-		1AA41FF61AA9BCAC00CB8D95 /* PSAction_TobiiPlus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSAction_TobiiPlus.swift; sourceTree = "<group>"; };
 		1AA41FF81AA9C37100CB8D95 /* PSAttributeParameter_Variable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSAttributeParameter_Variable.swift; sourceTree = "<group>"; };
 		1AA41FFA1AA9C51000CB8D95 /* PSAttributeParameter_CustomPopup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSAttributeParameter_CustomPopup.swift; sourceTree = "<group>"; };
 		1AA41FFC1AA9C58C00CB8D95 /* PSAttributeParameter_MixEnd.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSAttributeParameter_MixEnd.swift; sourceTree = "<group>"; };
@@ -1288,15 +1280,6 @@
 				1AFC191C1B692E44007083DB /* PSLogFileNameController.swift */,
 			);
 			name = "Experiment Setup";
-			sourceTree = "<group>";
-		};
-		1A0D0ECF1AA9E6F10002E770 /* TobiiPlus */ = {
-			isa = PBXGroup;
-			children = (
-				1A8376931AADAFD1007B0B4B /* Condition_TobiiPlusCell.xib */,
-				1A8376A71AADB063007B0B4B /* PSCondition_TobiiPlus.swift */,
-			);
-			name = TobiiPlus;
 			sourceTree = "<group>";
 		};
 		1A0D0ED01AA9E6FB0002E770 /* End */ = {
@@ -2201,8 +2184,6 @@
 				1AA41FEE1AA9BC4600CB8D95 /* PSAction_SerialOut.swift */,
 				1AA41FF01AA9BC6300CB8D95 /* PSAction_SysCmd.swift */,
 				1AA41FF21AA9BC7700CB8D95 /* PSAction_TCPDo.swift */,
-				1AA41FF41AA9BC9500CB8D95 /* PSAction_Tobii.swift */,
-				1AA41FF61AA9BCAC00CB8D95 /* PSAction_TobiiPlus.swift */,
 				1AA420021AA9CC5E00CB8D95 /* PSAction_GetTimestamp.swift */,
 			);
 			name = Actions;
@@ -2378,7 +2359,6 @@
 				1A0D0ED21AA9E7080002E770 /* When */,
 				1A0D0ED11AA9E7020002E770 /* Start */,
 				1A0D0ED01AA9E6FB0002E770 /* End */,
-				1A0D0ECF1AA9E6F10002E770 /* TobiiPlus */,
 				1AD963091A7CE6F100C83612 /* SysCmd */,
 				1AD963081A7CE6EA00C83612 /* TCP */,
 				1AD963011A7CE38F00C83612 /* Sound */,
@@ -2800,7 +2780,6 @@
 				1A3E70A819B1E23600FD33C9 /* EventsView.xib in Resources */,
 				1A2686221A0BCCB000966271 /* EventProperties.xib in Resources */,
 				1AF551971A668EFF00E49C23 /* TrialEnd.png in Resources */,
-				1A8376941AADAFD1007B0B4B /* Condition_TobiiPlusCell.xib in Resources */,
 				1A8376981AADAFEB007B0B4B /* Condition_StartCell.xib in Resources */,
 				1AFADC7D1A1BBCA50055346D /* EventPicker.xib in Resources */,
 				1A0A252C1A31F2340000D621 /* ActionsBuilderCell.xib in Resources */,
@@ -2993,10 +2972,8 @@
 				1A3040701AD538E300510174 /* PSAttribute_PasteBoardDegradation.swift in Sources */,
 				1A72A21B1AD42741000C0176 /* PSPortScript.swift in Sources */,
 				1A8ADC051A828025003C2509 /* PSAction_CancelAction.swift in Sources */,
-				1AA41FF71AA9BCAC00CB8D95 /* PSAction_TobiiPlus.swift in Sources */,
 				1A8ADC031A827F6E003C2509 /* PSAction_Beep.swift in Sources */,
 				1AA420011AA9C6C500CB8D95 /* PSAttributeParameter_RTFlag.swift in Sources */,
-				1A8376A81AADB063007B0B4B /* PSCondition_TobiiPlus.swift in Sources */,
 				1A5B680B1A7BEFC900B81888 /* PSVariablePropertiesController.swift in Sources */,
 				1A3E705A19AE87AE00FD33C9 /* PSTool.swift in Sources */,
 				1A3434F219FA8108007202E0 /* PSTextEventSpecial.swift in Sources */,
@@ -3064,7 +3041,6 @@
 				1AD0328B1B149C7C002516ED /* PSWeightsToolTablePropertyController.swift in Sources */,
 				1A963D1719BA203B000B6C91 /* PSTemplateBuilder.swift in Sources */,
 				1A3040741AD5394700510174 /* PSAttribute_PasteBoardPort.swift in Sources */,
-				1AA41FF51AA9BC9500CB8D95 /* PSAction_Tobii.swift in Sources */,
 				1A61E5911ACB3F5900BB775D /* PSAttribute_TextMask.swift in Sources */,
 				1A0B52061AEE73E700E0ADDB /* PSVariableCompositeTypePopoverController.swift in Sources */,
 				1AFCAA851A601D050023AB66 /* PSEventToolbarView.swift in Sources */,

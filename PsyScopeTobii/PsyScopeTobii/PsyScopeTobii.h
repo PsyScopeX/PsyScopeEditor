@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
+
 //! Project version number for PsyScopeTobii.
 FOUNDATION_EXPORT double PsyScopeTobiiVersionNumber;
 
@@ -17,3 +18,6 @@ FOUNDATION_EXPORT const unsigned char PsyScopeTobiiVersionString[];
 // In this header, you should import all the public headers of your framework using statements like #import <PsyScopeTobii/PublicHeader.h>
 
 
+//FOR SOME REASON DO NOT INCLUDE????
+
+//http://devsolvd.com/questions/building-pure-swift-cocoa-touch-framework

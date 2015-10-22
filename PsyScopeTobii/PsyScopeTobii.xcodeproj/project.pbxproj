@@ -7,17 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1AAAC0EB1BD134B600A9BA3A /* PsyScopeTobii.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AAAC0EA1BD134B600A9BA3A /* PsyScopeTobii.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1A2339E91BD93E8400B6D805 /* PsyScopeFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A2339E81BD93E8400B6D805 /* PsyScopeFramework.framework */; };
+		1A78861B1BD939320030EBCF /* Condition_TobiiPlusCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A7886171BD939320030EBCF /* Condition_TobiiPlusCell.xib */; settings = {ASSET_TAGS = (); }; };
+		1A78861D1BD939320030EBCF /* PSAction_TobiiPlus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7886191BD939320030EBCF /* PSAction_TobiiPlus.swift */; settings = {ASSET_TAGS = (); }; };
+		1A78861E1BD939320030EBCF /* PSCondition_TobiiPlus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A78861A1BD939320030EBCF /* PSCondition_TobiiPlus.swift */; settings = {ASSET_TAGS = (); }; };
 		1AAAC0F31BD136B300A9BA3A /* PsyScopeTobii.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AAAC0F21BD136B300A9BA3A /* PsyScopeTobii.swift */; settings = {ASSET_TAGS = (); }; };
-		1AAAC0F51BD13D3B00A9BA3A /* PsyScopeFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AAAC0F41BD13D3B00A9BA3A /* PsyScopeFramework.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1A2339E81BD93E8400B6D805 /* PsyScopeFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PsyScopeFramework.framework; path = ../../../Library/Developer/Xcode/DerivedData/PsyScopeBuild/Intermediates/UninstalledProducts/PsyScopeFramework.framework; sourceTree = "<group>"; };
+		1A7886171BD939320030EBCF /* Condition_TobiiPlusCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Condition_TobiiPlusCell.xib; sourceTree = "<group>"; };
+		1A7886191BD939320030EBCF /* PSAction_TobiiPlus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSAction_TobiiPlus.swift; sourceTree = "<group>"; };
+		1A78861A1BD939320030EBCF /* PSCondition_TobiiPlus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSCondition_TobiiPlus.swift; sourceTree = "<group>"; };
 		1AAAC0E71BD134B600A9BA3A /* PsyScopeTobii.psyplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PsyScopeTobii.psyplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AAAC0EA1BD134B600A9BA3A /* PsyScopeTobii.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PsyScopeTobii.h; sourceTree = "<group>"; };
 		1AAAC0EC1BD134B600A9BA3A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1AAAC0F21BD136B300A9BA3A /* PsyScopeTobii.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PsyScopeTobii.swift; sourceTree = "<group>"; };
-		1AAAC0F41BD13D3B00A9BA3A /* PsyScopeFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PsyScopeFramework.framework; path = ../../../../../Library/Frameworks/PsyScopeFramework.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -25,7 +30,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1AAAC0F51BD13D3B00A9BA3A /* PsyScopeFramework.framework in Frameworks */,
+				1A2339E91BD93E8400B6D805 /* PsyScopeFramework.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -35,7 +40,7 @@
 		1AAAC0DD1BD134B600A9BA3A = {
 			isa = PBXGroup;
 			children = (
-				1AAAC0F41BD13D3B00A9BA3A /* PsyScopeFramework.framework */,
+				1A2339E81BD93E8400B6D805 /* PsyScopeFramework.framework */,
 				1AAAC0E91BD134B600A9BA3A /* PsyScopeTobii */,
 				1AAAC0E81BD134B600A9BA3A /* Products */,
 			);
@@ -52,6 +57,9 @@
 		1AAAC0E91BD134B600A9BA3A /* PsyScopeTobii */ = {
 			isa = PBXGroup;
 			children = (
+				1A7886171BD939320030EBCF /* Condition_TobiiPlusCell.xib */,
+				1A7886191BD939320030EBCF /* PSAction_TobiiPlus.swift */,
+				1A78861A1BD939320030EBCF /* PSCondition_TobiiPlus.swift */,
 				1AAAC0EA1BD134B600A9BA3A /* PsyScopeTobii.h */,
 				1AAAC0EC1BD134B600A9BA3A /* Info.plist */,
 				1AAAC0F21BD136B300A9BA3A /* PsyScopeTobii.swift */,
@@ -66,7 +74,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1AAAC0EB1BD134B600A9BA3A /* PsyScopeTobii.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -128,6 +135,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A78861B1BD939320030EBCF /* Condition_TobiiPlusCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -139,6 +147,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				1AAAC0F31BD136B300A9BA3A /* PsyScopeTobii.swift in Sources */,
+				1A78861E1BD939320030EBCF /* PSCondition_TobiiPlus.swift in Sources */,
+				1A78861D1BD939320030EBCF /* PSAction_TobiiPlus.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -249,6 +259,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = jamesalvarez.PsyScopeTobii;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_INSTALL_OBJC_HEADER = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				WRAPPER_EXTENSION = psyplugin;
 			};
@@ -274,6 +286,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = jamesalvarez.PsyScopeTobii;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_INSTALL_OBJC_HEADER = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				WRAPPER_EXTENSION = psyplugin;
 			};
 			name = Release;
