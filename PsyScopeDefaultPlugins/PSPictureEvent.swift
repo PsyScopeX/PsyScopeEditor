@@ -23,7 +23,7 @@ class PSPictureEvent : PSEventTool {
     struct Properties {
         static let StartRef = PSProperty(name: "StartRef", defaultValue: PSDefaultConstants.DefaultAttributeValues.PSDefaultEventStartRef, essential: true);
         static let Duration = PSProperty(name: "Duration", defaultValue: PSDefaultConstants.DefaultAttributeValues.PSPictureEventDuration, essential: true);
-        static let EventType = PSProperty(name: "EventType", defaultValue: "Picture", essential: true)
+        static let EventType = PSProperty(name: "EventType", defaultValue: "Pict", essential: true)
     }
 
     
