@@ -65,7 +65,7 @@ class PSCondition_Mouse_Popup : PSAttributePopup, NSTableViewDelegate, NSTableVi
                 portButton.state = 1
             }
             
-            if let r = v.rangeOfString("PortName") {
+            if let _ = v.rangeOfString("PortName") {
                 
                 if (index + 1) < inputValue.count {
                     portName = inputValue[index + 1]
@@ -185,7 +185,7 @@ class PSCondition_Mouse_Cell : PSConditionCell {
  
     @IBAction func choosePortButton(sender : AnyObject) {
         portButton.state = 1
-        var popup = PSPortBuilderController(currentValue: portName, scriptData: scriptData, positionMode: false, setCurrentValueBlock : { (cValue: String) -> () in
+        let popup = PSPortBuilderController(currentValue: portName, scriptData: scriptData, positionMode: false, setCurrentValueBlock : { (cValue: String) -> () in
             self.portName = cValue
             if let r = self.portName.rangeOfString("PortName") {
                 self.portName.removeRange(r)
@@ -194,7 +194,7 @@ class PSCondition_Mouse_Cell : PSConditionCell {
             self.portChangeButton.title = self.portName
             self.parameterChange(self)
         })
-        
+        popup.showAttributeModalForWindow(scriptData.window)
         
         
     }
