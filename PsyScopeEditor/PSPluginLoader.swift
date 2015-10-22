@@ -51,22 +51,22 @@ class PSPluginLoader : NSObject {
         }
         
         let toolPlugins = setupPluginsFor(PSPluginType.Tool, pluginInterface: pluginInterface, resourcePath: resourcePath)
-        tools = toolPlugins.map({ $0 as! PSToolInterface })
+        tools += toolPlugins.map({ $0 as! PSToolInterface })
         
         let eventPlugins = setupPluginsFor(PSPluginType.Event, pluginInterface: pluginInterface, resourcePath: resourcePath)
-        events = eventPlugins.map({ $0 as! PSEventInterface })
+        events += eventPlugins.map({ $0 as! PSEventInterface })
         
         let attributePlugins = setupPluginsFor(PSPluginType.Attribute, pluginInterface: pluginInterface, resourcePath: resourcePath)
-        attributes = attributePlugins.map({ $0 as! PSAttributeInterface })
+        attributes += attributePlugins.map({ $0 as! PSAttributeInterface })
         
         let wvPlugins = setupPluginsFor(PSPluginType.WindowView, pluginInterface: pluginInterface, resourcePath: resourcePath)
-        windowViews = wvPlugins.map({ $0 as! PSWindowViewInterface })
+        windowViews += wvPlugins.map({ $0 as! PSWindowViewInterface })
         
         let actionPlugins = setupPluginsFor(PSPluginType.Action, pluginInterface: pluginInterface, resourcePath: resourcePath)
-        actions = actionPlugins.map({ $0 as! PSActionInterface })
+        actions += actionPlugins.map({ $0 as! PSActionInterface })
         
         let conditionPlugins = setupPluginsFor(PSPluginType.Condition, pluginInterface: pluginInterface, resourcePath: resourcePath)
-        conditions = conditionPlugins.map({ $0 as! PSConditionInterface })
+        conditions += conditionPlugins.map({ $0 as! PSConditionInterface })
         
     }
         
