@@ -158,7 +158,7 @@ class EventDurationConditionTrialEnd : EventDurationCondition {
     }
     
     override func getIcons() -> [NSImage] {
-        let image : NSImage = NSImage(contentsOfFile: NSBundle(forClass:self.dynamicType).pathForImageResource("TrialEnd")!)!
+        let image : NSImage = NSImage(contentsOfFile: NSBundle(forClass:self.dynamicType).pathForImageResource("Line")!)!
         return [image]
     }
 }

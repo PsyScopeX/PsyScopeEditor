@@ -155,7 +155,10 @@ class PSTemplateEventTimeLineView : NSView {
         if let dc = event.durationCondition as? EventDurationConditionTrialEnd {
             
             canDragDurationTime = true
+         
             boxLayer.backgroundColor = NSColor.purpleColor().CGColor
+            boxLayer.cornerRadius = 15 // ideally only the right corners should be rounded (luca)
+            
         }
         
         
