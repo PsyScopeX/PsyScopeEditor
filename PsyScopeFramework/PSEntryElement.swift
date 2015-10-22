@@ -179,7 +179,7 @@ public class PSCompoundEntryElement : NSObject {
     
     //searches for stringTokens in tree return true if found
     public func searchForStringToken(token : String) -> Bool {
-        for (index,val) in values.enumerate() {
+        for val in values {
             switch(val) {
             case .Null:
                 break

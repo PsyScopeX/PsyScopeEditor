@@ -62,6 +62,7 @@ public class PSEventActionFunction : PSEventActionCondition {
     override public var stringValue : String {
         get {
             let elements = getStringValues()
+            
             let seperator : String = " "
             let values = elements.joinWithSeparator(seperator)
             

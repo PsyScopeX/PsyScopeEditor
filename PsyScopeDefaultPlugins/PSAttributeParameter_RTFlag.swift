@@ -11,6 +11,6 @@ import Foundation
 class PSAttributeParameter_RTFlag : PSAttributeParameter_CustomPopup {
     override init() {
         super.init()
-        values = ["VAR_ONLY", "NULL"]
+        values = ["NULL","VAR_ONLY"]
     }
 }

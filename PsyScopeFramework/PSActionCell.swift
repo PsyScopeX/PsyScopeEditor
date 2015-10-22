@@ -36,6 +36,22 @@ public class PSActionCell : PSCellView {
             values.append(p.currentValue)
         }
         
+        //if we have blanks but later on there are values, then make the blanks NULL
+        //find last element with value
+        let nElements = values.count
+        var indexOfLastValue = 0
+        for indexOfLastValue = (nElements - 1); indexOfLastValue > 0; --indexOfLastValue {
+            if values[indexOfLastValue] != "" {
+                break
+            }
+        }
+        
+        for var index = 0; index < indexOfLastValue; ++index {
+            if values[index] == "" {
+                values[index] = "NULL"
+            }
+        }
+        
         let instances : String? = instancesParameter?.currentValue
         let activeUntil : String? = activeUntilParameter?.currentValue
         
