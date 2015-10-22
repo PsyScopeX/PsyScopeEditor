@@ -73,6 +73,7 @@ class PSPortScript : NSObject {
             let new_entry = scriptData.getOrCreateBaseEntry(name, type: "Port",user_friendly_name: name, section_name: "PortDefinitions", zOrder: 7)
             let port_entry = PSPort(entry: new_entry, scriptData: scriptData, portScript: self)
             portEntries.append(port_entry)
+            port_entry.updateEntryValue()
             return port_entry
         }
         return nil
