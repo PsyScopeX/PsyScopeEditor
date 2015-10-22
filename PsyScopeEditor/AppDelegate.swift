@@ -34,6 +34,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         var _preferencesWindowController = MASPreferencesWindowController(viewControllers: controllers, title: "Preferences")
 
         psyScopeVC.windowController = _preferencesWindowController
+        pluginVC.windowController = _preferencesWindowController
         return _preferencesWindowController
         
     } ()

@@ -18,13 +18,21 @@ class PSPluginPreferences : NSViewController, MASPreferencesViewController {
     
     var windowController : NSWindowController!
     @IBOutlet var pluginPathText : NSTextField!
+    @IBOutlet var pluginListTextView : NSTextView!
+    
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        let paths = PSPluginSingleton.sharedInstance.pluginLoader.pluginsLoaded.joinWithSeparator("\n\n")
+        pluginListTextView.string = paths
+    }
     
     @IBAction func editPluginPath(_: AnyObject) {
         let openPanel = NSOpenPanel()
         openPanel.title = "Choose any file"
         openPanel.showsResizeIndicator = true
-        openPanel.showsHiddenFiles = false
-        openPanel.canChooseDirectories = false
+        openPanel.showsHiddenFiles = true
+        openPanel.canChooseDirectories = true
         openPanel.canCreateDirectories = true
         openPanel.allowsMultipleSelection = false
         //openPanel.allowedFileTypes = [fileType]
@@ -42,6 +50,19 @@ class PSPluginPreferences : NSViewController, MASPreferencesViewController {
     
     @IBAction func resetToDefaultButtonClicked(_:NSButton) {
         NSUserDefaults.standardUserDefaults().setObject(PSPreferences.psyScopeXPath.defaultValue as! String, forKey: PSPluginPathKey)
+    }
+    
+    @IBAction func restartPsyScope(sender : AnyObject) {
+        let task = NSTask()
+        
+        var args: [String] = []
+        args.append("-c")
+        args.append("sleep 0.2; open \"\(NSBundle.mainBundle().bundlePath)\"")
+        
+        task.launchPath = "/bin/sh"
+        task.arguments = args
+        task.launch()
+        NSApplication.sharedApplication().terminate(nil)
     }
     
 }

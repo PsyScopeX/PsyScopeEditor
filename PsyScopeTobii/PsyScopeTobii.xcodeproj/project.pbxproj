@@ -13,7 +13,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1AAAC0E71BD134B600A9BA3A /* PsyScopeTobii.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PsyScopeTobii.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1AAAC0E71BD134B600A9BA3A /* PsyScopeTobii.psyplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PsyScopeTobii.psyplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AAAC0EA1BD134B600A9BA3A /* PsyScopeTobii.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PsyScopeTobii.h; sourceTree = "<group>"; };
 		1AAAC0EC1BD134B600A9BA3A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1AAAC0F21BD136B300A9BA3A /* PsyScopeTobii.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PsyScopeTobii.swift; sourceTree = "<group>"; };
@@ -44,7 +44,7 @@
 		1AAAC0E81BD134B600A9BA3A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1AAAC0E71BD134B600A9BA3A /* PsyScopeTobii.framework */,
+				1AAAC0E71BD134B600A9BA3A /* PsyScopeTobii.psyplugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -88,7 +88,7 @@
 			);
 			name = PsyScopeTobii;
 			productName = PsyScopeTobii;
-			productReference = 1AAAC0E71BD134B600A9BA3A /* PsyScopeTobii.framework */;
+			productReference = 1AAAC0E71BD134B600A9BA3A /* PsyScopeTobii.psyplugin */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -250,6 +250,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				WRAPPER_EXTENSION = psyplugin;
 			};
 			name = Debug;
 		};
@@ -273,6 +274,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = jamesalvarez.PsyScopeTobii;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = psyplugin;
 			};
 			name = Release;
 		};
@@ -295,6 +297,7 @@
 				1AAAC0F11BD134B600A9BA3A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

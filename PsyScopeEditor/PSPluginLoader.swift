@@ -20,7 +20,8 @@ class PSPluginLoader : NSObject {
     var windowViews : [PSWindowViewInterface] = []
     var actions : [PSActionInterface] = []
     var conditions : [PSConditionInterface] = []
-        
+    
+    var pluginsLoaded : [String] = []
     override init() {
         super.init()
         guard let builtInPlugInsPath = NSBundle.mainBundle().builtInPlugInsPath else {
@@ -30,12 +31,14 @@ class PSPluginLoader : NSObject {
         //search in inbuilt plugins
         for resourcePath in NSBundle.pathsForResourcesOfType("psyplugin", inDirectory: builtInPlugInsPath) {
             loadPluginsInPath(resourcePath)
+            pluginsLoaded.append(resourcePath)
         }
     
         //also search custom path
-        let customPath = PSPreferences.psyScopeXPath.stringValue
+        let customPath = PSPreferences.pluginPath.stringValue
         for resourcePath in NSBundle.pathsForResourcesOfType("psyplugin", inDirectory: customPath) {
             loadPluginsInPath(resourcePath)
+            pluginsLoaded.append(resourcePath)
         }
         
     }
@@ -69,9 +72,7 @@ class PSPluginLoader : NSObject {
         
     
     func setupPluginsFor(type : PSPluginType, pluginInterface : PSPluginInterface.Type, resourcePath : String) -> [NSObject] {
-        guard let classes : [NSObject.Type] = pluginInterface.pluginsFor(type) as? [NSObject.Type] else {
-            fatalError("Plugins must inherit NSObject and use constructor with no objects")
-        }
+        let classes = pluginInterface.pluginsFor(type)
         var pluginInstances : [NSObject] = []
         for pluginClass in classes {
             
