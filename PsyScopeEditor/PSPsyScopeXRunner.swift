@@ -28,7 +28,7 @@ class PSPsyScopeXRunner : NSObject {
     
     var executablePath : String? {
         get {
-            let appBundlePath = PSPreferences.psyScopeXPath.value as! String
+            let appBundlePath = PSPreferences.psyScopeXPath.stringValue
 
             let appBundleName = appBundlePath.lastPathComponent.stringByDeletingPathExtension
             

@@ -24,10 +24,20 @@ public struct PSPreference {
         }
     }
     
+    public  var stringValue : String {
+        if let val =  NSUserDefaults.standardUserDefaults().stringForKey(key) {
+            return val
+        } else {
+            return ""
+        }
+    }
+    
     public var integerValue : Int {
         return NSUserDefaults.standardUserDefaults().integerForKey(key)
     }
 }
+
+public let PSPluginPathKey = "pluginPath"
 
 public class PSPreferences {
     
@@ -39,6 +49,7 @@ public class PSPreferences {
     public static let showLists : PSPreference = PSPreference(key: "showingLists", defaultValue: true)
     
     public static let psyScopeXPath : PSPreference = PSPreference(key: "psyScopeXPath", defaultValue: ((NSBundle.mainBundle().resourcePath! as NSString).stringByAppendingPathComponent("PsyScopeXCurrentVersion") as NSString).stringByAppendingPathComponent("PsyScope X B77.app"))
+    public static let pluginPath : PSPreference = PSPreference(key: PSPluginPathKey, defaultValue: "")
     
     public class func getDefaults() -> [String : AnyObject] {
         let defaults : [PSPreference] = [cleanUpXSpacing, cleanUpYSpacing, showEvents, showLists, psyScopeXPath]

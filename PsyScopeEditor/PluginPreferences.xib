@@ -4,9 +4,9 @@
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="8191"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="PSPsyScopeXPreferences" customModule="PsyScopeEditor" customModuleProvider="target">
+        <customObject id="-2" userLabel="File's Owner" customClass="PSPluginPreferences" customModule="PsyScopeEditor" customModuleProvider="target">
             <connections>
-                <outlet property="psyScopeXPathText" destination="BFn-1d-R7x" id="bYh-hH-VUC"/>
+                <outlet property="pluginPathText" destination="BFn-1d-R7x" id="fDK-Ob-0Zn"/>
                 <outlet property="view" destination="c22-O7-iKe" id="UXR-cV-lL2"/>
             </connections>
         </customObject>
@@ -17,8 +17,8 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4dp-HW-NIT">
-                    <rect key="frame" x="18" y="170" width="111" height="17"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="PsyScopeX Path:" id="Ah9-oR-poI">
+                    <rect key="frame" x="18" y="170" width="164" height="17"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Extra plug-in search path:" id="Ah9-oR-poI">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -32,7 +32,7 @@
                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                     <connections>
-                        <binding destination="Zlt-dk-OYi" name="value" keyPath="values.psyScopeXPath" id="dvb-fh-ZUj"/>
+                        <binding destination="Zlt-dk-OYi" name="value" keyPath="values.pluginPath" id="Qgd-do-hIZ"/>
                     </connections>
                 </textField>
                 <button horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="f3g-YR-iZa">
@@ -42,24 +42,7 @@
                         <font key="font" metaFont="smallSystem"/>
                     </buttonCell>
                     <connections>
-                        <action selector="editPsyScopeXPath:" target="-2" id="lSc-RO-JOY"/>
-                    </connections>
-                </button>
-                <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hQP-hk-X0u">
-                    <rect key="frame" x="18" y="19" width="287" height="18"/>
-                    <buttonCell key="cell" type="check" title="Convert data file and log file to text format." bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="ajh-1f-Sp6">
-                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                        <font key="font" metaFont="system"/>
-                    </buttonCell>
-                </button>
-                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kS4-78-7Am">
-                    <rect key="frame" x="14" y="104" width="170" height="32"/>
-                    <buttonCell key="cell" type="push" title="Reset to default" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="HuJ-p5-6KO">
-                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="system"/>
-                    </buttonCell>
-                    <connections>
-                        <action selector="resetToDefaultButtonClicked:" target="-2" id="s7x-wY-xjA"/>
+                        <action selector="editPluginPath:" target="-2" id="xjB-Cu-i3h"/>
                     </connections>
                 </button>
             </subviews>

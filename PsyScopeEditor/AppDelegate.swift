@@ -25,10 +25,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     lazy var preferencesWindowController : NSWindowController = {
-        var layoutVC = PSCleanUpLayoutPreferences(nibName: "CleanUpLayoutPreferences", bundle: nil)!
-        var psyScopeVC = PSPsyScopeXPreferences(nibName: "PsyScopeXPreferences", bundle: nil)!
+        let layoutVC = PSCleanUpLayoutPreferences(nibName: "CleanUpLayoutPreferences", bundle: nil)!
+        let psyScopeVC = PSPsyScopeXPreferences(nibName: "PsyScopeXPreferences", bundle: nil)!
+        let pluginVC = PSPluginPreferences(nibName: "PluginPreferences", bundle: nil)!
         
-        var controllers : [NSViewController] = [layoutVC, psyScopeVC]
+        var controllers : [NSViewController] = [layoutVC, psyScopeVC, pluginVC]
         // To add a flexible space between General and Advanced preference panes insert [NSNull null]:
         var _preferencesWindowController = MASPreferencesWindowController(viewControllers: controllers, title: "Preferences")
 

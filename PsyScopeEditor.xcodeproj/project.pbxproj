@@ -254,6 +254,8 @@
 		1A72A2151AD426C7000C0176 /* PSPortBuilderOutlineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A72A2141AD426C7000C0176 /* PSPortBuilderOutlineView.swift */; };
 		1A72A21B1AD42741000C0176 /* PSPortScript.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A72A21A1AD42741000C0176 /* PSPortScript.swift */; };
 		1A72A21D1AD436A1000C0176 /* PSPortEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A72A21C1AD436A1000C0176 /* PSPortEnums.swift */; };
+		1A7886141BD907D90030EBCF /* PluginPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A7886131BD907D90030EBCF /* PluginPreferences.xib */; settings = {ASSET_TAGS = (); }; };
+		1A7886161BD907EC0030EBCF /* PSPluginPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7886151BD907EC0030EBCF /* PSPluginPreferences.swift */; settings = {ASSET_TAGS = (); }; };
 		1A7E93391B1CC12C00498D2E /* PSAttributePopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7E93381B1CC12C00498D2E /* PSAttributePopup.swift */; };
 		1A7E933B1B1DE83600498D2E /* PSPortPopoverController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7E933A1B1DE83600498D2E /* PSPortPopoverController.swift */; };
 		1A7E933D1B1DE87C00498D2E /* PSPositionPopoverController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7E933C1B1DE87C00498D2E /* PSPositionPopoverController.swift */; };
@@ -901,6 +903,8 @@
 		1A72A2141AD426C7000C0176 /* PSPortBuilderOutlineView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSPortBuilderOutlineView.swift; sourceTree = "<group>"; };
 		1A72A21A1AD42741000C0176 /* PSPortScript.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSPortScript.swift; sourceTree = "<group>"; };
 		1A72A21C1AD436A1000C0176 /* PSPortEnums.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSPortEnums.swift; sourceTree = "<group>"; };
+		1A7886131BD907D90030EBCF /* PluginPreferences.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PluginPreferences.xib; sourceTree = "<group>"; };
+		1A7886151BD907EC0030EBCF /* PSPluginPreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSPluginPreferences.swift; sourceTree = "<group>"; };
 		1A7E93381B1CC12C00498D2E /* PSAttributePopup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSAttributePopup.swift; sourceTree = "<group>"; };
 		1A7E933A1B1DE83600498D2E /* PSPortPopoverController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSPortPopoverController.swift; sourceTree = "<group>"; };
 		1A7E933C1B1DE87C00498D2E /* PSPositionPopoverController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSPositionPopoverController.swift; sourceTree = "<group>"; };
@@ -1873,6 +1877,8 @@
 				1A5E27B51AAF1D54001E6D89 /* PSCleanUpLayoutPreferences.swift */,
 				1AF33DA31B41A2B600925F82 /* PsyScopeXPreferences.xib */,
 				1AF33DA51B41A2C900925F82 /* PSPsyScopeXPreferences.swift */,
+				1A7886131BD907D90030EBCF /* PluginPreferences.xib */,
+				1A7886151BD907EC0030EBCF /* PSPluginPreferences.swift */,
 			);
 			name = Preferences;
 			sourceTree = "<group>";
@@ -2933,6 +2939,7 @@
 				81BFFA381A2336C200C1F22F /* BlockTemplate-icon-128-0.TIF in Resources */,
 				1A0B524F1AEFF98500E0ADDB /* ExperimentSetup.xib in Resources */,
 				8161E2871A39E9DE009DC897 /* DocIcon2.icns in Resources */,
+				1A7886141BD907D90030EBCF /* PluginPreferences.xib in Resources */,
 				1A69F9CD1A84BD5200D60880 /* AddAttributeCell.xib in Resources */,
 				1ACFF14619D1F8F800B43446 /* ToolBrowserViewItem.xib in Resources */,
 				81BFFA441A2336C200C1F22F /* Template-icon-128-3.TIF in Resources */,
@@ -3320,6 +3327,7 @@
 				1A2FBE301973E33600F5FFB5 /* PSToolBrowserView.swift in Sources */,
 				1AFEBCB51B31F10C00A3437E /* PSSubjectVariableToken.swift in Sources */,
 				1A9CE34E1AA77F3300C846F4 /* PSScriptViewDelegate.swift in Sources */,
+				1A7886161BD907EC0030EBCF /* PSPluginPreferences.swift in Sources */,
 				1A4CA3A31B62CEF500CB1BD2 /* PSMainWindowController.swift in Sources */,
 				1A65BF091A02D2B0006F3791 /* PSAttributesBrowserTableView.swift in Sources */,
 				1AFEBC971B2F050B00A3437E /* PSExperimentSetup.swift in Sources */,
