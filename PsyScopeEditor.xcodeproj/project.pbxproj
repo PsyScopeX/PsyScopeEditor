@@ -543,6 +543,7 @@
 		1AFEBCB31B31F09B00A3437E /* PSDataFileNameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFEBCB21B31F09B00A3437E /* PSDataFileNameController.swift */; };
 		1AFEBCB51B31F10C00A3437E /* PSSubjectVariableToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFEBCB41B31F10C00A3437E /* PSSubjectVariableToken.swift */; };
 		1AFEBCB81B322CE000A3437E /* PSSelectionInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFEBCB71B322CE000A3437E /* PSSelectionInterface.swift */; };
+		8119093C1BD92446005C7A05 /* Line.png in Resources */ = {isa = PBXBuildFile; fileRef = 8119093B1BD92446005C7A05 /* Line.png */; settings = {ASSET_TAGS = (); }; };
 		81427DA81A80CF3A0092DDBA /* Variable-icon-Medium.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 81427DA71A80CF390092DDBA /* Variable-icon-Medium.PNG */; };
 		81427DAA1A80D1CD0092DDBA /* MouseClick-real.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 81427DA91A80D1CD0092DDBA /* MouseClick-real.PNG */; };
 		81427DAC1A80D33C0092DDBA /* Variable-icon-small.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 81427DAB1A80D33C0092DDBA /* Variable-icon-small.PNG */; };
@@ -1190,6 +1191,7 @@
 		1AFEBCB21B31F09B00A3437E /* PSDataFileNameController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSDataFileNameController.swift; sourceTree = "<group>"; };
 		1AFEBCB41B31F10C00A3437E /* PSSubjectVariableToken.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSSubjectVariableToken.swift; sourceTree = "<group>"; };
 		1AFEBCB71B322CE000A3437E /* PSSelectionInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSSelectionInterface.swift; sourceTree = "<group>"; };
+		8119093B1BD92446005C7A05 /* Line.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Line.png; sourceTree = "<group>"; };
 		81427DA71A80CF390092DDBA /* Variable-icon-Medium.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Variable-icon-Medium.PNG"; sourceTree = "<group>"; };
 		81427DA91A80D1CD0092DDBA /* MouseClick-real.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MouseClick-real.PNG"; sourceTree = "<group>"; };
 		81427DAB1A80D33C0092DDBA /* Variable-icon-small.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Variable-icon-small.PNG"; sourceTree = "<group>"; };
@@ -1624,6 +1626,7 @@
 				819D5C221A81367C00569B6C /* DocumentIcon.png */,
 				819D5C201A81366C00569B6C /* ParagraphIcon.png */,
 				1A522FA41A41BC8100D5B983 /* InputIcon.png */,
+				8119093B1BD92446005C7A05 /* Line.png */,
 				81427DA91A80D1CD0092DDBA /* MouseClick-real.PNG */,
 				819D5C1C1A81363000569B6C /* SoundIcon.png */,
 				1A522FA61A41BC8100D5B983 /* MovieIcon.png */,
@@ -2830,6 +2833,7 @@
 				1A522FAD1A41BC8100D5B983 /* MovieIcon.png in Resources */,
 				1AD962FE1A7CC81400C83612 /* Condition_MovieCell.xib in Resources */,
 				1A3434F019FA7FCC007202E0 /* TextEventSpecial.xib in Resources */,
+				8119093C1BD92446005C7A05 /* Line.png in Resources */,
 				1A8F13A119B71FA50038C331 /* TemplateBuilder.xib in Resources */,
 				1A66859D1A293FA800C5C83F /* TextEvent-icon-128.PNG in Resources */,
 				1A3E70AC19B1E24800FD33C9 /* TemplatesView.xib in Resources */,
@@ -3506,7 +3510,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
-				SKIP_INSTALL = NO;
+				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -3539,7 +3543,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
-				SKIP_INSTALL = NO;
+				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
