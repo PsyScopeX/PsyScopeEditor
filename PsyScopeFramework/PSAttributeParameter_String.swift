@@ -29,7 +29,7 @@ public class PSAttributeParameter_String : PSAttributeParameter, NSTextFieldDele
                         }
                     }
                 }
-                cell?.activateViewBlock = { textField.becomeFirstResponder() }
+                cell?.activateViewBlock = { self.textField.becomeFirstResponder() }// luca following the xcode suggestion
                 let bcell = textField.cell!
                 bcell.lineBreakMode = NSLineBreakMode.ByTruncatingTail
                 textField.setupContextMenu(self, action: "clickMenuItem:", scriptData: scriptData)
