@@ -19,9 +19,9 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<string>1</string>
 	<key>NSHumanReadableCopyright</key>
-	<string>Copyright © 2015 James Alvarez. All rights reserved.</string>
+	<string>Copyright © 2015 James. All rights reserved.</string>
 	<key>NSPrincipalClass</key>
 	<string>PsyScopeTobii.PsyScopeTobii</string>
 </dict>

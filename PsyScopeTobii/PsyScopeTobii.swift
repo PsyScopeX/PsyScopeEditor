@@ -1,16 +1,15 @@
 //
 //  PsyScopeTobii.swift
-//  PsyScopeTobii
+//  PsyScopeEditor
 //
-//  Created by James on 16/10/2015.
-//  Copyright © 2015 James Alvarez. All rights reserved.
+//  Created by James on 29/10/2015.
+//  Copyright © 2015 James. All rights reserved.
 //
 
 import Foundation
-import PsyScopeFramework
 
 class PsyScopeTobii: NSObject, PSPluginInterface {
-   static func pluginsFor(pluginTypeName: PSPluginType) -> [NSObject.Type] {
+    static func pluginsFor(pluginTypeName: PSPluginType) -> [NSObject.Type] {
         switch pluginTypeName {
         case .Tool:
             return []
