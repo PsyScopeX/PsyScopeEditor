@@ -23,10 +23,9 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
     var list : PSList! = nil
     var nameColumn : NSTableColumn!
     var initialized : Bool = false
-    var lastClickedRow : Int = -1
-    var lastClickedCol : Int = -1
     var editingHeader : Bool = false
     var listColumns : [NSTableColumn] = []
+    var lastDoubleClickCoords : (col: Int, row: Int) = (-1, -1)
     var lastCellEditedCoords : (col: Int, row: Int) = (-1, -1)
     var itemTextFields : [NSTextField : Int] = [:]
     var weightsTextFields : [NSTextField : Int] = [:]
@@ -104,10 +103,10 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
         
         resetHeaders()
         
+        //row must be -1 or it's not a header
         if(row == -1 && col >= 1) {
             
-            lastClickedRow = row
-            lastClickedCol = col
+            lastDoubleClickCoords = (col, row)
             let tc = listTableView.tableColumns[col] as NSTableColumn
             let hv = listTableView.headerView!;
             let hc = tc.headerCell as! PSFieldHeaderCell
@@ -126,12 +125,12 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
         let editor = notification.object as! NSTextView
         let name = editor.string!
         
-        if(lastClickedRow == -1 && lastClickedCol >= 1) {
+        if(lastDoubleClickCoords.row == -1 && lastDoubleClickCoords.col >= 2) {
             
-            let fieldEntry = list.fields[lastClickedCol - 1].entry
+            let fieldEntry = list.fields[lastDoubleClickCoords.col - 2].entry
             scriptData.renameEntry(fieldEntry, nameSuggestion: name)
             
-            let tc = listTableView.tableColumns[lastClickedCol] as NSTableColumn
+            let tc = listTableView.tableColumns[lastDoubleClickCoords.col] as NSTableColumn
             _ = listTableView.headerView!;
             let hc = tc.headerCell as! PSFieldHeaderCell
             hc.title = fieldEntry.name
@@ -147,7 +146,7 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
     func resetHeaders() {
         //already editingheader so need to cancel that...
         if editingHeader {
-            let tc = listTableView.tableColumns[lastClickedCol] as NSTableColumn
+            let tc = listTableView.tableColumns[lastDoubleClickCoords.col] as NSTableColumn
             _ = listTableView.headerView!;
             let hc = tc.headerCell as! PSFieldHeaderCell
             hc.highlighted = false
@@ -348,7 +347,7 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
             if let nc = newValue {
                 nc.highLight(true)
                 lastCellEditedCoords.col = nc.col
-                lastCellEditedCoords.row = nc.row 
+                lastCellEditedCoords.row = nc.row
             } else {
                 lastCellEditedCoords.col = -1
                 lastCellEditedCoords.row = -1
