@@ -12,6 +12,33 @@ import Cocoa
 
 class PSToolHelper: NSObject {
     
+    class func createLinkFromToolToList(parent: Entry!, to list: Entry!, withScript scriptData: PSScriptData!) -> Bool {
+        let allowableParentTypes = ["Experiment","Group","Block","Template"]
+    
+        if !allowableParentTypes.contains(parent.type) || list.type != "List" {
+            return false
+        }
+    
+
+        //create Link
+        parent.layoutObject.addChildLinkObject(list.layoutObject)
+        //attribute is a weird one, as it has two sub attributes
+        let factors_entry = scriptData.getOrCreateSubEntry("Factors", entry: parent, isProperty: true)
+        let sets_entry = scriptData.getOrCreateSubEntry("Sets", entry: factors_entry, isProperty: true)
+        let types_entry = scriptData.getOrCreateSubEntry("Types", entry: factors_entry, isProperty: true)
+        
+        let factors = PSStringList(entry: factors_entry, scriptData: scriptData)
+        let sets = PSStringList(entry: sets_entry, scriptData: scriptData)
+        let types = PSStringList(entry: types_entry, scriptData: scriptData)
+        
+        if (!factors.contains(list.name) && factors.appendAsString(list.name)) {
+            sets.appendAsString("1")
+            types.appendAsString("List")
+        }
+        
+        return true
+    }
+    
     //this will populate the 'type' of ghost entries indentified by OWN keyAttribute as type
     class func identifyEntriesByKeyAttribute(ghostScript: PSGhostScript!, keyAttribute: String, type : String) -> [PSScriptError] {
         var errors : [PSScriptError] = []

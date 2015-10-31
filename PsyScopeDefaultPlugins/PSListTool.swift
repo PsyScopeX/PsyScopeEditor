@@ -79,40 +79,6 @@ class PSListTool: PSTool, PSToolInterface {
         return false
     }
     
-    override func createLinkFrom(parent: Entry!, to child: Entry!, withScript scriptData: PSScriptData!) -> Bool {
-        if child.type == type() {
-            let allowableParentTypes = ["Experiment","Group","Block","Template"]
-            var allowed = false
-            for apt in allowableParentTypes {
-                if parent.type == apt {
-                    allowed = true
-                    break
-                }
-            }
-            if !allowed { return false }
-        } else {
-            return false
-        }
-        
-        //create Link
-        parent.layoutObject.addChildLinkObject(child.layoutObject)
-        //attribute is a weird one, as it has two sub attributes
-        let factors_entry = scriptData.getOrCreateSubEntry("Factors", entry: parent, isProperty: true)
-        let sets_entry = scriptData.getOrCreateSubEntry("Sets", entry: factors_entry, isProperty: true)
-        let types_entry = scriptData.getOrCreateSubEntry("Types", entry: factors_entry, isProperty: true)
-        
-        let factors = PSStringList(entry: factors_entry, scriptData: scriptData)
-        let sets = PSStringList(entry: sets_entry, scriptData: scriptData)
-        let types = PSStringList(entry: types_entry, scriptData: scriptData)
-        
-        if (!factors.contains(child.name) && factors.appendAsString(child.name)) {
-            sets.appendAsString("1")
-            types.appendAsString("List")
-        }
-        
-        return true
-        
-    }
     
     override func deleteObject(lobject: Entry!, withScript scriptData: PSScriptData!) -> Bool {
         //remove all links

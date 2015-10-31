@@ -56,11 +56,11 @@ class PSGroupTool: PSTool , PSToolInterface {
     
     override func constructAttributeSourceSubMenu(scriptData: PSScriptData!) -> NSMenuItem! {
         
-        var subMenuItem = NSMenuItem(title: "Group", action: "", keyEquivalent: "g")
+        let subMenuItem = NSMenuItem(title: "Group", action: "", keyEquivalent: "g")
         subMenuItem.representedObject = self
         subMenuItem.tag = 0
         //get all groups
-        var groupEntries =  scriptData.getBaseEntriesOfType(typeString)
+        let groupEntries =  scriptData.getBaseEntriesOfType(typeString)
         
         //now get all attributes
         var suitableAttributes : [String:Bool] = [:] //dummy dictionary to hold unique attribute names
@@ -74,12 +74,12 @@ class PSGroupTool: PSTool , PSToolInterface {
             subMenuItem.enabled = false
             return subMenuItem }
         
-        var menu = NSMenu(title: "Group")
+        let menu = NSMenu(title: "Group")
         subMenuItem.submenu = menu;
         
         //now construct menu
-        for (attributeName,dummybool) in suitableAttributes {
-            var newSubMenuItem = NSMenuItem()
+        for (attributeName,_) in suitableAttributes {
+            let newSubMenuItem = NSMenuItem()
             newSubMenuItem.title = attributeName
             newSubMenuItem.representedObject =  "GroupAttrib(\"\(attributeName)\")"
             newSubMenuItem.tag = 1
@@ -89,7 +89,6 @@ class PSGroupTool: PSTool , PSToolInterface {
     }
     
     override func identifyAsAttributeSourceAndReturnRepresentiveString(currentValue: String!) -> [AnyObject]! {
-        let function = PSFunctionElement()
         return PSToolHelper.attributedStringForAttributeFunction("GroupAttrib", icon: self.icon(), currentValue: currentValue)
         
     }
@@ -100,7 +99,11 @@ class PSGroupTool: PSTool , PSToolInterface {
     
     override func createLinkFrom(parent: Entry!, to child: Entry!, withScript scriptData: PSScriptData!) -> Bool {
         
-        //Experiment has to be parent
+        if PSTool.createLinkFromToolToList(parent, to: child, withScript: scriptData) {
+            return true
+        }
+        
+        //Group has to be parent
         if parent.type == "Group" {
             //get the type of child which the parent already has (if any)
             let childrenOfParent : [Entry] = scriptData.getChildEntries(parent)
