@@ -462,12 +462,12 @@ public class PSScriptData : NSObject {
         if entry_base == "" { entry_base = "Entry" }
         
         var isFree = false
-        var run :Int = 1
+        var run :Int = 0
         var testName = entry_base
         repeat {
             isFree = true
-            if (run > 1) { testName = entry_base + "\(run)" }
-            if existingNames.contains(testName) { isFree = false }
+            if (run > 0) { testName = entry_base + "\(run)" }
+            if existingNames.contains(testName) ||  pluginProvider.reservedEntryNames.contains(testName) { isFree = false }
             run++
         } while (!isFree)
         
@@ -493,11 +493,9 @@ public class PSScriptData : NSObject {
         }
         
         //also check with reserved names
-        for reservedName in pluginProvider.reservedEntryNames {
-            if nameSuggestion == reservedName {
-                renameEntry(entry, nameSuggestion: nameSuggestion + "_2")
-                return
-            }
+        if pluginProvider.reservedEntryNames.contains(nameSuggestion) {
+            renameEntry(entry, nameSuggestion: nameSuggestion + "_2") //recurse
+            return
         }
         
         //check for valid characters
