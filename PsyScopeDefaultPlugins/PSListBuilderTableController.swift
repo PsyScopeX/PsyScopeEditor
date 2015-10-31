@@ -272,7 +272,6 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
         }
         
         cell.updateScriptBlock = { () -> () in
-            self.lastCellEdited = cell
             listBuilderColumn.field[row] = cell.attributeParameter.currentValue
         }
         
@@ -333,7 +332,7 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
     var lastCellEdited : PSListCellView? {
         get {
             if lastCellEditedCoords.col > -1 && lastCellEditedCoords.row > -1 {
-                let view: AnyObject? = listTableView.viewAtColumn(lastCellEditedCoords.col, row: lastCellEditedCoords.row, makeIfNecessary: true)
+                let view: AnyObject? = listTableView.viewAtColumn(lastCellEditedCoords.col + 1, row: lastCellEditedCoords.row, makeIfNecessary: true)
                 if let listCellView = view as? PSListCellView {
                     return listCellView
                 }
@@ -349,7 +348,7 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
             if let nc = newValue {
                 nc.highLight(true)
                 lastCellEditedCoords.col = nc.col
-                lastCellEditedCoords.row = nc.row
+                lastCellEditedCoords.row = nc.row 
             } else {
                 lastCellEditedCoords.col = -1
                 lastCellEditedCoords.row = -1
