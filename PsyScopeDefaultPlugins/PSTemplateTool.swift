@@ -52,11 +52,11 @@ class PSTemplateTool: PSTool , PSToolInterface {
     
     override func constructAttributeSourceSubMenu(scriptData: PSScriptData!) -> NSMenuItem! {
         
-        var subMenuItem = NSMenuItem(title: "Template", action: "", keyEquivalent: "t")
+        let subMenuItem = NSMenuItem(title: "Template", action: "", keyEquivalent: "t")
         subMenuItem.representedObject = self
         subMenuItem.tag = 0
         //get all blocks, that this attribute is linked to, and list attributes
-        var templateEntries = scriptData.getBaseEntriesOfType(typeString)
+        let templateEntries = scriptData.getBaseEntriesOfType(typeString)
         
         //now get all attributes
         var suitableAttributes : [String:Bool] = [:] //dummy dictionary to hold unique attribute names
@@ -68,12 +68,12 @@ class PSTemplateTool: PSTool , PSToolInterface {
         if suitableAttributes.count == 0 {
             subMenuItem.enabled = false
             return subMenuItem }
-        var menu = NSMenu(title: "Template")
+        let menu = NSMenu(title: "Template")
         subMenuItem.submenu = menu;
         
         //now construct menu
-        for (attributeName,dummybool) in suitableAttributes {
-            var newSubMenuItem = NSMenuItem()
+        for (attributeName,_) in suitableAttributes {
+            let newSubMenuItem = NSMenuItem()
             newSubMenuItem.title = attributeName
             newSubMenuItem.representedObject =  "TrialAttrib(\"\(attributeName)\")"
             newSubMenuItem.tag = 1
@@ -83,7 +83,6 @@ class PSTemplateTool: PSTool , PSToolInterface {
     }
     
     override func identifyAsAttributeSourceAndReturnRepresentiveString(currentValue: String!) -> [AnyObject]! {
-        let function = PSFunctionElement()
         return PSToolHelper.attributedStringForAttributeFunction("TrialAttrib", icon: self.icon(), currentValue: currentValue)
         
     }
@@ -93,8 +92,11 @@ class PSTemplateTool: PSTool , PSToolInterface {
     }
     
     override func createLinkFrom(parent: Entry!, to child: Entry!, withScript scriptData: PSScriptData!) -> Bool {
+        if PSTool.createLinkFromToolToList(parent, to: child, withScript: scriptData) {
+            return true
+        }
         
-        //Experiment has to be parent
+        //Template has to be parent
         if parent.type == "Template" {
             
             if scriptData.typeIsEvent(child.type) {

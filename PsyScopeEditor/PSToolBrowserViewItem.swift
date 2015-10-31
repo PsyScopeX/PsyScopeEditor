@@ -13,16 +13,6 @@ class PSToolBrowserViewItem: NSTableCellView {
         super.init(coder: coder)
     }
 
-    /* deprecated - no longer display help string in tool, now appears in tool tip
-    func formatLabel(title : String, body : String) -> NSAttributedString{
-        var titleString = NSMutableAttributedString(string: title, attributes: [NSFontAttributeName : PSConstants.Fonts.toolMenuHeader, NSForegroundColorAttributeName : NSColor.blackColor()  ])
-        var bodyString = NSAttributedString(string: " - \(body)", attributes: [NSFontAttributeName :PSConstants.Fonts.toolMenuBody,  NSForegroundColorAttributeName : NSColor.blackColor() ])
-        
-        titleString.appendAttributedString(bodyString)
-        return titleString
-    }
-    */
-    
     var psExtension : PSExtension!
     
     override var objectValue : AnyObject? {

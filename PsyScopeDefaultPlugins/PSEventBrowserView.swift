@@ -1,14 +1,15 @@
 //
-//  PSToolBrowserView.swift
+//  PSEventBrowserView.swift
 //  PsyScopeEditor
 //
-//  Created by James on 14/07/2014.
+//  Created by James on 29/10/2015.
+//  Copyright © 2015 James. All rights reserved.
 //
 
-import Cocoa
+import Foundation
 
-class PSToolBrowserView: NSOutlineView {
-
+class PSEventBrowserView: NSTableView {
+    
     
     
     var dragSession : NSDraggingSession?
@@ -21,19 +22,17 @@ class PSToolBrowserView: NSOutlineView {
         self.setDraggingSourceOperationMask(.Move, forLocal: true)
     }
     
-
+    
     override func mouseDown(theEvent: NSEvent) {
         
         let localLocation = self.convertPoint(theEvent.locationInWindow, fromView: nil)
         let clickedRow = self.rowAtPoint(localLocation)
-
+        
         //select row that was clicked
         self.selectRowIndexes(NSIndexSet(index: clickedRow), byExtendingSelection: false)
-        guard let selectedRow : NSTableCellView = self.viewAtColumn(0, row: clickedRow, makeIfNecessary: false) as? NSTableCellView, psextension = selectedRow.objectValue as? PSExtension else {
-            return
-        }
+        let selectedRow : NSTableCellView = self.viewAtColumn(0, row: clickedRow, makeIfNecessary: false) as! NSTableCellView
         
-  
+        let psextension = selectedRow.objectValue as! PSExtension
         
         let imageBounds = NSRect(origin: localLocation, size: NSSize(width: PSConstants.Spacing.iconSize, height: PSConstants.Spacing.iconSize))
         

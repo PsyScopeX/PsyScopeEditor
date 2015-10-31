@@ -12,12 +12,17 @@
 		<key>PsyScopeEditor.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>7</integer>
+			<integer>2</integer>
 		</dict>
 		<key>PsyScopeFramework.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>2</integer>
+			<integer>1</integer>
+		</dict>
+		<key>PsyScopeTobii.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>3</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
@@ -38,6 +43,11 @@
 			<true/>
 		</dict>
 		<key>1A2FBE4A1975827300F5FFB5</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>1A3018531BE23D2800AF0684</key>
 		<dict>
 			<key>primary</key>
 			<true/>

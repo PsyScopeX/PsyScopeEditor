@@ -31,19 +31,19 @@
 		1A1E3EA71AE56F480075E47E /* PSVariableBaseType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1E3EA61AE56F480075E47E /* PSVariableBaseType.swift */; };
 		1A206BAA1A0134D100F27216 /* ListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A206BA91A0134D100F27216 /* ListView.xib */; };
 		1A229BD01A8E40A100A06A54 /* PSAttributeCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A229BCF1A8E40A100A06A54 /* PSAttributeCellView.swift */; };
-		1A2339EA1BD9408600B6D805 /* PSPort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A9F6D2519DACE90008A313F /* PSPort.swift */; settings = {ASSET_TAGS = (); }; };
-		1A2339EB1BD9408600B6D805 /* PSPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7E933E1B1DF1C700498D2E /* PSPosition.swift */; settings = {ASSET_TAGS = (); }; };
-		1A2339EC1BD9408600B6D805 /* PortBuilder.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1ACFF15E19D3096800B43446 /* PortBuilder.xib */; settings = {ASSET_TAGS = (); }; };
-		1A2339ED1BD9408600B6D805 /* PSPortPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACFF16019D309B200B43446 /* PSPortPreviewView.swift */; settings = {ASSET_TAGS = (); }; };
-		1A2339EE1BD9408600B6D805 /* PSPortBuilderController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACFF16219D309F100B43446 /* PSPortBuilderController.swift */; settings = {ASSET_TAGS = (); }; };
-		1A2339EF1BD9408600B6D805 /* PSPortBuilderOutlineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A72A2141AD426C7000C0176 /* PSPortBuilderOutlineView.swift */; settings = {ASSET_TAGS = (); }; };
-		1A2339F01BD9408600B6D805 /* PSPortScript.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A72A21A1AD42741000C0176 /* PSPortScript.swift */; settings = {ASSET_TAGS = (); }; };
-		1A2339F11BD9408600B6D805 /* PSPortEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A72A21C1AD436A1000C0176 /* PSPortEnums.swift */; settings = {ASSET_TAGS = (); }; };
-		1A2339F21BD9408600B6D805 /* PSPortPopoverController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7E933A1B1DE83600498D2E /* PSPortPopoverController.swift */; settings = {ASSET_TAGS = (); }; };
-		1A2339F31BD9408600B6D805 /* PSPositionPopoverController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7E933C1B1DE87C00498D2E /* PSPositionPopoverController.swift */; settings = {ASSET_TAGS = (); }; };
-		1A2339F41BD9408600B6D805 /* PSPortBuilderWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A53068E1B2AEAF700ECACE0 /* PSPortBuilderWindow.swift */; settings = {ASSET_TAGS = (); }; };
-		1A2339F51BD9408600B6D805 /* PSScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA02FA71BB99C410084E83E /* PSScreen.swift */; settings = {ASSET_TAGS = (); }; };
-		1A2339F61BD9411800B6D805 /* NSPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8F93D619C853830019F37A /* NSPoint.swift */; settings = {ASSET_TAGS = (); }; };
+		1A2339EA1BD9408600B6D805 /* PSPort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A9F6D2519DACE90008A313F /* PSPort.swift */; };
+		1A2339EB1BD9408600B6D805 /* PSPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7E933E1B1DF1C700498D2E /* PSPosition.swift */; };
+		1A2339EC1BD9408600B6D805 /* PortBuilder.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1ACFF15E19D3096800B43446 /* PortBuilder.xib */; };
+		1A2339ED1BD9408600B6D805 /* PSPortPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACFF16019D309B200B43446 /* PSPortPreviewView.swift */; };
+		1A2339EE1BD9408600B6D805 /* PSPortBuilderController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACFF16219D309F100B43446 /* PSPortBuilderController.swift */; };
+		1A2339EF1BD9408600B6D805 /* PSPortBuilderOutlineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A72A2141AD426C7000C0176 /* PSPortBuilderOutlineView.swift */; };
+		1A2339F01BD9408600B6D805 /* PSPortScript.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A72A21A1AD42741000C0176 /* PSPortScript.swift */; };
+		1A2339F11BD9408600B6D805 /* PSPortEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A72A21C1AD436A1000C0176 /* PSPortEnums.swift */; };
+		1A2339F21BD9408600B6D805 /* PSPortPopoverController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7E933A1B1DE83600498D2E /* PSPortPopoverController.swift */; };
+		1A2339F31BD9408600B6D805 /* PSPositionPopoverController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7E933C1B1DE87C00498D2E /* PSPositionPopoverController.swift */; };
+		1A2339F41BD9408600B6D805 /* PSPortBuilderWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A53068E1B2AEAF700ECACE0 /* PSPortBuilderWindow.swift */; };
+		1A2339F51BD9408600B6D805 /* PSScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA02FA71BB99C410084E83E /* PSScreen.swift */; };
+		1A2339F61BD9411800B6D805 /* NSPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8F93D619C853830019F37A /* NSPoint.swift */; };
 		1A23DED71AF18FED003AD0E6 /* PSEntryBrowserSearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A23DED61AF18FED003AD0E6 /* PSEntryBrowserSearchController.swift */; };
 		1A23DEDB1AF19ED1003AD0E6 /* NCRAutocompleteTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A23DEDA1AF19ED1003AD0E6 /* NCRAutocompleteTextView.m */; };
 		1A24499A19F5AF18004C1C40 /* PsyScopeFramework.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1A9E5E50198A7C5800312743 /* PsyScopeFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -57,6 +57,11 @@
 		1A2FBE361975780100F5FFB5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2FBE351975780100F5FFB5 /* AppDelegate.swift */; };
 		1A2FBE5619759FC500F5FFB5 /* PsyScopeDefaultPlugins.psyplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1A2FBE4B1975827300F5FFB5 /* PsyScopeDefaultPlugins.psyplugin */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		1A2FBE5E1975A10D00F5FFB5 /* DefaultPlugins.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2FBE5D1975A10D00F5FFB5 /* DefaultPlugins.swift */; };
+		1A30185E1BE254EF00AF0684 /* PsyScopeTobii.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A30185D1BE254EF00AF0684 /* PsyScopeTobii.swift */; };
+		1A3018621BE255E100AF0684 /* Condition_TobiiPlusCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A30185F1BE255E100AF0684 /* Condition_TobiiPlusCell.xib */; };
+		1A3018631BE255E100AF0684 /* PSAction_TobiiPlus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3018601BE255E100AF0684 /* PSAction_TobiiPlus.swift */; };
+		1A3018641BE255E100AF0684 /* PSCondition_TobiiPlus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3018611BE255E100AF0684 /* PSCondition_TobiiPlus.swift */; };
+		1A3018671BE2561B00AF0684 /* PsyScopeTobii.psyplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1A3018541BE23D2800AF0684 /* PsyScopeTobii.psyplugin */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1A3040701AD538E300510174 /* PSAttribute_PasteBoardDegradation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A30406F1AD538E300510174 /* PSAttribute_PasteBoardDegradation.swift */; };
 		1A3040721AD5392600510174 /* PSAttibute_PasteBoardFlip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3040711AD5392600510174 /* PSAttibute_PasteBoardFlip.swift */; };
 		1A3040741AD5394700510174 /* PSAttribute_PasteBoardPort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3040731AD5394700510174 /* PSAttribute_PasteBoardPort.swift */; };
@@ -85,9 +90,8 @@
 		1A3A7D271A28B1E900EC91CC /* Section.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A3A7D251A28B1E900EC91CC /* Section.m */; };
 		1A3A7D2E1A28B1E900EC91CC /* Script.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A3A7D2C1A28B1E900EC91CC /* Script.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1A3A7D2F1A28B1E900EC91CC /* Script.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A3A7D2D1A28B1E900EC91CC /* Script.m */; };
-		1A3C190A1BD145C300274D5B /* PsyScopeFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AAAC0F81BD1416300A9BA3A /* PsyScopeFramework.framework */; };
-		1A3C19121BD156C700274D5B /* PSPluginLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3C19111BD156C700274D5B /* PSPluginLoader.swift */; settings = {ASSET_TAGS = (); }; };
-		1A3C19141BD1635700274D5B /* PSPluginInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3C19131BD1635700274D5B /* PSPluginInterface.swift */; settings = {ASSET_TAGS = (); }; };
+		1A3C19121BD156C700274D5B /* PSPluginLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3C19111BD156C700274D5B /* PSPluginLoader.swift */; };
+		1A3C19141BD1635700274D5B /* PSPluginInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3C19131BD1635700274D5B /* PSPluginInterface.swift */; };
 		1A3E705A19AE87AE00FD33C9 /* PSTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3E705919AE87AE00FD33C9 /* PSTool.swift */; };
 		1A3E70A219B0AEAF00FD33C9 /* PSGroupTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3E70A119B0AEAF00FD33C9 /* PSGroupTool.swift */; };
 		1A3E70A819B1E23600FD33C9 /* EventsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A3E70A719B1E23600FD33C9 /* EventsView.xib */; };
@@ -101,6 +105,11 @@
 		1A45C0CF1B0252E40029EF9F /* PSSubjectVariableType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A45C0CE1B0252E40029EF9F /* PSSubjectVariableType.swift */; };
 		1A4802F2199A254D0095F2AD /* PSScriptConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4802F1199A254D0095F2AD /* PSScriptConverter.swift */; };
 		1A4802FE199B9D170095F2AD /* PSBlankEntryTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4802FD199B9D170095F2AD /* PSBlankEntryTool.swift */; };
+		1A495D751BE268AC00702B95 /* PSToolBrowserController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A495D741BE268AC00702B95 /* PSToolBrowserController.swift */; };
+		1A495D771BE26A9B00702B95 /* PSEventBrowserViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A495D761BE26A9B00702B95 /* PSEventBrowserViewDelegate.swift */; };
+		1A495D791BE26B3500702B95 /* PSEventBrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A495D781BE26B3500702B95 /* PSEventBrowserView.swift */; };
+		1A495D7B1BE26DA300702B95 /* ToolBrowserViewItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A495D7A1BE26DA300702B95 /* ToolBrowserViewItem.xib */; };
+		1A495D7C1BE26DC500702B95 /* ToolBrowserViewItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A495D7A1BE26DA300702B95 /* ToolBrowserViewItem.xib */; };
 		1A4A64541B0D054C00084A10 /* PSGroupsCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4A64531B0D054C00084A10 /* PSGroupsCreator.swift */; };
 		1A4A64591B0F9E9F00084A10 /* GroupsTable.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A4A64581B0F9E9F00084A10 /* GroupsTable.xib */; };
 		1A4A645B1B0FA06000084A10 /* BlocksTable.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A4A645A1B0FA06000084A10 /* BlocksTable.xib */; };
@@ -173,7 +182,6 @@
 		1A581A291ADBB75E003D970B /* PSActionConditionTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A581A281ADBB75E003D970B /* PSActionConditionTableView.swift */; };
 		1A581A2B1ADBB845003D970B /* PSAttributeParameterBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A581A2A1ADBB845003D970B /* PSAttributeParameterBuilder.swift */; };
 		1A581A351ADBC204003D970B /* Document.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AC0827619701F2F0038512B /* Document.xib */; };
-		1A581A3B1ADBC270003D970B /* ToolBrowserViewItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1ACFF14519D1F8F800B43446 /* ToolBrowserViewItem.xib */; };
 		1A581A3C1ADBC275003D970B /* AddAttributeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A69F9CB1A84BD5200D60880 /* AddAttributeCell.xib */; };
 		1A581A441ADBC27B003D970B /* ActionConditionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A5C660C1A88C04A009EED35 /* ActionConditionView.xib */; };
 		1A581A461ADBC280003D970B /* ImportFilesAs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A92636A1A93664F00DAFF3A /* ImportFilesAs.xib */; };
@@ -263,8 +271,8 @@
 		1A7226FD1AC4295C001E8E9E /* PSVaryByButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7226FB1AC42875001E8E9E /* PSVaryByButton.swift */; };
 		1A72A2111AD3FDC1000C0176 /* flag86.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A72A20F1AD3FDC1000C0176 /* flag86.png */; };
 		1A72A2121AD3FDC1000C0176 /* hand225.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A72A2101AD3FDC1000C0176 /* hand225.png */; };
-		1A7886141BD907D90030EBCF /* PluginPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A7886131BD907D90030EBCF /* PluginPreferences.xib */; settings = {ASSET_TAGS = (); }; };
-		1A7886161BD907EC0030EBCF /* PSPluginPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7886151BD907EC0030EBCF /* PSPluginPreferences.swift */; settings = {ASSET_TAGS = (); }; };
+		1A7886141BD907D90030EBCF /* PluginPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A7886131BD907D90030EBCF /* PluginPreferences.xib */; };
+		1A7886161BD907EC0030EBCF /* PSPluginPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7886151BD907EC0030EBCF /* PSPluginPreferences.swift */; };
 		1A7E93391B1CC12C00498D2E /* PSAttributePopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7E93381B1CC12C00498D2E /* PSAttributePopup.swift */; };
 		1A7FB9341AC86DDD00C81723 /* PSNullRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7FB9331AC86DDD00C81723 /* PSNullRange.swift */; };
 		1A811C211AC37C2D000B44CE /* PSStringListContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A811C201AC37C2D000B44CE /* PSStringListContainer.swift */; };
@@ -336,7 +344,7 @@
 		1A963D0C19B9EBAE000B6C91 /* PSDefaultResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A963D0B19B9EBAE000B6C91 /* PSDefaultResources.swift */; };
 		1A963D0F19B9ED6B000B6C91 /* DefaultResources.json in Resources */ = {isa = PBXBuildFile; fileRef = 1A963D0E19B9ED6B000B6C91 /* DefaultResources.json */; };
 		1A963D1719BA203B000B6C91 /* PSTemplateBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A963D1619BA203B000B6C91 /* PSTemplateBuilder.swift */; };
-		1A9679751BB95EBE003291C0 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A9679741BB95EBE003291C0 /* StringExtension.swift */; settings = {ASSET_TAGS = (); }; };
+		1A9679751BB95EBE003291C0 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A9679741BB95EBE003291C0 /* StringExtension.swift */; };
 		1A9CE34E1AA77F3300C846F4 /* PSScriptViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A9CE34D1AA77F3300C846F4 /* PSScriptViewDelegate.swift */; };
 		1A9CE3511AA8B98500C846F4 /* PSAction_ChanceEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A9CE3501AA8B98500C846F4 /* PSAction_ChanceEvent.swift */; };
 		1A9CE3531AA8B99500C846F4 /* PSAction_ClearScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A9CE3521AA8B99500C846F4 /* PSAction_ClearScreen.swift */; };
@@ -393,7 +401,6 @@
 		1AA420071AA9CDF200CB8D95 /* PSAttributeParameter_SetGetPlayPause.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA420061AA9CDF200CB8D95 /* PSAttributeParameter_SetGetPlayPause.swift */; };
 		1AA5D1B0198FA03A00DD9DC5 /* PSPluginViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AA5D1AD198FA03A00DD9DC5 /* PSPluginViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1AA5D1B1198FA03A00DD9DC5 /* PSPluginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AA5D1AE198FA03A00DD9DC5 /* PSPluginViewController.m */; };
-		1AAAC0F91BD1416300A9BA3A /* PsyScopeFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AAAC0F81BD1416300A9BA3A /* PsyScopeFramework.framework */; };
 		1AACB2C91A8F52D6002A9B74 /* PSModalAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AACB2C81A8F52D6002A9B74 /* PSModalAlert.swift */; };
 		1AACB2CB1A8F58E8002A9B74 /* PSAttributeParameter_FileOpen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AACB2CA1A8F58E8002A9B74 /* PSAttributeParameter_FileOpen.swift */; };
 		1AACB2CD1A8F59F2002A9B74 /* PSAttributeParameter_Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AACB2CC1A8F59F2002A9B74 /* PSAttributeParameter_Button.swift */; };
@@ -444,7 +451,6 @@
 		1ACD82C41A18CF2F00CF0A3C /* PSAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACD82C31A18CF2F00CF0A3C /* PSAction.swift */; };
 		1ACE8BF01B3B0B1100B794BE /* PSAttributeParameter_ActiveUntil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACE8BEF1B3B0B1100B794BE /* PSAttributeParameter_ActiveUntil.swift */; };
 		1ACFCD281A8270E8003A44D4 /* PSAction_AddToList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACFCD271A8270E8003A44D4 /* PSAction_AddToList.swift */; };
-		1ACFF14619D1F8F800B43446 /* ToolBrowserViewItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1ACFF14519D1F8F800B43446 /* ToolBrowserViewItem.xib */; };
 		1ACFF14819D1FA0B00B43446 /* PSToolBrowserViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACFF14719D1FA0B00B43446 /* PSToolBrowserViewItem.swift */; };
 		1ACFF15019D2EB6900B43446 /* BlockTemplate-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1ACFF14B19D2EB6900B43446 /* BlockTemplate-icon.png */; };
 		1ACFF15119D2EB6900B43446 /* Experiment-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1ACFF14C19D2EB6900B43446 /* Experiment-icon.png */; };
@@ -529,10 +535,6 @@
 		1AFC258119C9F1A000858812 /* PSListBuilderWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFC258019C9F1A000858812 /* PSListBuilderWindowController.swift */; };
 		1AFC258319C9F26E00858812 /* ListBuilder.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AFC258219C9F26E00858812 /* ListBuilder.xib */; };
 		1AFC258519CC428100858812 /* PSListBuilderTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFC258419CC428100858812 /* PSListBuilderTableController.swift */; };
-		1AFCAA841A601B710023AB66 /* PSEventToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFCAA831A601B710023AB66 /* PSEventToolbarView.swift */; };
-		1AFCAA851A601D050023AB66 /* PSEventToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFCAA831A601B710023AB66 /* PSEventToolbarView.swift */; };
-		1AFCAA861A601D0A0023AB66 /* PSToolBrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2FBE2F1973E33600F5FFB5 /* PSToolBrowserView.swift */; };
-		1AFCAA881A601D0A0023AB66 /* ToolBrowserViewItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1ACFF14519D1F8F800B43446 /* ToolBrowserViewItem.xib */; };
 		1AFDE06E199121AB00ADE7F1 /* PSScriptReaderOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFDE06D199121AB00ADE7F1 /* PSScriptReaderOperation.swift */; };
 		1AFEBC971B2F050B00A3437E /* PSExperimentSetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFEBC961B2F050B00A3437E /* PSExperimentSetup.swift */; };
 		1AFEBC9F1B2F3D8A00A3437E /* PSVariableUsedInPullDownController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFEBC9E1B2F3D8A00A3437E /* PSVariableUsedInPullDownController.swift */; };
@@ -540,7 +542,7 @@
 		1AFEBCB31B31F09B00A3437E /* PSDataFileNameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFEBCB21B31F09B00A3437E /* PSDataFileNameController.swift */; };
 		1AFEBCB51B31F10C00A3437E /* PSSubjectVariableToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFEBCB41B31F10C00A3437E /* PSSubjectVariableToken.swift */; };
 		1AFEBCB81B322CE000A3437E /* PSSelectionInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFEBCB71B322CE000A3437E /* PSSelectionInterface.swift */; };
-		8119093C1BD92446005C7A05 /* Line.png in Resources */ = {isa = PBXBuildFile; fileRef = 8119093B1BD92446005C7A05 /* Line.png */; settings = {ASSET_TAGS = (); }; };
+		8119093C1BD92446005C7A05 /* Line.png in Resources */ = {isa = PBXBuildFile; fileRef = 8119093B1BD92446005C7A05 /* Line.png */; };
 		81427DA81A80CF3A0092DDBA /* Variable-icon-Medium.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 81427DA71A80CF390092DDBA /* Variable-icon-Medium.PNG */; };
 		81427DAA1A80D1CD0092DDBA /* MouseClick-real.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 81427DA91A80D1CD0092DDBA /* MouseClick-real.PNG */; };
 		81427DAC1A80D33C0092DDBA /* Variable-icon-small.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 81427DAB1A80D33C0092DDBA /* Variable-icon-small.PNG */; };
@@ -587,6 +589,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		1A30185A1BE254B000AF0684 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1AC0826519701F2F0038512B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1A9E5E4F198A7C5800312743;
+			remoteInfo = PsyScopeFramework;
+		};
+		1A3018651BE2560B00AF0684 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1AC0826519701F2F0038512B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1A3018531BE23D2800AF0684;
+			remoteInfo = PsyScopeTobii;
+		};
 		1A3C190B1BD145EB00274D5B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 1AC0826519701F2F0038512B /* Project object */;
@@ -640,6 +656,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				1A3018671BE2561B00AF0684 /* PsyScopeTobii.psyplugin in CopyFiles */,
 				1A2FBE5619759FC500F5FFB5 /* PsyScopeDefaultPlugins.psyplugin in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -699,6 +716,13 @@
 		1A2FBE4E1975827300F5FFB5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1A2FBE5C1975A10D00F5FFB5 /* PsyScopeDefaultPlugins-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "PsyScopeDefaultPlugins-Bridging-Header.h"; path = "PsyScopeDefaultPlugins/PsyScopeDefaultPlugins-Bridging-Header.h"; sourceTree = SOURCE_ROOT; };
 		1A2FBE5D1975A10D00F5FFB5 /* DefaultPlugins.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultPlugins.swift; sourceTree = "<group>"; };
+		1A3018541BE23D2800AF0684 /* PsyScopeTobii.psyplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PsyScopeTobii.psyplugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		1A3018561BE23D2800AF0684 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1A30185C1BE254EF00AF0684 /* PsyScopeTobii-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PsyScopeTobii-Bridging-Header.h"; sourceTree = "<group>"; };
+		1A30185D1BE254EF00AF0684 /* PsyScopeTobii.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PsyScopeTobii.swift; sourceTree = "<group>"; };
+		1A30185F1BE255E100AF0684 /* Condition_TobiiPlusCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Condition_TobiiPlusCell.xib; sourceTree = "<group>"; };
+		1A3018601BE255E100AF0684 /* PSAction_TobiiPlus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSAction_TobiiPlus.swift; sourceTree = "<group>"; };
+		1A3018611BE255E100AF0684 /* PSCondition_TobiiPlus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSCondition_TobiiPlus.swift; sourceTree = "<group>"; };
 		1A30406F1AD538E300510174 /* PSAttribute_PasteBoardDegradation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSAttribute_PasteBoardDegradation.swift; sourceTree = "<group>"; };
 		1A3040711AD5392600510174 /* PSAttibute_PasteBoardFlip.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSAttibute_PasteBoardFlip.swift; sourceTree = "<group>"; };
 		1A3040731AD5394700510174 /* PSAttribute_PasteBoardPort.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSAttribute_PasteBoardPort.swift; sourceTree = "<group>"; };
@@ -745,6 +769,10 @@
 		1A45C0CE1B0252E40029EF9F /* PSSubjectVariableType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSSubjectVariableType.swift; sourceTree = "<group>"; };
 		1A4802F1199A254D0095F2AD /* PSScriptConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSScriptConverter.swift; sourceTree = "<group>"; };
 		1A4802FD199B9D170095F2AD /* PSBlankEntryTool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSBlankEntryTool.swift; sourceTree = "<group>"; };
+		1A495D741BE268AC00702B95 /* PSToolBrowserController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSToolBrowserController.swift; sourceTree = "<group>"; };
+		1A495D761BE26A9B00702B95 /* PSEventBrowserViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSEventBrowserViewDelegate.swift; sourceTree = "<group>"; };
+		1A495D781BE26B3500702B95 /* PSEventBrowserView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSEventBrowserView.swift; sourceTree = "<group>"; };
+		1A495D7A1BE26DA300702B95 /* ToolBrowserViewItem.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ToolBrowserViewItem.xib; sourceTree = "<group>"; };
 		1A4A64531B0D054C00084A10 /* PSGroupsCreator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSGroupsCreator.swift; sourceTree = "<group>"; };
 		1A4A64581B0F9E9F00084A10 /* GroupsTable.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GroupsTable.xib; sourceTree = "<group>"; };
 		1A4A645A1B0FA06000084A10 /* BlocksTable.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BlocksTable.xib; sourceTree = "<group>"; };
@@ -1036,7 +1064,6 @@
 		1AA420061AA9CDF200CB8D95 /* PSAttributeParameter_SetGetPlayPause.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSAttributeParameter_SetGetPlayPause.swift; sourceTree = "<group>"; };
 		1AA5D1AD198FA03A00DD9DC5 /* PSPluginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSPluginViewController.h; sourceTree = "<group>"; };
 		1AA5D1AE198FA03A00DD9DC5 /* PSPluginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSPluginViewController.m; sourceTree = "<group>"; };
-		1AAAC0F81BD1416300A9BA3A /* PsyScopeFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PsyScopeFramework.framework; path = ../../../../Library/Frameworks/PsyScopeFramework.framework; sourceTree = "<group>"; };
 		1AACB2C81A8F52D6002A9B74 /* PSModalAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSModalAlert.swift; sourceTree = "<group>"; };
 		1AACB2CA1A8F58E8002A9B74 /* PSAttributeParameter_FileOpen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSAttributeParameter_FileOpen.swift; sourceTree = "<group>"; };
 		1AACB2CC1A8F59F2002A9B74 /* PSAttributeParameter_Button.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSAttributeParameter_Button.swift; sourceTree = "<group>"; };
@@ -1088,7 +1115,6 @@
 		1ACD82C31A18CF2F00CF0A3C /* PSAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSAction.swift; sourceTree = "<group>"; };
 		1ACE8BEF1B3B0B1100B794BE /* PSAttributeParameter_ActiveUntil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSAttributeParameter_ActiveUntil.swift; sourceTree = "<group>"; };
 		1ACFCD271A8270E8003A44D4 /* PSAction_AddToList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSAction_AddToList.swift; sourceTree = "<group>"; };
-		1ACFF14519D1F8F800B43446 /* ToolBrowserViewItem.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ToolBrowserViewItem.xib; sourceTree = "<group>"; };
 		1ACFF14719D1FA0B00B43446 /* PSToolBrowserViewItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSToolBrowserViewItem.swift; sourceTree = "<group>"; };
 		1ACFF14B19D2EB6900B43446 /* BlockTemplate-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BlockTemplate-icon.png"; sourceTree = "<group>"; };
 		1ACFF14C19D2EB6900B43446 /* Experiment-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Experiment-icon.png"; sourceTree = "<group>"; };
@@ -1176,7 +1202,6 @@
 		1AFC258019C9F1A000858812 /* PSListBuilderWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSListBuilderWindowController.swift; sourceTree = "<group>"; };
 		1AFC258219C9F26E00858812 /* ListBuilder.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ListBuilder.xib; sourceTree = "<group>"; };
 		1AFC258419CC428100858812 /* PSListBuilderTableController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSListBuilderTableController.swift; sourceTree = "<group>"; };
-		1AFCAA831A601B710023AB66 /* PSEventToolbarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSEventToolbarView.swift; sourceTree = "<group>"; };
 		1AFDE06D199121AB00ADE7F1 /* PSScriptReaderOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSScriptReaderOperation.swift; sourceTree = "<group>"; };
 		1AFEBC961B2F050B00A3437E /* PSExperimentSetup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSExperimentSetup.swift; sourceTree = "<group>"; };
 		1AFEBC9E1B2F3D8A00A3437E /* PSVariableUsedInPullDownController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSVariableUsedInPullDownController.swift; sourceTree = "<group>"; };
@@ -1214,7 +1239,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1AAAC0F91BD1416300A9BA3A /* PsyScopeFramework.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1A3018511BE23D2800AF0684 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1237,7 +1268,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1A3C190A1BD145C300274D5B /* PsyScopeFramework.framework in Frameworks */,
 				1A86C1861B597B2300004292 /* Carbon.framework in Frameworks */,
 				1A86C1851B597B1100004292 /* CoreServices.framework in Frameworks */,
 				1A63BC0B1A3B25FC007B9318 /* QuartzCore.framework in Frameworks */,
@@ -1445,6 +1475,19 @@
 			name = Interfaces;
 			sourceTree = "<group>";
 		};
+		1A3018551BE23D2800AF0684 /* PsyScopeTobii */ = {
+			isa = PBXGroup;
+			children = (
+				1A30185F1BE255E100AF0684 /* Condition_TobiiPlusCell.xib */,
+				1A3018601BE255E100AF0684 /* PSAction_TobiiPlus.swift */,
+				1A3018611BE255E100AF0684 /* PSCondition_TobiiPlus.swift */,
+				1A3018561BE23D2800AF0684 /* Info.plist */,
+				1A30185D1BE254EF00AF0684 /* PsyScopeTobii.swift */,
+				1A30185C1BE254EF00AF0684 /* PsyScopeTobii-Bridging-Header.h */,
+			);
+			path = PsyScopeTobii;
+			sourceTree = "<group>";
+		};
 		1A35075F1AB711C6000B591C /* EntryBrowser */ = {
 			isa = PBXGroup;
 			children = (
@@ -1565,7 +1608,6 @@
 				1AC977A21AC1D12A00E9E2D7 /* Default Properties View */,
 				1A9263691A93662000DAFF3A /* Import Files As Dialog */,
 				1A5C660B1A88C030009EED35 /* Actions Browser */,
-				1AFCAA821A601B460023AB66 /* Event Browser */,
 				1A9388A919DEF5ED00F1EB30 /* Attributes Browser */,
 				1A9388A819DEF5D300F1EB30 /* Tool Browser */,
 				1A4E2F721987D0B700F87603 /* SplitViewDelegate.swift */,
@@ -2034,6 +2076,8 @@
 				1ABA533719C4B079000B8171 /* PSEventStringParser.swift */,
 				1AD385D61B28706A0048C250 /* NSFlippedView.swift */,
 				1AD385D81B2873FE0048C250 /* PSTemplatePopupButtonController.swift */,
+				1A495D761BE26A9B00702B95 /* PSEventBrowserViewDelegate.swift */,
+				1A495D781BE26B3500702B95 /* PSEventBrowserView.swift */,
 			);
 			name = TemplateBuilder;
 			sourceTree = "<group>";
@@ -2083,7 +2127,8 @@
 			children = (
 				1A2FBE2F1973E33600F5FFB5 /* PSToolBrowserView.swift */,
 				1ACFF14719D1FA0B00B43446 /* PSToolBrowserViewItem.swift */,
-				1ACFF14519D1F8F800B43446 /* ToolBrowserViewItem.xib */,
+				1A495D741BE268AC00702B95 /* PSToolBrowserController.swift */,
+				1A495D7A1BE26DA300702B95 /* ToolBrowserViewItem.xib */,
 			);
 			name = "Tool Browser";
 			sourceTree = "<group>";
@@ -2318,7 +2363,6 @@
 		1AC0826419701F2F0038512B = {
 			isa = PBXGroup;
 			children = (
-				1AAAC0F81BD1416300A9BA3A /* PsyScopeFramework.framework */,
 				1A86C1821B597B1100004292 /* Carbon.framework */,
 				1A86C1831B597B1100004292 /* CoreServices.framework */,
 				1A63BC0A1A3B25FC007B9318 /* QuartzCore.framework */,
@@ -2326,6 +2370,7 @@
 				1A2FBE4C1975827300F5FFB5 /* PsyScopeDefaultPlugins */,
 				1A9E5E51198A7C5800312743 /* PsyScopeFramework */,
 				1AADBC111AD71EF20004999D /* PsyScopeEditor Tests */,
+				1A3018551BE23D2800AF0684 /* PsyScopeTobii */,
 				1AC0826E19701F2F0038512B /* Products */,
 			);
 			sourceTree = "<group>";
@@ -2337,6 +2382,7 @@
 				1A2FBE4B1975827300F5FFB5 /* PsyScopeDefaultPlugins.psyplugin */,
 				1A9E5E50198A7C5800312743 /* PsyScopeFramework.framework */,
 				1AADBC101AD71EF10004999D /* PsyScopeEditor Tests.xctest */,
+				1A3018541BE23D2800AF0684 /* PsyScopeTobii.psyplugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2564,14 +2610,6 @@
 			name = ListBuilder;
 			sourceTree = "<group>";
 		};
-		1AFCAA821A601B460023AB66 /* Event Browser */ = {
-			isa = PBXGroup;
-			children = (
-				1AFCAA831A601B710023AB66 /* PSEventToolbarView.swift */,
-			);
-			name = "Event Browser";
-			sourceTree = "<group>";
-		};
 		1AFEBCAF1B30960100A3437E /* CustomMenus */ = {
 			isa = PBXGroup;
 			children = (
@@ -2626,6 +2664,24 @@
 			productReference = 1A2FBE4B1975827300F5FFB5 /* PsyScopeDefaultPlugins.psyplugin */;
 			productType = "com.apple.product-type.bundle";
 		};
+		1A3018531BE23D2800AF0684 /* PsyScopeTobii */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1A3018571BE23D2800AF0684 /* Build configuration list for PBXNativeTarget "PsyScopeTobii" */;
+			buildPhases = (
+				1A3018501BE23D2800AF0684 /* Sources */,
+				1A3018511BE23D2800AF0684 /* Frameworks */,
+				1A3018521BE23D2800AF0684 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1A30185B1BE254B000AF0684 /* PBXTargetDependency */,
+			);
+			name = PsyScopeTobii;
+			productName = PsyScopeTobii;
+			productReference = 1A3018541BE23D2800AF0684 /* PsyScopeTobii.psyplugin */;
+			productType = "com.apple.product-type.bundle";
+		};
 		1A9E5E4F198A7C5800312743 /* PsyScopeFramework */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1A9E5E63198A7C5800312743 /* Build configuration list for PBXNativeTarget "PsyScopeFramework" */;
@@ -2678,6 +2734,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				1A3018661BE2560B00AF0684 /* PBXTargetDependency */,
 				1A3C190E1BD145EF00274D5B /* PBXTargetDependency */,
 				1A3C190C1BD145EB00274D5B /* PBXTargetDependency */,
 			);
@@ -2692,12 +2749,15 @@
 		1AC0826519701F2F0038512B /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0700;
+				LastSwiftUpdateCheck = 0710;
 				LastUpgradeCheck = 0630;
 				ORGANIZATIONNAME = James;
 				TargetAttributes = {
 					1A2FBE4A1975827300F5FFB5 = {
 						CreatedOnToolsVersion = 6.0;
+					};
+					1A3018531BE23D2800AF0684 = {
+						CreatedOnToolsVersion = 7.1;
 					};
 					1A9E5E4F198A7C5800312743 = {
 						CreatedOnToolsVersion = 6.0;
@@ -2729,6 +2789,7 @@
 				1A2FBE4A1975827300F5FFB5 /* PsyScopeDefaultPlugins */,
 				1A9E5E4F198A7C5800312743 /* PsyScopeFramework */,
 				1AADBC0F1AD71EF10004999D /* PsyScopeEditor Tests */,
+				1A3018531BE23D2800AF0684 /* PsyScopeTobii */,
 			);
 		};
 /* End PBXProject section */
@@ -2798,6 +2859,7 @@
 				1A522FAA1A41BC8100D5B983 /* DocumentIcon-old.png in Resources */,
 				1AF551961A668EFF00E49C23 /* SelfTerminate.png in Resources */,
 				81BFFA351A2336C200C1F22F /* PictureEvent-icon-128.TIF in Resources */,
+				1A495D7C1BE26DC500702B95 /* ToolBrowserViewItem.xib in Resources */,
 				1AD9630D1A7CE7A400C83612 /* Condition_TCPCell.xib in Resources */,
 				1A522FB01A41BC8100D5B983 /* SoundIcon-old.png in Resources */,
 				1AD963001A7CC90300C83612 /* MovieCondition.xib in Resources */,
@@ -2831,7 +2893,6 @@
 				1A0A25341A3239840000D621 /* KeyCondition.xib in Resources */,
 				818794301A7D970B00BDD89C /* Key.png in Resources */,
 				819D5C211A81366C00569B6C /* ParagraphIcon.png in Resources */,
-				1AFCAA881A601D0A0023AB66 /* ToolBrowserViewItem.xib in Resources */,
 				1A72A2121AD3FDC1000C0176 /* hand225.png in Resources */,
 				81BFFA3D1A2336C200C1F22F /* Template-icon-128-0.TIF in Resources */,
 				1A3434EA19FA738B007202E0 /* DegradationDialog.xib in Resources */,
@@ -2849,6 +2910,14 @@
 				1A5B68091A7BEF8600B81888 /* VariableView.xib in Resources */,
 				1A50358119A7FC18000A7FE5 /* cycle-icon.png in Resources */,
 				1AD9630F1A7CE7A400C83612 /* TCPCondition.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1A3018521BE23D2800AF0684 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1A3018621BE255E100AF0684 /* Condition_TobiiPlusCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2893,7 +2962,6 @@
 				1A581A511ADBC2DD003D970B /* psyscopegrammar.grammar in Resources */,
 				1A581A4E1ADBC2A3003D970B /* PSEntryBrowserCell.xib in Resources */,
 				1A581A491ADBC28B003D970B /* DefaultPropertiesView.xib in Resources */,
-				1A581A3B1ADBC270003D970B /* ToolBrowserViewItem.xib in Resources */,
 				1A55D6261AEAA12700B1D19C /* TestScript1 in Resources */,
 				1A581A3C1ADBC275003D970B /* AddAttributeCell.xib in Resources */,
 				1A581A351ADBC204003D970B /* Document.xib in Resources */,
@@ -2922,11 +2990,11 @@
 				1A92636B1A93664F00DAFF3A /* ImportFilesAs.xib in Resources */,
 				81BFFA3C1A2336C200C1F22F /* Template-icon-128-0.TIF in Resources */,
 				81BFFA381A2336C200C1F22F /* BlockTemplate-icon-128-0.TIF in Resources */,
+				1A495D7B1BE26DA300702B95 /* ToolBrowserViewItem.xib in Resources */,
 				1A0B524F1AEFF98500E0ADDB /* ExperimentSetup.xib in Resources */,
 				8161E2871A39E9DE009DC897 /* DocIcon2.icns in Resources */,
 				1A7886141BD907D90030EBCF /* PluginPreferences.xib in Resources */,
 				1A69F9CD1A84BD5200D60880 /* AddAttributeCell.xib in Resources */,
-				1ACFF14619D1F8F800B43446 /* ToolBrowserViewItem.xib in Resources */,
 				81BFFA441A2336C200C1F22F /* Template-icon-128-3.TIF in Resources */,
 				8195504D1A21E5AE0054A07D /* Experiment-Icon-128.tiff in Resources */,
 				81BFFA481A2336C200C1F22F /* Template-icon-128-5.TIF in Resources */,
@@ -2963,6 +3031,7 @@
 				1A6C92D51A014CEE00D24411 /* PSTableBuilderController.swift in Sources */,
 				1A8FAC841AC9E03B00748053 /* PSAttribute_SoundFile.swift in Sources */,
 				1A58046319A3CB4C00278D18 /* PSExperimentDataFields.swift in Sources */,
+				1A495D791BE26B3500702B95 /* PSEventBrowserView.swift in Sources */,
 				1A4802FE199B9D170095F2AD /* PSBlankEntryTool.swift in Sources */,
 				1AA41FE91AA9BBE800CB8D95 /* PSAction_MouseTo.swift in Sources */,
 				1AA41FF11AA9BC6300CB8D95 /* PSAction_SysCmd.swift in Sources */,
@@ -2990,6 +3059,7 @@
 				1A3E70B419B35B3500FD33C9 /* PSToolTablePropertyController.swift in Sources */,
 				1A8FAC821AC9DE8400748053 /* PSAttribute_KeySequenceStimulus.swift in Sources */,
 				1A4A64691B0FB61A00084A10 /* PSChildTypeViewController.swift in Sources */,
+				1A495D771BE26A9B00702B95 /* PSEventBrowserViewDelegate.swift in Sources */,
 				1A522F961A41B76400D5B983 /* PSKeySequenceEvent.swift in Sources */,
 				1A8F93D519C850A80019F37A /* PSConstants.swift in Sources */,
 				1A8376AE1AADB089007B0B4B /* PSCondition_When.swift in Sources */,
@@ -3025,7 +3095,6 @@
 				1AA41FEB1AA9BC0B00CB8D95 /* PSAction_MovieDo.swift in Sources */,
 				1AA376341976752200A3DE6E /* PSBlockTool.swift in Sources */,
 				1AD9630E1A7CE7A400C83612 /* PSCondition_TCP.swift in Sources */,
-				1AFCAA861A601D0A0023AB66 /* PSToolBrowserView.swift in Sources */,
 				1AD6D41019E80D6F00A623B1 /* PSTableViewController.swift in Sources */,
 				1A9CE35F1AA8B9FC00C846F4 /* PSAction_NewListItem.swift in Sources */,
 				1A8F93D219C847790019F37A /* PSTemplateLayoutBoardClasses.swift in Sources */,
@@ -3040,7 +3109,6 @@
 				1A3040741AD5394700510174 /* PSAttribute_PasteBoardPort.swift in Sources */,
 				1A61E5911ACB3F5900BB775D /* PSAttribute_TextMask.swift in Sources */,
 				1A0B52061AEE73E700E0ADDB /* PSVariableCompositeTypePopoverController.swift in Sources */,
-				1AFCAA851A601D050023AB66 /* PSEventToolbarView.swift in Sources */,
 				1A8FAC961AC9F95700748053 /* PSAttribute_MovieRate.swift in Sources */,
 				1A9CE3611AA8BA0D00C846F4 /* PSAction_NextCrossing.swift in Sources */,
 				1AD963061A7CE43000C83612 /* PSCondition_Sound.swift in Sources */,
@@ -3154,6 +3222,16 @@
 				1ADFD1D41AE95286002579AF /* PSVariableOutlineViewController.swift in Sources */,
 				1A55D6201AEA470F00B1D19C /* PSVariableOutlineViewCellView.swift in Sources */,
 				1A9CE3651AA8BBB700C846F4 /* PSAction_RemoveFromList.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1A3018501BE23D2800AF0684 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1A3018641BE255E100AF0684 /* PSCondition_TobiiPlus.swift in Sources */,
+				1A3018631BE255E100AF0684 /* PSAction_TobiiPlus.swift in Sources */,
+				1A30185E1BE254EF00AF0684 /* PsyScopeTobii.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3302,6 +3380,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1A0B520D1AEFA68600E0ADDB /* PSScriptErrorPopoverController.swift in Sources */,
+				1A495D751BE268AC00702B95 /* PSToolBrowserController.swift in Sources */,
 				1A4A64541B0D054C00084A10 /* PSGroupsCreator.swift in Sources */,
 				1A1213D7199CDFCD0016493C /* PSScriptErrorViewController.swift in Sources */,
 				1AC977A11AC1D0F400E9E2D7 /* PSDefaultPropertiesViewController.swift in Sources */,
@@ -3324,7 +3403,6 @@
 				1A92636D1A93667B00DAFF3A /* PSImportFileAsPopup.swift in Sources */,
 				1A3507611AB713E5000B591C /* PSEntryBrowser.swift in Sources */,
 				1A5C66121A88C062009EED35 /* PSActionsBrowser.swift in Sources */,
-				1AFCAA841A601B710023AB66 /* PSEventToolbarView.swift in Sources */,
 				1AFEBCB11B30961600A3437E /* PSCustomMenus.swift in Sources */,
 				1A94B08A197FD8BD00DADC59 /* PSConstants.swift in Sources */,
 				1AFDE06E199121AB00ADE7F1 /* PSScriptReaderOperation.swift in Sources */,
@@ -3366,6 +3444,16 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		1A30185B1BE254B000AF0684 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1A9E5E4F198A7C5800312743 /* PsyScopeFramework */;
+			targetProxy = 1A30185A1BE254B000AF0684 /* PBXContainerItemProxy */;
+		};
+		1A3018661BE2560B00AF0684 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1A3018531BE23D2800AF0684 /* PsyScopeTobii */;
+			targetProxy = 1A3018651BE2560B00AF0684 /* PBXContainerItemProxy */;
+		};
 		1A3C190C1BD145EB00274D5B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 1A2FBE4A1975827300F5FFB5 /* PsyScopeDefaultPlugins */;
@@ -3456,6 +3544,78 @@
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "PsyScopeDefaultPlugins/PsyScopeDefaultPlugins-Bridging-Header.h";
+				WRAPPER_EXTENSION = psyplugin;
+			};
+			name = Release;
+		};
+		1A3018581BE23D2800AF0684 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = PsyScopeTobii/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = jamesalvarez.PsyScopeTobii;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "PsyScopeTobii/PsyScopeTobii-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				WRAPPER_EXTENSION = psyplugin;
+			};
+			name = Development;
+		};
+		1A3018591BE23D2800AF0684 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = PsyScopeTobii/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PRODUCT_BUNDLE_IDENTIFIER = jamesalvarez.PsyScopeTobii;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "PsyScopeTobii/PsyScopeTobii-Bridging-Header.h";
 				WRAPPER_EXTENSION = psyplugin;
 			};
 			name = Release;
@@ -3739,6 +3899,15 @@
 			buildConfigurations = (
 				1A2FBE501975827300F5FFB5 /* Development */,
 				1A2FBE511975827300F5FFB5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1A3018571BE23D2800AF0684 /* Build configuration list for PBXNativeTarget "PsyScopeTobii" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1A3018581BE23D2800AF0684 /* Development */,
+				1A3018591BE23D2800AF0684 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

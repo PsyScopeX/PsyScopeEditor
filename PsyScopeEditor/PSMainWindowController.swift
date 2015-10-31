@@ -14,8 +14,7 @@ class PSMainWindowController : NSWindowController, NSWindowDelegate {
     //MARK: Outlets
     @IBOutlet var toolbar : NSToolbar!
     @IBOutlet var tabController : PSDocumentTabDelegate!
-    @IBOutlet var objectToolbarDelegate : PSToolBrowserViewDelegate!
-    @IBOutlet var eventToolbarDelegate : PSEventBrowserViewDelegate!
+    @IBOutlet var toolBrowserController : PSToolBrowserController!
     @IBOutlet var actionsBrowser : PSActionsBrowser!
     @IBOutlet var scriptDelegate : PSScriptViewDelegate!
     
@@ -54,8 +53,7 @@ class PSMainWindowController : NSWindowController, NSWindowDelegate {
         //initialize and setup all documents
         layoutController.initialize()
         experimentSetup.initialize()
-        objectToolbarDelegate.setup(scriptData.pluginProvider)
-        eventToolbarDelegate.setup(scriptData.pluginProvider)
+        toolBrowserController.setup(scriptData.pluginProvider)
         actionsBrowser.setup(scriptData)
         scriptDelegate.setup(scriptData)
         entryBrowser.setup(scriptData)

@@ -52,11 +52,11 @@ class PSBlockTool: PSTool, PSToolInterface {
     
     override func constructAttributeSourceSubMenu(scriptData: PSScriptData!) -> NSMenuItem! {
         
-        var subMenuItem = NSMenuItem(title: "Block", action: "", keyEquivalent: "b")
+        let subMenuItem = NSMenuItem(title: "Block", action: "", keyEquivalent: "b")
         subMenuItem.representedObject = self
         subMenuItem.tag = 0
         //get all blocks
-        var blockEntries = scriptData.getBaseEntriesOfType(typeString)
+        let blockEntries = scriptData.getBaseEntriesOfType(typeString)
    
         //now get all attributes
         var suitableAttributes : [String:Bool] = [:] //dummy dictionary to hold unique attribute names
@@ -68,12 +68,12 @@ class PSBlockTool: PSTool, PSToolInterface {
         if suitableAttributes.count == 0 {
             subMenuItem.enabled = false
             return subMenuItem }
-        var menu = NSMenu(title: "Block")
+        let menu = NSMenu(title: "Block")
         subMenuItem.submenu = menu;
         
         //now construct menu
-        for (attributeName,dummybool) in suitableAttributes {
-            var newSubMenuItem = NSMenuItem()
+        for (attributeName,_) in suitableAttributes {
+            let newSubMenuItem = NSMenuItem()
             newSubMenuItem.title = attributeName
             newSubMenuItem.representedObject =  "BlockAttrib(\"\(attributeName)\")"
             newSubMenuItem.tag = 1
@@ -83,7 +83,7 @@ class PSBlockTool: PSTool, PSToolInterface {
     }
     
     override func identifyAsAttributeSourceAndReturnRepresentiveString(currentValue: String!) -> [AnyObject]! {
-        let function = PSFunctionElement()
+        _ = PSFunctionElement()
         return PSToolHelper.attributedStringForAttributeFunction("BlockAttrib", icon: self.icon(), currentValue: currentValue)
         
     }
@@ -93,8 +93,10 @@ class PSBlockTool: PSTool, PSToolInterface {
     }
     
     override func createLinkFrom(parent: Entry!, to child: Entry!, withScript scriptData: PSScriptData!) -> Bool {
-        
-        //Experiment has to be parent
+        if PSTool.createLinkFromToolToList(parent, to: child, withScript: scriptData) {
+            return true
+        }
+        //Block has to be parent
         if parent.type == "Block" {
             //get the type of child which the parent already has (if any)
             let childrenOfParent : [Entry] = scriptData.getChildEntries(parent)

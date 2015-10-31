@@ -55,6 +55,7 @@ class PSScriptConverter: NSObject {
         var success = checkForExistingEntries()
         
         success = success && checkForDuplicateEntries()
+        success = success && checkForIllegalBaseEntryNames()
         success = success && identifyObjectEntries()
         success = success && processOldPsyScopeEntries()
         success = success && matchExistingEntries()
@@ -86,7 +87,7 @@ class PSScriptConverter: NSObject {
     //returns true if no duplicate
     func checkForDuplicates(ghostEntriesArray : [PSGhostEntry]) -> Bool {
         var noduplicates = true
-        var endIndex = ghostEntriesArray.count - 1
+        let endIndex = ghostEntriesArray.count - 1
         if endIndex == -1 { return true }
         for i in 0...endIndex {
             //check for duplicate entry at this level
@@ -108,7 +109,20 @@ class PSScriptConverter: NSObject {
         return (noduplicates)
     }
     
-    //3. get plugins to identify entries and attributes
+    //3. check for illegal names
+    func checkForIllegalBaseEntryNames() -> Bool {
+        let reservedNames = mainWindowController.scriptData.pluginProvider.reservedEntryNames
+        var noIllegalNames = true
+        for ghostEntry in ghostScript.entries {
+            if reservedNames.contains(ghostEntry.name) {
+                errorHandler.newError(PSErrorIllegalEntryName(ghostEntry.name,range: ghostEntry.range))
+                noIllegalNames = false
+            }
+        }
+        return noIllegalNames
+    }
+    
+    //4. get plugins to identify entries and attributes
     func identifyObjectEntries() -> Bool {
 
         //3.1 get each plugin to identify entries
@@ -135,10 +149,6 @@ class PSScriptConverter: NSObject {
         return errors.count == 0
     }
     
-    
-    
-    
-    
     func addPluginErrors(errorArray : [AnyObject]!) {
         for a in errorArray {
             if let p = a as? PSScriptError {
@@ -148,8 +158,8 @@ class PSScriptConverter: NSObject {
         }
     }
     
-    //4. match existing entries i.e. if name and type are the same.
-    //5. delete no longer existing entries and create new entries which are not present
+    //5. match existing entries i.e. if name and type are the same.
+    //6. delete no longer existing entries and create new entries which are not present
     func matchExistingEntries() -> Bool {
     
         let scriptData = mainWindowController.scriptData
@@ -367,19 +377,4 @@ class PSScriptConverter: NSObject {
         lobject.yPos = NSNumber(float: y)
     }
     
-    //gets two dictionaries that link key attribute and entry names to the corresponding plugin instances
-    /*func getKeyEntriesAndAttributes() -> (entryNames : [String : PSToolInterface], attributeNames : [String : PSToolInterface]) {
-        var return_value : (entryNames : [String : PSToolInterface], attributeNames : [String : PSToolInterface]) = ([:],[:])
-        for plugin in PSPluginSingleton.sharedInstance.toolObjects.values {
-            println(plugin.type())
-            //TODO check for duplicates and warn
-            for entry_name in plugin.keyEntryNames() as! [String] {
-                return_value.entryNames[entry_name] = plugin
-            }
-            for att_name in plugin.keyAttributeNames() as! [String] {
-                return_value.attributeNames[att_name] = plugin
-            }
-        }
-        return return_value
-    }*/
 }

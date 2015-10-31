@@ -227,6 +227,10 @@ class PSExperimentTool: PSTool, PSToolInterface {
     
     override func createLinkFrom(parent: Entry!, to child: Entry!, withScript scriptData: PSScriptData!) -> Bool {
         
+        if PSTool.createLinkFromToolToList(parent, to: child, withScript: scriptData) {
+            return true
+        }
+        
         //Experiment has to be parent
         if parent.type == "Experiment" {
             //get the type of child which the parent already has (if any)

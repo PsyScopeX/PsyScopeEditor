@@ -1,17 +1,16 @@
 //
-//  PSImportFileToolBrowser.swift
+//  PSEventBrowserViewDelegate.swift
 //  PsyScopeEditor
 //
-//  Created by James on 17/02/2015.
-//  Copyright (c) 2015 James. All rights reserved.
+//  Created by James on 29/10/2015.
+//  Copyright © 2015 James. All rights reserved.
 //
 
 import Foundation
 
-
-@objc class PSImportFileBrowserViewDelegate : NSObject, NSTableViewDelegate {
+class PSEventBrowserViewDelegate : NSObject, NSTableViewDelegate {
     
-    @IBOutlet var objectTableView : NSTableView!
+    @IBOutlet var objectTableView : PSEventBrowserView!
     @IBOutlet var arrayController : NSArrayController!
     
     var tableCellViewIdentifier = "PSToolBrowserViewItem"
@@ -36,21 +35,14 @@ import Foundation
     
     
     
-    func setPossibleTypes(tools : [PSToolInterface]) {
-        possTypes = []
-        for t in tools {
-            for pse in pluginProvider.eventExtensions {
-                if pse.type == t.type() {
-                    possTypes.append(pse)
-                }
-            }
-        }
-    }
-    
-    var possTypes : [PSExtension] = []
-    
     func refresh() {
-        arrayController.content = possTypes
+        //get only tools that should appear in side bar
+        _ = pluginProvider.eventPlugins
+        
+        //because sometimes they are not there when this call is made
+        
+        
+        arrayController.content = pluginProvider.eventExtensions
         objectTableView.reloadData()
     }
     

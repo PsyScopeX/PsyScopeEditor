@@ -14,7 +14,6 @@ class PSTool: PSToolHelper {
     var iconColor : NSColor
     var classNameString : String
     var properties : [PSProperty]
-    var externalProperties : [PSProperty]
     var section : (name : String, zorder : Int)
     var identityProperty : PSProperty?
     var reservedEntries : [String]
@@ -26,7 +25,6 @@ class PSTool: PSToolHelper {
         classNameString = ""
         section =  (name: "", zorder : 0)
         properties = []
-        externalProperties = []
         identityProperty = nil
         reservedEntries = []
         super.init()
@@ -155,7 +153,8 @@ class PSTool: PSToolHelper {
     }
     
     func reservedEntryNames() -> [AnyObject]! {
-        return reservedEntries
+        let allReservedEntryNames = [typeString] + properties.map({ $0.name }) + reservedEntries
+        return allReservedEntryNames
     }
     
 }
