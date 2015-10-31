@@ -99,3 +99,11 @@ public func PSErrorEntryNotFound(name : String, parentEntry : String, subEntry :
     let s = "Create entry or check existing entries for typographical error"
     return PSScriptError(errorDescription:"Entry Not Found Error", detailedDescription: d, solution: s, range: range)
 }
+
+//Name Error
+
+public func PSErrorIllegalEntryName(nameOfEntry: NSString, range : NSRange) -> PSScriptError  {
+    let description = "The name: \(nameOfEntry as String) is illegal for entries in this version of PsyScope"
+    let solution = "Please rename all references to this entry to a new name"
+    return PSScriptError(errorDescription: "Illegal Name Error", detailedDescription: description, solution: solution, range: range)
+}
