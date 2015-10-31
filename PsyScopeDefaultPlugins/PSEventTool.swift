@@ -33,18 +33,25 @@ class PSEventTool: PSTool, PSToolInterface, PSEventInterface {
     
     override func identifyEntries(ghostScript: PSGhostScript!) -> [AnyObject]! {
         
+        let type = self.type()
         
         //1. identify events by eventType attribute
         var errors : [PSScriptError] = []
         
         for ge in ghostScript.entries {
             for a in ge.subEntries as [PSGhostEntry] {
-                if ((a.name == "EventType" || a.name == "StimType") && a.currentValue == self.type()) {
+                
+                let hasEventAttribute = (a.name == "EventType" || a.name == "StimType")
+                let eventAttributeIsType = (a.currentValue.lowercaseString == type.lowercaseString)
+                
+                if (hasEventAttribute && eventAttributeIsType) {
+                    //ensure ghost value is capitalised
+                    a.currentValue = type
                     //found an event of this type
-                    if (ge.type.isEmpty || ge.type == self.type()) {
-                        ge.type = self.type()
+                    if (ge.type.isEmpty || ge.type == type) {
+                        ge.type = type
                     } else {
-                        errors.append(PSErrorAmbiguousType(ge.name,type1: ge.type,type2: self.type(),range: ge.range))
+                        errors.append(PSErrorAmbiguousType(ge.name,type1: ge.type,type2: type,range: ge.range))
                     }
                 }
             }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9059" systemVersion="15A284" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <development version="6300" identifier="xcode"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9059"/>
@@ -70,15 +70,15 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="352" height="750"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
-                                                        <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="27" horizontalPageScroll="10" verticalLineScroll="27" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="aJN-CF-ZgG">
+                                                        <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="33" horizontalPageScroll="10" verticalLineScroll="33" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="aJN-CF-ZgG">
                                                             <rect key="frame" x="0.0" y="0.0" width="352" height="750"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <clipView key="contentView" drawsBackground="NO" id="T88-vl-Hn3">
                                                                 <rect key="frame" x="0.0" y="0.0" width="352" height="750"/>
                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                 <subviews>
-                                                                    <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="none" multipleSelection="NO" autosaveColumns="NO" rowHeight="24" rowSizeStyle="automatic" viewBased="YES" indentationPerLevel="2" outlineTableColumn="hbt-uI-6Cm" id="4Ro-0y-879" customClass="PSToolBrowserView" customModule="PsyScopeEditor" customModuleProvider="target">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="352" height="750"/>
+                                                                    <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="none" multipleSelection="NO" autosaveColumns="NO" rowHeight="30" rowSizeStyle="automatic" viewBased="YES" indentationPerLevel="2" outlineTableColumn="hbt-uI-6Cm" id="4Ro-0y-879" customClass="PSToolBrowserView" customModule="PsyScopeEditor" customModuleProvider="target">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="351" height="0.0"/>
                                                                         <autoresizingMask key="autoresizingMask"/>
                                                                         <animations/>
                                                                         <size key="intercellSpacing" width="2" height="3"/>
@@ -159,7 +159,7 @@
                                                             </clipView>
                                                             <animations/>
                                                             <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="LM6-id-04Q">
-                                                                <rect key="frame" x="1" y="229.51066100597382" width="99.438401222229004" height="16"/>
+                                                                <rect key="frame" x="1" y="229.51066100597382" width="99.5" height="16"/>
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                 <animations/>
                                                             </scroller>
@@ -502,7 +502,7 @@
                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                 <subviews>
                                                                     <customView id="zck-4U-xpq" customClass="PSLayoutBoard" customModule="PsyScopeEditor" customModuleProvider="target">
-                                                                        <rect key="frame" x="0.0" y="331" width="2000" height="2000"/>
+                                                                        <rect key="frame" x="0.0" y="347" width="2000" height="2000"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                         <animations/>
                                                                         <connections>
@@ -524,7 +524,7 @@
                                                                 <animations/>
                                                             </scroller>
                                                             <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="evC-fz-EAi">
-                                                                <rect key="frame" x="539.5" y="0.0" width="15" height="750"/>
+                                                                <rect key="frame" x="538.5" y="0.0" width="16" height="750"/>
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                 <animations/>
                                                             </scroller>
