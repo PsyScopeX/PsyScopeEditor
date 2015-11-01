@@ -41,7 +41,7 @@ class PSTemplateEventTimeLineView : NSView {
         }
     }
     
-    //used to initialise the basic graphics layers onc onstruction
+    //used to initialise the basic graphics layers on construction
     func initialise() {
         self.layer = CALayer()
         self.wantsLayer = true
@@ -70,6 +70,7 @@ class PSTemplateEventTimeLineView : NSView {
         boxLayer.shadowOpacity = 0.5; // luca changed from 0.8
         boxLayer.anchorPoint = CGPoint(x: 0.0, y: 0.5)
         boxLayer.frame = CGRect(origin: NSZeroPoint, size: CGSizeMake(100,PSDefaultConstants.Spacing.TLBtimeBarWidth))
+        boxLayer.cornerRadius = 0//adding square radius as a default
     }
     
     var boxLayer : CALayer!
@@ -154,18 +155,25 @@ class PSTemplateEventTimeLineView : NSView {
         //Change the color for the events with termination trial end. Trying purple (luca 21 oct)
         if let dc = event.durationCondition as? EventDurationConditionTrialEnd {
             
-            canDragDurationTime = true
-         
-            boxLayer.backgroundColor = NSColor.purpleColor().CGColor
-            boxLayer.cornerRadius = 15 // ideally only the right corners should be rounded (luca)
-            
-        }
+            canDragDurationTime = false
+                 }
         
         
 
         //update box layer
         let frame : CGRect = CGRect(origin: CGPoint(x: startTime, y: y_pos), size: CGSizeMake(durationTime, PSDefaultConstants.Spacing.TLBtimeBarWidth))
         self.boxLayer.frame = frame
+        self.boxLayer.cornerRadius = 0//HERE
+        
+        if let dc = event.durationCondition as? EventDurationConditionTrialEnd {
+            
+            // Luca taking care of the case of trial_end events, which must appear differently from the others
+            
+            boxLayer.backgroundColor = NSColor.purpleColor().CGColor
+            
+            boxLayer.cornerRadius = 15 //ideally only the right corners should be rounded (luca)
+
+        }
         
         //update trackingArea
         if startTrackingArea != nil {
