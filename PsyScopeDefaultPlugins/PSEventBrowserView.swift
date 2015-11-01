@@ -13,12 +13,11 @@ class PSEventBrowserView: NSTableView {
     
     
     var dragSession : NSDraggingSession?
-    var pasteBoardType : String { return PSConstants.PSEventBrowserView.pasteboardType }
     
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        self.registerForDraggedTypes([pasteBoardType, NSPasteboardTypeString])
+        //self.registerForDraggedTypes([pasteBoardType, NSPasteboardTypeString])
         self.setDraggingSourceOperationMask(.Move, forLocal: true)
     }
     
@@ -37,7 +36,7 @@ class PSEventBrowserView: NSTableView {
         let imageBounds = NSRect(origin: localLocation, size: NSSize(width: PSConstants.Spacing.iconSize, height: PSConstants.Spacing.iconSize))
         
         let pbItem = NSPasteboardItem()
-        pbItem.setString(psextension.type, forType: PSConstants.PSToolBrowserView.pasteboardType)
+        pbItem.setString(psextension.type, forType: PSConstants.PSEventBrowserView.pasteboardType)
         
         
         let dragItem = NSDraggingItem(pasteboardWriter: pbItem)
