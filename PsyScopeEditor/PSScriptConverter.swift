@@ -173,21 +173,31 @@ class PSScriptConverter: NSObject {
             //delete entries which are no longer there
             var deleted = true
             for ge in ghostScript.entries as [PSGhostEntry] {
-                if ge.name == real_entry.name && ge.type == real_entry.type {
-                    //found the same one, update the entry
-                    print("Found matching \(real_entry.name) of type \(real_entry.type) in ghostscript...")
-                    deleted = false
-                    
-                    //and for entries which are the same change the attributes
-                    if let plugin = PSPluginSingleton.sharedInstance.getPlugin(ge.type) {
-                        plugin.updateEntry(real_entry, withGhostEntry: ge, scriptData: scriptData)
-                    } else if let attribute = PSPluginSingleton.sharedInstance.attributeObjects[ge.type] {
-                        attribute.updateEntry(real_entry, withGhostEntry: ge, scriptData: scriptData)
-                    } else {
-                        //error?
+                
+                if ge.name == real_entry.name {
+                    //matching name
+                    if ge.type == real_entry.type {
+                        print("Found matching \(real_entry.name) of type \(real_entry.type) in ghostscript...")
+                        deleted = false
+                    } else if ge.type == "BlankEntry" {
+                        print("Found entry \(real_entry.name) of type \(real_entry.type) in ghostscript...   ...not identified, but keeping same identity.")
+                        ge.type = real_entry.type
+                        deleted = false
                     }
-                    ge.instantiated = true
+                    
+                    if (!deleted) {
+                        //and for entries which are the same change the attributes
+                        if let plugin = PSPluginSingleton.sharedInstance.getPlugin(ge.type) {
+                            plugin.updateEntry(real_entry, withGhostEntry: ge, scriptData: scriptData)
+                        } else if let attribute = PSPluginSingleton.sharedInstance.attributeObjects[ge.type] {
+                            attribute.updateEntry(real_entry, withGhostEntry: ge, scriptData: scriptData)
+                        } else {
+                            //error?
+                        }
+                        ge.instantiated = true
+                    }
                 }
+         
             }
         
             if (deleted) {
@@ -198,16 +208,17 @@ class PSScriptConverter: NSObject {
         
         print("Entries before deletion")
         for e in scriptData.getBaseEntries() { print(e.name, terminator: "") }
-        
+        print("=======")
         for delete_entry in entries_to_delete {
             print("Deleting former entry \(delete_entry.name)")
             scriptData.deleteMainEntry(delete_entry) //in layout controller, make sure it knows this object is to be deleted
             
         }
         
-        print("-")
+        print("=======")
         print("Entries after deletion")
         for e in scriptData.getBaseEntries() { print(e.name, terminator: "") }
+        print("=======")
         
         var all_new_lobjects : [LayoutObject] = []
         

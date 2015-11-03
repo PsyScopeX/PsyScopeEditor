@@ -28,9 +28,6 @@ class PSTemplateTool: PSTool , PSToolInterface {
         return PSTool.identifyEntriesByPropertyInOtherEntry(ghostScript, property: identityProperty!, type: type())
     }
     
-
-
-    
     override func isSourceForAttributes() -> Bool {
         return true
     }
