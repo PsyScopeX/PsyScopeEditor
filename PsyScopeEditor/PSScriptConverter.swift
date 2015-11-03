@@ -167,6 +167,7 @@ class PSScriptConverter: NSObject {
         let baseEntries = scriptData.getBaseEntries()
         
         var entries_to_delete : [Entry] = []
+        var namesOfEntriesThatWereNotIdentifiedButRetainType : [String] = []
         
         for real_entry in baseEntries {
             
@@ -180,6 +181,7 @@ class PSScriptConverter: NSObject {
                         print("Found matching \(real_entry.name) of type \(real_entry.type) in ghostscript...")
                         deleted = false
                     } else if ge.type == "BlankEntry" {
+                        namesOfEntriesThatWereNotIdentifiedButRetainType.append(real_entry.name)
                         print("Found entry \(real_entry.name) of type \(real_entry.type) in ghostscript...   ...not identified, but keeping same identity.")
                         ge.type = real_entry.type
                         deleted = false
@@ -308,6 +310,10 @@ class PSScriptConverter: NSObject {
         //finally position the objects correctly
         positionNewLayoutObjects(all_new_lobjects, all_lobjects: mocLobjects)
         
+        
+        let warningText = "Warning: The following entry(s) were not correctly identified in the script, but have retained their former identity:\n\n \(namesOfEntriesThatWereNotIdentifiedButRetainType.joinWithSeparator(" ") ) \n\n\nThis normally arises if you have an object such as a Template, which is not referenced in any 'Templates:' sub entry.  This warning can be safely ignored, unless you recently deleted an entry of one type and created a new entry with the same name.   To avoid this warning, link the entry to it's parent."
+        
+        PSModalAlert(warningText)
         return true
     }
     
