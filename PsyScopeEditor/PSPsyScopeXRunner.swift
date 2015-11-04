@@ -144,7 +144,9 @@ class PSPsyScopeXRunner : NSObject {
                 }
             }
             
-            if foundDifferences && userWantsToChangeDifferences() {
+            let shouldAutomaticallyUpdate = PSPreferences.automaticallyUpdateScript.boolValue
+            
+            if foundDifferences && (shouldAutomaticallyUpdate || userWantsToChangeDifferences()) {
                 currentlyRunningDocument.scriptData.beginUndoGrouping("Update Script From Run")
                 for ghostEntry in scriptReader.ghostScript.entries {
                     for realEntry in baseEntries {

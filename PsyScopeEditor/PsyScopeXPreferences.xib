@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="8191"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9059"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="PSPsyScopeXPreferences" customModule="PsyScopeEditor" customModuleProvider="target">
@@ -18,6 +18,7 @@
             <subviews>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4dp-HW-NIT">
                     <rect key="frame" x="18" y="170" width="111" height="17"/>
+                    <animations/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="PsyScopeX Path:" id="Ah9-oR-poI">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -26,6 +27,7 @@
                 </textField>
                 <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BFn-1d-R7x">
                     <rect key="frame" x="20" y="140" width="332" height="22"/>
+                    <animations/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="YMy-Bn-tCF">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -37,6 +39,7 @@
                 </textField>
                 <button horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="f3g-YR-iZa">
                     <rect key="frame" x="353" y="140" width="25" height="19"/>
+                    <animations/>
                     <buttonCell key="cell" type="bevel" bezelStyle="rounded" image="NSFollowLinkFreestandingTemplate" imagePosition="only" alignment="center" controlSize="small" imageScaling="proportionallyDown" inset="2" id="FcK-Ug-mlN">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="smallSystem"/>
@@ -47,6 +50,7 @@
                 </button>
                 <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hQP-hk-X0u">
                     <rect key="frame" x="18" y="19" width="287" height="18"/>
+                    <animations/>
                     <buttonCell key="cell" type="check" title="Convert data file and log file to text format." bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="ajh-1f-Sp6">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -54,6 +58,7 @@
                 </button>
                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kS4-78-7Am">
                     <rect key="frame" x="14" y="104" width="170" height="32"/>
+                    <animations/>
                     <buttonCell key="cell" type="push" title="Reset to default" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="HuJ-p5-6KO">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
@@ -62,7 +67,19 @@
                         <action selector="resetToDefaultButtonClicked:" target="-2" id="s7x-wY-xjA"/>
                     </connections>
                 </button>
+                <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="w5c-hx-91l">
+                    <rect key="frame" x="18" y="45" width="352" height="18"/>
+                    <animations/>
+                    <buttonCell key="cell" type="check" title="Automatically update script with changes (no warning)" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="f9v-sR-6i1">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <binding destination="Zlt-dk-OYi" name="value" keyPath="values.automaticallyUpdateScript" id="73k-Ra-6Su"/>
+                    </connections>
+                </button>
             </subviews>
+            <animations/>
             <point key="canvasLocation" x="249" y="226.5"/>
         </customView>
         <userDefaultsController representsSharedInstance="YES" id="Zlt-dk-OYi"/>

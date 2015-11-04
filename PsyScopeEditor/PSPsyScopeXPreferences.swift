@@ -15,6 +15,7 @@ class PSPsyScopeXPreferences : NSViewController, MASPreferencesViewController {
     var toolbarItemLabel : String! { get { return "PsyScopeX" } }
     
     var windowController : NSWindowController!
+
     @IBOutlet var psyScopeXPathText : NSTextField!
     
     @IBAction func editPsyScopeXPath(_: AnyObject) {
