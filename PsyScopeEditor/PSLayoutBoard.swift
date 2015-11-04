@@ -8,40 +8,35 @@ import Swift
 import Cocoa
 import QuartzCore
 
-struct ClickedObjectInfo {
-    var clickedLayoutItem : PSLayoutItem = PSLayoutItem()
-    var mouseDownPoint : NSPoint = NSPoint()
-    var originalPosition : NSPoint = NSPoint()
-}
-
-public class Link : Equatable {
-    var startLayoutItem : PSLayoutItem
-    var destLayoutItem : PSLayoutItem
-    var lineLayer : CAShapeLayer
-    init(startLayoutItem: PSLayoutItem, destLayoutItem: PSLayoutItem, lineLayer: CAShapeLayer) {
-        self.startLayoutItem = startLayoutItem
-        self.destLayoutItem = destLayoutItem
-        self.lineLayer = lineLayer
-    }
-}
-
-public func ==(lhs: Link, rhs: Link) -> Bool {
-    let r = (lhs.startLayoutItem == rhs.startLayoutItem) && (lhs.destLayoutItem == rhs.destLayoutItem) && (lhs.lineLayer == rhs.lineLayer)
-    return r
-}
-
-
-enum ContextMenuObject {
-    case SelectedObject(PSLayoutItem)
-    case MultipleObjects([PSLayoutItem])
-    case SelectedLink(Link)
-}
-
 class PSLayoutBoard: NSView {
+    
+    //MARK: Structs and Links
+    
+    struct ClickedObjectInfo {
+        var clickedLayoutItem : PSLayoutItem = PSLayoutItem()
+        var mouseDownPoint : NSPoint = NSPoint()
+        var originalPosition : NSPoint = NSPoint()
+    }
+    
+    class Link : Equatable {
+        var startLayoutItem : PSLayoutItem
+        var destLayoutItem : PSLayoutItem
+        var lineLayer : CAShapeLayer
+        init(startLayoutItem: PSLayoutItem, destLayoutItem: PSLayoutItem, lineLayer: CAShapeLayer) {
+            self.startLayoutItem = startLayoutItem
+            self.destLayoutItem = destLayoutItem
+            self.lineLayer = lineLayer
+        }
+    }
 
-    let cleanMenuItemTag : Int = 1
-    let deleteMenuItemTag : Int = 2
-    let linkMenuItemTag : Int = 3
+    enum ContextMenuObject {
+        case SelectedObject(PSLayoutItem)
+        case MultipleObjects([PSLayoutItem])
+        case SelectedLink(Link)
+    }
+
+    //MARK: Outlets
+    
     
     @IBOutlet var statusBar : NSTextField!
     @IBOutlet var layoutController : LayoutController!
@@ -50,21 +45,32 @@ class PSLayoutBoard: NSView {
     @IBOutlet var scrollView : NSScrollView!
     @IBOutlet var mainWindow : NSWindow!
     
+    //MARK: Variables
+    
     var layoutItems : [PSLayoutItem] = []
     var linkLayers: [CALayer] = []
     var objectLinks : [Link] = []
-    
     var clickedObject : ClickedObjectInfo? = nil
     var contextMenuObject : ContextMenuObject? = nil
-    
     var dragSelectionPoint : NSPoint = NSPoint()
     var dragBoxLayer : CAShapeLayer! = nil
     var draggingSelection : Bool = false
-
     var linkingObjects : [PSLayoutItem]? //if linking to objects, stores the first selected objects
+    var currentDragOperation : NSDragOperation? = nil
+    var filesToImport : [String : [PSToolInterface]] = [:]
+    var highlightedLayoutItem : PSLayoutItem? = nil
+    var dragSelectedLayoutItems : [PSLayoutItem : CGPoint] = [:]
     
+    //MARK: Constants
+    
+    let cleanMenuItemTag : Int = 1
+    let deleteMenuItemTag : Int = 2
+    let linkMenuItemTag : Int = 3
     let draggedTypes : [String] = [PSConstants.PSToolBrowserView.dragType, PSConstants.PSToolBrowserView.pasteboardType,PSConstants.PSEventBrowserView.dragType, PSConstants.PSEventBrowserView.pasteboardType,NSFilenamesPboardType]
     
+    //MARK: Setup
+    
+    //Called by LayoutController's awakeFromNib (awakeFromNib order appears random, whence this is the equivalent)
     func prepareMainLayer() {
         self.registerForDraggedTypes(draggedTypes)
         self.layer = CALayer()
@@ -74,12 +80,14 @@ class PSLayoutBoard: NSView {
         self.layer!.contentsScale = self.mainWindow.backingScaleFactor
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateContextMenuItems:", name: NSPopUpButtonWillPopUpNotification, object: actionPopup)
 
-
         for item in contextMenu.itemArray as [NSMenuItem] {
             actionPopup.menu?.addItem(item.copy() as! NSMenuItem)
         }
     }
     
+    //MARK: Misc Overrides
+    
+    //Adjusts appearance of cursor when linking objects
     override func resetCursorRects() {
         if linkingObjects != nil {
             self.addCursorRect(self.bounds, cursor: NSCursor.crosshairCursor())
@@ -89,9 +97,9 @@ class PSLayoutBoard: NSView {
     }
     
     override var flipped : Bool { get { return true } }
+    override var acceptsFirstResponder: Bool { get { return true } }
     
-    var currentDragOperation : NSDragOperation? = nil
-
+    //MARK: Dragging related overrides
     override func draggingEntered(sender: NSDraggingInfo) -> NSDragOperation {
         let pasteboard = sender.draggingPasteboard()
         currentDragOperation = NSDragOperation.Link
@@ -108,7 +116,6 @@ class PSLayoutBoard: NSView {
         return currentDragOperation!
     }
     
-    var filesToImport : [String : [PSToolInterface]] = [:]
     
     override func prepareForDragOperation(sender: NSDraggingInfo) -> Bool {
         //check if file is of a good type
@@ -139,9 +146,6 @@ class PSLayoutBoard: NSView {
         return false
     }
     
-    
-    
-    
     override func performDragOperation(sender: NSDraggingInfo) -> Bool {
         let location = self.convertPoint(sender.draggingLocation(),fromView: nil)
         let pasteboard = sender.draggingPasteboard()
@@ -159,8 +163,9 @@ class PSLayoutBoard: NSView {
     }
 
     
-    
     override func wantsPeriodicDraggingUpdates() -> Bool { return true }
+    
+    //MARK: Mouse related overrides
     
     override func mouseDown(theEvent: NSEvent) {
         //mouseDown can drag existing layoutItems or be the end of a link operation
@@ -212,82 +217,13 @@ class PSLayoutBoard: NSView {
         window!.invalidateCursorRectsForView(self)
     }
     
-    
-    
-    var highlightedLayoutItem : PSLayoutItem? = nil
-    
-    func highlightLayoutItem(theLayoutItem : PSLayoutItem?) {
-        if let sl = highlightedLayoutItem {
-            //unselect this layoutItem
-            sl.icon.borderWidth = 0.0
-            sl.icon.shadowOpacity = 0.0
-            
-        }
-        highlightedLayoutItem = theLayoutItem
-        
-        if let l = theLayoutItem {
-            l.icon.borderWidth = 2.0 // making border bigger (Luca)
-            l.icon.shadowOpacity = 0.8
-        
-            if !layerIsVisibleInScrollView(l.icon) {
-                scrollToLayer(l.icon)
-            }
-            contextMenuObject = ContextMenuObject.SelectedObject(l)
-        } else {
-            contextMenuObject = nil
-        }
-        
-    }
-    
-    //store original position
-    var dragSelectedLayoutItems : [PSLayoutItem : CGPoint] = [:]
-    func dragSelectLayoutItem(tl : PSLayoutItem, on : Bool) {
-        if on {
-            tl.icon.opacity = 0.3
-            tl.icon.borderWidth = 3.0 // making border bigger to make it more visible when dragging (Luca)
-            tl.icon.borderColor = NSColor.redColor().CGColor // changing the color while dragging
-            dragSelectedLayoutItems[tl] = tl.icon.position
-        } else {
-            tl.icon.opacity = 1.0
-            dragSelectedLayoutItems[tl] = nil
-        }
-        //update context menu
-        contextMenuObject = ContextMenuObject.MultipleObjects(Array(dragSelectedLayoutItems.keys))
-    }
-    
-    func unDragSelectLayoutItems() {
-        for eachLayoutItem in Array(dragSelectedLayoutItems.keys) {
-            //reestablishing colors and opacity when undragged
-            eachLayoutItem.icon.borderWidth = 0.0
-            eachLayoutItem.icon.borderColor = NSColor.whiteColor().CGColor
-            eachLayoutItem.icon.opacity = 1.0
-            
-        }
-        dragSelectedLayoutItems = [:]
-        contextMenuObject = nil
-    }
-    
-    func hideLayoutItem(theLayoutItem : PSLayoutItem, hidden : Bool) {
-        theLayoutItem.icon.hidden = hidden
-        theLayoutItem.text.hidden = hidden
-        //also hide links
-        for link in objectLinks {
-            if link.destLayoutItem == theLayoutItem {
-                link.lineLayer.hidden = hidden
-            } else if link.startLayoutItem == theLayoutItem {
-                //hideLayoutItem takes care of links -to- the object so no need to hide here
-                hideLayoutItem(link.destLayoutItem,hidden: hidden)
-            }
-        }
-    }
-    
     override func mouseDragged(theEvent: NSEvent) {
-
+        
         if let info = clickedObject {
             var displacement = theEvent.locationInWindow.minusPoint(info.mouseDownPoint)
             displacement.y = 0 - displacement.y
             
-
+            
             CATransaction.begin()
             CATransaction.setDisableActions(true)
             
@@ -328,7 +264,7 @@ class PSLayoutBoard: NSView {
                 if containsPoint {
                     //selected layoutItems
                     dragSelectLayoutItem(eachLayoutItem, on: true)
-                   
+                    
                 } else {
                     //unselected LayoutItem
                     dragSelectLayoutItem(eachLayoutItem, on: false)
@@ -346,7 +282,7 @@ class PSLayoutBoard: NSView {
             dragBoxLayer = nil
             draggingSelection = false
         } else if let info = clickedObject {
-                
+            
             if theEvent.clickCount == 0 {
                 //detect whether object has moved
                 if info.mouseDownPoint != theEvent.locationInWindow {
@@ -371,8 +307,72 @@ class PSLayoutBoard: NSView {
         }
     }
     
-
+    //MARK: Highlighting / Selecting / Dragging
     
+    func highlightLayoutItem(theLayoutItem : PSLayoutItem?) {
+        if let sl = highlightedLayoutItem {
+            //unselect this layoutItem
+            sl.icon.borderWidth = 0.0
+            sl.icon.shadowOpacity = 0.0
+            
+        }
+        highlightedLayoutItem = theLayoutItem
+        
+        if let l = theLayoutItem {
+            l.icon.borderWidth = 2.0 // making border bigger (Luca)
+            l.icon.shadowOpacity = 0.8
+        
+            if !layerIsVisibleInScrollView(l.icon) {
+                scrollToLayer(l.icon)
+            }
+            contextMenuObject = ContextMenuObject.SelectedObject(l)
+        } else {
+            contextMenuObject = nil
+        }
+    }
+    
+    
+    func dragSelectLayoutItem(tl : PSLayoutItem, on : Bool) {
+        if on {
+            tl.icon.opacity = 0.3
+            tl.icon.borderWidth = 3.0 // making border bigger to make it more visible when dragging (Luca)
+            tl.icon.borderColor = NSColor.redColor().CGColor // changing the color while dragging
+            dragSelectedLayoutItems[tl] = tl.icon.position
+        } else {
+            tl.icon.opacity = 1.0
+            dragSelectedLayoutItems[tl] = nil
+        }
+        //update context menu
+        contextMenuObject = ContextMenuObject.MultipleObjects(Array(dragSelectedLayoutItems.keys))
+    }
+    
+    func unDragSelectLayoutItems() {
+        for eachLayoutItem in Array(dragSelectedLayoutItems.keys) {
+            //reestablishing colors and opacity when undragged
+            eachLayoutItem.icon.borderWidth = 0.0
+            eachLayoutItem.icon.borderColor = NSColor.whiteColor().CGColor
+            eachLayoutItem.icon.opacity = 1.0
+            
+        }
+        dragSelectedLayoutItems = [:]
+        contextMenuObject = nil
+    }
+    
+    func hideLayoutItem(theLayoutItem : PSLayoutItem, hidden : Bool) {
+        theLayoutItem.icon.hidden = hidden
+        theLayoutItem.text.hidden = hidden
+        //also hide links
+        for link in objectLinks {
+            if link.destLayoutItem == theLayoutItem {
+                link.lineLayer.hidden = hidden
+            } else if link.startLayoutItem == theLayoutItem {
+                //hideLayoutItem takes care of links -to- the object so no need to hide here
+                hideLayoutItem(link.destLayoutItem,hidden: hidden)
+            }
+        }
+    }
+
+    //MARK: Context menu
     
     func updateContextMenuItems(sender : AnyObject) {
         if let cmo = contextMenuObject {
@@ -464,6 +464,8 @@ class PSLayoutBoard: NSView {
         
     }
     
+    //MARK: Menu Actions
+    
     @IBAction func cleanUpChildren(sender : AnyObject) {
         if let cmo = contextMenuObject {
             switch (cmo) {
@@ -522,13 +524,13 @@ class PSLayoutBoard: NSView {
         }
     }
     
+    //MARK: Items: Adding / Removing
+    
     func makeObjectLayoutItem(iconImage : NSImage, name : String) -> PSLayoutItem {
         //creates a layoutItem to represent a layoutobject
         let sublayer = CALayer()
         
-       // sublayer.backgroundColor = self.layer!.backgroundColor
-        sublayer.backgroundColor = NSColor.clearColor().CGColor // LucaL to consider how  icons appear when overlapping 
-        
+        sublayer.backgroundColor = NSColor.clearColor().CGColor // LucaL to consider how  icons appear when overlapping
         sublayer.shadowOffset = CGSizeMake(0, 0);//Luca changed from 0.3 to remove the shadow effect
         sublayer.shadowRadius = 0.0;//Luca changed from 5.0
         sublayer.shadowColor = NSColor.blackColor().CGColor;
@@ -540,8 +542,6 @@ class PSLayoutBoard: NSView {
         self.layer!.addSublayer(sublayer)
         sublayer.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         sublayer.bounds = CGRect(origin: NSZeroPoint, size: CGSizeMake(32,32))
-        
-        
         let text_layer = CATextLayer()
         text_layer.contentsScale = self.mainWindow.backingScaleFactor
 
@@ -582,133 +582,7 @@ class PSLayoutBoard: NSView {
         objectLinks = objectLinks.filter({ linksToDelete.indexOf($0) == nil })
     }
     
-    func updateChildLinks(parentLayoutItem : PSLayoutItem, childLayoutItems : [PSLayoutItem]) {
-        //this method deletes links that do no longer exist, adds one which dont
-        //scope to improve performance here for sure
-        
-        let currentChildLinks = objectLinks.filter({
-                (link : Link) -> Bool in
-                return link.startLayoutItem == parentLayoutItem
-            })
-        
-        //remove these links from main list
-        objectLinks = objectLinks.filter({ currentChildLinks.indexOf($0) == nil })
-        
-        //go through each existing link and re-add / create
-        
-        for existing_child in childLayoutItems {
-        
-                var link_already_drawn = false
-                for drawn_link in currentChildLinks {
-                    if drawn_link.destLayoutItem == existing_child {
-                        link_already_drawn = true
-                        objectLinks.append(drawn_link)
-                        redrawLinkLine(drawn_link)
-                    }
-                }
-                if (!link_already_drawn) {
-                    makeLinkItem(parentLayoutItem, destLayoutItem: existing_child)
-                }
-         
-        }
-        
-        //delete any links layoutItems that are no longer active
-        for drawn_link in currentChildLinks {
-            var link_deleted = true
-            for existing_child in childLayoutItems {
-               
-                    if drawn_link.destLayoutItem == existing_child {
-                        link_deleted = false
-                        break
-                    }
-                
-            }
-            if (link_deleted) {
-                drawn_link.lineLayer.removeFromSuperlayer()
-            }
-        }
-        
-        
-    }
-    
-    func updateParentLinks(childLayoutItem : PSLayoutItem, parentLayoutItems : [PSLayoutItem]) {
-        
-        let currentParentLinks = objectLinks.filter({
-            (link : Link) -> Bool in
-            return link.destLayoutItem == childLayoutItem
-            })
-        
-        //remove these links from main list
-        objectLinks = objectLinks.filter({ currentParentLinks.indexOf($0) == nil })
-        
-        //go through each existing link and re-add / create
-        for existing_parent in parentLayoutItems {
-            
-                var link_already_drawn = false
-                for drawn_link in currentParentLinks {
-                    if drawn_link.startLayoutItem == existing_parent {
-                        link_already_drawn = true
-                        objectLinks.append(drawn_link)
-                        redrawLinkLine(drawn_link)
-                    }
-                }
-                if (!link_already_drawn) {
-                    makeLinkItem(existing_parent, destLayoutItem: childLayoutItem)
-                }
-            
-        }
-        
-        //delete any links layoutItems that are no longer active
-        for drawn_link in currentParentLinks {
-            var link_deleted = true
-            for existing_parent in parentLayoutItems {
-                
-                    if drawn_link.startLayoutItem == existing_parent {
-                        link_deleted = false
-                        break
-                    }
-            }
-            
-            if (link_deleted) {
-                drawn_link.lineLayer.removeFromSuperlayer()
-            }
-        }
-        
-    }
-    
-    func redrawLinkLine(link : Link) {
-        link.lineLayer.path = makeCGLine(link.startLayoutItem.icon.position, to: link.destLayoutItem.icon.position)
-    }
-    
-    func makeLinkItem(targetLayoutItem : PSLayoutItem, destLayoutItem : PSLayoutItem){
-        //creates a line between two layoutobject layoutItems
-        
-        //first check if already made
-        for link in objectLinks {
-            if link.startLayoutItem == targetLayoutItem && link.destLayoutItem == destLayoutItem {
-                //println("Link layer already established") - Do Nothing
-                return
-            }
-        }
-        
-        //make new link
-        let new_layer = makeLineLayer(targetLayoutItem.icon.position, to: destLayoutItem.icon.position)
-        let new_link = Link(startLayoutItem: targetLayoutItem, destLayoutItem: destLayoutItem, lineLayer: new_layer)
-        objectLinks.append(new_link)
-        
-        linkLayers.append(new_layer)
-        self.layer!.addSublayer(new_layer)
-    }
-    
-    func removeLinkItem(targetLayoutItem : PSLayoutItem, destLayoutItem : PSLayoutItem) {
-        for link in objectLinks {
-            if link.startLayoutItem == targetLayoutItem && link.destLayoutItem == destLayoutItem {
-                link.lineLayer.removeFromSuperlayer()
-                objectLinks = objectLinks.filter( { $0 != link } )
-                return
-            }
-        }
-    }
+    //MARK: Items: Updating
     
     func updateObjectLayoutItem(subLayoutItem : PSLayoutItem, x: Int, y: Int, name : String? = nil) {
         //update size of board to encompass greater sizes
@@ -753,6 +627,134 @@ class PSLayoutBoard: NSView {
         }
     }
     
+    //MARK: Links: Updating
+    
+    func updateChildLinks(parentLayoutItem : PSLayoutItem, childLayoutItems : [PSLayoutItem]) {
+        //this method deletes links that do no longer exist, adds one which dont
+        //scope to improve performance here for sure
+        
+        let currentChildLinks = objectLinks.filter({
+                (link : Link) -> Bool in
+                return link.startLayoutItem == parentLayoutItem
+            })
+        
+        //remove these links from main list
+        objectLinks = objectLinks.filter({ currentChildLinks.indexOf($0) == nil })
+        
+        //go through each existing link and re-add / create
+        for existing_child in childLayoutItems {
+        
+                var link_already_drawn = false
+                for drawn_link in currentChildLinks {
+                    if drawn_link.destLayoutItem == existing_child {
+                        link_already_drawn = true
+                        objectLinks.append(drawn_link)
+                        redrawLinkLine(drawn_link)
+                    }
+                }
+                if (!link_already_drawn) {
+                    makeLinkItem(parentLayoutItem, destLayoutItem: existing_child)
+                }
+        }
+        
+        //delete any links layoutItems that are no longer active
+        for drawn_link in currentChildLinks {
+            var link_deleted = true
+            for existing_child in childLayoutItems {
+               
+                    if drawn_link.destLayoutItem == existing_child {
+                        link_deleted = false
+                        break
+                    }
+                
+            }
+            if (link_deleted) {
+                drawn_link.lineLayer.removeFromSuperlayer()
+            }
+        }
+    }
+    
+    func updateParentLinks(childLayoutItem : PSLayoutItem, parentLayoutItems : [PSLayoutItem]) {
+        
+        let currentParentLinks = objectLinks.filter({
+            (link : Link) -> Bool in
+            return link.destLayoutItem == childLayoutItem
+            })
+        
+        //remove these links from main list
+        objectLinks = objectLinks.filter({ currentParentLinks.indexOf($0) == nil })
+        
+        //go through each existing link and re-add / create
+        for existing_parent in parentLayoutItems {
+            
+                var link_already_drawn = false
+                for drawn_link in currentParentLinks {
+                    if drawn_link.startLayoutItem == existing_parent {
+                        link_already_drawn = true
+                        objectLinks.append(drawn_link)
+                        redrawLinkLine(drawn_link)
+                    }
+                }
+                if (!link_already_drawn) {
+                    makeLinkItem(existing_parent, destLayoutItem: childLayoutItem)
+                }
+        }
+        
+        //delete any links layoutItems that are no longer active
+        for drawn_link in currentParentLinks {
+            var link_deleted = true
+            for existing_parent in parentLayoutItems {
+                
+                    if drawn_link.startLayoutItem == existing_parent {
+                        link_deleted = false
+                        break
+                    }
+            }
+            
+            if (link_deleted) {
+                drawn_link.lineLayer.removeFromSuperlayer()
+            }
+        }
+    }
+    
+    //MARK: Links: Adding / Removing
+    
+    func makeLinkItem(targetLayoutItem : PSLayoutItem, destLayoutItem : PSLayoutItem){
+        //creates a line between two layoutobject layoutItems
+        
+        //first check if already made
+        for link in objectLinks {
+            if link.startLayoutItem == targetLayoutItem && link.destLayoutItem == destLayoutItem {
+                //println("Link layer already established") - Do Nothing
+                return
+            }
+        }
+        
+        //make new link
+        let new_layer = makeLineLayer(targetLayoutItem.icon.position, to: destLayoutItem.icon.position)
+        let new_link = Link(startLayoutItem: targetLayoutItem, destLayoutItem: destLayoutItem, lineLayer: new_layer)
+        objectLinks.append(new_link)
+        
+        linkLayers.append(new_layer)
+        self.layer!.addSublayer(new_layer)
+    }
+    
+    func removeLinkItem(targetLayoutItem : PSLayoutItem, destLayoutItem : PSLayoutItem) {
+        for link in objectLinks {
+            if link.startLayoutItem == targetLayoutItem && link.destLayoutItem == destLayoutItem {
+                link.lineLayer.removeFromSuperlayer()
+                objectLinks = objectLinks.filter( { $0 != link } )
+                return
+            }
+        }
+    }
+    
+    //MARK: Drawing
+    
+    func redrawLinkLine(link : Link) {
+        link.lineLayer.path = makeCGLine(link.startLayoutItem.icon.position, to: link.destLayoutItem.icon.position)
+    }
+    
     func makeLineLayer(lineFrom: CGPoint, to: CGPoint) -> CAShapeLayer {
         //makes a CAShapeLayer containing a single line
         let line = CAShapeLayer()
@@ -775,6 +777,7 @@ class PSLayoutBoard: NSView {
     }
     
 
+    //MARK: Geometry / hit detection
     
     func hitLayoutItem(point : CGPoint) -> PSLayoutItem? {
         for eachLayoutItem in layoutItems {
@@ -798,16 +801,6 @@ class PSLayoutBoard: NSView {
         return nil
     }
     
-    
-    override var acceptsFirstResponder: Bool { get { return true } }
-    
-    
-    
-    func layerIsVisibleInScrollView(layer : CALayer) -> Bool {
-        return scrollView.contentView.documentVisibleRect.contains(layer.position)
-    }
-    
-    
     //scrolls the view to display the layoutItem
     func scrollToLayer(layer : CALayer) {
         
@@ -823,6 +816,12 @@ class PSLayoutBoard: NSView {
         scrollView.documentView?.scrollPoint(newScrollOrigin)
     }
     
+    func layerIsVisibleInScrollView(layer : CALayer) -> Bool {
+        return scrollView.contentView.documentVisibleRect.contains(layer.position)
+    }
+    
+    //MARK: Copy / Paste
+    
     func paste(sender : AnyObject) {
         layoutController.pasteEntry()
     }
@@ -830,5 +829,10 @@ class PSLayoutBoard: NSView {
     func copy(sender : AnyObject) {
         layoutController.copyEntry()
     }
+}
+
+func ==(lhs: PSLayoutBoard.Link, rhs: PSLayoutBoard.Link) -> Bool {
+    let r = (lhs.startLayoutItem == rhs.startLayoutItem) && (lhs.destLayoutItem == rhs.destLayoutItem) && (lhs.lineLayer == rhs.lineLayer)
+    return r
 }
     
