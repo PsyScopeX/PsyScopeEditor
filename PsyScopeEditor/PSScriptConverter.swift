@@ -213,7 +213,7 @@ class PSScriptConverter: NSObject {
         print("=======")
         for delete_entry in entries_to_delete {
             print("Deleting former entry \(delete_entry.name)")
-            scriptData.deleteMainEntry(delete_entry) //in layout controller, make sure it knows this object is to be deleted
+            scriptData.deleteBaseEntry(delete_entry) //in layout controller, make sure it knows this object is to be deleted
             
         }
         

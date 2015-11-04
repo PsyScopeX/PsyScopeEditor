@@ -711,6 +711,31 @@ class PSLayoutBoard: NSView {
     }
     
     func updateObjectLayoutItem(subLayoutItem : PSLayoutItem, x: Int, y: Int, name : String? = nil) {
+        //update size of board to encompass greater sizes
+        
+        //self.layer!.bounds
+        
+        var currentBoardSize = self.frame.size
+        var updateFrame = false
+        
+        if CGFloat(x) > (currentBoardSize.width + 200) {
+            currentBoardSize.width = currentBoardSize.width + 200
+            updateFrame = true
+        }
+        
+        if CGFloat(y) > (currentBoardSize.height + 200) {
+            currentBoardSize.height = currentBoardSize.height + 200
+            updateFrame = true
+        }
+        
+        if updateFrame {
+            var currentBounds = self.bounds
+            currentBounds.size = currentBoardSize
+            self.frame = currentBounds
+            Swift.print("New size: \(currentBounds)")
+        }
+        
+        
         //updates the position of a layer, and links
         subLayoutItem.icon.position = CGPoint(x: x, y: y)
         if let n = name {
