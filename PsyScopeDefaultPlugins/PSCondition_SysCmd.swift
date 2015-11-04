@@ -31,52 +31,6 @@ class PSCondition_SysCmd : PSCondition {
     }
 }
 
-class PSCondition_SysCmd_Popup : PSAttributePopup, NSTextFieldDelegate, NSMenuDelegate {
-    
-    var scriptData : PSScriptData
-    init(currentValue: String, scriptData : PSScriptData, setCurrentValueBlock : ((String)->())?){
-        self.scriptData = scriptData
-        super.init(nibName: "SysCmdCondition",bundle: NSBundle(forClass:self.dynamicType), currentValue: currentValue, displayName: "Mouse", setCurrentValueBlock: setCurrentValueBlock)
-    }
-    
-    
-    @IBOutlet var SysCmdTagText : NSTextField!
-    
-    
-    func parse() {
-        var inputValue = currentValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()).componentsSeparatedByCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-        
-        for v in inputValue {
-            
-            SysCmdTagText.stringValue = v.stringByTrimmingCharactersInSet(NSCharacterSet(charactersInString: "\""))
-           
-        }
-    }
-    
-    @IBAction func generate(sender : AnyObject) {
-        self.currentValue = "\"\(SysCmdTagText.stringValue)\""
-    }
-    
-    func control(control: NSControl, textShouldEndEditing fieldEditor: NSText) -> Bool {
-        generate(control)
-        return true
-    }
-    
-    
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        parse()
-    }
-    
-    override func closeMyCustomSheet(sender: AnyObject!) {
-        generate(sender)
-        super.closeMyCustomSheet(sender)
-    }
-    
-}
-
-
 class PSCondition_SysCmdCell : PSConditionCell, NSTextFieldDelegate {
     
     @IBOutlet var SysCmdTagText : NSTextField!

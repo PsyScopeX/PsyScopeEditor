@@ -83,7 +83,6 @@
 		1A34625C1A892C5100E0D443 /* PSConditionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A34625B1A892C5100E0D443 /* PSConditionCell.swift */; };
 		1A3507611AB713E5000B591C /* PSEntryBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3507601AB713E5000B591C /* PSEntryBrowser.swift */; };
 		1A35E5661A389FAB003BF2CD /* PSCondition_Mouse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A35E5651A389FAB003BF2CD /* PSCondition_Mouse.swift */; };
-		1A35E5681A38A0AB003BF2CD /* MouseCondition.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A35E5671A38A0AB003BF2CD /* MouseCondition.xib */; };
 		1A35E56A1A38A0C0003BF2CD /* Condition_MouseCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A35E5691A38A0C0003BF2CD /* Condition_MouseCell.xib */; };
 		1A3A7D131A28AD2500EC91CC /* Group-icon-128.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 1A3A7D121A28AD2500EC91CC /* Group-icon-128.PNG */; };
 		1A3A7D261A28B1E900EC91CC /* Section.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A3A7D241A28B1E900EC91CC /* Section.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -483,16 +482,12 @@
 		1AD6D41819E8159E00A623B1 /* PSTableBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD6D41719E8159E00A623B1 /* PSTableBuilder.swift */; };
 		1AD962FC1A7CC6D100C83612 /* PSCondition_Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD962FB1A7CC6D100C83612 /* PSCondition_Movie.swift */; };
 		1AD962FE1A7CC81400C83612 /* Condition_MovieCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AD962FD1A7CC81400C83612 /* Condition_MovieCell.xib */; };
-		1AD963001A7CC90300C83612 /* MovieCondition.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AD962FF1A7CC90300C83612 /* MovieCondition.xib */; };
 		1AD963051A7CE43000C83612 /* Condition_SoundCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AD963021A7CE43000C83612 /* Condition_SoundCell.xib */; };
 		1AD963061A7CE43000C83612 /* PSCondition_Sound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD963031A7CE43000C83612 /* PSCondition_Sound.swift */; };
-		1AD963071A7CE43000C83612 /* SoundCondition.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AD963041A7CE43000C83612 /* SoundCondition.xib */; };
 		1AD9630D1A7CE7A400C83612 /* Condition_TCPCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AD9630A1A7CE7A400C83612 /* Condition_TCPCell.xib */; };
 		1AD9630E1A7CE7A400C83612 /* PSCondition_TCP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD9630B1A7CE7A400C83612 /* PSCondition_TCP.swift */; };
-		1AD9630F1A7CE7A400C83612 /* TCPCondition.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AD9630C1A7CE7A400C83612 /* TCPCondition.xib */; };
 		1AD963131A7CE7B600C83612 /* Condition_SysCmdCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AD963101A7CE7B600C83612 /* Condition_SysCmdCell.xib */; };
 		1AD963141A7CE7B600C83612 /* PSCondition_SysCmd.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD963111A7CE7B600C83612 /* PSCondition_SysCmd.swift */; };
-		1AD963151A7CE7B600C83612 /* SysCmdCondition.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AD963121A7CE7B600C83612 /* SysCmdCondition.xib */; };
 		1ADC13381982A44200331233 /* BlocksView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1ADC13371982A44200331233 /* BlocksView.xib */; };
 		1ADCF51B1B1C7A550006C215 /* PSButtonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADCF51A1B1C7A550006C215 /* PSButtonTableViewCell.swift */; };
 		1ADCF51D1B1C80A00006C215 /* PSEntryValueChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADCF51C1B1C80A00006C215 /* PSEntryValueChecker.swift */; };
@@ -745,7 +740,6 @@
 		1A34625B1A892C5100E0D443 /* PSConditionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSConditionCell.swift; sourceTree = "<group>"; };
 		1A3507601AB713E5000B591C /* PSEntryBrowser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSEntryBrowser.swift; sourceTree = "<group>"; };
 		1A35E5651A389FAB003BF2CD /* PSCondition_Mouse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSCondition_Mouse.swift; sourceTree = "<group>"; };
-		1A35E5671A38A0AB003BF2CD /* MouseCondition.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MouseCondition.xib; sourceTree = "<group>"; };
 		1A35E5691A38A0C0003BF2CD /* Condition_MouseCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Condition_MouseCell.xib; sourceTree = "<group>"; };
 		1A3A7D121A28AD2500EC91CC /* Group-icon-128.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Group-icon-128.PNG"; sourceTree = "<group>"; };
 		1A3A7D241A28B1E900EC91CC /* Section.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Section.h; sourceTree = "<group>"; };
@@ -1150,16 +1144,12 @@
 		1AD6D41719E8159E00A623B1 /* PSTableBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSTableBuilder.swift; sourceTree = "<group>"; };
 		1AD962FB1A7CC6D100C83612 /* PSCondition_Movie.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSCondition_Movie.swift; sourceTree = "<group>"; };
 		1AD962FD1A7CC81400C83612 /* Condition_MovieCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Condition_MovieCell.xib; sourceTree = "<group>"; };
-		1AD962FF1A7CC90300C83612 /* MovieCondition.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MovieCondition.xib; sourceTree = "<group>"; };
 		1AD963021A7CE43000C83612 /* Condition_SoundCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Condition_SoundCell.xib; sourceTree = "<group>"; };
 		1AD963031A7CE43000C83612 /* PSCondition_Sound.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSCondition_Sound.swift; sourceTree = "<group>"; };
-		1AD963041A7CE43000C83612 /* SoundCondition.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SoundCondition.xib; sourceTree = "<group>"; };
 		1AD9630A1A7CE7A400C83612 /* Condition_TCPCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Condition_TCPCell.xib; sourceTree = "<group>"; };
 		1AD9630B1A7CE7A400C83612 /* PSCondition_TCP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSCondition_TCP.swift; sourceTree = "<group>"; };
-		1AD9630C1A7CE7A400C83612 /* TCPCondition.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TCPCondition.xib; sourceTree = "<group>"; };
 		1AD963101A7CE7B600C83612 /* Condition_SysCmdCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Condition_SysCmdCell.xib; sourceTree = "<group>"; };
 		1AD963111A7CE7B600C83612 /* PSCondition_SysCmd.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSCondition_SysCmd.swift; sourceTree = "<group>"; };
-		1AD963121A7CE7B600C83612 /* SysCmdCondition.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SysCmdCondition.xib; sourceTree = "<group>"; };
 		1ADC13371982A44200331233 /* BlocksView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BlocksView.xib; sourceTree = "<group>"; };
 		1ADCF51A1B1C7A550006C215 /* PSButtonTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSButtonTableViewCell.swift; sourceTree = "<group>"; };
 		1ADCF51C1B1C80A00006C215 /* PSEntryValueChecker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSEntryValueChecker.swift; sourceTree = "<group>"; };
@@ -1516,7 +1506,6 @@
 			isa = PBXGroup;
 			children = (
 				1A35E5651A389FAB003BF2CD /* PSCondition_Mouse.swift */,
-				1A35E5671A38A0AB003BF2CD /* MouseCondition.xib */,
 				1A35E5691A38A0C0003BF2CD /* Condition_MouseCell.xib */,
 			);
 			name = Mouse;
@@ -2523,7 +2512,6 @@
 			children = (
 				1AD962FB1A7CC6D100C83612 /* PSCondition_Movie.swift */,
 				1AD962FD1A7CC81400C83612 /* Condition_MovieCell.xib */,
-				1AD962FF1A7CC90300C83612 /* MovieCondition.xib */,
 			);
 			name = Movie;
 			sourceTree = "<group>";
@@ -2533,7 +2521,6 @@
 			children = (
 				1AD963031A7CE43000C83612 /* PSCondition_Sound.swift */,
 				1AD963021A7CE43000C83612 /* Condition_SoundCell.xib */,
-				1AD963041A7CE43000C83612 /* SoundCondition.xib */,
 			);
 			name = Sound;
 			sourceTree = "<group>";
@@ -2543,7 +2530,6 @@
 			children = (
 				1AD9630A1A7CE7A400C83612 /* Condition_TCPCell.xib */,
 				1AD9630B1A7CE7A400C83612 /* PSCondition_TCP.swift */,
-				1AD9630C1A7CE7A400C83612 /* TCPCondition.xib */,
 			);
 			name = TCP;
 			sourceTree = "<group>";
@@ -2553,7 +2539,6 @@
 			children = (
 				1AD963101A7CE7B600C83612 /* Condition_SysCmdCell.xib */,
 				1AD963111A7CE7B600C83612 /* PSCondition_SysCmd.swift */,
-				1AD963121A7CE7B600C83612 /* SysCmdCondition.xib */,
 			);
 			name = SysCmd;
 			sourceTree = "<group>";
@@ -2821,9 +2806,7 @@
 				1ABDFB861A0919CC00873864 /* PictureEvent-icon.png in Resources */,
 				1ACFF15B19D2ECD100B43446 /* TextEvent-icon.png in Resources */,
 				1A4A645B1B0FA06000084A10 /* BlocksTable.xib in Resources */,
-				1AD963071A7CE43000C83612 /* SoundCondition.xib in Resources */,
 				1A83769C1AADB005007B0B4B /* Condition_ScriptWhenCell.xib in Resources */,
-				1A35E5681A38A0AB003BF2CD /* MouseCondition.xib in Resources */,
 				1A963D0F19B9ED6B000B6C91 /* DefaultResources.json in Resources */,
 				81D192031A80F79300D0D4DA /* PasteBoardIcon-horizontal.PNG in Resources */,
 				819D5C1D1A81363000569B6C /* SoundIcon.png in Resources */,
@@ -2862,7 +2845,6 @@
 				1A495D7C1BE26DC500702B95 /* ToolBrowserViewItem.xib in Resources */,
 				1AD9630D1A7CE7A400C83612 /* Condition_TCPCell.xib in Resources */,
 				1A522FB01A41BC8100D5B983 /* SoundIcon-old.png in Resources */,
-				1AD963001A7CC90300C83612 /* MovieCondition.xib in Resources */,
 				1A4A64611B0FA11700084A10 /* ExperimentView.xib in Resources */,
 				1AD6D41119E80D6F00A623B1 /* TableView.xib in Resources */,
 				819550531A21E5C30054A07D /* PsyIconBlue.tiff in Resources */,
@@ -2900,7 +2882,6 @@
 				8195504E1A21E5AE0054A07D /* Experiment-Icon-128.tiff in Resources */,
 				81D6F1A21A2386CA00EE5CAE /* PsyScopeYIcon.PNG in Resources */,
 				1ACFF15119D2EB6900B43446 /* Experiment-icon.png in Resources */,
-				1AD963151A7CE7B600C83612 /* SysCmdCondition.xib in Resources */,
 				1A8F93D419C84AEB0019F37A /* DefaultPluginResources.plist in Resources */,
 				1A50358019A7FC18000A7FE5 /* compass-icon.png in Resources */,
 				81BFFA491A2336C200C1F22F /* Template-icon-128-5.TIF in Resources */,
@@ -2909,7 +2890,6 @@
 				1A5B68051A7BED4300B81888 /* Variable-icon-Big.tif in Resources */,
 				1A5B68091A7BEF8600B81888 /* VariableView.xib in Resources */,
 				1A50358119A7FC18000A7FE5 /* cycle-icon.png in Resources */,
-				1AD9630F1A7CE7A400C83612 /* TCPCondition.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

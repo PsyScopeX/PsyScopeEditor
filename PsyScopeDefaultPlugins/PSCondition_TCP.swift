@@ -30,57 +30,13 @@ class PSCondition_TCP : PSCondition {
     }
 }
 
-class PSCondition_TCP_Popup : PSAttributePopup, NSTextFieldDelegate, NSMenuDelegate {
-    
-    var scriptData : PSScriptData
-    init(currentValue: String, scriptData : PSScriptData, setCurrentValueBlock : ((String) -> ())?){
-        self.scriptData = scriptData
-        super.init(nibName: "TCPCondition",bundle: NSBundle(forClass:self.dynamicType), currentValue: currentValue, displayName: "Mouse", setCurrentValueBlock: setCurrentValueBlock)
-    }
-    
-    
-    @IBOutlet var TCPTagText : NSTextField!
-
-    
-    func parse() {
-        var inputValue = currentValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()).componentsSeparatedByCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-        for v in inputValue {
-            
-            TCPTagText.stringValue = v.stringByTrimmingCharactersInSet(NSCharacterSet(charactersInString: "\""))
-
-        }
-    }
-    
-    @IBAction func generate(sender : AnyObject) {
-        self.currentValue = "\"\(TCPTagText.stringValue)\""
-    }
-    
-    func control(control: NSControl, textShouldEndEditing fieldEditor: NSText) -> Bool {
-        generate(control)
-        return true
-    }
-    
-    
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        parse()
-    }
-    
-    override func closeMyCustomSheet(sender: AnyObject!) {
-        generate(sender)
-        super.closeMyCustomSheet(sender)
-    }
-    
-}
-
 
 class PSCondition_TCPCell : PSConditionCell, NSTextFieldDelegate {
     
     @IBOutlet var TCPTagText : NSTextField!
     
     func parse() {
-        var inputValue = entryFunction.getStringValues()
+        let inputValue = entryFunction.getStringValues()
         
         for v in inputValue {
             
@@ -91,7 +47,7 @@ class PSCondition_TCPCell : PSConditionCell, NSTextFieldDelegate {
     
     
     @IBAction func generate(sender : AnyObject) {
-        var outputString = TCPTagText.stringValue
+        let outputString = TCPTagText.stringValue
         
         entryFunction.setStringValues([outputString])
         self.updateScript()

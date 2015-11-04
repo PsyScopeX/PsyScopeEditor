@@ -32,67 +32,6 @@ class PSCondition_Sound : PSCondition {
     }
 }
 
-class PSCondition_Sound_Popup : PSAttributePopup, NSTextFieldDelegate, NSMenuDelegate {
-    
-    var scriptData : PSScriptData
-    init(currentValue: String, scriptData : PSScriptData, setCurrentValueBlock : ((String) -> ())?){
-        self.scriptData = scriptData
-        super.init(nibName: "SoundCondition",bundle: NSBundle(forClass:self.dynamicType), currentValue: currentValue, displayName: "Mouse", setCurrentValueBlock: setCurrentValueBlock)
-    }
-    
-    
-    @IBOutlet var soundTagText : NSTextField!
-    @IBOutlet var soundRadio  : NSMatrix!
-    
-    
-    func parse() {
-        var inputValue = currentValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()).componentsSeparatedByCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-        
-        soundRadio.selectCellWithTag(1) //end
-        soundTagText.enabled = false
-        
-        for v in inputValue {
-            if v != "" {
-                soundTagText.stringValue = v.stringByTrimmingCharactersInSet(NSCharacterSet(charactersInString: "\""))
-                soundRadio.selectCellWithTag(2)
-            }
-        }
-    }
-    
-    @IBAction func generate(sender : AnyObject) {
-        var outputString = ""
-        var tag = soundRadio.selectedTag()
-        if tag == 2 {
-            if soundTagText.stringValue == "" {
-                soundTagText.stringValue = "0"
-            }
-            outputString += soundTagText.stringValue
-            soundTagText.enabled = true
-        } else {
-            //done
-            soundTagText.enabled = false
-        }
-        self.currentValue = outputString
-    }
-    
-    func control(control: NSControl, textShouldEndEditing fieldEditor: NSText) -> Bool {
-        generate(control)
-        return true
-    }
-    
-    
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        parse()
-    }
-    
-    override func closeMyCustomSheet(sender: AnyObject!) {
-        generate(sender)
-        super.closeMyCustomSheet(sender)
-    }
-    
-}
 
 
 class PSCondition_SoundCell : PSConditionCell, NSTextFieldDelegate {
@@ -102,7 +41,7 @@ class PSCondition_SoundCell : PSConditionCell, NSTextFieldDelegate {
     
     
     func parse() {
-        var inputValue = entryFunction.getStringValues()
+        let inputValue = entryFunction.getStringValues()
         
         soundRadio.selectCellWithTag(1) //end
         soundTagText.enabled = false
@@ -118,7 +57,7 @@ class PSCondition_SoundCell : PSConditionCell, NSTextFieldDelegate {
     
     @IBAction func generate(sender : AnyObject) {
         var outputString = ""
-        var tag = soundRadio.selectedTag()
+        let tag = soundRadio.selectedTag()
         if tag == 2 {
             if soundTagText.stringValue == "" {
                 soundTagText.stringValue = "0"
