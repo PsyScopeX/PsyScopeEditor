@@ -281,11 +281,17 @@ public class PSStringListElement : PSCompoundEntryElement {
 public class PSFunctionElement : PSCompoundEntryElement {
     
     public class func InlineEntryNamed(name : String, values : [String]) -> PSEntryElement {
-        var function = PSFunctionElement()
+        let function = PSFunctionElement()
         function.functionName = name
         function.bracketType = .InlineEntry
         function.setStringValues(values)
         return PSEntryElement.Function(functionElement: function)
+    }
+    
+    public class func FromStringValue(stringValue : String) -> PSFunctionElement {
+        let function = PSFunctionElement()
+        function.stringValue = stringValue
+        return function
     }
     
     public var functionName : String = ""

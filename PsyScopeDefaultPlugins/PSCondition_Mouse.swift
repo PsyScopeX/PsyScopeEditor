@@ -62,7 +62,7 @@ class PSCondition_Mouse_Popup : PSAttributePopup, NSTableViewDelegate, NSTableVi
             }
             
             if v.lowercaseString == "in" {
-                portButton.state = 1
+                
             }
             
             if let _ = v.rangeOfString("PortName") {
@@ -70,6 +70,7 @@ class PSCondition_Mouse_Popup : PSAttributePopup, NSTableViewDelegate, NSTableVi
                 if (index + 1) < inputValue.count {
                     portName = inputValue[index + 1]
                     portName = portName.stringByTrimmingCharactersInSet(NSCharacterSet(charactersInString: "()\""))
+                    portButton.state = 1
                 }
             }
         }
@@ -99,12 +100,10 @@ class PSCondition_Mouse_Popup : PSAttributePopup, NSTableViewDelegate, NSTableVi
     
     @IBAction func choosePortButton(sender : AnyObject) {
         portButton.state = 1
-        let popup = PSPortBuilderController(currentValue: portName, scriptData: scriptData, positionMode: false, setCurrentValueBlock : { (cValue: String) -> () in
-                self.portName = cValue
-                if let r = self.portName.rangeOfString("PortName") {
-                    self.portName.removeRange(r)
-                    self.portName = self.portName.stringByTrimmingCharactersInSet(NSCharacterSet(charactersInString: "()\""))
-                }
+        let popup = PSPortBuilderController(currentValue: "PortName(\"\(self.portName)\")", scriptData: scriptData, positionMode: false, setCurrentValueBlock :
+            { (cValue: String) -> () in
+                let functionElement = PSFunctionElement.FromStringValue(cValue)
+                self.portName = functionElement.getParametersStringValue()
                 self.portChangeButton.title = self.portName
             })
         popup.showAttributeModalForWindow(self.attributeSheet)
@@ -128,6 +127,8 @@ class PSCondition_Mouse_Cell : PSConditionCell {
         clickButton.state = 0
         moveButton.state = 0
         portButton.state = 0
+        portName = ""
+        
         for v in entryFunction.values {
             
             switch(v) {
@@ -136,8 +137,8 @@ class PSCondition_Mouse_Cell : PSConditionCell {
                     let svs = functionElement.getStringValues()
                     if svs.count > 0 {
                         portName = svs.first!
+                        portButton.state = 1
                     }
-                    
                 }
                 break
             case .List:
@@ -150,8 +151,6 @@ class PSCondition_Mouse_Cell : PSConditionCell {
                     clickButton.state = 1
                 }else if string.lowercaseString == "move" {
                     moveButton.state = 1
-                }else if string.lowercaseString == "in" {
-                    portButton.state = 1
                 }
                 break
             }
@@ -185,18 +184,14 @@ class PSCondition_Mouse_Cell : PSConditionCell {
  
     @IBAction func choosePortButton(sender : AnyObject) {
         portButton.state = 1
-        let popup = PSPortBuilderController(currentValue: portName, scriptData: scriptData, positionMode: false, setCurrentValueBlock : { (cValue: String) -> () in
-            self.portName = cValue
-            if let r = self.portName.rangeOfString("PortName") {
-                self.portName.removeRange(r)
-                self.portName = self.portName.stringByTrimmingCharactersInSet(NSCharacterSet(charactersInString: "()\""))
-            }
+        let popup = PSPortBuilderController(currentValue: "PortName(\"\(self.portName)\")", scriptData: scriptData, positionMode: false, setCurrentValueBlock : { (cValue: String) -> () in
+            
+            let functionElement = PSFunctionElement.FromStringValue(cValue)
+            self.portName = functionElement.getParametersStringValue()
             self.portChangeButton.title = self.portName
             self.parameterChange(self)
         })
         popup.showAttributeModalForWindow(scriptData.window)
-        
-        
     }
     
 }
