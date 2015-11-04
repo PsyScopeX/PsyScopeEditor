@@ -40,7 +40,7 @@ class PSToolTablePropertyController: NSObject, NSTableViewDataSource, NSTableVie
     }
     
     func tableView(tableView: NSTableView, objectValueForTableColumn tableColumn: NSTableColumn?, row: Int) -> AnyObject? {
-        if stringList != nil && tableColumn!.identifier == itemsColumn.identifier {
+        if stringList != nil && tableColumn!.identifier == itemsColumn.identifier && row < stringList.stringListRawUnstripped.count {
             return stringList.stringListRawUnstripped[row]
         } else {
             return ""
@@ -83,8 +83,7 @@ class PSToolTablePropertyController: NSObject, NSTableViewDataSource, NSTableVie
     
     func refreshView() {
         tableEntry = scriptData.getSubEntry(childTypeViewController.tableEntryName!, entry: childTypeViewController.entry)
-        _ = 0
-        
+
         if let te = tableEntry {
             stringList = PSStringList(entry: te, scriptData: scriptData)
         }
