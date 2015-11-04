@@ -310,10 +310,12 @@ class PSScriptConverter: NSObject {
         //finally position the objects correctly
         positionNewLayoutObjects(all_new_lobjects, all_lobjects: mocLobjects)
         
+        if namesOfEntriesThatWereNotIdentifiedButRetainType.count > 0 {
         
-        let warningText = "Warning: The following entry(s) were not correctly identified in the script, but have retained their former identity:\n\n \(namesOfEntriesThatWereNotIdentifiedButRetainType.joinWithSeparator(" ") ) \n\n\nThis normally arises if you have an object such as a Template, which is not referenced in any 'Templates:' sub entry.  This warning can be safely ignored, unless you recently deleted an entry of one type and created a new entry with the same name.   To avoid this warning, link the entry to it's parent."
+            let warningText = "Warning: The following entry(s) were not correctly identified in the script, but have retained their former identity:\n\n \(namesOfEntriesThatWereNotIdentifiedButRetainType.joinWithSeparator(" ") ) \n\n\nThis normally arises if you have an object such as a Template, which is not referenced in any 'Templates:' sub entry.  This warning can be safely ignored, unless you recently deleted an entry of one type and created a new entry with the same name.   To avoid this warning, link the entry to it's parent."
         
-        PSModalAlert(warningText)
+            PSModalAlert(warningText)
+        }
         return true
     }
     
