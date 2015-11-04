@@ -129,7 +129,7 @@ class PSConditionTableViewController: NSObject, NSTableViewDelegate, NSTableView
                 self.conditionAttribute.appendCondition(conditionInterface)
             } else {
                 //remove
-                
+                self.conditionAttribute.removeCondition(conditionInterface)
             }
         }
         
