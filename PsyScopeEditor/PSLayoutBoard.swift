@@ -60,6 +60,7 @@ class PSLayoutBoard: NSView {
     var filesToImport : [String : [PSToolInterface]] = [:]
     var highlightedLayoutItem : PSLayoutItem? = nil
     var dragSelectedLayoutItems : [PSLayoutItem : CGPoint] = [:]
+    var layoutBoardArea : NSSize = NSSize(width: 1000,height: 1000)
     
     //MARK: Constants
     
@@ -74,7 +75,7 @@ class PSLayoutBoard: NSView {
     func prepareMainLayer() {
         self.registerForDraggedTypes(draggedTypes)
         self.layer = CALayer()
-        self.wantsLayer = true
+        //self.wantsLayer = true
         self.layer!.backgroundColor = PSConstants.BasicDefaultColors.backgroundColor
         self.layer!.zPosition = 0
         self.layer!.contentsScale = self.mainWindow.backingScaleFactor
@@ -83,6 +84,8 @@ class PSLayoutBoard: NSView {
         for item in contextMenu.itemArray as [NSMenuItem] {
             actionPopup.menu?.addItem(item.copy() as! NSMenuItem)
         }
+        
+        layoutBoardArea = self.layer!.bounds.size
     }
     
     //MARK: Misc Overrides
@@ -586,29 +589,7 @@ class PSLayoutBoard: NSView {
     
     func updateObjectLayoutItem(subLayoutItem : PSLayoutItem, x: Int, y: Int, name : String? = nil) {
         //update size of board to encompass greater sizes
-        
-        //self.layer!.bounds
-        
-        var currentBoardSize = self.frame.size
-        var updateFrame = false
-        
-        if CGFloat(x) > (currentBoardSize.width + 200) {
-            currentBoardSize.width = currentBoardSize.width + 200
-            updateFrame = true
-        }
-        
-        if CGFloat(y) > (currentBoardSize.height + 200) {
-            currentBoardSize.height = currentBoardSize.height + 200
-            updateFrame = true
-        }
-        
-        if updateFrame {
-            var currentBounds = self.bounds
-            currentBounds.size = currentBoardSize
-            self.frame = currentBounds
-            Swift.print("New size: \(currentBounds)")
-        }
-        
+        resizeLayoutBoardAreaToInclude(CGFloat(x + 100), y: CGFloat(y + 100))
         
         //updates the position of a layer, and links
         subLayoutItem.icon.position = CGPoint(x: x, y: y)
@@ -775,6 +756,26 @@ class PSLayoutBoard: NSView {
         CGPathCloseSubpath(linePath)
         return linePath
     }
+    
+    //MARK: Resizing
+    
+    override func viewDidEndLiveResize() {
+        resizeLayoutBoardAreaToInclude(scrollView.contentSize.width, y: scrollView.contentSize.height)
+
+    }
+    
+    func resizeLayoutBoardAreaToInclude(x : CGFloat, y: CGFloat) {
+
+        self.layoutBoardArea.width = max(self.layoutBoardArea.width, x)
+        self.layoutBoardArea.height = max(self.layoutBoardArea.height, y)
+        let newLayerSize = NSSize(width: self.layoutBoardArea.width, height: self.layoutBoardArea.height)
+        
+        if newLayerSize != self.frame.size {
+            let newFrame = NSRect(origin: self.frame.origin, size: newLayerSize)
+            self.frame = newFrame
+        }
+    }
+    
     
 
     //MARK: Geometry / hit detection
