@@ -762,19 +762,32 @@ public class PSScriptData : NSObject {
     
     public func moveParentLinks(oldParent : Entry, newParent: Entry, withAttribute attribute_name:String) {
         
-        if let childEntry = getSubEntry(attribute_name, entry: oldParent) {
-            let childEntryList = PSStringList(entry: childEntry, scriptData: self)
+        if let oldParentSubEntry = getSubEntry(attribute_name, entry: oldParent) {
+            let oldParentSubEntryList = PSStringList(entry: oldParentSubEntry, scriptData: self)
+            let newParentSubEntry = getOrCreateSubEntry(attribute_name, entry: newParent, isProperty: oldParentSubEntry.isProperty.boolValue, type: PSAttributeType(fullType: oldParentSubEntry.type))
+            let newParentSubEntryList = PSStringList(entry: newParentSubEntry, scriptData: self)
             
             for child_lobject in oldParent.layoutObject.childLink.array as! [LayoutObject]{
-                if childEntryList.contains(child_lobject.mainEntry.name) {
+                if oldParentSubEntryList.contains(child_lobject.mainEntry.name) {
                     newParent.layoutObject.addChildLinkObject(child_lobject)
                     oldParent.layoutObject.removeChildLinkObject(child_lobject)
+                    
+                    //add the entries to the the new list
+                    if !newParentSubEntryList.contains(child_lobject.mainEntry.name) {
+                        newParentSubEntryList.appendAsString(child_lobject.mainEntry.name)
+                    }
                 }
             }
             
-            newParent.addSubEntriesObject(childEntry)
-            oldParent.removeSubEntriesObject(childEntry)
+            oldParent.removeSubEntriesObject(oldParentSubEntry)
+            
+            //remove newParentSubEntry if its empty (shouldnt really occur?)
+            if newParentSubEntryList.count == 0 {
+                newParent.removeSubEntriesObject(newParentSubEntry)
+            }
         }
+        
+        
     }
     
     
