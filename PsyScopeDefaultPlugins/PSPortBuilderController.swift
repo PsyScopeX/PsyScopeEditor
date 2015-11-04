@@ -143,26 +143,20 @@ public class PSPortBuilderController: NSObject, NSOutlineViewDataSource, NSOutli
                 values.count == 1 &&
                 functionElement.functionName == functionName
             {
-                let selectedPoint = values[0]
+                let selectedItem = values[0]
                 for port in portScript.portEntries {
-                    if port.name == selectedPoint {
-                        outlineView.expandItem(port)
-                        outlineView.selectRowIndexes(NSIndexSet(index: outlineView.rowForItem(port)), byExtendingSelection: false)
-                        break
+                    if port.name == selectedItem {
+                        self.selectPort(port)
+                        return
                     }
                 }
                 for position in portScript.positionEntries {
-                    if position.name == selectedPoint {
-                        outlineView.expandItem(position.port)
-                        outlineView.selectRowIndexes(NSIndexSet(index: outlineView.rowForItem(position)), byExtendingSelection: false)
-                        break
-                        
+                    if position.name == selectedItem {
+                        self.selectPosition(position)
+                        return
                     }
                 }
             }
-            
-            
-            
         }
     }
     

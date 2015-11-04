@@ -54,12 +54,9 @@ class PSCondition_Mouse_Cell : PSConditionCell {
             
             switch(v) {
             case .Function(let functionElement):
-                if functionElement.functionName == "PortName" {
-                    let svs = functionElement.getStringValues()
-                    if svs.count > 0 {
-                        portName = svs.first!
-                        portButton.state = 1
-                    }
+                if functionElement.functionName.lowercaseString == "portname" {
+                    portName = functionElement.getStrippedStringValues().joinWithSeparator(" ")
+                    portButton.state = 1
                 }
                 break
             case .List:
@@ -104,12 +101,13 @@ class PSCondition_Mouse_Cell : PSConditionCell {
     
  
     @IBAction func choosePortButton(sender : AnyObject) {
-        portButton.state = 1
+        
         let popup = PSPortBuilderController(currentValue: "PortName(\"\(self.portName)\")", scriptData: scriptData, positionMode: false, setCurrentValueBlock : { (cValue: String) -> () in
             
             let functionElement = PSFunctionElement.FromStringValue(cValue)
-            self.portName = functionElement.getParametersStringValue()
+            self.portName = functionElement.getStrippedStringValues().joinWithSeparator(" ")
             self.portChangeButton.title = self.portName
+            self.portButton.state = 1
             self.parameterChange(self)
         })
         popup.showAttributeModalForWindow(scriptData.window)

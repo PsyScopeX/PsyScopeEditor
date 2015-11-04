@@ -109,7 +109,7 @@ public class PSAttribute_Port: PSAttributeGeneric {
             for positionName in positions.stringListLiteralsOnly {
                 
                 var found_position = false
-                for ge in ghostScript.entries as! [PSGhostEntry] {
+                for ge in ghostScript.entries {
                     if ge.name == positionName {
                         if (ge.type.isEmpty || ge.type == "Port") {
                             
