@@ -15,7 +15,7 @@ class PSAttributeParameter_Action : PSAttributeParameter {
         if visible {
             if popUpButton == nil {
                 //add popupbutton
-                var width = cell.frame.width - PSDefaultConstants.ActionsBuilder.controlsLeftMargin - PSDefaultConstants.ActionsBuilder.controlsRightMargin
+                _ = cell.frame.width - PSDefaultConstants.ActionsBuilder.controlsLeftMargin - PSDefaultConstants.ActionsBuilder.controlsRightMargin
                 popUpButton = NSPopUpButton(frame: attributeValueControlFrame, pullsDown: false)
                 popUpButton.autoresizingMask = NSAutoresizingMaskOptions.ViewWidthSizable
                 popUpButton.target = self
@@ -46,13 +46,13 @@ class PSAttributeParameter_Action : PSAttributeParameter {
     func updatePopUpMenuContent() {
         //get actions
         
-        var new_menu = NSMenu()
-        var new_item = NSMenuItem(title: "No Specific Action", action: "noneSelected:", keyEquivalent: "")
+        let new_menu = NSMenu()
+        let new_item = NSMenuItem(title: "No Specific Action", action: "noneSelected:", keyEquivalent: "")
         new_item.target = self
         new_item.action = "noneSelected:"
         new_menu.addItem(new_item)
-        for (name, plugin) in scriptData.pluginProvider.actionPlugins as [String : PSActionInterface] {
-            var new_item = NSMenuItem(title: name, action: "actionSelected:", keyEquivalent: "")
+        for (name, _) in scriptData.pluginProvider.actionPlugins as [String : PSActionInterface] {
+            let new_item = NSMenuItem(title: name, action: "actionSelected:", keyEquivalent: "")
             new_item.target = self
             new_item.action = "actionSelected:"
             new_menu.addItem(new_item)

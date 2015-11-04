@@ -100,7 +100,7 @@ class PSTemplateTableController : PSChildTypeViewController {
     
     @IBAction func orderPopUpButtons(_: AnyObject) {
         if let te = scriptData.getSubEntry("Templates", entry: entry) {
-            var access_entry = scriptData.getOrCreateSubEntry("AccessType", entry: te, isProperty: true)
+            let access_entry = scriptData.getOrCreateSubEntry("AccessType", entry: te, isProperty: true)
             access_entry.currentValue = orderComboBoxItems[templateOrderPopUpButton.selectedItem!.title]
         }
     }
@@ -110,22 +110,22 @@ class PSTemplateTableController : PSChildTypeViewController {
     }
     
     func processButtonChange(){
-        var selected_mode = modeMatrix.selectedCell() as! NSButtonCell
-        var selected_tag = selected_mode.tag
+        let selected_mode = modeMatrix.selectedCell() as! NSButtonCell
+        let selected_tag = selected_mode.tag
         if selected_tag == 1 {
-            var bd_entry = scriptData.getOrCreateSubEntry("BlockDuration", entry: entry, isProperty: true)
+            let bd_entry = scriptData.getOrCreateSubEntry("BlockDuration", entry: entry, isProperty: true)
             if blockDurationTextField.stringValue == "" { blockDurationTextField.stringValue = "1" }
             bd_entry.currentValue = blockDurationTextField.stringValue
             scriptData.deleteNamedSubEntryFromParentEntry(entry, name: "Cycles")
             scriptData.deleteNamedSubEntryFromParentEntry(entry, name: "FixedCycles")
         } else if selected_tag == 2 {
-            var tib_entry = scriptData.getOrCreateSubEntry("FixedCycles", entry: entry, isProperty: true)
+            let tib_entry = scriptData.getOrCreateSubEntry("FixedCycles", entry: entry, isProperty: true)
             if trialsInBlockTextField.stringValue == "" { trialsInBlockTextField.stringValue = "1" }
             tib_entry.currentValue = trialsInBlockTextField.stringValue
             scriptData.deleteNamedSubEntryFromParentEntry(entry, name: "Cycles")
             scriptData.deleteNamedSubEntryFromParentEntry(entry, name: "BlockDuration")
         } else if selected_tag == 3 {
-            var tib_entry = scriptData.getOrCreateSubEntry("Cycles", entry: entry, isProperty: true)
+            let tib_entry = scriptData.getOrCreateSubEntry("Cycles", entry: entry, isProperty: true)
             if trialsInBlockTextField.stringValue == "" { trialsInBlockTextField.stringValue = "1" }
             tib_entry.currentValue = trialsInBlockTextField.stringValue
             scriptData.deleteNamedSubEntryFromParentEntry(entry, name: "FixedCycles")

@@ -126,7 +126,7 @@ enum PSPortMeasurement {
         let newValue = PSPortMeasurement.Pixels(newPixels)
         
         switch(self) {
-        case let .Percentage(val):
+        case .Percentage(_):
             return PSPortMeasurement.Percentage(newValue.percent(res))
         default:
             return newValue
@@ -135,9 +135,9 @@ enum PSPortMeasurement {
     
     func sameWithNewValue(integerValue : Int) -> PSPortMeasurement {
         switch(self) {
-        case let .Pixels(val):
+        case .Pixels(_):
             return PSPortMeasurement.Pixels(integerValue)
-        case let .Percentage(val):
+        case .Percentage(_):
             return PSPortMeasurement.Percentage(integerValue)
         default:
             return self
@@ -147,7 +147,7 @@ enum PSPortMeasurement {
     static func fromString(string : String, type : PSValidMeasurements) -> PSPortMeasurement {
         if let percent = string.rangeOfString("%") {
             let val = string.stringByReplacingCharactersInRange(percent, withString: "")
-            if let i = Int(val) {
+            if let _ = Int(val) {
                 return PSPortMeasurement.Percentage(Int(val)!)
             } else {
                 return PSPortMeasurement.Percentage(0)

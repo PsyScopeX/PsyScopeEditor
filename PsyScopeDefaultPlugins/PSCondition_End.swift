@@ -36,7 +36,7 @@ class PSCondition_EndCell : PSConditionCell, NSTextFieldDelegate {
     
     
     func parse() {
-        var inputValue = entryFunction.getStringValues()
+        let inputValue = entryFunction.getStringValues()
         
         for v in inputValue {
             
@@ -47,7 +47,7 @@ class PSCondition_EndCell : PSConditionCell, NSTextFieldDelegate {
     
     
     @IBAction func generate(sender : AnyObject) {
-        var outputString = endText.stringValue
+        let outputString = endText.stringValue
         
         entryFunction.setStringValues([outputString])
         self.updateScript()

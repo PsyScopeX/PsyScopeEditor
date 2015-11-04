@@ -45,9 +45,9 @@ class PSEventPicker : PSAttributePopup {
         
         //start condition events - needs to be updated everytime new event is added, whence in its own routine
         events = scriptData.getAllEvents()
-        var new_menu = NSMenu()
+        let new_menu = NSMenu()
         for event in events {
-            var new_item = NSMenuItem(title: event.name, action: "eventSelected:", keyEquivalent: "")
+            let new_item = NSMenuItem(title: event.name, action: "eventSelected:", keyEquivalent: "")
             new_item.target = self
             new_item.action = "eventSelected:"
             new_menu.addItem(new_item)

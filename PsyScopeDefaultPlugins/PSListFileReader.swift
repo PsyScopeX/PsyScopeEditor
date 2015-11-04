@@ -74,7 +74,7 @@ public class PSListFileReader {
     func parseRows(fromLines lines: [String]) -> [[String]] {
         var rows: [[String]] = []
         
-        for (lineNumber, line) in lines.enumerate() {
+        for line in lines {
             let row : [String] = line.componentsSeparatedByCharactersInSet(self.delimiter)
             rows.append(row)
         }

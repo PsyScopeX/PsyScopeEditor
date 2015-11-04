@@ -33,7 +33,7 @@ public class PSPluginProvider : NSObject {
         self.reservedEntryNames = []
         
         fileImportPlugins = [:]
-        for (name , tool) in toolPlugins {
+        for (_ , tool) in toolPlugins {
             if let extensions = tool.validDraggedFileExtensions() {
                 for ext in extensions as! [String] {
                     if nil == fileImportPlugins[ext] {
@@ -45,7 +45,7 @@ public class PSPluginProvider : NSObject {
             reservedEntryNames += tool.reservedEntryNames() as! [String]
         }
         
-        for (name , tool) in eventPlugins {
+        for (_ , tool) in eventPlugins {
             if let extensions = tool.validDraggedFileExtensions() {
                 for ext in extensions as! [String] {
                     if nil == fileImportPlugins[ext] {
@@ -57,7 +57,7 @@ public class PSPluginProvider : NSObject {
             reservedEntryNames += tool.reservedEntryNames() as! [String]
         }
         
-        for (name , tool) in attributePlugins {
+        for (_ , tool) in attributePlugins {
             reservedEntryNames += tool.reservedEntryNames() as! [String]
         }
         

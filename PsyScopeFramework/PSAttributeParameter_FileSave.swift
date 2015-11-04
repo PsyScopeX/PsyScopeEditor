@@ -37,8 +37,8 @@ public class PSAttributeParameter_FileSave : PSAttributeParameter_Button {
     }
     
     func setFileName(path : String) {
-        var docPath = self.scriptData.documentDirectory()!
-        var pspath = PSPath(path, basePath: docPath)
+        let docPath = self.scriptData.documentDirectory()!
+        let pspath = PSPath(path, basePath: docPath)
         
         if pspath == "" {
             self.currentValue = "NULL"

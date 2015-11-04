@@ -146,7 +146,7 @@ class PSListTool: PSTool, PSToolInterface {
         subMenuItem.representedObject = self
         subMenuItem.tag = 0
         //get all blocks, that this attribute is linked to, and list attributes
-        var lists = scriptData.getBaseEntriesOfType("List")
+        let lists = scriptData.getBaseEntriesOfType("List")
         if lists.count == 0 {
             subMenuItem.enabled = false
             return subMenuItem }

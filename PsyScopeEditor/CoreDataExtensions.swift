@@ -20,7 +20,7 @@ extension Entry {
     }
     
     func attributeNamed(name : String) -> Entry? {
-        var attributes = self.getAttributes()
+        let attributes = self.getAttributes()
         for a in attributes {
             if a.name == name {
                 return a

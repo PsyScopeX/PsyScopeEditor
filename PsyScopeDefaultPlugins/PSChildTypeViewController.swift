@@ -29,13 +29,13 @@ class PSChildTypeViewController : NSViewController {
     
     class func createForEntry(entry : Entry, pluginViewController : PSPluginViewController) -> PSChildTypeViewController {
         let scriptData = pluginViewController.scriptData
-        if let groupsEntry = scriptData.getSubEntry("Groups", entry: entry) {
+        if let _ = scriptData.getSubEntry("Groups", entry: entry) {
             return PSGroupsTableController(pluginViewController: pluginViewController)!
-        } else if let blocksEntry = scriptData.getSubEntry("Blocks", entry: entry) {
+        } else if let _ = scriptData.getSubEntry("Blocks", entry: entry) {
             return PSBlocksTableController(pluginViewController: pluginViewController)!
-        } else if let templatesEntry = scriptData.getSubEntry("Templates", entry: entry) {
+        } else if let _ = scriptData.getSubEntry("Templates", entry: entry) {
             return PSTemplateTableController(pluginViewController: pluginViewController)!
-        } else if let eventsEntry = scriptData.getSubEntry("Events", entry: entry) {
+        } else if let _ = scriptData.getSubEntry("Events", entry: entry) {
             return PSEventsTableController(pluginViewController: pluginViewController)!
         } else {
             //offer appropriate choice

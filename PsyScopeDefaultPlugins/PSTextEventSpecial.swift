@@ -9,7 +9,7 @@ import Foundation
 
 class PSTextEventSpecial : PSAttributePopup {
     init(currentValue : String, setCurrentValueBlock : ((String)->())?) {
-        var bundle = PSDefaultPluginBundle
+        let bundle = PSDefaultPluginBundle
         super.init(nibName: "TextEventSpecial", bundle: bundle, currentValue: currentValue, displayName: "Text Display Options", setCurrentValueBlock: setCurrentValueBlock)
     }
     
@@ -25,11 +25,11 @@ class PSTextEventSpecial : PSAttributePopup {
     override func awakeFromNib() {
         super.awakeFromNib()
         //set up options
-        var options : [String] = Array(optionsArray.keys)
+        let options : [String] = Array(optionsArray.keys)
         positionOptions.addItemsWithTitles(options)
         
         //parse current value
-        var list : PSStringListCachedContainer = PSStringListCachedContainer()
+        let list : PSStringListCachedContainer = PSStringListCachedContainer()
         list.stringValue = currentValue
         if list.contains("Follow") {
             positionOptions.selectItemWithTitle("Follow previous text")
@@ -45,8 +45,8 @@ class PSTextEventSpecial : PSAttributePopup {
     
     @IBAction func doneButton(sender : AnyObject) {
         print("Done")
-        var new_list = PSStringListCachedContainer()
-        var pos_option : String = optionsArray[positionOptions.selectedItem!.title]!
+        let new_list = PSStringListCachedContainer()
+        let pos_option : String = optionsArray[positionOptions.selectedItem!.title]!
         if pos_option != "" { new_list.appendAsString(pos_option) }
         if drawMaskedCheck.state == 1 {
             new_list.appendAsString("Draw_Masked")
@@ -70,7 +70,7 @@ class PSAttribute_TextEventSpecial : PSAttributeGeneric {
         attributeClass = PSAttributeParameter_Custom.self
         toolsArray = [PSTextEvent().type()]
         customAttributeParameterAction = { (before : String, scriptData: PSScriptData, window: NSWindow, setCurrentValueBlock : ((String) -> ())?) -> () in
-            var popup = PSTextEventSpecial(currentValue: before, setCurrentValueBlock: setCurrentValueBlock)
+            let popup = PSTextEventSpecial(currentValue: before, setCurrentValueBlock: setCurrentValueBlock)
             popup.showAttributeModalForWindow(window)
             
         }

@@ -10,7 +10,7 @@ import Foundation
 class PSTableViewController : PSToolPropertyController, NSWindowDelegate {
     
     init(entry : Entry, scriptData : PSScriptData) {
-        var bundle = NSBundle(forClass:self.dynamicType)
+        let bundle = NSBundle(forClass:self.dynamicType)
         super.init(nibName: "TableView", bundle: bundle, entry: entry, scriptData: scriptData)
         storedDoubleClickAction = { () in
             self.editObjectsButton(self)
@@ -38,7 +38,7 @@ class PSTableViewController : PSToolPropertyController, NSWindowDelegate {
         
     }
     
-    func windowShouldClose(sender: AnyObject!) -> Bool {
+    func windowShouldClose(sender: AnyObject) -> Bool {
         tableBuilder?.deregister()
         tableBuilder = nil
         return true

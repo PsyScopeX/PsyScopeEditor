@@ -127,7 +127,6 @@ class PSFileListBuilderTableController : NSObject, NSTableViewDataSource, NSTabl
         //already editingheader so need to cancel that...
         if let eh = editingHeader {
             let tc = previewTableView.tableColumns[eh] as NSTableColumn
-            var hv = previewTableView.headerView!;
             let hc = tc.headerCell as! PSFieldHeaderCell
             hc.highlighted = false
             let editor = previewTableView.window!.fieldEditor(true, forObject: previewTableView)
@@ -144,7 +143,6 @@ class PSFileListBuilderTableController : NSObject, NSTableViewDataSource, NSTabl
             controller.fileList.setColumn(name, columnIndex: eh + 1)
             
             let tc = previewTableView.tableColumns[eh] as NSTableColumn
-            var hv = previewTableView.headerView!;
             let hc = tc.headerCell as! PSFieldHeaderCell
             hc.title = name
             

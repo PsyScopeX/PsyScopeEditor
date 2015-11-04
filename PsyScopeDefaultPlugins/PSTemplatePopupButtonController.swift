@@ -14,7 +14,7 @@ class PSTemplatePopupButtonController : NSObject {
     @IBOutlet var controller : PSTemplateLayoutBoardController!
     
     func refreshTemplatePopUpButton() {
-        var current_selection = templatesPopup.selectedItem?.title
+        let current_selection = templatesPopup.selectedItem?.title
         
         var objs = controller.scriptData.getBaseEntries()
         
@@ -39,7 +39,7 @@ class PSTemplatePopupButtonController : NSObject {
     }
     
     func isTemplateEntry(entry : Entry) -> Bool {
-        if let templates = controller.scriptData.getSubEntry("Events", entry: entry) {
+        if controller.scriptData.getSubEntry("Events", entry: entry) != nil {
             return true
         }
         
@@ -59,7 +59,7 @@ class PSTemplatePopupButtonController : NSObject {
     }
     
     @IBAction func templatesPopUpSelectionMade(sender : AnyObject) {
-        var template_name = templatesPopup.selectedItem?.title
+        let template_name = templatesPopup.selectedItem?.title
         print(template_name)
         //check if it exists
         if let a = controller.scriptData.getBaseEntry(template_name!) {

@@ -80,25 +80,11 @@ class PSPositionPopoverController : NSObject {
     }
     
     @IBAction func measurePopOver(button : NSPopUpButton) {
-        var selected = button.selectedItem!.title
-        
         switch (button) {
         case self.posxPopup:
-            var w : Int
-            if selectedPosition.relativeToPort {
-                w = selectedPosition.port.width.pixels(Int(PSScreenRes().width))
-            } else {
-                w = Int(PSScreenRes().width)
-            }
             let new_x = PSPortMeasurement.measurementForItemTitle(posxPopup,textField: posxText)
             selectedPosition.x = new_x
         case self.posyPopup:
-            var h : Int
-            if selectedPosition.relativeToPort {
-                h = selectedPosition.port.height.pixels(Int(PSScreenRes().height))
-            } else {
-                h = Int(PSScreenRes().height)
-            }
             let new_y = PSPortMeasurement.measurementForItemTitle(posyPopup,textField: posyText)
             selectedPosition.y = new_y
         default:

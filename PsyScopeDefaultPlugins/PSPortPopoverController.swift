@@ -227,7 +227,7 @@ class PSPortPopoverController : NSObject {
     }
     
     @IBAction func measurePopOver(button : NSPopUpButton) {
-        var selected = button.selectedItem!.title
+        _ = button.selectedItem!.title
         
         switch (button) {
         case self.heightPopup:

@@ -79,10 +79,10 @@ func UpdateVariableValuesWithInlineEntryCurrentValues(stringValue : String, valu
     
         var stringValues = stringList.stringListRawUnstripped
         
-        var arraySizeDifference = values.subValues.count - stringValues.count
+        let arraySizeDifference = values.subValues.count - stringValues.count
         
         if arraySizeDifference > 0 {
-            for i in 1...arraySizeDifference {
+            for _ in 1...arraySizeDifference {
                 stringValues.append("NULL")
             }
         }
@@ -116,10 +116,10 @@ func UpdateVariableValuesWithEntryCurrentValues(baseEntry : Entry, values : PSVa
         
         var stringValues = stringList.stringListRawUnstripped
         
-        var arraySizeDifference = values.subValues.count - stringValues.count
+        let arraySizeDifference = values.subValues.count - stringValues.count
         
         if arraySizeDifference > 0 {
-            for i in 1...arraySizeDifference {
+            for _ in 1...arraySizeDifference {
                 stringValues.append("NULL")
             }
         }

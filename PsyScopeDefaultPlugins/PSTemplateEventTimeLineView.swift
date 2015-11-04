@@ -121,7 +121,7 @@ class PSTemplateEventTimeLineView : NSView {
         CATransaction.setDisableActions(true)
         
         //get times
-        var (starts, durations) = event.getMS()
+        let (starts, durations) = event.getMS()
         startTime = starts * zoomMultiplier
         durationTime = durations * zoomMultiplier
         
@@ -133,19 +133,19 @@ class PSTemplateEventTimeLineView : NSView {
         if let sc = event.startCondition as? EventStartEventRelated {
             
             let starting_event = sc.event!
-            var (previousStart, previousDuration) = starting_event.getMS()
+            let (previousStart, previousDuration) = starting_event.getMS()
             
             minimumStartTime = sc.position == EventStartEventRelatedPosition.End ? previousStart + previousDuration : previousStart
             canDragStartTime = true
-        } else if let sc = event.startCondition as? EventStartConditionTrialStart {
+        } else if let _ = event.startCondition as? EventStartConditionTrialStart {
             minimumStartTime = 0
             canDragStartTime = true
-        } else if let sc = event.startCondition as? EventStartConditionUnscheduled {
+        } else if let _ = event.startCondition as? EventStartConditionUnscheduled {
             minimumStartTime = 0
             canDragUnscheduledPosition = true
         }
         
-        if let dc = event.durationCondition as? EventDurationConditionFixedTime {
+        if let _ = event.durationCondition as? EventDurationConditionFixedTime {
             canDragDurationTime = true
         }
         
@@ -153,7 +153,7 @@ class PSTemplateEventTimeLineView : NSView {
         boxLayer.backgroundColor = event.durationCondition.durationKnown() ? PSDefaultConstants.TemplateLayoutBoard.fixedTimeColor : PSDefaultConstants.TemplateLayoutBoard.unknownTimeColor
         
         //Change the color for the events with termination trial end. Trying purple (luca 21 oct)
-        if let dc = event.durationCondition as? EventDurationConditionTrialEnd {
+        if let _ = event.durationCondition as? EventDurationConditionTrialEnd {
             
             canDragDurationTime = false
                  }
@@ -165,7 +165,7 @@ class PSTemplateEventTimeLineView : NSView {
         self.boxLayer.frame = frame
         self.boxLayer.cornerRadius = 0//HERE
         
-        if let dc = event.durationCondition as? EventDurationConditionTrialEnd {
+        if let _ = event.durationCondition as? EventDurationConditionTrialEnd {
             
             // Luca taking care of the case of trial_end events, which must appear differently from the others
             
@@ -244,7 +244,7 @@ class PSTemplateEventTimeLineView : NSView {
         
         //add "U"  character at start if event is unscheduled (LucaL Changed from question mark)
         var unscheduled : Bool = false
-        if let sc = event.startCondition as? EventStartConditionUnscheduled {
+        if let _ = event.startCondition as? EventStartConditionUnscheduled {
             unscheduled = true
             let text_layer = CATextLayer()
             let font = NSFont.systemFontOfSize(10)

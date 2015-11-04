@@ -35,7 +35,7 @@ class PSList : NSObject {
         let sub_entries = listEntry.subEntries.array as! [Entry]
         for sub_entry in sub_entries {
             if sub_entry.name != "Levels" && sub_entry.name != "IsList" {
-                var attributetype = PSAttributeType(fullType: sub_entry.type)
+                let attributetype = PSAttributeType(fullType: sub_entry.type)
                 
                 //get correct interface for type
                 let interface = scriptData.getAttributeInterfaceForFullType(attributetype.fullType)

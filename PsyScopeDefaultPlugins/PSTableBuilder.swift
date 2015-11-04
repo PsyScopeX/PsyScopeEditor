@@ -232,7 +232,7 @@ class PSFactorTable {
         
         var rowsSpanned = rows()
         
-        for (index,factor) in factors.enumerate() {
+        for (_,factor) in factors.enumerate() {
             switch (factor.displayLevel) {
             case .Top:
                 factor.updateButtons(nil, numberRowsSpanned: 0)
@@ -402,7 +402,7 @@ class PSFactor : NSObject {
         switch (displayLevel) {
         case .Top:
             for (index, level) in levels.enumerate() {
-                var new_button = PSFormatFactorButton(superView, name: level.name)
+                let new_button = PSFormatFactorButton(superView, name: level.name)
                 level.buttons.append(new_button)
                 new_button.action = "selected:"
                 new_button.target = level
@@ -414,7 +414,7 @@ class PSFactor : NSObject {
                     attribute: NSLayoutAttribute.Top,
                     multiplier: 1.0, constant: PSDefaultConstants.TableBuilder.rowHeight))
                 //left align with table button
-                var left : CGFloat = CGFloat(index) * PSDefaultConstants.TableBuilder.levelWidth
+                let left : CGFloat = CGFloat(index) * PSDefaultConstants.TableBuilder.levelWidth
                 superView.addConstraint(NSLayoutConstraint(
                     item: new_button,
                     attribute: NSLayoutAttribute.Left,
@@ -440,17 +440,17 @@ class PSFactor : NSObject {
                     multiplier: 1.0, constant: PSDefaultConstants.TableBuilder.rowHeight))
             }
             break
-        case let .Side(numberOfButtons):
-            var buttonHeight = PSDefaultConstants.TableBuilder.rowHeight * CGFloat(numberRowsSpanned) / CGFloat(levels.count)
+        case .Side:
+            let buttonHeight = PSDefaultConstants.TableBuilder.rowHeight * CGFloat(numberRowsSpanned) / CGFloat(levels.count)
             if let pf = previousFactor {
                 for previousLevel in pf.levels {
                     for previousButton in previousLevel.buttons {
                         for (index, level) in levels.enumerate() {
-                            var new_button = PSFormatFactorButton(superView, name: level.name)
+                            let new_button = PSFormatFactorButton(superView, name: level.name)
                             level.buttons.append(new_button)
                             new_button.action = "selected:"
                             new_button.target = level
-                            var pos : CGFloat = (CGFloat(index) / CGFloat(levels.count)) * PSDefaultConstants.TableBuilder.rowHeight * CGFloat(numberRowsSpanned)
+                            let pos : CGFloat = (CGFloat(index) / CGFloat(levels.count)) * PSDefaultConstants.TableBuilder.rowHeight * CGFloat(numberRowsSpanned)
                             superView.addConstraint(NSLayoutConstraint(
                                 item: new_button,
                                 attribute: NSLayoutAttribute.Top,
@@ -486,9 +486,9 @@ class PSFactor : NSObject {
             } else {
                 //this is for the base factor on the left, that should span entire tableview
                 for (index, level) in levels.enumerate() {
-                    var new_button = PSFormatFactorButton(superView, name: level.name)
+                    let new_button = PSFormatFactorButton(superView, name: level.name)
                     level.buttons.append(new_button)
-                    var pos : CGFloat = CGFloat((CGFloat(index) / CGFloat(levels.count))) * PSDefaultConstants.TableBuilder.rowHeight * CGFloat(numberRowsSpanned)
+                    let pos : CGFloat = CGFloat((CGFloat(index) / CGFloat(levels.count))) * PSDefaultConstants.TableBuilder.rowHeight * CGFloat(numberRowsSpanned)
                     new_button.action = "selected:"
                     new_button.target = level
                     

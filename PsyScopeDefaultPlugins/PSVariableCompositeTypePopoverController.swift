@@ -33,7 +33,7 @@ class PSVariableCompositeTypePopoverController : NSObject, NSOutlineViewDelegate
         let scriptData = propertiesController.scriptData
         let typeEntry = scriptData.getOrCreateSubEntry("Type", entry: propertiesController.entry, isProperty: true)
         
-        var namedType = EntryToVariableNamedType(typeEntry, scriptData: propertiesController.scriptData)
+        let namedType = EntryToVariableNamedType(typeEntry, scriptData: propertiesController.scriptData)
         variableType = namedType.type
         comboBoxDataSource.refreshController = refresh
         refresh()
@@ -98,7 +98,7 @@ class PSVariableCompositeTypePopoverController : NSObject, NSOutlineViewDelegate
         }
         
         switch(typeEnum) {
-        case let .Array(_):
+        case .Array(_):
             return 1
         case let .Record(variableRecord):
             return variableRecord.fields.count
@@ -177,7 +177,7 @@ class PSVariableCompositeTypePopoverController : NSObject, NSOutlineViewDelegate
                 return defined
             case let .Array(variableArray):
                 return "Array[\(variableArray.count)]"
-            case let .Record(_):
+            case .Record(_):
                 return "Record"
             }
             

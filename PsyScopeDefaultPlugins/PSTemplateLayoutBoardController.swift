@@ -421,50 +421,49 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
             //is this a new tool, or a reorder drag?
             let pasteboard = info.draggingPasteboard()
             
-            for p in pasteboard.types! {
-                if let q = p as? String {
-                    if q == PSConstants.PSEventBrowserView.pasteboardType {
-                        scriptData.beginUndoGrouping("Add New Object")
-                        var success = false
-                        let type = pasteboard.stringForType(PSConstants.PSEventBrowserView.pasteboardType)!
-                        if let new_entry = scriptData.createNewEventFromTool(type, templateObject: templateObject,order: row) {
-                            success = true
-                            selectionInterface.selectEntry(new_entry)
-                        }
-                        scriptData.endUndoGrouping(success)
-                        
-                        return success
-                    } else if q == "psyscope.pstemplateevent" {
-                        scriptData.beginUndoGrouping("Move Event")
-                        let success = true
-                        if let fromRow = writingRow {
-                            //drag was within same tableview
-                            scriptData.moveEvent(templateObject.mainEntry, fromIndex: fromRow, toIndex: row)
-                            
-                        } else {
-                        
-                            //delete writingRow
-                            
-                            
-                            
-                            //instantiate new event
-                            let new_events = pasteboard.readObjectsForClasses([PSTemplateEvent.self], options: [:]) as! [PSTemplateEvent]
-                            for e in new_events {
-                                e.unarchiveData(scriptData)
-                                events.append(e)
-                                layoutObjects.append(e.entry.layoutObject)
-                                //link to template in correct place
-                                scriptData.createLinkFrom(templateObject.mainEntry, to: e.entry, withAttribute: "Events")
-                                scriptData.moveEvent(templateObject.mainEntry, fromIndex: events.count - 1, toIndex: row)
-                            }
-                            
-                            
-                        }
-                        writingRow = nil
-                        scriptData.endUndoGrouping(success)
-                        return true
+            for q in pasteboard.types! {
+                if q == PSConstants.PSEventBrowserView.pasteboardType {
+                    scriptData.beginUndoGrouping("Add New Object")
+                    var success = false
+                    let type = pasteboard.stringForType(PSConstants.PSEventBrowserView.pasteboardType)!
+                    if let new_entry = scriptData.createNewEventFromTool(type, templateObject: templateObject,order: row) {
+                        success = true
+                        selectionInterface.selectEntry(new_entry)
                     }
+                    scriptData.endUndoGrouping(success)
+                    
+                    return success
+                } else if q == "psyscope.pstemplateevent" {
+                    scriptData.beginUndoGrouping("Move Event")
+                    let success = true
+                    if let fromRow = writingRow {
+                        //drag was within same tableview
+                        scriptData.moveEvent(templateObject.mainEntry, fromIndex: fromRow, toIndex: row)
+                        
+                    } else {
+                    
+                        //delete writingRow
+                        
+                        
+                        
+                        //instantiate new event
+                        let new_events = pasteboard.readObjectsForClasses([PSTemplateEvent.self], options: [:]) as! [PSTemplateEvent]
+                        for e in new_events {
+                            e.unarchiveData(scriptData)
+                            events.append(e)
+                            layoutObjects.append(e.entry.layoutObject)
+                            //link to template in correct place
+                            scriptData.createLinkFrom(templateObject.mainEntry, to: e.entry, withAttribute: "Events")
+                            scriptData.moveEvent(templateObject.mainEntry, fromIndex: events.count - 1, toIndex: row)
+                        }
+                        
+                        
+                    }
+                    writingRow = nil
+                    scriptData.endUndoGrouping(success)
+                    return true
                 }
+                
             }
             
             PSModalAlert("Error accepting drag type...")
@@ -499,17 +498,13 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
         }
         
         //is this a new tool, or a reorder drag?
-        
-        
         if templateObject != nil {
             let pasteboard = info.draggingPasteboard()
-            for p in pasteboard.types! {
-                if let q = p as? String {
-                    if q == PSConstants.PSEventBrowserView.pasteboardType {
-                        operation = NSDragOperation.Link
-                    } else if q == "psyscope.pstemplateevent" {
-                        operation = NSDragOperation.Move
-                    }
+            for q in pasteboard.types! {
+                if q == PSConstants.PSEventBrowserView.pasteboardType {
+                    operation = NSDragOperation.Link
+                } else if q == "psyscope.pstemplateevent" {
+                    operation = NSDragOperation.Move
                 }
             }
         }

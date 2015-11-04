@@ -350,17 +350,17 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
     func pasteEntry() {
         if let se = selectionController.selectedEntry {
             scriptData.beginUndoGrouping("Paste Object")
-            var pasteboard = NSPasteboard.generalPasteboard()
-            var items = pasteboard.readObjectsForClasses([NSPasteboardItem.self], options: [:]) as! [NSPasteboardItem]
+            let pasteboard = NSPasteboard.generalPasteboard()
+            let items = pasteboard.readObjectsForClasses([NSPasteboardItem.self], options: [:]) as! [NSPasteboardItem]
             for item in items {
                 if let data = item.dataForType(PSPasteboardTypeLayoutObject) {
                     if let new_entry = scriptData.unarchiveBaseEntry(data) {
-                        var new_name = scriptData.getNextFreeBaseEntryName(new_entry.name)
+                        let new_name = scriptData.getNextFreeBaseEntryName(new_entry.name)
                         new_entry.name = new_name
                     }
                 } else if let data = item.dataForType(PSPasteboardTypeAttribute as String) {
-                    var dict = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! NSDictionary
-                    var new_entry = PSCreateEntryFromDictionary(scriptData.docMoc, dict: dict)
+                    let dict = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! NSDictionary
+                    let new_entry = PSCreateEntryFromDictionary(scriptData.docMoc, dict: dict)
                     se.addSubEntriesObject(new_entry)
                 }
             }
@@ -385,22 +385,20 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
             }
         }
     }
-    
-    func pasteboard(pasteboard: NSPasteboard!, item: NSPasteboardItem!, provideDataForType type: String!) {
+    func pasteboard(pasteboard: NSPasteboard?, item: NSPasteboardItem, provideDataForType type: String) {
         if let ce = PSCopiedEntry {
             switch (type) {
             case NSPasteboardTypeString:
+                guard let pasteboard = pasteboard else { return }
                 let writer = PSScriptWriter(scriptData: mainWindowController.scriptData)
                 let string = writer.entryToText(ce, level: 0)
                 pasteboard.setString(string, forType: NSPasteboardTypeString)
             case PSPasteboardTypeLayoutObject:
                 //need to send type of object and all attributes
+                guard let pasteboard = pasteboard else { return }
                 let data = scriptData.archiveBaseEntry(ce)
                 pasteboard.setData(data, forType: PSPasteboardTypeLayoutObject)
-            case PSPasteboardTypeAttribute as String:
-                //just paste all attributes
-                //PSAttributeEntryToNSDictionary(<#object: NSManagedObject#>)
-                //pasteboard.setData(data, forType: PSPasteboardTypeAttribute)
+            case PSPasteboardTypeAttribute:
                 print("Cannot provide data for type : \(type)")
             default:
                 print("Cannot provide data for type : \(type)")
@@ -430,7 +428,7 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
         for (fn, tools) in filesToImport {
             //1. offer choice from tools (with use this setting for all files with same extension
             
-            var new_entry = tools.first!.createFromDraggedFile(fn, scriptData: scriptData)
+            let new_entry = tools.first!.createFromDraggedFile(fn, scriptData: scriptData)
             new_entry.layoutObject.xPos = location.x + offset
             new_entry.layoutObject.yPos = location.y + offset
             offset = offset + 5

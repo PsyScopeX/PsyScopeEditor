@@ -35,7 +35,7 @@ class PSCustomMenus : NSObject {
         customMenuPopUp.removeAllItems()
         
         //create new  menu with original items
-        var menu = NSMenu()
+        let menu = NSMenu()
         menu.addItem(firstItem)
         menu.addItem(secondItem)
         menu.addItem(seperator)

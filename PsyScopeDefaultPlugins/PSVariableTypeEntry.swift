@@ -92,7 +92,7 @@ func GetCustomVariableTypes(scriptData : PSScriptData) -> PSVariableTypes {
         
             let list = PSStringList(entry: expVariables, scriptData: scriptData)
         
-            var entries = list.stringListLiteralsOnly.map {
+            let entries = list.stringListLiteralsOnly.map {
                 (name : String) -> Entry? in
                 return scriptData.getBaseEntry(name)
             }
@@ -108,7 +108,7 @@ func GetCustomVariableTypes(scriptData : PSScriptData) -> PSVariableTypes {
 func VariableNamedTypeToEntry(namedType : PSVariableNamedType, entry : Entry, scriptData : PSScriptData) {
     //delete all existing sub entries and start again (could try to keep exisitng structure in future)
     let subEntries = entry.subEntries.array as! [Entry]
-    subEntries.map { scriptData.deleteSubEntryFromBaseEntry(entry, subEntry: $0) }
+    subEntries.forEach( { scriptData.deleteSubEntryFromBaseEntry(entry, subEntry: $0) } )
     VariableTypeToEntry(namedType.type, entry: entry, scriptData: scriptData)
 }
 

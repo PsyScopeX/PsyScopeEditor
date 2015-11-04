@@ -138,7 +138,7 @@ public class PSEntryValueParser {
             element = PSEntryElement.Function(functionElement: getLast(&functionObjDic, stack: &functionStack))
         } else if plainValueRule() {
             //musn't be an inline entry
-            if let ias = match(.InlineAttributeSymbol) {
+            if let _ = match(.InlineAttributeSymbol) {
                 //inline entry so no good
             } else {
                 element = PSEntryElement.StringToken(stringElement: getLast(&plainValueObjDic, stack: &plainValueStack))
@@ -273,7 +273,7 @@ public class PSEntryValueParser {
             
             let functionName = getLast(&plainValueObjDic, stack: &plainValueStack).quotedValue
             
-            if let ias = match(.InlineAttributeSymbol) {
+            if let _ = match(.InlineAttributeSymbol) {
                 newInlineEntry = PSFunctionElement()
                 newInlineEntry!.functionName = functionName
                 newInlineEntry!.bracketType = .InlineEntry
@@ -306,17 +306,17 @@ public class PSEntryValueParser {
         
         match(.FunctionEvaluationSymbol) //eat these for now
         
-        if let orb = match(.OpenRoundBracket) {
+        if let _ = match(.OpenRoundBracket) {
             whiteSpaceRule()
             listRule()
             let list = getLast(&listObjDic, stack: &listStack)
-            if let crb = match(.CloseRoundBracket) {
+            if let _ = match(.CloseRoundBracket) {
                 newFunction = PSFunctionElement()
                 newFunction!.functionName = functionName
                 newFunction!.bracketType = .Round
                 newFunction!.values = list.values
             }
-        } else if let osb = match(.OpenSquareBracket) {
+        } else if let _ = match(.OpenSquareBracket) {
             whiteSpaceRule()
             listRule()
             let list = getLast(&listObjDic, stack: &listStack)
@@ -329,7 +329,7 @@ public class PSEntryValueParser {
                 whiteSpaceRule()
             }
             
-            if let csb = match(.CloseSquareBracket) {
+            if let _ = match(.CloseSquareBracket) {
                 newFunction = PSFunctionElement()
                 newFunction!.functionName = functionName
                 newFunction!.bracketType = .Square
@@ -375,7 +375,7 @@ public class PSEntryValueParser {
         }
         
         let startP = p
-        if let whiteSpaceToken = match(.WhiteSpace) {
+        if let _ = match(.WhiteSpace) {
             while whiteSpaceRule() {
                 
             }

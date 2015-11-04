@@ -66,7 +66,7 @@ public class PSAttributePicker: NSObject, NSTableViewDataSource, NSTableViewDele
         let selected_category = categories.filter({ $0.userFriendlyName == currentSelectedTitle }).first!
         
         //show just the relevent attributes
-        for (name, a_plugin) in scriptData.pluginProvider.attributePlugins {
+        for (_, a_plugin) in scriptData.pluginProvider.attributePlugins {
             let valid_types = a_plugin.tools() as! [String]
             
             for tool_type in valid_types {

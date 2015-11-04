@@ -95,7 +95,7 @@ public class PSAttributePickerEntry : PSAttributePicker {
                     alert.messageText = question
                     alert.informativeText = info
                     alert.addButtonWithTitle(okButton)
-                    let answer = alert.runModal()
+                    _ = alert.runModal()
                 }
                 
             } else {

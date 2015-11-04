@@ -180,7 +180,7 @@ class PSEventPropertiesController : PSToolPropertyController {
             event.durationCondition = EventDurationConditionFixedTime(time: 500)
             
             if durationTimeTextField.stringValue == "" {
-                var int : Int = Int(event.durationCondition.getDurationMS())
+                let int : Int = Int(event.durationCondition.getDurationMS())
                 durationTimeTextField.stringValue = "\(int)"
             } else {
                 durationTimeTextFieldEdited()
@@ -189,7 +189,7 @@ class PSEventPropertiesController : PSToolPropertyController {
             durationConditionsController.disable()
         case 3:
             durationTimeTextField.enabled = false
-            var durationsEntry = scriptData.getOrCreateSubEntry("Duration", entry: event.entry, isProperty: true)
+            let durationsEntry = scriptData.getOrCreateSubEntry("Duration", entry: event.entry, isProperty: true)
             event.durationCondition = EventDurationConditionOther(conditionsEntry: durationsEntry, scriptData: scriptData)
             (event.durationCondition as! EventDurationConditionOther).setToNever()
             durationConditionsController.enable(durationsEntry, scriptData: scriptData)

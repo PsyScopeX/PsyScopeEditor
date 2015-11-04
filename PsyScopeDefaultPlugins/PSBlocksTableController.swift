@@ -94,7 +94,7 @@ class PSBlocksTableController : PSChildTypeViewController {
     
     @IBAction func orderPopUpButtons(_: AnyObject) {
         if let te = scriptData.getSubEntry("Blocks", entry: entry) {
-            var access_entry = scriptData.getOrCreateSubEntry("AccessType", entry: te, isProperty: true)
+            let access_entry = scriptData.getOrCreateSubEntry("AccessType", entry: te, isProperty: true)
             access_entry.currentValue = orderComboBoxItems[orderPopUpButton.selectedItem!.title]
         }
     }
@@ -110,16 +110,16 @@ class PSBlocksTableController : PSChildTypeViewController {
     
         if scalableButton.state == 1 {
             scriptData.deleteNamedSubEntryFromParentEntry(entry, name: "FixedCycles")
-            var cyclesEntry = scriptData.getOrCreateSubEntry("Cycles", entry: entry, isProperty: true)
+            let cyclesEntry = scriptData.getOrCreateSubEntry("Cycles", entry: entry, isProperty: true)
             cyclesEntry.currentValue = "\(intCycle)"
             
             let intScaleBlocks : Int = scaleTextField.integerValue
-            var scaleEntry = scriptData.getOrCreateSubEntry("ScaleBlocks", entry: entry, isProperty: true)
+            let scaleEntry = scriptData.getOrCreateSubEntry("ScaleBlocks", entry: entry, isProperty: true)
             scaleEntry.currentValue = "\(intScaleBlocks)"
         } else {
             scriptData.deleteNamedSubEntryFromParentEntry(entry, name: "ScaleBlocks")
             scriptData.deleteNamedSubEntryFromParentEntry(entry, name: "Cycles")
-            var cyclesEntry = scriptData.getOrCreateSubEntry("FixedCycles", entry: entry, isProperty: true)
+            let cyclesEntry = scriptData.getOrCreateSubEntry("FixedCycles", entry: entry, isProperty: true)
             cyclesEntry.currentValue = "\(intCycle)"
         }
     }

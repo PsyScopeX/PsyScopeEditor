@@ -11,7 +11,7 @@ class PSEventStringParser: NSObject {
     
     //given a PSTemplateEvent, as well as the other events in the template, this will parse and set the startCondition and durationCondition based on the attributes StartRef and Duration
     class func parseForTemplateLayoutBoardEvent(event : PSTemplateEvent, events : [PSTemplateEvent]) {
-        var scriptData = event.scriptData
+        let scriptData = event.scriptData
         
         if let startref = scriptData.getSubEntry("StartRef", entry: event.entry) {
             if let sc = startConditionForStartRefEntry(startref, events: events) {
@@ -38,7 +38,7 @@ class PSEventStringParser: NSObject {
             }
         }
         
-        var quoted_string = string.stringByTrimmingCharactersInSet(NSCharacterSet(charactersInString: "\""))
+        let quoted_string = string.stringByTrimmingCharactersInSet(NSCharacterSet(charactersInString: "\""))
         if string == "" {
             print("Error: empty string")
         }else if quoted_string == string {
@@ -47,10 +47,10 @@ class PSEventStringParser: NSObject {
         } else {
             var components = quoted_string.componentsSeparatedByCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
             if components.count == 5 {
-                var number = EventTime.FixedTime(CGFloat(NSString(string:components[0]).floatValue))
+                let number = EventTime.FixedTime(CGFloat(NSString(string:components[0]).floatValue))
                 switch components[4] {
                     case "START":
-                        var event_start = EventStartConditionTrialStart()
+                        let event_start = EventStartConditionTrialStart()
                         event_start.event_time = number
                         return event_start
                     default:
@@ -71,12 +71,12 @@ class PSEventStringParser: NSObject {
                         
                         switch components[2] {
                             case "start":
-                                var event_start = EventStartConditionEventStart()
+                                let event_start = EventStartConditionEventStart()
                                 event_start.event = event
                                 event_start.event_time = number
                                 return event_start
                             case "end":
-                                var event_start = EventStartConditionEventEnd()
+                                let event_start = EventStartConditionEventEnd()
                                 event_start.event = event
                                 event_start.event_time = number
                                 return event_start
@@ -95,13 +95,13 @@ class PSEventStringParser: NSObject {
     }
     
     class func durationConditionForEntry(entry : Entry, scriptData : PSScriptData) -> EventDurationCondition? {
-        var string = entry.currentValue
+        let string = entry.currentValue
         if string == "Self_Terminate" {
             return EventDurationConditionSelfTerminate()
         } else if string == "Trial_End" {
             return EventDurationConditionTrialEnd()
         } else if let n = Int(string) {
-            var event_dur = EventDurationConditionFixedTime(time: n)
+            let event_dur = EventDurationConditionFixedTime(time: n)
             return event_dur
         } else {
             //other condition

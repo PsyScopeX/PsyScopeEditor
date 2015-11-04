@@ -14,7 +14,7 @@ class PSVariableTypeTextFieldCellView : NSTableCellView, NSTextFieldDelegate {
     var item : PSVariableNamedType? //stores the item it's representing
     
     func control(control: NSControl, textShouldBeginEditing fieldEditor: NSText) -> Bool {
-        if let item = item {
+        if item != nil {
             return true
         }
         

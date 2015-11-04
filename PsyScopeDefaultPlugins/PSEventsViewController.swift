@@ -10,7 +10,7 @@ import Foundation
 class PSEventsViewController : PSToolPropertyController, NSWindowDelegate {
 
     init(entry : Entry, scriptData : PSScriptData) {
-        var bundle = NSBundle(forClass:self.dynamicType)
+        let bundle = NSBundle(forClass:self.dynamicType)
         super.init(nibName: "EventsView", bundle: bundle, entry: entry, scriptData: scriptData)
         storedDoubleClickAction = { () in
             //TODO bring up template builder

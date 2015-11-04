@@ -9,7 +9,7 @@ import Foundation
 
 class PSDegradationAttribute : PSAttributePopup {
     init(currentValue : String, setCurrentValueBlock : ((String) -> ())?) {
-        var bundle = PSDefaultPluginBundle
+        let bundle = PSDefaultPluginBundle
         super.init(nibName: "DegradationDialog", bundle: bundle, currentValue: currentValue, displayName: "Degradation", setCurrentValueBlock: setCurrentValueBlock)
     }
     
@@ -25,7 +25,7 @@ class PSDegradationAttribute : PSAttributePopup {
     override func awakeFromNib() {
         super.awakeFromNib()
         //parse the current value
-        var cv = PSStringListCachedContainer()
+        let cv = PSStringListCachedContainer()
         cv.stringValue = currentValue
         if cv.count == 2 {
             //use number formatter of the textfield
@@ -56,7 +56,7 @@ class PSAttribute_TextEventDegradation : PSAttributeGeneric {
         attributeClass = PSAttributeParameter_Custom.self
         toolsArray = [PSTextEvent().type()]
         customAttributeParameterAction = { (before : String, scriptData: PSScriptData, window: NSWindow, setCurrentValueBlock : ((String) -> ())?) -> () in
-            var popup = PSDegradationAttribute(currentValue: before, setCurrentValueBlock: setCurrentValueBlock)
+            let popup = PSDegradationAttribute(currentValue: before, setCurrentValueBlock: setCurrentValueBlock)
             popup.showAttributeModalForWindow(window)
             
         }
@@ -75,7 +75,7 @@ class PSAttribute_PictureEventDegradation : PSAttributeGeneric {
         attributeClass = PSAttributeParameter_Custom.self
         toolsArray = [PSPictureEvent().type()]
         customAttributeParameterAction = { (before : String, scriptData: PSScriptData, window: NSWindow, setCurrentValueBlock : ((String) -> ())?) -> () in
-            var popup = PSDegradationAttribute(currentValue: before, setCurrentValueBlock: setCurrentValueBlock)
+            let popup = PSDegradationAttribute(currentValue: before, setCurrentValueBlock: setCurrentValueBlock)
             popup.showAttributeModalForWindow(window)
             
         }

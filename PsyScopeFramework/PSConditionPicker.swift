@@ -44,7 +44,7 @@ public class PSConditionPicker: NSObject, NSTableViewDataSource, NSTableViewDele
         conditionTableView.registerNib(nib!, forIdentifier: tableCellViewIdentifier)
         tableViewConditions = []
         
-        for (name, a_plugin) in scriptData.pluginProvider.conditionPlugins {
+        for (_, a_plugin) in scriptData.pluginProvider.conditionPlugins {
             let new_Condition = PSConditionPickerCondition()
             new_Condition.type = a_plugin.type()
             new_Condition.userFriendlyName = a_plugin.userFriendlyName()
@@ -88,7 +88,7 @@ public class PSConditionPicker: NSObject, NSTableViewDataSource, NSTableViewDele
     }
     
     public func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        var view = tableView.makeViewWithIdentifier(tableCellViewIdentifier, owner: nil) as! PSConditionPickerCell
+        let view = tableView.makeViewWithIdentifier(tableCellViewIdentifier, owner: nil) as! PSConditionPickerCell
         
         view.setup(tableViewConditions[row].userFriendlyName, image: NSImage(), row: row, clickCallback: conditionButtonClicked)
         

@@ -30,8 +30,7 @@ public class DefaultPlugins: NSObject, PSPluginInterface {
                         PSAttribute_TextStyle.self, 
                         PSAttribute_TextColor.self, 
                         PSAttribute_TextFont.self, 
-                        PSAttribute_TextFace.self, 
-                    
+                        PSAttribute_TextFace.self,
                         PSAttribute_TextSize.self, 
                         PSAttribute_TextEventDegradation.self, 
                         PSAttribute_TextEventSpecial.self, 

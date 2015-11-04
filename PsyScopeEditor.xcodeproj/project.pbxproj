@@ -15,7 +15,6 @@
 		1A0A25341A3239840000D621 /* KeyCondition.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A0A25331A3239840000D621 /* KeyCondition.xib */; };
 		1A0A25361A334DA70000D621 /* Condition_KeyCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A0A25351A334DA70000D621 /* Condition_KeyCell.xib */; };
 		1A0B52061AEE73E700E0ADDB /* PSVariableCompositeTypePopoverController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0B52051AEE73E700E0ADDB /* PSVariableCompositeTypePopoverController.swift */; };
-		1A0B52081AEF906900E0ADDB /* PSAttribute_ExperimentLogFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0B52071AEF906900E0ADDB /* PSAttribute_ExperimentLogFile.swift */; };
 		1A0B520D1AEFA68600E0ADDB /* PSScriptErrorPopoverController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0B520C1AEFA68600E0ADDB /* PSScriptErrorPopoverController.swift */; };
 		1A0B52441AEFC4B200E0ADDB /* PSDialogVariableTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0B52431AEFC4B200E0ADDB /* PSDialogVariableTool.swift */; };
 		1A0B52461AEFCC3600E0ADDB /* PSDialogVariablePropertiesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0B52451AEFCC3600E0ADDB /* PSDialogVariablePropertiesController.swift */; };
@@ -679,7 +678,6 @@
 		1A0A25331A3239840000D621 /* KeyCondition.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KeyCondition.xib; sourceTree = "<group>"; };
 		1A0A25351A334DA70000D621 /* Condition_KeyCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Condition_KeyCell.xib; sourceTree = "<group>"; };
 		1A0B52051AEE73E700E0ADDB /* PSVariableCompositeTypePopoverController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSVariableCompositeTypePopoverController.swift; sourceTree = "<group>"; };
-		1A0B52071AEF906900E0ADDB /* PSAttribute_ExperimentLogFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSAttribute_ExperimentLogFile.swift; sourceTree = "<group>"; };
 		1A0B520C1AEFA68600E0ADDB /* PSScriptErrorPopoverController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSScriptErrorPopoverController.swift; sourceTree = "<group>"; };
 		1A0B52431AEFC4B200E0ADDB /* PSDialogVariableTool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSDialogVariableTool.swift; sourceTree = "<group>"; };
 		1A0B52451AEFCC3600E0ADDB /* PSDialogVariablePropertiesController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSDialogVariablePropertiesController.swift; sourceTree = "<group>"; };
@@ -1823,7 +1821,6 @@
 				1A5461B21A091C5C00C3CFAB /* PSPictureEventAttribute.swift */,
 				1A3434F119FA8108007202E0 /* PSTextEventSpecial.swift */,
 				1A3434EF19FA7FCC007202E0 /* TextEventSpecial.xib */,
-				1A0B52071AEF906900E0ADDB /* PSAttribute_ExperimentLogFile.swift */,
 				1AAE1FA41B7B6B0400F72E8D /* PSAttribute_ExperimentInputDevices.swift */,
 			);
 			name = Attributes;
@@ -2735,7 +2732,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0710;
-				LastUpgradeCheck = 0630;
+				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = James;
 				TargetAttributes = {
 					1A2FBE4A1975827300F5FFB5 = {
@@ -3133,7 +3130,6 @@
 				1A9CE3551AA8B9A900C846F4 /* PSAction_ClearStim.swift in Sources */,
 				1AD6D40F19E80D6F00A623B1 /* PSTableTool.swift in Sources */,
 				1AD032911B15239C002516ED /* PSListFileReader.swift in Sources */,
-				1A0B52081AEF906900E0ADDB /* PSAttribute_ExperimentLogFile.swift in Sources */,
 				1A61E58E1ACB3F5900BB775D /* PSAttribute_TextColor.swift in Sources */,
 				1A345DD11AE8040A003356BD /* PSVariableTypeTextFieldCellView.swift in Sources */,
 				1A3E70B219B3590200FD33C9 /* PSGroupsViewController.swift in Sources */,
@@ -3498,6 +3494,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				PRODUCT_BUNDLE_IDENTIFIER = "sissa.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
@@ -3520,6 +3517,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				PRODUCT_BUNDLE_IDENTIFIER = "sissa.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
@@ -3613,11 +3611,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Frameworks",
-					"$(PROJECT_DIR)/PsyScopeFramework",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				FRAMEWORK_VERSION = A;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -3627,6 +3621,7 @@
 				INSTALL_PATH = /Library/Frameworks;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				PRODUCT_BUNDLE_IDENTIFIER = "sissa.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
@@ -3650,16 +3645,13 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Frameworks",
-					"$(PROJECT_DIR)/PsyScopeFramework",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = PsyScopeFramework/Info.plist;
 				INSTALL_PATH = /Library/Frameworks;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				PRODUCT_BUNDLE_IDENTIFIER = "sissa.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
@@ -3715,6 +3707,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "compasssounds.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_MODULE_NAME = PsyScopeEditor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
@@ -3737,6 +3730,7 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "PsyScopeEditor Tests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "compasssounds.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_MODULE_NAME = PsyScopeEditor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "PsyScopeEditor Tests/PsyScopeEditorTests-Bridging-Header.h";
@@ -3764,6 +3758,7 @@
 				CODE_SIGN_IDENTITY = "-";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -3824,7 +3819,6 @@
 		1AC0829019701F2F0038512B /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -3839,6 +3833,7 @@
 				INFOPLIST_FILE = PsyScopeEditor/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				PRODUCT_BUNDLE_IDENTIFIER = "sissa.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SWIFT_OBJC_BRIDGING_HEADER = "PsyScopeEditor/PsyScopeEditor-Bridging-Header.h";
@@ -3849,7 +3844,6 @@
 		1AC0829119701F2F0038512B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -3865,6 +3859,7 @@
 				INFOPLIST_FILE = PsyScopeEditor/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				PRODUCT_BUNDLE_IDENTIFIER = "sissa.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SWIFT_OBJC_BRIDGING_HEADER = "PsyScopeEditor/PsyScopeEditor-Bridging-Header.h";

@@ -60,9 +60,9 @@ public class PSSubjectVariableView : NSView {
     }
     
     func constructCheckBoxesSubView(values : [String]) {
-        for val in values {
+        /*for val in values {
             var checkBox = NSButton(frame: NSMakeRect(5,self.frame.height - 39, self.frame.width - 10, 22))
-        }
+        }*/
     }
     
     func constructRadioButtonsSubView(values : [String]) {

@@ -20,7 +20,7 @@ class PSTableHeaderView : NSTableHeaderView  {
         let columnForMenu = self.columnAtPoint(self.convertPoint(event.locationInWindow, fromView: nil))
         var tableColumn : NSTableColumn? = nil
         if columnForMenu >= 1 {
-            tableColumn = self.tableView!.tableColumns[columnForMenu] as? NSTableColumn
+            tableColumn = self.tableView!.tableColumns[columnForMenu]
         } else {
             return nil
         }

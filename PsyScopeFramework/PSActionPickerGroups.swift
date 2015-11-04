@@ -32,7 +32,7 @@ func PSActionPickerGroups(scriptData : PSScriptData) -> [PSActionPickerGroup] {
     }
     var groups : [PSActionPickerGroup] = []
     
-    for (name, a_plugin) in scriptData.pluginProvider.actionPlugins {
+    for (_, a_plugin) in scriptData.pluginProvider.actionPlugins {
         let new_Action = PSActionPickerAction()
         new_Action.type = a_plugin.type()
         new_Action.userFriendlyName = a_plugin.userFriendlyName()

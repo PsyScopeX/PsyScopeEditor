@@ -22,8 +22,8 @@ class PSEntryValueParser_Tests: XCTestCase {
     }
 
     func testConditionActionsArrowHasNoSurroundingSpaces_CorrectParse() {
-        var value = "Conditions[Start[]]=>Actions[\t\t\t\r\t\t\tBeep[ Boing ]\t\t\t ]"
-        var parser = PSEntryValueParser(stringValue: value)
+        let value = "Conditions[Start[]]=>Actions[\t\t\t\r\t\t\tBeep[ Boing ]\t\t\t ]"
+        let parser = PSEntryValueParser(stringValue: value)
         XCTAssert(!parser.foundErrors, "Parser found errors - should be able to parse this value: \(value)")
         
         var correctValueType = false
@@ -31,9 +31,9 @@ class PSEntryValueParser_Tests: XCTestCase {
             switch(val) {
             case .Null:
                 break
-            case let .StringToken(stringElement):
+            case let .StringToken(_):
                 break
-            case let .List(stringListElement):
+            case let .List(_):
                 break
             case let .Function(functionElement):
                 if functionElement.functionName == "" && functionElement.bracketType == .Expression {
@@ -51,8 +51,8 @@ class PSEntryValueParser_Tests: XCTestCase {
     
     
     func testConditionActionsArrowWithSurroundingSpaces_CorrectParse() {
-        var value = "Conditions[Start[]] => Actions[\t\t\t\r\t\t\tBeep[ Boing ]\t\t\t ]"
-        var parser = PSEntryValueParser(stringValue: value)
+        let value = "Conditions[Start[]] => Actions[\t\t\t\r\t\t\tBeep[ Boing ]\t\t\t ]"
+        let parser = PSEntryValueParser(stringValue: value)
         XCTAssert(!parser.foundErrors, "Parser found errors - should be able to parse this value: \(value)")
         
         var correctValueType = false
@@ -60,9 +60,9 @@ class PSEntryValueParser_Tests: XCTestCase {
             switch(val) {
             case .Null:
                 break
-            case let .StringToken(stringElement):
+            case let .StringToken(_):
                 break
-            case let .List(stringListElement):
+            case let .List(_):
                 break
             case let .Function(functionElement):
                 if functionElement.functionName == "" && functionElement.bracketType == .Expression {

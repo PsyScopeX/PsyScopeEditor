@@ -19,7 +19,7 @@ class PSExperimentDataFields : PSExperimentAttribute {
         defaultValueString = PSDefaultConstants.DefaultAttributeValues.PSExperimentDataFields
         attributeClass = PSAttributeParameter_Custom.self
         customAttributeParameterAction = { (before : String, scriptData: PSScriptData, window: NSWindow, setCurrentValueBlock : ((String) -> ())?) -> () in
-            var popup = PSCheckBoxListAttributePopup(currentValue: before, displayName: "Data Fields", checkBoxStrings: self.checkBoxStrings, setCurrentValueBlock: setCurrentValueBlock)
+            let popup = PSCheckBoxListAttributePopup(currentValue: before, displayName: "Data Fields", checkBoxStrings: self.checkBoxStrings, setCurrentValueBlock: setCurrentValueBlock)
             popup.showAttributeModalForWindow(window)
             
         }

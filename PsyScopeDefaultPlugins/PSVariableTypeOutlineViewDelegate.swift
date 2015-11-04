@@ -44,7 +44,7 @@ class PSVariableTypeOutlineViewDelegate : NSObject, NSOutlineViewDataSource, NSO
         }
         
         
-        expandedItems.map {
+        expandedItems.forEach {
             self.outlineView.expandItem( $0 )
         }
         
@@ -74,7 +74,7 @@ class PSVariableTypeOutlineViewDelegate : NSObject, NSOutlineViewDataSource, NSO
         }
         
         switch(typeEnum) {
-        case let .Array(variableArray):
+        case .Array:
             return 1
         case let .Record(variableRecord):
             return variableRecord.fields.count
@@ -120,7 +120,7 @@ class PSVariableTypeOutlineViewDelegate : NSObject, NSOutlineViewDataSource, NSO
 
             if let variableNamedType = item as? PSVariableNamedType {
                 return variableNamedType.name
-            } else if let variableType = item as? PSVariableType {
+            } else if item is PSVariableType {
                 return "Type"
             } else {
                 fatalError("Items with values should be PSVariableNamedType or PSVariableType")
@@ -153,7 +153,7 @@ class PSVariableTypeOutlineViewDelegate : NSObject, NSOutlineViewDataSource, NSO
                 return defined
             case let .Array(variableArray):
                 return "Array[\(variableArray.count)]"
-            case let .Record(variableRecord):
+            case .Record:
                 return "Record"
             }
             

@@ -27,24 +27,10 @@ class PSTableBuilderController : NSObject, NSTableViewDataSource, NSTableViewDel
     
     func docMocChanged(notification : NSNotification) {
         //hide window if entry has been deleted
-        var changed = notification.userInfo
-        let keys_to_check : [NSString] = [NSInsertedObjectsKey, NSUpdatedObjectsKey, NSDeletedObjectsKey, NSRefreshedObjectsKey, NSInvalidatedObjectsKey, NSInvalidatedAllObjectsKey]
-        var updated_objects : [LayoutObject] = []
-        for key in keys_to_check {
-            var objects_set = changed![key] as! NSSet?
-            if let os = objects_set {
-                var objects = os.allObjects
-                for object in objects {
-                    //check for changes with these here objects
-                }
-            }
-        }
-        
         if tableEntry.deleted ||
             tableEntry.layoutObject == nil {
                 //object has been deleted, so need to close window
                 tableBuilder.closeWindow()
-                
         }
     }
     
@@ -75,22 +61,22 @@ class PSTableBuilderController : NSObject, NSTableViewDataSource, NSTableViewDel
     }
     
     
-    func numberOfRowsInTableView(tableView: NSTableView!) -> Int {
+    func numberOfRowsInTableView(tableView: NSTableView) -> Int {
         if factorTable != nil {
             return factorTable.rows()
         }
         return 0
     }
     
-    func tableView(tableView: NSTableView!, objectValueForTableColumn tableColumn: NSTableColumn!, row: Int) -> AnyObject! {
+    func tableView(tableView: NSTableView, objectValueForTableColumn tableColumn: NSTableColumn?, row: Int) -> AnyObject? {
         return ""
     }
     
-    func tableView(tableView: NSTableView!, heightOfRow row: Int) -> CGFloat {
+    func tableView(tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
         return PSDefaultConstants.TableBuilder.rowHeight
     }
     
-    func tableView(tableView: NSTableView!, setObjectValue object: AnyObject!, forTableColumn tableColumn: NSTableColumn!, row: Int) {
+    func tableView(tableView: NSTableView, setObjectValue object: AnyObject?, forTableColumn tableColumn: NSTableColumn?, row: Int) {
         
     }
 }

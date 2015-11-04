@@ -25,11 +25,11 @@ class PSBlankEntryTool: PSTool, PSToolInterface {
     
     //dont create layout object for blank entry
     override func createObject(scriptData: PSScriptData!) -> Entry! {
-        var sect = scriptData.getOrCreateSection(section.name, zOrder: section.zorder)
+        let sect = scriptData.getOrCreateSection(section.name, zOrder: section.zorder)
         
         //create main block entry
-        var new_name = scriptData.getNextFreeBaseEntryName(typeString)
-        var new_entry = scriptData.insertNewBaseEntry(new_name, type: typeString)
+        let new_name = scriptData.getNextFreeBaseEntryName(typeString)
+        let new_entry = scriptData.insertNewBaseEntry(new_name, type: typeString)
         
         sect.addObjectsObject(new_entry)
         return new_entry

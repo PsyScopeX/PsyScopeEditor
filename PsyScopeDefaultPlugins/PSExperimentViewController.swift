@@ -10,7 +10,7 @@ import Foundation
 class PSExperimentViewController : PSToolPropertyController {
 
     init(entry : Entry, scriptData : PSScriptData) {
-        var bundle = NSBundle(forClass:self.dynamicType)
+        let bundle = NSBundle(forClass:self.dynamicType)
         super.init(nibName: "ExperimentView", bundle: bundle, entry: entry, scriptData: scriptData)
     }
 
@@ -41,7 +41,7 @@ class PSExperimentViewController : PSToolPropertyController {
         self.view.addSubview(childTypeController.view)
         
         var frame = childTypeController.view.frame
-        var yposition = CGRectGetHeight(self.view.frame) - CGRectGetHeight(frame) - yOffSet
+        let yposition = CGRectGetHeight(self.view.frame) - CGRectGetHeight(frame) - yOffSet
         frame.origin = CGPointMake(0.0, ceil(yposition))
         childTypeController.view.frame = frame
     }

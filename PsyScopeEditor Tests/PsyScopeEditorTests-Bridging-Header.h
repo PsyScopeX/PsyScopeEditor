@@ -7,7 +7,4 @@
 //
 
 #import <PsyScopeFramework/PsyScopeFramework.h>
-#import "PSPluginLoader.h"
 
-#import "MASPreferencesWindowController.h"
-#import "NCRAutocompleteTextView.h"

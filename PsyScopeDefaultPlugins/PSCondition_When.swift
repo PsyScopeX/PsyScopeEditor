@@ -37,7 +37,7 @@ class PSCondition_WhenCell : PSConditionCell, NSTextFieldDelegate {
     
     func parse() {
 
-        var inputValue = entryFunction.getStringValues()
+        let inputValue = entryFunction.getStringValues()
         
         for v in inputValue {
             

@@ -61,7 +61,7 @@ enum PSTrialCountType {
 
 func PSNumberOfTrialsInBlock(blockEntry : Entry, scriptData : PSScriptData) -> PSTrialCountType {
     
-    if let templatesEntry = scriptData.getSubEntry("Templates", entry: blockEntry) {  //block
+    if let _ = scriptData.getSubEntry("Templates", entry: blockEntry) {  //block
         //get blockduration cycles or fixedcycles
         if let blockDuration = scriptData.getSubEntry("BlockDuration", entry: blockEntry) {
             if let intValue = Int(blockDuration.currentValue) {
@@ -84,7 +84,7 @@ func PSNumberOfTrialsInBlock(blockEntry : Entry, scriptData : PSScriptData) -> P
         } else {
             return PSTrialCountType.Trials(1)
         }
-    } else if let blocksEntry = scriptData.getSubEntry("Blocks", entry: blockEntry) { //super block
+    } else if let _ = scriptData.getSubEntry("Blocks", entry: blockEntry) { //super block
         if let cycles = scriptData.getSubEntry("Cycles", entry: blockEntry) {
             
             var cycleCount : Int = 0

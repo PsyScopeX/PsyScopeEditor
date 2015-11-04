@@ -117,7 +117,7 @@ public class PSActionPicker: NSObject, NSOutlineViewDataSource, NSOutlineViewDel
     }
     
     public func outlineView(outlineView: NSOutlineView, heightOfRowByItem item: AnyObject) -> CGFloat {
-        if let action = item as? PSActionPickerAction {
+        if item is PSActionPickerAction {
             return 25
         } else {
             return 17

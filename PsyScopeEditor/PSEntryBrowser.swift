@@ -37,12 +37,12 @@ class PSEntryBrowser : NSObject, NSOutlineViewDataSource, NSOutlineViewDelegate 
     
     func setup(scriptData : PSScriptData) {
         self.scriptData = scriptData
-        var nib = NSNib(nibNamed: "PSEntryBrowserCell", bundle: NSBundle(forClass:self.dynamicType))!
+        let nib = NSNib(nibNamed: "PSEntryBrowserCell", bundle: NSBundle(forClass:self.dynamicType))!
         outlineView.registerNib(nib, forIdentifier: "PSEntryBrowserCell")
     }
     
     func update() {
-        var entries = scriptData.getBaseEntries()
+        let entries = scriptData.getBaseEntries()
  
         var current_categories = Set<PSEntryBrowserCategory>()
         for entry in entries {
@@ -132,7 +132,7 @@ class PSEntryBrowser : NSObject, NSOutlineViewDataSource, NSOutlineViewDelegate 
     }
     
     func outlineView(outlineView: NSOutlineView, isGroupItem item: AnyObject) -> Bool {
-        if let category = item as? PSEntryBrowserCategory {
+        if item is PSEntryBrowserCategory {
             return true
         }
         
@@ -158,7 +158,7 @@ class PSEntryBrowser : NSObject, NSOutlineViewDataSource, NSOutlineViewDelegate 
     }
     
     func outlineView(outlineView: NSOutlineView, viewForTableColumn tableColumn: NSTableColumn?, item: AnyObject) -> NSView? {
-        var view = outlineView.makeViewWithIdentifier("PSEntryBrowserCell", owner: nil) as! NSTableCellView
+        let view = outlineView.makeViewWithIdentifier("PSEntryBrowserCell", owner: nil) as! NSTableCellView
         if let category = item as? PSEntryBrowserCategory {
             view.textField?.stringValue = category.name
             view.imageView!.image = category.icon

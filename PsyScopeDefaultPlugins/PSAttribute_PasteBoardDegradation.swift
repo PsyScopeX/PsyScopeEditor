@@ -20,7 +20,7 @@ class PSAttribute_PasteBoardEventDegradation : PSAttributeGeneric {
         attributeClass = PSAttributeParameter_Custom.self
         toolsArray = [PSPasteBoardEvent().type()]
         customAttributeParameterAction = { (before : String, scriptData: PSScriptData, window: NSWindow, setCurrentValueBlock : ((String) -> ())?) -> () in
-            var popup = PSDegradationAttribute(currentValue: before, setCurrentValueBlock: setCurrentValueBlock)
+            let popup = PSDegradationAttribute(currentValue: before, setCurrentValueBlock: setCurrentValueBlock)
             popup.showAttributeModalForWindow(window)
             
         }

@@ -18,13 +18,12 @@ class PSExperimentTool: PSTool, PSToolInterface {
         classNameString = "PSExperimentTool"
         section = (name: "ExperimentDefinitions", zorder: 1)
         identityProperty = ExperimentsProperties.Experiments
-        properties = [ExperimentProperties.LogFile, ExperimentProperties.Format, ExperimentProperties.InputDevices, ExperimentProperties.Timer, ExperimentProperties.Flags, ExperimentProperties.ScaleBlocks, ExperimentProperties.DataFile]
+        properties = [ExperimentProperties.Format, ExperimentProperties.InputDevices, ExperimentProperties.Timer, ExperimentProperties.Flags, ExperimentProperties.ScaleBlocks, ExperimentProperties.DataFile]
     }
     
     
     
     struct ExperimentProperties {
-        static let LogFile = PSProperty(name: "Log File", defaultValue: "\"PsyScope.log\"", essential: true)//tricky: Logfile vs Log File
         static let Format = PSProperty(name: "Format", defaultValue: "Factor", essential: true)
         static let InputDevices = PSProperty(name: "InputDevices", defaultValue: "MOUSE KEY", essential: true)
         static let Timer = PSProperty(name: "Timer", defaultValue: "Macintosh", essential: true)

@@ -41,7 +41,7 @@ class PSCondition_MovieCell : PSConditionCell, NSTextFieldDelegate {
     
     func parse() {
 
-        var inputValue = entryFunction.getStringValues()
+        let inputValue = entryFunction.getStringValues()
         timePointRadio.selectCellWithTag(1) //done
         hourText.stringValue = "0"
         minText.stringValue = "0"

@@ -63,7 +63,7 @@ public enum PSSubjectVariableType {
     }
     
     private func addCheckBoxes(checkBoxes : [String], entry : Entry, scriptData : PSScriptData) {
-        let msg = scriptData.getOrCreateSubEntry("Msg", entry: entry, isProperty: true)
+        _ = scriptData.getOrCreateSubEntry("Msg", entry: entry, isProperty: true)
         let checkBoxList = PSStringList(entry: scriptData.getOrCreateSubEntry("CheckBoxes", entry: entry, isProperty: true), scriptData: scriptData)
         let defaultEntry = PSStringList(entry: scriptData.getOrCreateSubEntry("Default", entry: entry, isProperty: true), scriptData: scriptData)
         
@@ -80,7 +80,7 @@ public enum PSSubjectVariableType {
     }
     
     private func addRadioButtons(radioButtons : [String], entry : Entry, scriptData : PSScriptData) {
-        let msg = scriptData.getOrCreateSubEntry("Msg", entry: entry, isProperty: true)
+        _ = scriptData.getOrCreateSubEntry("Msg", entry: entry, isProperty: true)
         let buttonsList = PSStringList(entry: scriptData.getOrCreateSubEntry("Buttons", entry: entry, isProperty: true), scriptData: scriptData)
         let defaultEntry = PSStringList(entry: scriptData.getOrCreateSubEntry("Default", entry: entry, isProperty: true), scriptData: scriptData)
         
