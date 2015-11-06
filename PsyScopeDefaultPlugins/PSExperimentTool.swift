@@ -119,15 +119,6 @@ class PSExperimentTool: PSTool, PSToolInterface {
                 } else {
                     errors.append(PSErrorDataFileEntry())
                 }
-                
-                if let logfile = scriptData.getSubEntry("Log File", entry: entry) {
-                    //ok we have data file
-                    if logfile.currentValue == "" {
-                        errors.append(PSErrorLogFileEntry())
-                    }
-                } else {
-                    errors.append(PSErrorLogFileEntry())
-                }
             }
         }
         return errors
@@ -411,12 +402,6 @@ class PSExperimentTool: PSTool, PSToolInterface {
 
 }
 
-func PSErrorLogFileEntry() -> PSScriptError {
-    let d = "The -LogFile- sub entry must be defined, and have a valid file name as its value"
-    let s = "Add LogFile sub entry to the main experiment entry, and set it's value"
-    return PSScriptError(errorDescription: "Missing LogFile Sub Entry", detailedDescription: d, solution: s, range: NSMakeRange(0, 0))
-    
-}
 
 func PSErrorDataFileEntry() -> PSScriptError {
     let d = "The -DataFile- sub entry must be defined, and have a valid file name as its value"
