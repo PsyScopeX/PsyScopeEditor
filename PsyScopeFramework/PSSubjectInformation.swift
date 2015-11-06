@@ -95,11 +95,36 @@ public class PSSubjectInformation : NSObject {
     public func moveVariable(variable : PSSubjectVariable, schedule: PSSubjectVariableSchedule, position: Int) {
         print("Moving variable \(variable.name) to list \(schedule) at position \(position)")
         scriptData.beginUndoGrouping("Change variable")
-        if variable.storageOptions.schedule == schedule {
-            //moving within list
-        } else {
-            //moving to new schedule
+        if variable.storageOptions.schedule != schedule {
+            //move to new schedule
+            var storageOptions = variable.storageOptions
+            storageOptions.schedule = schedule
+            variable.storageOptions = storageOptions
+        } else if schedule == .Never {
+            NSBeep() //alert as there is no point in swapping variables in Never condition 
         }
+        
+        //move to correct position within list
+        switch schedule {
+        case .RunStart:
+            if let runStartList = PSStringList(baseEntryName: "RunStart", scriptData: scriptData),
+                index = runStartList.indexOfValueWithString(variable.name) {
+                    print("RunStart move \(index) to \(position)")
+                    runStartList.move(index, to: position)
+            }
+            
+        case.RunEnd:
+            if let runEndList = PSStringList(baseEntryName: "RunEnd", scriptData: scriptData),
+                index = runEndList.indexOfValueWithString(variable.name) {
+                    runEndList.move(index, to: position)
+            }
+        case .Never:
+            
+            //NSBeep() //no reason to swap around dialogs that dont get run
+            break
+        }
+        
+        
         scriptData.endUndoGrouping()
     }
 }

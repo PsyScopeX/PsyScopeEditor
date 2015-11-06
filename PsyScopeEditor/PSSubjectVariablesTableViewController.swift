@@ -179,16 +179,20 @@ class PSSubjectVariablesTableViewController : NSObject, NSTableViewDataSource, N
                 } else if let groupHeader = groupForRow(row) {
                     //this is a row where currently a group header is present.  This means that the previous group is the header we want to move to..
                     var groupPositionToMoveTo : PSSubjectVariableSchedule
+                    var positionToMoveTo : Int
                     switch groupHeader {
                     case .RunStart:
                         groupPositionToMoveTo = .RunStart // should not be possible this is at zero index....
+                        positionToMoveTo = 0
                     case .RunEnd:
                         groupPositionToMoveTo = .RunStart
+                        positionToMoveTo = runStartVariables.count
                     case .Never:
                         groupPositionToMoveTo = .RunEnd
+                        positionToMoveTo = runEndVariables.count
                     }
                     
-                    subjectInformation.moveVariable(subjectVariableToMove, schedule: groupPositionToMoveTo, position: 0)
+                    subjectInformation.moveVariable(subjectVariableToMove, schedule: groupPositionToMoveTo, position: positionToMoveTo)
                 } else {
                     //must have moved to the end
                     if row >= numberOfRowsInTableView(tableView) {
@@ -211,9 +215,8 @@ class PSSubjectVariablesTableViewController : NSObject, NSTableViewDataSource, N
     
     func tableView(tableView: NSTableView, validateDrop info: NSDraggingInfo, proposedRow row: Int, proposedDropOperation dropOperation: NSTableViewDropOperation) -> NSDragOperation {
         
-        //cannot move to row 0 as that is a group row
+        //cannot move to row 0 as that is always a group row
         if row > 0 && dropOperation == .Above {
-            print("Move to row\(row)")
             return NSDragOperation.Move
         } else {
             return NSDragOperation.None
