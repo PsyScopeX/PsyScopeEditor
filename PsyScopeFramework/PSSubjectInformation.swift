@@ -11,20 +11,34 @@ import Foundation
 public class PSSubjectInformation : NSObject {
     public init(scriptData : PSScriptData) {
         self.scriptData = scriptData
-        self.subjectVariables = []
+        self.runStartVariables = []
+        self.runEndVariables = []
+        self.neverRunVariables = []
     }
     
     let scriptData : PSScriptData
-    public var subjectVariables : [PSSubjectVariable]
+    public var runStartVariables : [PSSubjectVariable]
+    public var runEndVariables : [PSSubjectVariable]
+    public var neverRunVariables : [PSSubjectVariable]
     
     public var groupVariables : [PSSubjectVariable] {
         get {
-            return subjectVariables.filter({ $0.isGroupingVariable})
+            return allVariables.filter({ $0.isGroupingVariable})
         }
     }
     
+    public var allVariables : [PSSubjectVariable] {
+        return runStartVariables + runEndVariables + neverRunVariables
+    }
+    
     public func updateVariablesFromScript() {
-        subjectVariables = []
+        runStartVariables = []
+        runEndVariables = []
+        neverRunVariables = []
+        
+        //get variables referenced in runstart
+        
+        //get variables referenced in runend
 
         //get all base entries which are dialogs, and are run at some point of the experiment
         let dialogEntries = scriptData.getBaseEntriesOfType("DialogVariable").filter({
@@ -36,56 +50,14 @@ public class PSSubjectInformation : NSObject {
             return false
         })
     
-        subjectVariables = dialogEntries.map { PSSubjectVariable(entry: $0, scriptData: self.scriptData) }
-
-        //Entries which cause a dialog to be run
-        
-        //StartUp
-        
-        //ExperimentStartUp
-        
-        //RunStart
-        
-        //These same entries with 'Log' as a prefix and a Dialog: subentry with value 'LogInfo' cause the variable to be logged
-        
-        //SubjectNumAndGroup has the Dialog: subentry with 'SubjectNumAndGroup' which is the automatic calculation
-        
-        //AutoDataFile AutoDatafile:: "SUBJECT NAMESUBJECT NAME-"
-        //Dialog: MakeFileName
-        //Strings: @"SubjectName" @"SubjectName" "-"
-        //Folder:
-        //UseDir: FALSE
-        
-        //PracticeStart
-        
-        //RunEnd
-        
-        //PracticeEnd
-        
-        //RunBreak
-        
-        //PracticeBreak
-        
-        //ExperimentClose
-        
-        //Shutdown
-        
-  
-        
-        //RunStart:: LogRunStart SubjectNumAndGroup JamesGroup JamesVariable
-        
-        //LogRunStart:: SubjectName JamesGroup JamesVariable
-        //   Dialog: LogInfo
-        
-
-    
+        neverRunVariables = dialogEntries.map { PSSubjectVariable(entry: $0, scriptData: self.scriptData) }
     }
     
     public func addNewVariable(isGroupingVariable : Bool) {
         if isGroupingVariable {
-            subjectVariables.append(PSSubjectVariable.NewGroupingVariable(scriptData))
+            runStartVariables.append(PSSubjectVariable.NewGroupingVariable(scriptData))
         } else {
-            subjectVariables.append(PSSubjectVariable.NewSubjectVariable(scriptData))
+            runStartVariables.append(PSSubjectVariable.NewSubjectVariable(scriptData))
         }
         updateScriptFromVariables()
     }
@@ -95,6 +67,49 @@ public class PSSubjectInformation : NSObject {
     }
     
     public func updateScriptFromVariables() {
-        for subjectVariable in subjectVariables { subjectVariable.saveToScript() }
+        for subjectVariable in allVariables { subjectVariable.saveToScript() }
+    }
+    
+    public func moveVariable(variable : PSSubjectVariable, schedule: PSSubjectVariableSchedule, position: Int) {
+        print("Moving variable \(variable.name) to list \(schedule) at position \(position)")
     }
 }
+
+//Entries which cause a dialog to be run
+
+//StartUp
+
+//ExperimentStartUp
+
+//RunStart
+
+//These same entries with 'Log' as a prefix and a Dialog: subentry with value 'LogInfo' cause the variable to be logged
+
+//SubjectNumAndGroup has the Dialog: subentry with 'SubjectNumAndGroup' which is the automatic calculation
+
+//AutoDataFile AutoDatafile:: "SUBJECT NAMESUBJECT NAME-"
+//Dialog: MakeFileName
+//Strings: @"SubjectName" @"SubjectName" "-"
+//Folder:
+//UseDir: FALSE
+
+//PracticeStart
+
+//RunEnd
+
+//PracticeEnd
+
+//RunBreak
+
+//PracticeBreak
+
+//ExperimentClose
+
+//Shutdown
+
+
+
+//RunStart:: LogRunStart SubjectNumAndGroup JamesGroup JamesVariable
+
+//LogRunStart:: SubjectName JamesGroup JamesVariable
+//   Dialog: LogInfo

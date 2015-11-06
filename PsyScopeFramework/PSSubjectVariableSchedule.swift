@@ -12,4 +12,14 @@ import Foundation
 public enum PSSubjectVariableSchedule {
     case RunStart, RunEnd, Never
     
+    public func description() -> String {
+        switch self {
+        case .RunStart:
+            return "Start of Experiment"
+        case .RunEnd:
+            return "End of Experiment"
+        case .Never:
+            return "Never"
+        }
+    }
 }

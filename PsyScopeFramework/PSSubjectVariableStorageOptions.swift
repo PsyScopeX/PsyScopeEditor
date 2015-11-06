@@ -8,14 +8,13 @@
 
 import Foundation
 
+//Subject variables differ from regular variables, in that they are often linked to dialogs.  They often cannot be included in the datafile as columns, as PsyScopeX is fussy.  There is an option to create another variable which links to allow adding them though.
 public struct PSSubjectVariableStorageOptions {
-    public var inDataFileColumns : Bool
     public var inDataHeader : Bool
     public var inLogFile : Bool
     public var schedule : PSSubjectVariableSchedule
     
     init(all : Bool) {
-        self.inDataFileColumns = all
         self.inDataHeader = all
         self.inLogFile = all
         if all {
@@ -26,26 +25,22 @@ public struct PSSubjectVariableStorageOptions {
     }
     
     init(inDataFileColumns : Bool, inDataHeader : Bool, inLogFile : Bool, schedule : PSSubjectVariableSchedule) {
-        self.inDataFileColumns = inDataFileColumns
         self.inDataHeader = inDataHeader
         self.inLogFile = inLogFile
         self.schedule = schedule
     }
     
+    
+    
     func saveToScript(entry : Entry, scriptData : PSScriptData) {
-        let eee = scriptData.getMainExperimentEntry()
+        let experimentEntry = scriptData.getMainExperimentEntry()
             
         if inDataHeader {
-            scriptData.addItemToAttributeList("DataHeader", entry: eee, item: entry.name)
+            scriptData.addItemToAttributeList("DataHeader", entry: experimentEntry, item: entry.name)
         } else {
-            scriptData.removeItemFromAttributeList("DataHeader", entry: eee, item: entry.name)
+            scriptData.removeItemFromAttributeList("DataHeader", entry: experimentEntry, item: entry.name)
         }
         
-        if inDataFileColumns {
-            scriptData.addItemToAttributeList("DataVariables", entry: eee, item: entry.name)
-        } else {
-            scriptData.removeItemFromAttributeList("DataVariables", entry: eee, item: entry.name)
-        }
         
         var promptEntryName : String?
         var logEntryName : String
@@ -56,77 +51,40 @@ public struct PSSubjectVariableStorageOptions {
             logEntryName = "LogRunStart"
             
             //remove all references in runend and logrunend
-            if let logRunStart = scriptData.getBaseEntry("LogRunEnd") {
-                let logRunStartList = PSStringList(entry: logRunStart, scriptData: scriptData)
-                logRunStartList.remove(entry.name)
-            }
-            
-            if let runStart = scriptData.getBaseEntry("RunEnd") {
-                let runStartList = PSStringList(entry: runStart, scriptData: scriptData)
-                runStartList.remove(entry.name)
-            }
+            scriptData.removeItemFromBaseList("LogRunEnd", item: entry.name)
+            scriptData.removeItemFromBaseList("RunEnd", item: entry.name)
             
         case .RunEnd:
             promptEntryName = "RunEnd"
             logEntryName = "LogRunEnd"
             
             //remove all references in runstart and logrunstart
-            if let logRunStart = scriptData.getBaseEntry("LogRunStart") {
-                let logRunStartList = PSStringList(entry: logRunStart, scriptData: scriptData)
-                logRunStartList.remove(entry.name)
-            }
-            
-            if let runStart = scriptData.getBaseEntry("RunStart") {
-                let runStartList = PSStringList(entry: runStart, scriptData: scriptData)
-                runStartList.remove(entry.name)
-            }
+            scriptData.removeItemFromBaseList("LogRunStart", item: entry.name)
+            scriptData.removeItemFromBaseList("RunStart", item: entry.name)
         case .Never:
-            logEntryName = "LogRunStart" //if logging is activated, always log at start
+            logEntryName = "LogRunEnd" //if logging is activated, always log at end
             
-            //remove all references in runend and logrunend
-            if let logRunStart = scriptData.getBaseEntry("LogRunEnd") {
-                let logRunStartList = PSStringList(entry: logRunStart, scriptData: scriptData)
-                logRunStartList.remove(entry.name)
-            }
-            
-            if let runStart = scriptData.getBaseEntry("RunEnd") {
-                let runStartList = PSStringList(entry: runStart, scriptData: scriptData)
-                runStartList.remove(entry.name)
-            }
-            //remove all references in runstart and logrunstart
-            if let logRunStart = scriptData.getBaseEntry("LogRunStart") {
-                let logRunStartList = PSStringList(entry: logRunStart, scriptData: scriptData)
-                logRunStartList.remove(entry.name)
-            }
-            
-            if let runStart = scriptData.getBaseEntry("RunStart") {
-                let runStartList = PSStringList(entry: runStart, scriptData: scriptData)
-                runStartList.remove(entry.name)
-            }
+            //remove all references
+            scriptData.removeItemFromBaseList("LogRunEnd", item: entry.name)
+            scriptData.removeItemFromBaseList("RunEnd", item: entry.name)
+            scriptData.removeItemFromBaseList("LogRunStart", item: entry.name)
+            scriptData.removeItemFromBaseList("RunStart", item: entry.name)
         }
         
         //add to schedule
         if let promptEntryName = promptEntryName {
-            
-            let promptEntry = scriptData.getOrCreateBaseEntry(promptEntryName, type: "Logging", user_friendly_name: promptEntryName, section_name: "Log File", zOrder: 77)
-            let scheduleList = PSStringList(entry: promptEntry, scriptData: scriptData)
-            //need to ensure logging command as it at the end.
-            scheduleList.remove(logEntryName)
-            if !scheduleList.contains(entry.name) {
-                scheduleList.appendAsString(entry.name)
-            }
-            scheduleList.appendAsString(logEntryName)
+            scriptData.addItemToBaseList(promptEntryName, type: "Logging", user_friendly_name: promptEntryName, section_name: "LogFile", zOrder: 77, itemToAdd: entry.name)
         }
         
         //add to logging entry
         if inLogFile {
-            let logEntry = scriptData.getOrCreateBaseEntry(logEntryName, type: "Logging", user_friendly_name: logEntryName, section_name: "Log File", zOrder: 77)
-            let logRunStartList = PSStringList(entry: logEntry, scriptData: scriptData)
-            var logRunStartArray = logRunStartList.stringListRawUnstripped
+            let logEntry = scriptData.getOrCreateBaseEntry(logEntryName, type: "Logging", user_friendly_name: logEntryName, section_name: "LogFile", zOrder: 77)
+            let logRunList = PSStringList(entry: logEntry, scriptData: scriptData)
+            var logRunArray = logRunList.stringListRawUnstripped
             if let stringName = PSStringElement(strippedValue: entry.name) {
-                if !logRunStartArray.contains(stringName.quotedValue) {
-                    logRunStartArray.append(stringName.quotedValue)
-                    logRunStartList.stringListRawUnstripped = logRunStartArray
+                if !logRunArray.contains(stringName.quotedValue) {
+                    logRunArray.append(stringName.quotedValue)
+                    logRunList.stringListRawUnstripped = logRunArray
                 }
             }
         } else {
@@ -135,26 +93,71 @@ public struct PSSubjectVariableStorageOptions {
                 logRunStartList.remove(entry.name)
             }
         }
+        
+        tidySubjectVariableEntries(scriptData)
+        
     }
     
+    func tidySubjectVariableEntries(scriptData : PSScriptData) {
+        
+        for (promptEntryName,logEntryName) in [("RunStart","LogRunStart"),("RunEnd","LogRunEnd")] {
+            if let logEntry = scriptData.getBaseEntry(logEntryName) {
+                let logEntryList = PSStringList(entry: logEntry, scriptData: scriptData)
+                if logEntryList.count == 0 {
+                    //if there is no logging, remove from script
+                    scriptData.deleteBaseEntry(logEntry)
+                    scriptData.removeItemFromBaseList(promptEntryName, item: logEntryName)
+                } else {
+                    //ensure that logging command is at end of prompt
+                    let promptEntry = scriptData.getOrCreateBaseEntry(promptEntryName, type: "Logging", user_friendly_name: promptEntryName, section_name: "LogFile", zOrder: 77)
+                    let promptEntryList = PSStringList(entry: promptEntry, scriptData:  scriptData)
+                    promptEntryList.remove(logEntryName)
+                    promptEntryList.appendAsString(logEntryName)
+                }
+            }
+            
+            if let promptEntry = scriptData.getBaseEntry(promptEntryName) {
+                let promptEntryList = PSStringList(entry: promptEntry, scriptData: scriptData)
+                if promptEntryList.count == 0 {
+                    //if there is no prompts or logging delete the prompt entry
+                    scriptData.deleteBaseEntry(promptEntry)
+                }
+            }
+        }
+    }
+    
+    //parse storage options from various entries in the script
     static func fromEntry(entry : Entry, scriptData : PSScriptData) -> PSSubjectVariableStorageOptions {
         var storageOptions = PSSubjectVariableStorageOptions(all: false)
         
-        let eee = scriptData.getMainExperimentEntry()
-        if let dataHeader = scriptData.getSubEntry("DataHeader", entry: eee) {
+        let experimentEntry = scriptData.getMainExperimentEntry()
+        if let dataHeader = scriptData.getSubEntry("DataHeader", entry: experimentEntry) {
             let dataHeaderList = PSStringList(entry: dataHeader, scriptData: scriptData)
             storageOptions.inDataHeader = dataHeaderList.contains(entry.name)
         }
         
-        if let dataVariables = scriptData.getSubEntry("DataVariables", entry: eee) {
-            let dataVariablesList = PSStringList(entry: dataVariables, scriptData: scriptData)
-            storageOptions.inDataFileColumns = dataVariablesList.contains(entry.name)
+        if let runStart = scriptData.getBaseEntry("RunStart") {
+            let runStartList = PSStringList(entry: runStart, scriptData: scriptData)
+            if runStartList.contains(entry.name) {
+                storageOptions.schedule = .RunStart
+            }
         }
-        
         
         if let logRunStart = scriptData.getBaseEntry("LogRunStart") {
             let logRunStartList = PSStringList(entry: logRunStart, scriptData: scriptData)
             storageOptions.inLogFile = logRunStartList.contains(entry.name)
+        }
+        
+        if let runEnd = scriptData.getBaseEntry("RunEnd") {
+            let runEndList = PSStringList(entry: runEnd, scriptData: scriptData)
+            if runEndList.contains(entry.name) {
+                storageOptions.schedule = .RunEnd
+            }
+        }
+        
+        if let logRunEnd = scriptData.getBaseEntry("LogRunEnd") {
+            let logRunEndList = PSStringList(entry: logRunEnd, scriptData: scriptData)
+            storageOptions.inLogFile = logRunEndList.contains(entry.name)
         }
         return storageOptions
     }

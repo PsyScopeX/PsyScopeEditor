@@ -28,7 +28,7 @@ public class PSGroup {
             subjectInformation.updateVariablesFromScript()
             
             for subEntry in criteria.subEntries.array as! [Entry] {
-                for subjectVariable in subjectInformation.subjectVariables {
+                for subjectVariable in subjectInformation.allVariables {
                     if subEntry.name == subjectVariable.name {
                         //var newExistingCriteria =
                         existingCriteria.append(variable: subjectVariable, value: subEntry.currentValue as String)

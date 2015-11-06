@@ -589,7 +589,18 @@ public class PSScriptData : NSObject {
   
     }
     
+    public func addItemToBaseList(name: String, type : String, user_friendly_name: String, section_name: String, zOrder : Int, itemToAdd : String) {
+        let entry = getOrCreateBaseEntry(name, type: type, user_friendly_name: user_friendly_name, section_name: section_name, zOrder: zOrder)
+        let list = PSStringList(entry: entry, scriptData: self)
+        list.appendAsString(itemToAdd)
+    }
 
+    public func removeItemFromBaseList(entryName : String, item : String) {
+        if let entry = getBaseEntry(entryName) {
+            let list = PSStringList(entry: entry, scriptData: self)
+            list.remove(item)
+        }
+    }
     
     
 

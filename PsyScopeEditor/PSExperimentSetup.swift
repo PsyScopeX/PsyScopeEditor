@@ -32,7 +32,7 @@ class PSExperimentSetup: NSObject {
     }
     
     func update() {
-        subjectVariablesController.reloadData()
+        subjectVariablesController.reloadSubjectVariablesData()
     }
     
     func identifier() -> String! {
@@ -54,7 +54,7 @@ class PSExperimentSetup: NSObject {
         return tabViewItem
     }
     
-    func selectEntry(entry : Entry) {
+    func selectEntry(entry : Entry?) {
         selectionInterface.selectEntry(entry)
     }
     

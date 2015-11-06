@@ -62,7 +62,7 @@ class PSGroupsViewController : PSToolPropertyController, NSTableViewDelegate, NS
         //get all subject variables
         let subjectInfo = PSSubjectInformation(scriptData: scriptData)
         subjectInfo.updateVariablesFromScript()
-        subjectVariables = subjectInfo.subjectVariables.filter({ subjectVariable in subjectVariable.isGroupingVariable})
+        subjectVariables = subjectInfo.allVariables.filter({ subjectVariable in subjectVariable.isGroupingVariable})
         
         //reload
         criteriaTableView.reloadData()

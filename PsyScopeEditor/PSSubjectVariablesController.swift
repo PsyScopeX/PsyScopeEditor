@@ -11,7 +11,7 @@ import Foundation
 class PSSubjectVariablesController : NSObject, NSTextFieldDelegate, NSTableViewDataSource {
     
     @IBOutlet var experimentSetupController : PSExperimentSetup!
-    @IBOutlet var groupingVariablesTableViewController : PSSubjectVariablesTableViewController!
+    //@IBOutlet var groupingVariablesTableViewController : PSSubjectVariablesTableViewController!
     @IBOutlet var subjectInformationTableViewController : PSSubjectVariablesTableViewController!
     @IBOutlet var subjectVariablesSegmentedControl : NSSegmentedControl!
     @IBOutlet var groupingVariablesTableView : NSTableView!
@@ -41,7 +41,7 @@ class PSSubjectVariablesController : NSObject, NSTextFieldDelegate, NSTableViewD
                 return
             } else {
                 subjectVariablesSegmentedControl.setEnabled(false, forSegment: 1)
-                groupingVariablesTableViewController.selectItem(selectedVariable)
+                //groupingVariablesTableViewController.selectItem(selectedVariable)
                 return
             }
         }
@@ -51,11 +51,12 @@ class PSSubjectVariablesController : NSObject, NSTextFieldDelegate, NSTableViewD
         subjectVariablesTableView.deselectAll(nil)
     }
     
-    func reloadData() {
+    //this gets called from PSExperimentSetup.update() -> which is called on script changes.
+    func reloadSubjectVariablesData() {
         self.subjectInformation.updateVariablesFromScript()
-        self.groupingVariablesTableViewController.reloadData(subjectInformation.groupVariables)
-        self.subjectInformationTableViewController.reloadData(subjectInformation.subjectVariables)
-        self.dataFileNameController.reloadData(subjectInformation.subjectVariables)
+        //self.groupingVariablesTableViewController.reloadData(subjectInformation.groupVariables)
+        self.subjectInformationTableViewController.reloadData(subjectInformation)
+        self.dataFileNameController.reloadData(subjectInformation.allVariables)
         self.dataFileNameController.updatePreviewTextView()
         self.logFileNameController.reload()
     }
@@ -89,7 +90,7 @@ class PSSubjectVariablesController : NSObject, NSTextFieldDelegate, NSTableViewD
     }
     
     func getSubjectVariableForEntry(entry : Entry) -> PSSubjectVariable? {
-        for subjectVariable in subjectInformation.subjectVariables {
+        for subjectVariable in subjectInformation.allVariables {
             if entry === subjectVariable.entry {
                 return subjectVariable
             }
