@@ -37,6 +37,7 @@ class PSDialogVariablePropertiesController : PSToolPropertyController {
     @IBOutlet var schedulePopUpButton : NSPopUpButton!
     @IBOutlet var itemsTableView : NSTableView!
     @IBOutlet var itemsSegmentedControl : NSSegmentedControl!
+    @IBOutlet var recordToLogFileCheck : NSButton!
     
     //MARK: Parse
     
@@ -87,6 +88,8 @@ class PSDialogVariablePropertiesController : PSToolPropertyController {
             itemsSegmentedControl.enabled = false
             
         }
+        
+        recordToLogFileCheck.state = selectedSubjectVariable.storageOptions.inLogFile ? 1 : 0
 
     
         itemsTableView.reloadData()
@@ -145,6 +148,15 @@ class PSDialogVariablePropertiesController : PSToolPropertyController {
         }
         saveType()
         refreshControls()
+    }
+    
+    @IBAction func recordToLogCheckClicked(_: AnyObject) {
+        var existingOptions = selectedSubjectVariable.storageOptions
+        if existingOptions.inLogFile != (recordToLogFileCheck.state == 1) {
+            existingOptions.inLogFile = (recordToLogFileCheck.state == 1)
+            selectedSubjectVariable.storageOptions = existingOptions
+        }
+        
     }
     
     //MARK: Items tableview delegate
