@@ -47,7 +47,7 @@
                 <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="6Nm-qQ-dEr">
                     <rect key="frame" x="20" y="232" width="325" height="238"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <clipView key="contentView" id="ZKu-Xa-KLS">
+                    <clipView key="contentView" drawsBackground="NO" id="ZKu-Xa-KLS">
                         <rect key="frame" x="1" y="0.0" width="323" height="237"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -150,7 +150,7 @@
                             </tableView>
                         </subviews>
                         <animations/>
-                        <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        <nil key="backgroundColor"/>
                     </clipView>
                     <animations/>
                     <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="v6g-BE-a0m">

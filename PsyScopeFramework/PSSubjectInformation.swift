@@ -36,21 +36,43 @@ public class PSSubjectInformation : NSObject {
         runEndVariables = []
         neverRunVariables = []
         
-        //get variables referenced in runstart
         
-        //get variables referenced in runend
 
         //get all base entries which are dialogs, and are run at some point of the experiment
-        let dialogEntries = scriptData.getBaseEntriesOfType("DialogVariable").filter({
+        var dialogVariables = scriptData.getBaseEntriesOfType("DialogVariable").filter({
             if let dialogSubEntry = scriptData.getSubEntry("Dialog", entry: $0) {
                 if ["Standard","CheckBoxes","Buttons"].contains(dialogSubEntry.currentValue) {
                     return true
                 }
             }
             return false
-        })
-    
-        neverRunVariables = dialogEntries.map { PSSubjectVariable(entry: $0, scriptData: self.scriptData) }
+        }).map { PSSubjectVariable(entry: $0, scriptData: self.scriptData) }
+        
+        var runStartStringList : [String] = []
+        var runEndStringList : [String] = []
+        if let runStartList = PSStringList(baseEntryName: "RunStart", scriptData: scriptData) {
+            runStartStringList = runStartList.stringListRawStripped
+        }
+        
+        if let runEndList = PSStringList(baseEntryName: "RunEnd", scriptData: scriptData) {
+            runEndStringList = runEndList.stringListRawStripped
+        }
+        
+        // populate into correct positions
+        for runStartEntryName in runStartStringList {
+            guard let runStartVariable = dialogVariables.filter({ $0.name == runStartEntryName }).first else { continue }
+            runStartVariables.append(runStartVariable)
+            dialogVariables.removeAtIndex(dialogVariables.indexOf(runStartVariable)!)
+        }
+        
+        for runEndEntryName in runEndStringList {
+            guard let runEndVariable = dialogVariables.filter({ $0.name == runEndEntryName }).first else { continue }
+            runEndVariables.append(runEndVariable)
+            dialogVariables.removeAtIndex(dialogVariables.indexOf(runEndVariable)!)
+        }
+        
+        // remainder are never run
+        neverRunVariables = dialogVariables
     }
     
     public func addNewVariable(isGroupingVariable : Bool) {
@@ -72,6 +94,13 @@ public class PSSubjectInformation : NSObject {
     
     public func moveVariable(variable : PSSubjectVariable, schedule: PSSubjectVariableSchedule, position: Int) {
         print("Moving variable \(variable.name) to list \(schedule) at position \(position)")
+        scriptData.beginUndoGrouping("Change variable")
+        if variable.storageOptions.schedule == schedule {
+            //moving within list
+        } else {
+            //moving to new schedule
+        }
+        scriptData.endUndoGrouping()
     }
 }
 

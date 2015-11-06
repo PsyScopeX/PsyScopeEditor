@@ -15,9 +15,9 @@ public enum PSSubjectVariableSchedule {
     public func description() -> String {
         switch self {
         case .RunStart:
-            return "Start of Experiment"
+            return "Start"
         case .RunEnd:
-            return "End of Experiment"
+            return "End"
         case .Never:
             return "Never"
         }

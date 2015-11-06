@@ -38,6 +38,7 @@ class PSSubjectVariablesTableViewController : NSObject, NSTableViewDataSource, N
         
         //re-highlight selected item
         selectItem(selectedVariable)
+        tableView.reloadData()
         
         reloading = false
     }
@@ -165,11 +166,34 @@ class PSSubjectVariablesTableViewController : NSObject, NSTableViewDataSource, N
                 guard let subjectVariableToMove = variableForRow(rowIndexes.firstIndex),
                     subjectInformation = subjectInformation else { return false }
                 if let variablePositionToMoveTo = variableForRow(row) {
-                    subjectInformation.moveVariable(subjectVariableToMove, schedule: variablePositionToMoveTo.storageOptions.schedule, position: 0)
-                } else if let groupPositionToMoveTo = groupForRow(row) {
+                    //this is a row with a subject variable so need to get index of where it is
+                    var indexToMoveTo : Int = 0
+                    if let index = runStartVariables.indexOf(variablePositionToMoveTo) {
+                        indexToMoveTo = index
+                    } else if let index = runEndVariables.indexOf(variablePositionToMoveTo) {
+                        indexToMoveTo = index
+                    } else if let index = neverRunVariables.indexOf(variablePositionToMoveTo) {
+                        indexToMoveTo = index
+                    }
+                    subjectInformation.moveVariable(subjectVariableToMove, schedule: variablePositionToMoveTo.storageOptions.schedule, position: indexToMoveTo)
+                } else if let groupHeader = groupForRow(row) {
+                    //this is a row where currently a group header is present.  This means that the previous group is the header we want to move to..
+                    var groupPositionToMoveTo : PSSubjectVariableSchedule
+                    switch groupHeader {
+                    case .RunStart:
+                        groupPositionToMoveTo = .RunStart // should not be possible this is at zero index....
+                    case .RunEnd:
+                        groupPositionToMoveTo = .RunStart
+                    case .Never:
+                        groupPositionToMoveTo = .RunEnd
+                    }
+                    
                     subjectInformation.moveVariable(subjectVariableToMove, schedule: groupPositionToMoveTo, position: 0)
                 } else {
-                    //could be beginning or end?
+                    //must have moved to the end
+                    if row >= numberOfRowsInTableView(tableView) {
+                        subjectInformation.moveVariable(subjectVariableToMove, schedule: .Never, position: neverRunVariables.count)
+                    }
                 }
 
                 return true
@@ -189,7 +213,7 @@ class PSSubjectVariablesTableViewController : NSObject, NSTableViewDataSource, N
         
         //cannot move to row 0 as that is a group row
         if row > 0 && dropOperation == .Above {
-            //print("Move to row\(row)")
+            print("Move to row\(row)")
             return NSDragOperation.Move
         } else {
             return NSDragOperation.None
