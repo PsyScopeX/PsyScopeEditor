@@ -467,7 +467,7 @@ public class PSScriptData : NSObject {
         repeat {
             isFree = true
             if (run > 0) { testName = entry_base + "\(run)" }
-            if existingNames.contains(testName) ||  pluginProvider.reservedEntryNames.contains(testName) { isFree = false }
+            if existingNames.contains(testName) ||  pluginProvider.entryNameIsReservedOrIllegal(testName) { isFree = false }
             run++
         } while (!isFree)
         
@@ -493,7 +493,7 @@ public class PSScriptData : NSObject {
         }
         
         //also check with reserved names
-        if pluginProvider.reservedEntryNames.contains(nameSuggestion) {
+        if pluginProvider.entryNameIsReservedOrIllegal(nameSuggestion) {
             renameEntry(entry, nameSuggestion: nameSuggestion + "_2") //recurse
             return
         }

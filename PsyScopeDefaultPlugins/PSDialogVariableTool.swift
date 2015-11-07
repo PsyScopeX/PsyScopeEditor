@@ -12,19 +12,15 @@ import Foundation
 //These are variables that have a dialog property, that can be launched either as subject variables, or by menus
 class PSDialogVariableTool: PSTool, PSToolInterface {
     
-    let illegalEntryNames : [String]
-    let legalEntryNames : [String]
+    let dialogEntryNames : [String]
     
     override init() {
         
-        var illegalEntries : [String] = ["StartUp", "ExperimentStartUp", "PracticeStart", "PracticeEnd", "RunBreak", "PracticeBreak", "ExperimentClose", "Shutdown"]
-        illegalEntries += illegalEntries.map({ "Log" + $0 })
-        illegalEntryNames = illegalEntries
         
         var legalEntries : [String] = ["RunStart", "RunEnd","LogRunStart", "LogRunEnd"]
         legalEntries += legalEntries.map({ "Log" + $0 })
         legalEntries += ["SubjectNumAndGroup", "AutoDataFile"]
-        legalEntryNames = legalEntries
+        dialogEntryNames = legalEntries
         
         super.init()
         typeString = "DialogVariable"
@@ -36,7 +32,11 @@ class PSDialogVariableTool: PSTool, PSToolInterface {
         properties = [Properties.VariableType, Properties.Dialog]
         identityProperty = Properties.Dialog
         
-        reservedEntries = illegalEntryNames + legalEntryNames
+        var illegalEntries : [String] = ["StartUp", "ExperimentStartUp", "PracticeStart", "PracticeEnd", "RunBreak", "PracticeBreak", "ExperimentClose", "Shutdown"]
+        illegalEntries += illegalEntries.map({ "Log" + $0 })
+        illegalEntryNames = illegalEntries
+        
+        reservedEntryNames = dialogEntryNames
     }
     
     struct Properties {
@@ -102,7 +102,7 @@ class PSDialogVariableTool: PSTool, PSToolInterface {
             if illegalEntryNames.contains(entry.name) {
                 entry.type = typeString
                 errors.append(PSIllegalScheduleEntry(entry.name,range: entry.range))
-            } else if legalEntryNames.contains(entry.name) {
+            } else if dialogEntryNames.contains(entry.name) {
                 entry.type = typeString
             }
         }

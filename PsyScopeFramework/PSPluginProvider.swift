@@ -17,7 +17,8 @@ public class PSPluginProvider : NSObject {
     public var eventExtensions : [PSExtension]
     public var attributes : [PSAttribute]
     public var fileImportPlugins : [String : [PSToolInterface]]
-    public var reservedEntryNames : [String]
+    public var reservedEntryNames : [String] //Entry names which are reserved for special purposes
+    public var illegalEntryNames : [String] //Entry names which are fully illegal
     
     public init(attributePlugins: [String : PSAttributeInterface], toolPlugins: [String : PSToolInterface], eventPlugins: [String : PSToolInterface], actionPlugins: [String : PSActionInterface], conditionPlugins: [String : PSConditionInterface], attributeSourceTools: [String : PSToolInterface],extensions : [PSExtension],eventExtensions : [PSExtension],attributes : [PSAttribute]) {
 
@@ -31,6 +32,7 @@ public class PSPluginProvider : NSObject {
         self.attributes = attributes
         self.eventExtensions = eventExtensions
         self.reservedEntryNames = []
+        self.illegalEntryNames = []
         
         fileImportPlugins = [:]
         for (_ , tool) in toolPlugins {
@@ -42,7 +44,9 @@ public class PSPluginProvider : NSObject {
                     fileImportPlugins[ext]!.append(tool)
                 }
             }
-            reservedEntryNames += tool.reservedEntryNames() as! [String]
+            reservedEntryNames += tool.getReservedEntryNames() as! [String]
+            illegalEntryNames += tool.getIllegalEntryNames() as! [String]
+            
         }
         
         for (_ , tool) in eventPlugins {
@@ -54,11 +58,13 @@ public class PSPluginProvider : NSObject {
                     fileImportPlugins[ext]!.append(tool)
                 }
             }
-            reservedEntryNames += tool.reservedEntryNames() as! [String]
+            reservedEntryNames += tool.getReservedEntryNames() as! [String]
+            illegalEntryNames += tool.getIllegalEntryNames() as! [String]
         }
         
         for (_ , tool) in attributePlugins {
-            reservedEntryNames += tool.reservedEntryNames() as! [String]
+            reservedEntryNames += tool.getReservedEntryNames() as! [String]
+            illegalEntryNames += tool.getIllegalEntryNames() as! [String]
         }
         
         super.init()
@@ -72,5 +78,10 @@ public class PSPluginProvider : NSObject {
         }
         
         return nil
+    }
+    
+    public func entryNameIsReservedOrIllegal(entryName : String) -> Bool {
+        let reserved : [String] = illegalEntryNames + reservedEntryNames
+        return reserved.contains(entryName)
     }
 }

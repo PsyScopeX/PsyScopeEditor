@@ -20,7 +20,8 @@ public class PSAttributeGeneric : NSObject, PSAttributeInterface {
     public var displayValueTransformer : (String -> String)?
     public var sectionName : String
     public var sectionZ : Int
-    public var reservedEntries : [String]
+    public var reservedEntryNames : [String]
+    public var illegalEntryNames : [String]
     override public init() {
         userFriendlyNameString = ""
         helpfulDescriptionString = ""
@@ -32,7 +33,8 @@ public class PSAttributeGeneric : NSObject, PSAttributeInterface {
         keyValuesArray = []
         sectionName = "UnclassifiedAttributes"
         sectionZ = 75
-        reservedEntries = []
+        reservedEntryNames = []
+        illegalEntryNames = []
         super.init()
     }
     
@@ -109,7 +111,10 @@ public class PSAttributeGeneric : NSObject, PSAttributeInterface {
         PSUpdateEntryWithGhostEntry(realEntry, ghostEntry: ghostEntry, scriptData: scriptData)
     }
     
-    public func reservedEntryNames() -> [AnyObject]! {
-        return reservedEntries
+    public func getReservedEntryNames() -> [AnyObject]! {
+        return reservedEntryNames
+    }
+    public func getIllegalEntryNames() -> [AnyObject]! {
+        return illegalEntryNames
     }
 }

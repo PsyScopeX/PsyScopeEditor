@@ -111,7 +111,7 @@ class PSScriptConverter: NSObject {
     
     //3. check for illegal names
     func checkForIllegalBaseEntryNames() -> Bool {
-        let reservedNames = mainWindowController.scriptData.pluginProvider.reservedEntryNames
+        let reservedNames = mainWindowController.scriptData.pluginProvider.illegalEntryNames
         var noIllegalNames = true
         for ghostEntry in ghostScript.entries {
             if reservedNames.contains(ghostEntry.name) {

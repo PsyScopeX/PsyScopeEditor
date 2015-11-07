@@ -86,8 +86,11 @@
 //creates from dragged file returns true if succesfful
 -(Entry*) createFromDraggedFile: (NSString*)fileName scriptData:(PSScriptData*)scriptData;
 
-//entries that custom entries should not be named
--(NSArray*) reservedEntryNames;
+//special entries that custom entries should not be named, but are used by this tool
+-(NSArray*) getReservedEntryNames;
+
+//entry names that are fully illegal throughout the script
+-(NSArray*) getIllegalEntryNames;
 
 @end
 

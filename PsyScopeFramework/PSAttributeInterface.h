@@ -62,7 +62,10 @@ typedef NS_ENUM(NSInteger, PSAttributeDialogType) {
 //next is to update an existing entry - this might also mean to create a new one
 -(void) updateEntry:(Entry*)realEntry withGhostEntry:(PSGhostEntry*)ghostEntry scriptData:(PSScriptData*)scriptData;
 
-//entries that custom entries should not be named
--(NSArray*) reservedEntryNames;
+//special entries that custom entries should not be named, but are used by this tool
+-(NSArray*) getReservedEntryNames;
+
+//entry names that are fully illegal throughout the script
+-(NSArray*) getIllegalEntryNames;
 
 @end

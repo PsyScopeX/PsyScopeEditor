@@ -16,7 +16,8 @@ class PSTool: PSToolHelper {
     var properties : [PSProperty]
     var section : (name : String, zorder : Int)
     var identityProperty : PSProperty?
-    var reservedEntries : [String]
+    var reservedEntryNames : [String]
+    var illegalEntryNames : [String]
     override init() {
         typeString = ""
         helpfulDescriptionString = ""
@@ -26,7 +27,8 @@ class PSTool: PSToolHelper {
         section =  (name: "", zorder : 0)
         properties = []
         identityProperty = nil
-        reservedEntries = []
+        reservedEntryNames = []
+        illegalEntryNames = []
         super.init()
     }
     
@@ -152,9 +154,13 @@ class PSTool: PSToolHelper {
         return nil
     }
     
-    func reservedEntryNames() -> [AnyObject]! {
-        let allReservedEntryNames = [typeString] + properties.map({ $0.name }) + reservedEntries
-        return allReservedEntryNames
+    func getReservedEntryNames() -> [AnyObject]! {
+        return reservedEntryNames
+    }
+    
+    func getIllegalEntryNames() -> [AnyObject]! {
+        let allIllegalEntryNames = [typeString] + properties.map({ $0.name })
+        return allIllegalEntryNames
     }
     
 }
