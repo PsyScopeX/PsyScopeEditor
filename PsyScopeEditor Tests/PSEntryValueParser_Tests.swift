@@ -20,6 +20,7 @@ class PSEntryValueParser_Tests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
+    
 
     func testConditionActionsArrowHasNoSurroundingSpaces_CorrectParse() {
         let value = "Conditions[Start[]]=>Actions[\t\t\t\r\t\t\tBeep[ Boing ]\t\t\t ]"
@@ -31,9 +32,9 @@ class PSEntryValueParser_Tests: XCTestCase {
             switch(val) {
             case .Null:
                 break
-            case let .StringToken(_):
+            case .StringToken:
                 break
-            case let .List(_):
+            case .List:
                 break
             case let .Function(functionElement):
                 if functionElement.functionName == "" && functionElement.bracketType == .Expression {
@@ -60,9 +61,9 @@ class PSEntryValueParser_Tests: XCTestCase {
             switch(val) {
             case .Null:
                 break
-            case let .StringToken(_):
+            case .StringToken:
                 break
-            case let .List(_):
+            case .List:
                 break
             case let .Function(functionElement):
                 if functionElement.functionName == "" && functionElement.bracketType == .Expression {
