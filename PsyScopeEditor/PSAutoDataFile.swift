@@ -81,6 +81,9 @@ class PSAutoDataFile {
                 //Remove from runStart
                 if let runStartList = PSStringList(baseEntryName: "RunStart", scriptData: scriptData) {
                     runStartList.remove("AutoDataFile")
+                    if runStartList.count == 0 {
+                        scriptData.deleteBaseEntryByName("RunStart")
+                    }
                 }
             }
         }
