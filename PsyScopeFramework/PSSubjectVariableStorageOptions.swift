@@ -99,46 +99,11 @@ public struct PSSubjectVariableStorageOptions {
             }
         }
         
-        tidySubjectVariableEntries(scriptData)
+        PSTidyUpExecutionEntries(scriptData)
         scriptData.endUndoGrouping()
         
     }
-    
-    func tidySubjectVariableEntries(scriptData : PSScriptData) {
-        
-        for (promptEntryName,logEntryName) in [("RunStart","LogRunStart"),("RunEnd","LogRunEnd")] {
-            if let logEntry = scriptData.getBaseEntry(logEntryName) {
-                let logEntryList = PSStringList(entry: logEntry, scriptData: scriptData)
-                if logEntryList.count == 0 {
-                    //if there is no logging, remove from script
-                    scriptData.deleteBaseEntry(logEntry)
-                    scriptData.removeItemFromBaseList(promptEntryName, item: logEntryName)
-                } else {
-                    //ensure that logging command is at end of prompt (and autoDatafile, one before that)
-                    let promptEntry = scriptData.getOrCreateBaseEntry(promptEntryName, type: "Logging", user_friendly_name: promptEntryName, section_name: "LogFile", zOrder: 77)
-                    let promptEntryList = PSStringList(entry: promptEntry, scriptData:  scriptData)
-                    
-                    
-                    promptEntryList.remove(logEntryName)
-                    promptEntryList.appendAsString(logEntryName)
-                }
-            }
-            
-            if let promptEntry = scriptData.getBaseEntry(promptEntryName) {
-                let promptEntryList = PSStringList(entry: promptEntry, scriptData: scriptData)
-                if promptEntryList.count == 0 {
-                    //if there is no prompts or logging delete the prompt entry
-                    scriptData.deleteBaseEntry(promptEntry)
-                }
-                
-                //move autodatafile to end
-                if promptEntryList.contains("AutoDataFile") {
-                    promptEntryList.remove("AutoDataFile")
-                    promptEntryList.appendAsString("AutoDataFile")
-                }
-            }
-        }
-    }
+
     
     //parse storage options from various entries in the script
     static func fromEntry(entry : Entry, scriptData : PSScriptData) -> PSSubjectVariableStorageOptions {

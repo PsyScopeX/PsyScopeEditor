@@ -56,12 +56,8 @@ class PSAutoDataFile {
                 let runStart = scriptData.getOrCreateBaseEntry("RunStart", type: "Logging", user_friendly_name: "RunStart", section_name: "LogFile", zOrder: 77)
                 let runStartList = PSStringList(entry: runStart, scriptData: scriptData)
                 runStartList.remove("AutoDataFile")
-                if runStartList.contains("LogRunStart") {
-                    let indexToInsert = max(runStartList.count - 1,0)
-                    runStartList.insert("AutoDataFile", index: indexToInsert)
-                } else {
-                    runStartList.appendAsString("AutoDataFile")
-                }
+                runStartList.appendAsString("AutoDataFile")
+                PSTidyUpExecutionEntries(scriptData)
 
             } else {
                 //Set datafile to default name
@@ -85,6 +81,8 @@ class PSAutoDataFile {
                         scriptData.deleteBaseEntryByName("RunStart")
                     }
                 }
+                
+                PSTidyUpExecutionEntries(scriptData)
             }
         }
     }
