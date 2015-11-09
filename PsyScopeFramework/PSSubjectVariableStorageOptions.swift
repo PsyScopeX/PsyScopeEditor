@@ -33,6 +33,7 @@ public struct PSSubjectVariableStorageOptions {
     
     
     func saveToScript(entry : Entry, scriptData : PSScriptData) {
+        scriptData.beginUndoGrouping("Edit Subject Variable")
         let experimentEntry = scriptData.getMainExperimentEntry()
             
         if inDataHeader {
@@ -73,7 +74,11 @@ public struct PSSubjectVariableStorageOptions {
         
         //add to schedule
         if let promptEntryName = promptEntryName {
-            scriptData.addItemToBaseList(promptEntryName, type: "Logging", user_friendly_name: promptEntryName, section_name: "LogFile", zOrder: 77, itemToAdd: entry.name)
+            let promptEntry = scriptData.getOrCreateBaseEntry(promptEntryName, type: "Logging", user_friendly_name: promptEntryName, section_name: "LogFile", zOrder: 77)
+            let promptEntryList = PSStringList(entry: promptEntry, scriptData: scriptData)
+            if !promptEntryList.contains(entry.name){
+                promptEntryList.appendAsString(entry.name) //shouldnt be at end but we sort that out afterwards
+            }
         }
         
         //add to logging entry
@@ -95,6 +100,7 @@ public struct PSSubjectVariableStorageOptions {
         }
         
         tidySubjectVariableEntries(scriptData)
+        scriptData.endUndoGrouping()
         
     }
     
@@ -108,9 +114,11 @@ public struct PSSubjectVariableStorageOptions {
                     scriptData.deleteBaseEntry(logEntry)
                     scriptData.removeItemFromBaseList(promptEntryName, item: logEntryName)
                 } else {
-                    //ensure that logging command is at end of prompt
+                    //ensure that logging command is at end of prompt (and autoDatafile, one before that)
                     let promptEntry = scriptData.getOrCreateBaseEntry(promptEntryName, type: "Logging", user_friendly_name: promptEntryName, section_name: "LogFile", zOrder: 77)
                     let promptEntryList = PSStringList(entry: promptEntry, scriptData:  scriptData)
+                    
+                    
                     promptEntryList.remove(logEntryName)
                     promptEntryList.appendAsString(logEntryName)
                 }
@@ -121,6 +129,12 @@ public struct PSSubjectVariableStorageOptions {
                 if promptEntryList.count == 0 {
                     //if there is no prompts or logging delete the prompt entry
                     scriptData.deleteBaseEntry(promptEntry)
+                }
+                
+                //move autodatafile to end
+                if promptEntryList.contains("AutoDataFile") {
+                    promptEntryList.remove("AutoDataFile")
+                    promptEntryList.appendAsString("AutoDataFile")
                 }
             }
         }

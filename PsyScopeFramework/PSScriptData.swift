@@ -714,6 +714,12 @@ public class PSScriptData : NSObject {
         deleteEntry(entry)
     }
     
+    public func deleteBaseEntryByName(entryName : String) {
+        if let entry = getBaseEntry(entryName) {
+            self.deleteBaseEntry(entry)
+        }
+    }
+    
     private func deleteEntry(entry : Entry) {
         docMoc.deleteObject(entry)
     }
