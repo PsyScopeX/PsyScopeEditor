@@ -49,11 +49,12 @@ class PSScriptWriter: NSObject {
     }
     
     func generateScript() -> String {
+        let initialLine = "# Created or modified with PsyEditor 0.2\n\n"
         var sections = scriptData.getSections()
         sections = sections.sort({
             (e1: Section, e2: Section) -> Bool in
             return e1.scriptOrder.unsignedIntegerValue < e2.scriptOrder.unsignedIntegerValue })
-        var script : String = ""
+        var script : String = initialLine
         for section in sections {
             script += sectionToText(section) + new_line
         }
