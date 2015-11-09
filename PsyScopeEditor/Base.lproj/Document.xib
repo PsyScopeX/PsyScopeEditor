@@ -502,7 +502,7 @@
                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                 <subviews>
                                                                     <customView id="zck-4U-xpq" customClass="PSLayoutBoard" customModule="PsyScopeEditor" customModuleProvider="target">
-                                                                        <rect key="frame" x="0.0" y="347" width="1000" height="1000"/>
+                                                                        <rect key="frame" x="0.0" y="363" width="1000" height="1000"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                         <animations/>
                                                                         <connections>
@@ -524,7 +524,7 @@
                                                                 <animations/>
                                                             </scroller>
                                                             <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="evC-fz-EAi">
-                                                                <rect key="frame" x="539.5" y="0.0" width="15" height="750"/>
+                                                                <rect key="frame" x="538.5" y="0.0" width="16" height="750"/>
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                 <animations/>
                                                             </scroller>

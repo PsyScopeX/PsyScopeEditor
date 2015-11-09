@@ -138,13 +138,27 @@ class PSSubjectVariablesTableViewController : NSObject, NSTableViewDataSource, N
         } else if let subjectVariable = variableForRow(row) {
             if let buttonView = view as? PSButtonTableViewCell {
                 buttonView.button.hidden = false
-                buttonView.textField?.stringValue = subjectVariable.currentValue
                 buttonView.row = row
-                buttonView.buttonClickBlock = { (clickedRow : Int) -> () in
-                    let variable = subjectVariable
-                    let newValue = PSSubjectVariableDialog(variable, currentValue: variable.currentValue)
-                    variable.currentValue = newValue
-                    tableView.reloadData()
+                
+                if identifier == "ValueColumn" {
+                    buttonView.textField?.stringValue = subjectVariable.currentValue
+                    buttonView.buttonClickBlock = { (clickedRow : Int) -> () in
+                        let variable = subjectVariable
+                        let newValue = PSSubjectVariableDialog(variable, currentValue: variable.currentValue)
+                        variable.currentValue = newValue
+                        //tableView.reloadData()
+                    }
+                } else if identifier == "LogColumn" {
+                    buttonView.button.state = subjectVariable.storageOptions.inLogFile ? 1 : 0
+                    buttonView.buttonClickBlock = { (clickedRow : Int) -> () in
+                        let variable = subjectVariable
+                        var existingOptions = variable.storageOptions
+                        if existingOptions.inLogFile != (buttonView.button.state == 1) {
+                            existingOptions.inLogFile = (buttonView.button.state == 1)
+                            variable.storageOptions = existingOptions
+                        }
+                        //tableView.reloadData()
+                    }
                 }
             } else  if let tableCellView = view as? NSTableCellView {
                 tableCellView.textField?.stringValue = subjectVariable.name
