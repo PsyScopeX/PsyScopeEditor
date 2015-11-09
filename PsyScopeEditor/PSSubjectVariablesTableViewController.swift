@@ -146,7 +146,6 @@ class PSSubjectVariablesTableViewController : NSObject, NSTableViewDataSource, N
                         let variable = subjectVariable
                         let newValue = PSSubjectVariableDialog(variable, currentValue: variable.currentValue)
                         variable.currentValue = newValue
-                        //tableView.reloadData()
                     }
                 } else if identifier == "LogColumn" {
                     buttonView.button.state = subjectVariable.storageOptions.inLogFile ? 1 : 0
@@ -157,7 +156,13 @@ class PSSubjectVariablesTableViewController : NSObject, NSTableViewDataSource, N
                             existingOptions.inLogFile = (buttonView.button.state == 1)
                             variable.storageOptions = existingOptions
                         }
-                        //tableView.reloadData()
+                    }
+                } else if identifier == "GroupColumn" {
+                    buttonView.button.state = subjectVariable.isGroupingVariable ? 1 : 0
+                    buttonView.buttonClickBlock = { (clickedRow : Int) -> () in
+                        if subjectVariable.isGroupingVariable != (buttonView.button.state == 1) {
+                            subjectVariable.isGroupingVariable = (buttonView.button.state == 1)
+                        }
                     }
                 }
             } else  if let tableCellView = view as? NSTableCellView {
