@@ -28,7 +28,7 @@ public func PSTidyUpExecutionEntries(scriptData : PSScriptData) {
         
         if let promptEntry = promptEntry {
             let promptEntryList = PSStringList(entry: promptEntry, scriptData: scriptData)
-            if promptEntryList.count == 0 {
+            if promptEntryList.count == 0 && !logEntryPresent {
                 //if there is no prompts or logging delete the prompt entry
                 scriptData.deleteBaseEntry(promptEntry)
             }
