@@ -169,13 +169,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "PsyScopeDefaultPlugins/PSGroupsViewController.swift"
-            timestampString = "459609658.09977"
+            filePath = "PsyScopeFramework/PSEntryValueControl.swift"
+            timestampString = "460328207.146728"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "17"
-            endingLineNumber = "17"
-            landmarkName = "init(entry:scriptData:)"
+            startingLineNumber = "42"
+            endingLineNumber = "42"
+            landmarkName = "varyByMenuCommandClicked(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -185,13 +185,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "PsyScopeFramework/PSEntryValueControl.swift"
-            timestampString = "460328207.146728"
+            filePath = "PsyScopeEditor/PSSubjectVariablesController.swift"
+            timestampString = "468782804.13331"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "42"
-            endingLineNumber = "42"
-            landmarkName = "varyByMenuCommandClicked(_:)"
+            startingLineNumber = "105"
+            endingLineNumber = "105"
+            landmarkName = "tableViewSelectionBecameActive(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
