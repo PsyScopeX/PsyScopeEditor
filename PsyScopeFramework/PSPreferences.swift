@@ -17,10 +17,12 @@ public struct PSPreference {
     public let key : String
     public let defaultValue : AnyObject
     public var value : AnyObject {
-        if let val = NSUserDefaults.standardUserDefaults().objectForKey(key) {
-            return val
-        } else {
-            return defaultValue
+        get {
+            if let val = NSUserDefaults.standardUserDefaults().objectForKey(key) {
+                return val
+            } else {
+                return defaultValue
+            }
         }
     }
     
@@ -40,6 +42,10 @@ public struct PSPreference {
     
     public var boolValue : Bool {
         return NSUserDefaults.standardUserDefaults().boolForKey(key)
+    }
+    
+    public func resetToDefault() {
+        NSUserDefaults.standardUserDefaults().setObject(self.defaultValue, forKey: key)
     }
 }
 
