@@ -59,7 +59,7 @@
                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                 <tableColumns>
-                                    <tableColumn identifier="NameColumn" width="116" minWidth="40" maxWidth="1000" id="RQR-TA-G6b">
+                                    <tableColumn identifier="NameColumn" width="116" minWidth="40" maxWidth="1000" headerToolTip="The name of the variable" id="RQR-TA-G6b">
                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Name">
                                             <font key="font" metaFont="smallSystem"/>
                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -94,7 +94,7 @@
                                             </tableCellView>
                                         </prototypeCellViews>
                                     </tableColumn>
-                                    <tableColumn identifier="ValueColumn" width="230" minWidth="40" maxWidth="1000" id="QVA-Qo-AdP">
+                                    <tableColumn identifier="ValueColumn" width="192" minWidth="40" maxWidth="1000" headerToolTip="The current value of the variable (click the gear to change)" id="QVA-Qo-AdP">
                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Current Value">
                                             <font key="font" metaFont="smallSystem"/>
                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -108,7 +108,7 @@
                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                         <prototypeCellViews>
                                             <tableCellView identifier="ValueColumn" id="AnQ-ag-FiQ" customClass="PSButtonTableViewCell" customModule="PsyScopeEditor" customModuleProvider="target">
-                                                <rect key="frame" x="120" y="1" width="230" height="17"/>
+                                                <rect key="frame" x="120" y="1" width="192" height="17"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="05a-mv-HoW">
@@ -142,7 +142,44 @@
                                             </tableCellView>
                                         </prototypeCellViews>
                                     </tableColumn>
-                                    <tableColumn identifier="LogColumn" width="38" minWidth="10" maxWidth="3.4028234663852886e+38" id="jBD-Jc-80i">
+                                    <tableColumn identifier="GroupColumn" width="38" minWidth="10" maxWidth="3.4028234663852886e+38" headerToolTip="Tick to make this variable a between-subjects grouping variable." id="RSI-sd-zzD">
+                                        <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Group">
+                                            <font key="font" metaFont="smallSystem"/>
+                                            <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </tableHeaderCell>
+                                        <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" title="Text Cell" id="5UR-7N-tvA">
+                                            <font key="font" metaFont="system"/>
+                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                        <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                        <prototypeCellViews>
+                                            <tableCellView identifier="GroupColumn" id="WI2-fg-tYH" customClass="PSButtonTableViewCell" customModule="PsyScopeEditor" customModuleProvider="target">
+                                                <rect key="frame" x="315" y="1" width="38" height="17"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                <subviews>
+                                                    <button id="xJx-sl-RcE">
+                                                        <rect key="frame" x="10" y="0.0" width="29" height="17"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <animations/>
+                                                        <buttonCell key="cell" type="check" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="aNa-jv-kYH">
+                                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                            <font key="font" metaFont="system"/>
+                                                        </buttonCell>
+                                                        <connections>
+                                                            <action selector="buttonClick:" target="WI2-fg-tYH" id="tQT-HB-23t"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                                <animations/>
+                                                <connections>
+                                                    <outlet property="button" destination="xJx-sl-RcE" id="NcZ-mt-ajx"/>
+                                                </connections>
+                                            </tableCellView>
+                                        </prototypeCellViews>
+                                    </tableColumn>
+                                    <tableColumn identifier="LogColumn" width="38" minWidth="10" maxWidth="3.4028234663852886e+38" headerToolTip="Tick to include the value of this variable in the Log file." id="jBD-Jc-80i">
                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Log">
                                             <font key="font" metaFont="smallSystem"/>
                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -156,7 +193,7 @@
                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                         <prototypeCellViews>
                                             <tableCellView identifier="LogColumn" id="byn-9o-XLc" customClass="PSButtonTableViewCell" customModule="PsyScopeEditor" customModuleProvider="target">
-                                                <rect key="frame" x="353" y="1" width="38" height="17"/>
+                                                <rect key="frame" x="356" y="1" width="38" height="17"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <button id="XLL-BU-TVk">
@@ -179,39 +216,39 @@
                                             </tableCellView>
                                         </prototypeCellViews>
                                     </tableColumn>
-                                    <tableColumn identifier="GroupColumn" width="38" minWidth="10" maxWidth="3.4028234663852886e+38" id="RSI-sd-zzD">
-                                        <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Group">
+                                    <tableColumn identifier="DataColumn" width="37" minWidth="10" maxWidth="3.4028234663852886e+38" headerToolTip="Tick to include subject variable in the the Data File as a seperate column" id="g18-S9-ljl">
+                                        <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Data">
                                             <font key="font" metaFont="smallSystem"/>
                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </tableHeaderCell>
-                                        <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" title="Text Cell" id="5UR-7N-tvA">
+                                        <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" title="Text Cell" id="UGi-bU-Mtn">
                                             <font key="font" metaFont="system"/>
                                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                         <prototypeCellViews>
-                                            <tableCellView identifier="GroupColumn" id="WI2-fg-tYH" customClass="PSButtonTableViewCell" customModule="PsyScopeEditor" customModuleProvider="target">
-                                                <rect key="frame" x="394" y="1" width="38" height="17"/>
+                                            <tableCellView identifier="DataColumn" id="lpI-zb-RyD" customClass="PSButtonTableViewCell" customModule="PsyScopeEditor" customModuleProvider="target">
+                                                <rect key="frame" x="397" y="1" width="37" height="17"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
-                                                    <button id="xJx-sl-RcE">
+                                                    <button id="LID-0G-OLs">
                                                         <rect key="frame" x="10" y="0.0" width="29" height="17"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <animations/>
-                                                        <buttonCell key="cell" type="check" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="aNa-jv-kYH">
+                                                        <buttonCell key="cell" type="check" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="xJo-48-d90">
                                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                             <font key="font" metaFont="system"/>
                                                         </buttonCell>
                                                         <connections>
-                                                            <action selector="buttonClick:" target="WI2-fg-tYH" id="tQT-HB-23t"/>
+                                                            <action selector="buttonClick:" target="lpI-zb-RyD" id="ael-dd-8It"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>
                                                 <animations/>
                                                 <connections>
-                                                    <outlet property="button" destination="xJx-sl-RcE" id="NcZ-mt-ajx"/>
+                                                    <outlet property="button" destination="LID-0G-OLs" id="fi6-Wl-VOB"/>
                                                 </connections>
                                             </tableCellView>
                                         </prototypeCellViews>
@@ -447,7 +484,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <animations/>
                     </scroller>
-                    <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="ne8-7g-d4J">
+                    <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="ne8-7g-d4J">
                         <rect key="frame" x="224" y="17" width="15" height="102"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <animations/>

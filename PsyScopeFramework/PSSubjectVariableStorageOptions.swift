@@ -10,12 +10,12 @@ import Foundation
 
 //Subject variables differ from regular variables, in that they are often linked to dialogs.  They often cannot be included in the datafile as columns, as PsyScopeX is fussy.  There is an option to create another variable which links to allow adding them though.
 public struct PSSubjectVariableStorageOptions {
-    public var inDataHeader : Bool
     public var inLogFile : Bool
+    public var inDataFile : Bool
     public var schedule : PSSubjectVariableSchedule
     
     init(all : Bool) {
-        self.inDataHeader = all
+        self.inDataFile = all
         self.inLogFile = all
         if all {
             self.schedule = .RunStart
@@ -24,8 +24,8 @@ public struct PSSubjectVariableStorageOptions {
         }
     }
     
-    init(inDataFileColumns : Bool, inDataHeader : Bool, inLogFile : Bool, schedule : PSSubjectVariableSchedule) {
-        self.inDataHeader = inDataHeader
+    init(inDataFileColumns : Bool, inDataFile : Bool, inLogFile : Bool, schedule : PSSubjectVariableSchedule) {
+        self.inDataFile = inDataFile
         self.inLogFile = inLogFile
         self.schedule = schedule
     }
@@ -35,11 +35,32 @@ public struct PSSubjectVariableStorageOptions {
     func saveToScript(entry : Entry, scriptData : PSScriptData) {
         scriptData.beginUndoGrouping("Edit Subject Variable")
         let experimentEntry = scriptData.getMainExperimentEntry()
+        
+        
+        
+        //save to datafile by creating proxy entry
+        var proxyEntryName = entry.name + "_Variable"
+        if self.inDataFile {
+            let expVariables = scriptData.getOrCreateSubEntry("ExpVariables", entry: experimentEntry, isProperty: true)
+            let expVariablesList = PSStringList(entry: expVariables, scriptData: scriptData)
             
-        if inDataHeader {
-            scriptData.addItemToAttributeList("DataHeader", entry: experimentEntry, item: entry.name)
-        } else {
-            scriptData.removeItemFromAttributeList("DataHeader", entry: experimentEntry, item: entry.name)
+            if let proxyEntry = scriptData.createNewObjectFromTool("Variable") {
+                scriptData.renameEntry(proxyEntry, nameSuggestion: proxyEntryName)
+                proxyEntryName = proxyEntry.name
+                if !expVariablesList.contains(proxyEntryName) {
+                    expVariablesList.appendAsString(proxyEntryName)
+                }
+                let typeSubEntry = scriptData.getOrCreateSubEntry("Type", entry: proxyEntry, isProperty: true)
+                typeSubEntry.currentValue = "String" //hopefully strings will work for everything?
+                proxyEntry.currentValue = "@\(entry.name)"
+            }
+        } else if let expVariables = scriptData.getSubEntry("ExpVariables", entry: experimentEntry) {
+            let expVariablesList = PSStringList(entry: expVariables, scriptData: scriptData)
+            expVariablesList.remove(proxyEntryName)
+            scriptData.deleteBaseEntryByName(proxyEntryName)
+            if expVariablesList.count == 0 {
+                scriptData.deleteSubEntryFromBaseEntry(experimentEntry, subEntry: expVariables)
+            }
         }
         
         
@@ -110,10 +131,16 @@ public struct PSSubjectVariableStorageOptions {
         var storageOptions = PSSubjectVariableStorageOptions(all: false)
         
         let experimentEntry = scriptData.getMainExperimentEntry()
-        if let dataHeader = scriptData.getSubEntry("DataHeader", entry: experimentEntry) {
-            let dataHeaderList = PSStringList(entry: dataHeader, scriptData: scriptData)
-            storageOptions.inDataHeader = dataHeaderList.contains(entry.name)
+        let proxyEntryName = entry.name + "_Variable"
+        if let proxyEntry = scriptData.getBaseEntry(proxyEntryName),
+            expVariables = scriptData.getSubEntry("ExpVariables", entry: experimentEntry) {
+                let expVariablesList = PSStringList(entry: expVariables, scriptData: scriptData)
+                
+                let inList = expVariablesList.contains(proxyEntryName)
+                let correctValue = proxyEntry.currentValue == "@\(entry.name)"
+                storageOptions.inDataFile = inList && correctValue
         }
+
         
         if let runStart = scriptData.getBaseEntry("RunStart") {
             let runStartList = PSStringList(entry: runStart, scriptData: scriptData)

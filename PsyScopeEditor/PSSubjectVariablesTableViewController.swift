@@ -164,6 +164,16 @@ class PSSubjectVariablesTableViewController : NSObject, NSTableViewDataSource, N
                             subjectVariable.isGroupingVariable = (buttonView.button.state == 1)
                         }
                     }
+                } else if identifier == "DataColumn" {
+                    buttonView.button.state = subjectVariable.storageOptions.inDataFile ? 1 : 0
+                    buttonView.buttonClickBlock = { (clickedRow : Int) -> () in
+                        let variable = subjectVariable
+                        var existingOptions = variable.storageOptions
+                        if existingOptions.inDataFile != (buttonView.button.state == 1) {
+                            existingOptions.inDataFile = (buttonView.button.state == 1)
+                            variable.storageOptions = existingOptions
+                        }
+                    }
                 }
             } else  if let tableCellView = view as? NSTableCellView {
                 tableCellView.textField?.stringValue = subjectVariable.name
