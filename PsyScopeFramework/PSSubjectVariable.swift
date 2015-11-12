@@ -12,7 +12,7 @@ public final class PSSubjectVariable : NSObject  {
     
     public class func NewSubjectVariable(scriptData : PSScriptData) -> PSSubjectVariable {
         let newEntryName = scriptData.getNextFreeBaseEntryName("Item")
-        let newEntry = scriptData.getOrCreateBaseEntry(newEntryName, type: "DialogVariable", user_friendly_name: newEntryName, section_name: "SubjectInfo", zOrder: 78)
+        let newEntry = scriptData.getOrCreateBaseEntry(newEntryName, type: "DialogVariable", section: PSSections.SubjectInfo)
         let newSubjectVariable = PSSubjectVariable(entry: newEntry, scriptData: scriptData)
         newSubjectVariable.storageOptions = PSSubjectVariableStorageOptions(all: true)
         newSubjectVariable.dialogType = .StringType
@@ -116,7 +116,7 @@ public final class PSSubjectVariable : NSObject  {
         self.storageOptions.saveToScript(entry, scriptData: scriptData)
         
         //get the GroupSpecs attribute
-        let subjectNumAndGroup = scriptData.getOrCreateBaseEntry("SubjectNumAndGroup", type: "", user_friendly_name: "SubjectNumAndGroup", section_name: "SubjectInfo", zOrder: 78)
+        let subjectNumAndGroup = scriptData.getOrCreateBaseEntry("SubjectNumAndGroup", type: "",section: PSSections.SubjectInfo)
         let groupSpecs = scriptData.getOrCreateSubEntry("GroupSpecs", entry: subjectNumAndGroup, isProperty: true)
         
         //Get the current variables which are grouping variables (those in group specs)

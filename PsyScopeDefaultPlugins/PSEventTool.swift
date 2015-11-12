@@ -19,7 +19,7 @@ class PSEventTool: PSTool, PSToolInterface, PSEventInterface {
         iconName = "Timer-icon-128"//luca changed the icon
         iconColor = NSColor.redColor()
         classNameString = "PSEventTool"
-        section = (name: "EventDefinitions", zorder: 6)
+        section = PSSections.EventDefinitions
         identityProperty = Properties.Events
     }
     

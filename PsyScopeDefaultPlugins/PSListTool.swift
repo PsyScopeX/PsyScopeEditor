@@ -38,7 +38,7 @@ class PSListTool: PSTool, PSToolInterface {
         iconName = "List-icon"
         iconColor = NSColor.blueColor()
         classNameString = "PSListTool"
-        section = (name: "ListDefinitions", zorder: 7)
+        section = PSSections.ListDefinitions
         identityProperty = Properties.Factors
         properties = [Properties.Factors, Properties.Grip, Properties.Offset, Properties.AccessType, Properties.Levels, Properties.IsList]
     }

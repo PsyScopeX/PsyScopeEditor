@@ -344,18 +344,18 @@ public class PSScriptData : NSObject {
         return nil
     }
     
-    public func getOrCreateBaseEntry(name: String, type : String, user_friendly_name: String, section_name: String, zOrder : Int) -> Entry {
+    public func getOrCreateBaseEntry(name: String, type : String, section : PSSection) -> Entry {
         let existing_entry = getBaseEntry(name)
-        let section = getOrCreateSection(section_name, zOrder: zOrder)
+        let section = getOrCreateSection(section)
         if let ee = existing_entry {
-            ee.userFriendlyName = user_friendly_name
+            ee.userFriendlyName = name
             ee.parentSection = section
             ee.type = type
             return ee
         }
         
         let new_base_entry = self.insertNewBaseEntry(name, type: type)
-        new_base_entry.userFriendlyName = user_friendly_name
+        new_base_entry.userFriendlyName = name
         new_base_entry.parentSection = section
         return new_base_entry
     }
@@ -634,8 +634,8 @@ public class PSScriptData : NSObject {
   
     }
     
-    public func addItemToBaseList(name: String, type : String, user_friendly_name: String, section_name: String, zOrder : Int, itemToAdd : String) {
-        let entry = getOrCreateBaseEntry(name, type: type, user_friendly_name: user_friendly_name, section_name: section_name, zOrder: zOrder)
+    public func addItemToBaseList(name: String, type : String, section: PSSection, itemToAdd : String) {
+        let entry = getOrCreateBaseEntry(name, type: type, section: section)
         let list = PSStringList(entry: entry, scriptData: self)
         list.appendAsString(itemToAdd)
     }
@@ -686,24 +686,24 @@ public class PSScriptData : NSObject {
     }
     
     
-    public func getOrCreateSection(section_name : String, zOrder : Int) -> Section {
+    public func getOrCreateSection(section : PSSection) -> Section {
         let exisiting_sections = docMoc.getAllObjectsOfEntity("Section") as! [Section]
         for s in exisiting_sections {
-            if s.sectionName == section_name {
+            if s.sectionName == section.name {
                 return s
             }
         }
         
         let new_section = docMoc.insertNewObjectOfEntity("Section") as! Section
         scriptObject.addSectionsObject(new_section)
-        new_section.sectionName = section_name
-        new_section.scriptOrder = zOrder
+        new_section.sectionName = section.name
+        new_section.scriptOrder = section.zOrder
         return new_section
     }
     
-    public func createBaseEntryAndLayoutObjectPair(sectionName : String, zOrder : Int, entryName : String, type : String) -> LayoutObject {
+    public func createBaseEntryAndLayoutObjectPair(section : PSSection, entryName : String, type : String) -> LayoutObject {
         //get sections
-        let section = self.getOrCreateSection(sectionName, zOrder: zOrder)
+        let section = self.getOrCreateSection(section)
         
         //create main block entry
         let new_name = self.getNextFreeBaseEntryName(entryName)

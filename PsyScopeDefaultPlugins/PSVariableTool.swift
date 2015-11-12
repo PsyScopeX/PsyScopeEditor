@@ -16,7 +16,7 @@ class PSVariableTool: PSTool, PSToolInterface {
         iconName = "Variable-icon-small"
         iconColor = NSColor.blueColor()
         classNameString = "PSVariableTool"
-        section = (name: "TrialManagerVariables", zorder: 12)
+        section = PSSections.VariableDefinitions
         properties = [Properties.VariableType]
         identityProperty = Properties.ExpVariables
     }
@@ -54,7 +54,7 @@ class PSVariableTool: PSTool, PSToolInterface {
     }
     
     func createMainVariableEntry(scriptData : PSScriptData) -> Entry {
-        let sect = scriptData.getOrCreateSection(section.name, zOrder: section.zorder)
+        let sect = scriptData.getOrCreateSection(section)
         
         //create main block entry
         let new_name = scriptData.getNextFreeBaseEntryName(typeString)

@@ -95,7 +95,7 @@ public struct PSSubjectVariableStorageOptions {
         
         //add to schedule
         if let promptEntryName = promptEntryName {
-            let promptEntry = scriptData.getOrCreateBaseEntry(promptEntryName, type: "Logging", user_friendly_name: promptEntryName, section_name: "LogFile", zOrder: 77)
+            let promptEntry = scriptData.getOrCreateBaseEntry(promptEntryName, type: "Logging", section: PSSections.LogFile)
             let promptEntryList = PSStringList(entry: promptEntry, scriptData: scriptData)
             if !promptEntryList.contains(entry.name){
                 promptEntryList.appendAsString(entry.name) //shouldnt be at end but we sort that out afterwards
@@ -104,7 +104,7 @@ public struct PSSubjectVariableStorageOptions {
         
         //add to logging entry
         if inLogFile {
-            let logEntry = scriptData.getOrCreateBaseEntry(logEntryName, type: "Logging", user_friendly_name: logEntryName, section_name: "LogFile", zOrder: 77)
+            let logEntry = scriptData.getOrCreateBaseEntry(logEntryName, type: "Logging", section: PSSections.LogFile)
             let logRunList = PSStringList(entry: logEntry, scriptData: scriptData)
             var logRunArray = logRunList.stringListRawUnstripped
             if let stringName = PSStringElement(strippedValue: entry.name) {

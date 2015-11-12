@@ -22,6 +22,7 @@
 		1A0B524D1AEFF97300E0ADDB /* PSSubjectVariablesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0B524C1AEFF97300E0ADDB /* PSSubjectVariablesController.swift */; };
 		1A0B524F1AEFF98500E0ADDB /* ExperimentSetup.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A0B524E1AEFF98500E0ADDB /* ExperimentSetup.xib */; };
 		1A1213D7199CDFCD0016493C /* PSScriptErrorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1213D6199CDFCD0016493C /* PSScriptErrorViewController.swift */; };
+		1A12C3931BF4E67F0005A076 /* PSSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A12C3921BF4E67F0005A076 /* PSSection.swift */; };
 		1A1BE46E1A7FD4400013D107 /* PSConditionInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A1BE46D1A7FD3B90013D107 /* PSConditionInterface.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1A1BE4701A7FD5280013D107 /* PSCondition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1BE46F1A7FD5280013D107 /* PSCondition.swift */; };
 		1A1E2DF019CCB1C5006BD331 /* PSListBuilderColumn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1E2DEF19CCB1C5006BD331 /* PSListBuilderColumn.swift */; };
@@ -474,9 +475,6 @@
 		1AD385D71B28706A0048C250 /* NSFlippedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD385D61B28706A0048C250 /* NSFlippedView.swift */; };
 		1AD385D91B2873FE0048C250 /* PSTemplatePopupButtonController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD385D81B2873FE0048C250 /* PSTemplatePopupButtonController.swift */; };
 		1AD41C341990D5E8003A7DA2 /* PSScriptWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD41C331990D5E8003A7DA2 /* PSScriptWriter.swift */; };
-		1AD6D40F19E80D6F00A623B1 /* PSTableTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD6D40C19E80D6F00A623B1 /* PSTableTool.swift */; };
-		1AD6D41019E80D6F00A623B1 /* PSTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD6D40D19E80D6F00A623B1 /* PSTableViewController.swift */; };
-		1AD6D41119E80D6F00A623B1 /* TableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AD6D40E19E80D6F00A623B1 /* TableView.xib */; };
 		1AD6D41619E80ED100A623B1 /* TableBuilder.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AD6D41519E80ED100A623B1 /* TableBuilder.xib */; };
 		1AD6D41819E8159E00A623B1 /* PSTableBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD6D41719E8159E00A623B1 /* PSTableBuilder.swift */; };
 		1AD962FC1A7CC6D100C83612 /* PSCondition_Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD962FB1A7CC6D100C83612 /* PSCondition_Movie.swift */; };
@@ -689,6 +687,7 @@
 		1A0B524C1AEFF97300E0ADDB /* PSSubjectVariablesController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSSubjectVariablesController.swift; sourceTree = "<group>"; };
 		1A0B524E1AEFF98500E0ADDB /* ExperimentSetup.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ExperimentSetup.xib; sourceTree = "<group>"; };
 		1A1213D6199CDFCD0016493C /* PSScriptErrorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSScriptErrorViewController.swift; sourceTree = "<group>"; };
+		1A12C3921BF4E67F0005A076 /* PSSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSSection.swift; sourceTree = "<group>"; };
 		1A1BE46D1A7FD3B90013D107 /* PSConditionInterface.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PSConditionInterface.h; sourceTree = "<group>"; };
 		1A1BE46F1A7FD5280013D107 /* PSCondition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSCondition.swift; sourceTree = "<group>"; };
 		1A1E2DEF19CCB1C5006BD331 /* PSListBuilderColumn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSListBuilderColumn.swift; sourceTree = "<group>"; };
@@ -1139,9 +1138,6 @@
 		1AD385D61B28706A0048C250 /* NSFlippedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSFlippedView.swift; sourceTree = "<group>"; };
 		1AD385D81B2873FE0048C250 /* PSTemplatePopupButtonController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSTemplatePopupButtonController.swift; sourceTree = "<group>"; };
 		1AD41C331990D5E8003A7DA2 /* PSScriptWriter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSScriptWriter.swift; sourceTree = "<group>"; };
-		1AD6D40C19E80D6F00A623B1 /* PSTableTool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSTableTool.swift; sourceTree = "<group>"; };
-		1AD6D40D19E80D6F00A623B1 /* PSTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSTableViewController.swift; sourceTree = "<group>"; };
-		1AD6D40E19E80D6F00A623B1 /* TableView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TableView.xib; sourceTree = "<group>"; };
 		1AD6D41519E80ED100A623B1 /* TableBuilder.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TableBuilder.xib; sourceTree = "<group>"; };
 		1AD6D41719E8159E00A623B1 /* PSTableBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSTableBuilder.swift; sourceTree = "<group>"; };
 		1AD962FB1A7CC6D100C83612 /* PSCondition_Movie.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSCondition_Movie.swift; sourceTree = "<group>"; };
@@ -1526,7 +1522,6 @@
 				1A4A64571B0F9CA100084A10 /* Properties Views */,
 				1A0B52421AEFC48000E0ADDB /* DialogVariable */,
 				1A5B68011A7BEA5400B81888 /* Variable */,
-				1AD6D40B19E80CD200A623B1 /* Table */,
 				1A3E70A019B0AE9700FD33C9 /* Group */,
 				1AA5D1B5198FB06E00DD9DC5 /* Experiment */,
 				1A58045419A3B51B00278D18 /* List */,
@@ -2051,6 +2046,7 @@
 			isa = PBXGroup;
 			children = (
 				1ABD88FF1AAF26DD00B43779 /* PSPreferences.swift */,
+				1A12C3921BF4E67F0005A076 /* PSSection.swift */,
 			);
 			name = Constants;
 			sourceTree = "<group>";
@@ -2496,16 +2492,6 @@
 			name = Script;
 			sourceTree = "<group>";
 		};
-		1AD6D40B19E80CD200A623B1 /* Table */ = {
-			isa = PBXGroup;
-			children = (
-				1AD6D40C19E80D6F00A623B1 /* PSTableTool.swift */,
-				1AD6D40D19E80D6F00A623B1 /* PSTableViewController.swift */,
-				1AD6D40E19E80D6F00A623B1 /* TableView.xib */,
-			);
-			name = Table;
-			sourceTree = "<group>";
-		};
 		1AD6D41419E80EB000A623B1 /* TableBuilder */ = {
 			isa = PBXGroup;
 			children = (
@@ -2855,7 +2841,6 @@
 				1AD9630D1A7CE7A400C83612 /* Condition_TCPCell.xib in Resources */,
 				1A522FB01A41BC8100D5B983 /* SoundIcon-old.png in Resources */,
 				1A4A64611B0FA11700084A10 /* ExperimentView.xib in Resources */,
-				1AD6D41119E80D6F00A623B1 /* TableView.xib in Resources */,
 				819550531A21E5C30054A07D /* PsyIconBlue.tiff in Resources */,
 				1ACFF15919D2ECD100B43446 /* Groups-icon.png in Resources */,
 				819D5C251A81368900569B6C /* PasteBoardIcon.png in Resources */,
@@ -3084,7 +3069,6 @@
 				1AA41FEB1AA9BC0B00CB8D95 /* PSAction_MovieDo.swift in Sources */,
 				1AA376341976752200A3DE6E /* PSBlockTool.swift in Sources */,
 				1AD9630E1A7CE7A400C83612 /* PSCondition_TCP.swift in Sources */,
-				1AD6D41019E80D6F00A623B1 /* PSTableViewController.swift in Sources */,
 				1A9CE35F1AA8B9FC00C846F4 /* PSAction_NewListItem.swift in Sources */,
 				1A8F93D219C847790019F37A /* PSTemplateLayoutBoardClasses.swift in Sources */,
 				1A9CE35B1AA8B9E100C846F4 /* PSAction_EndEvent.swift in Sources */,
@@ -3140,7 +3124,6 @@
 				1AAE1FA31B78FB3C00F72E8D /* PSAttributeParameter_Precompile.swift in Sources */,
 				1A4A64631B0FA1D100084A10 /* PSTemplateTableController.swift in Sources */,
 				1A9CE3551AA8B9A900C846F4 /* PSAction_ClearStim.swift in Sources */,
-				1AD6D40F19E80D6F00A623B1 /* PSTableTool.swift in Sources */,
 				1AD032911B15239C002516ED /* PSListFileReader.swift in Sources */,
 				1A61E58E1ACB3F5900BB775D /* PSAttribute_TextColor.swift in Sources */,
 				1A345DD11AE8040A003356BD /* PSVariableTypeTextFieldCellView.swift in Sources */,
@@ -3315,6 +3298,7 @@
 				1AFC19221B6F8709007083DB /* PSEntryValueControllerDelegate.swift in Sources */,
 				1A567B831A8B694400FC9DC9 /* PSExtension.swift in Sources */,
 				1A27042A19A7DE35002AD682 /* Script.xcdatamodeld in Sources */,
+				1A12C3931BF4E67F0005A076 /* PSSection.swift in Sources */,
 				1AA41FFB1AA9C51000CB8D95 /* PSAttributeParameter_CustomPopup.swift in Sources */,
 				1A9263731A94A6A100DAFF3A /* PSScriptFile.swift in Sources */,
 				1A2339ED1BD9408600B6D805 /* PSPortPreviewView.swift in Sources */,

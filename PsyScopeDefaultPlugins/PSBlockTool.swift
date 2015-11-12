@@ -18,7 +18,7 @@ class PSBlockTool: PSTool, PSToolInterface {
         iconName = "BlockTemplate-icon-128" // icon changed by Luca
         iconColor = NSColor.blueColor()
         classNameString = "PSBlockTool"
-        section = (name: "BlockDefinitions", zorder: 2)
+        section = PSSections.BlockDefinitions
         identityProperty = Properties.Blocks
     }
     

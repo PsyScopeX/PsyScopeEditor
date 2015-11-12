@@ -15,7 +15,7 @@ public class DefaultPlugins: NSObject, PSPluginInterface {
     public static func pluginsFor(pluginTypeName: PSPluginType) -> [NSObject.Type] {
         switch pluginTypeName {
             case .Tool:
-                return [PSExperimentTool.self,PSGroupTool.self, PSBlockTool.self, PSTemplateTool.self, PSListTool.self, PSTableTool.self, PSVariableTool.self, PSBlankEntryTool.self, PSDialogVariableTool.self]
+                return [PSExperimentTool.self,PSGroupTool.self, PSBlockTool.self, PSTemplateTool.self, PSListTool.self, PSVariableTool.self, PSBlankEntryTool.self, PSDialogVariableTool.self]
             case .Attribute:
                 return [PSExperimentDataFields.self, PSExperimentInstructions.self, PSExperimentDebriefing.self, PSExperimentRestPeriod.self, PSExperimentNumberRestPeriods.self, 
                     PSExperimentTrialsPerRest.self, 

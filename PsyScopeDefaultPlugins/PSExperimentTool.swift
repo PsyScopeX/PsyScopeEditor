@@ -16,7 +16,7 @@ class PSExperimentTool: PSTool, PSToolInterface {
         iconName = "Experiment-Icon-128"
         iconColor = NSColor.greenColor()
         classNameString = "PSExperimentTool"
-        section = (name: "ExperimentDefinitions", zorder: 1)
+        section = PSSections.ExperimentDefinitions
         identityProperty = ExperimentsProperties.Experiments
         properties = [ExperimentProperties.Format, ExperimentProperties.InputDevices, ExperimentProperties.Timer, ExperimentProperties.Flags, ExperimentProperties.ScaleBlocks, ExperimentProperties.DataFile]
     }
@@ -158,7 +158,7 @@ class PSExperimentTool: PSTool, PSToolInterface {
         if ghost_main_entry != nil {
             // a new main experiment entry has been created
             let new_name = ghost_main_entry.name
-            let layout_object = scriptData.createBaseEntryAndLayoutObjectPair("ExperimentDefinitions", zOrder: 1, entryName: new_name, type: self.type())
+            let layout_object = scriptData.createBaseEntryAndLayoutObjectPair(PSSections.ExperimentDefinitions, entryName: new_name, type: self.type())
             mainEntry = layout_object.mainEntry
             updateEntry(mainEntry, withGhostEntry: ghost_main_entry, scriptData: scriptData)
         } else {
@@ -192,7 +192,7 @@ class PSExperimentTool: PSTool, PSToolInterface {
         if experimentsEntry == nil {
             // a new experiments entry needs to be created
             //get sections
-            let root_section = scriptData.getOrCreateSection("Root", zOrder: 0)
+            let root_section = scriptData.getOrCreateSection(PSSections.Root)
             //create main experiments entry
             experimentsEntry = scriptData.insertNewBaseEntry("Experiments", type: type())
             
@@ -349,9 +349,9 @@ class PSExperimentTool: PSTool, PSToolInterface {
         }
         
         //get sections
-        let root_section = scriptData.getOrCreateSection("Root", zOrder: 0)
+        let root_section = scriptData.getOrCreateSection(PSSections.Root)
         
-        let layout_object = scriptData.createBaseEntryAndLayoutObjectPair("ExperimentDefinitions", zOrder: 1, entryName: "Experiment", type: self.type())
+        let layout_object = scriptData.createBaseEntryAndLayoutObjectPair(section, entryName: "Experiment", type: self.type())
         let experiment_main_entry = layout_object.mainEntry
         //create main experiments entry
         let experiments_entry = scriptData.insertNewBaseEntry("Experiments",type: type())

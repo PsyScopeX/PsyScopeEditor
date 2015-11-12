@@ -18,8 +18,7 @@ public class PSAttributeGeneric : NSObject, PSAttributeInterface {
     public var keyValuesArray : [String]
     public var customAttributeParameterAction : ((String,PSScriptData,NSWindow,((String) -> ())?) -> ())?
     public var displayValueTransformer : (String -> String)?
-    public var sectionName : String
-    public var sectionZ : Int
+    public var section : PSSection
     public var reservedEntryNames : [String]
     public var illegalEntryNames : [String]
     override public init() {
@@ -31,8 +30,7 @@ public class PSAttributeGeneric : NSObject, PSAttributeInterface {
         defaultValueString = ""
         toolsArray = []
         keyValuesArray = []
-        sectionName = "UnclassifiedAttributes"
-        sectionZ = 75
+        section = PSSections.UndefinedEntries
         reservedEntryNames = []
         illegalEntryNames = []
         super.init()
@@ -99,7 +97,7 @@ public class PSAttributeGeneric : NSObject, PSAttributeInterface {
     public func createBaseEntriesWithGhostEntries(entries: [AnyObject]!, withScript scriptData: PSScriptData!) -> [AnyObject]! {
         for ent in entries {
             if let e = ent as? PSGhostEntry {
-                let new_blank_obj = scriptData.getOrCreateBaseEntry(e.name, type: e.type, user_friendly_name: e.name, section_name: sectionName, zOrder: sectionZ)
+                let new_blank_obj = scriptData.getOrCreateBaseEntry(e.name, type: e.type, section: section)
                 updateEntry(new_blank_obj, withGhostEntry: e, scriptData: scriptData)
             }
         }

@@ -16,7 +16,7 @@ class PSTemplateTool: PSTool , PSToolInterface {
         iconName = "Template-icon-128" //icon changed by Luca
         iconColor = NSColor.redColor()
         classNameString = "PSTemplateTool"
-        section = (name: "TemplateDefinitions", zorder: 3)
+        section = PSSections.TemplateDefinitions
         identityProperty = Properties.Templates
     }
     

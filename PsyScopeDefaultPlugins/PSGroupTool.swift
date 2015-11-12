@@ -16,7 +16,7 @@ class PSGroupTool: PSTool , PSToolInterface {
         iconName = "Group-icon-128" // Luca changed the icon
         iconColor = NSColor.redColor()
         classNameString = "PSGroupTool"
-        section = (name: "GroupDefinitions", zorder: 9)
+        section = PSSections.GroupDefinitions
         identityProperty = Properties.Groups
     }
     

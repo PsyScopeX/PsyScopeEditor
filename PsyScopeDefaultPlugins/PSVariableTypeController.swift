@@ -62,7 +62,7 @@ class PSVariableTypeController : NSObject {
                 newType.name = scriptData.getNextFreeBaseEntryName(newType.name)
             }
             
-            let entry = scriptData.getOrCreateBaseEntry(newType.name, type: "VariableType", user_friendly_name: newType.name, section_name: "VariableTypes", zOrder: 21)
+            let entry = scriptData.getOrCreateBaseEntry(newType.name, type: "VariableType", section: PSSections.VariableDefinitions)
             
             VariableNamedTypeToEntry(newType, entry: entry, scriptData: scriptData)
         }

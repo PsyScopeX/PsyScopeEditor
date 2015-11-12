@@ -28,7 +28,7 @@ class PSDialogVariableTool: PSTool, PSToolInterface {
         iconName = "Variable-icon-small"
         iconColor = NSColor.blueColor()
         classNameString = "PSDialogVariableTool"
-        section = (name: "SubjectInfo", zorder: 13) // changing from SubjectVariables as this is not recognised by psyscope
+        section = PSSections.SubjectInfo // changing from SubjectVariables as this is not recognised by psyscope
         properties = [Properties.VariableType, Properties.Dialog]
         identityProperty = Properties.Dialog
         
@@ -68,7 +68,7 @@ class PSDialogVariableTool: PSTool, PSToolInterface {
     }
     
     func createMainVariableEntry(scriptData : PSScriptData) -> Entry {
-     let sect = scriptData.getOrCreateSection(section.name, zOrder: section.zorder)
+     let sect = scriptData.getOrCreateSection(section)
         
         //create main block entry
      let new_name = scriptData.getNextFreeBaseEntryName(typeString)

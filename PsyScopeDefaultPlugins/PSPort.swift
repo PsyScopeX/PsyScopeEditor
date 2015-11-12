@@ -121,7 +121,7 @@ public class PSPort : Hashable, Equatable {
         //first check if entry name is free
         let pointsSubEntry = PSStringList(entry: scriptData.getOrCreateSubEntry("Points", entry: entry, isProperty: true), scriptData: scriptData)
         if scriptData.getBaseEntry(name) == nil && pointsSubEntry.appendAsString(name) {
-            let new_entry = scriptData.getOrCreateBaseEntry(name, type: "Position", user_friendly_name: name, section_name: "PositionDefinitions", zOrder: 8)
+            let new_entry = scriptData.getOrCreateBaseEntry(name, type: "Position", section: PSSections.PositionDefinitions)
             let new_position = PSPosition(parent_port: self, entry: new_entry, scriptData: scriptData)
             positions.append(new_position)
             new_position.updateEntryValue()

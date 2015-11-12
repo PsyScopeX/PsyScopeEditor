@@ -16,7 +16,7 @@ class PSBlankEntryTool: PSTool, PSToolInterface {
         iconName = "Question-icon"
         iconColor = NSColor.blueColor()
         classNameString = "PSBlankEntryTool"
-        section = (name: "UndefinedEntries", zorder: 100)
+        section = PSSections.UndefinedEntries
     }
     
     override func appearsInToolMenu() -> Bool {
@@ -25,7 +25,7 @@ class PSBlankEntryTool: PSTool, PSToolInterface {
     
     //dont create layout object for blank entry
     override func createObject(scriptData: PSScriptData!) -> Entry! {
-        let sect = scriptData.getOrCreateSection(section.name, zOrder: section.zorder)
+        let sect = scriptData.getOrCreateSection(section)
         
         //create main block entry
         let new_name = scriptData.getNextFreeBaseEntryName(typeString)

@@ -14,7 +14,7 @@ class PSTool: PSToolHelper {
     var iconColor : NSColor
     var classNameString : String
     var properties : [PSProperty]
-    var section : (name : String, zorder : Int)
+    var section : PSSection
     var identityProperty : PSProperty?
     var reservedEntryNames : [String]
     var illegalEntryNames : [String]
@@ -24,7 +24,7 @@ class PSTool: PSToolHelper {
         iconName = ""
         iconColor = NSColor.whiteColor()
         classNameString = ""
-        section =  (name: "", zorder : 0)
+        section =  PSSections.UndefinedEntries
         properties = []
         identityProperty = nil
         reservedEntryNames = []
@@ -100,7 +100,7 @@ class PSTool: PSToolHelper {
     }
     
     func createObject(scriptData: PSScriptData!) -> Entry! {
-        let layout_object = scriptData.createBaseEntryAndLayoutObjectPair(section.name, zOrder: section.zorder, entryName: typeString, type: self.type())
+        let layout_object = scriptData.createBaseEntryAndLayoutObjectPair(section, entryName: typeString, type: self.type())
         
         layout_object.icon = self.icon()
 
