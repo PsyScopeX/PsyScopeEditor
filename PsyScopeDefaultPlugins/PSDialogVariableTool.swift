@@ -23,12 +23,12 @@ class PSDialogVariableTool: PSTool, PSToolInterface {
         dialogEntryNames = legalEntries
         
         super.init()
-        typeString = "DialogVariable"
+        toolType = PSType.SubjectInfo
         helpfulDescriptionString = "Named run-time variables that can open an input dialog at various points during the experiment lifecycle."
         iconName = "Variable-icon-small"
         iconColor = NSColor.blueColor()
         classNameString = "PSDialogVariableTool"
-        section = PSSections.SubjectInfo // changing from SubjectVariables as this is not recognised by psyscope
+        section = PSSection.SubjectInfo // changing from SubjectVariables as this is not recognised by psyscope
         properties = [Properties.VariableType, Properties.Dialog]
         identityProperty = Properties.Dialog
         
@@ -71,8 +71,8 @@ class PSDialogVariableTool: PSTool, PSToolInterface {
      let sect = scriptData.getOrCreateSection(section)
         
         //create main block entry
-     let new_name = scriptData.getNextFreeBaseEntryName(typeString)
-     let new_entry = scriptData.insertNewBaseEntry(new_name, type: typeString)
+     let new_name = scriptData.getNextFreeBaseEntryName(toolType.name)
+     let new_entry = scriptData.insertNewBaseEntry(new_name, type: toolType)
         
         sect.addObjectsObject(new_entry)
         new_entry.currentValue = "0"
@@ -92,15 +92,15 @@ class PSDialogVariableTool: PSTool, PSToolInterface {
     
     override func identifyEntries(ghostScript: PSGhostScript!) -> [AnyObject]!{
         var errors : [PSScriptError] = []
-        errors += (PSTool.identifyEntriesByKeyAttribute(ghostScript, keyAttribute: "Dialog", type: typeString) as [PSScriptError])
+        errors += (PSTool.identifyEntriesByKeyAttribute(ghostScript, keyAttribute: "Dialog", type: toolType) as [PSScriptError])
         
         //now to identify all entries that are related to subject variables - and raise errors for illegal ones
         for entry in ghostScript.entries {
             if illegalEntryNames.contains(entry.name) {
-                entry.type = typeString
+                entry.type = toolType.name
                 errors.append(PSIllegalScheduleEntry(entry.name,range: entry.range))
             } else if dialogEntryNames.contains(entry.name) {
-                entry.type = typeString
+                entry.type = toolType.name
             }
         }
 

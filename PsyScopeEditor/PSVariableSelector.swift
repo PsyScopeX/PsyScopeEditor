@@ -23,7 +23,7 @@ class PSVariableSelector : NSObject {
             popupButton.removeItemWithTitle(variableName)
         }
         
-        variableNames = mainWindowController.scriptData.getBaseEntriesOfType("Variable").map({ $0.name })
+        variableNames = mainWindowController.scriptData.getBaseEntriesOfType(PSType.Variable).map({ $0.name })
         
         if variableNames.count > 0 {
             popupButton.enabled = true

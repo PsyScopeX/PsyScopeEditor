@@ -11,12 +11,12 @@ class PSGroupTool: PSTool , PSToolInterface {
     
     override init() {
         super.init()
-        typeString = "Group"
+        toolType = PSType.Group
         helpfulDescriptionString = "Node for defining a group"
         iconName = "Group-icon-128" // Luca changed the icon
         iconColor = NSColor.redColor()
         classNameString = "PSGroupTool"
-        section = PSSections.GroupDefinitions
+        section = PSSection.GroupDefinitions
         identityProperty = Properties.Groups
     }
     
@@ -25,7 +25,7 @@ class PSGroupTool: PSTool , PSToolInterface {
     }
     
     override func identifyEntries(ghostScript: PSGhostScript!) -> [AnyObject]!{
-        return PSTool.identifyEntriesByPropertyInOtherEntry(ghostScript, property: Properties.Groups, type: type())
+        return PSTool.identifyEntriesByPropertyInOtherEntry(ghostScript, property: Properties.Groups, type: toolType)
     }
     
     override func isSourceForAttributes() -> Bool {
@@ -60,7 +60,7 @@ class PSGroupTool: PSTool , PSToolInterface {
         subMenuItem.representedObject = self
         subMenuItem.tag = 0
         //get all groups
-        let groupEntries =  scriptData.getBaseEntriesOfType(typeString)
+        let groupEntries =  scriptData.getBaseEntriesOfType(toolType)
         
         //now get all attributes
         var suitableAttributes : [String:Bool] = [:] //dummy dictionary to hold unique attribute names

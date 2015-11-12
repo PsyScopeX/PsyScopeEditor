@@ -39,7 +39,7 @@ public class PSSubjectInformation : NSObject {
         
 
         //get all base entries which are dialogs, and are run at some point of the experiment
-        var dialogVariables = scriptData.getBaseEntriesOfType("DialogVariable").filter({
+        var dialogVariables = scriptData.getBaseEntriesOfType(PSType.SubjectInfo).filter({
             if let dialogSubEntry = scriptData.getSubEntry("Dialog", entry: $0) {
                 if ["Standard","CheckBoxes","Buttons"].contains(dialogSubEntry.currentValue) {
                     return true

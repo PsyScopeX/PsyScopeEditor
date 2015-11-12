@@ -8,7 +8,7 @@
 import Cocoa
 
 class PSTool: PSToolHelper {
-    var typeString : String
+    var toolType : PSType
     var helpfulDescriptionString : String
     var iconName : String
     var iconColor : NSColor
@@ -19,12 +19,12 @@ class PSTool: PSToolHelper {
     var reservedEntryNames : [String]
     var illegalEntryNames : [String]
     override init() {
-        typeString = ""
+        toolType = PSType.UndefinedEntry
         helpfulDescriptionString = ""
         iconName = ""
         iconColor = NSColor.whiteColor()
         classNameString = ""
-        section =  PSSections.UndefinedEntries
+        section =  PSSection.UndefinedEntries
         properties = []
         identityProperty = nil
         reservedEntryNames = []
@@ -33,7 +33,7 @@ class PSTool: PSToolHelper {
     }
     
     func type() -> String {
-        return typeString
+        return toolType.name
     }
     
     func helpfulDescription() -> String {
@@ -100,7 +100,7 @@ class PSTool: PSToolHelper {
     }
     
     func createObject(scriptData: PSScriptData!) -> Entry! {
-        let layout_object = scriptData.createBaseEntryAndLayoutObjectPair(section, entryName: typeString, type: self.type())
+        let layout_object = scriptData.createBaseEntryAndLayoutObjectPair(section, entryName: toolType.name, type: toolType)
         
         layout_object.icon = self.icon()
 
@@ -159,7 +159,7 @@ class PSTool: PSToolHelper {
     }
     
     func getIllegalEntryNames() -> [AnyObject]! {
-        let allIllegalEntryNames = [typeString] + properties.map({ $0.name })
+        let allIllegalEntryNames = [toolType.name] + properties.map({ $0.name })
         return allIllegalEntryNames
     }
     

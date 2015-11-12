@@ -11,12 +11,12 @@ class PSVariableTool: PSTool, PSToolInterface {
     
     override init() {
         super.init()
-        typeString = "Variable"
+        toolType = PSType.Variable
         helpfulDescriptionString = "Named run-time variables that can be used to vary an event based on user inputs and/or previous trials in the experiment."
         iconName = "Variable-icon-small"
         iconColor = NSColor.blueColor()
         classNameString = "PSVariableTool"
-        section = PSSections.VariableDefinitions
+        section = PSSection.VariableDefinitions
         properties = [Properties.VariableType]
         identityProperty = Properties.ExpVariables
     }
@@ -57,8 +57,8 @@ class PSVariableTool: PSTool, PSToolInterface {
         let sect = scriptData.getOrCreateSection(section)
         
         //create main block entry
-        let new_name = scriptData.getNextFreeBaseEntryName(typeString)
-        let new_entry = scriptData.insertNewBaseEntry(new_name, type: typeString)
+        let new_name = scriptData.getNextFreeBaseEntryName(toolType.name)
+        let new_entry = scriptData.insertNewBaseEntry(new_name, type: toolType)
         
         sect.addObjectsObject(new_entry)
         new_entry.currentValue = "0"
@@ -85,7 +85,7 @@ class PSVariableTool: PSTool, PSToolInterface {
     
     override func identifyEntries(ghostScript: PSGhostScript!) -> [AnyObject]!{
         var errors : [PSScriptError] = []
-        errors += PSTool.identifyEntriesByPropertyInOtherEntry(ghostScript, property: Properties.ExpVariables, type: typeString) as [PSScriptError]
+        errors += PSTool.identifyEntriesByPropertyInOtherEntry(ghostScript, property: Properties.ExpVariables, type: toolType) as [PSScriptError]
         
         return errors
     }    

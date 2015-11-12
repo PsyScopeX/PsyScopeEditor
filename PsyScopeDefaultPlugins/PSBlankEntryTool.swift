@@ -11,12 +11,12 @@ class PSBlankEntryTool: PSTool, PSToolInterface {
     
     override init() {
         super.init()
-        typeString = "BlankEntry"
+        toolType = PSType.UndefinedEntry
         helpfulDescriptionString = "Node for defining a blank Entry"
         iconName = "Question-icon"
         iconColor = NSColor.blueColor()
         classNameString = "PSBlankEntryTool"
-        section = PSSections.UndefinedEntries
+        section = PSSection.UndefinedEntries
     }
     
     override func appearsInToolMenu() -> Bool {
@@ -28,8 +28,8 @@ class PSBlankEntryTool: PSTool, PSToolInterface {
         let sect = scriptData.getOrCreateSection(section)
         
         //create main block entry
-        let new_name = scriptData.getNextFreeBaseEntryName(typeString)
-        let new_entry = scriptData.insertNewBaseEntry(new_name, type: typeString)
+        let new_name = scriptData.getNextFreeBaseEntryName(toolType.name)
+        let new_entry = scriptData.insertNewBaseEntry(new_name, type: toolType)
         
         sect.addObjectsObject(new_entry)
         return new_entry

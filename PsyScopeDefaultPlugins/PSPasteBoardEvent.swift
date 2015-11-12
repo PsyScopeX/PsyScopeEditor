@@ -12,7 +12,7 @@ class PSPasteBoardEvent : PSEventTool {
     override init() {
         super.init()
         stimulusAttributeName = "Stimuli"
-        typeString = "PasteBoard"
+        toolType = PSType.PasteBoard
         helpfulDescriptionString = "presents a combination of screen sub-stimuli with many event types — Text, PICT, Document, and/or Paragraph — as a single event."
         iconName = "PasteBoardIcon"
         iconColor = NSColor.redColor()
@@ -37,7 +37,7 @@ class PSPasteBoardEvent : PSEventTool {
         }
         
         if scriptData.getSubEntry("Port", entry: mainEntry) == nil {
-            let entry = scriptData.getOrCreateSubEntry("Port", entry: mainEntry, isProperty: false, type: PSAttributeType(name: "Port", type: typeString))
+            let entry = scriptData.getOrCreateSubEntry("Port", entry: mainEntry, isProperty: false, type: PSAttributeType(name: "Port", parentType: toolType))
             entry.currentValue = ""
         }
 

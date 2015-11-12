@@ -34,7 +34,7 @@ public class PSAttribute_Port: PSAttributeGeneric {
             }
         }
         
-        section = PSSections.PortDefinitions
+        section = PSSection.PortDefinitions
     }
     
     public override func identifyEntries(ghostScript: PSGhostScript!) -> [AnyObject]! {

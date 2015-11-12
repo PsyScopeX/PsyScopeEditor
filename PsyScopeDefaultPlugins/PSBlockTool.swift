@@ -13,12 +13,12 @@ class PSBlockTool: PSTool, PSToolInterface {
     
     override init() {
         super.init()
-        typeString = "Block"
+        toolType = PSType.Block
         helpfulDescriptionString = "Node for defining a block"
         iconName = "BlockTemplate-icon-128" // icon changed by Luca
         iconColor = NSColor.blueColor()
         classNameString = "PSBlockTool"
-        section = PSSections.BlockDefinitions
+        section = PSSection.BlockDefinitions
         identityProperty = Properties.Blocks
     }
     
@@ -28,7 +28,7 @@ class PSBlockTool: PSTool, PSToolInterface {
     
     
     override func identifyEntries(ghostScript: PSGhostScript!) -> [AnyObject]!{
-        return PSTool.identifyEntriesByPropertyInOtherEntry(ghostScript, property: Properties.Blocks, type: type())
+        return PSTool.identifyEntriesByPropertyInOtherEntry(ghostScript, property: Properties.Blocks, type: toolType)
     }
     
     override func isSourceForAttributes() -> Bool {
@@ -56,7 +56,7 @@ class PSBlockTool: PSTool, PSToolInterface {
         subMenuItem.representedObject = self
         subMenuItem.tag = 0
         //get all blocks
-        let blockEntries = scriptData.getBaseEntriesOfType(typeString)
+        let blockEntries = scriptData.getBaseEntriesOfType(toolType)
    
         //now get all attributes
         var suitableAttributes : [String:Bool] = [:] //dummy dictionary to hold unique attribute names

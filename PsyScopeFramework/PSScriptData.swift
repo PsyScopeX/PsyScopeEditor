@@ -286,11 +286,11 @@ public class PSScriptData : NSObject {
         fatalError("No experiments entry found!!")
     }
     
-    public func getBaseEntriesOfType(type : String) -> [Entry] {
+    public func getBaseEntriesOfType(type : PSType) -> [Entry] {
         let entries = self.getBaseEntries()
         return entries.filter({
             (entry : Entry) -> (Bool) in
-            return entry.type == type
+            return entry.type == type.name
         })
     }
     
@@ -344,13 +344,16 @@ public class PSScriptData : NSObject {
         return nil
     }
     
-    public func getOrCreateBaseEntry(name: String, type : String, section : PSSection) -> Entry {
+    public func getOrCreateBaseEntry(name: String, type : PSType, section : PSSection? = nil) -> Entry {
+        
+        let psSection = section != nil ? section! : type.defaultSection
+        
         let existing_entry = getBaseEntry(name)
-        let section = getOrCreateSection(section)
+        let section = getOrCreateSection(psSection)
         if let ee = existing_entry {
             ee.userFriendlyName = name
             ee.parentSection = section
-            ee.type = type
+            ee.type = type.name
             return ee
         }
         
@@ -568,23 +571,23 @@ public class PSScriptData : NSObject {
     //MARK: Entry inserting
 
     //main point to insert an entry
-    private func insertNewEntry(name : String, type : String) -> Entry {
+    private func insertNewEntry(name : String, typeName : String) -> Entry {
         let new_entry = docMoc.insertNewObjectOfEntity("Entry") as! Entry
         new_entry.currentValue = ""
         new_entry.comments = ""
         new_entry.metaData = ""
         new_entry.isKeyEntry = false
         new_entry.name = name
-        new_entry.type = type
+        new_entry.type = typeName
         new_entry.isProperty = false
         new_entry.userFriendlyName = name
         return new_entry
     }
     
-    public func insertNewBaseEntry(name : String, type : String) -> Entry {
+    public func insertNewBaseEntry(name : String, type : PSType) -> Entry {
         assert(!getBaseEntryNames().contains(name), "Name has to be valid and not already a base entry")
         
-        let new_entry = insertNewEntry(name, type : type)
+        let new_entry = insertNewEntry(name, typeName : type.name)
         scriptObject.addEntriesObject(new_entry)
         return new_entry
     }
@@ -592,7 +595,7 @@ public class PSScriptData : NSObject {
     public func insertNewSubEntryForEntry(name : String, entry : Entry, type : PSAttributeType) -> Entry {
         assert(!(entry.subEntries.array as! [Entry]).map { $0.name! }.contains(name), "Name has to be valid and not already a sub Entry")
         
-        let new_sub_entry = self.insertNewEntry(name, type: type.fullType)
+        let new_sub_entry = self.insertNewEntry(name, typeName: type.fullType)
         entry.addSubEntriesObject(new_sub_entry)
         return new_sub_entry
     }
@@ -634,7 +637,7 @@ public class PSScriptData : NSObject {
   
     }
     
-    public func addItemToBaseList(name: String, type : String, section: PSSection, itemToAdd : String) {
+    public func addItemToBaseList(name: String, type : PSType, section: PSSection, itemToAdd : String) {
         let entry = getOrCreateBaseEntry(name, type: type, section: section)
         let list = PSStringList(entry: entry, scriptData: self)
         list.appendAsString(itemToAdd)
@@ -678,7 +681,7 @@ public class PSScriptData : NSObject {
             new_sub_entry.isProperty = isProperty
             return new_sub_entry
         } else {
-            let new_sub_entry = insertNewSubEntryForEntry(name, entry: entry, type : PSAttributeType(name: "", type: ""))
+            let new_sub_entry = insertNewSubEntryForEntry(name, entry: entry, type : PSAttributeType(fullType: ""))
             new_sub_entry.userFriendlyName = name
             new_sub_entry.isProperty = isProperty
             return new_sub_entry
@@ -701,7 +704,7 @@ public class PSScriptData : NSObject {
         return new_section
     }
     
-    public func createBaseEntryAndLayoutObjectPair(section : PSSection, entryName : String, type : String) -> LayoutObject {
+    public func createBaseEntryAndLayoutObjectPair(section : PSSection, entryName : String, type : PSType) -> LayoutObject {
         //get sections
         let section = self.getOrCreateSection(section)
         
@@ -910,7 +913,7 @@ public class PSScriptData : NSObject {
         
         //create property if essential
         if property.essential {
-            let new_sub_entry = insertNewSubEntryForEntry(property.name, entry: entry, type : PSAttributeType(name: "", type: ""))
+            let new_sub_entry = insertNewSubEntryForEntry(property.name, entry: entry, type : PSAttributeType(fullType: ""))
             new_sub_entry.userFriendlyName = property.name
             new_sub_entry.isProperty = true
             new_sub_entry.currentValue = property.defaultValue
@@ -926,7 +929,7 @@ public class PSScriptData : NSObject {
         }
         
         //create property
-        let new_sub_entry = insertNewSubEntryForEntry(property.name, entry: entry, type : PSAttributeType(name: "", type: ""))
+        let new_sub_entry = insertNewSubEntryForEntry(property.name, entry: entry, type : PSAttributeType(fullType: ""))
         new_sub_entry.userFriendlyName = property.name
         new_sub_entry.isProperty = true
         new_sub_entry.currentValue = property.defaultValue
@@ -950,7 +953,7 @@ public class PSScriptData : NSObject {
         }
         
         //create property
-        let new_sub_entry = insertNewSubEntryForEntry(name, entry: entry, type : PSAttributeType(name: "", type: ""))
+        let new_sub_entry = insertNewSubEntryForEntry(name, entry: entry, type : PSAttributeType(fullType: ""))
         new_sub_entry.userFriendlyName = name
         new_sub_entry.isProperty = true
         new_sub_entry.currentValue = currentValue

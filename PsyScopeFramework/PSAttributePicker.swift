@@ -76,7 +76,7 @@ public class PSAttributePicker: NSObject, NSTableViewDataSource, NSTableViewDele
                     new_attribute.userFriendlyName = a_plugin.userFriendlyName()
                     new_attribute.helpfulDescription = a_plugin.helpfulDescription()
                     new_attribute.attribute = a_plugin
-                    new_attribute.type = PSAttributeType(name: a_plugin.codeName(), type: tool_type)
+                    new_attribute.type = PSAttributeType(name: a_plugin.codeName(), parentType: PSType.FromName(tool_type))
                     tableViewAttributes.append(new_attribute)
                 }
             }
@@ -131,6 +131,6 @@ public class PSAttributePicker: NSObject, NSTableViewDataSource, NSTableViewDele
 struct PSAttributePickerAttribute  {
     var userFriendlyName : String = ""
     var helpfulDescription : String = ""
-    var type : PSAttributeType = PSAttributeType(name: "", type: "")
+    var type : PSAttributeType = PSAttributeType(name: "", parentType: PSType.UndefinedEntry)
     var attribute : PSAttributeInterface! = nil
 }

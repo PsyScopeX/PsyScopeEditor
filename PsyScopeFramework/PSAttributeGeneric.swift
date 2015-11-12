@@ -30,7 +30,7 @@ public class PSAttributeGeneric : NSObject, PSAttributeInterface {
         defaultValueString = ""
         toolsArray = []
         keyValuesArray = []
-        section = PSSections.UndefinedEntries
+        section = PSSection.UndefinedEntries
         reservedEntryNames = []
         illegalEntryNames = []
         super.init()
@@ -83,7 +83,7 @@ public class PSAttributeGeneric : NSObject, PSAttributeInterface {
                 if type == ge.type {
                     for ga in ge.subEntries {
                         if ga.name == codeNameString {
-                            ga.type = PSAttributeType(name: codeNameString, type: type).fullType
+                            ga.type = PSAttributeType(name: codeNameString, parentType: PSType.FromName(type)).fullType
                             break
                         }
                     }
@@ -97,7 +97,7 @@ public class PSAttributeGeneric : NSObject, PSAttributeInterface {
     public func createBaseEntriesWithGhostEntries(entries: [AnyObject]!, withScript scriptData: PSScriptData!) -> [AnyObject]! {
         for ent in entries {
             if let e = ent as? PSGhostEntry {
-                let new_blank_obj = scriptData.getOrCreateBaseEntry(e.name, type: e.type, section: section)
+                let new_blank_obj = scriptData.getOrCreateBaseEntry(e.name, type: PSType.FromName(e.type), section: section)
                 updateEntry(new_blank_obj, withGhostEntry: e, scriptData: scriptData)
             }
         }

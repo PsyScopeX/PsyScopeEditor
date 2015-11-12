@@ -12,7 +12,7 @@ class PSDocumentEvent : PSEventTool {
     override init() {
         super.init()
         stimulusAttributeName = "Stimulus"
-        typeString = "Document"
+        toolType = PSType.Document
         helpfulDescriptionString = "displays text loaded from a file in a port.  You can change the colour, font and size of the text"
         iconName = "DocumentIcon"
         iconColor = NSColor.redColor()
@@ -29,12 +29,12 @@ class PSDocumentEvent : PSEventTool {
     override func createObject(scriptData: PSScriptData!) -> Entry! {
         let mainEntry = super.createObject(scriptData)
         if scriptData.getSubEntry("Stimulus", entry: mainEntry) == nil {
-            let entry = scriptData.getOrCreateSubEntry("Stimulus", entry: mainEntry, isProperty: false, type: PSAttributeType(name: "Stimulus", type: typeString))
+            let entry = scriptData.getOrCreateSubEntry("Stimulus", entry: mainEntry, isProperty: false, type: PSAttributeType(name: "Stimulus", parentType: toolType))
             entry.currentValue = ""
         }
         
         if scriptData.getSubEntry("Port", entry: mainEntry) == nil {
-            let entry = scriptData.getOrCreateSubEntry("Port", entry: mainEntry, isProperty: false, type: PSAttributeType(name: "Port", type: typeString))
+            let entry = scriptData.getOrCreateSubEntry("Port", entry: mainEntry, isProperty: false, type: PSAttributeType(name: "Port", parentType: toolType))
             entry.currentValue = ""
         }
         

@@ -73,7 +73,7 @@ class PSPluginSingleton: NSObject {
                     
                     empty_object.name = attribute.codeName()
                     empty_object.interface = attribute
-                    empty_object.fullType = PSAttributeType(name: attribute.codeName(), type: type).fullType
+                    empty_object.fullType = PSAttributeType(name: attribute.codeName(), parentType: PSType.FromName(type)).fullType
                     
                     //link attributes to tools
                     for et in loadedTools {

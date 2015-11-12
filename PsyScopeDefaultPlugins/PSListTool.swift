@@ -33,12 +33,12 @@ class PSListTool: PSTool, PSToolInterface {
     
     override init() {
         super.init()
-        typeString = "List"
+        toolType = PSType.List
         helpfulDescriptionString = "Node for defining a list"
         iconName = "List-icon"
         iconColor = NSColor.blueColor()
         classNameString = "PSListTool"
-        section = PSSections.ListDefinitions
+        section = PSSection.ListDefinitions
         identityProperty = Properties.Factors
         properties = [Properties.Factors, Properties.Grip, Properties.Offset, Properties.AccessType, Properties.Levels, Properties.IsList]
     }
@@ -55,10 +55,10 @@ class PSListTool: PSTool, PSToolInterface {
     
     override func identifyEntries(ghostScript: PSGhostScript!) -> [AnyObject]! {
         
-        var errors : [PSScriptError] = PSTool.identifyEntriesByKeyAttribute(ghostScript, keyAttribute: "IsList", type: type())
+        var errors : [PSScriptError] = PSTool.identifyEntriesByKeyAttribute(ghostScript, keyAttribute: "IsList", type: toolType)
         
         //Also need to create links with Factors: attribute
-        errors += PSTool.identifyEntriesByPropertyInOtherEntry(ghostScript, property: Properties.Factors, type: type())
+        errors += PSTool.identifyEntriesByPropertyInOtherEntry(ghostScript, property: Properties.Factors, type: toolType)
         return errors
     }
     
@@ -146,7 +146,7 @@ class PSListTool: PSTool, PSToolInterface {
         subMenuItem.representedObject = self
         subMenuItem.tag = 0
         //get all blocks, that this attribute is linked to, and list attributes
-        let lists = scriptData.getBaseEntriesOfType("List")
+        let lists = scriptData.getBaseEntriesOfType(toolType)
         if lists.count == 0 {
             subMenuItem.enabled = false
             return subMenuItem }

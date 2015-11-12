@@ -11,12 +11,12 @@ class PSTemplateTool: PSTool , PSToolInterface {
     
     override init() {
         super.init()
-        typeString = "Template"
+        toolType = PSType.Template
         helpfulDescriptionString = "Node for defining a template"
         iconName = "Template-icon-128" //icon changed by Luca
         iconColor = NSColor.redColor()
         classNameString = "PSTemplateTool"
-        section = PSSections.TemplateDefinitions
+        section = PSSection.TemplateDefinitions
         identityProperty = Properties.Templates
     }
     
@@ -25,7 +25,7 @@ class PSTemplateTool: PSTool , PSToolInterface {
     }
     
     override func identifyEntries(ghostScript: PSGhostScript!) -> [AnyObject]!{
-        return PSTool.identifyEntriesByPropertyInOtherEntry(ghostScript, property: identityProperty!, type: type())
+        return PSTool.identifyEntriesByPropertyInOtherEntry(ghostScript, property: identityProperty!, type: toolType)
     }
     
     override func isSourceForAttributes() -> Bool {
@@ -53,7 +53,7 @@ class PSTemplateTool: PSTool , PSToolInterface {
         subMenuItem.representedObject = self
         subMenuItem.tag = 0
         //get all blocks, that this attribute is linked to, and list attributes
-        let templateEntries = scriptData.getBaseEntriesOfType(typeString)
+        let templateEntries = scriptData.getBaseEntriesOfType(toolType)
         
         //now get all attributes
         var suitableAttributes : [String:Bool] = [:] //dummy dictionary to hold unique attribute names

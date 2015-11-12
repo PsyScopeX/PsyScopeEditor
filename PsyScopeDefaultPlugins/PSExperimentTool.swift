@@ -11,12 +11,12 @@ class PSExperimentTool: PSTool, PSToolInterface {
     
     override init() {
         super.init()
-        typeString = "Experiment"
+        toolType = PSType.Experiment
         helpfulDescriptionString = "Node for defining an experiment"
         iconName = "Experiment-Icon-128"
         iconColor = NSColor.greenColor()
         classNameString = "PSExperimentTool"
-        section = PSSections.ExperimentDefinitions
+        section = PSSection.ExperimentDefinitions
         identityProperty = ExperimentsProperties.Experiments
         properties = [ExperimentProperties.Format, ExperimentProperties.InputDevices, ExperimentProperties.Timer, ExperimentProperties.Flags, ExperimentProperties.ScaleBlocks, ExperimentProperties.DataFile]
     }
@@ -108,7 +108,7 @@ class PSExperimentTool: PSTool, PSToolInterface {
     override func validateBeforeRun(scriptData: PSScriptData!) -> [AnyObject]! {
         //check for data file parameter
         var errors : [PSScriptError] = []
-        let entries = scriptData.getBaseEntriesOfType(typeString)
+        let entries = scriptData.getBaseEntriesOfType(toolType)
         for entry in entries {
             if entry.name != "Experiments" {
                 if let datafile = scriptData.getSubEntry("DataFile", entry: entry) {
@@ -158,7 +158,7 @@ class PSExperimentTool: PSTool, PSToolInterface {
         if ghost_main_entry != nil {
             // a new main experiment entry has been created
             let new_name = ghost_main_entry.name
-            let layout_object = scriptData.createBaseEntryAndLayoutObjectPair(PSSections.ExperimentDefinitions, entryName: new_name, type: self.type())
+            let layout_object = scriptData.createBaseEntryAndLayoutObjectPair(PSSection.ExperimentDefinitions, entryName: new_name, type: toolType)
             mainEntry = layout_object.mainEntry
             updateEntry(mainEntry, withGhostEntry: ghost_main_entry, scriptData: scriptData)
         } else {
@@ -192,9 +192,9 @@ class PSExperimentTool: PSTool, PSToolInterface {
         if experimentsEntry == nil {
             // a new experiments entry needs to be created
             //get sections
-            let root_section = scriptData.getOrCreateSection(PSSections.Root)
+            let root_section = scriptData.getOrCreateSection(PSSection.Root)
             //create main experiments entry
-            experimentsEntry = scriptData.insertNewBaseEntry("Experiments", type: type())
+            experimentsEntry = scriptData.insertNewBaseEntry("Experiments", type: toolType)
             
             //if newName has spaces then add quotes
             if newName.componentsSeparatedByCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()).count > 1 {
@@ -349,12 +349,12 @@ class PSExperimentTool: PSTool, PSToolInterface {
         }
         
         //get sections
-        let root_section = scriptData.getOrCreateSection(PSSections.Root)
+        let root_section = scriptData.getOrCreateSection(PSSection.Root)
         
-        let layout_object = scriptData.createBaseEntryAndLayoutObjectPair(section, entryName: "Experiment", type: self.type())
+        let layout_object = scriptData.createBaseEntryAndLayoutObjectPair(section, entryName: "Experiment", type: toolType)
         let experiment_main_entry = layout_object.mainEntry
         //create main experiments entry
-        let experiments_entry = scriptData.insertNewBaseEntry("Experiments",type: type())
+        let experiments_entry = scriptData.insertNewBaseEntry("Experiments",type: toolType)
         experiments_entry.name = "Experiments"
         experiments_entry.currentValue = experiment_main_entry.name
         experiments_entry.isKeyEntry = false

@@ -21,7 +21,7 @@ class PSLogFileNameController : NSObject {
     }
     
     override func controlTextDidChange(obj: NSNotification) {
-        let logfile = scriptData.getOrCreateBaseEntry("Log File", type: "LogFile", section: PSSections.LogFile)
+        let logfile = scriptData.getOrCreateBaseEntry("Log File", type: PSType.Logging)
         
         logfile.currentValue = "\"\(logFileTextField.stringValue)\""
     }

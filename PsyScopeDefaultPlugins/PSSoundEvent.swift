@@ -12,7 +12,7 @@ class PSSoundEvent : PSEventTool {
     override init() {
         super.init()
         stimulusAttributeName = "SoundFile"
-        typeString = "SoundLabel"
+        toolType = PSType.SoundLabel
         helpfulDescriptionString = "plays a sound loaded from a file."
         iconName = "SoundIcon"
         iconColor = NSColor.redColor()
@@ -29,7 +29,7 @@ class PSSoundEvent : PSEventTool {
     override func createObject(scriptData: PSScriptData!) -> Entry! {
         let mainEntry = super.createObject(scriptData)
         if scriptData.getSubEntry("SoundFile", entry: mainEntry) == nil {
-            let entry = scriptData.getOrCreateSubEntry("SoundFile", entry: mainEntry, isProperty: false, type: PSAttributeType(name: "SoundFile", type: typeString))
+            let entry = scriptData.getOrCreateSubEntry("SoundFile", entry: mainEntry, isProperty: false, type: PSAttributeType(name: "SoundFile", parentType: toolType))
             entry.currentValue = ""
         }
         return mainEntry

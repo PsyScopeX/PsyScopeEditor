@@ -12,7 +12,7 @@ class PSTimeEvent : PSEventTool {
     override init() {
         super.init()
         stimulusAttributeName = ""
-        typeString = "Null"
+        toolType = PSType.NullEvent
         helpfulDescriptionString = "does nothing, but allows the passing of time."
         iconName = "Timer-icon-128" //icon changed by Luca
         iconColor = NSColor.redColor()

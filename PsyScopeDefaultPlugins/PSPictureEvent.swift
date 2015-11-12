@@ -12,7 +12,7 @@ class PSPictureEvent : PSEventTool {
     override init() {
         super.init()
         stimulusAttributeName = "Stimulus"
-        typeString = "Pict"
+        toolType = PSType.Pict
         helpfulDescriptionString = "displays an image in a port.  You can change the way the orientation of the picture and other attributes."
         iconName = "PictureEvent-icon-128" // Modified by Luca on Nov 24 014
         iconColor = NSColor.redColor()
@@ -41,7 +41,7 @@ class PSPictureEvent : PSEventTool {
         
         new_name = scriptData.getNextFreeBaseEntryName(new_name)
         mainEntry.name = new_name
-        let att = scriptData.getOrCreateSubEntry("Stimulus", entry: mainEntry, isProperty: false, type: PSAttributeType(name: "Stimulus", type: typeString))
+        let att = scriptData.getOrCreateSubEntry("Stimulus", entry: mainEntry, isProperty: false, type: PSAttributeType(name: "Stimulus", parentType: toolType))
         att.currentValue = "\"\(PSPath(fileName, basePath: scriptData.documentDirectory()!))\""
         return mainEntry
     }
@@ -49,12 +49,12 @@ class PSPictureEvent : PSEventTool {
     override func createObject(scriptData: PSScriptData!) -> Entry! {
         let mainEntry = super.createObject(scriptData)
         if scriptData.getSubEntry("Stimulus", entry: mainEntry) == nil {
-            let entry = scriptData.getOrCreateSubEntry("Stimulus", entry: mainEntry, isProperty: false, type: PSAttributeType(name: "Stimulus", type: typeString))
+            let entry = scriptData.getOrCreateSubEntry("Stimulus", entry: mainEntry, isProperty: false, type: PSAttributeType(name: "Stimulus", parentType: toolType))
             entry.currentValue = ""
         }
         
         if scriptData.getSubEntry("Port", entry: mainEntry) == nil {
-            let entry = scriptData.getOrCreateSubEntry("Port", entry: mainEntry, isProperty: false, type: PSAttributeType(name: "Port", type: typeString))
+            let entry = scriptData.getOrCreateSubEntry("Port", entry: mainEntry, isProperty: false, type: PSAttributeType(name: "Port", parentType: toolType))
             entry.currentValue = ""
         }
         return mainEntry

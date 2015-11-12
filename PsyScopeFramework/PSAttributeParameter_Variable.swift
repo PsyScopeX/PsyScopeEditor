@@ -48,7 +48,7 @@ public class PSAttributeParameter_Variable : PSAttributeParameter {
     func updatePopUpMenuContent() {
         
         //start condition events - needs to be updated everytime new event is added, whence in its own routine
-        let vars = scriptData.getBaseEntriesOfType("Variable")
+        let vars = scriptData.getBaseEntriesOfType(PSType.Variable)
         
         let new_menu = NSMenu()
         let new_item = NSMenuItem(title: "No Specific Variable", action: "noneSelected:", keyEquivalent: "")

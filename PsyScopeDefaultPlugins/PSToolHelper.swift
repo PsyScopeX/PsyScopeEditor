@@ -40,17 +40,17 @@ class PSToolHelper: NSObject {
     }
     
     //this will populate the 'type' of ghost entries indentified by OWN keyAttribute as type
-    class func identifyEntriesByKeyAttribute(ghostScript: PSGhostScript!, keyAttribute: String, type : String) -> [PSScriptError] {
+    class func identifyEntriesByKeyAttribute(ghostScript: PSGhostScript!, keyAttribute: String, type : PSType) -> [PSScriptError] {
         var errors : [PSScriptError] = []
         
         for ge in ghostScript.entries as [PSGhostEntry] {
             for a in ge.subEntries as [PSGhostEntry] {
                 if (a.name == keyAttribute) {
                     //found entry, set types
-                    if (ge.type.isEmpty || ge.type == type) {
-                        ge.type = type
+                    if (ge.type.isEmpty || ge.type == type.name) {
+                        ge.type = type.name
                     } else {
-                        errors.append(PSErrorAmbiguousType(ge.name,type1: ge.type,type2: type, range: ge.range))
+                        errors.append(PSErrorAmbiguousType(ge.name,type1: ge.type,type2: type.name, range: ge.range))
                     }
                 }
             }
@@ -58,7 +58,7 @@ class PSToolHelper: NSObject {
         return errors
     }
     //this will populate the 'type' of ghost entries identified in OTHER entries keyAttribute, to type - throwing errors if already defined...
-    class func identifyEntriesByPropertyInOtherEntry(ghostScript: PSGhostScript!, property: PSProperty, type : String) -> [PSScriptError] {
+    class func identifyEntriesByPropertyInOtherEntry(ghostScript: PSGhostScript!, property: PSProperty, type : PSType) -> [PSScriptError] {
         var errors : [PSScriptError] = []
         
             
@@ -83,14 +83,14 @@ class PSToolHelper: NSObject {
                                         
                                         //found the referenced entry, label it
                                         found_entry_name = true
-                                        if (ge2.type.isEmpty || ge2.type == type) {
-                                            ge2.type = type
+                                        if (ge2.type.isEmpty || ge2.type == type.name) {
+                                            ge2.type = type.name
                                             
                                             //create link
                                             ge.links.append(ge2)
                                             
                                         } else {
-                                            errors.append(PSErrorAmbiguousType(ge2.name,type1: ge2.type,type2: type, range: ge.range))
+                                            errors.append(PSErrorAmbiguousType(ge2.name,type1: ge2.type,type2: type.name, range: ge.range))
                                         }
                                         
                                     }

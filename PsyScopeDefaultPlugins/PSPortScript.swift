@@ -25,8 +25,8 @@ class PSPortScript : NSObject {
         if let portNames = scriptData.getBaseEntry("PortNames") {
             self.portNamesEntry = PSStringList(entry: portNames, scriptData: scriptData)
         } else {
-            let newPortNamesEntry = PSStringList(entry: scriptData.getOrCreateBaseEntry("PortNames", type: "PortNames", section: PSSections.PortDefinitions), scriptData: scriptData)
-            let entireScreen = scriptData.getOrCreateBaseEntry("Entire Screen", type: "Port", section: PSSections.PositionDefinitions)
+            let newPortNamesEntry = PSStringList(entry: scriptData.getOrCreateBaseEntry("PortNames", type: PSType.PortNames), scriptData: scriptData)
+            let entireScreen = scriptData.getOrCreateBaseEntry("Entire Screen", type: PSType.Port)
             entireScreen.currentValue = "Center 100% Center 100% 0"
             newPortNamesEntry.appendAsString("Entire Screen")
             self.portNamesEntry = newPortNamesEntry
@@ -70,7 +70,7 @@ class PSPortScript : NSObject {
         //first check if entry name is free
         if scriptData.getBaseEntry(name) == nil && portNamesEntry.appendAsString(name) {
             
-            let new_entry = scriptData.getOrCreateBaseEntry(name, type: "Port", section: PSSections.PortDefinitions)
+            let new_entry = scriptData.getOrCreateBaseEntry(name, type: PSType.Port)
             let port_entry = PSPort(entry: new_entry, scriptData: scriptData, portScript: self)
             portEntries.append(port_entry)
             port_entry.updateEntryValue()

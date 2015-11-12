@@ -65,13 +65,13 @@ public class PSAttributePickerEntry : PSAttributePicker {
                 let exisiting_type = PSAttributeType(fullType: existing_att.type)
                 var incompatible = true
                 for compatibleTool in interface.tools() as! [String] {
-                    if compatibleTool == exisiting_type.type {
+                    if compatibleTool == exisiting_type.parentType.name {
                         incompatible = false
                     }
                 }
                 if incompatible {
                     //show warning
-                    let question = "Do you want to replace attribute \"\(interface.codeName())\" of type \"\(exisiting_type.type)\" with type \"\(type.type)\"?"
+                    let question = "Do you want to replace attribute \"\(interface.codeName())\" of type \"\(exisiting_type.parentType.name)\" with type \"\(type.parentType.name)\"?"
                     let info = "These attributes have the same name, but are not compatible, and take different types of values."
                     let quitButton = "Replace"
                     let cancelButton = "Cancel"
@@ -88,7 +88,7 @@ public class PSAttributePickerEntry : PSAttributePicker {
                         existing_att.isProperty = false
                     }
                 } else {
-                    let question = "There is already an attribute \"\(interface.codeName())\" of type \"\(exisiting_type.type)\" in this entry which is compatible with type \"\(type.type)\"."
+                    let question = "There is already an attribute \"\(interface.codeName())\" of type \"\(exisiting_type.parentType.name)\" in this entry which is compatible with type \"\(type.parentType.name)\"."
                     let info = "These attributes are interchangable, and have the same name, but it is not possible to have more than one."
                     let okButton = "OK"
                     let alert = NSAlert()

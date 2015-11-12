@@ -9,31 +9,31 @@
 import Foundation
 
 public struct PSAttributeType : Equatable {
-    public var name : String = ""
-    public var type : String = ""
+    public let name : String
+    public let parentType : PSType
     
     
     
-    public init(name : String, type : String) {
+    public init(name : String, parentType : PSType) {
         self.name = name
-        self.type = type
+        self.parentType = parentType
     }
     
     public init(fullType : String) {
         var comps = fullType.componentsSeparatedByString(".")
         if comps.count == 2 {
             self.name = comps[0]
-            self.type = comps[1]
+            self.parentType = PSType.FromName(comps[1])
         } else {
             self.name = ""
-            self.type = ""
+            self.parentType = PSType.UndefinedEntry
         }
         
     }
     
     public var fullType : String {
-        if name != "" && type != "" {
-            return "\(name).\(type)"
+        if name != "" && parentType != PSType.UndefinedEntry {
+            return "\(name).\(parentType.name)"
         } else {
             return ""
         }
@@ -43,5 +43,5 @@ public struct PSAttributeType : Equatable {
 }
 
 public func ==(lhs: PSAttributeType, rhs: PSAttributeType) -> Bool {
-    return lhs.name == rhs.name && lhs.type == rhs.type
+    return lhs.name == rhs.name && lhs.parentType == rhs.parentType
 }

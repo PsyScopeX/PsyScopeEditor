@@ -22,7 +22,8 @@
 		1A0B524D1AEFF97300E0ADDB /* PSSubjectVariablesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0B524C1AEFF97300E0ADDB /* PSSubjectVariablesController.swift */; };
 		1A0B524F1AEFF98500E0ADDB /* ExperimentSetup.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A0B524E1AEFF98500E0ADDB /* ExperimentSetup.xib */; };
 		1A1213D7199CDFCD0016493C /* PSScriptErrorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1213D6199CDFCD0016493C /* PSScriptErrorViewController.swift */; };
-		1A12C3931BF4E67F0005A076 /* PSSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A12C3921BF4E67F0005A076 /* PSSection.swift */; };
+		1A12C3931BF4E67F0005A076 /* PSSections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A12C3921BF4E67F0005A076 /* PSSections.swift */; };
+		1A12C3951BF4EDC10005A076 /* PSTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A12C3941BF4EDC10005A076 /* PSTypes.swift */; };
 		1A1BE46E1A7FD4400013D107 /* PSConditionInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A1BE46D1A7FD3B90013D107 /* PSConditionInterface.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1A1BE4701A7FD5280013D107 /* PSCondition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1BE46F1A7FD5280013D107 /* PSCondition.swift */; };
 		1A1E2DF019CCB1C5006BD331 /* PSListBuilderColumn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1E2DEF19CCB1C5006BD331 /* PSListBuilderColumn.swift */; };
@@ -687,7 +688,8 @@
 		1A0B524C1AEFF97300E0ADDB /* PSSubjectVariablesController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSSubjectVariablesController.swift; sourceTree = "<group>"; };
 		1A0B524E1AEFF98500E0ADDB /* ExperimentSetup.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ExperimentSetup.xib; sourceTree = "<group>"; };
 		1A1213D6199CDFCD0016493C /* PSScriptErrorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSScriptErrorViewController.swift; sourceTree = "<group>"; };
-		1A12C3921BF4E67F0005A076 /* PSSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSSection.swift; sourceTree = "<group>"; };
+		1A12C3921BF4E67F0005A076 /* PSSections.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSSections.swift; sourceTree = "<group>"; };
+		1A12C3941BF4EDC10005A076 /* PSTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSTypes.swift; sourceTree = "<group>"; };
 		1A1BE46D1A7FD3B90013D107 /* PSConditionInterface.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PSConditionInterface.h; sourceTree = "<group>"; };
 		1A1BE46F1A7FD5280013D107 /* PSCondition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSCondition.swift; sourceTree = "<group>"; };
 		1A1E2DEF19CCB1C5006BD331 /* PSListBuilderColumn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSListBuilderColumn.swift; sourceTree = "<group>"; };
@@ -2046,7 +2048,8 @@
 			isa = PBXGroup;
 			children = (
 				1ABD88FF1AAF26DD00B43779 /* PSPreferences.swift */,
-				1A12C3921BF4E67F0005A076 /* PSSection.swift */,
+				1A12C3921BF4E67F0005A076 /* PSSections.swift */,
+				1A12C3941BF4EDC10005A076 /* PSTypes.swift */,
 			);
 			name = Constants;
 			sourceTree = "<group>";
@@ -3262,6 +3265,7 @@
 				1A5C660A1A88BEC8009EED35 /* PSConditionPickerCell.swift in Sources */,
 				1A34625C1A892C5100E0D443 /* PSConditionCell.swift in Sources */,
 				1A5C66021A88BEBC009EED35 /* PSActionPickerCell.swift in Sources */,
+				1A12C3951BF4EDC10005A076 /* PSTypes.swift in Sources */,
 				1A710A2D1A86C67C00073CB6 /* PSFontAttributePopup.swift in Sources */,
 				1A8ADC0F1A82D990003C2509 /* PSSmoothTextLayer.m in Sources */,
 				1AA0ADD51AE0027A009BF2F2 /* PSAttributePickerCategories.swift in Sources */,
@@ -3298,7 +3302,7 @@
 				1AFC19221B6F8709007083DB /* PSEntryValueControllerDelegate.swift in Sources */,
 				1A567B831A8B694400FC9DC9 /* PSExtension.swift in Sources */,
 				1A27042A19A7DE35002AD682 /* Script.xcdatamodeld in Sources */,
-				1A12C3931BF4E67F0005A076 /* PSSection.swift in Sources */,
+				1A12C3931BF4E67F0005A076 /* PSSections.swift in Sources */,
 				1AA41FFB1AA9C51000CB8D95 /* PSAttributeParameter_CustomPopup.swift in Sources */,
 				1A9263731A94A6A100DAFF3A /* PSScriptFile.swift in Sources */,
 				1A2339ED1BD9408600B6D805 /* PSPortPreviewView.swift in Sources */,

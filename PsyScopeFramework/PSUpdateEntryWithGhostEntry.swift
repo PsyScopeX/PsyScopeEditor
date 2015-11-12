@@ -36,7 +36,7 @@ public func PSUpdateEntryWithGhostEntry(realEntry: Entry!, ghostEntry: PSGhostEn
             PSUpdateEntryWithGhostEntry(existing_attribute, ghostEntry: ga, scriptData: scriptData)
         } else {
             //is new
-            let type = PSAttributeType(name: "", type: "")
+            let type = PSAttributeType(fullType: "")
             let new_attribute = scriptData.insertNewSubEntryForEntry(ga.name, entry: realEntry, type : type)
             new_attribute.isProperty = false //TODO
             PSUpdateEntryWithGhostEntry(new_attribute, ghostEntry: ga, scriptData: scriptData)

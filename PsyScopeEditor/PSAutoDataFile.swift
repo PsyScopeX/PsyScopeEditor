@@ -42,7 +42,7 @@ class PSAutoDataFile {
                 
                 
                 //Ensure that auto data file default setup is present
-                let autoDatafile = scriptData.getOrCreateBaseEntry("AutoDataFile", type: "DialogVariable", section: PSSections.SubjectInfo)
+                let autoDatafile = scriptData.getOrCreateBaseEntry("AutoDataFile", type: PSType.SubjectInfo)
                 let dialog = scriptData.getOrCreateSubEntry("Dialog", entry: autoDatafile, isProperty: true)
                 scriptData.getOrCreateSubEntry("Strings", entry: autoDatafile, isProperty: true)
                 let folder = scriptData.getOrCreateSubEntry("Folder", entry: autoDatafile, isProperty: true)
@@ -53,7 +53,7 @@ class PSAutoDataFile {
                 if dialog.currentValue != "MakeFileName" { dialog.currentValue = "MakeFileName" }
                 
                 //Add to second last runStart (if logrunstart is there)
-                let runStart = scriptData.getOrCreateBaseEntry("RunStart", type: "Logging", section: PSSections.LogFile)
+                let runStart = scriptData.getOrCreateBaseEntry("RunStart", type: PSType.Logging)
                 let runStartList = PSStringList(entry: runStart, scriptData: scriptData)
                 runStartList.remove("AutoDataFile")
                 runStartList.appendAsString("AutoDataFile")

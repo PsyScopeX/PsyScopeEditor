@@ -26,7 +26,7 @@ class PSVaryByListPopup: PSAttributePopup, NSOutlineViewDataSource, NSOutlineVie
         super.init(nibName: "VaryByListPopup", bundle: NSBundle(forClass:self.dynamicType), currentValue: "", displayName: "", setCurrentValueBlock: setCurrentValueBlock)
         
         //get all lists
-        let all_lists = scriptData.getBaseEntriesOfType("List")
+        let all_lists = scriptData.getBaseEntriesOfType(PSType.List)
         
         for list in all_lists {
             let l = PSList(scriptData: scriptData, listEntry: list)

@@ -20,7 +20,7 @@ class PSGroupsCreator {
     
     func generateGroups(groupVariables : [PSSubjectVariable]) {
         //first delete existing groups
-        let existingGroups = scriptData.getBaseEntriesOfType("Group")
+        let existingGroups = scriptData.getBaseEntriesOfType(PSType.Group)
         
         if existingGroups.count > 0 {
             let question = "Overwrite existing groups?"

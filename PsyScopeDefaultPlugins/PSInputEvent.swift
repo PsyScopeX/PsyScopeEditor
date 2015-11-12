@@ -12,7 +12,7 @@ class PSInputEvent : PSEventTool {
     override init() {
         super.init()
         stimulusAttributeName = ""
-        typeString = "Input"
+        toolType = PSType.Input
         helpfulDescriptionString = "used to demark a period of time to wait for input."
         iconName = "InputIcon"
         iconColor = NSColor.redColor()

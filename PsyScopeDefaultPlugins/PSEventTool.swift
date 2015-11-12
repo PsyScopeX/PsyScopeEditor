@@ -14,12 +14,12 @@ class PSEventTool: PSTool, PSToolInterface, PSEventInterface {
     override init() {
         stimulusAttributeName = ""
         super.init()
-        typeString = "Event"
+        toolType = PSType.NullEvent
         helpfulDescriptionString = "Node for defining an event"
         iconName = "Timer-icon-128"//luca changed the icon
         iconColor = NSColor.redColor()
         classNameString = "PSEventTool"
-        section = PSSections.EventDefinitions
+        section = PSSection.EventDefinitions
         identityProperty = Properties.Events
     }
     
