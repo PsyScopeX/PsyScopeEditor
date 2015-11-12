@@ -39,4 +39,8 @@ class PSPsyScopeXPreferences : NSViewController, MASPreferencesViewController {
         })
     }
     
+    @IBAction func resetToDefault(_: AnyObject) {
+        PSPreferences.psyScopeXPath.resetToDefault()
+    }
+    
 }

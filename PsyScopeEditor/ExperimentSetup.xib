@@ -6,6 +6,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="PSExperimentSetup" customModule="PsyScopeEditor" customModuleProvider="target">
             <connections>
+                <outlet property="groupTableViewController" destination="SM2-DR-so1" id="HnQ-KY-gka"/>
                 <outlet property="leftPanelView" destination="DHV-q9-ZJk" id="Rb3-qW-WZj"/>
                 <outlet property="midPanelView" destination="Myk-h2-8nv" id="ol9-vb-2gj"/>
                 <outlet property="subjectVariablesController" destination="pMe-hX-sfe" id="AUi-sv-UoG"/>
@@ -24,7 +25,6 @@
             <connections>
                 <outlet property="dataFileNameController" destination="I7E-Xr-VhW" id="eo6-53-80q"/>
                 <outlet property="experimentSetupController" destination="-2" id="FJR-eU-2GX"/>
-                <outlet property="groupingVariablesTableView" destination="T2p-VB-TDJ" id="udq-6T-UqD"/>
                 <outlet property="logFileNameController" destination="utc-O4-Rfj" id="Mvc-Nw-VHS"/>
                 <outlet property="subjectInformationTableViewController" destination="sav-Gx-Pkn" id="mbl-fQ-e3A"/>
                 <outlet property="subjectVariablesSegmentedControl" destination="mpm-la-1bd" id="SNV-w3-tgv"/>
@@ -45,21 +45,21 @@
             <autoresizingMask key="autoresizingMask"/>
             <subviews>
                 <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="6Nm-qQ-dEr">
-                    <rect key="frame" x="20" y="232" width="325" height="238"/>
+                    <rect key="frame" x="20" y="232" width="438" height="238"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <clipView key="contentView" drawsBackground="NO" id="ZKu-Xa-KLS">
-                        <rect key="frame" x="1" y="0.0" width="323" height="237"/>
+                        <rect key="frame" x="1" y="0.0" width="436" height="237"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="qxa-Ft-YKB" viewBased="YES" id="mKH-l3-TG6">
-                                <rect key="frame" x="0.0" y="0.0" width="323" height="220"/>
+                                <rect key="frame" x="0.0" y="0.0" width="436" height="220"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <animations/>
                                 <size key="intercellSpacing" width="3" height="2"/>
                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                 <tableColumns>
-                                    <tableColumn identifier="NameColumn" width="116" minWidth="40" maxWidth="1000" id="RQR-TA-G6b">
+                                    <tableColumn identifier="NameColumn" width="116" minWidth="40" maxWidth="1000" headerToolTip="The name of the variable" id="RQR-TA-G6b">
                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Name">
                                             <font key="font" metaFont="smallSystem"/>
                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -94,7 +94,7 @@
                                             </tableCellView>
                                         </prototypeCellViews>
                                     </tableColumn>
-                                    <tableColumn identifier="ValueColumn" width="201" minWidth="40" maxWidth="1000" id="QVA-Qo-AdP">
+                                    <tableColumn identifier="ValueColumn" width="192" minWidth="40" maxWidth="1000" headerToolTip="The current value of the variable (click the gear to change)" id="QVA-Qo-AdP">
                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Current Value">
                                             <font key="font" metaFont="smallSystem"/>
                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -108,11 +108,11 @@
                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                         <prototypeCellViews>
                                             <tableCellView identifier="ValueColumn" id="AnQ-ag-FiQ" customClass="PSButtonTableViewCell" customModule="PsyScopeEditor" customModuleProvider="target">
-                                                <rect key="frame" x="120" y="1" width="201" height="17"/>
+                                                <rect key="frame" x="120" y="1" width="192" height="17"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="05a-mv-HoW">
-                                                        <rect key="frame" x="0.0" y="0.0" width="176" height="17"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="152" height="17"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <animations/>
                                                         <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="Mll-JN-clC">
@@ -122,7 +122,7 @@
                                                         </textFieldCell>
                                                     </textField>
                                                     <button horizontalHuggingPriority="750" verticalHuggingPriority="750" id="VPo-x3-MoS">
-                                                        <rect key="frame" x="179" y="-1" width="25" height="15"/>
+                                                        <rect key="frame" x="145" y="-1" width="25" height="15"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <animations/>
                                                         <buttonCell key="cell" type="bevel" bezelStyle="rounded" image="NSActionTemplate" imagePosition="only" alignment="center" controlSize="small" imageScaling="proportionallyDown" inset="2" id="vQB-5o-Tc4">
@@ -142,6 +142,117 @@
                                             </tableCellView>
                                         </prototypeCellViews>
                                     </tableColumn>
+                                    <tableColumn identifier="GroupColumn" width="38" minWidth="10" maxWidth="3.4028234663852886e+38" headerToolTip="Tick to make this variable a between-subjects grouping variable." id="RSI-sd-zzD">
+                                        <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Group">
+                                            <font key="font" metaFont="smallSystem"/>
+                                            <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </tableHeaderCell>
+                                        <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" title="Text Cell" id="5UR-7N-tvA">
+                                            <font key="font" metaFont="system"/>
+                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                        <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                        <prototypeCellViews>
+                                            <tableCellView identifier="GroupColumn" id="WI2-fg-tYH" customClass="PSButtonTableViewCell" customModule="PsyScopeEditor" customModuleProvider="target">
+                                                <rect key="frame" x="315" y="1" width="38" height="17"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                <subviews>
+                                                    <button id="xJx-sl-RcE">
+                                                        <rect key="frame" x="10" y="0.0" width="29" height="17"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <animations/>
+                                                        <buttonCell key="cell" type="check" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="aNa-jv-kYH">
+                                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                            <font key="font" metaFont="system"/>
+                                                        </buttonCell>
+                                                        <connections>
+                                                            <action selector="buttonClick:" target="WI2-fg-tYH" id="tQT-HB-23t"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                                <animations/>
+                                                <connections>
+                                                    <outlet property="button" destination="xJx-sl-RcE" id="NcZ-mt-ajx"/>
+                                                </connections>
+                                            </tableCellView>
+                                        </prototypeCellViews>
+                                    </tableColumn>
+                                    <tableColumn identifier="LogColumn" width="38" minWidth="10" maxWidth="3.4028234663852886e+38" headerToolTip="Tick to include the value of this variable in the Log file." id="jBD-Jc-80i">
+                                        <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Log">
+                                            <font key="font" metaFont="smallSystem"/>
+                                            <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </tableHeaderCell>
+                                        <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" title="Text Cell" id="ihX-V0-maM">
+                                            <font key="font" metaFont="system"/>
+                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                        <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                        <prototypeCellViews>
+                                            <tableCellView identifier="LogColumn" id="byn-9o-XLc" customClass="PSButtonTableViewCell" customModule="PsyScopeEditor" customModuleProvider="target">
+                                                <rect key="frame" x="356" y="1" width="38" height="17"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                <subviews>
+                                                    <button id="XLL-BU-TVk">
+                                                        <rect key="frame" x="10" y="0.0" width="29" height="17"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <animations/>
+                                                        <buttonCell key="cell" type="check" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="rn7-OB-g2B">
+                                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                            <font key="font" metaFont="system"/>
+                                                        </buttonCell>
+                                                        <connections>
+                                                            <action selector="buttonClick:" target="byn-9o-XLc" id="0qb-p3-7SE"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                                <animations/>
+                                                <connections>
+                                                    <outlet property="button" destination="XLL-BU-TVk" id="V4s-rf-Csy"/>
+                                                </connections>
+                                            </tableCellView>
+                                        </prototypeCellViews>
+                                    </tableColumn>
+                                    <tableColumn identifier="DataColumn" width="37" minWidth="10" maxWidth="3.4028234663852886e+38" headerToolTip="Tick to include subject variable in the the Data File as a seperate column" id="g18-S9-ljl">
+                                        <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Data">
+                                            <font key="font" metaFont="smallSystem"/>
+                                            <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </tableHeaderCell>
+                                        <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" title="Text Cell" id="UGi-bU-Mtn">
+                                            <font key="font" metaFont="system"/>
+                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                        <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                        <prototypeCellViews>
+                                            <tableCellView identifier="DataColumn" id="lpI-zb-RyD" customClass="PSButtonTableViewCell" customModule="PsyScopeEditor" customModuleProvider="target">
+                                                <rect key="frame" x="397" y="1" width="37" height="17"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                <subviews>
+                                                    <button id="LID-0G-OLs">
+                                                        <rect key="frame" x="10" y="0.0" width="29" height="17"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <animations/>
+                                                        <buttonCell key="cell" type="check" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="xJo-48-d90">
+                                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                            <font key="font" metaFont="system"/>
+                                                        </buttonCell>
+                                                        <connections>
+                                                            <action selector="buttonClick:" target="lpI-zb-RyD" id="ael-dd-8It"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                                <animations/>
+                                                <connections>
+                                                    <outlet property="button" destination="LID-0G-OLs" id="fi6-Wl-VOB"/>
+                                                </connections>
+                                            </tableCellView>
+                                        </prototypeCellViews>
+                                    </tableColumn>
                                 </tableColumns>
                                 <connections>
                                     <outlet property="dataSource" destination="sav-Gx-Pkn" id="kfm-ZL-emU"/>
@@ -154,7 +265,7 @@
                     </clipView>
                     <animations/>
                     <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="v6g-BE-a0m">
-                        <rect key="frame" x="1" y="1" width="0.0" height="16"/>
+                        <rect key="frame" x="1" y="221" width="436" height="16"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <animations/>
                     </scroller>
@@ -164,7 +275,7 @@
                         <animations/>
                     </scroller>
                     <tableHeaderView key="headerView" id="qxa-Ft-YKB">
-                        <rect key="frame" x="0.0" y="0.0" width="323" height="17"/>
+                        <rect key="frame" x="0.0" y="0.0" width="436" height="17"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <animations/>
                     </tableHeaderView>
@@ -179,28 +290,6 @@
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
-                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="3rL-xw-ISu">
-                    <rect key="frame" x="375" y="478" width="176" height="17"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <animations/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Subject Grouping Variables:" id="Tzd-Qr-Kw2">
-                        <font key="font" metaFont="system"/>
-                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                    </textFieldCell>
-                </textField>
-                <button verticalHuggingPriority="750" id="5cE-12-2bW">
-                    <rect key="frame" x="517" y="320" width="186" height="32"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <animations/>
-                    <buttonCell key="cell" type="push" title="Auto generate groups..." bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="2IA-07-hxi">
-                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="system"/>
-                    </buttonCell>
-                    <connections>
-                        <action selector="generateGroupsButtonClicked:" target="pMe-hX-sfe" id="zOT-a3-1Cd"/>
-                    </connections>
-                </button>
                 <box verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="HHl-gS-ruC">
                     <rect key="frame" x="0.0" y="191" width="717" height="5"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
@@ -209,95 +298,6 @@
                     <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <font key="titleFont" metaFont="system"/>
                 </box>
-                <button verticalHuggingPriority="750" id="FlT-MY-ZKd">
-                    <rect key="frame" x="371" y="320" width="128" height="32"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <animations/>
-                    <buttonCell key="cell" type="push" title="Add / Remove" bezelStyle="rounded" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="owe-J5-2c4">
-                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="system"/>
-                    </buttonCell>
-                </button>
-                <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="F59-TU-xjF">
-                    <rect key="frame" x="377" y="357" width="320" height="113"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <clipView key="contentView" id="shG-eF-jLg">
-                        <rect key="frame" x="1" y="17" width="318" height="95"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="P01-l6-Jnt" viewBased="YES" id="T2p-VB-TDJ">
-                                <rect key="frame" x="0.0" y="0.0" width="318" height="95"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <animations/>
-                                <size key="intercellSpacing" width="3" height="2"/>
-                                <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
-                                <tableColumns>
-                                    <tableColumn width="315" minWidth="40" maxWidth="1000" id="hu0-ce-Kw1">
-                                        <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Name">
-                                            <font key="font" metaFont="smallSystem"/>
-                                            <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
-                                            <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
-                                        </tableHeaderCell>
-                                        <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" title="Text Cell" id="zfW-xa-h9N">
-                                            <font key="font" metaFont="system"/>
-                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                            <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                        </textFieldCell>
-                                        <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
-                                        <prototypeCellViews>
-                                            <tableCellView id="Qc8-bv-Q1g">
-                                                <rect key="frame" x="1" y="1" width="315" height="17"/>
-                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                <subviews>
-                                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="WwP-dd-dtv">
-                                                        <rect key="frame" x="0.0" y="0.0" width="100" height="17"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                        <animations/>
-                                                        <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="nlv-4H-0Od">
-                                                            <font key="font" metaFont="system"/>
-                                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                        </textFieldCell>
-                                                        <connections>
-                                                            <binding destination="Qc8-bv-Q1g" name="value" keyPath="objectValue.name" id="gmk-wd-8gY">
-                                                                <dictionary key="options">
-                                                                    <bool key="NSConditionallySetsEditable" value="YES"/>
-                                                                </dictionary>
-                                                            </binding>
-                                                        </connections>
-                                                    </textField>
-                                                </subviews>
-                                                <animations/>
-                                                <connections>
-                                                    <outlet property="textField" destination="WwP-dd-dtv" id="axv-TD-H0I"/>
-                                                </connections>
-                                            </tableCellView>
-                                        </prototypeCellViews>
-                                    </tableColumn>
-                                </tableColumns>
-                            </tableView>
-                        </subviews>
-                        <animations/>
-                        <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
-                    </clipView>
-                    <animations/>
-                    <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="skv-iG-rky">
-                        <rect key="frame" x="1" y="1" width="0.0" height="16"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <animations/>
-                    </scroller>
-                    <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="oXY-cs-0bp">
-                        <rect key="frame" x="224" y="17" width="15" height="102"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <animations/>
-                    </scroller>
-                    <tableHeaderView key="headerView" id="P01-l6-Jnt">
-                        <rect key="frame" x="0.0" y="0.0" width="318" height="17"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <animations/>
-                    </tableHeaderView>
-                </scrollView>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="t3f-ok-Wpf">
                     <rect key="frame" x="20" y="168" width="103" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -411,7 +411,7 @@
                     </connections>
                 </textField>
                 <segmentedControl verticalHuggingPriority="750" id="mpm-la-1bd">
-                    <rect key="frame" x="20" y="212" width="325" height="23"/>
+                    <rect key="frame" x="20" y="212" width="438" height="23"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <animations/>
                     <segmentedCell key="cell" borderStyle="border" alignment="left" style="smallSquare" trackingMode="momentary" id="dlq-PI-j4F">
@@ -419,13 +419,98 @@
                         <segments>
                             <segment image="NSAddTemplate"/>
                             <segment image="NSRemoveTemplate" tag="1"/>
-                            <segment width="267" enabled="NO">
+                            <segment width="380" enabled="NO">
                                 <nil key="label"/>
                             </segment>
                         </segments>
                     </segmentedCell>
                     <connections>
                         <action selector="subjectVariablesSegmentedControlClick:" target="pMe-hX-sfe" id="Zra-Dl-CdQ"/>
+                    </connections>
+                </segmentedControl>
+                <button verticalHuggingPriority="750" id="5cE-12-2bW">
+                    <rect key="frame" x="488" y="207" width="186" height="32"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <animations/>
+                    <buttonCell key="cell" type="push" title="Auto generate groups..." bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="2IA-07-hxi">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="generateGroupsButtonClicked:" target="pMe-hX-sfe" id="zOT-a3-1Cd"/>
+                    </connections>
+                </button>
+                <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="FNE-a6-a4l">
+                    <rect key="frame" x="477" y="256" width="220" height="214"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <clipView key="contentView" id="U4Z-5e-nAD">
+                        <rect key="frame" x="1" y="23" width="218" height="190"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" headerView="CTv-RK-3Uq" id="16f-B9-ovP">
+                                <rect key="frame" x="0.0" y="0.0" width="218" height="190"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <animations/>
+                                <size key="intercellSpacing" width="3" height="2"/>
+                                <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
+                                <tableColumns>
+                                    <tableColumn width="215" minWidth="40" maxWidth="1000" id="skd-ZY-ri5">
+                                        <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="center" title="Groups">
+                                            <font key="font" metaFont="smallSystem"/>
+                                            <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
+                                        </tableHeaderCell>
+                                        <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" title="Text Cell" id="4ad-Xn-8hT">
+                                            <font key="font" metaFont="system"/>
+                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                        <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                    </tableColumn>
+                                </tableColumns>
+                                <connections>
+                                    <outlet property="dataSource" destination="SM2-DR-so1" id="efT-48-KDq"/>
+                                    <outlet property="delegate" destination="SM2-DR-so1" id="iSK-Gk-AKi"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </clipView>
+                    <animations/>
+                    <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="1sW-3j-3Ky">
+                        <rect key="frame" x="1" y="119" width="223" height="15"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <animations/>
+                    </scroller>
+                    <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="ne8-7g-d4J">
+                        <rect key="frame" x="224" y="17" width="15" height="102"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <animations/>
+                    </scroller>
+                    <tableHeaderView key="headerView" id="CTv-RK-3Uq">
+                        <rect key="frame" x="0.0" y="0.0" width="218" height="23"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <animations/>
+                    </tableHeaderView>
+                </scrollView>
+                <segmentedControl verticalHuggingPriority="750" id="iTs-SC-WGa">
+                    <rect key="frame" x="477" y="239" width="220" height="23"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <animations/>
+                    <segmentedCell key="cell" borderStyle="border" alignment="left" style="smallSquare" trackingMode="momentary" id="p4d-HV-aa8">
+                        <font key="font" metaFont="system"/>
+                        <segments>
+                            <segment image="NSAddTemplate"/>
+                            <segment image="NSRemoveTemplate" tag="1"/>
+                            <segment width="162" enabled="NO">
+                                <nil key="label"/>
+                            </segment>
+                        </segments>
+                    </segmentedCell>
+                    <connections>
+                        <action selector="elementButtons:" target="SM2-DR-so1" id="OVg-mI-Gm3"/>
                     </connections>
                 </segmentedControl>
             </subviews>
@@ -441,6 +526,12 @@
         <customObject id="utc-O4-Rfj" customClass="PSLogFileNameController" customModule="PsyScopeEditor" customModuleProvider="target">
             <connections>
                 <outlet property="logFileTextField" destination="04x-SE-DSJ" id="lgz-lQ-tOZ"/>
+            </connections>
+        </customObject>
+        <customObject id="SM2-DR-so1" customClass="PSGroupsTableViewController" customModule="PsyScopeEditor" customModuleProvider="target">
+            <connections>
+                <outlet property="tableView" destination="16f-B9-ovP" id="010-fz-dJe"/>
+                <outlet property="tableViewButtons" destination="iTs-SC-WGa" id="3bK-Uo-vtQ"/>
             </connections>
         </customObject>
     </objects>

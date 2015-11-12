@@ -506,10 +506,51 @@ public class PSScriptData : NSObject {
         if nameSuggestion.stringByTrimmingCharactersInSet(entryNameCharacterSet) == "" {
             //SUCCESS
             let oldName = entry.name
+            
+            //Offer to rename other similar named entries if appropriate
+            let baseEntrNames = getBaseEntryNames()
+            var baseEntryNamesToChange : [(oldName: String, newName : String)] = []
+            for baseEntryName in baseEntrNames {
+                if (baseEntryName.rangeOfString(oldName) != nil) && (baseEntryName != oldName) {
+                    baseEntryNamesToChange.append((baseEntryName,baseEntryName.stringByReplacingOccurrencesOfString(oldName, withString: nameSuggestion)))
+                }
+            }
+            
+            if baseEntryNamesToChange.count > 0 {
+                let new_alert = NSAlert()
+                let inputView = NSView(frame: NSMakeRect(0, 0, 400, CGFloat(24 * baseEntryNamesToChange.count)))
+                var checkBoxes : [NSButton] = []
+                for (index,val) in baseEntryNamesToChange.enumerate() {
+                    let newCheckBox = NSButton(frame: NSMakeRect(0, CGFloat(index * 24), 400, 24))
+                    newCheckBox.state = 1
+                    newCheckBox.setButtonType(NSButtonType.SwitchButton)
+                    newCheckBox.title = "\(val.oldName) -> \(val.newName)"
+                    inputView.addSubview(newCheckBox)
+                    checkBoxes.append(newCheckBox)
+                }
+                
+                new_alert.accessoryView = inputView
+                new_alert.messageText = "Some similar named entries have been found do you want to rename these entries too? (Recommended to do so if you are unsure)"
+                new_alert.runModal()
+                
+                for (index,cb) in checkBoxes.enumerate() {
+                    let baseEntryNameToChange = baseEntryNamesToChange[index]
+                    if cb.state == 1 {
+                        if let entry = getBaseEntry(baseEntryNameToChange.oldName) {
+                            renameEntry(entry, nameSuggestion: baseEntryNameToChange.newName)
+                        }
+                    }
+                }
+                
+            }
+            
+            
             entry.name = nameSuggestion
             
             //if a base entry, then need to change references to it from other parts of the script (otherwise just in siblings)
             searchAndReplaceValues(oldName, newName: nameSuggestion, entries: siblingEntries)
+            
+            
             return
         } else {
             let splitByBadChars = nameSuggestion.componentsSeparatedByCharactersInSet(entryNameCharacterSet.invertedSet)
@@ -716,6 +757,12 @@ public class PSScriptData : NSObject {
     public func deleteBaseEntry(entry : Entry) {
         scriptObject.removeEntriesObject(entry)
         deleteEntry(entry)
+    }
+    
+    public func deleteBaseEntryByName(entryName : String) {
+        if let entry = getBaseEntry(entryName) {
+            self.deleteBaseEntry(entry)
+        }
     }
     
     private func deleteEntry(entry : Entry) {

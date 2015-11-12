@@ -16,6 +16,7 @@ class PSExperimentSetup: NSObject {
     @IBOutlet var subjectVariablesController: PSSubjectVariablesController!
     @IBOutlet var midPanelView : NSView!
     @IBOutlet var leftPanelView : NSView!
+    @IBOutlet var groupTableViewController : PSGroupsTableViewController!
 
     
     
@@ -25,14 +26,15 @@ class PSExperimentSetup: NSObject {
     
     func initialize() {
         self.scriptData = mainWindowController.scriptData
-        
         self.selectionInterface = self.scriptData.selectionInterface
         //load nib and gain access to views
         NSBundle(forClass:self.dynamicType).loadNibNamed("ExperimentSetup", owner: self, topLevelObjects: &topLevelObjects)
+        self.groupTableViewController.setup(mainWindowController.scriptData)
     }
     
     func update() {
         subjectVariablesController.reloadSubjectVariablesData()
+        self.groupTableViewController.refreshView()
     }
     
     func identifier() -> String! {

@@ -510,6 +510,10 @@
 		1AF5519D1A66CDB900E49C23 /* PSTemplateTableRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF5519C1A66CDB900E49C23 /* PSTemplateTableRowView.swift */; };
 		1AF5519F1A66E70B00E49C23 /* PSEventTableCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF5519E1A66E70B00E49C23 /* PSEventTableCellView.swift */; };
 		1AF890E31AB8369E00706AAA /* PSPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF890E21AB8369E00706AAA /* PSPath.swift */; };
+		1AF8B5C21BF0DDD900C0449B /* PSAutoDataFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF8B5C11BF0DDD900C0449B /* PSAutoDataFile.swift */; };
+		1AF8B5C41BF0E6D200C0449B /* PSGetDataFileName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF8B5C31BF0E6D200C0449B /* PSGetDataFileName.swift */; };
+		1AF8B5C81BF106DB00C0449B /* PSTidyUpExecutionEntries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF8B5C71BF106DB00C0449B /* PSTidyUpExecutionEntries.swift */; };
+		1AF8B5CA1BF10F8D00C0449B /* PSGroupsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF8B5C91BF10F8D00C0449B /* PSGroupsTableViewController.swift */; };
 		1AF8D95619F166A600EB2921 /* PSDocumentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF8D95519F166A600EB2921 /* PSDocumentController.swift */; };
 		1AF964F71B3986A50036219E /* PSQuickFirstResponderTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF964F61B3986A50036219E /* PSQuickFirstResponderTableView.swift */; };
 		1AFADC7B1A1BBB3E0055346D /* PSAttributeEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFADC7A1A1BBB3E0055346D /* PSAttributeEvent.swift */; };
@@ -1171,6 +1175,10 @@
 		1AF5519C1A66CDB900E49C23 /* PSTemplateTableRowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSTemplateTableRowView.swift; sourceTree = "<group>"; };
 		1AF5519E1A66E70B00E49C23 /* PSEventTableCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSEventTableCellView.swift; sourceTree = "<group>"; };
 		1AF890E21AB8369E00706AAA /* PSPath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSPath.swift; sourceTree = "<group>"; };
+		1AF8B5C11BF0DDD900C0449B /* PSAutoDataFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSAutoDataFile.swift; sourceTree = "<group>"; };
+		1AF8B5C31BF0E6D200C0449B /* PSGetDataFileName.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSGetDataFileName.swift; sourceTree = "<group>"; };
+		1AF8B5C71BF106DB00C0449B /* PSTidyUpExecutionEntries.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSTidyUpExecutionEntries.swift; sourceTree = "<group>"; };
+		1AF8B5C91BF10F8D00C0449B /* PSGroupsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSGroupsTableViewController.swift; sourceTree = "<group>"; };
 		1AF8D95519F166A600EB2921 /* PSDocumentController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSDocumentController.swift; sourceTree = "<group>"; };
 		1AF964F61B3986A50036219E /* PSQuickFirstResponderTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSQuickFirstResponderTableView.swift; sourceTree = "<group>"; };
 		1AFADC7A1A1BBB3E0055346D /* PSAttributeEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSAttributeEvent.swift; sourceTree = "<group>"; };
@@ -1287,6 +1295,7 @@
 		1A0B52491AEFF5EB00E0ADDB /* Experiment Setup */ = {
 			isa = PBXGroup;
 			children = (
+				1AF8B5C11BF0DDD900C0449B /* PSAutoDataFile.swift */,
 				1AFEBCB21B31F09B00A3437E /* PSDataFileNameController.swift */,
 				1AFEBCB41B31F10C00A3437E /* PSSubjectVariableToken.swift */,
 				1AFEBC961B2F050B00A3437E /* PSExperimentSetup.swift */,
@@ -1297,6 +1306,8 @@
 				1ADCF51A1B1C7A550006C215 /* PSButtonTableViewCell.swift */,
 				1AFC191A1B6915F3007083DB /* PSWhiteNSView.swift */,
 				1AFC191C1B692E44007083DB /* PSLogFileNameController.swift */,
+				1AF8B5C31BF0E6D200C0449B /* PSGetDataFileName.swift */,
+				1AF8B5C91BF10F8D00C0449B /* PSGroupsTableViewController.swift */,
 			);
 			name = "Experiment Setup";
 			sourceTree = "<group>";
@@ -1549,6 +1560,7 @@
 				1A4A646C1B11008600084A10 /* PSSubjectVariableView.swift */,
 				1AD032841B13CA02002516ED /* PSSubjectVariableDialog.swift */,
 				1A3137D71B3590E700C5EB08 /* PSSubjectVariableSchedule.swift */,
+				1AF8B5C71BF106DB00C0449B /* PSTidyUpExecutionEntries.swift */,
 			);
 			name = SubjectVariable;
 			sourceTree = "<group>";
@@ -3332,6 +3344,7 @@
 				1A3C19141BD1635700274D5B /* PSPluginInterface.swift in Sources */,
 				1AA41FF91AA9C37100CB8D95 /* PSAttributeParameter_Variable.swift in Sources */,
 				1A4CA3A11B62CCDE00CB1BD2 /* PSEntryWindowController.swift in Sources */,
+				1AF8B5C81BF106DB00C0449B /* PSTidyUpExecutionEntries.swift in Sources */,
 				1ABD89001AAF26DD00B43779 /* PSPreferences.swift in Sources */,
 				1A2339EA1BD9408600B6D805 /* PSPort.swift in Sources */,
 				1A710A111A86BA3200073CB6 /* PSIntegerOnlyNumberFormatter.swift in Sources */,
@@ -3382,8 +3395,10 @@
 				1AFEBCB11B30961600A3437E /* PSCustomMenus.swift in Sources */,
 				1A94B08A197FD8BD00DADC59 /* PSConstants.swift in Sources */,
 				1AFDE06E199121AB00ADE7F1 /* PSScriptReaderOperation.swift in Sources */,
+				1AF8B5C41BF0E6D200C0449B /* PSGetDataFileName.swift in Sources */,
 				1A70E6F21B4FF6590046B70B /* PSLayoutObjectComboBox.swift in Sources */,
 				1A23DED71AF18FED003AD0E6 /* PSEntryBrowserSearchController.swift in Sources */,
+				1AF8B5C21BF0DDD900C0449B /* PSAutoDataFile.swift in Sources */,
 				1ABE80D219E4436E00B62B8E /* CoreDataExtensions.swift in Sources */,
 				1A0B524D1AEFF97300E0ADDB /* PSSubjectVariablesController.swift in Sources */,
 				1A5306921B2B4FFC00ECACE0 /* PSVariableSelector.swift in Sources */,
@@ -3405,6 +3420,7 @@
 				1A58089E1B186C6500186E7E /* PSElementViewerController.swift in Sources */,
 				1AC08296197022BA0038512B /* PSLayoutBoard.swift in Sources */,
 				1AFEBCB31B31F09B00A3437E /* PSDataFileNameController.swift in Sources */,
+				1AF8B5CA1BF10F8D00C0449B /* PSGroupsTableViewController.swift in Sources */,
 				1A23DEDB1AF19ED1003AD0E6 /* NCRAutocompleteTextView.m in Sources */,
 				1A9E5E1219882E5F00312743 /* PSDocumentTabDelegate.swift in Sources */,
 				1A92636F1A93679100DAFF3A /* PSImportFileBrowser.swift in Sources */,

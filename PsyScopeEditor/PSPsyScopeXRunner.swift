@@ -79,6 +79,29 @@ class PSPsyScopeXRunner : NSObject {
             return
         }
         
+        //check for existance of and create log file
+        var logFilePath : String = "PsyScope.psylog"
+        let scriptLogFilePath = PSGetLogFileName(document.scriptData)
+        if let customLogFilePath = PSStandardPath(scriptLogFilePath, basePath: documentPath) {
+            logFilePath = customLogFilePath
+        } else {
+            PSModalAlert("Error in Log File entry value: \(scriptLogFilePath) - the log file must be a path (without any functions etc)")
+            return
+        }
+        
+        if !NSFileManager.defaultManager().fileExistsAtPath(logFilePath) {
+            //need to create
+            do {
+                try "#LogFile".writeToFile(logFilePath, atomically: true, encoding: NSMacOSRomanStringEncoding)
+                HFSFileTypeHelper.setTextFileAttribs(logFilePath)
+            }
+            catch {
+                PSModalAlert("Couldn't write the PsyScopeX Log file: \(logFilePath)")
+                return
+            }
+            
+        }
+        
         
         
         //construct running command with NSTask

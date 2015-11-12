@@ -11,10 +11,8 @@ import Foundation
 class PSSubjectVariablesController : NSObject, NSTextFieldDelegate, NSTableViewDataSource {
     
     @IBOutlet var experimentSetupController : PSExperimentSetup!
-    //@IBOutlet var groupingVariablesTableViewController : PSSubjectVariablesTableViewController!
     @IBOutlet var subjectInformationTableViewController : PSSubjectVariablesTableViewController!
     @IBOutlet var subjectVariablesSegmentedControl : NSSegmentedControl!
-    @IBOutlet var groupingVariablesTableView : NSTableView!
     @IBOutlet var subjectVariablesTableView : NSTableView!
     @IBOutlet var dataFileNameController : PSDataFileNameController!
     @IBOutlet var logFileNameController : PSLogFileNameController!
@@ -47,7 +45,6 @@ class PSSubjectVariablesController : NSObject, NSTextFieldDelegate, NSTableViewD
         }
         
         subjectVariablesSegmentedControl.setEnabled(false, forSegment: 1)
-        groupingVariablesTableView.deselectAll(nil)
         subjectVariablesTableView.deselectAll(nil)
     }
     
@@ -102,7 +99,6 @@ class PSSubjectVariablesController : NSObject, NSTextFieldDelegate, NSTableViewD
         if tableView == subjectVariablesTableView {
             //current selected subject
             selectedSubjectTableView = true
-            groupingVariablesTableView.deselectAll(nil)
         } else {
             //current selected grouping
             selectedSubjectTableView = false

@@ -32,7 +32,7 @@ class PSLogFileNameController : NSObject {
 }
 
 func PSGetLogFileName(scriptData : PSScriptData) -> String {
-    if let logFile = scriptData.getBaseEntry("LogFile") {
+    if let logFile = scriptData.getBaseEntry("Log File") {
         return logFile.currentValue.stringByTrimmingCharactersInSet(NSCharacterSet(charactersInString: "\" "))
     } else {
         return "PsyScope.psylog"
