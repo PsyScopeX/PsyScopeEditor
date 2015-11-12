@@ -202,21 +202,25 @@ public class PSScriptData : NSObject {
             }
             
             //create subject information stuff
-            if let subjectName = createNewObjectFromTool("DialogVariable"),
-                type = getSubEntry("Type", entry: subjectName) {
+            if let subjectName = createNewObjectFromTool("DialogVariable") {
+                
                 renameEntry(subjectName,nameSuggestion: "SubjectName")
                 subjectName.currentValue = "SUBJECT NAME"
-                type.currentValue = "String"
+                
             }
             
             if let subjectNumber = createNewObjectFromTool("DialogVariable") {
                 renameEntry(subjectNumber,nameSuggestion: "SubjectNumber")
                 subjectNumber.currentValue = "1"
+                let type = getOrCreateSubEntry("Type", entry: subjectNumber, isProperty: true)
+                type.currentValue = "Integer"
             }
             
             if let runNumber = createNewObjectFromTool("DialogVariable") {
                 renameEntry(runNumber,nameSuggestion: "RunNumber")
                 runNumber.currentValue = "1"
+                let type = getOrCreateSubEntry("Type", entry: runNumber, isProperty: true)
+                type.currentValue = "Integer"
             }
         }
         

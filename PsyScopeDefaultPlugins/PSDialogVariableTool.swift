@@ -41,7 +41,7 @@ class PSDialogVariableTool: PSTool, PSToolInterface {
     
     struct Properties {
         static let Dialog = PSProperty(name: "Dialog", defaultValue: "Standard", essential: true)
-        static let VariableType = PSProperty(name: "Type", defaultValue: "Int", essential: true)
+        static let VariableType = PSProperty(name: "Type", defaultValue: "Int", essential: false)
     }
     
     override func appearsInToolMenu() -> Bool {
@@ -95,9 +95,6 @@ class PSDialogVariableTool: PSTool, PSToolInterface {
         errors += (PSTool.identifyEntriesByKeyAttribute(ghostScript, keyAttribute: "Dialog", type: typeString) as [PSScriptError])
         
         //now to identify all entries that are related to subject variables - and raise errors for illegal ones
-        
-        
-        
         for entry in ghostScript.entries {
             if illegalEntryNames.contains(entry.name) {
                 entry.type = typeString
