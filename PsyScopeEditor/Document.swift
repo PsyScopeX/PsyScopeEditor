@@ -39,11 +39,14 @@ class Document: NSPersistentDocument {
     }
     
     override func readFromURL(absoluteURL: NSURL, ofType typeName: String) throws {
-        print("read from url")
         if typeName == "DocumentType" {
             try super.readFromURL(absoluteURL, ofType: typeName)
         } else {
-            scriptToImport = try String(contentsOfURL: absoluteURL, encoding: NSUTF8StringEncoding)
+            do {
+                scriptToImport = try String(contentsOfURL: absoluteURL, encoding: NSUTF8StringEncoding)
+            } catch {
+                scriptToImport = try String(contentsOfURL: absoluteURL, encoding: NSMacOSRomanStringEncoding)
+            }
         }
     }
     
