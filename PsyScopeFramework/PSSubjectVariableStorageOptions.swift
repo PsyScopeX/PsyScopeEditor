@@ -54,12 +54,31 @@ public struct PSSubjectVariableStorageOptions {
                 typeSubEntry.currentValue = "String" //hopefully strings will work for everything?
                 proxyEntry.currentValue = "@\(entry.name)"
             }
-        } else if let expVariables = scriptData.getSubEntry("ExpVariables", entry: experimentEntry) {
-            let expVariablesList = PSStringList(entry: expVariables, scriptData: scriptData)
-            expVariablesList.remove(proxyEntryName)
-            scriptData.deleteBaseEntryByName(proxyEntryName)
-            if expVariablesList.count == 0 {
-                scriptData.deleteSubEntryFromBaseEntry(experimentEntry, subEntry: expVariables)
+            
+            //also add to dataheader
+            let dataHeader = scriptData.getOrCreateSubEntry("DataHeader", entry: experimentEntry, isProperty: true)
+            let dataHeaderList = PSStringList(entry: dataHeader, scriptData: scriptData)
+            if !dataHeaderList.contains(entry.name) {
+                dataHeaderList.appendAsString(entry.name)
+            }
+        } else {
+            
+            if let expVariables = scriptData.getSubEntry("ExpVariables", entry: experimentEntry) {
+                let expVariablesList = PSStringList(entry: expVariables, scriptData: scriptData)
+                expVariablesList.remove(proxyEntryName)
+                scriptData.deleteBaseEntryByName(proxyEntryName)
+                if expVariablesList.count == 0 {
+                    scriptData.deleteSubEntryFromBaseEntry(experimentEntry, subEntry: expVariables)
+                }
+            }
+            
+            //also remove from dataheader
+            if let dataHeader = scriptData.getSubEntry("DataHeader", entry: experimentEntry) {
+                let dataHeaderList = PSStringList(entry: dataHeader, scriptData: scriptData)
+                dataHeaderList.remove(entry.name)
+                if dataHeaderList.count == 0 {
+                    scriptData.deleteSubEntryFromBaseEntry(experimentEntry, subEntry: dataHeader)
+                }
             }
         }
         
