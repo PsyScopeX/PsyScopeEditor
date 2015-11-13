@@ -44,7 +44,7 @@ public struct PSSubjectVariableStorageOptions {
             let expVariables = scriptData.getOrCreateSubEntry("ExpVariables", entry: experimentEntry, isProperty: true)
             let expVariablesList = PSStringList(entry: expVariables, scriptData: scriptData)
             
-            if let proxyEntry = scriptData.createNewObjectFromTool("Variable") {
+            if let proxyEntry = scriptData.createNewObjectFromTool(PSType.Variable) {
                 scriptData.renameEntry(proxyEntry, nameSuggestion: proxyEntryName)
                 proxyEntryName = proxyEntry.name
                 if !expVariablesList.contains(proxyEntryName) {

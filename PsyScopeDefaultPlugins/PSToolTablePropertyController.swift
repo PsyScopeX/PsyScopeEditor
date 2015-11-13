@@ -106,7 +106,7 @@ class PSToolTablePropertyController: NSObject, NSTableViewDataSource, NSTableVie
     func addElement() {
         scriptData.beginUndoGrouping("Add New " + childTypeViewController.tableTypeName!)
         var success = false
-        if let new_main_entry = scriptData.createNewObjectFromTool(childTypeViewController.tableTypeName!)  {
+        if let new_main_entry = scriptData.createNewObjectFromTool(PSType.FromName(childTypeViewController.tableTypeName!))  {
             
             scriptData.createLinkFrom(childTypeViewController.entry, to: new_main_entry, withAttribute: childTypeViewController.tableEntryName!)
             PSPositionNewObject(new_main_entry.layoutObject, scriptData: scriptData) //reposition now link has been made

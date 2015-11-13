@@ -37,8 +37,9 @@ public struct PSType : Equatable {
     public static let Document = PSType(name: "Document", defaultSection: PSSection.EventDefinitions)
     public static let Paragraph = PSType(name: "Paragraph", defaultSection: PSSection.EventDefinitions)
     public static let NullEvent = PSType(name: "Null", defaultSection: PSSection.EventDefinitions)
+    public static let Menu = PSType(name: "Menu", defaultSection: PSSection.Menus)
     
-    public static let DefaultTypes : [PSType] = []
+    public static let DefaultTypes : [PSType] = [Experiment, SubjectInfo, Group, Block, Template, List, Variable, PortNames, Port, Position, Logging, ExecutionEntry, UndefinedEntry, Input, Text, Pict, KeySequence, Movie, SoundLabel, PasteBoard, Document, Paragraph, NullEvent, Menu]
     
     public static func FromName(name : String) -> PSType {
         if let defaultType = DefaultTypes.filter({$0.name == name}).first {

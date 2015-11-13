@@ -253,7 +253,7 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
     func draggedNewTool(toolName : String, location: NSPoint) {
         scriptData.beginUndoGrouping("Add New Object")
         var success = false
-        if let new_entry = scriptData.createNewObjectFromTool(toolName) {
+        if let new_entry = scriptData.createNewObjectFromTool(PSType.FromName(toolName)) {
             
             //not all objects need to have a layoutObject now
             if let layoutObject = new_entry.layoutObject {

@@ -188,13 +188,13 @@ public class PSScriptData : NSObject {
         docMoc.undoManager!.disableUndoRegistration()
         
         //create experiment icon
-        if let new_entry = createNewObjectFromTool("Experiment") {
+        if let new_entry = createNewObjectFromTool(PSType.Experiment) {
             new_entry.layoutObject.xPos = 150
             new_entry.layoutObject.yPos = 50
             renameEntry(new_entry, nameSuggestion: "NewExperiment")
             
             //create standard menu setup
-            if let menus = createNewObjectFromTool("Menu") {
+            if let menus = createNewObjectFromTool(PSType.Menu) {
                 renameEntry(menus, nameSuggestion: "Experiment")
                 menus.currentValue = "@StandardPsyScopeMenuItems"
                 deleteNamedSubEntryFromParentEntry(menus, name: "Type")
@@ -202,21 +202,21 @@ public class PSScriptData : NSObject {
             }
             
             //create subject information stuff
-            if let subjectName = createNewObjectFromTool("DialogVariable") {
+            if let subjectName = createNewObjectFromTool(PSType.SubjectInfo) {
                 
                 renameEntry(subjectName,nameSuggestion: "SubjectName")
                 subjectName.currentValue = "SUBJECT NAME"
                 
             }
             
-            if let subjectNumber = createNewObjectFromTool("DialogVariable") {
+            if let subjectNumber = createNewObjectFromTool(PSType.SubjectInfo) {
                 renameEntry(subjectNumber,nameSuggestion: "SubjectNumber")
                 subjectNumber.currentValue = "1"
                 let type = getOrCreateSubEntry("Type", entry: subjectNumber, isProperty: true)
                 type.currentValue = "Integer"
             }
             
-            if let runNumber = createNewObjectFromTool("DialogVariable") {
+            if let runNumber = createNewObjectFromTool(PSType.SubjectInfo) {
                 renameEntry(runNumber,nameSuggestion: "RunNumber")
                 runNumber.currentValue = "1"
                 let type = getOrCreateSubEntry("Type", entry: runNumber, isProperty: true)
@@ -723,8 +723,8 @@ public class PSScriptData : NSObject {
         return layout_object
     }
     
-    public func createNewObjectFromTool(type : String) -> Entry? {
-        if let pstool = self.pluginProvider.getInterfaceForType(type) {
+    public func createNewObjectFromTool(type : PSType) -> Entry? {
+        if let pstool = self.pluginProvider.getInterfaceForType(type.name) {
             return pstool.createObject(self)
         }
         
@@ -1008,7 +1008,7 @@ public class PSScriptData : NSObject {
         //create brand new object of type, and replace attributes
         var new_entry : Entry
         
-        if let ne = self.createNewObjectFromTool(type) { new_entry = ne }
+        if let ne = self.createNewObjectFromTool(PSType.FromName(type)) { new_entry = ne }
         else { return nil }
         
         

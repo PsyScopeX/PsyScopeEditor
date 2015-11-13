@@ -26,6 +26,7 @@ public struct PSSection {
     public static let PortDefinitions = PSSection(name: "PortDefinitions", zOrder: 14)
     public static let PositionDefinitions = PSSection(name: "PositionDefinitions", zOrder: 14)
     public static let ExecutionEntries = PSSection(name: "ExecutionEntries", zOrder: 15)
+    public static let Menus = PSSection(name: "Menus", zOrder: 18)
     public static let UndefinedEntries = PSSection(name: "UndefinedEntries", zOrder: 100)
 }
 

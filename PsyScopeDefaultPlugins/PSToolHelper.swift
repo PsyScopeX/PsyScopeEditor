@@ -39,6 +39,21 @@ class PSToolHelper: NSObject {
         return true
     }
     
+    //this will populate the 'type' of ghost entries if their name matches a given list
+    class func identifyEntriesByName(ghostScript: PSGhostScript!, names: [String], type : PSType) -> [PSScriptError] {
+        var errors : [PSScriptError] = []
+        for ge in ghostScript.entries {
+            if names.contains(ge.name) {
+                if (ge.type.isEmpty || ge.type == type.name) {
+                    ge.type = type.name
+                } else {
+                    errors.append(PSErrorAmbiguousType(ge.name,type1: ge.type,type2: type.name, range: ge.range))
+                }
+            }
+        }
+        return errors
+    }
+    
     //this will populate the 'type' of ghost entries indentified by OWN keyAttribute as type
     class func identifyEntriesByKeyAttribute(ghostScript: PSGhostScript!, keyAttribute: String, type : PSType) -> [PSScriptError] {
         var errors : [PSScriptError] = []

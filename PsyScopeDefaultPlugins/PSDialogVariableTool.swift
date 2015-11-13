@@ -13,14 +13,14 @@ import Foundation
 class PSDialogVariableTool: PSTool, PSToolInterface {
     
     let dialogEntryNames : [String]
+    let executionEntryNames : [String]
     
     override init() {
         
         
-        var legalEntries : [String] = ["RunStart", "RunEnd","LogRunStart", "LogRunEnd"]
-        legalEntries += legalEntries.map({ "Log" + $0 })
-        legalEntries += ["SubjectNumAndGroup", "AutoDataFile"]
-        dialogEntryNames = legalEntries
+        executionEntryNames = ["RunStart", "RunEnd","LogRunStart", "LogRunEnd"]
+        dialogEntryNames = ["SubjectNumAndGroup", "AutoDataFile", "SubjectNumber", "SubjectName", ]
+
         
         super.init()
         toolType = PSType.SubjectInfo
@@ -99,10 +99,11 @@ class PSDialogVariableTool: PSTool, PSToolInterface {
             if illegalEntryNames.contains(entry.name) {
                 entry.type = toolType.name
                 errors.append(PSIllegalScheduleEntry(entry.name,range: entry.range))
-            } else if dialogEntryNames.contains(entry.name) {
-                entry.type = toolType.name
             }
         }
+        
+        errors += PSTool.identifyEntriesByName(ghostScript, names: dialogEntryNames, type: toolType)
+        errors += PSTool.identifyEntriesByName(ghostScript, names: executionEntryNames, type: PSType.ExecutionEntry)
 
         return errors
     }

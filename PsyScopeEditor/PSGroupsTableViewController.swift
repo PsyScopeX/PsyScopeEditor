@@ -114,7 +114,7 @@ class PSGroupsTableViewController : NSObject, NSTableViewDataSource, NSTableView
         scriptData.beginUndoGrouping("Add New Group")
         var success = false
         if let experimentEntry = scriptData.getMainExperimentEntryIfItExists(),
-            newGroup = scriptData.createNewObjectFromTool("Group")  {
+            newGroup = scriptData.createNewObjectFromTool(PSType.Group)  {
             
             scriptData.createLinkFrom(experimentEntry, to: newGroup, withAttribute: "Groups")
             PSPositionNewObject(newGroup.layoutObject, scriptData: scriptData) //reposition now link has been made
