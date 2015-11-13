@@ -14,7 +14,7 @@ class PSAction_MouseSwitch : PSAction {
         typeString = "MouseSwitch"
         userFriendlyNameString = "Mouse Switch"
         helpfulDescriptionString = ""
-        actionParameters = [PSAttributeParameter_OnOff.self]
+        actionParameters = [PSAttributeParameter_OneZero.self]
         actionParameterNames = ["On / Off:"]
         groupString = "Actions / Conditions"
     }

@@ -8,9 +8,9 @@
 
 import Foundation
 
-class PSAttributeParameter_OnOff : PSAttributeParameter_CustomPopup {
+class PSAttributeParameter_OneZero : PSAttributeParameter_CustomPopup {
     override init() {
         super.init()
-        values = ["On", "Off"]
+        values = ["1", "0"]
     }
 }
