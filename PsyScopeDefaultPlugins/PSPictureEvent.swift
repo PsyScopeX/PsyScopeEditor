@@ -42,7 +42,10 @@ class PSPictureEvent : PSEventTool {
         new_name = scriptData.getNextFreeBaseEntryName(new_name)
         mainEntry.name = new_name
         let att = scriptData.getOrCreateSubEntry("Stimulus", entry: mainEntry, isProperty: false, type: PSAttributeType(name: "Stimulus", parentType: toolType))
-        att.currentValue = "\"\(PSPath(fileName, basePath: scriptData.documentDirectory()!))\""
+        if let newValue = PSPath(fileName, basePath: scriptData.documentDirectory()!) {
+            att.currentValue = "\"" + newValue + "\""
+        }
+        
         return mainEntry
     }
     
