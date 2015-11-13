@@ -70,8 +70,8 @@ public final class PSSubjectVariable : NSObject  {
         
         set {
             scriptData.beginUndoGrouping("Rename variable")
-            scriptData.renameEntry(entry, nameSuggestion: newValue)
-            scriptData.endUndoGrouping(true)
+            let success = scriptData.renameEntry(entry, nameSuggestion: newValue)
+            scriptData.endUndoGrouping(success)
         }
     }
     

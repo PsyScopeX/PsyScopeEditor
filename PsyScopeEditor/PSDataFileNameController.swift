@@ -8,7 +8,7 @@
 
 import Foundation
 
-class PSDataFileNameController : NSObject, NSTokenFieldDelegate {
+class PSDataFileNameController : NSObject, NSTokenFieldDelegate, NSTextFieldDelegate {
     
     @IBOutlet var tokenField : NSTokenField!
     @IBOutlet var currentDataFileNamePreview : NSTextField!
@@ -19,8 +19,18 @@ class PSDataFileNameController : NSObject, NSTokenFieldDelegate {
     var subjectVariableNames : [String] = []
     var scriptData : PSScriptData! //gets populated by subjectvariablescontroller
     var autoDataFile : PSAutoDataFile!
+    let bannedCharacters : NSCharacterSet
+    
+    override init() {
+        let toBeBanned = NSMutableCharacterSet.alphanumericCharacterSet()
+        toBeBanned.addCharactersInString("-_")
+        bannedCharacters = toBeBanned.invertedSet
+        super.init()
+    }
     
     func reloadData(variables : [PSSubjectVariable]) {
+        
+
         
         //update list of tokens
         subjectVariableNames = variables.map { $0.name }
@@ -53,8 +63,16 @@ class PSDataFileNameController : NSObject, NSTokenFieldDelegate {
     // If you want to reject the add, return an empty array.
     // returning nil will cause an error.
     func tokenField(tokenField: NSTokenField, shouldAddObjects tokens: [AnyObject], atIndex index: Int) -> [AnyObject] {
+        for token in tokens {
+            if let stringToken = token as? String {
+                if stringToken.rangeOfCharacterFromSet(bannedCharacters) != nil {
+                    return []
+                }
+            }
+        }
         return tokens
     }
+    
     
     func tokenField(tokenField: NSTokenField, displayStringForRepresentedObject representedObject: AnyObject) -> String? {
         let token = representedObject as! String
@@ -69,8 +87,11 @@ class PSDataFileNameController : NSObject, NSTokenFieldDelegate {
         return representedObject as? String
     }
     func tokenField(tokenField: NSTokenField, representedObjectForEditingString editingString: String) -> AnyObject {
-        return editingString
+        let cleanEditingString = editingString.componentsSeparatedByCharactersInSet(bannedCharacters).joinWithSeparator("")
+        return cleanEditingString
     }
+    
+    
 
     func tokenField(tokenField: NSTokenField, styleForRepresentedObject representedObject: AnyObject) -> NSTokenStyle {
         if autoGenerateCheckButton.state == 1 {

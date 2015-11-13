@@ -59,6 +59,9 @@ public class PSScriptData : NSObject {
         self.inUndoGrouping = false
         self.undoGrouping = ""
         self.selectionInterface = selectionInterface
+        let toBeBanned = NSMutableCharacterSet.alphanumericCharacterSet()
+        toBeBanned.addCharactersInString("-_")
+        bannedNameCharacters = toBeBanned.invertedSet
         super.init()
     }
     
@@ -72,6 +75,8 @@ public class PSScriptData : NSObject {
     var undoGrouping : String
     public let selectionInterface : PSSelectionInterface
     private var _scriptObject : Script?
+    public let bannedNameCharacters : NSCharacterSet
+
     
     //MARK: Windows
     
@@ -481,8 +486,10 @@ public class PSScriptData : NSObject {
         return testName
     }
     
-    public func renameEntry(entry : Entry, nameSuggestion : String) {
-        if nameSuggestion == "" { return }
+    public func renameEntry(entry : Entry, nameSuggestion : String) -> Bool {
+        if nameSuggestion.characters.count < 3 { return false }
+        if nameSuggestion.rangeOfCharacterFromSet(bannedNameCharacters) != nil { return false }
+        
         var siblingEntries : [Entry]
         //check siblings for same name
         if let parentEntry = entry.parentEntry,
@@ -490,8 +497,7 @@ public class PSScriptData : NSObject {
             
                 for sibling in siblings {
                     if sibling.name == nameSuggestion {
-                        renameEntry(entry, nameSuggestion: nameSuggestion + "_2")
-                        return
+                        return renameEntry(entry, nameSuggestion: nameSuggestion + "_2")
                     }
                 }
                 siblingEntries = siblings.array as! [Entry]
@@ -501,8 +507,7 @@ public class PSScriptData : NSObject {
         
         //also check with reserved names
         if pluginProvider.entryNameIsReservedOrIllegal(nameSuggestion) {
-            renameEntry(entry, nameSuggestion: nameSuggestion + "_2") //recurse
-            return
+            return renameEntry(entry, nameSuggestion: nameSuggestion + "_2") //recurse
         }
         
         //check for valid characters
@@ -554,10 +559,10 @@ public class PSScriptData : NSObject {
             searchAndReplaceValues(oldName, newName: nameSuggestion, entries: siblingEntries)
             
             
-            return
+            return true
         } else {
             let splitByBadChars = nameSuggestion.componentsSeparatedByCharactersInSet(entryNameCharacterSet.invertedSet)
-            renameEntry(entry, nameSuggestion: splitByBadChars.joinWithSeparator("_"))
+            return renameEntry(entry, nameSuggestion: splitByBadChars.joinWithSeparator("_"))
         }
     }
     

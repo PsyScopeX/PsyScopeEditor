@@ -49,10 +49,10 @@ public class PSToolPropertyController: PSPluginViewController, NSTextFieldDelega
     
     public func setObjectName(new_name : String) {
         scriptData.beginUndoGrouping("Rename object")
-        scriptData.renameEntry(entry, nameSuggestion: new_name)
-        scriptData.endUndoGrouping(true)
+        let success = scriptData.renameEntry(entry, nameSuggestion: new_name)
+        scriptData.endUndoGrouping(success)
         if (new_name != entry.name) {
-            PSModalAlert("You cannot rename this object to \(new_name) as either an entry with this name already exists or it is an invalid entry name - entry has been given a temporary new name")
+            PSModalAlert("You cannot rename this object to \(new_name) as either an entry with this name already exists or it is an invalid entry name (too small / long / incorrect characters) - entry has been given a temporary new name")
         }
         nameTextField.stringValue = entry.name
     }

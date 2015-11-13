@@ -13,7 +13,6 @@ import Foundation
 
 class PSPsyScopeXRunner : NSObject {
     static let sharedInstance : PSPsyScopeXRunner = PSPsyScopeXRunner()
-
     let openFlag = "-o"
     let quitOnEndFlag = "-q"
     let runningFlag = "-f"
