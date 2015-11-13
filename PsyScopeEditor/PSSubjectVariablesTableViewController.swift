@@ -148,6 +148,7 @@ class PSSubjectVariablesTableViewController : NSObject, NSTableViewDataSource, N
                         variable.currentValue = newValue
                     }
                 } else if identifier == "LogColumn" {
+                    print("variable \(subjectVariable.name) - \(subjectVariable.storageOptions.inLogFile)")
                     buttonView.button.state = subjectVariable.storageOptions.inLogFile ? 1 : 0
                     buttonView.buttonClickBlock = { (clickedRow : Int) -> () in
                         let variable = subjectVariable

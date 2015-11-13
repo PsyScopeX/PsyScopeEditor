@@ -24,7 +24,7 @@ public func PSTidyUpExecutionEntries(scriptData : PSScriptData) {
             }
         }
         
-        let promptEntry = logEntryPresent ? scriptData.getOrCreateBaseEntry(promptEntryName, type: PSType.Logging) : scriptData.getBaseEntry(promptEntryName)
+        let promptEntry = logEntryPresent ? scriptData.getOrCreateBaseEntry(promptEntryName, type: PSType.ExecutionEntry) : scriptData.getBaseEntry(promptEntryName)
         
         if let promptEntry = promptEntry {
             let promptEntryList = PSStringList(entry: promptEntry, scriptData: scriptData)

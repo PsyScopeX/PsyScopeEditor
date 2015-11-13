@@ -53,7 +53,7 @@ class PSAutoDataFile {
                 if dialog.currentValue != "MakeFileName" { dialog.currentValue = "MakeFileName" }
                 
                 //Add to second last runStart (if logrunstart is there)
-                let runStart = scriptData.getOrCreateBaseEntry("RunStart", type: PSType.Logging)
+                let runStart = scriptData.getOrCreateBaseEntry("RunStart", type: PSType.ExecutionEntry)
                 let runStartList = PSStringList(entry: runStart, scriptData: scriptData)
                 runStartList.remove("AutoDataFile")
                 runStartList.appendAsString("AutoDataFile")

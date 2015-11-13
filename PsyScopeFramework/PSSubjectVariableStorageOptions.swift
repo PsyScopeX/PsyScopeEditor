@@ -95,7 +95,7 @@ public struct PSSubjectVariableStorageOptions {
         
         //add to schedule
         if let promptEntryName = promptEntryName {
-            let promptEntry = scriptData.getOrCreateBaseEntry(promptEntryName, type: PSType.Logging)
+            let promptEntry = scriptData.getOrCreateBaseEntry(promptEntryName, type: PSType.ExecutionEntry)
             let promptEntryList = PSStringList(entry: promptEntry, scriptData: scriptData)
             if !promptEntryList.contains(entry.name){
                 promptEntryList.appendAsString(entry.name) //shouldnt be at end but we sort that out afterwards
@@ -146,25 +146,34 @@ public struct PSSubjectVariableStorageOptions {
             let runStartList = PSStringList(entry: runStart, scriptData: scriptData)
             if runStartList.contains(entry.name) {
                 storageOptions.schedule = .RunStart
+                
+                if let logRunStart = scriptData.getBaseEntry("LogRunStart") {
+                    let logRunStartList = PSStringList(entry: logRunStart, scriptData: scriptData)
+                    storageOptions.inLogFile = logRunStartList.contains(entry.name)
+                }
             }
         }
         
-        if let logRunStart = scriptData.getBaseEntry("LogRunStart") {
-            let logRunStartList = PSStringList(entry: logRunStart, scriptData: scriptData)
-            storageOptions.inLogFile = logRunStartList.contains(entry.name)
-        }
+        
         
         if let runEnd = scriptData.getBaseEntry("RunEnd") {
             let runEndList = PSStringList(entry: runEnd, scriptData: scriptData)
             if runEndList.contains(entry.name) {
                 storageOptions.schedule = .RunEnd
+                
+                if let logRunEnd = scriptData.getBaseEntry("LogRunEnd") {
+                    let logRunEndList = PSStringList(entry: logRunEnd, scriptData: scriptData)
+                    storageOptions.inLogFile = logRunEndList.contains(entry.name)
+                }
             }
         }
         
-        if let logRunEnd = scriptData.getBaseEntry("LogRunEnd") {
+        //also allow never variables to be in logRunEnd
+        if let logRunEnd = scriptData.getBaseEntry("LogRunEnd") where storageOptions.schedule == .Never {
             let logRunEndList = PSStringList(entry: logRunEnd, scriptData: scriptData)
             storageOptions.inLogFile = logRunEndList.contains(entry.name)
         }
+        
         return storageOptions
     }
 }
