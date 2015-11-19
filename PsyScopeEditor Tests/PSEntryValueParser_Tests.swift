@@ -21,6 +21,17 @@ class PSEntryValueParser_Tests: XCTestCase {
         super.tearDown()
     }
     
+    
+    func testVariousNestedBracketsAndQuotes_CorrectParse() {
+        let value = "Conditions[ End[ {TheKeySequence == '{strcat((@correct),\"\\r\")}'}] ]"
+        let parser = PSEntryValueParser(stringValue: value)
+        XCTAssert(!parser.foundErrors, "Parser found errors - should be able to parse this value: \(value)")
+        
+        /*let value2 = "Actions[ RT[ strcat(@correct \" \" \"INCORRECT\") ]QuitTrial[]  ]"
+        let parser2 = PSEntryValueParser(stringValue: value2)
+        XCTAssert(!parser2.foundErrors, "Parser found errors - should be able to parse this value: \(value2)")*/
+    }
+    
     func testColonValueInDoubleQuotes_CorrectParse() {
         let value = "MovieDo[ PAUSE Movie3 \"LoopRegion=ms:2000\" Instances: \"-1\" ]"
         let parser = PSEntryValueParser(stringValue: value)

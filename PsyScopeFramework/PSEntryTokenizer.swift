@@ -142,29 +142,45 @@ class PSTokenizer {
     }
     
     func tokenizeCurlyBracketString() -> Bool {
+        
         if scanner.scanString("{", intoString: nil) {
-            var value : NSString?
-            scanner.scanUpToString("}", intoString: &value)
+            var nestedLevel = 1
+            var fullValue : String = ""
             
+            var scannedAll = false
             
-            if let v = value {
-                //check for nested curlies
-                if v.containsString("{") {
-                    AddError("Nested curly brackets are no allowed")
-                    return true
+            while (!scannedAll) {
+            
+                var value : NSString?
+                scanner.scanUpToCharactersFromSet(NSCharacterSet(charactersInString: "{}"), intoString: &value)
+                if let v = value {
+                    fullValue += v as String
                 }
-            } else {
-                value = ""
+            
+                if scanner.scanString("{", intoString: nil) {
+                    fullValue += "{"
+                    nestedLevel++
+                } else if scanner.scanString("}", intoString: nil) {
+                    if nestedLevel > 1 {
+                        fullValue += "}"
+                    }
+                    nestedLevel--
+                } else {
+                    
+                }
+        
+                if nestedLevel == 0 {
+                    scannedAll = true
+                } else if scanner.atEnd {
+                    AddError("No matching close bracket for curly bracket string before end of file")
+                }
+                
+            
             }
             
             
-            if scanner.scanString("}", intoString: nil) {
-                tokens.append(PSToken(type: .CurlyBracketString, value: value as? String))
-                return true
-            } else {
-                AddError("No matching close bracket for curly bracket string")
-                return true
-            }
+            tokens.append(PSToken(type: .CurlyBracketString, value: fullValue))
+            return true
         }
         return false
     }

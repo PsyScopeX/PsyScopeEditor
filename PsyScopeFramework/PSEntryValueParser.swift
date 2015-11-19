@@ -23,7 +23,7 @@ public class PSEntryValueParser {
         p = 0
         parsedList = nil
         
-        //print(tokeniser.dumpTokens())
+        print(tokeniser.dumpTokens())
         
         listRule() //triggers parsing
         parsedList = getLast(&listObjDic, stack: &listStack)
