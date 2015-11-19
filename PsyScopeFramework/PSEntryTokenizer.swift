@@ -173,6 +173,7 @@ class PSTokenizer {
                     scannedAll = true
                 } else if scanner.atEnd {
                     AddError("No matching close bracket for curly bracket string before end of file")
+                    return true
                 }
                 
             

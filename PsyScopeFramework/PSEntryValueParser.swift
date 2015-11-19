@@ -19,7 +19,7 @@ public class PSEntryValueParser {
     public init(stringValue : String) {
         let tokeniser = PSTokenizer(string: stringValue)
         tokens = tokeniser.tokens
-        foundErrors = false
+        foundErrors = tokeniser.error
         p = 0
         parsedList = nil
         

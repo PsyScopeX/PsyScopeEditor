@@ -27,9 +27,17 @@ class PSEntryValueParser_Tests: XCTestCase {
         let parser = PSEntryValueParser(stringValue: value)
         XCTAssert(!parser.foundErrors, "Parser found errors - should be able to parse this value: \(value)")
         
-        /*let value2 = "Actions[ RT[ strcat(@correct \" \" \"INCORRECT\") ]QuitTrial[]  ]"
+        let value2 = "Actions[ RT[ strcat(@correct \" \" \"INCORRECT\") ] QuitTrial[]  ]"
         let parser2 = PSEntryValueParser(stringValue: value2)
-        XCTAssert(!parser2.foundErrors, "Parser found errors - should be able to parse this value: \(value2)")*/
+        XCTAssert(!parser2.foundErrors, "Parser found errors - should be able to parse this value: \(value2)")
+        
+        let value3 = "{{}asasdasd{}{{a}}}"
+        let parser3 = PSEntryValueParser(stringValue: value3)
+        XCTAssert(!parser3.foundErrors, "Parser found errors - should be able to parse this value: \(value3)")
+        
+        let value4 = "{{}asasdasd{}{{a}}"
+        let parser4 = PSEntryValueParser(stringValue: value4)
+        XCTAssert(parser4.foundErrors, "Parser did not found errors - should not be able to parse this value wwhich is missing curly bracket: \(value4)")
     }
     
     func testColonValueInDoubleQuotes_CorrectParse() {
