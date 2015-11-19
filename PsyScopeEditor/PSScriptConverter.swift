@@ -317,11 +317,17 @@ class PSScriptConverter: NSObject {
         }
         
         //which objects have not been instantiated?
-        for ge in ghostScript.entries as [PSGhostEntry] {
-            if (!ge.instantiated) {
-                print("Uninstantiated entry: \(ge.name)")
+        let uninstantiated : [PSGhostEntry] = ghostScript.entries.filter({ !$0.instantiated })
+        if let pstool = scriptData.pluginProvider.getInterfaceForType(PSType.UndefinedEntry) {
+            let new_lobjects = pstool.createObjectWithGhostEntries(uninstantiated, withScript: scriptData)
+
+            if (new_lobjects != nil && new_lobjects.count > 0) {
+                for lobject in new_lobjects as! [LayoutObject] {
+                    all_new_lobjects.append(lobject)
+                }
             }
         }
+
         
 
         //now run through the updating of links and positions

@@ -70,10 +70,10 @@ public class PSPluginProvider : NSObject {
         super.init()
     }
     
-    public func getInterfaceForType(type : String) -> PSToolInterface? {
-        if let tool = toolPlugins[type] {
+    public func getInterfaceForType(type : PSType) -> PSToolInterface? {
+        if let tool = toolPlugins[type.name] {
             return tool
-        } else if let event = eventPlugins[type] {
+        } else if let event = eventPlugins[type.name] {
             return event
         }
         
