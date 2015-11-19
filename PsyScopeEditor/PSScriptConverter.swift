@@ -65,7 +65,7 @@ class PSScriptConverter: NSObject {
         print("END CONVERSION FROM GHOST TO REAL")
         scriptData.endUndoGrouping(success)
         if success {
-            let warningsText = "Warnings:\n\n" + warnings.joinWithSeparator("\n")
+            let warningsText = "Warnings:\n\n" + warnings.joinWithSeparator("\n\n")
             PSModalAlert(warningsText)
         }
         entryValueChecker = PSEntryValueChecker(scriptData: scriptData)
@@ -177,8 +177,7 @@ class PSScriptConverter: NSObject {
         //Now for entries without a type, call them blank entries
         for ge in ghostScript.entries as [PSGhostEntry] {
             if ge.type == "" {
-                print("Entry named \(ge.name) type not identified - instantiating blank entry")
-                ge.type = "BlankEntry"
+                warnings.append("Entry named \(ge.name) type not identified")
             }
         }
         
@@ -290,9 +289,11 @@ class PSScriptConverter: NSObject {
             
         //instantiate entries which are new
         for plugin in plugins  {
+            print("Instantiating new entries for type: \(plugin.type())")
             var new_entries : [PSGhostEntry] = []
             for ge in ghostScript.entries as [PSGhostEntry] {
                 if (!ge.instantiated && (ge.type == plugin.type())) {
+                    print(" - \(ge.name)")
                     new_entries.append(ge)
                 }
             }
