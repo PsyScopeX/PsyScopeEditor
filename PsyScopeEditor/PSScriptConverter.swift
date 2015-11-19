@@ -15,6 +15,7 @@ class PSScriptConverter: NSObject {
     @IBOutlet var mainWindowController : PSMainWindowController!
     @IBOutlet var errorHandler : PSScriptErrorViewController!
 
+    var warnings : [String] = []
     var plugins : [PSToolInterface] = []
     var attributePlugins : [PSAttributeInterface] = []
     var entryValueChecker : PSEntryValueChecker!
@@ -38,6 +39,7 @@ class PSScriptConverter: NSObject {
         let scriptData = mainWindowController.scriptData
         print("BEGINNING CONVERSION FROM GHOST TO REAL")
         errorHandler.reset()
+        warnings = []
         
         scriptData.beginUndoGrouping("Update Layout From Script")
         self.ghostScript = newGhostScript
@@ -62,6 +64,10 @@ class PSScriptConverter: NSObject {
         errorHandler.presentErrors()
         print("END CONVERSION FROM GHOST TO REAL")
         scriptData.endUndoGrouping(success)
+        if success {
+            let warningsText = "Warnings:\n\n" + warnings.joinWithSeparator("\n")
+            PSModalAlert(warningsText)
+        }
         entryValueChecker = PSEntryValueChecker(scriptData: scriptData)
         entryValueChecker.checkScriptEntryValuesAsync(errorHandler)
         return success
@@ -85,7 +91,7 @@ class PSScriptConverter: NSObject {
                 entriesToRemove.append(ge) //builder data is no longer needed in this version
             } else if ge.name == "Experiment" && ge.currentValue.rangeOfString("@StandardPsyScopeMenuItems") != nil {
                 entriesToRemove.append(ge) //old scripts include this entry which is no longer needed... (perhaps should be documented)
-                PSModalAlert("An entry named 'Experiment' with the value @StandardPsyScopeMenuItems was detected - this is normally from importing an old PsyScopeX script.  This entry has been deleted, but be aware that you may need to add it again, if you wanted to use the old PsyScopeX GUI with the script.")
+                warnings.append("An entry named 'Experiment' with the value @StandardPsyScopeMenuItems was detected - this is normally from importing an old PsyScopeX script.  This entry has been deleted, but be aware that you may need to add it again, if you wanted to use the old PsyScopeX GUI with the script.")
             
                 for ge2 in ghostScript.entries {
                     if ge2.name == "Menus" {

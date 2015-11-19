@@ -10,7 +10,7 @@ import Cocoa
 
 
 //provides errors to an NSOutlineView
-class PSScriptErrorViewController: NSObject, NSTableViewDataSource, NSTableViewDelegate {
+class PSScriptErrorViewController: NSObject, NSTableViewDataSource, NSTableViewDelegate, PSClickableTableViewDelegate {
     @IBOutlet var textView : NSTextView!
     @IBOutlet var tableView : NSTableView!
     @IBOutlet var mainWindowController : PSMainWindowController!
@@ -30,7 +30,7 @@ class PSScriptErrorViewController: NSObject, NSTableViewDataSource, NSTableViewD
     
     //MARK: Tableview Delegate
     
-    func tableView(tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
+    func tableView(tableView: PSClickableTableView, didClickTableRow row: Int) {
         let error = errors[row]
         
         if let errorEntry = error.entry {
@@ -55,10 +55,9 @@ class PSScriptErrorViewController: NSObject, NSTableViewDataSource, NSTableViewD
         
         let errorView = tableView.viewAtColumn(0, row: row, makeIfNecessary: true)!
         errorPopoverController.showPopoverForError(error, errorView: errorView)
-        
-        
-        return true
     }
+    
+
 
     //MARK: Main methods (old protocol)
     

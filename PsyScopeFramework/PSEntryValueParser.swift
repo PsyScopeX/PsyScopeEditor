@@ -32,7 +32,6 @@ public class PSEntryValueParser {
         }
     }
     
-    
     func match(tokenType : PSTokenType) -> PSToken? {
         //end of file
         if (p == tokens.count) { return nil }

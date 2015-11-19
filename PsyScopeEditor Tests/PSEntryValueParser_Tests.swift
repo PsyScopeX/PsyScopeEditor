@@ -21,6 +21,14 @@ class PSEntryValueParser_Tests: XCTestCase {
         super.tearDown()
     }
     
+    func testColonValueInDoubleQuotes_CorrectParse() {
+        let value = "MovieDo[ PAUSE Movie3 \"LoopRegion=ms:2000\" Instances: \"-1\" ]"
+        let parser = PSEntryValueParser(stringValue: value)
+        XCTAssert(!parser.foundErrors, "Parser found errors - should be able to parse this value: \(value)")
+        
+        
+    }
+    
 
     func testConditionActionsArrowHasNoSurroundingSpaces_CorrectParse() {
         let value = "Conditions[Start[]]=>Actions[\t\t\t\r\t\t\tBeep[ Boing ]\t\t\t ]"
