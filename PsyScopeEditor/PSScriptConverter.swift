@@ -53,11 +53,11 @@ class PSScriptConverter: NSObject {
         
         
         var success = checkForExistingEntries()
-        
+        success = success && processOldPsyScopeEntries()
         success = success && checkForDuplicateEntries()
         success = success && checkForIllegalBaseEntryNames()
         success = success && identifyObjectEntries()
-        success = success && processOldPsyScopeEntries()
+        
         success = success && matchExistingEntries()
         errorHandler.presentErrors()
         print("END CONVERSION FROM GHOST TO REAL")
@@ -67,7 +67,7 @@ class PSScriptConverter: NSObject {
         return success
     }
     
-    //1. check if there are entries on the ghost script
+    //Check if there are entries on the ghost script
     func checkForExistingEntries() -> Bool {
         if ghostScript.entries.count > 0 {
             return true
@@ -77,7 +77,38 @@ class PSScriptConverter: NSObject {
         }
     }
     
-    //2. check for duplicate names returns true of no duplicates
+    //Remove some old psyscope entries (if importing for example)
+    func processOldPsyScopeEntries() -> Bool {
+        var entriesToRemove : [PSGhostEntry] = []
+        for ge in ghostScript.entries {
+            if ge.name == "BuilderData" {
+                entriesToRemove.append(ge) //builder data is no longer needed in this version
+            } else if ge.name == "Experiment" && ge.currentValue.rangeOfString("@StandardPsyScopeMenuItems") != nil {
+                entriesToRemove.append(ge) //old scripts include this entry which is no longer needed... (perhaps should be documented)
+                PSModalAlert("An entry named 'Experiment' with the value @StandardPsyScopeMenuItems was detected - this is normally from importing an old PsyScopeX script.  This entry has been deleted, but be aware that you may need to add it again, if you wanted to use the old PsyScopeX GUI with the script.")
+            
+                for ge2 in ghostScript.entries {
+                    if ge2.name == "Menus" {
+                        //remove a reference to Experiment in menu
+                        if let rangeOfExperiment = ge2.currentValue.rangeOfString("Experiment") {
+                            ge2.currentValue.removeRange(rangeOfExperiment)
+                        }
+                        if ge2.currentValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()) == "" {
+                            entriesToRemove.append(ge2)
+                        }
+                    }
+                }
+            }
+        }
+        
+        for removeEntry in entriesToRemove {
+            ghostScript.entries = ghostScript.entries.filter({ $0 as PSGhostEntry != removeEntry })
+        }
+        
+        return true
+    }
+    
+    //Check for duplicate names returns true of no duplicates
     func checkForDuplicateEntries() -> Bool {
         let duplicates = checkForDuplicates(ghostScript.entries as [PSGhostEntry])
         print("Found no duplicates: \(duplicates)")
@@ -108,6 +139,7 @@ class PSScriptConverter: NSObject {
         
         return (noduplicates)
     }
+    
     
     //3. check for illegal names
     func checkForIllegalBaseEntryNames() -> Bool {
@@ -359,20 +391,7 @@ class PSScriptConverter: NSObject {
 
     
     
-    func processOldPsyScopeEntries() -> Bool {
-        var entriesToRemove : [PSGhostEntry] = []
-        for (_,ge) in (ghostScript.entries as [PSGhostEntry]).enumerate() {
-            if ge.name == "BuilderData" {
-                entriesToRemove.append(ge)
-            }
-        }
-        
-        for removeEntry in entriesToRemove {
-            ghostScript.entries = ghostScript.entries.filter({ $0 as PSGhostEntry != removeEntry })
-        }
-        
-        return true
-    }
+    
     
     
     func findFreeSpot(lobject : LayoutObject, all_lobjects : [LayoutObject]) {
