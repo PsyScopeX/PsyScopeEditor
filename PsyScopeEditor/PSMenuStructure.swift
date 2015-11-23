@@ -115,7 +115,9 @@ class PSMenuComponent : NSObject {
         }
         
         set {
+            scriptData.beginUndoGrouping("Rename Menu")
             scriptData.renameEntry(entry, nameSuggestion: newValue)
+            scriptData.endUndoGrouping()
         }
     }
     

@@ -16,6 +16,8 @@ class PSEditMenusSubjectVariablesController : NSObject, NSTableViewDataSource, N
     
     var subjectVariables : [PSSubjectVariable] = []
     
+    static let subjectVariableType : String = "PSSubjectVariable"
+    
     @IBAction func segmentedControlClicked(_ : AnyObject) {
         switch segmentedControl.selectedSegment {
         case 0: break
@@ -51,4 +53,13 @@ class PSEditMenusSubjectVariablesController : NSObject, NSTableViewDataSource, N
     }
     
     //MARK: Delegate
+    
+    func tableView(tableView: NSTableView, writeRowsWithIndexes rowIndexes: NSIndexSet, toPasteboard pboard: NSPasteboard) -> Bool {
+        // Copy the subjectVariableNames
+        let subjectVariableNames : [String] = rowIndexes.enumerate().map({ subjectVariables[$0.index].name })
+        let data = NSKeyedArchiver.archivedDataWithRootObject(subjectVariableNames)
+        pboard.declareTypes([PSEditMenusSubjectVariablesController.subjectVariableType], owner: self)
+        pboard.setData(data, forType: PSEditMenusSubjectVariablesController.subjectVariableType)
+        return true
+    }
 }
