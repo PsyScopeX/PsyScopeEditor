@@ -73,6 +73,17 @@ class PSMenuStructure : NSObject {
         self.saveToScript()
     }
     
+    func getAllChildMenuDialogVariables() -> [PSSubjectVariable] {
+        var menuDialogVariables : [PSSubjectVariable] = []
+        for menuComponent in menuComponents {
+            let childMenuDialogVariables = menuComponent.getAllChildMenuDialogVariables()
+            menuDialogVariables.appendContentsOf(childMenuDialogVariables)
+        }
+        
+        var seen: [String:Bool] = [:]
+        return menuDialogVariables.filter({ seen.updateValue(true, forKey: $0.name) == nil })
+    }
+    
 }
 
 class PSMenuComponent : NSObject {
@@ -108,6 +119,21 @@ class PSMenuComponent : NSObject {
         }
     }
     
+    func getAllChildMenuDialogVariables() -> [PSSubjectVariable] {
+        
+        if self.subMenus {
+            var menuDialogVariables : [PSSubjectVariable] = []
+            for menuComponent in subComponents {
+                menuDialogVariables += menuComponent.getAllChildMenuDialogVariables()
+            }
+            var seen: [String:Bool] = [:]
+            return menuDialogVariables.filter({ seen.updateValue(true, forKey: $0.name) == nil })
+        } else {
+            return dialogVariables
+        }
+        
+    }
+    
     func saveToScript() {
         if subComponents.count > 0 {
             let subMenus = scriptData.getOrCreateSubEntry("SubMenus", entry: entry, isProperty: true)
@@ -138,7 +164,7 @@ class PSMenuComponent : NSObject {
         subComponents = []
         dialogVariables = []
         
-        if let subMenus = scriptData.getBaseEntry("SubMenus") {
+        if let subMenus = scriptData.getSubEntry("SubMenus", entry: entry) {
             self.subMenus = true
             //get new PSMenuComponents for each item
             let subMenusList = PSStringList(entry: subMenus, scriptData: scriptData)

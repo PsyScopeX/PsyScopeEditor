@@ -14,6 +14,8 @@ public class PSSubjectInformation : NSObject {
         self.runStartVariables = []
         self.runEndVariables = []
         self.neverRunVariables = []
+        super.init()
+        updateVariablesFromScript()
     }
     
     let scriptData : PSScriptData

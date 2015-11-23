@@ -25,7 +25,6 @@ public class PSGroup {
         if let criteria = scriptData.getSubEntry("Criteria", entry: entry) {
             
             let subjectInformation = PSSubjectInformation(scriptData: scriptData)
-            subjectInformation.updateVariablesFromScript()
             
             for subEntry in criteria.subEntries.array as! [Entry] {
                 for subjectVariable in subjectInformation.allVariables {

@@ -16,6 +16,7 @@ class PSEditMenusController : NSObject, NSOutlineViewDataSource, NSOutlineViewDe
     @IBOutlet var menuStructureOutlineView : NSOutlineView!
     @IBOutlet var menuStructureSegmentedControl : NSSegmentedControl!
     @IBOutlet var attributeSheet : NSWindow!
+    @IBOutlet var subjectVariablesController : PSEditMenusSubjectVariablesController!
     var topLevelObjects : NSArray?
     var parentWindow : NSWindow!
     var initialized : Bool
@@ -80,6 +81,8 @@ class PSEditMenusController : NSObject, NSOutlineViewDataSource, NSOutlineViewDe
     }
     
     func refresh() {
+        menuStructure.parseFromScript()
+        subjectVariablesController.refresh()
         menuStructureOutlineView.reloadData()
     }
     
@@ -105,8 +108,13 @@ class PSEditMenusController : NSObject, NSOutlineViewDataSource, NSOutlineViewDe
 
     }
     func outlineView(outlineView: NSOutlineView, isItemExpandable item: AnyObject) -> Bool {
-        if let menuComponent = item as? PSMenuComponent where menuComponent.subComponents.count > 0 {
-            return true
+        if let menuComponent = item as? PSMenuComponent {
+            print(menuComponent.name)
+            if menuComponent.subComponents.count > 0 {
+                return true
+            } else {
+                return false
+            }
         }
         return false
     }

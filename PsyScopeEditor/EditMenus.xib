@@ -9,6 +9,7 @@
                 <outlet property="attributeSheet" destination="QvC-M9-y7g" id="n6r-vM-63o"/>
                 <outlet property="menuStructureOutlineView" destination="6UL-fs-b8K" id="Ee7-gK-Ckj"/>
                 <outlet property="menuStructureSegmentedControl" destination="c3X-pb-Xqe" id="AzT-i0-4O1"/>
+                <outlet property="subjectVariablesController" destination="fPH-v4-tg3" id="8hT-5F-HMW"/>
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
@@ -99,7 +100,7 @@
                             <rect key="frame" x="1" y="23" width="238" height="267"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="72Y-t3-aDo" viewBased="YES" id="ttL-Jf-iIR">
+                                <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" headerView="72Y-t3-aDo" id="ttL-Jf-iIR">
                                     <rect key="frame" x="0.0" y="0.0" width="238" height="267"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <animations/>
@@ -119,29 +120,12 @@
                                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
-                                            <prototypeCellViews>
-                                                <tableCellView id="Vw4-78-Fwg">
-                                                    <rect key="frame" x="1" y="1" width="235" height="17"/>
-                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                    <subviews>
-                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bbn-uG-8Fz">
-                                                            <rect key="frame" x="0.0" y="0.0" width="100" height="17"/>
-                                                            <animations/>
-                                                            <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="ite-7r-pBM">
-                                                                <font key="font" metaFont="system"/>
-                                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                            </textFieldCell>
-                                                        </textField>
-                                                    </subviews>
-                                                    <animations/>
-                                                    <connections>
-                                                        <outlet property="textField" destination="bbn-uG-8Fz" id="2he-ww-Kxr"/>
-                                                    </connections>
-                                                </tableCellView>
-                                            </prototypeCellViews>
                                         </tableColumn>
                                     </tableColumns>
+                                    <connections>
+                                        <outlet property="dataSource" destination="fPH-v4-tg3" id="8Yn-gc-gkf"/>
+                                        <outlet property="delegate" destination="fPH-v4-tg3" id="VgW-uh-rOT"/>
+                                    </connections>
                                 </tableView>
                             </subviews>
                             <animations/>
@@ -191,12 +175,22 @@ DQ
                                 </segment>
                             </segments>
                         </segmentedCell>
+                        <connections>
+                            <action selector="segmentedControlClicked:" target="fPH-v4-tg3" id="bio-pb-xzw"/>
+                        </connections>
                     </segmentedControl>
                 </subviews>
                 <animations/>
             </view>
             <point key="canvasLocation" x="301.5" y="359"/>
         </window>
+        <customObject id="fPH-v4-tg3" customClass="PSEditMenusSubjectVariablesController" customModule="PsyScopeEditor" customModuleProvider="target">
+            <connections>
+                <outlet property="editMenusController" destination="-2" id="4Tz-b9-xFm"/>
+                <outlet property="segmentedControl" destination="Y20-LC-P6u" id="HUZ-7W-HaF"/>
+                <outlet property="tableView" destination="ttL-Jf-iIR" id="aGk-Au-iuY"/>
+            </connections>
+        </customObject>
     </objects>
     <resources>
         <image name="NSAddTemplate" width="11" height="11"/>

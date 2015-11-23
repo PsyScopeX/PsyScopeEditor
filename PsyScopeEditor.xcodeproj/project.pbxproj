@@ -450,6 +450,7 @@
 		1ACA56251C037580008A2787 /* EditMenus.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1ACA56241C037580008A2787 /* EditMenus.xib */; };
 		1ACA56271C037698008A2787 /* PSEditMenusController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACA56261C037698008A2787 /* PSEditMenusController.swift */; };
 		1ACA56291C0376E4008A2787 /* PSMenuStructure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACA56281C0376E4008A2787 /* PSMenuStructure.swift */; };
+		1ACA562B1C03B412008A2787 /* PSEditMenusSubjectVariablesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACA562A1C03B412008A2787 /* PSEditMenusSubjectVariablesController.swift */; };
 		1ACC0C641A92735F007D9C66 /* PSListTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACC0C631A92735F007D9C66 /* PSListTableView.swift */; };
 		1ACD82C21A18CEB700CF0A3C /* PSAction_AbortEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACD82C11A18CEB700CF0A3C /* PSAction_AbortEvent.swift */; };
 		1ACD82C41A18CF2F00CF0A3C /* PSAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACD82C31A18CF2F00CF0A3C /* PSAction.swift */; };
@@ -1115,6 +1116,7 @@
 		1ACA56241C037580008A2787 /* EditMenus.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditMenus.xib; sourceTree = "<group>"; };
 		1ACA56261C037698008A2787 /* PSEditMenusController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSEditMenusController.swift; sourceTree = "<group>"; };
 		1ACA56281C0376E4008A2787 /* PSMenuStructure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSMenuStructure.swift; sourceTree = "<group>"; };
+		1ACA562A1C03B412008A2787 /* PSEditMenusSubjectVariablesController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSEditMenusSubjectVariablesController.swift; sourceTree = "<group>"; };
 		1ACC0C631A92735F007D9C66 /* PSListTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSListTableView.swift; sourceTree = "<group>"; };
 		1ACD82C11A18CEB700CF0A3C /* PSAction_AbortEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSAction_AbortEvent.swift; sourceTree = "<group>"; };
 		1ACD82C31A18CF2F00CF0A3C /* PSAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSAction.swift; sourceTree = "<group>"; };
@@ -2609,6 +2611,7 @@
 				1ACA56241C037580008A2787 /* EditMenus.xib */,
 				1ACA56261C037698008A2787 /* PSEditMenusController.swift */,
 				1ACA56281C0376E4008A2787 /* PSMenuStructure.swift */,
+				1ACA562A1C03B412008A2787 /* PSEditMenusSubjectVariablesController.swift */,
 			);
 			name = CustomMenus;
 			sourceTree = "<group>";
@@ -3378,6 +3381,7 @@
 				1A2FBE361975780100F5FFB5 /* AppDelegate.swift in Sources */,
 				1A5E27B61AAF1D54001E6D89 /* PSCleanUpLayoutPreferences.swift in Sources */,
 				1A2FBE301973E33600F5FFB5 /* PSToolBrowserView.swift in Sources */,
+				1ACA562B1C03B412008A2787 /* PSEditMenusSubjectVariablesController.swift in Sources */,
 				1AFEBCB51B31F10C00A3437E /* PSSubjectVariableToken.swift in Sources */,
 				1A9CE34E1AA77F3300C846F4 /* PSScriptViewDelegate.swift in Sources */,
 				1A7886161BD907EC0030EBCF /* PSPluginPreferences.swift in Sources */,
