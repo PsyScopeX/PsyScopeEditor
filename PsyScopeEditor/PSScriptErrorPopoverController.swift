@@ -13,15 +13,15 @@ class PSScriptErrorPopoverController : NSObject {
     //MARK: Outlets
     @IBOutlet var errorPopover : NSPopover!
     @IBOutlet var descriptionText : NSTextField!
-    @IBOutlet var detailedDescriptionText : NSTextField!
-    @IBOutlet var solutionText : NSTextField!
+    @IBOutlet var detailedDescriptionText : NSTextView!
+    @IBOutlet var solutionText : NSTextView!
     
     //MARK: Main method
     func showPopoverForError(error : PSScriptError, errorView : NSView) {
         
         descriptionText.stringValue = error.errorDescription as String
-        detailedDescriptionText.stringValue = error.detailedDescription as String
-        solutionText.stringValue = error.solution as String
+        detailedDescriptionText.string = error.detailedDescription as String
+        solutionText.string = error.solution as String
         
         errorPopover.showRelativeToRect(errorView.bounds, ofView: errorView, preferredEdge: NSRectEdge.MinY)
     }

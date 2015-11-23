@@ -232,6 +232,7 @@
 		1A676CA319BE00A1003C7014 /* PSTemplateLayoutBoardEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A676CA219BE00A1003C7014 /* PSTemplateLayoutBoardEvent.swift */; };
 		1A69F9BC1A837CE800D60880 /* search-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A69F9BB1A837CE800D60880 /* search-icon.png */; };
 		1A69F9CD1A84BD5200D60880 /* AddAttributeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A69F9CB1A84BD5200D60880 /* AddAttributeCell.xib */; };
+		1A6A5F0C1BFE186C00B6879B /* PSClickableTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A6A5F0B1BFE186C00B6879B /* PSClickableTableView.swift */; };
 		1A6C92D51A014CEE00D24411 /* PSTableBuilderController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A6C92D41A014CEE00D24411 /* PSTableBuilderController.swift */; };
 		1A6D9A521B4ED37C0020D82D /* HFSFileTypeHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A6D9A511B4ED37C0020D82D /* HFSFileTypeHelper.m */; };
 		1A70C7B11A31DAA1008628AF /* AddActionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A70C7B01A31DAA1008628AF /* AddActionCell.xib */; };
@@ -885,6 +886,7 @@
 		1A676CA219BE00A1003C7014 /* PSTemplateLayoutBoardEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSTemplateLayoutBoardEvent.swift; sourceTree = "<group>"; };
 		1A69F9BB1A837CE800D60880 /* search-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "search-icon.png"; sourceTree = "<group>"; };
 		1A69F9CB1A84BD5200D60880 /* AddAttributeCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddAttributeCell.xib; sourceTree = "<group>"; };
+		1A6A5F0B1BFE186C00B6879B /* PSClickableTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSClickableTableView.swift; sourceTree = "<group>"; };
 		1A6C92D41A014CEE00D24411 /* PSTableBuilderController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSTableBuilderController.swift; sourceTree = "<group>"; };
 		1A6D9A501B4ED37C0020D82D /* HFSFileTypeHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HFSFileTypeHelper.h; sourceTree = "<group>"; };
 		1A6D9A511B4ED37C0020D82D /* HFSFileTypeHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HFSFileTypeHelper.m; sourceTree = "<group>"; };
@@ -2301,6 +2303,7 @@
 				1AF964F61B3986A50036219E /* PSQuickFirstResponderTableView.swift */,
 				1A4CA3A01B62CCDE00CB1BD2 /* PSEntryWindowController.swift */,
 				1AFC19181B67EC54007083DB /* PSTextField.swift */,
+				1A6A5F0B1BFE186C00B6879B /* PSClickableTableView.swift */,
 			);
 			name = "General Purpose";
 			sourceTree = "<group>";
@@ -3246,6 +3249,7 @@
 				1A2339EE1BD9408600B6D805 /* PSPortBuilderController.swift in Sources */,
 				1A8752391AB1AD2E00D4D31A /* PSUpdateEntryWithGhostEntry.swift in Sources */,
 				1A710A2C1A86C67C00073CB6 /* PSFloatAttributeView.swift in Sources */,
+				1A6A5F0C1BFE186C00B6879B /* PSClickableTableView.swift in Sources */,
 				1A2339EF1BD9408600B6D805 /* PSPortBuilderOutlineView.swift in Sources */,
 				1A710A001A86B0BD00073CB6 /* PSConstants.swift in Sources */,
 				1A5C66011A88BEBC009EED35 /* PSActionPicker.swift in Sources */,

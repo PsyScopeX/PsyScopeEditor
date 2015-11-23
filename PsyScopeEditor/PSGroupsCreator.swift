@@ -15,7 +15,7 @@ class PSGroupsCreator {
     
     init(scriptData : PSScriptData) {
         self.scriptData = scriptData
-        self.groupTool = scriptData.pluginProvider.getInterfaceForType("Group")!
+        self.groupTool = scriptData.pluginProvider.getInterfaceForType(PSType.Group)!
     }
     
     func generateGroups(groupVariables : [PSSubjectVariable]) {

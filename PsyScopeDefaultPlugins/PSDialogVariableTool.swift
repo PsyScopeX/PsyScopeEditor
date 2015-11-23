@@ -14,13 +14,11 @@ class PSDialogVariableTool: PSTool, PSToolInterface {
     
     let dialogEntryNames : [String]
     let executionEntryNames : [String]
-    let loggingEntryNames : [String]
     
     override init() {
         
         
         executionEntryNames = ["RunStart", "RunEnd"]
-        loggingEntryNames = ["LogRunStart", "LogRunEnd"]
         dialogEntryNames = ["SubjectNumAndGroup", "AutoDataFile", "SubjectNumber", "SubjectName", ]
 
         
@@ -106,7 +104,6 @@ class PSDialogVariableTool: PSTool, PSToolInterface {
         
         errors += PSTool.identifyEntriesByName(ghostScript, names: dialogEntryNames, type: toolType)
         errors += PSTool.identifyEntriesByName(ghostScript, names: executionEntryNames, type: PSType.ExecutionEntry)
-        errors += PSTool.identifyEntriesByName(ghostScript, names: loggingEntryNames, type: PSType.Logging)
         return errors
     }
     

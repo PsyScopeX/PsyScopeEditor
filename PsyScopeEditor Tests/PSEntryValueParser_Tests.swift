@@ -21,6 +21,33 @@ class PSEntryValueParser_Tests: XCTestCase {
         super.tearDown()
     }
     
+    
+    func testVariousNestedBracketsAndQuotes_CorrectParse() {
+        let value = "Conditions[ End[ {TheKeySequence == '{strcat((@correct),\"\\r\")}'}] ]"
+        let parser = PSEntryValueParser(stringValue: value)
+        XCTAssert(!parser.foundErrors, "Parser found errors - should be able to parse this value: \(value)")
+        
+        let value2 = "Actions[ RT[ strcat(@correct \" \" \"INCORRECT\") ] QuitTrial[]  ]"
+        let parser2 = PSEntryValueParser(stringValue: value2)
+        XCTAssert(!parser2.foundErrors, "Parser found errors - should be able to parse this value: \(value2)")
+        
+        let value3 = "{{}asasdasd{}{{a}}}"
+        let parser3 = PSEntryValueParser(stringValue: value3)
+        XCTAssert(!parser3.foundErrors, "Parser found errors - should be able to parse this value: \(value3)")
+        
+        let value4 = "{{}asasdasd{}{{a}}"
+        let parser4 = PSEntryValueParser(stringValue: value4)
+        XCTAssert(parser4.foundErrors, "Parser did not found errors - should not be able to parse this value wwhich is missing curly bracket: \(value4)")
+    }
+    
+    func testColonValueInDoubleQuotes_CorrectParse() {
+        let value = "MovieDo[ PAUSE Movie3 \"LoopRegion=ms:2000\" Instances: \"-1\" ]"
+        let parser = PSEntryValueParser(stringValue: value)
+        XCTAssert(!parser.foundErrors, "Parser found errors - should be able to parse this value: \(value)")
+        
+        
+    }
+    
 
     func testConditionActionsArrowHasNoSurroundingSpaces_CorrectParse() {
         let value = "Conditions[Start[]]=>Actions[\t\t\t\r\t\t\tBeep[ Boing ]\t\t\t ]"

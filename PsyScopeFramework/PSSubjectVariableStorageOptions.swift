@@ -122,7 +122,7 @@ public struct PSSubjectVariableStorageOptions {
         
         //add to logging entry
         if inLogFile {
-            let logEntry = scriptData.getOrCreateBaseEntry(logEntryName, type: PSType.Logging)
+            let logEntry = scriptData.getOrCreateBaseEntry(logEntryName, type: PSType.SubjectInfo)
             let logRunList = PSStringList(entry: logEntry, scriptData: scriptData)
             var logRunArray = logRunList.stringListRawUnstripped
             if let stringName = PSStringElement(strippedValue: entry.name) {

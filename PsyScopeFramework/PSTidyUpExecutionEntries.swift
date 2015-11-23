@@ -22,6 +22,12 @@ public func PSTidyUpExecutionEntries(scriptData : PSScriptData) {
                 scriptData.removeItemFromBaseList(promptEntryName, item: logEntryName)
             } else {
                 logEntryPresent = true
+                
+                //ensure the dialog sub entry is there
+                let dialogLogEntry = scriptData.getOrCreateSubEntry("Dialog", entry: logEntry, isProperty: true)
+                if dialogLogEntry.currentValue != "LogInfo" {
+                    dialogLogEntry.currentValue = "LogInfo"
+                }
             }
         }
         

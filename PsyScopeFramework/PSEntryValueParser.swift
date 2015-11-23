@@ -19,11 +19,11 @@ public class PSEntryValueParser {
     public init(stringValue : String) {
         let tokeniser = PSTokenizer(string: stringValue)
         tokens = tokeniser.tokens
-        foundErrors = false
+        foundErrors = tokeniser.error
         p = 0
         parsedList = nil
         
-        //print(tokeniser.dumpTokens())
+        print(tokeniser.dumpTokens())
         
         listRule() //triggers parsing
         parsedList = getLast(&listObjDic, stack: &listStack)
@@ -31,7 +31,6 @@ public class PSEntryValueParser {
             foundErrors = true
         }
     }
-    
     
     func match(tokenType : PSTokenType) -> PSToken? {
         //end of file

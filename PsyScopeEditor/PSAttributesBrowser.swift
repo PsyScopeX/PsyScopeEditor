@@ -41,7 +41,7 @@ class PSAttributesBrowser: NSObject, NSTableViewDelegate, NSTableViewDataSource,
     
     func refresh() {
         if let selectedEntry = selectionController.selectedEntry,
-         interface = mainWindowController.scriptData.pluginProvider.getInterfaceForType(selectedEntry.type)
+         interface = mainWindowController.scriptData.pluginProvider.getInterfaceForType(PSType.FromName(selectedEntry.type))
             where interface.canAddAttributes() == true {
                 
             self.canAddAttributes = true

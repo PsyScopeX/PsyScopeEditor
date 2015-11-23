@@ -10,28 +10,29 @@ import Cocoa
 
 
 //provides errors to an NSOutlineView
-class PSScriptErrorViewController: NSObject, NSTableViewDataSource, NSTableViewDelegate {
+class PSScriptErrorViewController: NSObject, NSTableViewDataSource, NSTableViewDelegate, PSClickableTableViewDelegate {
     @IBOutlet var textView : NSTextView!
     @IBOutlet var tableView : NSTableView!
     @IBOutlet var mainWindowController : PSMainWindowController!
     @IBOutlet var errorPopoverController : PSScriptErrorPopoverController!
     
     var errors : [PSScriptError] = []
+    var warnings : [PSScriptError] = []
     
     //MARK: Tableview Datasource
     
     func numberOfRowsInTableView(tableView: NSTableView) -> Int {
-        return errors.count
+        return errors.count + warnings.count
     }
     
     func tableView(tableView: NSTableView, objectValueForTableColumn tableColumn: NSTableColumn?, row: Int) -> AnyObject? {
-        return errors[row]
+        if row < errors.count { return  errors[row] } else { return warnings[row - errors.count] }
     }
     
     //MARK: Tableview Delegate
     
-    func tableView(tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
-        let error = errors[row]
+    func tableView(tableView: PSClickableTableView, didClickTableRow row: Int) {
+        let error = row < errors.count ? errors[row] : warnings[row - errors.count]
         
         if let errorEntry = error.entry {
             let baseEntry = mainWindowController.scriptData.getBaseEntryOfSubEntry(errorEntry)
@@ -55,10 +56,17 @@ class PSScriptErrorViewController: NSObject, NSTableViewDataSource, NSTableViewD
         
         let errorView = tableView.viewAtColumn(0, row: row, makeIfNecessary: true)!
         errorPopoverController.showPopoverForError(error, errorView: errorView)
-        
-        
-        return true
     }
+    
+    func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
+        if row < errors.count {
+            return tableView.makeViewWithIdentifier("ErrorView", owner: nil)
+        } else {
+            return tableView.makeViewWithIdentifier("WarningView", owner: nil)
+        }
+    }
+    
+
 
     //MARK: Main methods (old protocol)
     
@@ -66,13 +74,18 @@ class PSScriptErrorViewController: NSObject, NSTableViewDataSource, NSTableViewD
         errors.append(newError)
     }
     
+    func newWarning(newWarning : PSScriptError) {
+        warnings.append(newWarning)
+    }
+    
     func reset() {
         errors = []
+        warnings = []
     }
     
     func presentErrors() {
         tableView.reloadData()
-        if errors.count > 0 {
+        if errors.count > 0 || warnings.count > 0 {
             NSNotificationCenter.defaultCenter().postNotificationName("PSShowErrorsNotification", object: mainWindowController.document)
         }
     }

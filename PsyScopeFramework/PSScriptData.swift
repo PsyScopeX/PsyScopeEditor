@@ -729,7 +729,7 @@ public class PSScriptData : NSObject {
     }
     
     public func createNewObjectFromTool(type : PSType) -> Entry? {
-        if let pstool = self.pluginProvider.getInterfaceForType(type.name) {
+        if let pstool = self.pluginProvider.getInterfaceForType(type) {
             return pstool.createObject(self)
         }
         

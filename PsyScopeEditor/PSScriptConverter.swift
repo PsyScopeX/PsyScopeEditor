@@ -53,21 +53,22 @@ class PSScriptConverter: NSObject {
         
         
         var success = checkForExistingEntries()
-        
+        success = success && processOldPsyScopeEntries()
         success = success && checkForDuplicateEntries()
         success = success && checkForIllegalBaseEntryNames()
         success = success && identifyObjectEntries()
-        success = success && processOldPsyScopeEntries()
+        
         success = success && matchExistingEntries()
         errorHandler.presentErrors()
         print("END CONVERSION FROM GHOST TO REAL")
         scriptData.endUndoGrouping(success)
+
         entryValueChecker = PSEntryValueChecker(scriptData: scriptData)
         entryValueChecker.checkScriptEntryValuesAsync(errorHandler)
         return success
     }
     
-    //1. check if there are entries on the ghost script
+    //Check if there are entries on the ghost script
     func checkForExistingEntries() -> Bool {
         if ghostScript.entries.count > 0 {
             return true
@@ -77,7 +78,38 @@ class PSScriptConverter: NSObject {
         }
     }
     
-    //2. check for duplicate names returns true of no duplicates
+    //Remove some old psyscope entries (if importing for example)
+    func processOldPsyScopeEntries() -> Bool {
+        var entriesToRemove : [PSGhostEntry] = []
+        for ge in ghostScript.entries {
+            if ge.name == "BuilderData" {
+                entriesToRemove.append(ge) //builder data is no longer needed in this version
+            } else if ge.name == "Experiment" && ge.currentValue.rangeOfString("@StandardPsyScopeMenuItems") != nil {
+                entriesToRemove.append(ge) //old scripts include this entry which is no longer needed... (perhaps should be documented)
+                errorHandler.newWarning(PSScriptError(errorDescription: "PsyScopeX Import Warning", detailedDescription: "An entry named 'Experiment' with the value @StandardPsyScopeMenuItems was detected - this is normally from importing an old PsyScopeX script.", solution: "This entry has been deleted, but be aware that you may need to add it again, if you wanted to use the old PsyScopeX GUI with the script.", range: NSMakeRange(0,0)))
+            
+                for ge2 in ghostScript.entries {
+                    if ge2.name == "Menus" {
+                        //remove a reference to Experiment in menu
+                        if let rangeOfExperiment = ge2.currentValue.rangeOfString("Experiment") {
+                            ge2.currentValue.removeRange(rangeOfExperiment)
+                        }
+                        if ge2.currentValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()) == "" {
+                            entriesToRemove.append(ge2)
+                        }
+                    }
+                }
+            }
+        }
+        
+        for removeEntry in entriesToRemove {
+            ghostScript.entries = ghostScript.entries.filter({ $0 as PSGhostEntry != removeEntry })
+        }
+        
+        return true
+    }
+    
+    //Check for duplicate names returns true of no duplicates
     func checkForDuplicateEntries() -> Bool {
         let duplicates = checkForDuplicates(ghostScript.entries as [PSGhostEntry])
         print("Found no duplicates: \(duplicates)")
@@ -109,6 +141,7 @@ class PSScriptConverter: NSObject {
         return (noduplicates)
     }
     
+    
     //3. check for illegal names
     func checkForIllegalBaseEntryNames() -> Bool {
         let reservedNames = mainWindowController.scriptData.pluginProvider.illegalEntryNames
@@ -139,8 +172,7 @@ class PSScriptConverter: NSObject {
         //Now for entries without a type, call them blank entries
         for ge in ghostScript.entries as [PSGhostEntry] {
             if ge.type == "" {
-                print("Entry named \(ge.name) type not identified - instantiating blank entry")
-                ge.type = "BlankEntry"
+                errorHandler.newWarning(PSScriptError(errorDescription: "Unidentified Entry", detailedDescription: "Entry named \(ge.name) type not identified", solution: "This is normally fine, if you have been doing custom scripting", range: ge.range))
             }
         }
         
@@ -252,9 +284,11 @@ class PSScriptConverter: NSObject {
             
         //instantiate entries which are new
         for plugin in plugins  {
+            print("Instantiating new entries for type: \(plugin.type())")
             var new_entries : [PSGhostEntry] = []
             for ge in ghostScript.entries as [PSGhostEntry] {
                 if (!ge.instantiated && (ge.type == plugin.type())) {
+                    print(" - \(ge.name)")
                     new_entries.append(ge)
                 }
             }
@@ -278,11 +312,17 @@ class PSScriptConverter: NSObject {
         }
         
         //which objects have not been instantiated?
-        for ge in ghostScript.entries as [PSGhostEntry] {
-            if (!ge.instantiated) {
-                print("Uninstantiated entry: \(ge.name)")
+        let uninstantiated : [PSGhostEntry] = ghostScript.entries.filter({ !$0.instantiated })
+        if let pstool = scriptData.pluginProvider.getInterfaceForType(PSType.UndefinedEntry) {
+            let new_lobjects = pstool.createObjectWithGhostEntries(uninstantiated, withScript: scriptData)
+
+            if (new_lobjects != nil && new_lobjects.count > 0) {
+                for lobject in new_lobjects as! [LayoutObject] {
+                    all_new_lobjects.append(lobject)
+                }
             }
         }
+
         
 
         //now run through the updating of links and positions
@@ -359,20 +399,7 @@ class PSScriptConverter: NSObject {
 
     
     
-    func processOldPsyScopeEntries() -> Bool {
-        var entriesToRemove : [PSGhostEntry] = []
-        for (_,ge) in (ghostScript.entries as [PSGhostEntry]).enumerate() {
-            if ge.name == "BuilderData" {
-                entriesToRemove.append(ge)
-            }
-        }
-        
-        for removeEntry in entriesToRemove {
-            ghostScript.entries = ghostScript.entries.filter({ $0 as PSGhostEntry != removeEntry })
-        }
-        
-        return true
-    }
+    
     
     
     func findFreeSpot(lobject : LayoutObject, all_lobjects : [LayoutObject]) {

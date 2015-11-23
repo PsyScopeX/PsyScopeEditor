@@ -26,7 +26,6 @@ public class PSScriptError : NSObject {
 }
 
 
-
 //Parse errors
 
 public func PSErrorEntryName(nameOfDoubledEntry: NSString, range : NSRange) -> PSScriptError {
