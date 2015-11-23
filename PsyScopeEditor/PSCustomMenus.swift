@@ -14,6 +14,7 @@ class PSCustomMenus : NSObject {
     @IBOutlet var customMenuPopUp : NSPopUpButton!
     
     var menuTitles : [String] = []
+    var editController : PSEditMenusController!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -40,33 +41,28 @@ class PSCustomMenus : NSObject {
         menu.addItem(secondItem)
         menu.addItem(seperator)
         
-        //get base items
-        if let menusList = PSStringList(baseEntryName: "Menus", scriptData: scriptData) {
-            for value in menusList.values {
-                switch(value) {
-                    case  let .StringToken(stringElement):
-                        //skip Experiment menu item
-                        if stringElement.value == "Experiment" { break }
-                        //create a new menu item
-                        let menuItem = NSMenuItem()
-                        menuItem.title = stringElement.value
-                        if let itemEntry = scriptData.getBaseEntry(stringElement.value) {
-                            addItemsToMenuItem(menuItem, entry: itemEntry, scriptData: scriptData)
-                        }
-                        menu.addItem(menuItem)
-                    default:
-                        break
-                }
-            }
+        let menuStructure = PSMenuStructure(scriptData: scriptData)
+        
+        //base items
+        for menuComponent in menuStructure.menuComponents {
+            //skip Experiment menu item
+            if menuComponent.name == "Experiment" { break }
+            //create a new menu item
+            let menuItem = NSMenuItem()
+            menuItem.title = menuComponent.name
+            addItemsToMenuItem(menuItem, menuComponent: menuComponent, scriptData: scriptData)
+            menu.addItem(menuItem)
         }
+        
+        //get base items
         
         //add menu to popup buttom
         customMenuPopUp.menu = menu
     }
     
     @IBAction func addNewMenuItemClick(_: AnyObject) {
-        //let editController = PSEditCustomMenusDialogController(scriptData: mainWindowController.scriptData)
-        //editController.showAttributeModalForWindow(mainWindowController.scriptData.window)
+        editController = PSEditMenusController(scriptData: mainWindowController.scriptData)
+        editController.showAttributeModalForWindow(mainWindowController.scriptData.window)
     }
     
     func menuItemSelected(menuItem : NSMenuItem) {
@@ -79,19 +75,36 @@ class PSCustomMenus : NSObject {
         }
     }
     
-    func addItemsToMenuItem(menuItem : NSMenuItem, entry : Entry, scriptData : PSScriptData) {
-        let menuTitles = PSStringList(entry: entry, scriptData: scriptData).stringListRawStripped
+    func addItemsToMenuItem(parentMenuItem : NSMenuItem, menuComponent : PSMenuComponent, scriptData : PSScriptData) {
         
-        if menuTitles.count > 0 {
-            let subMenu = NSMenu()
-            menuItem.submenu = subMenu
-            for menuTitle in menuTitles {
-                let menuItem = NSMenuItem()
-                menuItem.title = menuTitle
-                menuItem.action = "menuItemSelected:"
-                menuItem.target = self
-                subMenu.addItem(menuItem)
+        
+        if menuComponent.subMenus {
+            let subComponents = menuComponent.subComponents
+            if subComponents.count > 0 {
+                let subMenu = NSMenu()
+                parentMenuItem.submenu = subMenu
+                for subComponent in subComponents {
+                    let childMenuItem = NSMenuItem()
+                    childMenuItem.title = subComponent.name
+                    subMenu.addItem(childMenuItem)
+                    addItemsToMenuItem(childMenuItem, menuComponent: subComponent, scriptData: scriptData)
+                }
+            }
+        } else {
+            let dialogVariables = menuComponent.dialogVariables
+            if dialogVariables.count > 0 {
+                let subMenu = NSMenu()
+                parentMenuItem.submenu = subMenu
+                for dialogVariable in dialogVariables {
+                    let childMenuItem = NSMenuItem()
+                    childMenuItem.title = dialogVariable.name
+                    childMenuItem.action = "menuItemSelected:"
+                    childMenuItem.target = self
+                    subMenu.addItem(childMenuItem)
+                }
             }
         }
+ 
+        
     }
 }
