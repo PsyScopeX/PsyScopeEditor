@@ -106,7 +106,6 @@ public struct PSSubjectVariableStorageOptions {
             logEntryName = "LogRunEnd" //if logging is activated, always log at end
             
             //remove all references
-            scriptData.removeItemFromBaseList("LogRunEnd", item: entry.name)
             scriptData.removeItemFromBaseList("RunEnd", item: entry.name)
             scriptData.removeItemFromBaseList("LogRunStart", item: entry.name)
             scriptData.removeItemFromBaseList("RunStart", item: entry.name)

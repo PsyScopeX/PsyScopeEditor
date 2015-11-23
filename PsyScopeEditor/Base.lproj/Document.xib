@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <development version="6300" identifier="xcode"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9060"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9059"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="PSMainWindowController" customModule="PsyScopeEditor" customModuleProvider="target">
@@ -502,7 +502,7 @@
                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                 <subviews>
                                                                     <customView id="zck-4U-xpq" customClass="PSLayoutBoard" customModule="PsyScopeEditor" customModuleProvider="target">
-                                                                        <rect key="frame" x="0.0" y="363" width="1000" height="1000"/>
+                                                                        <rect key="frame" x="0.0" y="379" width="1000" height="1000"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                         <animations/>
                                                                         <connections>
@@ -524,7 +524,7 @@
                                                                 <animations/>
                                                             </scroller>
                                                             <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="evC-fz-EAi">
-                                                                <rect key="frame" x="539.5" y="0.0" width="15" height="750"/>
+                                                                <rect key="frame" x="538.5" y="0.0" width="16" height="750"/>
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                 <animations/>
                                                             </scroller>
@@ -931,7 +931,7 @@
                                 <menu key="menu" id="SGM-KT-Z5E">
                                     <items>
                                         <menuItem state="on" image="NSListViewTemplate" hidden="YES" id="YDO-Ld-8fi"/>
-                                        <menuItem title="Add new menu item..." image="NSAddTemplate" id="b87-ES-a89">
+                                        <menuItem title="Edit menu items..." image="NSAddTemplate" id="b87-ES-a89">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="addNewMenuItemClick:" target="fbH-nR-ANZ" id="T6B-O5-pPJ"/>

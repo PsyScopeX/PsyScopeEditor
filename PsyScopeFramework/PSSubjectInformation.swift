@@ -36,7 +36,6 @@ public class PSSubjectInformation : NSObject {
         runEndVariables = []
         neverRunVariables = []
         
-        
 
         //get all base entries which are dialogs, and are run at some point of the experiment
         var dialogVariables = scriptData.getBaseEntriesOfType(PSType.SubjectInfo).filter({
@@ -50,6 +49,7 @@ public class PSSubjectInformation : NSObject {
         
         var runStartStringList : [String] = []
         var runEndStringList : [String] = []
+
         if let runStartList = PSStringList(baseEntryName: "RunStart", scriptData: scriptData) {
             runStartStringList = runStartList.stringListRawStripped
         }
@@ -57,6 +57,7 @@ public class PSSubjectInformation : NSObject {
         if let runEndList = PSStringList(baseEntryName: "RunEnd", scriptData: scriptData) {
             runEndStringList = runEndList.stringListRawStripped
         }
+        
         
         // populate into correct positions
         for runStartEntryName in runStartStringList {
@@ -70,6 +71,7 @@ public class PSSubjectInformation : NSObject {
             runEndVariables.append(runEndVariable)
             dialogVariables.removeAtIndex(dialogVariables.indexOf(runEndVariable)!)
         }
+        
         
         // remainder are never run
         neverRunVariables = dialogVariables
@@ -93,7 +95,7 @@ public class PSSubjectInformation : NSObject {
     }
     
     public func moveVariable(variable : PSSubjectVariable, schedule: PSSubjectVariableSchedule, position: Int) {
-        print("Moving variable \(variable.name) to list \(schedule) at position \(position)")
+        //print("Moving variable \(variable.name) to list \(schedule) at position \(position)")
         scriptData.beginUndoGrouping("Change variable")
         if variable.storageOptions.schedule != schedule {
             //move to new schedule
@@ -109,7 +111,7 @@ public class PSSubjectInformation : NSObject {
         case .RunStart:
             if let runStartList = PSStringList(baseEntryName: "RunStart", scriptData: scriptData),
                 index = runStartList.indexOfValueWithString(variable.name) {
-                    print("RunStart move \(index) to \(position)")
+                    //print("RunStart move \(index) to \(position)")
                     runStartList.move(index, to: position)
             }
             
@@ -128,42 +130,3 @@ public class PSSubjectInformation : NSObject {
         scriptData.endUndoGrouping()
     }
 }
-
-//Entries which cause a dialog to be run
-
-//StartUp
-
-//ExperimentStartUp
-
-//RunStart
-
-//These same entries with 'Log' as a prefix and a Dialog: subentry with value 'LogInfo' cause the variable to be logged
-
-//SubjectNumAndGroup has the Dialog: subentry with 'SubjectNumAndGroup' which is the automatic calculation
-
-//AutoDataFile AutoDatafile:: "SUBJECT NAMESUBJECT NAME-"
-//Dialog: MakeFileName
-//Strings: @"SubjectName" @"SubjectName" "-"
-//Folder:
-//UseDir: FALSE
-
-//PracticeStart
-
-//RunEnd
-
-//PracticeEnd
-
-//RunBreak
-
-//PracticeBreak
-
-//ExperimentClose
-
-//Shutdown
-
-
-
-//RunStart:: LogRunStart SubjectNumAndGroup JamesGroup JamesVariable
-
-//LogRunStart:: SubjectName JamesGroup JamesVariable
-//   Dialog: LogInfo

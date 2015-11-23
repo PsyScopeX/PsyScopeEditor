@@ -27,9 +27,9 @@ class PSCustomMenus : NSObject {
         let scriptData = mainWindowController.scriptData
         
         //save first and second item
-        let firstItem = customMenuPopUp.itemAtIndex(0)!
-        let secondItem = customMenuPopUp.itemAtIndex(1)!
-        let seperator = customMenuPopUp.itemAtIndex(2)!
+        let firstItem = customMenuPopUp.itemAtIndex(0)! //the icon
+        let secondItem = customMenuPopUp.itemAtIndex(1)! //'edit items' item
+        let seperator = customMenuPopUp.itemAtIndex(2)! //seperator
         
         //remove all items
         customMenuPopUp.removeAllItems()
@@ -65,7 +65,8 @@ class PSCustomMenus : NSObject {
     }
     
     @IBAction func addNewMenuItemClick(_: AnyObject) {
-        print("Click")
+        //let editController = PSEditCustomMenusDialogController(scriptData: mainWindowController.scriptData)
+        //editController.showAttributeModalForWindow(mainWindowController.scriptData.window)
     }
     
     func menuItemSelected(menuItem : NSMenuItem) {

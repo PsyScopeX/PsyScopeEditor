@@ -18,6 +18,7 @@ class PSSubjectVariablesTableViewController : NSObject, NSTableViewDataSource, N
     dynamic var runStartVariables : [PSSubjectVariable] = []
     dynamic var runEndVariables : [PSSubjectVariable] = []
     dynamic var neverRunVariables : [PSSubjectVariable] = []
+
     var subjectInformation : PSSubjectInformation?
     var selectedVariable : PSSubjectVariable?
     var reloading : Bool = false
@@ -35,7 +36,6 @@ class PSSubjectVariablesTableViewController : NSObject, NSTableViewDataSource, N
         self.runStartVariables = subjectInformation.runStartVariables
         self.runEndVariables = subjectInformation.runEndVariables
         self.neverRunVariables = subjectInformation.neverRunVariables
-        
         //re-highlight selected item
         selectItem(selectedVariable)
         tableView.reloadData()
@@ -52,6 +52,7 @@ class PSSubjectVariablesTableViewController : NSObject, NSTableViewDataSource, N
         } else if let index = neverRunVariables.indexOf(variable) {
             return index + 3 + runStartVariables.count + runEndVariables.count
         } else {
+
             return nil
         }
     }
@@ -103,7 +104,6 @@ class PSSubjectVariablesTableViewController : NSObject, NSTableViewDataSource, N
     
     func tableView(tableView: NSTableView, selectionIndexesForProposedSelection proposedSelectionIndexes: NSIndexSet) -> NSIndexSet {
         if proposedSelectionIndexes.count <= 1 && variableForRow(proposedSelectionIndexes.firstIndex) != nil {
-            subjectVariablesController.tableViewSelectionBecameActive(tableView)
             return proposedSelectionIndexes
         } else {
             return NSIndexSet(index: -1)
@@ -189,6 +189,7 @@ class PSSubjectVariablesTableViewController : NSObject, NSTableViewDataSource, N
     
     
     func tableView(tableView: NSTableView, acceptDrop info: NSDraggingInfo, row: Int, dropOperation: NSTableViewDropOperation) -> Bool {
+        print("Row: \(row)")
         let pboard = info.draggingPasteboard()
         if let data = pboard.dataForType(dragReorderType),
             rowIndexes : NSIndexSet = NSKeyedUnarchiver.unarchiveObjectWithData(data) as? NSIndexSet {

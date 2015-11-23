@@ -13,13 +13,11 @@ class PSSubjectVariablesController : NSObject, NSTextFieldDelegate, NSTableViewD
     @IBOutlet var experimentSetupController : PSExperimentSetup!
     @IBOutlet var subjectInformationTableViewController : PSSubjectVariablesTableViewController!
     @IBOutlet var subjectVariablesSegmentedControl : NSSegmentedControl!
-    @IBOutlet var subjectVariablesTableView : NSTableView!
     @IBOutlet var dataFileNameController : PSDataFileNameController!
     @IBOutlet var logFileNameController : PSLogFileNameController!
     
     var subjectInformation : PSSubjectInformation!
     var scriptData : PSScriptData!
-    var selectedSubjectTableView : Bool = true
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -33,19 +31,13 @@ class PSSubjectVariablesController : NSObject, NSTextFieldDelegate, NSTableViewD
         //propogate selection to tableview and to other controls
         
         if let selectedVariable = self.selectedSubjectVariable {
-            if (selectedSubjectTableView || !subjectInformation.groupVariables.contains(selectedVariable)) {
-                subjectVariablesSegmentedControl.setEnabled(true, forSegment: 1)
-                subjectInformationTableViewController.selectItem(selectedVariable)
-                return
-            } else {
-                subjectVariablesSegmentedControl.setEnabled(false, forSegment: 1)
-                //groupingVariablesTableViewController.selectItem(selectedVariable)
-                return
-            }
+            subjectVariablesSegmentedControl.setEnabled(true, forSegment: 1)
+            subjectInformationTableViewController.selectItem(selectedVariable)
+        } else {
+            subjectVariablesSegmentedControl.setEnabled(false, forSegment: 1)
+            subjectInformationTableViewController.selectItem(nil)
         }
         
-        subjectVariablesSegmentedControl.setEnabled(false, forSegment: 1)
-        subjectVariablesTableView.deselectAll(nil)
     }
     
     //this gets called from PSExperimentSetup.update() -> which is called on script changes.
@@ -95,16 +87,6 @@ class PSSubjectVariablesController : NSObject, NSTextFieldDelegate, NSTableViewD
         return nil
     }
     
-    func tableViewSelectionBecameActive(tableView : NSTableView) {
-        if tableView == subjectVariablesTableView {
-            //current selected subject
-            selectedSubjectTableView = true
-        } else {
-            //current selected grouping
-            selectedSubjectTableView = false
-            subjectVariablesTableView.deselectAll(nil)
-        }
-    }
     
     
     @IBAction func generateGroupsButtonClicked(_: AnyObject) {
