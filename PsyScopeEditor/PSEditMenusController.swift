@@ -60,7 +60,7 @@ class PSEditMenusController : NSObject, NSOutlineViewDataSource, NSOutlineViewDe
     @IBAction func menuStructureSegmentedControlClicked(_ : AnyObject) {
         switch menuStructureSegmentedControl.selectedSegment {
         case 0: addNewSubMenu()
-        case 1: removeSelectedSubMenu()
+        case 1: removeSelected()
         default: break
         }
     }
@@ -74,9 +74,31 @@ class PSEditMenusController : NSObject, NSOutlineViewDataSource, NSOutlineViewDe
         }
     }
     
-    func removeSelectedSubMenu() {
-        
+    func removeSelected() {
+        let selectedItem = menuStructureOutlineView.itemAtRow(menuStructureOutlineView.selectedRow)
+        let selectedItemParent = menuStructureOutlineView.parentForItem(selectedItem)
+        if let menuComponent = selectedItem as? PSMenuComponent {
+
+            //get parent and remove from list
+            if let menuComponentParent = selectedItemParent as? PSMenuComponent,
+                index = menuComponentParent.subComponents.indexOf(menuComponent) {
+                menuComponentParent.subComponents.removeAtIndex(index)
+                menuComponentParent.saveToScript()
+            } else if let index = menuStructure.menuComponents.indexOf(menuComponent) {
+                //must be a base item
+                menuStructure.menuComponents.removeAtIndex(index)
+                menuStructure.saveToScript()
+            }
+        } else if let dialogVariable = selectedItem as? PSSubjectVariable {
+            if let menuComponentParent = selectedItemParent as? PSMenuComponent,
+                index = menuComponentParent.dialogVariables.indexOf(dialogVariable) {
+                    menuComponentParent.dialogVariables.removeAtIndex(index)
+                    menuComponentParent.saveToScript()
+            }
+        }
     }
+    
+    
     
     //MARK: Refresh
     func refreshNotification(notification : NSNotification) {

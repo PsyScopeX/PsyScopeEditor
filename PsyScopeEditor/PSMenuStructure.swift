@@ -140,20 +140,54 @@ class PSMenuComponent : NSObject {
         if subComponents.count > 0 {
             let subMenus = scriptData.getOrCreateSubEntry("SubMenus", entry: entry, isProperty: true)
             let subMenusList = PSStringList(entry: subMenus, scriptData: scriptData)
-            for subComponent in subComponents {
-                if !subMenusList.contains(subComponent.name) {
-                    subMenusList.appendAsString(subComponent.name)
+            
+            
+            //flag any no long existent ones
+            let existingNames = subComponents.map({ $0.name })
+            let toRemove : [String] = subMenusList.stringListRawStripped.filter( {
+                !existingNames.contains($0) })
+            
+            //remove them (chain subMenus)
+            for subMenuToRemoveName in toRemove {
+                if let subMenuEntry = scriptData.getBaseEntry(subMenuToRemoveName) {
+                    let menuComponent = PSMenuComponent(entry: subMenuEntry, scriptData: scriptData)
+                    menuComponent.removeSubMenus()
+                    scriptData.deleteBaseEntry(subMenuEntry)
+                }
+                subMenusList.remove(subMenuToRemoveName)
+            }
+            
+            //add new ones
+            for subComponentName in existingNames {
+                if !subMenusList.contains(subComponentName) {
+                    subMenusList.appendAsString(subComponentName)
                 }
             }
+
+            
             //also remove current value
             entry.currentValue = ""
         } else if dialogVariables.count > 0 {
             let stringList = PSStringList(entry: entry, scriptData: scriptData)
-            for dialogVariable in dialogVariables {
-                if !stringList.contains(dialogVariable.name) {
-                    stringList.appendAsString(dialogVariable.name)
+            
+            let dialogVariableNames = dialogVariables.map({ $0.name })
+            
+            //flag no longer present ones
+            let toRemove : [String] = stringList.stringListRawStripped.filter( {
+                !dialogVariableNames.contains($0) })
+            
+            //remove them 
+            for dialogVariableToRemoveName in toRemove {
+                stringList.remove(dialogVariableToRemoveName)
+            }
+
+            for dialogVariableName in dialogVariableNames {
+                if !stringList.contains(dialogVariableName) {
+                    stringList.appendAsString(dialogVariableName)
                 }
             }
+            
+         
             //also remove any submenu related subentries
             removeSubMenus()
         } else {
@@ -194,7 +228,9 @@ class PSMenuComponent : NSObject {
         self.saveToScript()
     }
     
-    
+    func remove() {
+        removeSubMenus()
+    }
     
     func removeSubMenus() {
         //delete the subMenus
