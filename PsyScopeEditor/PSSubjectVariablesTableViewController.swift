@@ -15,9 +15,9 @@ class PSSubjectVariablesTableViewController : NSObject, NSTableViewDataSource, N
     @IBOutlet var tableView : NSTableView!
     @IBOutlet var valueColumn : NSTableColumn!
     @IBOutlet var experimentSetup : PSExperimentSetup!
-    dynamic var runStartVariables : [PSSubjectVariable] = []
-    dynamic var runEndVariables : [PSSubjectVariable] = []
-    dynamic var neverRunVariables : [PSSubjectVariable] = []
+    var runStartVariables : [PSSubjectVariable] = []
+    var runEndVariables : [PSSubjectVariable] = []
+    var neverRunVariables : [PSSubjectVariable] = []
 
     var subjectInformation : PSSubjectInformation?
     var selectedVariable : PSSubjectVariable?

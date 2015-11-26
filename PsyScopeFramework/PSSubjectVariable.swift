@@ -8,7 +8,7 @@
 
 import Foundation
 
-public final class PSSubjectVariable : NSObject  {
+public final class PSSubjectVariable : Equatable {
     
     public class func NewSubjectVariable(scriptData : PSScriptData) -> PSSubjectVariable {
         let newEntryName = scriptData.getNextFreeBaseEntryName("Item")
@@ -34,8 +34,6 @@ public final class PSSubjectVariable : NSObject  {
         self.dialogType = PSSubjectVariableType.fromEntry(entry, scriptData: scriptData)
         self.storageOptions = PSSubjectVariableStorageOptions.fromEntry(entry, scriptData: scriptData)
         self.isGroupingVariable = false
-        
-        super.init()
         
         //will call didSet now whence using initialised variable to prevent updating script
         self.isGroupingVariable = detectIfGroupingVariable()
@@ -150,10 +148,14 @@ public final class PSSubjectVariable : NSObject  {
         groupsSpecsValue.stringListRawUnstripped = newValues
     }
     
-    func removeFromScript() {
+    public func removeFromScript() {
         self.isGroupingVariable = false
         self.storageOptions = PSSubjectVariableStorageOptions(all: false)
         self.saveToScript() //to remove all references in other entries
         scriptData.deleteBaseEntry(entry)
     }
+}
+
+public func ==(lhs: PSSubjectVariable, rhs: PSSubjectVariable) -> Bool {
+    return lhs.name == rhs.name
 }

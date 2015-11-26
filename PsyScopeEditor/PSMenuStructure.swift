@@ -26,27 +26,7 @@ class PSMenuStructure : NSObject {
             let entry = scriptData.getOrCreateBaseEntry("Menus", type: PSType.Menu, section: PSSection.Menus)
             let stringList = PSStringList(entry: entry, scriptData: scriptData)
             
-            //flag any no long existent ones
-            let existingNames = menuComponents.map({ $0.name })
-            let toRemove : [String] = stringList.stringListRawStripped.filter( {
-                !existingNames.contains($0) })
-            
-            //remove them (chain subMenus)
-            for subMenuToRemoveName in toRemove {
-                if let subMenuEntry = scriptData.getBaseEntry(subMenuToRemoveName) {
-                    let menuComponent = PSMenuComponent(entry: subMenuEntry, scriptData: scriptData)
-                    menuComponent.removeSubMenus()
-                    scriptData.deleteBaseEntry(subMenuEntry)
-                }
-            }
-            
-            //add new ones
-            for dialogVariable in menuComponents {
-                if !stringList.contains(dialogVariable.name) {
-                    stringList.appendAsString(dialogVariable.name)
-                }
-            }
-            
+            stringList.stringListRawUnstripped = menuComponents.map({ $0.name })
             
         } else {
             scriptData.deleteBaseEntryByName("Menus")
@@ -84,9 +64,22 @@ class PSMenuStructure : NSObject {
         return menuDialogVariables.filter({ seen.updateValue(true, forKey: $0.name) == nil })
     }
     
+    func getParentForComponent(component : PSMenuComponent) -> PSMenuComponent? {
+        return component.parentMenu()
+    }
+    
+    func getParentForVariable(variable : PSSubjectVariable) -> PSMenuComponent? {
+        for mc in menuComponents {
+            if let parent = mc.returnParentForSubjectVariable(variable) {
+                return parent
+            }
+        }
+        return nil
+    }
+    
 }
 
-class PSMenuComponent : NSObject {
+class PSMenuComponent : Equatable {
     
     let scriptData : PSScriptData
     let entry : Entry
@@ -100,7 +93,6 @@ class PSMenuComponent : NSObject {
         self.subComponents = []
         self.dialogVariables = []
         self.subMenus = false
-        super.init()
         parseFromScript()
     }
     
@@ -141,53 +133,15 @@ class PSMenuComponent : NSObject {
             let subMenus = scriptData.getOrCreateSubEntry("SubMenus", entry: entry, isProperty: true)
             let subMenusList = PSStringList(entry: subMenus, scriptData: scriptData)
             
-            
-            //flag any no long existent ones
-            let existingNames = subComponents.map({ $0.name })
-            let toRemove : [String] = subMenusList.stringListRawStripped.filter( {
-                !existingNames.contains($0) })
-            
-            //remove them (chain subMenus)
-            for subMenuToRemoveName in toRemove {
-                if let subMenuEntry = scriptData.getBaseEntry(subMenuToRemoveName) {
-                    let menuComponent = PSMenuComponent(entry: subMenuEntry, scriptData: scriptData)
-                    menuComponent.removeSubMenus()
-                    scriptData.deleteBaseEntry(subMenuEntry)
-                }
-                subMenusList.remove(subMenuToRemoveName)
-            }
-            
-            //add new ones
-            for subComponentName in existingNames {
-                if !subMenusList.contains(subComponentName) {
-                    subMenusList.appendAsString(subComponentName)
-                }
-            }
-
+            subMenusList.stringListRawUnstripped = subComponents.map({ $0.name })
             
             //also remove current value
             entry.currentValue = ""
         } else if dialogVariables.count > 0 {
             let stringList = PSStringList(entry: entry, scriptData: scriptData)
             
-            let dialogVariableNames = dialogVariables.map({ $0.name })
-            
-            //flag no longer present ones
-            let toRemove : [String] = stringList.stringListRawStripped.filter( {
-                !dialogVariableNames.contains($0) })
-            
-            //remove them 
-            for dialogVariableToRemoveName in toRemove {
-                stringList.remove(dialogVariableToRemoveName)
-            }
-
-            for dialogVariableName in dialogVariableNames {
-                if !stringList.contains(dialogVariableName) {
-                    stringList.appendAsString(dialogVariableName)
-                }
-            }
-            
-         
+            stringList.stringListRawUnstripped = dialogVariables.map({ $0.name })
+    
             //also remove any submenu related subentries
             removeSubMenus()
         } else {
@@ -246,4 +200,48 @@ class PSMenuComponent : NSObject {
             scriptData.deleteNamedSubEntryFromParentEntry(entry, name: "SubMenus")
         }
     }
+    
+    func parentMenu() -> PSMenuComponent? {
+        let menuStructure = PSMenuStructure(scriptData: scriptData)
+        for mc in menuStructure.menuComponents {
+            if mc == self {
+                return nil
+            }
+            if let s = mc.returnParentFor(self) {
+                return s
+            }
+        }
+        return nil
+    }
+    
+    func returnParentFor(subMenu : PSMenuComponent) -> PSMenuComponent? {
+        for sc in self.subComponents {
+            if sc == subMenu {
+                return self
+            }
+            if let s = sc.returnParentFor(subMenu) {
+                return s
+            }
+        }
+        return nil
+    }
+    
+    func returnParentForSubjectVariable(subjectVariable : PSSubjectVariable) -> PSMenuComponent? {
+        for sc in self.dialogVariables {
+            if sc == subjectVariable {
+                return self
+            }
+        }
+        
+        for mc in self.subComponents {
+            if let s = mc.returnParentForSubjectVariable(subjectVariable) {
+                return s
+            }
+        }
+        return nil
+    }
+}
+
+func ==(lhs: PSMenuComponent, rhs: PSMenuComponent) -> Bool {
+    return lhs.name == rhs.name
 }

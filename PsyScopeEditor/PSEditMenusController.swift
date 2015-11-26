@@ -21,7 +21,8 @@ class PSEditMenusController : NSObject, NSOutlineViewDataSource, NSOutlineViewDe
     var parentWindow : NSWindow!
     var initialized : Bool
     
-    static let dragReorderType = "PSEditMenusController"
+    static let dragReorderVariableType = "PSEditMenusControllerSubjectVariable"
+    static let dragReorderMenuType = "PSEditMenusControllerMenu"
     
     init(scriptData : PSScriptData) {
         self.scriptData = scriptData
@@ -36,7 +37,7 @@ class PSEditMenusController : NSObject, NSOutlineViewDataSource, NSOutlineViewDe
             refresh()
             initialized = true
             self.registeredForChanges = true
-            self.menuStructureOutlineView.registerForDraggedTypes([PSEditMenusController.dragReorderType, PSEditMenusSubjectVariablesController.subjectVariableType])
+            self.menuStructureOutlineView.registerForDraggedTypes([PSEditMenusController.dragReorderVariableType, PSEditMenusController.dragReorderMenuType,PSEditMenusSubjectVariablesController.subjectVariableType])
         }
     }
     
@@ -179,22 +180,154 @@ class PSEditMenusController : NSObject, NSOutlineViewDataSource, NSOutlineViewDe
     }
     
     // MARK: NSOutlineViewDelegate
+    
+    
+    func addSubjectVariables(newSubjectVariables : [String], toMenu menuComponent: PSMenuComponent, atIndex indexToInsert: Int) {
+        scriptData.beginUndoGrouping("Edit Menus")
+        for subjectVariableName in newSubjectVariables {
+            if let subjectVariableEntry = scriptData.getBaseEntry(subjectVariableName) {
+                menuComponent.dialogVariables.insert(PSSubjectVariable(entry: subjectVariableEntry, scriptData: scriptData), atIndex: indexToInsert)
+            }
+        }
+        menuComponent.saveToScript()
+        scriptData.endUndoGrouping()
+    }
+    
+    func moveSubjectVariable(subjectVariableName : String, toMenu menuComponent: PSMenuComponent, atIndex indexToInsert : Int) {
+        
+        guard let subjectVariableEntry = scriptData.getBaseEntry(subjectVariableName)  else { return }
+        
+        scriptData.beginUndoGrouping("Edit Menus")
+        let subjectVariable = PSSubjectVariable(entry: subjectVariableEntry, scriptData: scriptData)
+            
+            
+        //are we moving within same menu?
+        if let oldIndex = menuComponent.dialogVariables.indexOf(subjectVariable) {
+            // Move the specified row to its new location...
+            // if we remove a row then everything moves down by one
+            // so do an insert prior to the delete
+            // --- depends which way were moving the data!!!
+            //print("\(oldIndex) -> \(index)")
+            if (oldIndex < indexToInsert) {
+                menuComponent.dialogVariables.insert(subjectVariable, atIndex: indexToInsert)
+                menuComponent.dialogVariables.removeAtIndex(oldIndex)
+            } else {
+                menuComponent.dialogVariables.removeAtIndex(oldIndex)
+                menuComponent.dialogVariables.insert(subjectVariable, atIndex: indexToInsert)
+            }
+        } else {
+            //moving from one menu to another
+            let subjectVariable = PSSubjectVariable(entry: subjectVariableEntry, scriptData: scriptData)
+            
+            if let subjectVariableParent = menuStructure.getParentForVariable(subjectVariable),
+                index = subjectVariableParent.dialogVariables.indexOf(subjectVariable) {
+                    subjectVariableParent.dialogVariables.removeAtIndex(index)
+                    subjectVariableParent.saveToScript()
+            }
+            
+            menuComponent.dialogVariables.insert(subjectVariable, atIndex: indexToInsert)
+        }
+
+        menuComponent.saveToScript()
+        scriptData.endUndoGrouping()
+    }
+    
+    func moveMenu(childMenuName : String, toMenu newParentMenu : AnyObject?, atIndex indexToInsert : Int) {
+        
+        guard let childMenuEntry = scriptData.getBaseEntry(childMenuName) else { return }
+        scriptData.beginUndoGrouping("Edit Menus")
+        defer {
+            menuStructure.saveToScript()
+            scriptData.endUndoGrouping()
+        }
+        let childMenuItem = PSMenuComponent(entry: childMenuEntry, scriptData: scriptData)
+        
+        if let oldparentMenuItem = menuStructure.getParentForComponent(childMenuItem) {
+            
+            //OLD PARENT IS A MENUCOMPONENT
+            
+            if let newParentMenuItem = newParentMenu as? PSMenuComponent {
+                
+                //NEW AND OLD PARENTS ARE BOTH MENUCOMPONENTS
+                
+                if let oldIndex = newParentMenuItem.subComponents.indexOf(childMenuItem) {
+                    // MOVING WITHING SAME
+                    if (oldIndex < indexToInsert) {
+                        newParentMenuItem.subComponents.insert(childMenuItem, atIndex: indexToInsert)
+                        newParentMenuItem.subComponents.removeAtIndex(oldIndex)
+                    } else {
+                        newParentMenuItem.subComponents.removeAtIndex(oldIndex)
+                        newParentMenuItem.subComponents.insert(childMenuItem, atIndex: indexToInsert)
+                    }
+                    newParentMenuItem.saveToScript()
+                } else if let oldIndex = oldparentMenuItem.subComponents.indexOf(childMenuItem) {
+                    //MOVING FROM ONE TO OTHER
+                    oldparentMenuItem.subComponents.removeAtIndex(oldIndex)
+                    newParentMenuItem.subComponents.insert(childMenuItem, atIndex: indexToInsert)
+                }
+                
+                
+            } else if newParentMenu == nil {
+                
+                //NEW PARENT IS BASE OLD PARENT IS MENUCOMPONENT
+                
+                if let oldIndex = oldparentMenuItem.subComponents.indexOf(childMenuItem) {
+                    oldparentMenuItem.subComponents.removeAtIndex(oldIndex)
+                    menuStructure.menuComponents.insert(childMenuItem, atIndex: indexToInsert)
+                }
+            }
+        } else {
+            
+            //OLD PARENT IS BASE (MENUSTRUCTURE)
+            if let newParentMenuItem = newParentMenu as? PSMenuComponent {
+                
+                //OLD PARENT IS BASE, NEW PARENT IS MENUCOMPONENT
+                
+                if let oldIndex = menuStructure.menuComponents.indexOf(childMenuItem) {
+                    menuStructure.menuComponents.removeAtIndex(oldIndex)
+                    newParentMenuItem.subComponents.insert(childMenuItem, atIndex: indexToInsert)
+                }
+
+            } else {
+                
+                //OLD AND NEW PARENTS ARE BOTH BASE
+                if let oldIndex = menuStructure.menuComponents.indexOf(childMenuItem) {
+                    if (oldIndex < indexToInsert) {
+                        menuStructure.menuComponents.insert(childMenuItem, atIndex: indexToInsert)
+                        menuStructure.menuComponents.removeAtIndex(oldIndex)
+                    } else {
+                        menuStructure.menuComponents.removeAtIndex(oldIndex)
+                        menuStructure.menuComponents.insert(childMenuItem, atIndex: indexToInsert)
+                    }
+                }
+            }
+        }
+    }
+    
 
     func outlineView(outlineView: NSOutlineView, acceptDrop info: NSDraggingInfo, item: AnyObject?, childIndex index: Int) -> Bool {
         let pboard = info.draggingPasteboard()
+        let indexToInsert = max(index,0)
+        print(indexToInsert)
+        
         if let data = pboard.dataForType(PSEditMenusSubjectVariablesController.subjectVariableType),
             newSubjectVariables : [String] = NSKeyedUnarchiver.unarchiveObjectWithData(data) as? [String],
             menuComponent = item as? PSMenuComponent {
         
-                scriptData.beginUndoGrouping("Edit Menus")
-                for subjectVariableName in newSubjectVariables {
-                    if let subjectVariableEntry = scriptData.getBaseEntry(subjectVariableName) {
-                        menuComponent.dialogVariables.append(PSSubjectVariable(entry: subjectVariableEntry, scriptData: scriptData))
-                    }
-                }
-                menuComponent.saveToScript()
-                scriptData.endUndoGrouping()
+                addSubjectVariables(newSubjectVariables, toMenu: menuComponent, atIndex: indexToInsert)
+                return true
             
+        } else if let data = pboard.dataForType(PSEditMenusController.dragReorderVariableType),
+            subjectVariableName : String = NSKeyedUnarchiver.unarchiveObjectWithData(data) as? String,
+            menuComponent = item as? PSMenuComponent {
+                
+                moveSubjectVariable(subjectVariableName, toMenu: menuComponent, atIndex: indexToInsert)
+                return true
+        } else if let data = pboard.dataForType(PSEditMenusController.dragReorderMenuType),
+            menuName : String = NSKeyedUnarchiver.unarchiveObjectWithData(data) as? String {
+                
+                moveMenu(menuName, toMenu: item, atIndex: indexToInsert)
+                return true
         }
         return false
     }
@@ -206,10 +339,66 @@ class PSEditMenusController : NSObject, NSOutlineViewDataSource, NSOutlineViewDe
             if let menuComponent = item as? PSMenuComponent where !menuComponent.subMenus {
                 return NSDragOperation.Link
             }
-        } else if types.contains(PSEditMenusController.dragReorderType) {
+        } else if types.contains(PSEditMenusController.dragReorderMenuType) {
+            if let proposedParentItem = item as? PSMenuComponent  {
+                
+                if let data = pboard.dataForType(PSEditMenusController.dragReorderMenuType),
+                    menuName : String = NSKeyedUnarchiver.unarchiveObjectWithData(data) as? String,
+                    menuEntry = scriptData.getBaseEntry(menuName) {
+                        
+                        let proposedChildItem = PSMenuComponent(entry: menuEntry, scriptData: scriptData)
+                        
+                        if proposedParentItem == proposedChildItem {
+                            print("NOPE")
+                            return NSDragOperation.None
+                        }
+                        
+                        //if proposed child is parent of the proposed parent, then this is not allowed.
+                        var nextParent : PSMenuComponent? =  menuStructure.getParentForComponent(proposedParentItem)
+                        
+                        while nextParent != nil {
+                            if let nextParentMenu = nextParent {
+                                if nextParentMenu == proposedChildItem {
+                                    print("NOPE")
+                                    return NSDragOperation.None
+                                }
+                                nextParent = menuStructure.getParentForComponent(nextParent!)
+                            }
+                        }
+                        print("YEP")
+                        return NSDragOperation.Link
+                }
+ 
+                
+                
+            } else if item == nil {
+                return NSDragOperation.Link
+            }
+            
+            return NSDragOperation.None
+        } else if types.contains(PSEditMenusController.dragReorderVariableType) {
+            if let menuComponent = item as? PSMenuComponent where !menuComponent.subMenus {
+                return NSDragOperation.Link
+            }
         }
         
         return NSDragOperation.None
+    }
+    
+    func outlineView(outlineView: NSOutlineView, writeItems items: [AnyObject], toPasteboard pasteboard: NSPasteboard) -> Bool {
+        guard let item = items.first where items.count == 1 else { return false }
+        if let menuComponent = item as? PSMenuComponent {
+            let data = NSKeyedArchiver.archivedDataWithRootObject(menuComponent.name)
+            pasteboard.declareTypes([PSEditMenusController.dragReorderMenuType], owner: self)
+            pasteboard.setData(data, forType: PSEditMenusController.dragReorderMenuType)
+            return true
+        } else if let subjectVariable = item as? PSSubjectVariable {
+            let data = NSKeyedArchiver.archivedDataWithRootObject(subjectVariable.name)
+            pasteboard.declareTypes([PSEditMenusController.dragReorderVariableType], owner: self)
+            pasteboard.setData(data, forType: PSEditMenusController.dragReorderVariableType)
+            return true
+        }
+        return false
     }
 
     
