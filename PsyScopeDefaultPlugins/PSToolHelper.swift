@@ -136,7 +136,7 @@ class PSToolHelper: NSObject {
         return NSImage(contentsOfFile: NSBundle(forClass:self).pathForImageResource(image_name)!)!
     }
     
-    class func attributedStringForAttributeFunction(functionName : String, icon : NSImage, currentValue : String) -> [AnyObject]! {
+    class func attributedStringForAttributeFunction(functionName : String, icon : NSImage, currentValue : String) -> [AnyObject] {
         let function = PSFunctionElement()
         function.stringValue = currentValue
         
@@ -144,7 +144,7 @@ class PSToolHelper: NSObject {
             
             let nameOfEntry = function.getStrippedStringValues().first
             
-            if nameOfEntry == nil { return nil }
+            if nameOfEntry == nil { return [] }
             
             let size = PSDefaultConstants.Spacing.VaryByIconSize
             //resize image
@@ -179,7 +179,7 @@ class PSToolHelper: NSObject {
             
             return returnArray
         }
-        return nil
+        return []
     }
     
 }

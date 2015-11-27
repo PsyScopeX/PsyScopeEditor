@@ -84,7 +84,6 @@ class PSBlockTool: PSTool, PSToolInterface {
     }
     
     override func identifyAsAttributeSourceAndReturnRepresentiveString(currentValue: String) -> [AnyObject] {
-        _ = PSFunctionElement()
         return PSToolHelper.attributedStringForAttributeFunction("BlockAttrib", icon: self.icon(), currentValue: currentValue)
         
     }
