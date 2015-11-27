@@ -20,7 +20,7 @@ public class PSFieldEditor : NSTextView {
             if let entryValueTextField = self.delegate as? PSEntryValueTextField {
                 return scriptData.getVaryByMenu(entryValueTextField, action: "menuItemClicked:")
             } else {
-                fatalError("Incorrect field editor used - should only be for PSEveryValueTextField and subclasses")
+                fatalError("Incorrect field editor used - should only be for PSEntryValueTextField and subclasses")
             }
         }
         

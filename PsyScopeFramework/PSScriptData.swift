@@ -145,7 +145,7 @@ public class PSScriptData : NSObject {
         return menu
     }
     
-    public func valueForMenuItem(menuItem : NSMenuItem, original : String) -> String? {
+    public func valueForMenuItem(menuItem : NSMenuItem, original : String, originalFullType : PSAttributeType?) -> String? {
         if menuItem.title == "Define Value" {
             return nil
         } else if menuItem.title == "Enter Formula" {
@@ -153,9 +153,9 @@ public class PSScriptData : NSObject {
         } else if let entry = menuItem.representedObject as? Entry,
             tool = pluginProvider.getInterfaceForType(PSType.FromName(entry.type)) {
                 
-                return tool.menuItemSelectedForAttributeSource(menuItem.title, tag: menuItem.tag, entry: nil, originalValue: original, scriptData: self)
+                return tool.menuItemSelectedForAttributeSource(menuItem.title, tag: menuItem.tag, entry: nil, originalValue: original, originalFullType: originalFullType, scriptData: self)
         } else if let tool = menuItem.representedObject as? PSToolInterface {
-            return tool.menuItemSelectedForAttributeSource(menuItem.title, tag: menuItem.tag, entry: nil, originalValue: original, scriptData: self)
+            return tool.menuItemSelectedForAttributeSource(menuItem.title, tag: menuItem.tag, entry: nil, originalValue: original, originalFullType: originalFullType, scriptData: self)
         } else {
             return original
         }

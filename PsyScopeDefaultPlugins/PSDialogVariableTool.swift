@@ -52,7 +52,7 @@ class PSDialogVariableTool: PSTool, PSToolInterface {
         return false
     }
     
-    override func createObjectWithGhostEntries(entries: [PSGhostEntry], withScript scriptData: PSScriptData) -> [LayoutObject] {
+    override func createObjectWithGhostEntries(entries: [PSGhostEntry], withScript scriptData: PSScriptData) -> [LayoutObject]? {
         var return_array : [LayoutObject] = []
         for ent in entries {
 
@@ -85,9 +85,8 @@ class PSDialogVariableTool: PSTool, PSToolInterface {
     }
     
     //variables dont have a layout object any more
-    override func createObject(scriptData: PSScriptData) -> Entry {
-        let new_entry = createMainVariableEntry(scriptData)
-        return new_entry
+    override func createObject(scriptData: PSScriptData) -> Entry? {
+        return createMainVariableEntry(scriptData)
     }
     
     override func identifyEntries(ghostScript: PSGhostScript) -> [PSScriptError] {

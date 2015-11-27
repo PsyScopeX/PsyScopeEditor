@@ -125,7 +125,7 @@ class PSTool: PSToolHelper {
         return true
     }
     
-    func menuItemSelectedForAttributeSource(itemTitle : String, tag : Int, entry : Entry?, originalValue : String, scriptData: PSScriptData) -> String {
+    func menuItemSelectedForAttributeSource(itemTitle : String, tag : Int, entry : Entry?, originalValue : String, originalFullType : PSAttributeType?, scriptData: PSScriptData) -> String {
         fatalError("Tool is not source for script")
     }
     

@@ -126,7 +126,7 @@ class PSExperimentTool: PSTool, PSToolInterface {
     
 
     
-    override func createObjectWithGhostEntries(entries: [PSGhostEntry], withScript scriptData: PSScriptData) -> [LayoutObject] {
+    override func createObjectWithGhostEntries(entries: [PSGhostEntry], withScript scriptData: PSScriptData) -> [LayoutObject]? {
         
         //sometimes the Experiments entry will be the only new object and sometimes just the Experiment entry.
         
@@ -137,14 +137,14 @@ class PSExperimentTool: PSTool, PSToolInterface {
             if entry.name == "Experiments"{
                 if (ghost_experiments_entry != nil) {
                     print("Error too many Experiment entries detected???")
-                    return []
+                    return nil
                 } else {
                     ghost_experiments_entry = entry
                 }
             } else {
                 if (ghost_main_entry != nil) {
                     print("Error too many experiment name entries detected???")
-                    return []
+                    return nil
                 } else {
                     ghost_main_entry = entry
                 }
@@ -373,7 +373,7 @@ class PSExperimentTool: PSTool, PSToolInterface {
         return experiment_main_entry
     }
     
-    override func updateEntry(realEntry: Entry!, withGhostEntry ghostEntry: PSGhostEntry!, scriptData: PSScriptData!) {
+    override func updateEntry(realEntry: Entry, withGhostEntry ghostEntry: PSGhostEntry, scriptData: PSScriptData) {
         
         
         if realEntry.name == "Experiments" {
@@ -387,14 +387,14 @@ class PSExperimentTool: PSTool, PSToolInterface {
     }
     
     //cannot delete experiment tool
-    override func deleteObject(lobject: Entry!, withScript scriptData: PSScriptData!) -> Bool {
+    override func deleteObject(lobject: Entry, withScript scriptData: PSScriptData) -> Bool {
         return false
     }
     
     //cannot add new experiment tools
     override func appearsInToolMenu() -> Bool { return false }
     
-    override func getPropertiesViewController(entry: Entry!, withScript scriptData: PSScriptData!) -> PSPluginViewController? {
+    override func getPropertiesViewController(entry: Entry, withScript scriptData: PSScriptData) -> PSPluginViewController? {
         
         return PSExperimentViewController(entry: entry, scriptData: scriptData)
     }

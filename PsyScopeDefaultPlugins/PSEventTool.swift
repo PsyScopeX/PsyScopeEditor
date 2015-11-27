@@ -87,7 +87,7 @@ class PSEventTool: PSTool, PSToolInterface, PSEventInterface {
         return errors
     }
     
-    override func getPropertiesViewController(entry: Entry!, withScript scriptData: PSScriptData!) -> PSPluginViewController? {
+    override func getPropertiesViewController(entry: Entry, withScript scriptData: PSScriptData) -> PSPluginViewController? {
         //default show nil
         return PSEventPropertiesController(entry: entry, scriptData: scriptData)
         

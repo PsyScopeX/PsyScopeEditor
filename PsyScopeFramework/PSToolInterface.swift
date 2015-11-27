@@ -15,7 +15,7 @@ import Foundation
 //  Created by James on 15/07/2014.
 //
 
-@objc public protocol PSToolInterface {
+public protocol PSToolInterface {
 
 //return user friendly unique name of tool
 func type() -> String
@@ -78,7 +78,7 @@ func canAddAttributes() -> Bool
 func constructAttributeSourceSubMenu(scriptData: PSScriptData) -> NSMenuItem
 
 //when user has selected a menu item, the result will be the new value of the string.
-func menuItemSelectedForAttributeSource(itemTitle : String, tag : Int, entry : Entry?, originalValue : String, scriptData: PSScriptData) -> String
+func menuItemSelectedForAttributeSource(itemTitle : String, tag : Int, entry : Entry?, originalValue : String, originalFullType : PSAttributeType?, scriptData: PSScriptData) -> String
 
 //returns array with attributed string representing vary by link, and name of entry
 func identifyAsAttributeSourceAndReturnRepresentiveString(currentValue: String) -> [AnyObject]

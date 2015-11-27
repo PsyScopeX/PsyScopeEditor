@@ -35,7 +35,7 @@ class PSBlockTool: PSTool, PSToolInterface {
         return true
     }
     
-    override func menuItemSelectedForAttributeSource(itemTitle : String, tag : Int, entry : Entry?, originalValue : String, scriptData: PSScriptData) -> String {
+    override func menuItemSelectedForAttributeSource(itemTitle : String, tag : Int, entry : Entry?, originalValue : String, originalFullType : PSAttributeType?, scriptData: PSScriptData) -> String {
 
         if entry != nil && tag == 1{
             return "BlockAttrib(\"\(itemTitle)\")"

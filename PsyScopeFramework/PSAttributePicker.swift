@@ -131,6 +131,6 @@ public class PSAttributePicker: NSObject, NSTableViewDataSource, NSTableViewDele
 struct PSAttributePickerAttribute  {
     var userFriendlyName : String = ""
     var helpfulDescription : String = ""
-    var type : PSAttributeType = PSAttributeType(name: "", parentType: PSType.UndefinedEntry)
+    var type : PSAttributeType = PSAttributeType.init(fullType: "")
     var attribute : PSAttributeInterface! = nil
 }

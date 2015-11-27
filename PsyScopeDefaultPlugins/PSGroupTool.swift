@@ -39,7 +39,7 @@ class PSGroupTool: PSTool , PSToolInterface {
         return "GroupAttrib(\"\(attribute_popup.currentValue)\")"
     }*/
     
-    override func menuItemSelectedForAttributeSource(itemTitle: String, tag: Int, entry: Entry?, originalValue: String, scriptData: PSScriptData) -> String {
+    override func menuItemSelectedForAttributeSource(itemTitle: String, tag: Int, entry: Entry?, originalValue: String, originalFullType : PSAttributeType?, scriptData: PSScriptData) -> String {
 
         if entry != nil {
             return "GroupAttrib(\"\(itemTitle)\")"

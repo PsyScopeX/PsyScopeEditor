@@ -69,7 +69,7 @@ public class PSAttributeParameter : NSObject {
     }
     
     public func clickMenuItem(sender : NSMenuItem) {
-        if let scriptData = scriptData, val = scriptData.valueForMenuItem(sender, original: self.currentValue) {
+        if let scriptData = scriptData, val = scriptData.valueForMenuItem(sender, original: self.currentValue, originalFullType: nil) {
             
             
             self.currentValue = val

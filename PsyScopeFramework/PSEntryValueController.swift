@@ -53,7 +53,7 @@ public class PSEntryValueController : NSObject, NSTextFieldDelegate {
     }
     
     public func varyByMenuCommandClicked(menuItem : NSMenuItem) {
-        if let val = scriptData.valueForMenuItem(menuItem, original: self.stringValue) {
+        if let val = scriptData.valueForMenuItem(menuItem, original: self.stringValue, originalFullType:  nil) {
             print(val)
         } else {
             //either define value or enter formula

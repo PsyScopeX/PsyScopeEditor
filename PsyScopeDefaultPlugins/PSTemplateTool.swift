@@ -32,7 +32,7 @@ class PSTemplateTool: PSTool , PSToolInterface {
         return true
     }
     
-    override func menuItemSelectedForAttributeSource(itemTitle: String, tag: Int, entry: Entry?, originalValue: String, scriptData: PSScriptData) -> String {
+    override func menuItemSelectedForAttributeSource(itemTitle: String, tag: Int, entry: Entry?, originalValue: String, originalFullType : PSAttributeType?, scriptData: PSScriptData) -> String {
         if entry != nil {
             return "TrialAttrib(\"\(itemTitle)\")"
         } else {

@@ -173,7 +173,7 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
     func clickMenuItem(sender : NSMenuItem) {
         let field = list.fields[listTableView.columnForMenu - 1]
         let item = field[listTableView.rowForMenu]
-        if let s = scriptData.valueForMenuItem(sender, original: item) {
+        if let s = scriptData.valueForMenuItem(sender, original: item, originalFullType : field.type) {
             field[listTableView.rowForMenu] = s
         } else {
             field[listTableView.rowForMenu] = "NULL"
