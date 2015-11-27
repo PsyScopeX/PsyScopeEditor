@@ -124,7 +124,25 @@ class PSListTool: PSTool, PSToolInterface {
                 //find entry for list + open list editor
                 scriptData.selectionInterface.doubleClickEntry(entry)
             } else {
+                
+                
+                
+                //check field exists
+                let list = PSList(scriptData: scriptData, listEntry: entry)
+                guard let field = list.fields.filter({ itemTitle == $0.entry.name }).first else {
+                    PSModalAlert("Couldn't find field named : \(itemTitle) on list: \(entry.name)")
+                    return originalValue
+                }
+                
+                //if given an original type, check if types match
+                if originalFullType != nil {
+                    if field.type != originalFullType {
+                        PSModalAlert("Warning: The field : \(itemTitle) on list: \(entry.name) is of a different type to the item you are linking it to - you may want to check that the field type is set up correctly in the list (right click column header, and set type")
+                    }
+                }
+                
                 return "FactorAttrib(\"\(entry.name)\",\"\(itemTitle)\")"
+                
             }
         } else {
             if itemTitle == "New List..." {

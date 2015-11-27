@@ -20,6 +20,7 @@ public class PSAttributeParameter : NSObject {
     public var cell : PSCellView!
     public var attributeValueControlFrame : NSRect  = NSMakeRect(0, 0, 200, 20)
     public var varyByEntryName : String?  //if attribute is varying by another entry, it can be accessed here
+    public var attributeType : PSAttributeType?
     
     //override this to hide any borders if they appear ugly in table views etc
     public func hideBorders() {
@@ -69,7 +70,7 @@ public class PSAttributeParameter : NSObject {
     }
     
     public func clickMenuItem(sender : NSMenuItem) {
-        if let scriptData = scriptData, val = scriptData.valueForMenuItem(sender, original: self.currentValue, originalFullType: nil) {
+        if let scriptData = scriptData, val = scriptData.valueForMenuItem(sender, original: self.currentValue, originalFullType: attributeType) {
             
             
             self.currentValue = val

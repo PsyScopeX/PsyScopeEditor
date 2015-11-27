@@ -169,7 +169,7 @@ public class PSActionCell : PSCellView {
                 } else {
                     currentValue = ""
                 }
-                builder.setupMultiCell(names[index], y: topYPosition, cell: self, currentValue: currentValue)
+                builder.setupMultiCell(names[index], y: topYPosition, cell: self, currentValue: currentValue, type: nil)
                 self.actionParameters.append(ap)
             }
         }
@@ -182,7 +182,7 @@ public class PSActionCell : PSCellView {
             instancesParameter = PSAttributeParameter_Int()
             let instances = entryFunction.instancesValue != nil ? "\(entryFunction.instancesValue!)" : "1"
             let builder = PSAttributeParameterBuilder(parameter: instancesParameter!)
-            builder.setupMultiCell("Instances", y: topYPosition, cell: self, currentValue: instances)
+            builder.setupMultiCell("Instances", y: topYPosition, cell: self, currentValue: instances, type: nil)
             
             topYPosition -= PSAttributeParameter.defaultHeight
             
@@ -190,7 +190,7 @@ public class PSActionCell : PSCellView {
             activeUntilParameter = PSAttributeParameter_ActiveUntil()
             let activeUntil = entryFunction.activeUntilValue != nil ? entryFunction.activeUntilValue! : "NONE"
             let builder2 = PSAttributeParameterBuilder(parameter: activeUntilParameter!)
-            builder2.setupMultiCell("ActiveUntil", y: topYPosition, cell: self, currentValue: activeUntil)
+            builder2.setupMultiCell("ActiveUntil", y: topYPosition, cell: self, currentValue: activeUntil, type: nil)
         }
         
         

@@ -32,6 +32,7 @@ public class PSAttributeParameterBuilder {
     
     public func setupEntryCell(cell: PSAttributeEntryCellView) {
         assertNotSetup()
+        self.parameter.attributeType = PSAttributeType(fullType: cell.entry.type)
         self.parameter.name = cell.entry.name
         self.parameter.cell = cell
         self.parameter.currentValue = cell.entry.currentValue
@@ -41,8 +42,9 @@ public class PSAttributeParameterBuilder {
         self.parameter.updateAttributeControl(NSRect(x: PSDefaultConstants.ActionsBuilder.controlsLeftMargin, y: defaultYLocation, width: width, height: 22))
     }
     
-    public func setupSingleCell(name : String, cell: PSCellView, currentValue : String) {
+    public func setupSingleCell(name : String, cell: PSCellView, currentValue : String, type : PSAttributeType?) {
         assertNotSetup()
+        self.parameter.attributeType = type
         self.parameter.name = name
         self.parameter.cell = cell
         self.parameter.currentValue = currentValue
@@ -53,8 +55,9 @@ public class PSAttributeParameterBuilder {
         self.parameter.updateAttributeControl(NSRect(x: PSDefaultConstants.ActionsBuilder.controlsLeftMargin, y: defaultYLocation, width: width, height: 22))
     }
     
-    public func setupMultiCell(name : String, y : CGFloat, cell: PSCellView, currentValue : String) {
+    public func setupMultiCell(name : String, y : CGFloat, cell: PSCellView, currentValue : String, type : PSAttributeType?) {
         assertNotSetup()
+        self.parameter.attributeType = type
         self.parameter.name = name
         self.parameter.cell = cell
         self.parameter.currentValue = currentValue
@@ -64,8 +67,9 @@ public class PSAttributeParameterBuilder {
         self.parameter.updateAttributeControl(NSRect(x: PSDefaultConstants.ActionsBuilder.controlsLeftMargin, y: y, width: width, height: 22))
     }
     
-    public func setupTableCell(cell: PSCellView, currentValue : String) {
+    public func setupTableCell(cell: PSCellView, currentValue : String, type : PSAttributeType?) {
         assertNotSetup()
+        self.parameter.attributeType = type
         self.parameter.name = ""
         self.parameter.cell = cell
         self.parameter.currentValue = currentValue
@@ -76,6 +80,7 @@ public class PSAttributeParameterBuilder {
     
     public func setupElementViewer(cell: PSAttributeEntryCellView, gotoEntryBlock : () -> ()) {
         assertNotSetup()
+        self.parameter.attributeType = PSAttributeType(fullType: cell.entry.type)
         self.parameter.name = cell.entry.name
         self.parameter.cell = cell
         self.parameter.currentValue = cell.entry.currentValue

@@ -231,12 +231,12 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
         
         guard let listBuilderColumn = tableColumn as? PSListBuilderColumn else {
             
+            //column is for item names or weights
+            
             let identifier = tableColumn!.identifier
             let view = tableView.makeViewWithIdentifier(identifier, owner: self) as! NSTableCellView
             view.textField!.delegate = self
-            //view.textField!.frame = view.frame
-            
-            //column is for item names or weights
+
             if identifier == weightsColumn.identifier {
                 view.textField!.stringValue = String(list.weightForRow(row))
                 weightsTextFields[view.textField!] = row
@@ -260,7 +260,7 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
         
         let attributeParameter = att_interface.attributeParameter() as! PSAttributeParameter
         let cell = PSListCellView(attributeParameter: attributeParameter, interface: att_interface, scriptData: scriptData)
-        PSAttributeParameterBuilder(parameter: attributeParameter).setupTableCell(cell, currentValue: item)
+        PSAttributeParameterBuilder(parameter: attributeParameter).setupTableCell(cell, currentValue: item, type: listBuilderColumn.field.type)
         
         
         cell.row = row

@@ -153,7 +153,7 @@ public class PSScriptData : NSObject {
         } else if let entry = menuItem.representedObject as? Entry,
             tool = pluginProvider.getInterfaceForType(PSType.FromName(entry.type)) {
                 
-                return tool.menuItemSelectedForAttributeSource(menuItem.title, tag: menuItem.tag, entry: nil, originalValue: original, originalFullType: originalFullType, scriptData: self)
+                return tool.menuItemSelectedForAttributeSource(menuItem.title, tag: menuItem.tag, entry: entry, originalValue: original, originalFullType: originalFullType, scriptData: self)
         } else if let tool = menuItem.representedObject as? PSToolInterface {
             return tool.menuItemSelectedForAttributeSource(menuItem.title, tag: menuItem.tag, entry: nil, originalValue: original, originalFullType: originalFullType, scriptData: self)
         } else {
