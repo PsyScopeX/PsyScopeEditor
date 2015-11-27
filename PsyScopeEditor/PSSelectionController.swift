@@ -87,6 +87,9 @@ class PSSelectionController : NSObject, PSSelectionInterface {
     
     //for double click action
     func doubleClickEntry(entry : Entry) {
+        if selectedEntry != entry {
+            selectEntry(entry)
+        }
         document.mainWindowController.doubleClickEntry(entry)
     }
     
