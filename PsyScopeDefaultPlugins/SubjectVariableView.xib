@@ -6,6 +6,8 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="PSDialogVariablePropertiesController" customModule="PsyScopeDefaultPlugins" customModuleProvider="target">
             <connections>
+                <outlet property="itemsLabel" destination="Jyh-Gn-5MC" id="rK7-3m-a6B"/>
+                <outlet property="itemsScrollView" destination="tgH-Jk-iDn" id="3M2-xW-Agq"/>
                 <outlet property="itemsSegmentedControl" destination="bej-Zw-78p" id="K9a-Ky-N7i"/>
                 <outlet property="itemsTableView" destination="hb9-E4-Olq" id="GG0-xH-6EW"/>
                 <outlet property="nameTextField" destination="AfS-pb-AcI" id="FGK-r5-bGZ"/>

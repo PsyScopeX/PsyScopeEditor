@@ -37,6 +37,8 @@ class PSDialogVariablePropertiesController : PSToolPropertyController {
     @IBOutlet var schedulePopUpButton : NSPopUpButton!
     @IBOutlet var itemsTableView : NSTableView!
     @IBOutlet var itemsSegmentedControl : NSSegmentedControl!
+    @IBOutlet var itemsLabel : NSTextField!
+    @IBOutlet var itemsScrollView : NSScrollView!
     @IBOutlet var recordToLogFileCheck : NSButton!
     
     //MARK: Parse
@@ -81,11 +83,17 @@ class PSDialogVariablePropertiesController : PSToolPropertyController {
         if let buttonValues = buttonValues {
             items = buttonValues
             itemsTableView.enabled = true
+            itemsScrollView.hidden = false
             itemsSegmentedControl.enabled = true
+            itemsSegmentedControl.hidden = false
+            itemsLabel.hidden = false
         } else {
             items = []
             itemsTableView.enabled = false
+            itemsScrollView.hidden = true
             itemsSegmentedControl.enabled = false
+            itemsSegmentedControl.hidden = true
+            itemsLabel.hidden = true
             
         }
         
