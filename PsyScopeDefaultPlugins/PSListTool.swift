@@ -135,9 +135,31 @@ class PSListTool: PSTool, PSToolInterface {
                 }
                 
                 //if given an original type, check if types match
-                if originalFullType != nil {
+                if let originalFullType = originalFullType where originalFullType.fullType != "" {
                     if field.type != originalFullType {
-                        PSModalAlert("Warning: The field : \(itemTitle) on list: \(entry.name) is of a different type to the item you are linking it to - you may want to check that the field type is set up correctly in the list (right click column header, and set type")
+                        
+                        //show warning
+                        let question = "Do you want to convert the type of the field named \"\(itemTitle)\" on list \"\(entry.name)\"?"
+                        let info = "The field: \"\(itemTitle)\" on list: \"\(entry.name)\" is of a different type to the item you are varying it by it to - click yes to automatically convert this field to the type \"\(originalFullType.fullType)\", click no to apply the change anyway, click cancel to make no changes."
+                        let yesButton = "Yes"
+                        let noButton = "No"
+                        let cancelButton = "Cancel"
+                        let alert = NSAlert()
+                        alert.messageText = question
+                        alert.informativeText = info
+                        alert.addButtonWithTitle(yesButton)
+                        alert.addButtonWithTitle(noButton)
+                        alert.addButtonWithTitle(cancelButton)
+                        
+                        let answer = alert.runModal()
+                        if answer == NSAlertFirstButtonReturn {
+                            //change type of field
+                            field.entry.type = originalFullType.fullType
+                        } else if answer == NSAlertSecondButtonReturn {
+                            //fall through...
+                        } else {
+                            return originalValue
+                        }
                     }
                 }
                 
