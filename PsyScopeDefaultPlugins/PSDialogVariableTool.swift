@@ -52,17 +52,17 @@ class PSDialogVariableTool: PSTool, PSToolInterface {
         return false
     }
     
-    override func createObjectWithGhostEntries(entries: [AnyObject]!, withScript scriptData: PSScriptData!) -> [AnyObject]? {
+    override func createObjectWithGhostEntries(entries: [PSGhostEntry], withScript scriptData: PSScriptData) -> [LayoutObject] {
         var return_array : [LayoutObject] = []
         for ent in entries {
-            if let e = ent as? PSGhostEntry {
+
                 let new_blank_obj = createMainVariableEntry(scriptData)
-                updateEntry(new_blank_obj, withGhostEntry: e, scriptData: scriptData)
+                updateEntry(new_blank_obj, withGhostEntry: ent, scriptData: scriptData)
                 
                 if new_blank_obj.layoutObject != nil {
                     return_array.append(new_blank_obj.layoutObject)
                 }
-            }
+            
         }
         return return_array
     }
@@ -85,12 +85,12 @@ class PSDialogVariableTool: PSTool, PSToolInterface {
     }
     
     //variables dont have a layout object any more
-    override func createObject(scriptData: PSScriptData!) -> Entry! {
+    override func createObject(scriptData: PSScriptData) -> Entry {
         let new_entry = createMainVariableEntry(scriptData)
         return new_entry
     }
     
-    override func identifyEntries(ghostScript: PSGhostScript!) -> [AnyObject]!{
+    override func identifyEntries(ghostScript: PSGhostScript) -> [PSScriptError] {
         var errors : [PSScriptError] = []
         errors += (PSTool.identifyEntriesByKeyAttribute(ghostScript, keyAttribute: "Dialog", type: toolType) as [PSScriptError])
         
@@ -114,7 +114,7 @@ class PSDialogVariableTool: PSTool, PSToolInterface {
     }
     
     
-    override func getPropertiesViewController(entry: Entry!, withScript scriptData: PSScriptData!) -> PSPluginViewController? {
+    override func getPropertiesViewController(entry: Entry, withScript scriptData: PSScriptData) -> PSPluginViewController? {
         return PSDialogVariablePropertiesController(entry: entry, scriptData: scriptData)
     }
     

@@ -194,7 +194,7 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
                 (type : PSAttributeType, selected : Bool) -> () in
                 
                 if (selected) {
-                    self.list.fields[sender.tag - 1].changeType(type)
+                    self.list.fields[sender.tag - 2].changeType(type)
                     self.listTableView.reloadData()
                 }
     
@@ -205,7 +205,7 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
     }
     
     @IBAction func removeFieldMenuAction(sender : NSMenuItem) {
-        list.removeField(sender.tag - 1)
+        list.removeField(sender.tag - 2)
     }
     
     @IBAction func removeRowMenuAction(sender : NSMenuItem) {

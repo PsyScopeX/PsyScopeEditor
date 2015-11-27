@@ -36,30 +36,30 @@ public class PSPluginProvider : NSObject {
         
         fileImportPlugins = [:]
         for (_ , tool) in toolPlugins {
-            if let extensions = tool.validDraggedFileExtensions() {
-                for ext in extensions as! [String] {
-                    if nil == fileImportPlugins[ext] {
-                        fileImportPlugins[ext] = []
-                    }
-                    fileImportPlugins[ext]!.append(tool)
+            let extensions = tool.validDraggedFileExtensions()
+            for ext in extensions {
+                if nil == fileImportPlugins[ext] {
+                    fileImportPlugins[ext] = []
                 }
+                fileImportPlugins[ext]!.append(tool)
             }
-            reservedEntryNames += tool.getReservedEntryNames() as! [String]
-            illegalEntryNames += tool.getIllegalEntryNames() as! [String]
+            
+            reservedEntryNames += tool.getReservedEntryNames() 
+            illegalEntryNames += tool.getIllegalEntryNames() 
             
         }
         
         for (_ , tool) in eventPlugins {
-            if let extensions = tool.validDraggedFileExtensions() {
-                for ext in extensions as! [String] {
-                    if nil == fileImportPlugins[ext] {
-                        fileImportPlugins[ext] = []
-                    }
-                    fileImportPlugins[ext]!.append(tool)
+            let extensions = tool.validDraggedFileExtensions()
+            for ext in extensions {
+                if nil == fileImportPlugins[ext] {
+                    fileImportPlugins[ext] = []
                 }
+                fileImportPlugins[ext]!.append(tool)
             }
-            reservedEntryNames += tool.getReservedEntryNames() as! [String]
-            illegalEntryNames += tool.getIllegalEntryNames() as! [String]
+            
+            reservedEntryNames += tool.getReservedEntryNames()
+            illegalEntryNames += tool.getIllegalEntryNames()
         }
         
         for (_ , tool) in attributePlugins {

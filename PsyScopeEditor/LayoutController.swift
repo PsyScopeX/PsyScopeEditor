@@ -427,11 +427,11 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
         var offset : CGFloat = 0
         for (fn, tools) in filesToImport {
             //1. offer choice from tools (with use this setting for all files with same extension
-            
-            let new_entry = tools.first!.createFromDraggedFile(fn, scriptData: scriptData)
-            new_entry.layoutObject.xPos = location.x + offset
-            new_entry.layoutObject.yPos = location.y + offset
-            offset = offset + 5
+            if let tool = tools.first, new_entry = tool.createFromDraggedFile(fn, scriptData: scriptData) {
+                new_entry.layoutObject.xPos = location.x + offset
+                new_entry.layoutObject.yPos = location.y + offset
+                offset = offset + 5
+            }
         }
         scriptData.endUndoGrouping(true)
         return true

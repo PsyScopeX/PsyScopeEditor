@@ -85,7 +85,7 @@ class PSGroupsCreator {
     }
     
     func createGroupWithConditionNames(names : [String], values : [String]) -> Entry {
-        let newEntry = groupTool.createObject(scriptData)
+        guard let newEntry = groupTool.createObject(scriptData) else { fatalError("Could not create a Group Entry") }
         
         let group = PSGroup(entry: newEntry,scriptData: scriptData)
         

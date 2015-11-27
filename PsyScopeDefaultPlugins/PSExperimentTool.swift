@@ -38,7 +38,7 @@ class PSExperimentTool: PSTool, PSToolInterface {
     }
     
     //also perform some overall checks in here
-    override func identifyEntries(ghostScript: PSGhostScript!) -> [AnyObject]! {
+    override func identifyEntries(ghostScript: PSGhostScript) -> [PSScriptError] {
         var errors : [PSScriptError] = []
         var foundExperimentsEntry = false
         var foundMainEntry = false
@@ -105,7 +105,7 @@ class PSExperimentTool: PSTool, PSToolInterface {
     }
     
     
-    override func validateBeforeRun(scriptData: PSScriptData!) -> [AnyObject]! {
+    override func validateBeforeRun(scriptData: PSScriptData) -> [PSScriptError] {
         //check for data file parameter
         var errors : [PSScriptError] = []
         let entries = scriptData.getBaseEntriesOfType(toolType)
@@ -126,26 +126,25 @@ class PSExperimentTool: PSTool, PSToolInterface {
     
 
     
-    override func createObjectWithGhostEntries(entries: [AnyObject]!, withScript scriptData: PSScriptData!) -> [AnyObject]? {
-        let cast_entries = entries as! [PSGhostEntry]
+    override func createObjectWithGhostEntries(entries: [PSGhostEntry], withScript scriptData: PSScriptData) -> [LayoutObject] {
         
         //sometimes the Experiments entry will be the only new object and sometimes just the Experiment entry.
         
         var ghost_main_entry : PSGhostEntry! = nil
         var ghost_experiments_entry : PSGhostEntry! = nil
         //check there is an experiments entry (should be) and only one other
-        for entry in cast_entries {
+        for entry in entries {
             if entry.name == "Experiments"{
                 if (ghost_experiments_entry != nil) {
                     print("Error too many Experiment entries detected???")
-                    return nil
+                    return []
                 } else {
                     ghost_experiments_entry = entry
                 }
             } else {
                 if (ghost_main_entry != nil) {
                     print("Error too many experiment name entries detected???")
-                    return nil
+                    return []
                 } else {
                     ghost_main_entry = entry
                 }
@@ -215,7 +214,7 @@ class PSExperimentTool: PSTool, PSToolInterface {
         return [mainEntry.layoutObject]
     }
     
-    override func createLinkFrom(parent: Entry!, to child: Entry!, withScript scriptData: PSScriptData!) -> Bool {
+    override func createLinkFrom(parent: Entry, to child: Entry, withScript scriptData: PSScriptData) -> Bool {
         
         if PSTool.createLinkFromToolToList(parent, to: child, withScript: scriptData) {
             return true
@@ -320,7 +319,7 @@ class PSExperimentTool: PSTool, PSToolInterface {
         return false
     }
     
-    override func deleteLinkFrom(parent: Entry!, to child: Entry!, withScript scriptData: PSScriptData!) -> Bool {
+    override func deleteLinkFrom(parent: Entry, to child: Entry, withScript scriptData: PSScriptData) -> Bool {
         var childAttributeName : String = ""
         
         if scriptData.typeIsEvent(child.type) {
@@ -339,7 +338,7 @@ class PSExperimentTool: PSTool, PSToolInterface {
     }
    
     //returns nil if cannot create object e.g. is unique
-    override func createObject(scriptData: PSScriptData!) -> Entry? {
+    override func createObject(scriptData: PSScriptData) -> Entry? {
         //check if key entry names are already in script
         let free = scriptData.baseEntriesAreFree(["Experiments"])
         

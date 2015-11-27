@@ -35,8 +35,8 @@ class PSKeySequenceEvent : PSEventTool {
         static let EventType = PSProperty(name: "EventType", defaultValue: "KeySequence", essential: true)
     }
     
-    override func createObject(scriptData: PSScriptData!) -> Entry! {
-        let mainEntry = super.createObject(scriptData)
+    override func createObject(scriptData: PSScriptData) -> Entry? {
+        guard let mainEntry = super.createObject(scriptData) else { return nil }
         if scriptData.getSubEntry("Stimulus", entry: mainEntry) == nil {
             let entry = scriptData.getOrCreateSubEntry("Stimulus", entry: mainEntry, isProperty: false, type: PSAttributeType(name: "Stimulus", parentType: toolType))
             entry.currentValue = PSDefaultConstants.DefaultAttributeValues.PSAttribute_TextStimulus

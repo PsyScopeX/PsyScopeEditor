@@ -24,7 +24,7 @@ class PSTemplateTool: PSTool , PSToolInterface {
         static let Templates = PSProperty(name: "Templates", defaultValue: "")
     }
     
-    override func identifyEntries(ghostScript: PSGhostScript!) -> [AnyObject]!{
+    override func identifyEntries(ghostScript: PSGhostScript) -> [PSScriptError]{
         return PSTool.identifyEntriesByPropertyInOtherEntry(ghostScript, property: identityProperty!, type: toolType)
     }
     
@@ -32,11 +32,11 @@ class PSTemplateTool: PSTool , PSToolInterface {
         return true
     }
     
-    override func menuItemSelectedForAttributeSource(menuItem: NSMenuItem!, scriptData: PSScriptData!) -> String! {
-        if let ro = menuItem.representedObject as? String {
-            return ro
+    override func menuItemSelectedForAttributeSource(itemTitle: String, tag: Int, entry: Entry?, originalValue: String, scriptData: PSScriptData) -> String {
+        if entry != nil {
+            return "TrialAttrib(\"\(itemTitle)\")"
         } else {
-            return "NULL"
+            return originalValue
         }
         
         /*
@@ -47,7 +47,7 @@ class PSTemplateTool: PSTool , PSToolInterface {
         
     }
     
-    override func constructAttributeSourceSubMenu(scriptData: PSScriptData!) -> NSMenuItem! {
+    override func constructAttributeSourceSubMenu(scriptData: PSScriptData) -> NSMenuItem {
         
         let subMenuItem = NSMenuItem(title: "Template", action: "", keyEquivalent: "t")
         subMenuItem.representedObject = self
@@ -56,10 +56,10 @@ class PSTemplateTool: PSTool , PSToolInterface {
         let templateEntries = scriptData.getBaseEntriesOfType(toolType)
         
         //now get all attributes
-        var suitableAttributes : [String:Bool] = [:] //dummy dictionary to hold unique attribute names
-        for link in templateEntries {
-            for att in link.getAttributes() {
-                suitableAttributes[att.name] = true
+        var suitableAttributes : [String:Entry] = [:] //dummy dictionary to hold unique attribute names
+        for templateEntry in templateEntries {
+            for att in templateEntry.getAttributes() {
+                suitableAttributes[att.name] = templateEntry
             }
         }
         if suitableAttributes.count == 0 {
@@ -69,26 +69,26 @@ class PSTemplateTool: PSTool , PSToolInterface {
         subMenuItem.submenu = menu;
         
         //now construct menu
-        for (attributeName,_) in suitableAttributes {
+        for (attributeName,templateEntry) in suitableAttributes {
             let newSubMenuItem = NSMenuItem()
             newSubMenuItem.title = attributeName
-            newSubMenuItem.representedObject =  "TrialAttrib(\"\(attributeName)\")"
+            newSubMenuItem.representedObject = templateEntry
             newSubMenuItem.tag = 1
             menu.addItem(newSubMenuItem)
         }
         return subMenuItem
     }
     
-    override func identifyAsAttributeSourceAndReturnRepresentiveString(currentValue: String!) -> [AnyObject]! {
+    override func identifyAsAttributeSourceAndReturnRepresentiveString(currentValue: String) -> [AnyObject] {
         return PSToolHelper.attributedStringForAttributeFunction("TrialAttrib", icon: self.icon(), currentValue: currentValue)
         
     }
     
-    override func getPropertiesViewController(entry: Entry!, withScript scriptData: PSScriptData!) -> PSPluginViewController? {
+    override func getPropertiesViewController(entry: Entry, withScript scriptData: PSScriptData) -> PSPluginViewController? {
         return PSTemplatesViewController(entry: entry, scriptData: scriptData)
     }
     
-    override func createLinkFrom(parent: Entry!, to child: Entry!, withScript scriptData: PSScriptData!) -> Bool {
+    override func createLinkFrom(parent: Entry, to child: Entry, withScript scriptData: PSScriptData) -> Bool {
         if PSTool.createLinkFromToolToList(parent, to: child, withScript: scriptData) {
             return true
         }
@@ -105,7 +105,7 @@ class PSTemplateTool: PSTool , PSToolInterface {
         return false
     }
     
-    override func deleteLinkFrom(parent: Entry!, to child: Entry!, withScript scriptData: PSScriptData!) -> Bool {
+    override func deleteLinkFrom(parent: Entry, to child: Entry, withScript scriptData: PSScriptData) -> Bool {
         var childAttributeName : String = ""
         
         if scriptData.typeIsEvent(child.type) {

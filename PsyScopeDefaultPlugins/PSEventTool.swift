@@ -31,7 +31,7 @@ class PSEventTool: PSTool, PSToolInterface, PSEventInterface {
         static let Events = PSProperty(name: "Events", defaultValue: "")
     }
     
-    override func identifyEntries(ghostScript: PSGhostScript!) -> [AnyObject]! {
+    override func identifyEntries(ghostScript: PSGhostScript) -> [PSScriptError] {
         
         let type = self.type()
         

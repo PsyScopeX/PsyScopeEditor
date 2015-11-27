@@ -26,8 +26,8 @@ class PSSoundEvent : PSEventTool {
         static let EventType = PSProperty(name: "EventType", defaultValue: "SoundLabel", essential: true)
     }
     
-    override func createObject(scriptData: PSScriptData!) -> Entry! {
-        let mainEntry = super.createObject(scriptData)
+    override func createObject(scriptData: PSScriptData) -> Entry? {
+        guard let mainEntry = super.createObject(scriptData) else { return nil }
         if scriptData.getSubEntry("SoundFile", entry: mainEntry) == nil {
             let entry = scriptData.getOrCreateSubEntry("SoundFile", entry: mainEntry, isProperty: false, type: PSAttributeType(name: "SoundFile", parentType: toolType))
             entry.currentValue = ""

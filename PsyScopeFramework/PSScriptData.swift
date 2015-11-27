@@ -128,12 +128,12 @@ public class PSScriptData : NSObject {
         //cycle through attributeTools and ask them to identify themselves
         for (_, tool) in pluginProvider.attributeSourceTools {
             let t = tool as PSToolInterface
-            if let attributedString = t.identifyAsAttributeSourceAndReturnRepresentiveString(string) {
-                if attributedString.count == 2 {
-                    let returnValue = (attributedString[0] as! NSAttributedString, attributedString[1] as! String)
-                    return returnValue
-                }
+            let attributedString = t.identifyAsAttributeSourceAndReturnRepresentiveString(string)
+            if attributedString.count == 2 {
+                let returnValue = (attributedString[0] as! NSAttributedString, attributedString[1] as! String)
+                return returnValue
             }
+            
         }
         return nil
     }
@@ -145,23 +145,20 @@ public class PSScriptData : NSObject {
         return menu
     }
     
-    //if tag 1, then re
     public func valueForMenuItem(menuItem : NSMenuItem, original : String) -> String? {
         if menuItem.title == "Define Value" {
             return nil
         } else if menuItem.title == "Enter Formula" {
             return nil
+        } else if let entry = menuItem.representedObject as? Entry,
+            tool = pluginProvider.getInterfaceForType(PSType.FromName(entry.type)) {
+                
+                return tool.menuItemSelectedForAttributeSource(menuItem.title, tag: menuItem.tag, entry: nil, originalValue: original, scriptData: self)
+        } else if let tool = menuItem.representedObject as? PSToolInterface {
+            return tool.menuItemSelectedForAttributeSource(menuItem.title, tag: menuItem.tag, entry: nil, originalValue: original, scriptData: self)
         } else {
-            if menuItem.tag == 1 {
-                return (menuItem.representedObject as! String)
-            } else {
-                if let ro = menuItem.representedObject as? PSToolInterface {
-                    return ro.menuItemSelectedForAttributeSource(menuItem, scriptData: self)
-                }
-                return original
-            }
-        } 
-        
+            return original
+        }
     }
     
     
@@ -1123,23 +1120,21 @@ public class PSScriptData : NSObject {
     
     public func createNewEventFromTool(type : String, templateObject : LayoutObject, order : Int) -> Entry? {
         //println("Creating event type: " + type)
-        if let psevent = self.pluginProvider.eventPlugins[type] {
-            let new_entry = psevent.createObject(self)
-            if let ne = new_entry {
-                let event_type_entry = getOrCreateSubEntry("EventType", entry: new_entry, isProperty: true)
-                event_type_entry.currentValue = type
-                new_entry.layoutObject.icon = getIconForType(new_entry.type)
-                
-                let sub_entry = getOrCreateSubEntry("Events", entry: templateObject.mainEntry, isProperty: true)
-                
-                let string_list = PSStringList(entry: sub_entry, scriptData: self)
-                
-                templateObject.addChildLinkObject(new_entry.layoutObject)
-                string_list.insert(new_entry.name, index: order)
-                createLinkFrom(templateObject.mainEntry, to:new_entry, withAttribute: "Events")
-                PSPositionNewObject(new_entry.layoutObject,scriptData: self)
-                return ne
-            }
+        if let psevent = self.pluginProvider.eventPlugins[type],
+            new_entry = psevent.createObject(self) {
+            let event_type_entry = getOrCreateSubEntry("EventType", entry: new_entry, isProperty: true)
+            event_type_entry.currentValue = type
+            new_entry.layoutObject.icon = getIconForType(new_entry.type)
+            
+            let sub_entry = getOrCreateSubEntry("Events", entry: templateObject.mainEntry, isProperty: true)
+            
+            let string_list = PSStringList(entry: sub_entry, scriptData: self)
+            
+            templateObject.addChildLinkObject(new_entry.layoutObject)
+            string_list.insert(new_entry.name, index: order)
+            createLinkFrom(templateObject.mainEntry, to:new_entry, withAttribute: "Events")
+            PSPositionNewObject(new_entry.layoutObject,scriptData: self)
+            return new_entry
         }
         return nil
     }

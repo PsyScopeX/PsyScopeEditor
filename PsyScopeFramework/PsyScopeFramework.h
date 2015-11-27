@@ -14,7 +14,6 @@
 #import "Entry.h"
 #import "LayoutObject.h"
 #import "Section.h"
-#import "PSToolInterface.h"
 #import "PSPluginViewController.h"
 #import "Script.h"
 

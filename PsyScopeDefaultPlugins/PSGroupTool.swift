@@ -24,7 +24,7 @@ class PSGroupTool: PSTool , PSToolInterface {
         static let Groups = PSProperty(name: "Groups", defaultValue: "")
     }
     
-    override func identifyEntries(ghostScript: PSGhostScript!) -> [AnyObject]!{
+    override func identifyEntries(ghostScript: PSGhostScript) -> [PSScriptError] {
         return PSTool.identifyEntriesByPropertyInOtherEntry(ghostScript, property: Properties.Groups, type: toolType)
     }
     
@@ -39,11 +39,12 @@ class PSGroupTool: PSTool , PSToolInterface {
         return "GroupAttrib(\"\(attribute_popup.currentValue)\")"
     }*/
     
-    override func menuItemSelectedForAttributeSource(menuItem: NSMenuItem!, scriptData: PSScriptData!) -> String! {
-        if let ro = menuItem.representedObject as? String {
-            return ro
+    override func menuItemSelectedForAttributeSource(itemTitle: String, tag: Int, entry: Entry?, originalValue: String, scriptData: PSScriptData) -> String {
+
+        if entry != nil {
+            return "GroupAttrib(\"\(itemTitle)\")"
         } else {
-            return "NULL"
+            return originalValue
         }
         
         /*
@@ -54,19 +55,21 @@ class PSGroupTool: PSTool , PSToolInterface {
         
     }
     
-    override func constructAttributeSourceSubMenu(scriptData: PSScriptData!) -> NSMenuItem! {
+    override func constructAttributeSourceSubMenu(scriptData: PSScriptData) -> NSMenuItem {
         
         let subMenuItem = NSMenuItem(title: "Group", action: "", keyEquivalent: "g")
         subMenuItem.representedObject = self
         subMenuItem.tag = 0
+        subMenuItem.action = nil
+        subMenuItem.target = nil
         //get all groups
         let groupEntries =  scriptData.getBaseEntriesOfType(toolType)
         
         //now get all attributes
-        var suitableAttributes : [String:Bool] = [:] //dummy dictionary to hold unique attribute names
-        for link in groupEntries {
-            for att in link.getAttributes() {
-                suitableAttributes[att.name] = true
+        var suitableAttributes : [String : Entry] = [:] //dummy dictionary to hold unique attribute names with entry
+        for groupEntry in groupEntries {
+            for att in groupEntry.getAttributes() {
+                suitableAttributes[att.name] = groupEntry
             }
         }
         
@@ -78,26 +81,26 @@ class PSGroupTool: PSTool , PSToolInterface {
         subMenuItem.submenu = menu;
         
         //now construct menu
-        for (attributeName,_) in suitableAttributes {
+        for (attributeName, groupEntry) in suitableAttributes {
             let newSubMenuItem = NSMenuItem()
             newSubMenuItem.title = attributeName
-            newSubMenuItem.representedObject =  "GroupAttrib(\"\(attributeName)\")"
+            newSubMenuItem.representedObject = groupEntry
             newSubMenuItem.tag = 1
             menu.addItem(newSubMenuItem)
         }
         return subMenuItem
     }
     
-    override func identifyAsAttributeSourceAndReturnRepresentiveString(currentValue: String!) -> [AnyObject]! {
+    override func identifyAsAttributeSourceAndReturnRepresentiveString(currentValue: String) -> [AnyObject] {
         return PSToolHelper.attributedStringForAttributeFunction("GroupAttrib", icon: self.icon(), currentValue: currentValue)
         
     }
     
-    override func getPropertiesViewController(entry: Entry!, withScript scriptData: PSScriptData!) -> PSPluginViewController? {
+    override func getPropertiesViewController(entry: Entry, withScript scriptData: PSScriptData) -> PSPluginViewController? {
         return PSGroupsViewController(entry: entry, scriptData: scriptData)
     }
     
-    override func createLinkFrom(parent: Entry!, to child: Entry!, withScript scriptData: PSScriptData!) -> Bool {
+    override func createLinkFrom(parent: Entry, to child: Entry, withScript scriptData: PSScriptData) -> Bool {
         
         if PSTool.createLinkFromToolToList(parent, to: child, withScript: scriptData) {
             return true
@@ -179,7 +182,7 @@ class PSGroupTool: PSTool , PSToolInterface {
         return false
     }
     
-    override func deleteLinkFrom(parent: Entry!, to child: Entry!, withScript scriptData: PSScriptData!) -> Bool {
+    override func deleteLinkFrom(parent: Entry, to child: Entry, withScript scriptData: PSScriptData) -> Bool {
         var childAttributeName : String = ""
         
         if scriptData.typeIsEvent(child.type) {

@@ -27,12 +27,12 @@ class PSPictureEvent : PSEventTool {
     }
 
     
-    override func validDraggedFileExtensions() -> [AnyObject]! {
+    override func validDraggedFileExtensions() -> [String] {
         return ["png","bmp","jpg","jpeg","tif","tiff"]
     }
     
-    override func createFromDraggedFile(fileName : String!, scriptData: PSScriptData!) -> Entry! {
-        let mainEntry = self.createObject(scriptData)
+    override func createFromDraggedFile(fileName : String, scriptData: PSScriptData) -> Entry? {
+        guard let mainEntry = self.createObject(scriptData) else { return nil }
         var new_name = ((fileName as NSString).lastPathComponent as NSString).stringByDeletingPathExtension
         
         //delete non alphanumerics
@@ -49,8 +49,8 @@ class PSPictureEvent : PSEventTool {
         return mainEntry
     }
     
-    override func createObject(scriptData: PSScriptData!) -> Entry! {
-        let mainEntry = super.createObject(scriptData)
+    override func createObject(scriptData: PSScriptData) -> Entry? {
+        guard let mainEntry = super.createObject(scriptData) else { return nil }
         if scriptData.getSubEntry("Stimulus", entry: mainEntry) == nil {
             let entry = scriptData.getOrCreateSubEntry("Stimulus", entry: mainEntry, isProperty: false, type: PSAttributeType(name: "Stimulus", parentType: toolType))
             entry.currentValue = ""

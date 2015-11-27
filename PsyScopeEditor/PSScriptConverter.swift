@@ -159,14 +159,14 @@ class PSScriptConverter: NSObject {
     func identifyObjectEntries() -> Bool {
 
         //3.1 get each plugin to identify entries
-        var errors : [AnyObject] = []
+        var errors : [PSScriptError] = []
         for tool_plugin in plugins  {
             errors += tool_plugin.identifyEntries(ghostScript)
         }
         
         //3.2 get attributes to identify entries
         for attribute_plugin in attributePlugins {
-            errors += attribute_plugin.identifyEntries(ghostScript)
+            errors += attribute_plugin.identifyEntries(ghostScript) as! [PSScriptError]
         }
         
         //Now for entries without a type, call them blank entries
@@ -181,13 +181,9 @@ class PSScriptConverter: NSObject {
         return errors.count == 0
     }
     
-    func addPluginErrors(errorArray : [AnyObject]!) {
-        for a in errorArray {
-            if let p = a as? PSScriptError {
-                errorHandler.newError(p)
-                errorHandler.presentErrors()
-            }
-        }
+    func addPluginErrors(errorArray : [PSScriptError]) {
+        errorArray.forEach({errorHandler.newError($0)})
+        errorHandler.presentErrors()
     }
     
     //5. match existing entries i.e. if name and type are the same.
@@ -294,18 +290,14 @@ class PSScriptConverter: NSObject {
             }
             
             if new_entries.count > 0 {
-                let new_lobjects = plugin.createObjectWithGhostEntries(new_entries, withScript: scriptData)
-                
-                //if nil, then the creation failed
-                if (new_lobjects == nil) {
-                    print("Unable to create objects of type " + plugin.type())
-                } else {
-            
+                if let new_lobjects = plugin.createObjectWithGhostEntries(new_entries, withScript: scriptData) {
                     //give the new objects coordinates
                     print("Created new layout object of type " + plugin.type())
-                    for lobject in new_lobjects as! [LayoutObject] {
+                    for lobject in new_lobjects {
                         all_new_lobjects.append(lobject)
                     }
+                } else {
+                    print("Unable to create objects of type " + plugin.type())
                 }
             }
             
@@ -314,12 +306,8 @@ class PSScriptConverter: NSObject {
         //which objects have not been instantiated?
         let uninstantiated : [PSGhostEntry] = ghostScript.entries.filter({ !$0.instantiated })
         if let pstool = scriptData.pluginProvider.getInterfaceForType(PSType.UndefinedEntry) {
-            let new_lobjects = pstool.createObjectWithGhostEntries(uninstantiated, withScript: scriptData)
-
-            if (new_lobjects != nil && new_lobjects.count > 0) {
-                for lobject in new_lobjects as! [LayoutObject] {
-                    all_new_lobjects.append(lobject)
-                }
+            if let new_lobjects = pstool.createObjectWithGhostEntries(uninstantiated, withScript: scriptData) {
+                new_lobjects.forEach({all_new_lobjects.append($0)})
             }
         }
 

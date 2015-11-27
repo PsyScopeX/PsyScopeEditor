@@ -53,7 +53,7 @@ class PSListTool: PSTool, PSToolInterface {
         
     }
     
-    override func identifyEntries(ghostScript: PSGhostScript!) -> [AnyObject]! {
+    override func identifyEntries(ghostScript: PSGhostScript) -> [PSScriptError] {
         
         var errors : [PSScriptError] = PSTool.identifyEntriesByKeyAttribute(ghostScript, keyAttribute: "IsList", type: toolType)
         
@@ -62,7 +62,7 @@ class PSListTool: PSTool, PSToolInterface {
         return errors
     }
     
-    override func updateEntry(realEntry: Entry!, withGhostEntry ghostEntry: PSGhostEntry!, scriptData: PSScriptData!) {
+    override func updateEntry(realEntry: Entry, withGhostEntry ghostEntry: PSGhostEntry, scriptData: PSScriptData) {
         super.updateEntry(realEntry, withGhostEntry: ghostEntry, scriptData: scriptData)
         
         //all sub entries are properties
@@ -80,7 +80,7 @@ class PSListTool: PSTool, PSToolInterface {
     }
     
     
-    override func deleteObject(lobject: Entry!, withScript scriptData: PSScriptData!) -> Bool {
+    override func deleteObject(lobject: Entry, withScript scriptData: PSScriptData) -> Bool {
         //remove all links
         for parent in lobject.layoutObject.parentLink as! Set<LayoutObject> {
             deleteLinkFrom(parent.mainEntry, to: lobject, withScript: scriptData)
@@ -89,7 +89,7 @@ class PSListTool: PSTool, PSToolInterface {
         return true
     }
     
-    override func deleteLinkFrom(parent: Entry!, to child: Entry!, withScript scriptData: PSScriptData!) -> Bool {
+    override func deleteLinkFrom(parent: Entry, to child: Entry, withScript scriptData: PSScriptData) -> Bool {
         parent.layoutObject.removeChildLinkObject(child.layoutObject)
         let factors_entry = scriptData.getOrCreateSubEntry("Factors", entry: parent, isProperty: true)
         let sets_entry = scriptData.getOrCreateSubEntry("Sets", entry: factors_entry, isProperty: true)
@@ -112,61 +112,71 @@ class PSListTool: PSTool, PSToolInterface {
         return true
     }
     
-    override func identifyAsAttributeSourceAndReturnRepresentiveString(currentValue: String!) -> [AnyObject]! {
+    override func identifyAsAttributeSourceAndReturnRepresentiveString(currentValue: String) -> [AnyObject] {
         return PSToolHelper.attributedStringForAttributeFunction("FactorAttrib", icon: self.icon(), currentValue: currentValue)
     }
     
-    override func menuItemSelectedForAttributeSource(menuItem: NSMenuItem!, scriptData: PSScriptData!) -> String! {
+    override func menuItemSelectedForAttributeSource(itemTitle: String, tag: Int, entry: Entry?, originalValue: String, scriptData: PSScriptData) -> String {
+
         
-        if menuItem.tag == 2 {
-            if menuItem.title == "New List..." {
+        if let entry = entry {
+            if itemTitle == "Edit List..." {
+                //find entry for list + open list editor
+                scriptData.selectionInterface.doubleClickEntry(entry)
+            } else {
+                return "FactorAttrib(\"\(entry.name)\",\"\(itemTitle)\")"
+            }
+        } else {
+            if itemTitle == "New List..." {
                 //create new list and open editor
-            } else if menuItem.title == "Edit List..." {
-                //open list editor
+                scriptData.beginUndoGrouping("Create List")
+                if let newListEntry = self.createObject(scriptData) {
+                    
+                    scriptData.selectionInterface.doubleClickEntry(newListEntry)
+                }
+                scriptData.endUndoGrouping()
             }
         }
         
-        if let ro = menuItem.representedObject as? String {
-            return ro
-        } else {
-            return "NULL"
-        }
-        
-        /*
-        //TODO more varied edit window
-        var attribute_popup = PSVaryByAttributePopup(baseEntry: baseEntry, scriptData: scriptData, type: typeString)
-        attribute_popup.showAttributeModalForWindow(scriptData.window)
-        return "BlockAttrib(\"\(attribute_popup.currentValue)\")"*/
-        
+        return originalValue
     }
+ 
     
-    override func constructAttributeSourceSubMenu(scriptData: PSScriptData!) -> NSMenuItem! {
+    
+    
+    //For the varyby menu:
+    
+    // menuItemSelectedForAttributeSource will be called with or without and entry.
+    // set the menuItem representedObject to self for without entry, and tag to whatever
+    // set the menuItem representedObject to an entry, for with entry, and again tag to whatever
+    
+    
+    override func constructAttributeSourceSubMenu(scriptData: PSScriptData) -> NSMenuItem {
         
         let subMenuItem = NSMenuItem(title: "List", action: "", keyEquivalent: "l")
         subMenuItem.representedObject = self
         subMenuItem.tag = 0
+        subMenuItem.action = nil
+        subMenuItem.target = nil
         //get all blocks, that this attribute is linked to, and list attributes
         let lists = scriptData.getBaseEntriesOfType(toolType)
-        if lists.count == 0 {
-            subMenuItem.enabled = false
-            return subMenuItem }
         
-        let menu = NSMenu(title: "List")
-        subMenuItem.submenu = menu;
+        let listsMenu = NSMenu(title: "List")
+        subMenuItem.submenu = listsMenu;
         
         //add new List option
         let newListItem = NSMenuItem()
         newListItem.title = "New List..."
         newListItem.representedObject = self
         newListItem.tag = 2
-        menu.addItem(newListItem)
+        listsMenu.addItem(newListItem)
         
         for list in lists {
             let newSubMenuItem = NSMenuItem()
             newSubMenuItem.title = list.name
-            newSubMenuItem.representedObject =  self
+            newSubMenuItem.representedObject =  list
             newSubMenuItem.tag = 0
-            menu.addItem(newSubMenuItem)
+            listsMenu.addItem(newSubMenuItem)
             
             
             let linkSubMenu = NSMenu()
@@ -175,7 +185,7 @@ class PSListTool: PSTool, PSToolInterface {
             //add edit List option
             let editListItem = NSMenuItem()
             editListItem.title = "Edit List..."
-            editListItem.representedObject = list.name
+            editListItem.representedObject = list
             editListItem.tag = 2
             newSubMenuItem.submenu!.addItem(editListItem)
             
@@ -184,7 +194,7 @@ class PSListTool: PSTool, PSToolInterface {
                 if att.name != "Levels" && att.name != "IsList" {
                     let newAttSubMenuItem = NSMenuItem()
                     newAttSubMenuItem.title = att.name
-                    newAttSubMenuItem.representedObject =  "FactorAttrib(\"\(list.name)\",\"\(att.name)\")"
+                    newAttSubMenuItem.representedObject =  list
                     newAttSubMenuItem.tag = 1
                     newSubMenuItem.submenu!.addItem(newAttSubMenuItem)
                 }
@@ -195,7 +205,7 @@ class PSListTool: PSTool, PSToolInterface {
     
 
     
-    override func getPropertiesViewController(entry: Entry!, withScript scriptData: PSScriptData!) -> PSPluginViewController? {
+    override func getPropertiesViewController(entry: Entry, withScript scriptData: PSScriptData) -> PSPluginViewController? {
         
         return PSListViewController(entry: entry, scriptData: scriptData)
     }

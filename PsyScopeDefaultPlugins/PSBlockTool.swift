@@ -27,20 +27,21 @@ class PSBlockTool: PSTool, PSToolInterface {
     }
     
     
-    override func identifyEntries(ghostScript: PSGhostScript!) -> [AnyObject]!{
+    override func identifyEntries(ghostScript: PSGhostScript) -> [PSScriptError]{
         return PSTool.identifyEntriesByPropertyInOtherEntry(ghostScript, property: Properties.Blocks, type: toolType)
     }
     
     override func isSourceForAttributes() -> Bool {
         return true
     }
+    
+    override func menuItemSelectedForAttributeSource(itemTitle : String, tag : Int, entry : Entry?, originalValue : String, scriptData: PSScriptData) -> String {
 
-    override func menuItemSelectedForAttributeSource(menuItem: NSMenuItem!, scriptData: PSScriptData!) -> String! {
-        if let ro = menuItem.representedObject as? String {
-            return ro
-        } else {
-            return "NULL"
+        if entry != nil && tag == 1{
+            return "BlockAttrib(\"\(itemTitle)\")"
         }
+
+        return originalValue
         
         /*
         //TODO more varied edit window
@@ -50,7 +51,7 @@ class PSBlockTool: PSTool, PSToolInterface {
 
     }
     
-    override func constructAttributeSourceSubMenu(scriptData: PSScriptData!) -> NSMenuItem! {
+    override func constructAttributeSourceSubMenu(scriptData: PSScriptData) -> NSMenuItem {
         
         let subMenuItem = NSMenuItem(title: "Block", action: "", keyEquivalent: "b")
         subMenuItem.representedObject = self
@@ -82,17 +83,17 @@ class PSBlockTool: PSTool, PSToolInterface {
         return subMenuItem
     }
     
-    override func identifyAsAttributeSourceAndReturnRepresentiveString(currentValue: String!) -> [AnyObject]! {
+    override func identifyAsAttributeSourceAndReturnRepresentiveString(currentValue: String) -> [AnyObject] {
         _ = PSFunctionElement()
         return PSToolHelper.attributedStringForAttributeFunction("BlockAttrib", icon: self.icon(), currentValue: currentValue)
         
     }
     
-    override func getPropertiesViewController(entry: Entry!, withScript scriptData: PSScriptData!) -> PSPluginViewController? {
+    override func getPropertiesViewController(entry: Entry, withScript scriptData: PSScriptData) -> PSPluginViewController? {
         return PSBlocksViewController(entry: entry, scriptData: scriptData)
     }
     
-    override func createLinkFrom(parent: Entry!, to child: Entry!, withScript scriptData: PSScriptData!) -> Bool {
+    override func createLinkFrom(parent: Entry, to child: Entry, withScript scriptData: PSScriptData) -> Bool {
         if PSTool.createLinkFromToolToList(parent, to: child, withScript: scriptData) {
             return true
         }
@@ -172,7 +173,7 @@ class PSBlockTool: PSTool, PSToolInterface {
         return false
     }
     
-    override func deleteLinkFrom(parent: Entry!, to child: Entry!, withScript scriptData: PSScriptData!) -> Bool {
+    override func deleteLinkFrom(parent: Entry, to child: Entry, withScript scriptData: PSScriptData) -> Bool {
         var childAttributeName : String = ""
         
         if scriptData.typeIsEvent(child.type) {

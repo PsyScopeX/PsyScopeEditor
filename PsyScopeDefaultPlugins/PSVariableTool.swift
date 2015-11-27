@@ -26,7 +26,7 @@ class PSVariableTool: PSTool, PSToolInterface {
         static let VariableType = PSProperty(name: "Type", defaultValue: "Integer", essential: true)
     }
     
-    override func updateEntry(realEntry: Entry!, withGhostEntry ghostEntry: PSGhostEntry!, scriptData: PSScriptData!) {
+    override func updateEntry(realEntry: Entry, withGhostEntry ghostEntry: PSGhostEntry, scriptData: PSScriptData) {
         super.updateEntry(realEntry, withGhostEntry: ghostEntry, scriptData: scriptData)
     }
     
@@ -38,17 +38,17 @@ class PSVariableTool: PSTool, PSToolInterface {
         return false
     }
     
-    override func createObjectWithGhostEntries(entries: [AnyObject]!, withScript scriptData: PSScriptData!) -> [AnyObject]? {
+    override func createObjectWithGhostEntries(entries: [PSGhostEntry], withScript scriptData: PSScriptData) -> [LayoutObject] {
         var return_array : [LayoutObject] = []
         for ent in entries {
-            if let e = ent as? PSGhostEntry {
+
                 let new_blank_obj = createMainVariableEntry(scriptData)
-                updateEntry(new_blank_obj, withGhostEntry: e, scriptData: scriptData)
+                updateEntry(new_blank_obj, withGhostEntry: ent, scriptData: scriptData)
                 
                 if new_blank_obj.layoutObject != nil {
                     return_array.append(new_blank_obj.layoutObject)
                 }
-            }
+            
         }
         return return_array
     }
@@ -71,7 +71,7 @@ class PSVariableTool: PSTool, PSToolInterface {
     }
     
     //variables dont have a layout object any more
-    override func createObject(scriptData: PSScriptData!) -> Entry! {
+    override func createObject(scriptData: PSScriptData) -> Entry {
         let new_entry = createMainVariableEntry(scriptData)
         
         //now have to update ExpVariables entry on main Experiment entry (if experiment entry is not there
@@ -83,7 +83,7 @@ class PSVariableTool: PSTool, PSToolInterface {
         return new_entry
     }
     
-    override func identifyEntries(ghostScript: PSGhostScript!) -> [AnyObject]!{
+    override func identifyEntries(ghostScript: PSGhostScript) -> [PSScriptError]{
         var errors : [PSScriptError] = []
         errors += PSTool.identifyEntriesByPropertyInOtherEntry(ghostScript, property: Properties.ExpVariables, type: toolType) as [PSScriptError]
         
@@ -91,7 +91,7 @@ class PSVariableTool: PSTool, PSToolInterface {
     }    
     
     
-    override func getPropertiesViewController(entry: Entry!, withScript scriptData: PSScriptData!) -> PSPluginViewController? {
+    override func getPropertiesViewController(entry: Entry, withScript scriptData: PSScriptData) -> PSPluginViewController? {
         return PSVariablePropertiesController(entry: entry, scriptData: scriptData)
     }
     

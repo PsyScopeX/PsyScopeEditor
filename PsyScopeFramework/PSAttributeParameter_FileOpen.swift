@@ -42,12 +42,11 @@ public class PSAttributeParameter_FileOpen : PSAttributeParameter_Button {
     
     func setFileName(path : String) {
         let docPath = self.scriptData.documentDirectory()!
-        let pspath = PSPath(path, basePath: docPath)
-        
-        if pspath == "" {
-            self.currentValue = "NULL"
-        } else {
+
+        if let pspath = PSPath(path, basePath: docPath) where pspath != "" {
             self.currentValue = "\"\(pspath)\""
+        } else {
+            self.currentValue = "NULL"
         }
         setButtonTitle()
         self.cell.updateScript()

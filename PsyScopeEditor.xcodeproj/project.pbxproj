@@ -373,7 +373,6 @@
 		1A9E5E1219882E5F00312743 /* PSDocumentTabDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A9E5E1119882E5F00312743 /* PSDocumentTabDelegate.swift */; };
 		1A9E5E21198A757B00312743 /* PSToolHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A9E5E20198A757B00312743 /* PSToolHelper.swift */; };
 		1A9E5E55198A7C5800312743 /* PsyScopeFramework.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A9E5E54198A7C5800312743 /* PsyScopeFramework.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1A9E5E6A198A7DB500312743 /* PSToolInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AA376321975B08100A3DE6E /* PSToolInterface.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1AA0ADD31ADFFFB6009BF2F2 /* PSAttributeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA0ADD21ADFFFB6009BF2F2 /* PSAttributeType.swift */; };
 		1AA0ADD51AE0027A009BF2F2 /* PSAttributePickerCategories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA0ADD41AE0027A009BF2F2 /* PSAttributePickerCategories.swift */; };
 		1AA0ADD71AE01A24009BF2F2 /* PSAttributePickerEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA0ADD61AE01A24009BF2F2 /* PSAttributePickerEntry.swift */; };
@@ -451,6 +450,7 @@
 		1ACA56271C037698008A2787 /* PSEditMenusController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACA56261C037698008A2787 /* PSEditMenusController.swift */; };
 		1ACA56291C0376E4008A2787 /* PSMenuStructure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACA56281C0376E4008A2787 /* PSMenuStructure.swift */; };
 		1ACA562B1C03B412008A2787 /* PSEditMenusSubjectVariablesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACA562A1C03B412008A2787 /* PSEditMenusSubjectVariablesController.swift */; };
+		1ACA562E1C08AAFC008A2787 /* PSToolInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACA562D1C08AAFC008A2787 /* PSToolInterface.swift */; };
 		1ACC0C641A92735F007D9C66 /* PSListTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACC0C631A92735F007D9C66 /* PSListTableView.swift */; };
 		1ACD82C21A18CEB700CF0A3C /* PSAction_AbortEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACD82C11A18CEB700CF0A3C /* PSAction_AbortEvent.swift */; };
 		1ACD82C41A18CF2F00CF0A3C /* PSAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACD82C31A18CF2F00CF0A3C /* PSAction.swift */; };
@@ -1047,7 +1047,6 @@
 		1AA0ADDF1AE121C9009BF2F2 /* PSGhostScript.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSGhostScript.swift; sourceTree = "<group>"; };
 		1AA1791919CC695F002A8649 /* PSDoubleClickAction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PSDoubleClickAction.h; sourceTree = "<group>"; };
 		1AA3762E1975AE9A00A3DE6E /* PSExperimentTool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSExperimentTool.swift; sourceTree = "<group>"; };
-		1AA376321975B08100A3DE6E /* PSToolInterface.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PSToolInterface.h; path = ../PsyScopeFramework/PSToolInterface.h; sourceTree = "<group>"; };
 		1AA376331976752200A3DE6E /* PSBlockTool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSBlockTool.swift; sourceTree = "<group>"; };
 		1AA41FE41AA9BBAC00CB8D95 /* PSAction_MousePos.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSAction_MousePos.swift; sourceTree = "<group>"; };
 		1AA41FE61AA9BBDC00CB8D95 /* PSAction_MouseSwitch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSAction_MouseSwitch.swift; sourceTree = "<group>"; };
@@ -1117,6 +1116,7 @@
 		1ACA56261C037698008A2787 /* PSEditMenusController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSEditMenusController.swift; sourceTree = "<group>"; };
 		1ACA56281C0376E4008A2787 /* PSMenuStructure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSMenuStructure.swift; sourceTree = "<group>"; };
 		1ACA562A1C03B412008A2787 /* PSEditMenusSubjectVariablesController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSEditMenusSubjectVariablesController.swift; sourceTree = "<group>"; };
+		1ACA562D1C08AAFC008A2787 /* PSToolInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSToolInterface.swift; sourceTree = "<group>"; };
 		1ACC0C631A92735F007D9C66 /* PSListTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSListTableView.swift; sourceTree = "<group>"; };
 		1ACD82C11A18CEB700CF0A3C /* PSAction_AbortEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSAction_AbortEvent.swift; sourceTree = "<group>"; };
 		1ACD82C31A18CF2F00CF0A3C /* PSAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSAction.swift; sourceTree = "<group>"; };
@@ -1468,7 +1468,6 @@
 		1A2FBE52197585A100F5FFB5 /* Interfaces */ = {
 			isa = PBXGroup;
 			children = (
-				1AA376321975B08100A3DE6E /* PSToolInterface.h */,
 				1A58046019A3C93400278D18 /* PSAttributeInterface.h */,
 				1AA1791919CC695F002A8649 /* PSDoubleClickAction.h */,
 				1A26861F1A0BB91C00966271 /* PSWindowViewInterface.h */,
@@ -1478,6 +1477,7 @@
 				1A55B2431ADC2FAA00CD21AB /* PSEventInterface.swift */,
 				1AFEBCB71B322CE000A3437E /* PSSelectionInterface.swift */,
 				1A3C19131BD1635700274D5B /* PSPluginInterface.swift */,
+				1ACA562D1C08AAFC008A2787 /* PSToolInterface.swift */,
 			);
 			name = Interfaces;
 			sourceTree = "<group>";
@@ -2630,7 +2630,6 @@
 				1A55B2411ADC1EE200CD21AB /* LayoutObject.h in Headers */,
 				1AA1791A19CC6A08002A8649 /* PSDoubleClickAction.h in Headers */,
 				1A9E5E55198A7C5800312743 /* PsyScopeFramework.h in Headers */,
-				1A9E5E6A198A7DB500312743 /* PSToolInterface.h in Headers */,
 				1A30407C1AD586BF00510174 /* Entry.h in Headers */,
 				1A3A7D2E1A28B1E900EC91CC /* Script.h in Headers */,
 				1A5E6E7D1A605C980098FEBE /* PSSegmentedCell.h in Headers */,
@@ -3232,6 +3231,7 @@
 				1A31F9AD1ADBDA2B00DE9708 /* PSListCellView.swift in Sources */,
 				1AA0ADE01AE121C9009BF2F2 /* PSGhostScript.swift in Sources */,
 				1A45C0C91B01035C0029EF9F /* PSSubjectVariable.swift in Sources */,
+				1ACA562E1C08AAFC008A2787 /* PSToolInterface.swift in Sources */,
 				1AE4BFEC1A293DC80000E5FF /* NSManagedObjectModel+KCOrderedAccessorFix.m in Sources */,
 				1AACB2D31A8F5B3E002A9B74 /* PSAttributeParameter_FontSize.swift in Sources */,
 				1A45C0CF1B0252E40029EF9F /* PSSubjectVariableType.swift in Sources */,
