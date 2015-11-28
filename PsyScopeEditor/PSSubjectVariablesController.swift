@@ -53,12 +53,16 @@ class PSSubjectVariablesController : NSObject, NSTextFieldDelegate, NSTableViewD
     @IBAction func subjectVariablesSegmentedControlClick(segmentedControl : NSSegmentedControl) {
         switch(segmentedControl.selectedSegment) {
         case 0: // add
+            scriptData.beginUndoGrouping("Add New Variable")
             subjectInformation.addNewVariable(false)
+            scriptData.endUndoGrouping()
         case 1: // remove
             //get selected variable if there is one,
             if let selectedVariable = self.selectedSubjectVariable {
                 //remove it
+                scriptData.beginUndoGrouping("Remove Variable")
                 subjectInformation.removeVariable(selectedVariable)
+                scriptData.endUndoGrouping()
             }
         default:
             break

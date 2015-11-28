@@ -33,7 +33,6 @@ public struct PSSubjectVariableStorageOptions {
     
     
     func saveToScript(entry : Entry, scriptData : PSScriptData) {
-        scriptData.beginUndoGrouping("Edit Subject Variable")
         let experimentEntry = scriptData.getMainExperimentEntry()
         
         
@@ -43,17 +42,27 @@ public struct PSSubjectVariableStorageOptions {
         if self.inDataFile {
             let expVariables = scriptData.getOrCreateSubEntry("ExpVariables", entry: experimentEntry, isProperty: true)
             let expVariablesList = PSStringList(entry: expVariables, scriptData: scriptData)
+            var proxyEntry : Entry!  = scriptData.getBaseEntry(proxyEntryName)
             
-            if let proxyEntry = scriptData.createNewObjectFromTool(PSType.Variable) {
+                
+            if proxyEntry == nil {
+                //need to create one
+                proxyEntry = scriptData.createNewObjectFromTool(PSType.Variable)
                 scriptData.renameEntry(proxyEntry, nameSuggestion: proxyEntryName)
-                proxyEntryName = proxyEntry.name
-                if !expVariablesList.contains(proxyEntryName) {
-                    expVariablesList.appendAsString(proxyEntryName)
-                }
-                let typeSubEntry = scriptData.getOrCreateSubEntry("Type", entry: proxyEntry, isProperty: true)
-                typeSubEntry.currentValue = "String" //hopefully strings will work for everything?
-                proxyEntry.currentValue = "@\(entry.name)"
+                    
             }
+                
+            proxyEntryName = proxyEntry.name
+            
+                
+            
+            if !expVariablesList.contains(proxyEntryName) {
+                expVariablesList.appendAsString(proxyEntryName)
+            }
+            let typeSubEntry = scriptData.getOrCreateSubEntry("Type", entry: proxyEntry, isProperty: true)
+            typeSubEntry.currentValue = "String" //hopefully strings will work for everything?
+            proxyEntry.currentValue = "@\(entry.name)"
+            
             
             //also add to dataheader
             let dataHeader = scriptData.getOrCreateSubEntry("DataHeader", entry: experimentEntry, isProperty: true)
@@ -139,8 +148,6 @@ public struct PSSubjectVariableStorageOptions {
         }
         
         PSTidyUpExecutionEntries(scriptData)
-        scriptData.endUndoGrouping()
-        
     }
 
     
