@@ -100,6 +100,11 @@ class PSMainWindowController : NSWindowController, NSWindowDelegate {
     
     //MARK: Menu methods
     
+    func showScript(sender : AnyObject) {
+        print("SHOWSCIRPT")
+        tabController.showScript()
+    }
+    
     func runExperiment(sender : AnyObject){
         
         if errorHandler.errors.count != 0 {

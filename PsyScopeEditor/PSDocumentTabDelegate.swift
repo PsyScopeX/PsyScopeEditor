@@ -285,6 +285,20 @@ class PSDocumentTabDelegate: NSObject, NSTabViewDelegate {
             pvc.doubleClickAction()
         }
     }
+    
+    func showScript() {
+        //item 1 is the script,
+        if let item = items[1] {
+            show(item)
+        }
+    }
+    
+    func showLayoutBoard() {
+        //item 0 is the layoutBoard,
+        if let item = items[0] {
+            show(item)
+        }
+    }
 }
 
 
