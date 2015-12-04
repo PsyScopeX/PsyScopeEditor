@@ -45,6 +45,11 @@ class PSLayoutBoard: NSView {
     @IBOutlet var scrollView : NSScrollView!
     @IBOutlet var mainWindow : NSWindow!
     
+    @IBOutlet var cleanMenuItem : NSMenuItem!
+    @IBOutlet var deleteMenuItem : NSMenuItem!
+    @IBOutlet var linkMenuItem : NSMenuItem!
+    @IBOutlet var convertMenuItem : NSMenuItem!
+    
     //MARK: Variables
     
     var layoutItems : [PSLayoutItem] = []
@@ -64,9 +69,7 @@ class PSLayoutBoard: NSView {
     
     //MARK: Constants
     
-    let cleanMenuItemTag : Int = 1
-    let deleteMenuItemTag : Int = 2
-    let linkMenuItemTag : Int = 3
+    
     let draggedTypes : [String] = [PSConstants.PSToolBrowserView.dragType, PSConstants.PSToolBrowserView.pasteboardType,PSConstants.PSEventBrowserView.dragType, PSConstants.PSEventBrowserView.pasteboardType,NSFilenamesPboardType]
     
     //MARK: Setup
@@ -381,31 +384,34 @@ class PSLayoutBoard: NSView {
         if let cmo = contextMenuObject {
             switch (cmo) {
             case .SelectedLink(_):
-                hideMenuItem(linkMenuItemTag, hidden: true)
-                hideMenuItem(cleanMenuItemTag, hidden: true)
-                hideMenuItem(deleteMenuItemTag, hidden: false)
+                linkMenuItem.hidden = true
+                cleanMenuItem.hidden = true
+                deleteMenuItem.hidden = false
+                convertMenuItem.hidden = true
                 break
-            case .SelectedObject(_):
-                hideMenuItem(linkMenuItemTag, hidden: false)
-                hideMenuItem(cleanMenuItemTag, hidden: false)
-                hideMenuItem(deleteMenuItemTag, hidden: false)
+            case let .SelectedObject(layoutItem):
+                linkMenuItem.hidden = false
+                cleanMenuItem.hidden = true
+                deleteMenuItem.hidden = false
+                
+                //if layoutObject is an event then allow
+                convertMenuItem.hidden = !layoutController.layoutItemsAreConvertible([layoutItem])
                 break
-            case .MultipleObjects(_):
-                hideMenuItem(linkMenuItemTag, hidden: false)
-                hideMenuItem(cleanMenuItemTag, hidden: true)
-                hideMenuItem(deleteMenuItemTag, hidden: false)
+            case let .MultipleObjects(layoutItems):
+                linkMenuItem.hidden = false
+                cleanMenuItem.hidden = true
+                deleteMenuItem.hidden = false
+                
+                //if all layoutObjects are events then allow
+                convertMenuItem.hidden = !layoutController.layoutItemsAreConvertible(layoutItems)
                 break
             }
         } else {
-            hideMenuItem(linkMenuItemTag, hidden: true)
-            hideMenuItem(cleanMenuItemTag, hidden: true)
-            hideMenuItem(deleteMenuItemTag, hidden: true)
+            linkMenuItem.hidden = true
+            cleanMenuItem.hidden = true
+            deleteMenuItem.hidden = true
+            convertMenuItem.hidden = true
         }
-    }
-    
-    func hideMenuItem(tag : Int, hidden : Bool) {
-        actionPopup.menu?.itemWithTag(tag)?.hidden = hidden
-        contextMenu.itemWithTag(tag)?.hidden = hidden
     }
     
     
@@ -525,6 +531,22 @@ class PSLayoutBoard: NSView {
         } else {
             linkingObjects = nil
         }
+    }
+    
+    @IBAction func convertObject(_: AnyObject) {
+        if let cmo = contextMenuObject {
+            switch (cmo) {
+            case .SelectedLink:
+                break
+            case let .SelectedObject(theItem):
+                layoutController.convertLayoutItems([theItem])
+                break
+            case let .MultipleObjects(theItems):
+                layoutController.convertLayoutItems(theItems)
+                break
+            }
+        }
+        
     }
     
     //MARK: Items: Adding / Removing

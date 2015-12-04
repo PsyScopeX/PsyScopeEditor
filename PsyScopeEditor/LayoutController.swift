@@ -437,4 +437,19 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
         return true
     }
     
+    func layoutItemsAreConvertible(layoutItems : [PSLayoutItem]) -> Bool {
+        let types = layoutItems.flatMap({ return self.layoutItemsToObjects[$0] }).map({ $0.mainEntry.type})
+        
+        if let type = types.first {
+            return scriptData.typeIsEvent(type) && !types.contains({ $0 != type })
+        }
+        
+        return false
+    }
+    
+    func convertLayoutItems(layoutItems : [PSLayoutItem]) {
+        if !layoutItemsAreConvertible(layoutItems) { return }
+        
+    }
+    
 }

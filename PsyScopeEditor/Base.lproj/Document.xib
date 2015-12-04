@@ -186,7 +186,7 @@
                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                 <subviews>
                                                                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="lOo-cW-CRS" viewBased="YES" id="10b-TX-phQ" customClass="PSClickableTableView" customModule="PsyScopeFramework">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="352" height="733"/>
+                                                                        <rect key="frame" x="0.0" y="0.0" width="199" height="0.0"/>
                                                                         <autoresizingMask key="autoresizingMask"/>
                                                                         <animations/>
                                                                         <size key="intercellSpacing" width="3" height="2"/>
@@ -536,13 +536,17 @@
                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                 <subviews>
                                                                     <customView id="zck-4U-xpq" customClass="PSLayoutBoard" customModule="PsyScopeEditor" customModuleProvider="target">
-                                                                        <rect key="frame" x="0.0" y="379" width="1000" height="1000"/>
+                                                                        <rect key="frame" x="0.0" y="395" width="1000" height="1000"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                         <animations/>
                                                                         <connections>
                                                                             <outlet property="actionPopup" destination="MjE-gb-jEH" id="vce-nN-R60"/>
+                                                                            <outlet property="cleanMenuItem" destination="bPm-tN-X3L" id="QfT-hp-ug4"/>
                                                                             <outlet property="contextMenu" destination="IMa-D7-0dI" id="ydt-10-gJd"/>
+                                                                            <outlet property="convertMenuItem" destination="19i-c6-rcc" id="dBj-ro-04S"/>
+                                                                            <outlet property="deleteMenuItem" destination="pBt-As-fPq" id="60t-PP-RG8"/>
                                                                             <outlet property="layoutController" destination="lM2-Zh-cBk" id="iXe-OE-blj"/>
+                                                                            <outlet property="linkMenuItem" destination="ix3-nb-fik" id="JFp-6R-dQn"/>
                                                                             <outlet property="mainWindow" destination="xOd-HO-29H" id="z4L-Wd-M3d"/>
                                                                             <outlet property="menu" destination="IMa-D7-0dI" id="U6K-Xk-gYr"/>
                                                                             <outlet property="scrollView" destination="CGh-F9-ajS" id="ct9-r8-LyH"/>
@@ -558,7 +562,7 @@
                                                                 <animations/>
                                                             </scroller>
                                                             <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="evC-fz-EAi">
-                                                                <rect key="frame" x="538.5" y="0.0" width="16" height="750"/>
+                                                                <rect key="frame" x="539.5" y="0.0" width="15" height="750"/>
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                 <animations/>
                                                             </scroller>
@@ -1183,8 +1187,14 @@ CA
                         <action selector="linkObject:" target="zck-4U-xpq" id="LTC-Tc-ZNs"/>
                     </connections>
                 </menuItem>
+                <menuItem title="Convert..." id="19i-c6-rcc">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="convertObject:" target="zck-4U-xpq" id="oak-Aw-K86"/>
+                    </connections>
+                </menuItem>
             </items>
-            <point key="canvasLocation" x="-186" y="-326.5"/>
+            <point key="canvasLocation" x="-214" y="-390.5"/>
         </menu>
         <menu title="Actions Attribute" id="S5o-cS-fKc" userLabel="Actions Attribute Menu">
             <items>
