@@ -180,10 +180,6 @@ class PSEditMenusController : NSObject, NSOutlineViewDataSource, NSOutlineViewDe
     }
     
     // MARK: NSOutlineViewDelegate
-    
-    
-    
-    
 
     func outlineView(outlineView: NSOutlineView, acceptDrop info: NSDraggingInfo, item: AnyObject?, childIndex index: Int) -> Bool {
         let pboard = info.draggingPasteboard()
@@ -283,9 +279,7 @@ class PSEditMenusController : NSObject, NSOutlineViewDataSource, NSOutlineViewDe
         return false
     }
 
-    
-    
-    
+
     func showAttributeModalForWindow(window : NSWindow) {
         if (attributeSheet == nil) {
             NSBundle(forClass: self.dynamicType).loadNibNamed("EditMenus", owner: self, topLevelObjects: &topLevelObjects)

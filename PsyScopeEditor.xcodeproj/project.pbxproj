@@ -83,6 +83,7 @@
 		1A34625A1A892C4500E0D443 /* PSActionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3462591A892C4500E0D443 /* PSActionCell.swift */; };
 		1A34625C1A892C5100E0D443 /* PSConditionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A34625B1A892C5100E0D443 /* PSConditionCell.swift */; };
 		1A3507611AB713E5000B591C /* PSEntryBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3507601AB713E5000B591C /* PSEntryBrowser.swift */; };
+		1A35E1A51C15E3FD001F2A34 /* PSConvertAttributesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A35E1A41C15E3FD001F2A34 /* PSConvertAttributesController.swift */; };
 		1A35E5661A389FAB003BF2CD /* PSCondition_Mouse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A35E5651A389FAB003BF2CD /* PSCondition_Mouse.swift */; };
 		1A35E56A1A38A0C0003BF2CD /* Condition_MouseCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A35E5691A38A0C0003BF2CD /* Condition_MouseCell.xib */; };
 		1A3A7D131A28AD2500EC91CC /* Group-icon-128.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 1A3A7D121A28AD2500EC91CC /* Group-icon-128.PNG */; };
@@ -749,6 +750,7 @@
 		1A3462591A892C4500E0D443 /* PSActionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSActionCell.swift; sourceTree = "<group>"; };
 		1A34625B1A892C5100E0D443 /* PSConditionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSConditionCell.swift; sourceTree = "<group>"; };
 		1A3507601AB713E5000B591C /* PSEntryBrowser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSEntryBrowser.swift; sourceTree = "<group>"; };
+		1A35E1A41C15E3FD001F2A34 /* PSConvertAttributesController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSConvertAttributesController.swift; sourceTree = "<group>"; };
 		1A35E5651A389FAB003BF2CD /* PSCondition_Mouse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSCondition_Mouse.swift; sourceTree = "<group>"; };
 		1A35E5691A38A0C0003BF2CD /* Condition_MouseCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Condition_MouseCell.xib; sourceTree = "<group>"; };
 		1A3A7D121A28AD2500EC91CC /* Group-icon-128.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Group-icon-128.PNG"; sourceTree = "<group>"; };
@@ -2050,6 +2052,7 @@
 			children = (
 				1A812C691C11D50D00E51D35 /* PSConvertEvents.swift */,
 				1A812C6B1C11D51F00E51D35 /* ConvertEvents.xib */,
+				1A35E1A41C15E3FD001F2A34 /* PSConvertAttributesController.swift */,
 			);
 			name = ConvertEventsDialog;
 			sourceTree = "<group>";
@@ -3451,6 +3454,7 @@
 				1ADCF51D1B1C80A00006C215 /* PSEntryValueChecker.swift in Sources */,
 				1A581A291ADBB75E003D970B /* PSActionConditionTableView.swift in Sources */,
 				1A45C0C41B00C5140029EF9F /* PSSubjectVariablesTableViewController.swift in Sources */,
+				1A35E1A51C15E3FD001F2A34 /* PSConvertAttributesController.swift in Sources */,
 				1A3C19121BD156C700274D5B /* PSPluginLoader.swift in Sources */,
 				1AC0827319701F2F0038512B /* main.swift in Sources */,
 				1A5C66111A88C062009EED35 /* PSActionConditionView.swift in Sources */,

@@ -24,6 +24,8 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
     //the currently selected object
     var selectedObject : LayoutObject? = nil
     
+    var convertEventsController : PSConvertEvents!
+    
     //general method for selecting an object
     func selectEntry(entry : Entry?) {
         if let e = entry, lobject = e.layoutObject, layoutItem = objectsTolayoutItems[lobject] {
@@ -449,6 +451,25 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
     
     func convertLayoutItems(layoutItems : [PSLayoutItem]) {
         if !layoutItemsAreConvertible(layoutItems) { return }
+        let events : [Entry] = layoutItems.flatMap({ return self.layoutItemsToObjects[$0] }).map({ $0.mainEntry })
+        
+        //reset the layout items so when next refresh occurs it uses new icons
+        resetLayoutItems()
+        
+        convertEventsController = PSConvertEvents(scriptData: scriptData, events: events)
+        convertEventsController.showAttributeModalForWindow(scriptData.window)
+        
+        
+        
+    }
+    
+    func resetLayoutItems() {
+        for layoutItem in Array(objectsTolayoutItems.values) as [PSLayoutItem] {
+            layoutBoard.removeObjectLayoutItem(layoutItem)
+        }
+        objectsTolayoutItems = [:]
+        layoutItemsToObjects = [:]
+        
         
     }
     

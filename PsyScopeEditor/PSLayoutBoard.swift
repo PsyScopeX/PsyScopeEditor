@@ -66,10 +66,10 @@ class PSLayoutBoard: NSView {
     var highlightedLayoutItem : PSLayoutItem? = nil
     var dragSelectedLayoutItems : [PSLayoutItem : CGPoint] = [:]
     var layoutBoardArea : NSSize = NSSize(width: 1000,height: 1000)
+
     
     //MARK: Constants
-    
-    
+
     let draggedTypes : [String] = [PSConstants.PSToolBrowserView.dragType, PSConstants.PSToolBrowserView.pasteboardType,PSConstants.PSEventBrowserView.dragType, PSConstants.PSEventBrowserView.pasteboardType,NSFilenamesPboardType]
     
     //MARK: Setup
