@@ -62,12 +62,7 @@ public class PSAttributeParameter_String : PSAttributeParameter, NSTextFieldDele
     
     override public func controlTextDidEndEditing(obj: NSNotification) {
         //parse and take first value
-        if let value = PSGetFirstEntryElementForString(textField.stringValue) {
-            currentValue = value
-        } else {
-            NSBeep()
-            currentValue = .Null
-        }
+        currentValue = PSConvertListElementToStringElement(PSGetListElementForString(textField.stringValue))
         self.cell.updateScript()
     }
 }
