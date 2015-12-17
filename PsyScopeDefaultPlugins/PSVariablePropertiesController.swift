@@ -7,6 +7,7 @@
 
 import Foundation
 
+let PSVariableTypesAllowedInDataFile = ["Integer","Long_Integer", "Float", "Double", "String"]
 
 class PSVariablePropertiesController : PSToolPropertyController {
     
@@ -73,15 +74,24 @@ class PSVariablePropertiesController : PSToolPropertyController {
             initCheck.state = 1
         }
         
-        //Parse datafile check
-        dataFileCheck.state = 0
-        let experimentEntry = scriptData.getMainExperimentEntry()
-        if let dataVariables = scriptData.getSubEntry("DataVariables", entry: experimentEntry) {
+        //check if variable is allowed in datafile
+        if PSVariableTypesAllowedInDataFile.contains(type) {
+            //Parse datafile check
+            dataFileCheck.enabled = true
+            dataFileCheck.state = 0
+            let experimentEntry = scriptData.getMainExperimentEntry()
+            if let dataVariables = scriptData.getSubEntry("DataVariables", entry: experimentEntry) {
                 let dataVariablesList = PSStringList(entry: dataVariables, scriptData: scriptData)
                 if dataVariablesList.contains(entry.name) {
                     dataFileCheck.state = 1
                 }
+            }
+        } else {
+            dataFileCheck.enabled = false
+            dataFileCheck.state = 0
         }
+        
+        
         
         //Parse currentValue into outlineView
         outlineViewController.refreshWithEntry(entry, editInitialValues:initCheck.state == 1 )
@@ -102,6 +112,13 @@ class PSVariablePropertiesController : PSToolPropertyController {
         let typeEntry = scriptData.getOrCreateSubEntry("Type", entry: entry, isProperty: true)
         let typeName = typePopup.selectedItem!.title
         if typeEntry.currentValue != typeName {
+            
+            //type was changed - remove from datafile if not allowed
+            if !PSVariableTypesAllowedInDataFile.contains(typeName) {
+                dataFileCheck.state = 0
+                dataFileCheck.enabled = false
+            }
+            
             typeEntry.currentValue = typeName
             
             for subEntry in entry.subEntries.array as! [Entry] {
@@ -154,6 +171,9 @@ class PSVariablePropertiesController : PSToolPropertyController {
             if let dataVariables = scriptData.getSubEntry("DataVariables", entry: experimentEntry) {
                 let dataVariablesList = PSStringList(entry: dataVariables, scriptData: scriptData) 
                 dataVariablesList.remove(entry.name)
+                if dataVariablesList.count == 0 {
+                    scriptData.deleteSubEntryFromBaseEntry(experimentEntry, subEntry: dataVariables)
+                }
             }
             
         } else {
