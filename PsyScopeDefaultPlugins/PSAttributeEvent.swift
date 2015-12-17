@@ -28,18 +28,18 @@ class PSEventPicker : PSAttributePopup {
     var events : [Entry] = []
     var scriptData : PSScriptData
     
-    init(currentValue: String, scriptData: PSScriptData, setCurrentValueBlock : ((String)->())?){
+    init(currentValue: PSEntryElement, scriptData: PSScriptData, setCurrentValueBlock : ((PSEntryElement)->())?){
         self.scriptData = scriptData
         super.init(nibName: "EventPicker",bundle: NSBundle(forClass:self.dynamicType), currentValue: currentValue, displayName: "Event", setCurrentValueBlock: setCurrentValueBlock)
     }
     override func awakeFromNib() {
         super.awakeFromNib()
         updatePopUpMenuContent()
-        eventsPopup.selectItemWithTitle(self.currentValue)
+        eventsPopup.selectItemWithTitle(self.currentValue.stringValue())
     }
     
     func eventSelected(item : NSMenuItem) {
-        self.currentValue = item.title
+        self.currentValue = PSGetFirstEntryElementForStringOrNull(item.title)
     }
     func updatePopUpMenuContent() {
         

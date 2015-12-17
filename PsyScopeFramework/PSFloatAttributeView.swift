@@ -13,7 +13,7 @@ import Cocoa
 
 public class PSFloatAttributePopup : PSAttributePopup {
     
-    public init(currentValue: String, displayName : String, setCurrentValueBlock : ((String) -> ())?){
+    public init(currentValue: PSEntryElement, displayName : String, setCurrentValueBlock : ((PSEntryElement) -> ())?){
         super.init(nibName: "FloatAttribute",bundle: NSBundle(forClass:self.dynamicType), currentValue: currentValue, displayName: displayName, setCurrentValueBlock: setCurrentValueBlock)
     }
 
@@ -23,11 +23,11 @@ public class PSFloatAttributePopup : PSAttributePopup {
     
     override public func awakeFromNib() {
         label.stringValue = "Please enter the number value for the attribute named: " + displayName
-        field.stringValue = currentValue
+        field.stringValue = currentValue.stringValue()
     }
     
     @IBAction func enteredDone(_: AnyObject) {
-        currentValue = field.stringValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        currentValue = PSGetFirstEntryElementForStringOrNull(field.stringValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()))
         closeMyCustomSheet(self)
     }
 

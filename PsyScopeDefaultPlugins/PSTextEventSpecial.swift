@@ -8,7 +8,7 @@
 import Foundation
 
 class PSTextEventSpecial : PSAttributePopup {
-    init(currentValue : String, setCurrentValueBlock : ((String)->())?) {
+    init(currentValue : PSEntryElement, setCurrentValueBlock : ((PSEntryElement)->())?) {
         let bundle = PSDefaultPluginBundle
         super.init(nibName: "TextEventSpecial", bundle: bundle, currentValue: currentValue, displayName: "Text Display Options", setCurrentValueBlock: setCurrentValueBlock)
     }
@@ -30,7 +30,7 @@ class PSTextEventSpecial : PSAttributePopup {
         
         //parse current value
         let list : PSStringListCachedContainer = PSStringListCachedContainer()
-        list.stringValue = currentValue
+        list.stringValue = currentValue.stringValue()
         if list.contains("Follow") {
             positionOptions.selectItemWithTitle("Follow previous text")
         } else if list.contains("Stay_Put") {
@@ -54,7 +54,7 @@ class PSTextEventSpecial : PSAttributePopup {
         if clearMaskedCheck.state == 1 {
             new_list.appendAsString("Clear_Masked")
         }
-        self.currentValue = new_list.stringValue
+        self.currentValue = PSGetFirstEntryElementForStringOrNull(new_list.stringValue)
         closeMyCustomSheet(sender)
     }
 }
@@ -69,7 +69,7 @@ class PSAttribute_TextEventSpecial : PSAttributeGeneric {
         defaultValueString = PSDefaultConstants.DefaultAttributeValues.PSAttribute_TextEventSpecial
         attributeClass = PSAttributeParameter_Custom.self
         toolsArray = [PSTextEvent().type()]
-        customAttributeParameterAction = { (before : String, scriptData: PSScriptData, window: NSWindow, setCurrentValueBlock : ((String) -> ())?) -> () in
+        customAttributeParameterAction = { (before : PSEntryElement, scriptData: PSScriptData, window: NSWindow, setCurrentValueBlock : ((PSEntryElement) -> ())?) -> () in
             let popup = PSTextEventSpecial(currentValue: before, setCurrentValueBlock: setCurrentValueBlock)
             popup.showAttributeModalForWindow(window)
             

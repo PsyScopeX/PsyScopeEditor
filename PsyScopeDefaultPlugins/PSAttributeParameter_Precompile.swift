@@ -56,26 +56,27 @@ public class PSAttributeParameter_Precompile : PSAttributeParameter {
     
     func checkSelected(item : NSMenuItem) {
         if allCheck.state == 1 {
-            currentValue = "All"
+            currentValue = PSGetFirstEntryElementForStringOrNull("All")
         } else {
-            currentValue = String(numberText.integerValue)
+            currentValue = PSGetFirstEntryElementForStringOrNull(String(numberText.integerValue))
         }
         self.cell.updateScript()
     }
     
     func numberChanged(_:AnyObject) {
-        currentValue = String(numberText.integerValue)
+        currentValue = PSGetFirstEntryElementForStringOrNull(String(numberText.integerValue))
         self.cell.updateScript()
     }
     
     func updateContent() {
-        if currentValue.lowercaseString == "all" {
+        let stringValue = currentValue.stringValue()
+        if stringValue.lowercaseString == "all" {
             allCheck.state = 1
             numberText.stringValue = ""
             numberText.enabled = false
-        } else if let _ = Int(currentValue) {
+        } else if let _ = Int(stringValue) {
             allCheck.state = 0
-            numberText.stringValue = currentValue
+            numberText.stringValue = stringValue
             numberText.enabled = true
         } else {
             allCheck.state = 0

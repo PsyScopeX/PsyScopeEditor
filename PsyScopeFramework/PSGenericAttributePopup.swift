@@ -11,7 +11,7 @@ import Cocoa
 
 public class PSGenericAttributePopup : PSAttributePopup {
     
-    public init(currentValue: String, displayName : String, setCurrentValueBlock : ((String) -> ())?) {
+    public init(currentValue: PSEntryElement, displayName : String, setCurrentValueBlock : ((PSEntryElement) -> ())?) {
         super.init(nibName: "GenericAttribute",bundle: NSBundle(forClass:self.dynamicType),currentValue: currentValue, displayName: displayName, setCurrentValueBlock: setCurrentValueBlock)
     }
 
@@ -21,7 +21,7 @@ public class PSGenericAttributePopup : PSAttributePopup {
     
     override public func awakeFromNib() {
         label.stringValue = "Please enter the value for the attribute named: " + displayName
-        field.stringValue = currentValue
+        field.stringValue = currentValue.stringValue()
         if custFormatter != nil {
             field.formatter = custFormatter
         }
@@ -37,7 +37,7 @@ public class PSGenericAttributePopup : PSAttributePopup {
     }
     
     @IBAction func enteredDone(_: AnyObject) {
-        currentValue = field.stringValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        currentValue = PSGetFirstEntryElementForStringOrNull(field.stringValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()))
         closeMyCustomSheet(self)
     }
 

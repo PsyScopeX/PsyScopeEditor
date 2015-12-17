@@ -20,10 +20,10 @@ class PSVaryByListPopup: PSAttributePopup, NSOutlineViewDataSource, NSOutlineVie
     
     var lists : [PSList] = []
     
-    init(baseEntry : Entry, scriptData : PSScriptData, setCurrentValueBlock : ((String)->())?) {
+    init(baseEntry : Entry, scriptData : PSScriptData, setCurrentValueBlock : ((PSEntryElement)->())?) {
         self.scriptData = scriptData
         self.entry = baseEntry
-        super.init(nibName: "VaryByListPopup", bundle: NSBundle(forClass:self.dynamicType), currentValue: "", displayName: "", setCurrentValueBlock: setCurrentValueBlock)
+        super.init(nibName: "VaryByListPopup", bundle: NSBundle(forClass:self.dynamicType), currentValue: .Null, displayName: "", setCurrentValueBlock: setCurrentValueBlock)
         
         //get all lists
         let all_lists = scriptData.getBaseEntriesOfType(PSType.List)
@@ -59,7 +59,7 @@ class PSVaryByListPopup: PSAttributePopup, NSOutlineViewDataSource, NSOutlineVie
     }
     
     @IBAction func select(sender : AnyObject) {
-        self.currentValue = "FactorAttrib(\(selectedList!.name),\(selectedField!.entry.name))"
+        self.currentValue = PSGetFirstEntryElementForStringOrNull("FactorAttrib(\(selectedList!.name),\(selectedField!.entry.name))")
         self.closeMyCustomSheet(self)
     }
     

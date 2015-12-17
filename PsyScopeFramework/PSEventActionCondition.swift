@@ -16,8 +16,6 @@ public class PSEventActionFunction : PSEventActionCondition {
     public var instancesValue : Int?
     public var activeUntilValue : String?
     
-    public var currentValues : [String]
-    
     
     public var hasInstancesOrActiveUntilValueAttributes : Bool {
         return instancesValue != nil || activeUntilValue != nil
@@ -25,7 +23,6 @@ public class PSEventActionFunction : PSEventActionCondition {
     
     public init(action : PSActionInterface, values: [PSEntryElement]) {
         self.action = action
-        self.currentValues = []
         super.init()
         self.functionName = action.type()
         self.values = values
@@ -37,8 +34,6 @@ public class PSEventActionFunction : PSEventActionCondition {
         //get current values
         for value in values {
             switch(value) {
-            case let .StringToken(stringElement):
-                currentValues.append(stringElement.quotedValue)
             case let .Function(functionElement):
                 if functionElement.functionName.lowercaseString == "instances" {
                     if let first = functionElement.getStrippedStringValues().first,
@@ -89,17 +84,14 @@ public class PSEventActionFunction : PSEventActionCondition {
     
     public func setInstancesActiveUntilOn(on : Bool) {
         if on {
-            setActionParameterValues(currentValues, instances: "1", activeUntil: "NONE")
+            setActionParameterValues(values, instances: "1", activeUntil: "NONE")
         } else {
-            setActionParameterValues(currentValues, instances: nil, activeUntil: nil)
+            setActionParameterValues(values, instances: nil, activeUntil: nil)
         }
     }
     
-    public func setActionParameterValues(values : [String], instances : String?, activeUntil : String?) {
-        let value = values.joinWithSeparator(" ")
-        
-        let parse = PSEntryValueParser(stringValue: value)
-        self.values = parse.values
+    public func setActionParameterValues(values : [PSEntryElement], instances : String?, activeUntil : String?) {
+        self.values = values
         
         if let instances = instances {
             self.values.append(PSFunctionElement.InlineEntryNamed("Instances",values: [instances]))
@@ -109,7 +101,6 @@ public class PSEventActionFunction : PSEventActionCondition {
             self.values.append(PSFunctionElement.InlineEntryNamed("ActiveUntil",values: [activeUntil]))
         }
         
-        self.foundErrors = parse.foundErrors
         parseInstancesAndActiveUntil()
     }
     

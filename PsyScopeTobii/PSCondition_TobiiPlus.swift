@@ -51,32 +51,27 @@ class PSCondition_TobiiPlusCell : PSConditionCell {
     @IBOutlet var portButton : NSButton!
     
     @IBAction func portButton_Click(_: AnyObject) {
-        let popup = PSPortBuilderController(currentValue: portValue, scriptData: scriptData, positionMode: false, setCurrentValueBlock : { (cValue: String) -> () in
+        let popup = PSPortBuilderController(currentValue: portValue, scriptData: scriptData, positionMode: false, setCurrentValueBlock : { (cValue: PSEntryElement) -> () in
             self.portValue = cValue
             
-            let outputString = self.portValue
-            
-            self.entryFunction.setStringValues( [outputString] )
+    
+            self.entryFunction.values = [self.portValue]
             self.updateScript()
         })
         popup.showAttributeModalForWindow(window!)
         
     }
     
-    var portValue : String = ""
+    var portValue : PSEntryElement = .Null
     
     
     func parse() {
         
-        let inputValue = entryFunction.getStringValues()
-        
-        for v in inputValue {
-            
-            portValue = v.stringByTrimmingCharactersInSet(NSCharacterSet(charactersInString: "\""))
-            
+        if let inputValue = entryFunction.values.first {
+            portValue = inputValue
         }
-        
-        portButton.title = portValue
+    
+        portButton.title = portValue.stringValue()
     }
     
     override func setup(conditionInterface: PSConditionInterface, function entryFunction: PSFunctionElement, scriptData: PSScriptData, expandedHeight: CGFloat) {

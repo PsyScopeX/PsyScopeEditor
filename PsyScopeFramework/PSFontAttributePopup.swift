@@ -13,7 +13,7 @@ import Cocoa
 
 
 public class PSFontAttributePopup: PSAttributePopup, NSControlTextEditingDelegate {
-    public init(currentValue: String, displayName : String, type : PSFontAttributePopupType, setCurrentValueBlock : ((String) -> ())?) {
+    public init(currentValue: PSEntryElement, displayName : String, type : PSFontAttributePopupType, setCurrentValueBlock : ((PSEntryElement) -> ())?) {
         self.type = type
         super.init(nibName: "FontAttribute",bundle: NSBundle(forClass:self.dynamicType),currentValue: currentValue, displayName: displayName, setCurrentValueBlock: setCurrentValueBlock )
     }
@@ -54,7 +54,7 @@ public class PSFontAttributePopup: PSAttributePopup, NSControlTextEditingDelegat
     func parseCurrentValue() {
 
         let valueStringList = PSStringListContainer()
-        valueStringList.stringValue = self.currentValue
+        valueStringList.stringValue = self.currentValue.stringValue()
         
         switch (type) {
         case .All:
@@ -133,8 +133,14 @@ public class PSFontAttributePopup: PSAttributePopup, NSControlTextEditingDelegat
             cv += "\""
             break
         }
-        self.currentValue = cv
-        currentValueLabel.stringValue = self.currentValue
+        let parser = PSEntryValueParser(stringValue: cv)
+        
+        if parser.foundErrors {
+            self.currentValue = .Null
+        } else {
+            self.currentValue = parser.listElement
+        }
+        currentValueLabel.stringValue = self.currentValue.stringValue()
     }
     
     var type : PSFontAttributePopupType
@@ -182,7 +188,7 @@ public class PSFontAttributePopup: PSAttributePopup, NSControlTextEditingDelegat
         }
         
         parseCurrentValue()
-        currentValueLabel.stringValue = self.currentValue
+        currentValueLabel.stringValue = self.currentValue.stringValue()
     }
     
     @IBAction func enteredDone(_: AnyObject) {

@@ -17,7 +17,7 @@ class PSAttributeFlip : PSAttributeGeneric {
         toolsArray = [PSTextEvent().type(), PSPictureEvent().type()]
         defaultValueString = PSDefaultConstants.DefaultAttributeValues.PSAttributeFlip
         attributeClass = PSAttributeParameter_Custom.self
-        customAttributeParameterAction = { (before : String, scriptData: PSScriptData, window: NSWindow, setCurrentValueBlock : ((String) -> ())?) -> () in
+        customAttributeParameterAction = { (before : PSEntryElement, scriptData: PSScriptData, window: NSWindow, setCurrentValueBlock : ((PSEntryElement) -> ())?) -> () in
             let popup = PSCheckBoxListAttributePopup(currentValue: before, displayName: "Flip", checkBoxStrings: self.checkBoxStrings, setCurrentValueBlock: setCurrentValueBlock)
             popup.showAttributeModalForWindow(window)            
         }

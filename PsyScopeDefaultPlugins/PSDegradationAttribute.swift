@@ -8,7 +8,7 @@
 import Foundation
 
 class PSDegradationAttribute : PSAttributePopup {
-    init(currentValue : String, setCurrentValueBlock : ((String) -> ())?) {
+    init(currentValue : PSEntryElement, setCurrentValueBlock : ((PSEntryElement) -> ())?) {
         let bundle = PSDefaultPluginBundle
         super.init(nibName: "DegradationDialog", bundle: bundle, currentValue: currentValue, displayName: "Degradation", setCurrentValueBlock: setCurrentValueBlock)
     }
@@ -26,7 +26,7 @@ class PSDegradationAttribute : PSAttributePopup {
         super.awakeFromNib()
         //parse the current value
         let cv = PSStringListCachedContainer()
-        cv.stringValue = currentValue
+        cv.stringValue = currentValue.stringValue()
         if cv.count == 2 {
             //use number formatter of the textfield
             fgText.stringValue = cv[0]
@@ -39,7 +39,7 @@ class PSDegradationAttribute : PSAttributePopup {
     }
     
     @IBAction func doneButton(sender : AnyObject) {
-        self.currentValue = "\(fgValue) \(bgValue)"
+        self.currentValue = PSGetListElementForString("\(fgValue) \(bgValue)")
         closeMyCustomSheet(sender)
     }
 }
@@ -55,7 +55,7 @@ class PSAttribute_TextEventDegradation : PSAttributeGeneric {
         defaultValueString = PSDefaultConstants.DefaultAttributeValues.PSAttribute_TextEventDegradation
         attributeClass = PSAttributeParameter_Custom.self
         toolsArray = [PSTextEvent().type()]
-        customAttributeParameterAction = { (before : String, scriptData: PSScriptData, window: NSWindow, setCurrentValueBlock : ((String) -> ())?) -> () in
+        customAttributeParameterAction = { (before : PSEntryElement, scriptData: PSScriptData, window: NSWindow, setCurrentValueBlock : ((PSEntryElement) -> ())?) -> () in
             let popup = PSDegradationAttribute(currentValue: before, setCurrentValueBlock: setCurrentValueBlock)
             popup.showAttributeModalForWindow(window)
             
@@ -74,7 +74,7 @@ class PSAttribute_PictureEventDegradation : PSAttributeGeneric {
         defaultValueString = PSDefaultConstants.DefaultAttributeValues.PSAttribute_PictureEventDegradation
         attributeClass = PSAttributeParameter_Custom.self
         toolsArray = [PSPictureEvent().type()]
-        customAttributeParameterAction = { (before : String, scriptData: PSScriptData, window: NSWindow, setCurrentValueBlock : ((String) -> ())?) -> () in
+        customAttributeParameterAction = { (before : PSEntryElement, scriptData: PSScriptData, window: NSWindow, setCurrentValueBlock : ((PSEntryElement) -> ())?) -> () in
             let popup = PSDegradationAttribute(currentValue: before, setCurrentValueBlock: setCurrentValueBlock)
             popup.showAttributeModalForWindow(window)
             

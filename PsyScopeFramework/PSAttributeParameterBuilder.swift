@@ -35,14 +35,14 @@ public class PSAttributeParameterBuilder {
         self.parameter.attributeType = PSAttributeType(fullType: cell.entry.type)
         self.parameter.name = cell.entry.name
         self.parameter.cell = cell
-        self.parameter.currentValue = cell.entry.currentValue
+        self.parameter.currentValue =   PSGetFirstEntryElementForStringOrNull(cell.entry.currentValue)
         self.parameter.scriptData = cell.scriptData
         self.setPermanentControls(defaultYLocation)
         let width = cell.frame.width - PSDefaultConstants.ActionsBuilder.controlsLeftMargin - PSDefaultConstants.ActionsBuilder.controlsRightMargin
         self.parameter.updateAttributeControl(NSRect(x: PSDefaultConstants.ActionsBuilder.controlsLeftMargin, y: defaultYLocation, width: width, height: 22))
     }
     
-    public func setupSingleCell(name : String, cell: PSCellView, currentValue : String, type : PSAttributeType?) {
+    public func setupSingleCell(name : String, cell: PSCellView, currentValue : PSEntryElement, type : PSAttributeType?) {
         assertNotSetup()
         self.parameter.attributeType = type
         self.parameter.name = name
@@ -55,7 +55,7 @@ public class PSAttributeParameterBuilder {
         self.parameter.updateAttributeControl(NSRect(x: PSDefaultConstants.ActionsBuilder.controlsLeftMargin, y: defaultYLocation, width: width, height: 22))
     }
     
-    public func setupMultiCell(name : String, y : CGFloat, cell: PSCellView, currentValue : String, type : PSAttributeType?) {
+    public func setupMultiCell(name : String, y : CGFloat, cell: PSCellView, currentValue : PSEntryElement, type : PSAttributeType?) {
         assertNotSetup()
         self.parameter.attributeType = type
         self.parameter.name = name
@@ -72,7 +72,7 @@ public class PSAttributeParameterBuilder {
         self.parameter.attributeType = type
         self.parameter.name = ""
         self.parameter.cell = cell
-        self.parameter.currentValue = currentValue
+        self.parameter.currentValue = PSGetFirstEntryElementForStringOrNull(currentValue)
         self.parameter.scriptData = cell.scriptData
         self.parameter.updateAttributeControl(NSRect(x: 0, y: 0, width: cell.frame.width, height: cell.frame.height))
         self.parameter.hideBorders()
@@ -83,7 +83,7 @@ public class PSAttributeParameterBuilder {
         self.parameter.attributeType = PSAttributeType(fullType: cell.entry.type)
         self.parameter.name = cell.entry.name
         self.parameter.cell = cell
-        self.parameter.currentValue = cell.entry.currentValue
+        self.parameter.currentValue = PSGetFirstEntryElementForStringOrNull(cell.entry.currentValue)
         self.parameter.scriptData = cell.scriptData
         
         let width = cell.frame.width - PSDefaultConstants.ActionsBuilder.labelsLeftMargin - PSDefaultConstants.ActionsBuilder.controlsRightMargin

@@ -14,7 +14,7 @@ public class PSAttributeParameter : NSObject {
     public static let defaultHeight : CGFloat = CGFloat(25)
     
     public var attributeSourceLabel : NSTextField?
-    public var currentValue : String = "NULL"
+    public var currentValue : PSEntryElement = .StringToken(stringElement: PSStringElement(value: "NULL", quotes: .None))
     public var scriptData : PSScriptData!
     public var name : String = "Unknown"
     public var cell : PSCellView!
@@ -30,7 +30,7 @@ public class PSAttributeParameter : NSObject {
     //adds / sets up the attribute's control to the cell view
     public final func updateAttributeControl(attributeValueControlFrame : NSRect) {
         self.attributeValueControlFrame = attributeValueControlFrame
-        if let scriptData = scriptData, attributedStringAndEntry = scriptData.identifyAsAttributeSourceAndReturnRepresentiveString(self.currentValue) {
+        if let scriptData = scriptData, attributedStringAndEntry = scriptData.identifyAsAttributeSourceAndReturnRepresentiveString(self.currentValue.stringValue()) {
             varyByEntryName = attributedStringAndEntry.1
             setupAttributeSourceLabel(attributedStringAndEntry.0)
             setCustomControl(false)
@@ -70,14 +70,13 @@ public class PSAttributeParameter : NSObject {
     }
     
     public func clickMenuItem(sender : NSMenuItem) {
-        if let scriptData = scriptData, val = scriptData.valueForMenuItem(sender, original: self.currentValue, originalFullType: attributeType) {
+        if let scriptData = scriptData, val = scriptData.valueForMenuItem(sender, original: self.currentValue.stringValue(), originalFullType: attributeType) , entryElement = PSGetFirstEntryElementForString(val) {
+            self.currentValue = entryElement
+            cell.updateScript()
+            return
             
-            
-            self.currentValue = val
-        } else {
-            self.currentValue = ""
         }
-        
+        self.currentValue = .StringToken(stringElement: PSStringElement(value: "NULL", quotes: .None))
         cell.updateScript()
     }
 }

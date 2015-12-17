@@ -12,13 +12,9 @@ public class PSAttributeParameter_FontFamily : PSAttributeParameter_Button {
     override func clickButton(sender : NSButton) {
         
         let fontpopup = PSFontAttributePopup(currentValue: currentValue, displayName: "Choose Font Family", type: PSFontAttributePopupType.FamilyOnly, setCurrentValueBlock: {
-            (cValue : String) -> () in
+            (cValue : PSEntryElement) -> () in
             self.currentValue = cValue
-            
-            if self.currentValue == "" {
-                self.currentValue = "NULL"
-            }
-            self.editButton.title = self.currentValue
+            self.editButton.title = self.currentValue.stringValue()
             self.cell.updateScript()
         })
         fontpopup.showAttributeModalForWindow(cell.window!)

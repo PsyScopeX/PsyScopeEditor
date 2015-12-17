@@ -17,7 +17,7 @@ public class PSPortBuilderController: NSObject, NSOutlineViewDataSource, NSOutli
     @IBOutlet internal var attributeSheet : NSWindow!
     internal var topLevelObjects : NSArray?
     internal var parentWindow : NSWindow!
-    internal var setCurrentValueBlock : ((String) -> ())?
+    internal var setCurrentValueBlock : ((PSEntryElement) -> ())?
     
     //return value variables
     let functionName : String
@@ -70,19 +70,19 @@ public class PSPortBuilderController: NSObject, NSOutlineViewDataSource, NSOutli
     @IBAction public func closeMyCustomSheet(_: AnyObject) {
         parentWindow.endSheet(attributeSheet)
         if let setCurrentValueBlock = setCurrentValueBlock {
-            setCurrentValueBlock(self.currentValue)
+            setCurrentValueBlock(PSGetFirstEntryElementForStringOrNull(self.currentValue))
         }
     }
     
 
-    public init(currentValue: String, scriptData: PSScriptData, positionMode : Bool, setCurrentValueBlock : ((String) -> ())?){
-        self.originalValue = currentValue
+    public init(currentValue: PSEntryElement, scriptData: PSScriptData, positionMode : Bool, setCurrentValueBlock : ((PSEntryElement) -> ())?){
+        self.originalValue = currentValue.stringValue()
         self.functionName = positionMode ? "PointName" : "PortName"
         self.functionElement = PSFunctionElement()
         self.positionMode = positionMode
         self.portScript = PSPortScript(scriptData: scriptData)
         self.scriptData = scriptData
-        self.currentValue = currentValue
+        self.currentValue = currentValue.stringValue()
         self.nibName = "PortBuilder"
         self.bundle = NSBundle(forClass:self.dynamicType)
         self.displayName = "Port"

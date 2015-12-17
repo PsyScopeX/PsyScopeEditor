@@ -12,10 +12,10 @@ public class PSImportFileAsPopup : PSAttributePopup {
     var scriptData : PSScriptData
     var types : [PSToolInterface] = []
     @IBOutlet var browser : PSImportFileBrowserViewDelegate!
-    public init(types : [PSToolInterface], scriptData: PSScriptData, setCurrentValueBlock : ((String)->())?){
+    public init(types : [PSToolInterface], scriptData: PSScriptData, setCurrentValueBlock : ((PSEntryElement)->())?){
         self.types = types
         self.scriptData = scriptData
-        super.init(nibName: "ImportFilesAs",bundle: NSBundle(forClass:self.dynamicType), currentValue: "", displayName: "Action", setCurrentValueBlock: setCurrentValueBlock)
+        super.init(nibName: "ImportFilesAs",bundle: NSBundle(forClass:self.dynamicType), currentValue: .Null, displayName: "Action", setCurrentValueBlock: setCurrentValueBlock)
     }
     
     override public func awakeFromNib() {

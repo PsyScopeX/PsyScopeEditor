@@ -168,12 +168,12 @@ class PSMainWindowController : NSWindowController, NSWindowDelegate {
         let experimentEntry = scriptData.getMainExperimentEntry()
         let inputDevices = scriptData.getSubEntry("InputDevices", entry: experimentEntry)
         
-        let currentValue = inputDevices == nil ? "" : inputDevices!.currentValue
-        let popup = PSCheckBoxListAttributePopup(currentValue: currentValue, displayName: "InputDevices", checkBoxStrings: checkBoxStrings, setCurrentValueBlock: {(newValue : String) in
+        let currentValue = inputDevices == nil ? .Null : PSGetListElementForString(inputDevices!.currentValue)
+        let popup = PSCheckBoxListAttributePopup(currentValue: currentValue, displayName: "InputDevices", checkBoxStrings: checkBoxStrings, setCurrentValueBlock: {(newValue : PSEntryElement) in
             
             self.scriptData.beginUndoGrouping("Edit Input Devices")
             let id = self.scriptData.getOrCreateSubEntry("InputDevices", entry: experimentEntry, isProperty: true)
-            id.currentValue = newValue
+            id.currentValue = newValue.stringValue()
             self.scriptData.endUndoGrouping()
         
         })

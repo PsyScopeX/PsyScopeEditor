@@ -19,7 +19,7 @@ class PSAttribute_Position: PSAttributeGeneric {
         toolsArray = [PSTextEvent().type()]
         defaultValueString = PSDefaultConstants.DefaultAttributeValues.PSAttribute_Position
         attributeClass = PSAttributeParameter_Custom.self
-        customAttributeParameterAction = { (before : String, scriptData: PSScriptData, window: NSWindow, setCurrentValueBlock : ((String) -> ())?) -> () in
+        customAttributeParameterAction = { (before : PSEntryElement, scriptData: PSScriptData, window: NSWindow, setCurrentValueBlock : ((PSEntryElement) -> ())?) -> () in
             let popup = PSPortBuilderController(currentValue: before, scriptData: scriptData, positionMode: true, setCurrentValueBlock: setCurrentValueBlock)
             popup.showAttributeModalForWindow(window)
             

@@ -16,7 +16,7 @@ class PSAttribute_SoundFeature : PSAttributeGeneric {
         codeNameString = "Feature"
         defaultValueString = ""
         attributeClass = PSAttributeParameter_Custom.self
-        customAttributeParameterAction = { (before : String, scriptData: PSScriptData, window: NSWindow, setCurrentValueBlock : ((String) -> ())?) -> () in
+        customAttributeParameterAction = { (before : PSEntryElement, scriptData: PSScriptData, window: NSWindow, setCurrentValueBlock : ((PSEntryElement) -> ())?) -> () in
             let popup = PSCheckBoxListAttributePopup(currentValue: before, displayName: "Sound Options", checkBoxStrings: self.checkBoxStrings, setCurrentValueBlock: setCurrentValueBlock)
             popup.showAttributeModalForWindow(window)
             

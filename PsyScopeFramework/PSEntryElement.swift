@@ -41,7 +41,7 @@ public enum PSEntryElement : Equatable {
         return self.dumpElement(0)
     }
     
-    func stringValue() -> String {
+    public func stringValue() -> String {
         switch (self) {
         case .StringToken(let stringElement):
             return stringElement.quotedValue
@@ -275,6 +275,8 @@ public class PSStringListElement : PSCompoundEntryElement {
             self.foundErrors = parse.foundErrors
         }
     }
+    
+    
 }
 
 

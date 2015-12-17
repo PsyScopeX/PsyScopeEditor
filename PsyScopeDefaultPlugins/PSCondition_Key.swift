@@ -47,10 +47,10 @@ class PSCondition_Key_Popup : PSAttributePopup, NSTableViewDelegate, NSTableView
         }
     }
     
-    init(currentValue: String, setCurrentValueBlock : ((String)->())?){
+    init(currentValue: PSEntryElement, setCurrentValueBlock : ((PSEntryElement)->())?){
         
         pressedKeys = []
-        let inputValue = currentValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()).componentsSeparatedByCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+        let inputValue = currentValue.stringValue().stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()).componentsSeparatedByCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
         for aKey in inputValue {
             pressedKeys.append(PSCondition_Key_Key(fromString: aKey))
         }
@@ -178,7 +178,7 @@ class PSCondition_Key_Popup : PSAttributePopup, NSTableViewDelegate, NSTableView
         for k in pressedKeys {
             outputString += "\(k.toScriptString()) "
         }
-        self.currentValue = outputString
+        self.currentValue = PSGetListElementForString(outputString)
         
         super.closeMyCustomSheet(sender)
     }
@@ -313,9 +313,19 @@ class PSCondition_Key_Cell : PSConditionCell {
     }
     
     @IBAction func buttonPressed(sender : NSButton) {
-        let popup = PSCondition_Key_Popup(currentValue: self.entryFunction.getParametersStringValue(), setCurrentValueBlock : { (cValue: String) -> () in
-            self.entryFunction.setStringValues([cValue])
-            self.button.title = cValue
+        let listElement = PSStringListElement()
+        listElement.values = self.entryFunction.values
+        
+        let popup = PSCondition_Key_Popup(currentValue: .List(stringListElement: listElement), setCurrentValueBlock : { (cValue: PSEntryElement) -> () in
+            
+            if case .List(let newListElement) = cValue {
+                self.entryFunction.values = newListElement.values
+            } else {
+                self.entryFunction.values = [cValue]
+            }
+            
+            
+            self.button.title = self.entryFunction.getParametersStringValue()
             self.updateScript()
         })
         popup.showAttributeModalForWindow(scriptData.window)

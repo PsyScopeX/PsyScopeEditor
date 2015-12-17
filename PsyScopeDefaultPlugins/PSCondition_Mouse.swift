@@ -102,9 +102,9 @@ class PSCondition_Mouse_Cell : PSConditionCell {
  
     @IBAction func choosePortButton(sender : AnyObject) {
         
-        let popup = PSPortBuilderController(currentValue: "PortName(\"\(self.portName)\")", scriptData: scriptData, positionMode: false, setCurrentValueBlock : { (cValue: String) -> () in
+        let popup = PSPortBuilderController(currentValue: PSGetFirstEntryElementForStringOrNull("PortName(\"\(self.portName)\")"), scriptData: scriptData, positionMode: false, setCurrentValueBlock : { (cValue: PSEntryElement) -> () in
             
-            let functionElement = PSFunctionElement.FromStringValue(cValue)
+            let functionElement = PSFunctionElement.FromStringValue(cValue.stringValue())
             self.portName = functionElement.getStrippedStringValues().joinWithSeparator(" ")
             self.portChangeButton.title = self.portName
             self.portButton.state = 1

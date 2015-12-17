@@ -10,16 +10,16 @@ import Foundation
 
 public class PSAttributePopup : NSObject {
 
-    public var currentValue : String
+    public var currentValue : PSEntryElement
     public var displayName : String
     public var nibName : String
     public var bundle : NSBundle
     @IBOutlet public var attributeSheet : NSWindow!
     public var topLevelObjects : NSArray?
     public var parentWindow : NSWindow!
-    public var setCurrentValueBlock : ((String) -> ())?
+    public var setCurrentValueBlock : ((PSEntryElement) -> ())?
     
-    public init(nibName: String, bundle: NSBundle, currentValue : String, displayName : String, setCurrentValueBlock : ((String) -> ())?) {
+    public init(nibName: String, bundle: NSBundle, currentValue : PSEntryElement, displayName : String, setCurrentValueBlock : ((PSEntryElement) -> ())?) {
         self.currentValue = currentValue
         self.nibName = nibName
         self.bundle = bundle

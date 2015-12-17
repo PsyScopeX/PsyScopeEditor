@@ -25,6 +25,7 @@
 		1A12C3931BF4E67F0005A076 /* PSSections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A12C3921BF4E67F0005A076 /* PSSections.swift */; };
 		1A12C3951BF4EDC10005A076 /* PSTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A12C3941BF4EDC10005A076 /* PSTypes.swift */; };
 		1A1A06CA1C22CFFB00603530 /* PSMenuStructure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1A06C91C22CFFB00603530 /* PSMenuStructure.swift */; };
+		1A1A06CC1C22E51D00603530 /* PSGetFirstEntryElementForString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1A06CB1C22E51D00603530 /* PSGetFirstEntryElementForString.swift */; };
 		1A1BE46E1A7FD4400013D107 /* PSConditionInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A1BE46D1A7FD3B90013D107 /* PSConditionInterface.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1A1BE4701A7FD5280013D107 /* PSCondition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1BE46F1A7FD5280013D107 /* PSCondition.swift */; };
 		1A1E2DF019CCB1C5006BD331 /* PSListBuilderColumn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1E2DEF19CCB1C5006BD331 /* PSListBuilderColumn.swift */; };
@@ -698,6 +699,7 @@
 		1A12C3921BF4E67F0005A076 /* PSSections.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSSections.swift; sourceTree = "<group>"; };
 		1A12C3941BF4EDC10005A076 /* PSTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSTypes.swift; sourceTree = "<group>"; };
 		1A1A06C91C22CFFB00603530 /* PSMenuStructure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSMenuStructure.swift; sourceTree = "<group>"; };
+		1A1A06CB1C22E51D00603530 /* PSGetFirstEntryElementForString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSGetFirstEntryElementForString.swift; sourceTree = "<group>"; };
 		1A1BE46D1A7FD3B90013D107 /* PSConditionInterface.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PSConditionInterface.h; sourceTree = "<group>"; };
 		1A1BE46F1A7FD5280013D107 /* PSCondition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSCondition.swift; sourceTree = "<group>"; };
 		1A1E2DEF19CCB1C5006BD331 /* PSListBuilderColumn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSListBuilderColumn.swift; sourceTree = "<group>"; };
@@ -2040,6 +2042,7 @@
 				1A811C241AC37CA4000B44CE /* PSEntryElement.swift */,
 				1A811C261AC37CBF000B44CE /* PSEntryTokenizer.swift */,
 				1A7FB9331AC86DDD00C81723 /* PSNullRange.swift */,
+				1A1A06CB1C22E51D00603530 /* PSGetFirstEntryElementForString.swift */,
 			);
 			name = "Entry Values";
 			sourceTree = "<group>";
@@ -3345,6 +3348,7 @@
 				1A811C251AC37CA4000B44CE /* PSEntryElement.swift in Sources */,
 				1A710A301A86C67C00073CB6 /* PSIntAttributePopup.swift in Sources */,
 				1AFEBCB81B322CE000A3437E /* PSSelectionInterface.swift in Sources */,
+				1A1A06CC1C22E51D00603530 /* PSGetFirstEntryElementForString.swift in Sources */,
 				1AFC19191B67EC54007083DB /* PSTextField.swift in Sources */,
 				1A710A2B1A86C67C00073CB6 /* PSColorAttributePopup.swift in Sources */,
 				1A30407D1AD586BF00510174 /* Entry.m in Sources */,

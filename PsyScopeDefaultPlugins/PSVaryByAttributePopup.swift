@@ -32,11 +32,11 @@ class PSVaryByAttributePopup: PSAttributePopup, NSOutlineViewDataSource, NSOutli
     
     var attributes : [PSVaryByAttribute] = []
 
-    init(baseEntry : Entry, scriptData : PSScriptData, type : String, setCurrentValueBlock : ((String)->())?) {
+    init(baseEntry : Entry, scriptData : PSScriptData, type : String, setCurrentValueBlock : ((PSEntryElement)->())?) {
         self.scriptData = scriptData
         self.type = type
         self.entry = baseEntry
-        super.init(nibName: "VaryByAttributePopup", bundle: NSBundle(forClass:self.dynamicType), currentValue: "", displayName: "", setCurrentValueBlock: setCurrentValueBlock)
+        super.init(nibName: "VaryByAttributePopup", bundle: NSBundle(forClass:self.dynamicType), currentValue: .Null, displayName: "", setCurrentValueBlock: setCurrentValueBlock)
         
         //get all blocks, that this attribute is linked to, and list attributes
         let parentLinks = scriptData.getLinkedParentEntriesOfType(type, entry: entry)
@@ -81,7 +81,7 @@ class PSVaryByAttributePopup: PSAttributePopup, NSOutlineViewDataSource, NSOutli
     }
     
     @IBAction func select(sender : AnyObject) {
-        self.currentValue = selectedAttribute!.name
+        self.currentValue = PSGetFirstEntryElementForStringOrNull(selectedAttribute!.name)
         self.closeMyCustomSheet(self)
     }
     

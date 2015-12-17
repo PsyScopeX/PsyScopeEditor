@@ -25,7 +25,7 @@ class PSAttributeParameter_Action : PSAttributeParameter {
                 popUpButton.hidden = false
             }
             updatePopUpMenuContent()
-            popUpButton.selectItemWithTitle(currentValue)
+            popUpButton.selectItemWithTitle(currentValue.stringValue())
         } else {
             if popUpButton != nil {
                 popUpButton.hidden = true
@@ -34,12 +34,12 @@ class PSAttributeParameter_Action : PSAttributeParameter {
     }
     
     func actionSelected(item : NSMenuItem) {
-        currentValue = item.title
+        currentValue = PSGetFirstEntryElementForStringOrNull(item.title)
         self.cell.updateScript()
     }
     
     func noneSelected(item : NSMenuItem) {
-        currentValue = "NULL"
+        currentValue = .Null
         self.cell.updateScript()
     }
         

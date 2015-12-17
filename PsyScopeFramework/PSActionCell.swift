@@ -31,7 +31,7 @@ public class PSActionCell : PSCellView {
     override public func updateScript() {
         
         //add parameters for action's function
-        var values : [String] = []
+        var values : [PSEntryElement] = []
         for p in actionParameters {
             values.append(p.currentValue)
         }
@@ -41,19 +41,14 @@ public class PSActionCell : PSCellView {
         let nElements = values.count
         var indexOfLastValue = 0
         for indexOfLastValue = (nElements - 1); indexOfLastValue > 0; --indexOfLastValue {
-            if values[indexOfLastValue] != "" {
+            if values[indexOfLastValue] != PSEntryElement.Null {
                 break
             }
         }
         
-        for var index = 0; index < indexOfLastValue; ++index {
-            if values[index] == "" {
-                values[index] = "NULL"
-            }
-        }
         
-        let instances : String? = instancesParameter?.currentValue
-        let activeUntil : String? = activeUntilParameter?.currentValue
+        let instances : String? = instancesParameter?.currentValue.stringValue()
+        let activeUntil : String? = activeUntilParameter?.currentValue.stringValue()
         
         entryFunction.setActionParameterValues(values,instances: instances, activeUntil: activeUntil)
         
@@ -163,11 +158,11 @@ public class PSActionCell : PSCellView {
                 
                 //automatically adds to view
                 let builder = PSAttributeParameterBuilder(parameter: ap)
-                var currentValue : String
-                if index < entryFunction.currentValues.count {
-                    currentValue = entryFunction.currentValues[index]
+                var currentValue : PSEntryElement
+                if index < entryFunction.values.count {
+                    currentValue = entryFunction.values[index]
                 } else {
-                    currentValue = ""
+                    currentValue = .Null
                 }
                 builder.setupMultiCell(names[index], y: topYPosition, cell: self, currentValue: currentValue, type: nil)
                 self.actionParameters.append(ap)
@@ -182,7 +177,7 @@ public class PSActionCell : PSCellView {
             instancesParameter = PSAttributeParameter_Int()
             let instances = entryFunction.instancesValue != nil ? "\(entryFunction.instancesValue!)" : "1"
             let builder = PSAttributeParameterBuilder(parameter: instancesParameter!)
-            builder.setupMultiCell("Instances", y: topYPosition, cell: self, currentValue: instances, type: nil)
+            builder.setupMultiCell("Instances", y: topYPosition, cell: self, currentValue: PSGetFirstEntryElementForStringOrNull(instances), type: nil)
             
             topYPosition -= PSAttributeParameter.defaultHeight
             
@@ -190,7 +185,7 @@ public class PSActionCell : PSCellView {
             activeUntilParameter = PSAttributeParameter_ActiveUntil()
             let activeUntil = entryFunction.activeUntilValue != nil ? entryFunction.activeUntilValue! : "NONE"
             let builder2 = PSAttributeParameterBuilder(parameter: activeUntilParameter!)
-            builder2.setupMultiCell("ActiveUntil", y: topYPosition, cell: self, currentValue: activeUntil, type: nil)
+            builder2.setupMultiCell("ActiveUntil", y: topYPosition, cell: self, currentValue: PSGetFirstEntryElementForStringOrNull(activeUntil), type: nil)
         }
         
         

@@ -39,18 +39,18 @@ func PSColorStringToNSColor(colorString : String) -> NSColor {
 }
 
 public class PSColorAttributePopup: PSAttributePopup {
-    public init(currentValue: String, displayName : String, setCurrentValueBlock : ((String) -> ())?) {
+    public init(currentValue: PSEntryElement, displayName : String, setCurrentValueBlock : ((PSEntryElement) -> ())?) {
         super.init(nibName: "ColorAttribute",bundle: NSBundle(forClass:self.dynamicType),currentValue: currentValue, displayName: displayName, setCurrentValueBlock: setCurrentValueBlock)
     }
     
     @IBOutlet var colorWell : NSColorWell!
     
     override public func awakeFromNib() {
-        colorWell.color = PSColorStringToNSColor(self.currentValue)
+        colorWell.color = PSColorStringToNSColor(self.currentValue.stringValue())
     }
     
     @IBAction func enteredDone(_: AnyObject) {
-        currentValue = NSColorToPSColorString(colorWell.color)
+        currentValue = PSGetFirstEntryElementForStringOrNull(NSColorToPSColorString(colorWell.color))
         closeMyCustomSheet(self)
         NSColorPanel.sharedColorPanel().close()
     }

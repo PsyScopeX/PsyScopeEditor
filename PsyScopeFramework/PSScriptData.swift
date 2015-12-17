@@ -138,6 +138,7 @@ public class PSScriptData : NSObject {
         return nil
     }
     
+    
     public func getVaryByMenu(target : AnyObject, action : Selector) -> NSMenu {
         let menu = self.selectionInterface.varyByMenu()
         menu.setAllTargetsAndActions(target, action: action)

@@ -40,10 +40,11 @@ public class PSAttributeParameter_String : PSAttributeParameter, NSTextFieldDele
                 textField.hidden = false
             }
             
-            if currentValue == "NULL" {
+            if currentValue.stringValue() == "NULL" {
                 textField.stringValue = ""
             } else {
-                textField.stringValue = currentValue
+                //is it a bracketed string?
+                textField.stringValue = currentValue.stringValue()
             }
         } else {
             if textField != nil {
@@ -60,10 +61,12 @@ public class PSAttributeParameter_String : PSAttributeParameter, NSTextFieldDele
     }
     
     override public func controlTextDidEndEditing(obj: NSNotification) {
-        if textField.stringValue != "" {
-            currentValue = textField.stringValue
+        //parse and take first value
+        if let value = PSGetFirstEntryElementForString(textField.stringValue) {
+            currentValue = value
         } else {
-            currentValue = "NULL"
+            NSBeep()
+            currentValue = .Null
         }
         self.cell.updateScript()
     }

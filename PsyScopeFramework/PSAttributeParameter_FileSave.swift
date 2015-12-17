@@ -41,9 +41,9 @@ public class PSAttributeParameter_FileSave : PSAttributeParameter_Button {
         let pspath = PSPath(path, basePath: docPath)
         
         if pspath == "" {
-            self.currentValue = "NULL"
+            self.currentValue = .Null
         } else {
-            self.currentValue = "\"\(pspath)\""
+            self.currentValue = PSGetFirstEntryElementForStringOrNull("\"\(pspath)\"")
         }
         setButtonTitle()
         self.cell.updateScript()

@@ -19,18 +19,18 @@ public class PSAttribute_Port: PSAttributeGeneric {
         defaultValueString = PSDefaultConstants.DefaultAttributeValues.PSAttribute_Port
         
         attributeClass = PSAttributeParameter_Custom.self
-        customAttributeParameterAction = { (before : String, scriptData: PSScriptData, window: NSWindow, setCurrentValueBlock : ((String) -> ())?) -> () in
+        customAttributeParameterAction = { (before : PSEntryElement, scriptData: PSScriptData, window: NSWindow, setCurrentValueBlock : ((PSEntryElement) -> ())?) -> () in
             let popup = PSPortBuilderController(currentValue: before, scriptData: scriptData, positionMode: false, setCurrentValueBlock: setCurrentValueBlock)
             popup.showAttributeModalForWindow(window)
         }
         
-        displayValueTransformer = { (before : String) in
+        displayValueTransformer = { (before : PSEntryElement) in
             let functionElement = PSFunctionElement()
-            functionElement.stringValue = before
+            functionElement.stringValue = before.stringValue()
             if functionElement.functionName == "PortName" && !functionElement.foundErrors {
                 return functionElement.getStrippedStringValues().joinWithSeparator(" ")
             } else {
-                return before
+                return before.stringValue()
             }
         }
         

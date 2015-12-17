@@ -33,7 +33,7 @@ public class PSAttributeParameter_ActiveUntil : PSAttributeParameter {
             updatePopUpMenuContent()
             
             for value in values {
-                if currentValue.lowercaseString == value.lowercaseString {
+                if currentValue.stringValue().lowercaseString == value.lowercaseString {
                     popUpButton.selectItemWithTitle(value)
                 }
             }
@@ -46,9 +46,9 @@ public class PSAttributeParameter_ActiveUntil : PSAttributeParameter {
     
     func selected(item : NSMenuItem) {
         if let defaultValue = defaultValues[item.title] {
-            currentValue = defaultValue
+            currentValue = PSGetFirstEntryElementForStringOrNull(defaultValue)
         } else {
-            currentValue = item.title
+            currentValue = PSGetFirstEntryElementForStringOrNull(item.title)
         }
         self.cell.updateScript()
     }

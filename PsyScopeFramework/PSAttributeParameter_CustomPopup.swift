@@ -29,7 +29,7 @@ public class PSAttributeParameter_CustomPopup : PSAttributeParameter {
             updatePopUpMenuContent()
             
             for value in values {
-                if currentValue.lowercaseString == value.lowercaseString {
+                if currentValue.stringValue().lowercaseString == value.lowercaseString {
                     popUpButton.selectItemWithTitle(value)
                 }
             }
@@ -41,7 +41,7 @@ public class PSAttributeParameter_CustomPopup : PSAttributeParameter {
     }
     
     func selected(item : NSMenuItem) {
-        currentValue = item.title.uppercaseString
+        currentValue = PSGetFirstEntryElementForStringOrNull(item.title.uppercaseString)
         self.cell.updateScript()
     }
     

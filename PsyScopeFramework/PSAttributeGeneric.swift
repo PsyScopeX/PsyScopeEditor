@@ -16,8 +16,8 @@ public class PSAttributeGeneric : NSObject, PSAttributeInterface {
     public var defaultValueString : String
     public var toolsArray : [String]
     public var keyValuesArray : [String]
-    public var customAttributeParameterAction : ((String,PSScriptData,NSWindow,((String) -> ())?) -> ())?
-    public var displayValueTransformer : (String -> String)?
+    public var customAttributeParameterAction : ((PSEntryElement,PSScriptData,NSWindow,((PSEntryElement) -> ())?) -> ())?
+    public var displayValueTransformer : (PSEntryElement -> String)?
     public var section : PSSection
     public var reservedEntryNames : [String]
     public var illegalEntryNames : [String]

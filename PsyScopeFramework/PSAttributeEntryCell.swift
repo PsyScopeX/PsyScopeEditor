@@ -23,7 +23,7 @@ public class PSAttributeEntryCellView : PSAttributeCellView {
         
     public override func updateScript() {
         super.updateScript()
-        self.entry.currentValue = self.attributeParameter.currentValue
+        self.entry.currentValue = self.attributeParameter.currentValue.stringValue()
     }
 
 }

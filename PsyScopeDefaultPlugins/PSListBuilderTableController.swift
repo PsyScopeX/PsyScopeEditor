@@ -271,7 +271,7 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
         }
         
         cell.updateScriptBlock = { () -> () in
-            listBuilderColumn.field[row] = cell.attributeParameter.currentValue
+            listBuilderColumn.field[row] = PSConvertListElementToStringElement(cell.attributeParameter.currentValue).stringValue()
         }
         
         cell.firstResponderBlock = { self.lastCellEdited = cell }

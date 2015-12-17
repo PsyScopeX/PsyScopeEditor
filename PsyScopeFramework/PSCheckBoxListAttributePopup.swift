@@ -19,7 +19,7 @@ import Foundation
 
 public class PSCheckBoxListAttributePopup: PSAttributePopup {
     
-    public init(currentValue : String, displayName : String, checkBoxStrings : [(String,String)], setCurrentValueBlock : ((String) -> ())?) {
+    public init(currentValue : PSEntryElement, displayName : String, checkBoxStrings : [(String,String)], setCurrentValueBlock : ((PSEntryElement) -> ())?) {
         let bundle = NSBundle(forClass:self.dynamicType)
         self.checkBoxStrings = checkBoxStrings
         super.init(nibName: "CheckBoxListAttributePopup", bundle: bundle, currentValue: currentValue, displayName: displayName, setCurrentValueBlock: setCurrentValueBlock)
@@ -61,7 +61,7 @@ public class PSCheckBoxListAttributePopup: PSAttributePopup {
         view.addSubview(okButton)
         
         //now set checkBoxes
-        let current_options : [String] = currentValue.componentsSeparatedByString(" ")
+        let current_options : [String] = currentValue.stringValue().componentsSeparatedByString(" ")
         for checkBox in checkBoxes {
             for active_option in current_options {
                 if active_option == checkBox.token {
@@ -79,7 +79,9 @@ public class PSCheckBoxListAttributePopup: PSAttributePopup {
                 value += checkBox.token + " "
             }
         }
-        currentValue = value.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        
+        
+        currentValue = PSGetListElementForString(value.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()))
         
         self.closeMyCustomSheet(self)
     }

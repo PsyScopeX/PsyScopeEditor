@@ -18,7 +18,7 @@ class PSAttribute_PictureEventFeature : PSAttributeGeneric {
         defaultValueString = ""
         attributeClass = PSAttributeParameter_Custom.self
         toolsArray = [PSPictureEvent().type()]
-        customAttributeParameterAction = { (before : String, scriptData: PSScriptData, window: NSWindow, setCurrentValueBlock : ((String) -> ())?) -> () in
+        customAttributeParameterAction = { (before : PSEntryElement, scriptData: PSScriptData, window: NSWindow, setCurrentValueBlock : ((PSEntryElement) -> ())?) -> () in
             let popup = PSCheckBoxListAttributePopup(currentValue: before, displayName: "Picture Options", checkBoxStrings: self.checkBoxStrings, setCurrentValueBlock: setCurrentValueBlock)
             popup.showAttributeModalForWindow(window)
             

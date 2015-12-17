@@ -13,13 +13,10 @@ public class PSAttributeParameter_FontFace : PSAttributeParameter_Button {
         
         let fontpopup = PSFontAttributePopup(currentValue: currentValue, displayName: "Choose Font Face", type: PSFontAttributePopupType.FaceOnly, setCurrentValueBlock: {
         
-            (cValue : String) -> () in
+            (cValue : PSEntryElement) -> () in
             self.currentValue = cValue
             
-            if self.currentValue == "" {
-                self.currentValue = "NULL"
-            }
-            self.editButton.title = self.currentValue
+            self.editButton.title = self.currentValue.stringValue()
             self.cell.updateScript()
         
         })

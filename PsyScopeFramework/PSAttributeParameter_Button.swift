@@ -11,7 +11,7 @@ import Foundation
 public class PSAttributeParameter_Button : PSAttributeParameter {
     
     public var editButton : NSButton!
-    public var displayValueTransformer : ((String) -> (String))? //can transform the display to make it prettier
+    public var displayValueTransformer : ((PSEntryElement) -> (String))? //can transform the display to make it prettier
     
     override public func setCustomControl(visible: Bool) {
         if visible {
@@ -42,12 +42,12 @@ public class PSAttributeParameter_Button : PSAttributeParameter {
     }
     
     func setButtonTitle() {
-        if currentValue == "NULL" {
+        if currentValue == PSEntryElement.Null {
             editButton.title = ""
         } else if let displayValueTransformer = displayValueTransformer {
             editButton.title = displayValueTransformer(currentValue)
         } else {
-            editButton.title = currentValue
+            editButton.title = currentValue.stringValue()
         }
     }
     
