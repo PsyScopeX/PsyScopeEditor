@@ -15,7 +15,6 @@
 		1A0A25341A3239840000D621 /* KeyCondition.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A0A25331A3239840000D621 /* KeyCondition.xib */; };
 		1A0A25361A334DA70000D621 /* Condition_KeyCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A0A25351A334DA70000D621 /* Condition_KeyCell.xib */; };
 		1A0B52061AEE73E700E0ADDB /* PSVariableCompositeTypePopoverController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0B52051AEE73E700E0ADDB /* PSVariableCompositeTypePopoverController.swift */; };
-		1A0B520D1AEFA68600E0ADDB /* PSScriptErrorPopoverController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0B520C1AEFA68600E0ADDB /* PSScriptErrorPopoverController.swift */; };
 		1A0B52441AEFC4B200E0ADDB /* PSDialogVariableTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0B52431AEFC4B200E0ADDB /* PSDialogVariableTool.swift */; };
 		1A0B52461AEFCC3600E0ADDB /* PSDialogVariablePropertiesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0B52451AEFCC3600E0ADDB /* PSDialogVariablePropertiesController.swift */; };
 		1A0B52481AEFCC5000E0ADDB /* SubjectVariableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A0B52471AEFCC5000E0ADDB /* SubjectVariableView.xib */; };
@@ -689,7 +688,6 @@
 		1A0A25331A3239840000D621 /* KeyCondition.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KeyCondition.xib; sourceTree = "<group>"; };
 		1A0A25351A334DA70000D621 /* Condition_KeyCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Condition_KeyCell.xib; sourceTree = "<group>"; };
 		1A0B52051AEE73E700E0ADDB /* PSVariableCompositeTypePopoverController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSVariableCompositeTypePopoverController.swift; sourceTree = "<group>"; };
-		1A0B520C1AEFA68600E0ADDB /* PSScriptErrorPopoverController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSScriptErrorPopoverController.swift; sourceTree = "<group>"; };
 		1A0B52431AEFC4B200E0ADDB /* PSDialogVariableTool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSDialogVariableTool.swift; sourceTree = "<group>"; };
 		1A0B52451AEFCC3600E0ADDB /* PSDialogVariablePropertiesController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSDialogVariablePropertiesController.swift; sourceTree = "<group>"; };
 		1A0B52471AEFCC5000E0ADDB /* SubjectVariableView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SubjectVariableView.xib; sourceTree = "<group>"; };
@@ -1291,7 +1289,6 @@
 			isa = PBXGroup;
 			children = (
 				1A1213D6199CDFCD0016493C /* PSScriptErrorViewController.swift */,
-				1A0B520C1AEFA68600E0ADDB /* PSScriptErrorPopoverController.swift */,
 			);
 			name = Errors;
 			sourceTree = "<group>";
@@ -3392,7 +3389,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1A0B520D1AEFA68600E0ADDB /* PSScriptErrorPopoverController.swift in Sources */,
 				1A495D751BE268AC00702B95 /* PSToolBrowserController.swift in Sources */,
 				1A4A64541B0D054C00084A10 /* PSGroupsCreator.swift in Sources */,
 				1A1213D7199CDFCD0016493C /* PSScriptErrorViewController.swift in Sources */,

@@ -165,14 +165,14 @@
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="V78-Pp-0lJ">
-                                                            <rect key="frame" x="0.0" y="0.0" width="352" height="750"/>
+                                                            <rect key="frame" x="0.0" y="273" width="352" height="477"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <clipView key="contentView" id="U36-BY-9FV">
-                                                                <rect key="frame" x="0.0" y="0.0" width="352" height="750"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="352" height="477"/>
                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                 <subviews>
                                                                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="lOo-cW-CRS" viewBased="YES" id="10b-TX-phQ" customClass="PSClickableTableView" customModule="PsyScopeFramework">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="199" height="0.0"/>
+                                                                        <rect key="frame" x="0.0" y="0.0" width="352" height="460"/>
                                                                         <autoresizingMask key="autoresizingMask"/>
                                                                         <size key="intercellSpacing" width="3" height="2"/>
                                                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -277,6 +277,103 @@
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                             </tableHeaderView>
                                                         </scrollView>
+                                                        <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="s6o-ug-q1q">
+                                                            <rect key="frame" x="0.0" y="0.0" width="352" height="87"/>
+                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                                            <clipView key="contentView" id="QHm-mh-fEv">
+                                                                <rect key="frame" x="1" y="1" width="350" height="85"/>
+                                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                                <subviews>
+                                                                    <textView editable="NO" importsGraphics="NO" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" usesFontPanel="YES" verticallyResizable="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="ssM-7c-htH">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="350" height="85"/>
+                                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                        <size key="minSize" width="350" height="85"/>
+                                                                        <size key="maxSize" width="463" height="10000000"/>
+                                                                        <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                        <size key="minSize" width="350" height="85"/>
+                                                                        <size key="maxSize" width="463" height="10000000"/>
+                                                                    </textView>
+                                                                </subviews>
+                                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                            </clipView>
+                                                            <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="79e-RA-BwR">
+                                                                <rect key="frame" x="-100" y="-100" width="87" height="18"/>
+                                                                <autoresizingMask key="autoresizingMask"/>
+                                                            </scroller>
+                                                            <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="0f9-VT-nh3">
+                                                                <rect key="frame" x="335" y="1" width="16" height="85"/>
+                                                                <autoresizingMask key="autoresizingMask"/>
+                                                            </scroller>
+                                                        </scrollView>
+                                                        <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="bKc-fm-cy2">
+                                                            <rect key="frame" x="0.0" y="113" width="352" height="87"/>
+                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                                            <clipView key="contentView" id="BWB-lC-sY0">
+                                                                <rect key="frame" x="1" y="1" width="350" height="85"/>
+                                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                                <subviews>
+                                                                    <textView editable="NO" importsGraphics="NO" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" usesFontPanel="YES" verticallyResizable="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="fTd-hG-kGV">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="350" height="85"/>
+                                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                        <size key="minSize" width="350" height="85"/>
+                                                                        <size key="maxSize" width="463" height="10000000"/>
+                                                                        <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                        <size key="minSize" width="350" height="85"/>
+                                                                        <size key="maxSize" width="463" height="10000000"/>
+                                                                    </textView>
+                                                                </subviews>
+                                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                            </clipView>
+                                                            <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="BXs-8s-pz3">
+                                                                <rect key="frame" x="-100" y="-100" width="87" height="18"/>
+                                                                <autoresizingMask key="autoresizingMask"/>
+                                                            </scroller>
+                                                            <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="gx2-Pm-UUj">
+                                                                <rect key="frame" x="335" y="1" width="16" height="85"/>
+                                                                <autoresizingMask key="autoresizingMask"/>
+                                                            </scroller>
+                                                        </scrollView>
+                                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="z4g-Tn-hXX">
+                                                            <rect key="frame" x="3" y="91" width="59" height="14"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Solution:" id="mvz-NE-kCP">
+                                                                <font key="font" metaFont="smallSystem"/>
+                                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                            </textFieldCell>
+                                                        </textField>
+                                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="OHh-Zq-bbb">
+                                                            <rect key="frame" x="3" y="204" width="79" height="14"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Description:" id="awv-7p-4eR">
+                                                                <font key="font" metaFont="smallSystem"/>
+                                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                            </textFieldCell>
+                                                        </textField>
+                                                        <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" id="Ytc-zl-ZUG">
+                                                            <rect key="frame" x="0.0" y="226" width="48" height="48"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSCaution" id="VST-GV-fXk"/>
+                                                        </imageView>
+                                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" setsMaxLayoutWidthAtFirstLayout="YES" id="M0x-2r-ltZ">
+                                                            <rect key="frame" x="54" y="226" width="186" height="33"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Label" id="m7b-UG-Sng">
+                                                                <font key="font" metaFont="system"/>
+                                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                            </textFieldCell>
+                                                        </textField>
+                                                        <box verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="GfI-dm-fKL">
+                                                            <rect key="frame" x="0.0" y="270" width="352" height="5"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                            <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
+                                                            <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                            <font key="titleFont" metaFont="system"/>
+                                                        </box>
                                                     </subviews>
                                                 </view>
                                             </tabViewItem>
@@ -489,7 +586,7 @@
                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                 <subviews>
                                                                     <customView id="zck-4U-xpq" customClass="PSLayoutBoard" customModule="PsyScopeEditor" customModuleProvider="target">
-                                                                        <rect key="frame" x="0.0" y="411" width="1000" height="1000"/>
+                                                                        <rect key="frame" x="0.0" y="427" width="1000" height="1000"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                         <connections>
                                                                             <outlet property="actionPopup" destination="MjE-gb-jEH" id="vce-nN-R60"/>
@@ -1019,30 +1116,14 @@
         </customObject>
         <customObject id="0g3-tr-pK6" customClass="PSScriptErrorViewController" customModule="PsyScopeEditor" customModuleProvider="target">
             <connections>
-                <outlet property="errorPopoverController" destination="wx6-0j-p0h" id="DMU-Lk-EU3"/>
+                <outlet property="descriptionText" destination="M0x-2r-ltZ" id="du6-nZ-v6N"/>
+                <outlet property="detailedDescriptionText" destination="fTd-hG-kGV" id="tbx-8t-a7v"/>
                 <outlet property="mainWindowController" destination="-2" id="jpI-W7-F2z"/>
+                <outlet property="solutionText" destination="ssM-7c-htH" id="u11-zj-wdD"/>
                 <outlet property="tableView" destination="10b-TX-phQ" id="r4y-3c-bX2"/>
                 <outlet property="textView" destination="I8G-S8-gcX" id="uwv-yc-EBe"/>
             </connections>
         </customObject>
-        <customObject id="wx6-0j-p0h" customClass="PSScriptErrorPopoverController" customModule="PsyScopeEditor" customModuleProvider="target">
-            <connections>
-                <outlet property="descriptionText" destination="M0x-2r-ltZ" id="GMz-UY-VM0"/>
-                <outlet property="detailedDescriptionText" destination="fTd-hG-kGV" id="uxz-uq-f3i"/>
-                <outlet property="errorPopover" destination="wob-Om-bVu" id="lem-zm-rZG"/>
-                <outlet property="solutionText" destination="ssM-7c-htH" id="C5l-de-xOi"/>
-            </connections>
-        </customObject>
-        <viewController id="ywo-Z9-Rvz" userLabel="Script Error Popover View Controller">
-            <connections>
-                <outlet property="view" destination="0Df-rX-sOy" id="hLC-wf-YJO"/>
-            </connections>
-        </viewController>
-        <popover animates="NO" behavior="t" id="wob-Om-bVu" userLabel="Script Error Popover">
-            <connections>
-                <outlet property="contentViewController" destination="ywo-Z9-Rvz" id="oE7-m3-RYU"/>
-            </connections>
-        </popover>
         <customObject id="2Rg-pS-CE1" customClass="PSScriptConverter" customModule="PsyScopeEditor" customModuleProvider="target">
             <connections>
                 <outlet property="errorHandler" destination="0g3-tr-pK6" id="7Y8-yO-LBs"/>
@@ -1142,103 +1223,6 @@ CA
             <accessibility description="Actions Menu"/>
             <point key="canvasLocation" x="-169.5" y="468.5"/>
         </menu>
-        <customView id="0Df-rX-sOy">
-            <rect key="frame" x="0.0" y="0.0" width="258" height="291"/>
-            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-            <subviews>
-                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" id="Ytc-zl-ZUG">
-                    <rect key="frame" x="0.0" y="243" width="48" height="48"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSCaution" id="VST-GV-fXk"/>
-                </imageView>
-                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" setsMaxLayoutWidthAtFirstLayout="YES" id="M0x-2r-ltZ">
-                    <rect key="frame" x="54" y="243" width="186" height="33"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Label" id="m7b-UG-Sng">
-                        <font key="font" metaFont="system"/>
-                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                    </textFieldCell>
-                </textField>
-                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="OHh-Zq-bbb">
-                    <rect key="frame" x="16" y="228" width="79" height="14"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Description:" id="awv-7p-4eR">
-                        <font key="font" metaFont="smallSystem"/>
-                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                    </textFieldCell>
-                </textField>
-                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="z4g-Tn-hXX">
-                    <rect key="frame" x="16" y="111" width="59" height="14"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Solution:" id="mvz-NE-kCP">
-                        <font key="font" metaFont="smallSystem"/>
-                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                    </textFieldCell>
-                </textField>
-                <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="bKc-fm-cy2">
-                    <rect key="frame" x="18" y="133" width="220" height="87"/>
-                    <autoresizingMask key="autoresizingMask"/>
-                    <clipView key="contentView" id="BWB-lC-sY0">
-                        <rect key="frame" x="1" y="1" width="218" height="85"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <textView importsGraphics="NO" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" usesFontPanel="YES" verticallyResizable="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="fTd-hG-kGV">
-                                <rect key="frame" x="0.0" y="0.0" width="218" height="85"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <size key="minSize" width="218" height="85"/>
-                                <size key="maxSize" width="463" height="10000000"/>
-                                <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                <size key="minSize" width="218" height="85"/>
-                                <size key="maxSize" width="463" height="10000000"/>
-                            </textView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </clipView>
-                    <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="BXs-8s-pz3">
-                        <rect key="frame" x="-100" y="-100" width="87" height="18"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </scroller>
-                    <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="gx2-Pm-UUj">
-                        <rect key="frame" x="203" y="1" width="16" height="85"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </scroller>
-                </scrollView>
-                <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="s6o-ug-q1q">
-                    <rect key="frame" x="18" y="16" width="220" height="87"/>
-                    <autoresizingMask key="autoresizingMask"/>
-                    <clipView key="contentView" id="QHm-mh-fEv">
-                        <rect key="frame" x="1" y="1" width="218" height="85"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <textView importsGraphics="NO" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" usesFontPanel="YES" verticallyResizable="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="ssM-7c-htH">
-                                <rect key="frame" x="0.0" y="0.0" width="218" height="85"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <size key="minSize" width="218" height="85"/>
-                                <size key="maxSize" width="463" height="10000000"/>
-                                <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                <size key="minSize" width="218" height="85"/>
-                                <size key="maxSize" width="463" height="10000000"/>
-                            </textView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </clipView>
-                    <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="79e-RA-BwR">
-                        <rect key="frame" x="-100" y="-100" width="87" height="18"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </scroller>
-                    <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="0f9-VT-nh3">
-                        <rect key="frame" x="203" y="1" width="16" height="85"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </scroller>
-                </scrollView>
-            </subviews>
-            <point key="canvasLocation" x="-733" y="107.5"/>
-        </customView>
         <customView id="p0s-Vy-yQ9">
             <rect key="frame" x="0.0" y="0.0" width="450" height="65"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>

@@ -14,10 +14,19 @@ class PSScriptErrorViewController: NSObject, NSTableViewDataSource, NSTableViewD
     @IBOutlet var textView : NSTextView!
     @IBOutlet var tableView : NSTableView!
     @IBOutlet var mainWindowController : PSMainWindowController!
-    @IBOutlet var errorPopoverController : PSScriptErrorPopoverController!
-    
+    @IBOutlet var descriptionText : NSTextField!
+    @IBOutlet var detailedDescriptionText : NSTextView!
+    @IBOutlet var solutionText : NSTextView!
+
     var errors : [PSScriptError] = []
     var warnings : [PSScriptError] = []
+    
+    //MARK: Setup
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        turnOffErrorDetail()
+    }
     
     //MARK: Tableview Datasource
     
@@ -53,9 +62,8 @@ class PSScriptErrorViewController: NSObject, NSTableViewDataSource, NSTableViewD
         if let w = textView.window {
             w.makeFirstResponder(textView)
         }
+        setErrorDetailToError(error)
         
-        let errorView = tableView.viewAtColumn(0, row: row, makeIfNecessary: true)!
-        errorPopoverController.showPopoverForError(error, errorView: errorView)
     }
     
     func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
@@ -66,6 +74,19 @@ class PSScriptErrorViewController: NSObject, NSTableViewDataSource, NSTableViewD
         }
     }
     
+    //MARK: Setting Error Detail
+    
+    func turnOffErrorDetail() {
+        descriptionText.stringValue = ""
+        detailedDescriptionText.string = ""
+        solutionText.string = ""
+    }
+    
+    func setErrorDetailToError(error : PSScriptError) {
+        descriptionText.stringValue = error.errorDescription as String
+        detailedDescriptionText.string = error.detailedDescription as String
+        solutionText.string = error.solution as String
+    }
 
 
     //MARK: Main methods (old protocol)
@@ -79,6 +100,7 @@ class PSScriptErrorViewController: NSObject, NSTableViewDataSource, NSTableViewD
     }
     
     func reset() {
+        turnOffErrorDetail()
         errors = []
         warnings = []
     }
