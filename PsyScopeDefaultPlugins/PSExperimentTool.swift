@@ -25,7 +25,7 @@ class PSExperimentTool: PSTool, PSToolInterface {
     
     struct ExperimentProperties {
         static let Format = PSProperty(name: "Format", defaultValue: "Factor", essential: true)
-        static let InputDevices = PSProperty(name: "InputDevices", defaultValue: "MOUSE KEY", essential: true)
+        static let InputDevices = PSProperty(name: "InputDevices", defaultValue: PSDefaultConstants.DefaultAttributeValues.PSExperimentInputDevices, essential: true)
         static let Timer = PSProperty(name: "Timer", defaultValue: "Macintosh", essential: true)
         static let Flags = PSProperty(name: "Flags", defaultValue: "NO_SAVE_SCREEN", essential: true)
         static let ScaleBlocks = PSProperty(name:"ScaleBlocks", defaultValue: "1", essential: true)

@@ -195,13 +195,6 @@ public class PSScriptData : NSObject {
             new_entry.layoutObject.yPos = 50
             renameEntry(new_entry, nameSuggestion: "NewExperiment")
             
-            //create standard menu setup
-            if let menus = createNewObjectFromTool(PSType.Menu) {
-                renameEntry(menus, nameSuggestion: "Experiment")
-                menus.currentValue = "@StandardPsyScopeMenuItems"
-                deleteNamedSubEntryFromParentEntry(menus, name: "Type")
-                deleteNamedSubEntryFromParentEntry(menus, name: "Dialog")
-            }
             
             //create subject information stuff
             if let subjectName = createNewObjectFromTool(PSType.SubjectInfo) {

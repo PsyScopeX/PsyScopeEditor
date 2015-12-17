@@ -23,7 +23,6 @@ public class DefaultPlugins: NSObject, PSPluginInterface {
                     PSAttribute_ExperimentPrecompile.self, 
                     PSAttribute_ExperimentDefaultColour.self, 
                     PSAttribute_ExperimentBackColour.self, 
-                    PSAttribute_ExperimentInputDevices.self, 
                     PSAttribute_Port.self, 
                     PSAttribute_Position.self, 
                     PSAttribute_TextStimulus.self, 

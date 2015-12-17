@@ -156,6 +156,30 @@ class PSMainWindowController : NSWindowController, NSWindowDelegate {
         }
     }
     
+    func inputDevicesMenuItem(sender : NSMenuItem) {
+        let checkBoxStrings : [(String,String)] = scriptData.pluginProvider.conditionPlugins.values.filter( {
+            return $0.isInputDevice()
+        }).map({
+            let type = $0.type()
+            return (type,type)
+        })
+        
+        //get current value
+        let experimentEntry = scriptData.getMainExperimentEntry()
+        let inputDevices = scriptData.getSubEntry("InputDevices", entry: experimentEntry)
+        
+        let currentValue = inputDevices == nil ? "" : inputDevices!.currentValue
+        let popup = PSCheckBoxListAttributePopup(currentValue: currentValue, displayName: "InputDevices", checkBoxStrings: checkBoxStrings, setCurrentValueBlock: {(newValue : String) in
+            
+            self.scriptData.beginUndoGrouping("Edit Input Devices")
+            let id = self.scriptData.getOrCreateSubEntry("InputDevices", entry: experimentEntry, isProperty: true)
+            id.currentValue = newValue
+            self.scriptData.endUndoGrouping()
+        
+        })
+        popup.showAttributeModalForWindow(scriptData.window)
+    }
+    
     //MARK: Custom field editor
     
     lazy var customFieldEditor : PSFieldEditor = {
