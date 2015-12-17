@@ -22,6 +22,7 @@ class PSVariableTool: PSTool, PSToolInterface {
     }
     
     struct Properties {
+        static let DataVariables = PSProperty(name: "DataVariables", defaultValue: "")
         static let ExpVariables = PSProperty(name: "ExpVariables", defaultValue: "")
         static let VariableType = PSProperty(name: "Type", defaultValue: "Integer", essential: true)
     }
@@ -87,6 +88,35 @@ class PSVariableTool: PSTool, PSToolInterface {
         var errors : [PSScriptError] = []
         errors += PSTool.identifyEntriesByPropertyInOtherEntry(ghostScript, property: Properties.ExpVariables, type: toolType) as [PSScriptError]
         
+        
+        //also check that only allowed types are in DataVariables
+        for ge in ghostScript.entries as [PSGhostEntry] {
+            for a in ge.subEntries as [PSGhostEntry] {
+                if (a.name == "DataVariables") {
+                    //found a sub entry with name of key attribute
+                    let entry_content = PSStringListCachedContainer()
+                    entry_content.stringValue = a.currentValue
+                    let dataFileEntryNames : [String] = entry_content.stringListRawStripped
+                    
+                    //need to check that these entries (if variables are of the allowed type)
+                    for dataFileEntryName in dataFileEntryNames {
+                        for ghostEntry in ghostScript.entries {
+                            if ghostEntry.name == dataFileEntryName && ghostEntry.type == toolType.name {
+                                //found a variable now check its type sub entry
+                                
+                                for variableSubEntry in ghostEntry.subEntries {
+                                    if variableSubEntry.name.lowercaseString == "type" && !PSVariableTypesAllowedInDataFile.contains(variableSubEntry.currentValue) {
+                                        //error
+                                        errors.append(PSErrorVariableDataFile(ghostEntry.name, type: variableSubEntry.currentValue, range: ghostEntry.range))
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
         return errors
     }    
     
@@ -95,4 +125,10 @@ class PSVariableTool: PSTool, PSToolInterface {
         return PSVariablePropertiesController(entry: entry, scriptData: scriptData)
     }
     
+}
+
+public func PSErrorVariableDataFile(nameOfVariable: String, type : String, range : NSRange) -> PSScriptError {
+    let description = "The variable: " + nameOfVariable + " has a type " + type + " which is not allowed in the DataFile"
+    let solution = "Remove the variable's name from the DataVariables entry"
+    return PSScriptError(errorDescription: "DataVariables Error", detailedDescription: description, solution: solution, range: range)
 }
