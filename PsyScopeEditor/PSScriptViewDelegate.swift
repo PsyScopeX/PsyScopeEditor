@@ -160,7 +160,8 @@ class PSScriptViewDelegate : NSObject, NSTextViewDelegate, NSTextStorageDelegate
         }
         
         if (safeToUpdate) {
-            
+            //reset errors
+            self.errorHandler.reset()
             userHasMadeTextEdits = false //reset flag
             userHasMadeGraphicsEdits = false
             buildScriptButton.enabled = false

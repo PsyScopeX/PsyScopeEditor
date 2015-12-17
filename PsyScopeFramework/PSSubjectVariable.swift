@@ -152,6 +152,12 @@ public final class PSSubjectVariable : Equatable {
         self.isGroupingVariable = false
         self.storageOptions = PSSubjectVariableStorageOptions(all: false)
         self.saveToScript() //to remove all references in other entries
+        
+        //also need to delete from menus
+        let menuStructure = PSMenuStructure(scriptData: scriptData)
+        menuStructure.removeSubjectVariable(self)
+        menuStructure.saveToScript()
+        
         scriptData.deleteBaseEntry(entry)
     }
 }
