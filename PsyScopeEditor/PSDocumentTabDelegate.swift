@@ -22,6 +22,7 @@ class PSWindowViewElement : NSObject {
     let leftPanelView : NSView?
     let midPanelTabViewItem : NSTabViewItem
     let leftPanelTabViewItem : NSTabViewItem?
+    var windowController : NSWindowController?
 }
 
 //handles the display of the three tabviews (left middle and right)
@@ -71,6 +72,7 @@ class PSDocumentTabDelegate: NSObject, NSTabViewDelegate {
     //key = tag of segment, value = the tab items to display
     var items : [Int : PSWindowViewElement] = [:]
     var identifiers : [String : Int] = [:]
+    var currentlySelectedTag : Int = 0
     
     var propertiesTabViewItemViewController : PSPluginViewController? = nil
     
@@ -244,16 +246,24 @@ class PSDocumentTabDelegate: NSObject, NSTabViewDelegate {
     }
     
     func show(element : PSWindowViewElement) {
-        midPanelTabView.selectTabViewItem(element.midPanelTabViewItem)
-        currentToolsTabViewItem = element.leftPanelTabViewItem
-        if let currentToolsTabViewItem = currentToolsTabViewItem where toolsShowing {
-            leftPanelTabView.selectTabViewItem(currentToolsTabViewItem)
-        } else if toolsShowing {
-            //tools showing but window doesnt have a tool kit so deaflut to entries browser
-            toolsShowing = false
-            leftPanelTabView.selectTabViewItem(entriesTabViewItem)
+        
+        if let windowController = element.windowController {
+            //element is currently in it's own window
+            windowController.becomeFirstResponder()
+        } else {
+            //element is nestled in tab item
+            currentlySelectedTag = element.tag
+            midPanelTabView.selectTabViewItem(element.midPanelTabViewItem)
+            currentToolsTabViewItem = element.leftPanelTabViewItem
+            if let currentToolsTabViewItem = currentToolsTabViewItem where toolsShowing {
+                leftPanelTabView.selectTabViewItem(currentToolsTabViewItem)
+            } else if toolsShowing {
+                //tools showing but window doesnt have a tool kit so deaflut to entries browser
+                toolsShowing = false
+                leftPanelTabView.selectTabViewItem(entriesTabViewItem)
+            }
+            toolbarSegmentedControl.selectedSegment = element.tag
         }
-        toolbarSegmentedControl.selectedSegment = element.tag
     }
     
     //handles selecting objects
@@ -289,11 +299,37 @@ class PSDocumentTabDelegate: NSObject, NSTabViewDelegate {
     
     //MARK: Showing a window
     
-    func showWindowFor(element: PSWindowViewElement) {
+    func detachCurrentWindow() {
+        
+        guard let element = items[currentlySelectedTag] where currentlySelectedTag > -1 else { return }
+        
+        //show another window
+        guard let otherElement = items[-1] else { return }
+        show(otherElement)
+        
         let windowController = PSWindowViewWindowController(windowNibName: "WindowView")
-        windowController.setup(mainWindowController.scriptData,leftView: element.leftPanelView, rightView: element.midPanelView)
+        element.windowController = windowController
+        windowController.setup(mainWindowController.scriptData,leftView: element.leftPanelView, rightView: element.midPanelView, tabDelegate: self)
         
         windowController.showWindow(self)
+    }
+    
+    func reattachWindow(windowController : PSWindowViewWindowController) {
+        guard let element = Array(items.values).filter({ $0.windowController == windowController }).first else {
+            //big error but lets at least let them save
+            PSModalAlert("An error has occurred with the windows - please save and restart!")
+            return
+        }
+        
+        //push views back to tabViewItems
+        element.midPanelTabViewItem.view = element.midPanelView
+        
+        if let leftPanelTabViewItem = element.leftPanelTabViewItem {
+            leftPanelTabViewItem.view = element.leftPanelView
+        }
+        
+        element.windowController = nil
+        show(element)
     }
     
     //MARK: Notifications

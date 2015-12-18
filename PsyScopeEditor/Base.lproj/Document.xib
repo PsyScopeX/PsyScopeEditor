@@ -369,7 +369,7 @@
                                                         </textField>
                                                         <box verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="GfI-dm-fKL">
                                                             <rect key="frame" x="0.0" y="270" width="352" height="5"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
                                                             <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                             <font key="titleFont" metaFont="system"/>

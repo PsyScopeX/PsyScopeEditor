@@ -180,6 +180,10 @@ class PSMainWindowController : NSWindowController, NSWindowDelegate {
         popup.showAttributeModalForWindow(scriptData.window)
     }
     
+    func detachCurrentWindow(sender : NSMenuItem) {
+        tabController.detachCurrentWindow()
+    }
+    
     //MARK: Custom field editor
     
     lazy var customFieldEditor : PSFieldEditor = {

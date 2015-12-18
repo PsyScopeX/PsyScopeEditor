@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9531" systemVersion="15B42" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9531"/>
     </dependencies>
@@ -207,6 +207,11 @@ CA
                             <menuItem title="Show Script" keyEquivalent="y" id="Td6-zp-Apu">
                                 <connections>
                                     <action selector="showScript:" target="-1" id="dJC-gU-DP0"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Detach Window..." keyEquivalent="d" id="P1f-W8-R0t">
+                                <connections>
+                                    <action selector="detachCurrentWindow:" target="-1" id="mAi-M3-QdS"/>
                                 </connections>
                             </menuItem>
                             <menuItem title="Minimize" keyEquivalent="m" id="OY7-WF-poV">
