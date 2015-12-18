@@ -49,7 +49,6 @@
 		1A23DED71AF18FED003AD0E6 /* PSEntryBrowserSearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A23DED61AF18FED003AD0E6 /* PSEntryBrowserSearchController.swift */; };
 		1A23DEDB1AF19ED1003AD0E6 /* NCRAutocompleteTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A23DEDA1AF19ED1003AD0E6 /* NCRAutocompleteTextView.m */; };
 		1A24499A19F5AF18004C1C40 /* PsyScopeFramework.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1A9E5E50198A7C5800312743 /* PsyScopeFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		1A2686201A0BB93300966271 /* PSWindowViewInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A26861F1A0BB91C00966271 /* PSWindowViewInterface.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1A2686221A0BCCB000966271 /* EventProperties.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A2686211A0BCCB000966271 /* EventProperties.xib */; };
 		1A2686241A0BCECF00966271 /* PSEventPropertiesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2686231A0BCECF00966271 /* PSEventPropertiesController.swift */; };
 		1A27042A19A7DE35002AD682 /* Script.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1A27042819A7DE35002AD682 /* Script.xcdatamodeld */; };
@@ -499,6 +498,9 @@
 		1ADFD1D41AE95286002579AF /* PSVariableOutlineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADFD1D31AE95286002579AF /* PSVariableOutlineViewController.swift */; };
 		1ADFD1D61AE95ABB002579AF /* PSVariableValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADFD1D51AE95ABB002579AF /* PSVariableValues.swift */; };
 		1AE0BA9C1ADD179F00623DEC /* PSFunctionElement_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE0BA9B1ADD179F00623DEC /* PSFunctionElement_Tests.swift */; };
+		1AE407551C2330E900A36653 /* PSWindowViewInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE407541C2330E900A36653 /* PSWindowViewInterface.swift */; };
+		1AE407571C2358B100A36653 /* PSWindowViewWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE407561C2358B100A36653 /* PSWindowViewWindowController.swift */; };
+		1AE407591C235A1E00A36653 /* WindowView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AE407581C235A1E00A36653 /* WindowView.xib */; };
 		1AE42F2C1A2F18C80003342A /* ActionsBuilder.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AE42F2B1A2F18C80003342A /* ActionsBuilder.xib */; };
 		1AE42F2E1A2F19050003342A /* Creating a new main window.txt in Resources */ = {isa = PBXBuildFile; fileRef = 1AE42F2D1A2F19050003342A /* Creating a new main window.txt */; };
 		1AE42F301A2F20C80003342A /* PSActionsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE42F2F1A2F20C80003342A /* PSActionsBuilder.swift */; };
@@ -709,7 +711,6 @@
 		1A23DED61AF18FED003AD0E6 /* PSEntryBrowserSearchController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSEntryBrowserSearchController.swift; sourceTree = "<group>"; };
 		1A23DED91AF19ED1003AD0E6 /* NCRAutocompleteTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCRAutocompleteTextView.h; sourceTree = "<group>"; };
 		1A23DEDA1AF19ED1003AD0E6 /* NCRAutocompleteTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NCRAutocompleteTextView.m; sourceTree = "<group>"; };
-		1A26861F1A0BB91C00966271 /* PSWindowViewInterface.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PSWindowViewInterface.h; sourceTree = "<group>"; };
 		1A2686211A0BCCB000966271 /* EventProperties.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EventProperties.xib; sourceTree = "<group>"; };
 		1A2686231A0BCECF00966271 /* PSEventPropertiesController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSEventPropertiesController.swift; sourceTree = "<group>"; };
 		1A27042919A7DE35002AD682 /* Script.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Script.xcdatamodel; sourceTree = "<group>"; };
@@ -1170,6 +1171,9 @@
 		1ADFD1D31AE95286002579AF /* PSVariableOutlineViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSVariableOutlineViewController.swift; sourceTree = "<group>"; };
 		1ADFD1D51AE95ABB002579AF /* PSVariableValues.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSVariableValues.swift; sourceTree = "<group>"; };
 		1AE0BA9B1ADD179F00623DEC /* PSFunctionElement_Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSFunctionElement_Tests.swift; sourceTree = "<group>"; };
+		1AE407541C2330E900A36653 /* PSWindowViewInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSWindowViewInterface.swift; sourceTree = "<group>"; };
+		1AE407561C2358B100A36653 /* PSWindowViewWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSWindowViewWindowController.swift; sourceTree = "<group>"; };
+		1AE407581C235A1E00A36653 /* WindowView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WindowView.xib; sourceTree = "<group>"; };
 		1AE42F2B1A2F18C80003342A /* ActionsBuilder.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ActionsBuilder.xib; sourceTree = "<group>"; };
 		1AE42F2D1A2F19050003342A /* Creating a new main window.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Creating a new main window.txt"; sourceTree = "<group>"; };
 		1AE42F2F1A2F20C80003342A /* PSActionsBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSActionsBuilder.swift; sourceTree = "<group>"; };
@@ -1431,6 +1435,8 @@
 				1A9E5E1119882E5F00312743 /* PSDocumentTabDelegate.swift */,
 				1A5461BF1A0B9D4900C3CFAB /* PSSelectionController.swift */,
 				1A4CA3A21B62CEF500CB1BD2 /* PSMainWindowController.swift */,
+				1AE407561C2358B100A36653 /* PSWindowViewWindowController.swift */,
+				1AE407581C235A1E00A36653 /* WindowView.xib */,
 			);
 			name = Document;
 			sourceTree = "<group>";
@@ -1474,7 +1480,6 @@
 			children = (
 				1A58046019A3C93400278D18 /* PSAttributeInterface.h */,
 				1AA1791919CC695F002A8649 /* PSDoubleClickAction.h */,
-				1A26861F1A0BB91C00966271 /* PSWindowViewInterface.h */,
 				1A71E4D21A17D50F00A90767 /* PSActionInterface.h */,
 				1A1BE46D1A7FD3B90013D107 /* PSConditionInterface.h */,
 				1A30BE361ABB7C0E0016319C /* PSHighLightOnMouseHoverProtocol.swift */,
@@ -1482,6 +1487,7 @@
 				1AFEBCB71B322CE000A3437E /* PSSelectionInterface.swift */,
 				1A3C19131BD1635700274D5B /* PSPluginInterface.swift */,
 				1ACA562D1C08AAFC008A2787 /* PSToolInterface.swift */,
+				1AE407541C2330E900A36653 /* PSWindowViewInterface.swift */,
 			);
 			name = Interfaces;
 			sourceTree = "<group>";
@@ -2639,7 +2645,6 @@
 			files = (
 				1A3A7D261A28B1E900EC91CC /* Section.h in Headers */,
 				1A1BE46E1A7FD4400013D107 /* PSConditionInterface.h in Headers */,
-				1A2686201A0BB93300966271 /* PSWindowViewInterface.h in Headers */,
 				1A8ADC0E1A82D990003C2509 /* PSSmoothTextLayer.h in Headers */,
 				1A55B2411ADC1EE200CD21AB /* LayoutObject.h in Headers */,
 				1AA1791A19CC6A08002A8649 /* PSDoubleClickAction.h in Headers */,
@@ -2996,6 +3001,7 @@
 				1A92636B1A93664F00DAFF3A /* ImportFilesAs.xib in Resources */,
 				81BFFA3C1A2336C200C1F22F /* Template-icon-128-0.TIF in Resources */,
 				81BFFA381A2336C200C1F22F /* BlockTemplate-icon-128-0.TIF in Resources */,
+				1AE407591C235A1E00A36653 /* WindowView.xib in Resources */,
 				1A495D7B1BE26DA300702B95 /* ToolBrowserViewItem.xib in Resources */,
 				1ACA56251C037580008A2787 /* EditMenus.xib in Resources */,
 				1A0B524F1AEFF98500E0ADDB /* ExperimentSetup.xib in Resources */,
@@ -3303,6 +3309,7 @@
 				1AA0ADD51AE0027A009BF2F2 /* PSAttributePickerCategories.swift in Sources */,
 				1A55B2441ADC2FAA00CD21AB /* PSEventInterface.swift in Sources */,
 				1A9679751BB95EBE003291C0 /* StringExtension.swift in Sources */,
+				1AE407551C2330E900A36653 /* PSWindowViewInterface.swift in Sources */,
 				1AA0ADDD1AE12188009BF2F2 /* PSGhostEntry.swift in Sources */,
 				1AF890E31AB8369E00706AAA /* PSPath.swift in Sources */,
 				1AA5D1B1198FA03A00DD9DC5 /* PSPluginViewController.m in Sources */,
@@ -3432,6 +3439,7 @@
 				1A8F93D719C853830019F37A /* NSPoint.swift in Sources */,
 				1A8F93DD19C854070019F37A /* String.swift in Sources */,
 				1AF8D95619F166A600EB2921 /* PSDocumentController.swift in Sources */,
+				1AE407571C2358B100A36653 /* PSWindowViewWindowController.swift in Sources */,
 				1AFC191D1B692E44007083DB /* PSLogFileNameController.swift in Sources */,
 				1AC3508C19A7C7C000372B27 /* PSPluginSingleton.swift in Sources */,
 				1A4802F2199A254D0095F2AD /* PSScriptConverter.swift in Sources */,

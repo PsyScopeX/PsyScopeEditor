@@ -15,7 +15,6 @@ class PSExperimentSetup: NSObject {
     var selectionInterface : PSSelectionInterface!
     @IBOutlet var subjectVariablesController: PSSubjectVariablesController!
     @IBOutlet var midPanelView : NSView!
-    @IBOutlet var leftPanelView : NSView!
     @IBOutlet var groupTableViewController : PSGroupsTableViewController!
 
     
@@ -49,12 +48,6 @@ class PSExperimentSetup: NSObject {
         return tabViewItem
     }
     
-    //returns a left panel item
-    func leftPanelTab() -> NSTabViewItem! {
-        let tabViewItem = NSTabViewItem(identifier: "ExperimentSetupTools")
-        tabViewItem.view = leftPanelView
-        return tabViewItem
-    }
     
     func selectEntry(entry : Entry?) {
         selectionInterface.selectEntry(entry)

@@ -18,17 +18,17 @@ class PSActionsBuilder : PSWindowView {
         toolbarItemIdentifier = "ActionsBuilder"
     }
     
-    override func setup(scriptData: PSScriptData!, selectionInterface: AnyObject!) {
+    override func setup(scriptData: PSScriptData, selectionInterface: PSSelectionInterface) {
         super.setup(scriptData, selectionInterface: selectionInterface)
         NSBundle(forClass:self.dynamicType).loadNibNamed("ActionsBuilder", owner: self, topLevelObjects: &topLevelObjects)
-        layoutController.selectionInterface = selectionInterface as! PSSelectionInterface
+        layoutController.selectionInterface = selectionInterface
     }
     
     override func docMocChanged(notification : NSNotification) {
         layoutController.docMocChanged(notification)
     }
     
-    override func entryDeleted(entry: Entry!) {
+    override func entryDeleted(entry: Entry) {
         layoutController.entryDeleted(entry)
     }
     
@@ -53,7 +53,7 @@ class PSWindowView: NSObject, PSWindowViewInterface {
     
     var topLevelObjects : NSArray?
     
-    func setup(scriptData: PSScriptData!, selectionInterface: AnyObject!) {
+    func setup(scriptData: PSScriptData, selectionInterface: PSSelectionInterface) {
         self.scriptData = scriptData
         //load nib and gain access to views
     }
@@ -62,38 +62,34 @@ class PSWindowView: NSObject, PSWindowViewInterface {
         
     }
     
-    func icon() -> NSImage! {
+    func icon() -> NSImage {
         return NSImage(contentsOfFile: NSBundle(forClass:self.dynamicType).pathForImageResource("hand225")!)! as NSImage
     }
     
-    func identifier() -> String! {
+    func identifier() -> String {
         return "ActionsBuilder"
     }
 
     
     //returns a new tabview item for the central panel
-    func midPanelTab() -> NSTabViewItem! {
-        let tabViewItem = NSTabViewItem(identifier: midPanelIdentifier)
-        tabViewItem.view = midPanelView
-        return tabViewItem
+    func midPanelTab() -> NSView {
+        return midPanelView
     }
     
     //returns a left panel item
-    func leftPanelTab() -> NSTabViewItem! {
-        let tabViewItem = NSTabViewItem(identifier: leftPanelIdentifier)
-        tabViewItem.view = leftPanelView
-        return tabViewItem
+    func leftPanelTab() -> NSView? {
+        return leftPanelView
     }
     
     func refresh() {
         fatalError("Not supposed to use this super class")
     }
     
-    func entryDeleted(entry: Entry!) {
+    func entryDeleted(entry: Entry) {
         
     }
     
-    func type() -> String! {
+    func type() -> String {
         return toolbarItemIdentifier
     }
     

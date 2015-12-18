@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9531" systemVersion="15B42" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <development version="6300" identifier="xcode"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9531"/>
@@ -172,7 +172,7 @@
                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                 <subviews>
                                                                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="lOo-cW-CRS" viewBased="YES" id="10b-TX-phQ" customClass="PSClickableTableView" customModule="PsyScopeFramework">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="352" height="460"/>
+                                                                        <rect key="frame" x="0.0" y="0.0" width="199" height="0.0"/>
                                                                         <autoresizingMask key="autoresizingMask"/>
                                                                         <size key="intercellSpacing" width="3" height="2"/>
                                                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -465,7 +465,7 @@
                                             </tabViewItem>
                                             <tabViewItem label="Blank" identifier="" id="uNQ-ol-aWc">
                                                 <view key="view" id="U8X-0Q-MLJ">
-                                                    <rect key="frame" x="0.0" y="0.0" width="200" height="450"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="352" height="750"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 </view>
                                             </tabViewItem>
@@ -608,7 +608,7 @@
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                             </scroller>
                                                             <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="evC-fz-EAi">
-                                                                <rect key="frame" x="538.5" y="0.0" width="16" height="750"/>
+                                                                <rect key="frame" x="539.5" y="0.0" width="15" height="750"/>
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                             </scroller>
                                                         </scrollView>
@@ -1054,6 +1054,7 @@
                 <outlet property="actionsTabViewItem" destination="mJz-lZ-fKK" id="IM0-dH-sRd"/>
                 <outlet property="attributesButton" destination="oXT-xf-S36" id="wbi-bH-1RM"/>
                 <outlet property="attributesTabViewItem" destination="YhT-1j-5mn" id="tcG-OS-UKR"/>
+                <outlet property="blankTabViewItem" destination="uNQ-ol-aWc" id="7Fq-eZ-NfX"/>
                 <outlet property="entriesButton" destination="3gC-M1-Yxn" id="r5C-C7-44J"/>
                 <outlet property="entriesTabViewItem" destination="kzO-tH-vfL" id="Hr3-Qn-Lwy"/>
                 <outlet property="errorsButton" destination="VbN-zN-qTv" id="uAl-Uz-cCg"/>

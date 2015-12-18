@@ -19,7 +19,7 @@
 
 #import "PSAttributeInterface.h"
 #import "PSDoubleClickAction.h"
-#import "PSWindowViewInterface.h"
+
 #import "PSActionInterface.h"
 #import "PSConditionInterface.h"
 

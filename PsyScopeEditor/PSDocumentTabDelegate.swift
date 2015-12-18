@@ -7,11 +7,26 @@
 
 import Cocoa
 
+class PSWindowViewElement : NSObject {
+    
+    init(tag : Int, midPanelView : NSView, leftPanelView : NSView?, midPanelTabViewItem : NSTabViewItem, leftPanelTabViewItem : NSTabViewItem?) {
+        self.tag = tag
+        self.midPanelView = midPanelView
+        self.leftPanelView = leftPanelView
+        self.midPanelTabViewItem = midPanelTabViewItem
+        self.leftPanelTabViewItem = leftPanelTabViewItem
+        super.init()
+    }
+    let tag : Int
+    let midPanelView : NSView
+    let leftPanelView : NSView?
+    let midPanelTabViewItem : NSTabViewItem
+    let leftPanelTabViewItem : NSTabViewItem?
+}
 
 //handles the display of the three tabviews (left middle and right)
 class PSDocumentTabDelegate: NSObject, NSTabViewDelegate {
     
-    typealias TabItems = (tag: Int, midPanelItem: NSTabViewItem!, leftPanelItem: NSTabViewItem!)
     
     @IBOutlet var mainWindowController : PSMainWindowController!
     var selectionInterface : PSSelectionController!
@@ -45,7 +60,7 @@ class PSDocumentTabDelegate: NSObject, NSTabViewDelegate {
     
     //left panel tab views
     @IBOutlet var layoutToolsTabViewItem : NSTabViewItem!
-    @IBOutlet var scriptToolsTabViewItem : NSTabViewItem!
+    @IBOutlet var blankTabViewItem : NSTabViewItem!
 
     //tool bar
     @IBOutlet var toolbar : NSToolbar!
@@ -54,7 +69,7 @@ class PSDocumentTabDelegate: NSObject, NSTabViewDelegate {
     @IBOutlet var toolbarSegmentedControl : NSSegmentedControl!
     
     //key = tag of segment, value = the tab items to display
-    var items : [Int : TabItems] = [:]
+    var items : [Int : PSWindowViewElement] = [:]
     var identifiers : [String : Int] = [:]
     
     var propertiesTabViewItemViewController : PSPluginViewController? = nil
@@ -79,17 +94,18 @@ class PSDocumentTabDelegate: NSObject, NSTabViewDelegate {
         showProperties()
         
         //register the layout view / script view (these must be already setup)
-        items[0] = (tag: 0, midPanelItem: layoutTabViewItem, leftPanelItem: layoutToolsTabViewItem)
-        items[1] = (tag: 1, midPanelItem: scriptTabViewItem, leftPanelItem: scriptToolsTabViewItem)
+        items[0] = PSWindowViewElement(tag: 0, midPanelView: layoutTabViewItem.view!, leftPanelView: layoutToolsTabViewItem.view!, midPanelTabViewItem: layoutTabViewItem, leftPanelTabViewItem: layoutToolsTabViewItem)
+        items[1] = PSWindowViewElement(tag: 1, midPanelView: scriptTabViewItem.view!, leftPanelView: nil, midPanelTabViewItem: scriptTabViewItem, leftPanelTabViewItem: nil)
+        
         
         //register experiment setup view (comes from seperate nib, so using -1 as index)
         let expSetupMidPanel = experimentSetup.midPanelTab()
-        let expSetupLeftPanel = experimentSetup.leftPanelTab()
-        items[-1] = (tag: -1, midPanelItem: expSetupMidPanel, leftPanelItem: expSetupLeftPanel)
+        items[-1] = PSWindowViewElement(tag: -1, midPanelView: expSetupMidPanel.view!, leftPanelView: nil, midPanelTabViewItem: expSetupMidPanel, leftPanelTabViewItem: nil)
         
-        //add the experiment setup tabs
+        
+        //add the experiment setup tab
         midPanelTabView.addTabViewItem(expSetupMidPanel)
-        leftPanelTabView.addTabViewItem(expSetupLeftPanel)
+
         
         //set number of segmented control items already added
         var totalTags = 2
@@ -105,17 +121,22 @@ class PSDocumentTabDelegate: NSObject, NSTabViewDelegate {
             let tag = totalTags
             let identifier = windowViewInterface.identifier()
             let icon = windowViewInterface.icon()
-            let leftP = windowViewInterface.leftPanelTab()
-            let midP = windowViewInterface.midPanelTab()
+            let leftView = windowViewInterface.leftPanelTab()
+            let midView = windowViewInterface.midPanelTab()
             selectionInterface.registerSelectionInterface(windowViewInterface)
             
-            let tabItem = (tag: tag, midPanelItem: midP, leftPanelItem: leftP)
-            items[tag] = tabItem
+            let leftTabItem = NSTabViewItem()
+            leftTabItem.view = leftView
+            
+            let midTabItem = NSTabViewItem()
+            midTabItem.view = midView
+            
+            items[tag] = PSWindowViewElement(tag: tag, midPanelView: midView, leftPanelView: leftView, midPanelTabViewItem: midTabItem, leftPanelTabViewItem: leftTabItem)
             identifiers[identifier] = tag
             
             //add the items to the respective tabs
-            midPanelTabView.addTabViewItem(tabItem.midPanelItem)
-            leftPanelTabView.addTabViewItem(tabItem.leftPanelItem)
+            midPanelTabView.addTabViewItem(midTabItem)
+            leftPanelTabView.addTabViewItem(leftTabItem)
             
             let segmentIndex = tag
             toolbarSegmentedControl.setImage(icon, forSegment: segmentIndex)
@@ -175,7 +196,12 @@ class PSDocumentTabDelegate: NSObject, NSTabViewDelegate {
     @IBOutlet var entriesTabViewItem : NSTabViewItem!
     @IBOutlet var errorsTabViewItem : NSTabViewItem!
     var currentToolsTabViewItem : NSTabViewItem?
-    var toolsShowing : Bool = false
+    var toolsShowing : Bool = false {
+        didSet {
+            //disable /enable tools button
+            toolsButton.enabled = toolsShowing
+        }
+    }
     
     //left panel buttons
     @IBAction func leftPanelButtonClicked(button : NSButton) {
@@ -189,9 +215,14 @@ class PSDocumentTabDelegate: NSObject, NSTabViewDelegate {
             leftPanelTabView.selectTabViewItem(errorsTabViewItem)
             break
         case toolsButton:
-            toolsShowing = true
+            
             if let ct = currentToolsTabViewItem {
+                toolsShowing = true
                 leftPanelTabView.selectTabViewItem(ct)
+            } else {
+                //shouldnt happen but as a fail safe
+                toolsShowing = false
+                leftPanelTabView.selectTabViewItem(entriesTabViewItem)
             }
             break
         default:
@@ -212,13 +243,17 @@ class PSDocumentTabDelegate: NSObject, NSTabViewDelegate {
         self.showActions()
     }
     
-    func show(items : TabItems) {
-        midPanelTabView.selectTabViewItem(items.midPanelItem)
-        currentToolsTabViewItem = items.leftPanelItem
-        if toolsShowing {
-            leftPanelTabView.selectTabViewItem(items.leftPanelItem)
+    func show(element : PSWindowViewElement) {
+        midPanelTabView.selectTabViewItem(element.midPanelTabViewItem)
+        currentToolsTabViewItem = element.leftPanelTabViewItem
+        if let currentToolsTabViewItem = currentToolsTabViewItem where toolsShowing {
+            leftPanelTabView.selectTabViewItem(currentToolsTabViewItem)
+        } else if toolsShowing {
+            //tools showing but window doesnt have a tool kit so deaflut to entries browser
+            toolsShowing = false
+            leftPanelTabView.selectTabViewItem(entriesTabViewItem)
         }
-        toolbarSegmentedControl.selectedSegment = items.tag
+        toolbarSegmentedControl.selectedSegment = element.tag
     }
     
     //handles selecting objects
@@ -250,6 +285,15 @@ class PSDocumentTabDelegate: NSObject, NSTabViewDelegate {
             propertiesTabViewItem.view = NSView()
         }
 
+    }
+    
+    //MARK: Showing a window
+    
+    func showWindowFor(element: PSWindowViewElement) {
+        let windowController = PSWindowViewWindowController(windowNibName: "WindowView")
+        windowController.setup(mainWindowController.scriptData,leftView: element.leftPanelView, rightView: element.midPanelView)
+        
+        windowController.showWindow(self)
     }
     
     //MARK: Notifications

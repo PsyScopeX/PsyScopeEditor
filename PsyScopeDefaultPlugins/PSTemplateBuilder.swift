@@ -21,13 +21,13 @@ class PSTemplateBuilder: NSObject, PSWindowViewInterface {
     
     var topLevelObjects : NSArray?
     
-    func setup(scriptData: PSScriptData!, selectionInterface: AnyObject!) {
+    func setup(scriptData: PSScriptData, selectionInterface: PSSelectionInterface) {
         self.scriptData = scriptData
         //load nib and gain access to views
         NSBundle(forClass:self.dynamicType).loadNibNamed("TemplateBuilder", owner: self, topLevelObjects: &topLevelObjects)
         //allow the layout controller to change currently selected object
         layoutController.scriptData = scriptData
-        layoutController.selectionInterface = selectionInterface as! PSSelectionInterface
+        layoutController.selectionInterface = selectionInterface
     }
     
     override func awakeFromNib() {
@@ -36,28 +36,24 @@ class PSTemplateBuilder: NSObject, PSWindowViewInterface {
     }
     
     
-    func icon() -> NSImage! {
-        return NSImage(contentsOfFile: NSBundle(forClass:self.dynamicType).pathForImageResource("flag86")!)! as NSImage
+    func icon() -> NSImage {
+        return NSImage(contentsOfFile: NSBundle(forClass:self.dynamicType).pathForImageResource("flag86")!)!
     }
         
-    func identifier() -> String! {
+    func identifier() -> String {
         return "TemplateBuilder"
     }
     
   
         
     //returns a new tabview item for the central panel
-    func midPanelTab() -> NSTabViewItem! {
-        let tabViewItem = NSTabViewItem(identifier: "TemplateBuilderWindow")
-        tabViewItem.view = midPanelView
-        return tabViewItem
+    func midPanelTab() -> NSView {
+        return midPanelView
     }
     
     //returns a left panel item
-    func leftPanelTab() -> NSTabViewItem! {
-        let tabViewItem = NSTabViewItem(identifier: "EventsBrowser")
-        tabViewItem.view = leftPanelView
-        return tabViewItem
+    func leftPanelTab() -> NSView? {
+        return leftPanelView
     }
     
     func refresh() {
@@ -66,9 +62,9 @@ class PSTemplateBuilder: NSObject, PSWindowViewInterface {
         popupButtonController.updateSelection()
     }
     
-    func entryDeleted(entry: Entry!) { }
+    func entryDeleted(entry: Entry) { }
     
-    func type() -> String! {
+    func type() -> String {
         return "TemplateBuilder"
     }
 
