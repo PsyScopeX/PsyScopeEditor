@@ -31,6 +31,8 @@ class PSWindowViewWindowController : NSWindowController, NSWindowDelegate, NSSpl
         if let leftView = leftView {
             leftPanel.addSubview(leftView)
             leftView.frame = leftPanel.bounds
+        } else {
+            leftPanel.hidden = true
         }
         
         midPanel.addSubview(rightView)
@@ -46,6 +48,7 @@ class PSWindowViewWindowController : NSWindowController, NSWindowDelegate, NSSpl
     let leftPanelThickness : CGFloat = CGFloat(PSConstants.LayoutConstants.leftPanelSize)
     
     func splitView(splitView: NSSplitView, canCollapseSubview subview: NSView) -> Bool {
+        if subview == leftPanel { return true }
         return false
     }
     
