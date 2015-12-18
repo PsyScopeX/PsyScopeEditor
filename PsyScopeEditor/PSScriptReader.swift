@@ -89,18 +89,20 @@ public class PSScriptReader {
                 let startErrorLocation = scanner.scanLocation
                 scanEntryValue(scanner, justACheck: fullScan)
                 newGhostEntry.currentValue = prevValue
-                formatRange(startErrorLocation, end: scanner.scanLocation,color: PSConstants.Fonts.scriptErrorColor,font: PSConstants.Fonts.scriptFont)
+                formatRange(startErrorLocation, end: scanner.scanLocation,color: PSConstants.Fonts.scriptErrorColor)
                 errors.append(PSErrorUnknownSyntax(NSMakeRange(startErrorLocation, scanner.scanLocation - startErrorLocation)))
             }
         }
         
+        //make everything correct font
+        attributedString.addAttribute(NSFontAttributeName, value: PSConstants.Fonts.scriptFont, range: NSMakeRange(0,attributedString.length))
+        
         if (debugMode) { dumpGhostScript() }
     }
     
-    func formatRange(start : Int, end : Int, color : NSColor, font : NSFont){
+    func formatRange(start : Int, end : Int, color : NSColor){
         let range : NSRange = NSMakeRange(start, end - start)
         attributedString.addAttribute(NSForegroundColorAttributeName, value: color, range: range)
-        attributedString.addAttribute(NSFontAttributeName, value: font, range: range)
     }
     
     func dumpGhostScript() {
@@ -148,7 +150,7 @@ public class PSScriptReader {
                 scanner.scanLocation = scanLocation //reset to previous position
             } else {
                 
-                formatRange(scanLocation,end: scanner.scanLocation,color: PSConstants.Fonts.scriptCommentColor,font: PSConstants.Fonts.scriptFont)
+                formatRange(scanLocation,end: scanner.scanLocation,color: PSConstants.Fonts.scriptCommentColor)
             }
             
             return true
@@ -214,12 +216,12 @@ public class PSScriptReader {
             if newEntryLevel == 0 {
                 //base entry
                 ghostScript.entries.append(newGhostEntry)
-                formatRange(startScanLocation,end: entryNameLocation,color: PSConstants.Fonts.scriptEntryColor,font: PSConstants.Fonts.scriptFont)
+                formatRange(startScanLocation,end: entryNameLocation,color: PSConstants.Fonts.scriptEntryColor)
                 previousGhostEntry = newGhostEntry
                 newGhostEntry = PSGhostEntry()
             } else if newEntryLevel > Int(previousGhostEntry.level) + 1 {
                 // error as entry is too far inwards
-                formatRange(entryNameLocation,end: entryTokenLocation,color: PSConstants.Fonts.scriptErrorColor,font: PSConstants.Fonts.scriptFont)
+                formatRange(entryNameLocation,end: entryTokenLocation,color: PSConstants.Fonts.scriptErrorColor)
                 errors.append(PSErrorDeepEntryToken(name!, range: NSMakeRange(entryNameLocation,entryTokenLocation - entryNameLocation)))
             } else {
                 //entry has a valid parent
@@ -238,7 +240,7 @@ public class PSScriptReader {
                 //this entry will be stored
                 newGhostEntry.parent = parentGhostEntry
                 parentGhostEntry.subEntries.append(newGhostEntry)
-                formatRange(startScanLocation,end: entryNameLocation,color: PSConstants.Fonts.scriptAttributeColor,font: PSConstants.Fonts.scriptFont)
+                formatRange(startScanLocation,end: entryNameLocation,color: PSConstants.Fonts.scriptAttributeColor)
                 previousGhostEntry = newGhostEntry
                 newGhostEntry = PSGhostEntry()
             }
@@ -288,7 +290,7 @@ public class PSScriptReader {
                 newGhostEntry.level = level
             } else {
                 //error with getting entry level, so don't store the entry
-                formatRange(startScanLocation,end: scanner.scanLocation,color: PSConstants.Fonts.scriptErrorColor,font: PSConstants.Fonts.scriptFont)
+                formatRange(startScanLocation,end: scanner.scanLocation,color: PSConstants.Fonts.scriptErrorColor)
                 errors.append(PSErrorInvalidEntryToken(newGhostEntry.name, range: NSMakeRange(startScanLocation, scanner.scanLocation - startScanLocation)))
             }
         }

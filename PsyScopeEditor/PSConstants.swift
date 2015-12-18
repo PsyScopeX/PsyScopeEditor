@@ -50,7 +50,7 @@ class PSConstants {
         static let toolMenuBody = NSFont.systemFontOfSize(10)
         static let layoutBoardIcons = NSFont.systemFontOfSize(10)
         static let scriptFont : NSFont = NSFont(name: "Menlo", size: 11.0)!
-        static let scriptFontBold : NSFont = NSFont(name: "Menlo Bold", size: 11.0)!
+        //static let scriptFontBold : NSFont = NSFont(name: "Menlo Bold", size: 11.0)!
         static let scriptCommentColor = NSColor(calibratedRed: 0.1, green: 0.8, blue: 0.1, alpha: 1.0)
         static let scriptEntryColor = NSColor(calibratedRed: 0.8, green: 0.0, blue: 0.8, alpha: 1.0)
         static let scriptAttributeColor = NSColor(calibratedRed: 0.0, green: 0.0, blue: 0.8, alpha: 1.0)

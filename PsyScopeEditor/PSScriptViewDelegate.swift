@@ -33,10 +33,16 @@ class PSScriptViewDelegate : NSObject, NSTextViewDelegate, NSTextStorageDelegate
         scriptBoard.automaticQuoteSubstitutionEnabled = false
         scriptBoard.enabledTextCheckingTypes = 0
         scriptBoard.textStorage!.delegate = self
-        scriptBoard.textStorage!.font = PSConstants.Fonts.scriptFont
-        scriptBoard.font = PSConstants.Fonts.scriptFont
+        
         buildScriptButton.enabled = false
         updateScriptButton.enabled = true
+        //scriptBoard.string = ""
+        setDefaultFont()
+    }
+    
+    func setDefaultFont() {
+        scriptBoard.textStorage!.font = PSConstants.Fonts.scriptFont
+        scriptBoard.font = PSConstants.Fonts.scriptFont
     }
     
     func setup(scriptData : PSScriptData) {

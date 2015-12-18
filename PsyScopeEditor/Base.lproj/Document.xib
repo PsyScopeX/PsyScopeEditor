@@ -617,25 +617,25 @@
                                             </tabViewItem>
                                             <tabViewItem label="Script" identifier="2" id="JdB-VR-hLM" userLabel="Script Tab">
                                                 <view key="view" id="qS4-oN-V38">
-                                                    <rect key="frame" x="0.0" y="0.0" width="317" height="480"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="554.5" height="780"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="eBN-8e-IbJ">
-                                                            <rect key="frame" x="0.0" y="0.0" width="317" height="450"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="554.5" height="750"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <clipView key="contentView" id="tIT-Mv-wg2">
-                                                                <rect key="frame" x="0.0" y="0.0" width="317" height="450"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="554.5" height="750"/>
                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                 <subviews>
-                                                                    <textView importsGraphics="NO" richText="NO" findStyle="panel" allowsUndo="YES" verticallyResizable="YES" allowsNonContiguousLayout="YES" smartInsertDelete="YES" id="I8G-S8-gcX">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="319" height="450"/>
+                                                                    <textView importsGraphics="NO" richText="NO" findStyle="panel" allowsUndo="YES" verticallyResizable="YES" allowsNonContiguousLayout="YES" id="I8G-S8-gcX">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="556.5" height="750"/>
                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                                        <size key="minSize" width="317" height="450"/>
-                                                                        <size key="maxSize" width="463" height="10000000"/>
+                                                                        <size key="minSize" width="554.5" height="750"/>
+                                                                        <size key="maxSize" width="556.5" height="10000000"/>
                                                                         <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                                        <size key="minSize" width="317" height="450"/>
-                                                                        <size key="maxSize" width="463" height="10000000"/>
+                                                                        <size key="minSize" width="554.5" height="750"/>
+                                                                        <size key="maxSize" width="556.5" height="10000000"/>
                                                                         <allowedInputSourceLocales>
                                                                             <string>NSAllRomanInputSourcesLocaleIdentifier</string>
                                                                         </allowedInputSourceLocales>
@@ -648,12 +648,12 @@
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                             </scroller>
                                                             <scroller key="verticalScroller" verticalHuggingPriority="750" horizontal="NO" id="UQB-Dn-kjn">
-                                                                <rect key="frame" x="224" y="1" width="15" height="133"/>
+                                                                <rect key="frame" x="538.5" y="0.0" width="16" height="750"/>
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                             </scroller>
                                                         </scrollView>
                                                         <button verticalHuggingPriority="750" id="zks-I2-eDL">
-                                                            <rect key="frame" x="4" y="448" width="112" height="32"/>
+                                                            <rect key="frame" x="4" y="748" width="112" height="32"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                             <buttonCell key="cell" type="push" title="Build Script" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Zca-1X-KHx">
                                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -664,14 +664,14 @@
                                                             </connections>
                                                         </button>
                                                         <box verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="Kai-bc-8gd">
-                                                            <rect key="frame" x="0.0" y="448" width="317" height="5"/>
+                                                            <rect key="frame" x="0.0" y="748" width="554.5" height="5"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                             <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
                                                             <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                             <font key="titleFont" metaFont="system"/>
                                                         </box>
                                                         <button verticalHuggingPriority="750" id="EOJ-a8-osY">
-                                                            <rect key="frame" x="116" y="448" width="126" height="32"/>
+                                                            <rect key="frame" x="116" y="748" width="126" height="32"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                             <buttonCell key="cell" type="push" title="Update Script" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="XNz-XQ-R7Y">
                                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
