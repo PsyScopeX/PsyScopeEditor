@@ -142,4 +142,11 @@ class PSEntryValueParser_Tests: XCTestCase {
         XCTAssert(firstElementCorrect, "Second Element incorrect")
     }
     
+    func testUnaryOperatorFollowedBYBinaryOperator() {
+        let originalValue = "@NReps~Text1"
+        let parser = PSEntryValueParser(stringValue: originalValue)
+        XCTAssert(!parser.foundErrors, "Parser found errors - should be able to parse this value: \(originalValue)")
+        
+    }
+    
 }

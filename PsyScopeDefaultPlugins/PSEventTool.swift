@@ -83,6 +83,7 @@ class PSEventTool: PSTool, PSToolInterface, PSEventInterface {
             errors.append(newError)
         } else {
             for value in parser.values {
+                print(value.stringValue())
                 switch (value) {
                 case .Null:
                     break

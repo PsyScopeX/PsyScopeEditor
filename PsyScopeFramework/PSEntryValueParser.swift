@@ -23,7 +23,7 @@ public class PSEntryValueParser {
         p = 0
         parsedList = nil
         
-        //print(tokeniser.dumpTokens())
+        print(tokeniser.dumpTokens())
         
         listRule() //triggers parsing
         parsedList = getLast(&listObjDic, stack: &listStack)
@@ -142,6 +142,14 @@ public class PSEntryValueParser {
             } else {
                 element = PSEntryElement.StringToken(stringElement: getLast(&plainValueObjDic, stack: &plainValueStack))
             }
+        } else if unaryOperatorThenExpressionRule() {
+            
+            let function = PSFunctionElement()
+            function.bracketType = .Expression
+            let unop = getLast(&unaryOperatorThenExpressionObjDic, stack: &unaryOperatorThenExpressionStack)
+            function.values.append(unop.op)
+            function.values.append(unop.val)
+            element = PSEntryElement.Function(functionElement: function)
         }
 
         return store(&nonOperationValueStack, objDic: &nonOperationValueObjDic, endPosDic: &nonOperationValueEndPosDic, obj: element, startP: startP)
@@ -179,13 +187,6 @@ public class PSEntryValueParser {
                     function!.values.append(binop2.val)
                 }
             }
-        } else if unaryOperatorThenExpressionRule() {
-       
-            function = PSFunctionElement()
-            function!.bracketType = .Expression
-            let unop = getLast(&unaryOperatorThenExpressionObjDic, stack: &unaryOperatorThenExpressionStack)
-            function!.values.append(unop.op)
-            function!.values.append(unop.val)
         }
         
         
@@ -224,8 +225,10 @@ public class PSEntryValueParser {
             whiteSpaceRule()
             
             let op = getLast(&unaryOperatorObjDic, stack: &unaryOperatorStack)
-            if expressionRule() {
-                obj = (op, getLast(&expressionObjDic, stack: &expressionStack))
+            
+            //all unary operators operate on plain values....
+            if plainValueRule() {
+                obj = (op, PSEntryElement.StringToken(stringElement: getLast(&plainValueObjDic, stack: &plainValueStack)))
             }
         }
         
