@@ -305,12 +305,10 @@ class PSLayoutBoard: NSView {
             if theEvent.clickCount == 0 {
                 //detect whether object has moved
                 if info.mouseDownPoint != theEvent.locationInWindow {
-                    layoutController.layoutItemMoved(info.clickedLayoutItem)
                     for eachLayoutItem in dragSelectedLayoutItems.keys {
                         dragSelectedLayoutItems[eachLayoutItem] = eachLayoutItem.icon.position
-                        layoutController.layoutItemMoved(eachLayoutItem)
                     }
-                    
+                    layoutController.layoutItemsMoved(Array(dragSelectedLayoutItems.keys))
                 } else {
                     unDragSelectLayoutItems()
                     layoutController.selectObjectForLayoutItem(info.clickedLayoutItem)

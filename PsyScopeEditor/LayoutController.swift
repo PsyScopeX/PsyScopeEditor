@@ -283,6 +283,20 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
         }
     }
     
+    func layoutItemsMoved(objectlayoutItems : [PSLayoutItem]) {
+        scriptData.beginUndoGrouping("Move Objects")
+        for layoutItem in objectlayoutItems {
+            let the_object = layoutItemsToObjects[layoutItem] as LayoutObject?
+            if let safe_object = the_object {
+                
+                safe_object.xPos = layoutItem.icon.position.x
+                safe_object.yPos = layoutItem.icon.position.y
+                
+            }
+        }
+        scriptData.endUndoGrouping()
+    }
+    
     //called when: layoutItems are chosen to be linked
     //action: updates core-data with new link
     func linkObjects(targetLayoutItem : PSLayoutItem, destLayoutItem : PSLayoutItem){
