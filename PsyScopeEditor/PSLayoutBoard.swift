@@ -171,12 +171,20 @@ class PSLayoutBoard: NSView {
     
     override func wantsPeriodicDraggingUpdates() -> Bool { return true }
     
+    
+    
     //MARK: Mouse related overrides
     
     override func mouseDown(theEvent: NSEvent) {
+        
+        
+        
+        
         //mouseDown can drag existing layoutItems or be the end of a link operation
         let click_point = self.convertPoint(theEvent.locationInWindow, fromView: nil)
         let hit_layoutItem = hitLayoutItem(NSPointToCGPoint(click_point))
+        
+        
         
         self.clickedObject = nil
         self.draggingSelection = false
@@ -289,6 +297,11 @@ class PSLayoutBoard: NSView {
             draggingSelection = false
         } else if let info = clickedObject {
             
+            //command key is down so add to selection
+            let commandDown = (theEvent.modifierFlags.contains(NSEventModifierFlags.CommandKeyMask))
+            
+        
+            
             if theEvent.clickCount == 0 {
                 //detect whether object has moved
                 if info.mouseDownPoint != theEvent.locationInWindow {
@@ -303,8 +316,23 @@ class PSLayoutBoard: NSView {
                     layoutController.selectObjectForLayoutItem(info.clickedLayoutItem)
                 }
             } else if theEvent.clickCount == 1 {
-                unDragSelectLayoutItems()
-                layoutController.selectObjectForLayoutItem(info.clickedLayoutItem)
+                if commandDown {
+                    //if nothing already drag selected, ensure first item is included too
+                    if let highlightedLayoutItem = highlightedLayoutItem where dragSelectedLayoutItems.count == 0 {
+                        dragSelectLayoutItem(highlightedLayoutItem, on: true)
+                    }
+                    
+                    //toggle
+                    let on = dragSelectedLayoutItems[info.clickedLayoutItem] == nil
+                    dragSelectLayoutItem(info.clickedLayoutItem, on: on)
+                    
+                    
+                    
+                } else {
+                    unDragSelectLayoutItems()
+                    layoutController.selectObjectForLayoutItem(info.clickedLayoutItem)
+                }
+                
                 self.becomeFirstResponder()
             } else if theEvent.clickCount == 2 {
                 unDragSelectLayoutItems()
