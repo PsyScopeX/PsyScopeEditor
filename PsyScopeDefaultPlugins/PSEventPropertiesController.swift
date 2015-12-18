@@ -71,11 +71,11 @@ class PSEventPropertiesController : PSToolPropertyController {
         for templateEntry in templateEntries {
             for child in templateEntry.layoutObject.childLink.array as! [LayoutObject] {
                 if scriptData.typeIsEvent(child.mainEntry.type) && entry.name != child.mainEntry.name {
-                    relatedEvents.append(PSTemplateEvent(entry: child.mainEntry,scriptData: scriptData))
+                    relatedEvents.append(PSTemplateEvent(entry: child.mainEntry,scriptData: scriptData, repeats: 1))
                 }
             }
         }
-        event = PSTemplateEvent(entry: entry, scriptData: scriptData)
+        event = PSTemplateEvent(entry: entry, scriptData: scriptData, repeats: 1)
         PSEventStringParser.parseForTemplateLayoutBoardEvent(event, events: relatedEvents)
         
         //Collate and populate the start condition menu (relies on all events)
@@ -134,7 +134,7 @@ class PSEventPropertiesController : PSToolPropertyController {
             textFieldStartTime.stringValue = startTimeString
             
             //does the event have an event associated with it
-            if let er = event.startCondition as? EventStartEventRelated {
+            if let er = event.startCondition as? EventStartEventRelated where er.event != nil {
                 //there is an event
                 labelStartEvent.stringValue = "Event: \(er.event!.entry.name)"
             }
@@ -206,7 +206,7 @@ class PSEventPropertiesController : PSToolPropertyController {
             if let (lobj) = lobject {
                 //menu item included an event object
                 let nsc = new_start_condition as! EventStartEventRelated //TODO Refactoring here maybe
-                nsc.event = PSTemplateEvent(entry: lobj, scriptData: scriptData)
+                nsc.event = PSTemplateEvent(entry: lobj, scriptData: scriptData, repeats: 1)
                 labelStartEvent.stringValue = lobj.name
             }
             let double_val = NSString(string: textFieldStartTime.stringValue).doubleValue

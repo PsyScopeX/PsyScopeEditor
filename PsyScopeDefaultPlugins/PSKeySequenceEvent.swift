@@ -30,7 +30,7 @@ class PSKeySequenceEvent : PSEventTool {
     }
     
     struct Properties {
-        static let StartRef = PSProperty(name: "StartRef", defaultValue: PSDefaultConstants.DefaultAttributeValues.PSDefaultEventStartRef, essential: true);
+        static let StartRef = PSProperty(name: "StartRef", defaultValue: PSDefaultConstants.DefaultAttributeValues.PSDefaultEventStartRef, essential: false);
         static let Duration = PSProperty(name: "Duration", defaultValue: PSDefaultConstants.DefaultAttributeValues.PSKeySequenceEventDuration, essential: true);
         static let EventType = PSProperty(name: "EventType", defaultValue: "KeySequence", essential: true)
     }

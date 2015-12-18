@@ -309,10 +309,14 @@ public class PSFunctionElement : PSCompoundEntryElement {
     public func getParametersStringValue() -> String {
         let elements = getStringValues()
         let seperator : String = " "
-        let stringValue = elements.joinWithSeparator(seperator)
+        var stringValue = elements.joinWithSeparator(seperator)
         
-        //@ should be attached directly to front (no seperator) this is the only exception.
-        return stringValue.stringByReplacingOccurrencesOfString("@ ", withString: "@")
+        //@ should be attached directly to front (no seperator) .
+        stringValue = stringValue.stringByReplacingOccurrencesOfString("@ ", withString: "@")
+        
+        //~ should be attached directly to front and back.
+        stringValue = stringValue.stringByReplacingOccurrencesOfString(" ~ ", withString: "~")
+        return stringValue
     }
     
     override public var stringValue : String {

@@ -161,6 +161,9 @@ public class PSEntryValueParser {
             
             let firstVal = getLast(&nonOperationValueObjDic, stack: &nonOperationValueStack)
             
+            //binary operators appear as functions, with the type 'expression'
+            //the components including the operator will appear as the values.
+            
  
             if binaryOperatorThenExpressionRule() {
                 function = PSFunctionElement()

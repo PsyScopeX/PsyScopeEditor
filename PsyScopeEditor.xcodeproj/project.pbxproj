@@ -230,7 +230,7 @@
 		1A66859B1A293FA800C5C83F /* BlockTemplate-icon-128.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 1A6685981A293FA800C5C83F /* BlockTemplate-icon-128.PNG */; };
 		1A66859C1A293FA800C5C83F /* Template-icon-128.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 1A6685991A293FA800C5C83F /* Template-icon-128.PNG */; };
 		1A66859D1A293FA800C5C83F /* TextEvent-icon-128.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 1A66859A1A293FA800C5C83F /* TextEvent-icon-128.PNG */; };
-		1A676CA319BE00A1003C7014 /* PSTemplateLayoutBoardEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A676CA219BE00A1003C7014 /* PSTemplateLayoutBoardEvent.swift */; };
+		1A676CA319BE00A1003C7014 /* PSTemplateEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A676CA219BE00A1003C7014 /* PSTemplateEvent.swift */; };
 		1A69F9BC1A837CE800D60880 /* search-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A69F9BB1A837CE800D60880 /* search-icon.png */; };
 		1A69F9CD1A84BD5200D60880 /* AddAttributeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A69F9CB1A84BD5200D60880 /* AddAttributeCell.xib */; };
 		1A6A5F0C1BFE186C00B6879B /* PSClickableTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A6A5F0B1BFE186C00B6879B /* PSClickableTableView.swift */; };
@@ -501,6 +501,7 @@
 		1AE407551C2330E900A36653 /* PSWindowViewInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE407541C2330E900A36653 /* PSWindowViewInterface.swift */; };
 		1AE407571C2358B100A36653 /* PSWindowViewWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE407561C2358B100A36653 /* PSWindowViewWindowController.swift */; };
 		1AE407591C235A1E00A36653 /* WindowView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AE407581C235A1E00A36653 /* WindowView.xib */; };
+		1AE4075C1C244E9A00A36653 /* PSFunctionEvaluate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE4075B1C244E9A00A36653 /* PSFunctionEvaluate.swift */; };
 		1AE42F2C1A2F18C80003342A /* ActionsBuilder.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AE42F2B1A2F18C80003342A /* ActionsBuilder.xib */; };
 		1AE42F2E1A2F19050003342A /* Creating a new main window.txt in Resources */ = {isa = PBXBuildFile; fileRef = 1AE42F2D1A2F19050003342A /* Creating a new main window.txt */; };
 		1AE42F301A2F20C80003342A /* PSActionsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE42F2F1A2F20C80003342A /* PSActionsBuilder.swift */; };
@@ -892,7 +893,7 @@
 		1A6685981A293FA800C5C83F /* BlockTemplate-icon-128.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BlockTemplate-icon-128.PNG"; sourceTree = "<group>"; };
 		1A6685991A293FA800C5C83F /* Template-icon-128.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Template-icon-128.PNG"; sourceTree = "<group>"; };
 		1A66859A1A293FA800C5C83F /* TextEvent-icon-128.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "TextEvent-icon-128.PNG"; sourceTree = "<group>"; };
-		1A676CA219BE00A1003C7014 /* PSTemplateLayoutBoardEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSTemplateLayoutBoardEvent.swift; sourceTree = "<group>"; };
+		1A676CA219BE00A1003C7014 /* PSTemplateEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSTemplateEvent.swift; sourceTree = "<group>"; };
 		1A69F9BB1A837CE800D60880 /* search-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "search-icon.png"; sourceTree = "<group>"; };
 		1A69F9CB1A84BD5200D60880 /* AddAttributeCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddAttributeCell.xib; sourceTree = "<group>"; };
 		1A6A5F0B1BFE186C00B6879B /* PSClickableTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSClickableTableView.swift; sourceTree = "<group>"; };
@@ -1174,6 +1175,7 @@
 		1AE407541C2330E900A36653 /* PSWindowViewInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSWindowViewInterface.swift; sourceTree = "<group>"; };
 		1AE407561C2358B100A36653 /* PSWindowViewWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSWindowViewWindowController.swift; sourceTree = "<group>"; };
 		1AE407581C235A1E00A36653 /* WindowView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WindowView.xib; sourceTree = "<group>"; };
+		1AE4075B1C244E9A00A36653 /* PSFunctionEvaluate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSFunctionEvaluate.swift; sourceTree = "<group>"; };
 		1AE42F2B1A2F18C80003342A /* ActionsBuilder.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ActionsBuilder.xib; sourceTree = "<group>"; };
 		1AE42F2D1A2F19050003342A /* Creating a new main window.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Creating a new main window.txt"; sourceTree = "<group>"; };
 		1AE42F2F1A2F20C80003342A /* PSActionsBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSActionsBuilder.swift; sourceTree = "<group>"; };
@@ -1928,7 +1930,7 @@
 		1A63BC071A3B24E8007B9318 /* TemplateEventView */ = {
 			isa = PBXGroup;
 			children = (
-				1A676CA219BE00A1003C7014 /* PSTemplateLayoutBoardEvent.swift */,
+				1A676CA219BE00A1003C7014 /* PSTemplateEvent.swift */,
 				1A8F93D119C847790019F37A /* PSTemplateLayoutBoardClasses.swift */,
 				1A63BC081A3B2518007B9318 /* PSTemplateEventTimeLineView.swift */,
 				1A63BC0E1A3B33F9007B9318 /* TemplateEventIconCell.xib */,
@@ -2264,6 +2266,7 @@
 		1A9E5E51198A7C5800312743 /* PsyScopeFramework */ = {
 			isa = PBXGroup;
 			children = (
+				1AE4075A1C244E3600A36653 /* FunctionEvaluation */,
 				1ACFF15D19D3095300B43446 /* PortBuilder */,
 				1AFC19201B6F86F7007083DB /* Control */,
 				1A4A646E1B1109E500084A10 /* Group */,
@@ -2571,6 +2574,14 @@
 				1AD963111A7CE7B600C83612 /* PSCondition_SysCmd.swift */,
 			);
 			name = SysCmd;
+			sourceTree = "<group>";
+		};
+		1AE4075A1C244E3600A36653 /* FunctionEvaluation */ = {
+			isa = PBXGroup;
+			children = (
+				1AE4075B1C244E9A00A36653 /* PSFunctionEvaluate.swift */,
+			);
+			name = FunctionEvaluation;
 			sourceTree = "<group>";
 		};
 		1AE42F2A1A2F18890003342A /* ActionsBuilder */ = {
@@ -3088,7 +3099,7 @@
 				1ACC0C641A92735F007D9C66 /* PSListTableView.swift in Sources */,
 				1AA41FEF1AA9BC4600CB8D95 /* PSAction_SerialOut.swift in Sources */,
 				1A522F9C1A41B7A500D5B983 /* PSSoundEvent.swift in Sources */,
-				1A676CA319BE00A1003C7014 /* PSTemplateLayoutBoardEvent.swift in Sources */,
+				1A676CA319BE00A1003C7014 /* PSTemplateEvent.swift in Sources */,
 				1A9E5E21198A757B00312743 /* PSToolHelper.swift in Sources */,
 				1A522FB21A41BD2500D5B983 /* PSTimeEvent.swift in Sources */,
 				1AA420031AA9CC5E00CB8D95 /* PSAction_GetTimestamp.swift in Sources */,
@@ -3362,6 +3373,7 @@
 				1A3A7D2F1A28B1E900EC91CC /* Script.m in Sources */,
 				1A2929561B03A304000DC32E /* PSSubjectVariableStorageOptions.swift in Sources */,
 				1A811C271AC37CBF000B44CE /* PSEntryTokenizer.swift in Sources */,
+				1AE4075C1C244E9A00A36653 /* PSFunctionEvaluate.swift in Sources */,
 				1A2339F61BD9411800B6D805 /* NSPoint.swift in Sources */,
 				1A567B871A8B6B2600FC9DC9 /* PSPluginProvider.swift in Sources */,
 				1A5564701B3F26DE00310A7F /* PSActionConditionViewMetaData.swift in Sources */,

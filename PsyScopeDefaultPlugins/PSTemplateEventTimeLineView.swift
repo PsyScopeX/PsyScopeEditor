@@ -132,10 +132,13 @@ class PSTemplateEventTimeLineView : NSView {
         
         if let sc = event.startCondition as? EventStartEventRelated {
             
-            let starting_event = sc.event!
-            let (previousStart, previousDuration) = starting_event.getMS()
+            if let starting_event = sc.event {
+                let (previousStart, previousDuration) = starting_event.getMS()
             
-            minimumStartTime = sc.position == EventStartEventRelatedPosition.End ? previousStart + previousDuration : previousStart
+                minimumStartTime = sc.position == EventStartEventRelatedPosition.End ? previousStart + previousDuration : previousStart
+            } else {
+                minimumStartTime = 0
+            }
             canDragStartTime = true
         } else if let _ = event.startCondition as? EventStartConditionTrialStart {
             minimumStartTime = 0
@@ -154,9 +157,8 @@ class PSTemplateEventTimeLineView : NSView {
         
         //Change the color for the events with termination trial end. Trying purple (luca 21 oct)
         if let _ = event.durationCondition as? EventDurationConditionTrialEnd {
-            
             canDragDurationTime = false
-                 }
+         }
         
         
 
@@ -251,6 +253,21 @@ class PSTemplateEventTimeLineView : NSView {
             text_layer.font = font
             text_layer.fontSize = 18
             text_layer.string = "U"
+            text_layer.alignmentMode = kCAAlignmentLeft
+            text_layer.frame = frame
+            text_layer.foregroundColor = NSColor.redColor().CGColor
+            text_layer.anchorPoint = CGPoint(x: 0, y: 0.5)
+            
+            
+            text_layer.position = CGPoint(x: startTime + 3, y: u_y_pos)
+            self.layer!.addSublayer(text_layer)
+            durationIconLayers.append(text_layer)
+        } else if event.repeats > 1 {
+            let text_layer = CATextLayer()
+            let font = NSFont.systemFontOfSize(10)
+            text_layer.font = font
+            text_layer.fontSize = 18
+            text_layer.string = String(event.repeats)
             text_layer.alignmentMode = kCAAlignmentLeft
             text_layer.frame = frame
             text_layer.foregroundColor = NSColor.redColor().CGColor

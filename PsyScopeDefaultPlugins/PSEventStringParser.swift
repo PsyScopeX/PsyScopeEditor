@@ -13,18 +13,25 @@ class PSEventStringParser: NSObject {
     class func parseForTemplateLayoutBoardEvent(event : PSTemplateEvent, events : [PSTemplateEvent]) {
         let scriptData = event.scriptData
         
-        if let startref = scriptData.getSubEntry("StartRef", entry: event.entry) {
-            if let sc = startConditionForStartRefEntry(startref, events: events) {
+        if let startref = scriptData.getSubEntry("StartRef", entry: event.entry),
+            sc = startConditionForStartRefEntry(startref, events: events) {
                 event.initStartCondition(sc)
+        } else {
+            //get index of previous event
+            if let index = events.indexOf(event) where index.predecessor() > -1 {
+                event.initStartCondition(EventStartConditionDefault(ev: events[index.predecessor()]))
+            } else {
+                event.initStartCondition(EventStartConditionDefault())
             }
         }
         
         
         
-        if let duration = scriptData.getSubEntry("Duration", entry: event.entry) {
-            if let dc = durationConditionForEntry(duration, scriptData: scriptData) {
+        if let duration = scriptData.getSubEntry("Duration", entry: event.entry),
+            dc = durationConditionForEntry(duration, scriptData: scriptData) {
                 event.initDurationCondition(dc)
-            }
+        } else {
+            event.initDurationCondition(EventDurationConditionFixedTime(time: 500))
         }
     }
     

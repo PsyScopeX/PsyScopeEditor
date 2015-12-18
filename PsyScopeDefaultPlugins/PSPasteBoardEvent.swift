@@ -21,7 +21,7 @@ class PSPasteBoardEvent : PSEventTool {
     }
     
     struct Properties {
-        static let StartRef = PSProperty(name: "StartRef", defaultValue: PSDefaultConstants.DefaultAttributeValues.PSDefaultEventStartRef, essential: true);
+        static let StartRef = PSProperty(name: "StartRef", defaultValue: PSDefaultConstants.DefaultAttributeValues.PSDefaultEventStartRef, essential: false);
         static let Duration = PSProperty(name: "Duration", defaultValue: PSDefaultConstants.DefaultAttributeValues.PSPasteBoardEventDuration, essential: true);
         static let EventType = PSProperty(name: "EventType", defaultValue: "PasteBoard", essential: true)
     }

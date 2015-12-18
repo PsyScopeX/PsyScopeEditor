@@ -14,10 +14,12 @@ typealias UnknownTime = EventMSecs?
 class PSTemplateEvent : NSObject, NSPasteboardWriting, NSPasteboardReading {
     var entry : Entry!
     var scriptData : PSScriptData!
+    var repeats : Int
     
-    init(entry : Entry, scriptData : PSScriptData) {
+    init(entry : Entry, scriptData : PSScriptData, repeats : Int) {
         self.entry = entry
         self.scriptData = scriptData
+        self.repeats = repeats
         _startCondition = EventStartConditionTrialStart()
         _durationCondition = EventDurationConditionFixedTime(time: 500)
         super.init()
@@ -53,9 +55,13 @@ class PSTemplateEvent : NSObject, NSPasteboardWriting, NSPasteboardReading {
         
         set {
             _startCondition = newValue
-            let start_ref_entry = scriptData.getOrCreateSubEntry("StartRef", entry: entry, isProperty: true)
-            start_ref_entry.currentValue = _startCondition.getValue()
-            start_ref_entry.metaData = _startCondition.getMetaData()
+            if newValue is EventStartConditionDefault {
+                scriptData.deleteNamedSubEntryFromParentEntry(entry, name: "StartRef")
+            } else {
+                let start_ref_entry = scriptData.getOrCreateSubEntry("StartRef", entry: entry, isProperty: true)
+                start_ref_entry.currentValue = _startCondition.getValue()
+                start_ref_entry.metaData = _startCondition.getMetaData()
+            }
         }
     }
     
@@ -66,7 +72,6 @@ class PSTemplateEvent : NSObject, NSPasteboardWriting, NSPasteboardReading {
         set {
             _durationCondition = newValue
             let duration_entry = scriptData.getOrCreateSubEntry("Duration", entry: entry, isProperty: true)
-            
             duration_entry.currentValue = _durationCondition.getValue()
         }
     }
@@ -89,7 +94,7 @@ class PSTemplateEvent : NSObject, NSPasteboardWriting, NSPasteboardReading {
     }
     
     func loopLockedTimes() -> (start: EventMSecs, duration : EventMSecs) {
-        return (CGFloat(20),durationCondition.getDurationMS())
+        return (CGFloat(20),durationCondition.getDurationMS() * EventMSecs(repeats))
     }
     var loopLockedItem : Bool = false
     
@@ -101,7 +106,7 @@ class PSTemplateEvent : NSObject, NSPasteboardWriting, NSPasteboardReading {
             
             if base_event == nil { base_event = self }
             let start_time = startCondition.getStartMS(base_event!)
-            let end_time = durationCondition.getDurationMS()
+            let end_time = durationCondition.getDurationMS() * EventMSecs(repeats)
             return (start_time, end_time)
         } else {
             //we detected a loop - so set this class as the base object of the loop, and whenever get pixelsrecursievly is alled again on it (i.e. by the getpixels of other object, the searching will stop there
@@ -130,6 +135,7 @@ class PSTemplateEvent : NSObject, NSPasteboardWriting, NSPasteboardReading {
         _startCondition = EventStartConditionTrialStart()
         _durationCondition = EventDurationConditionFixedTime(time: 500)
         data = propertyList as! NSData
+        self.repeats = 1
         super.init()
     }
     

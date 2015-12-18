@@ -198,12 +198,7 @@ class PSDocumentTabDelegate: NSObject, NSTabViewDelegate {
     @IBOutlet var entriesTabViewItem : NSTabViewItem!
     @IBOutlet var errorsTabViewItem : NSTabViewItem!
     var currentToolsTabViewItem : NSTabViewItem?
-    var toolsShowing : Bool = false {
-        didSet {
-            //disable /enable tools button
-            toolsButton.enabled = toolsShowing
-        }
-    }
+    var toolsShowing : Bool = false
     
     //left panel buttons
     @IBAction func leftPanelButtonClicked(button : NSButton) {
@@ -255,6 +250,7 @@ class PSDocumentTabDelegate: NSObject, NSTabViewDelegate {
             currentlySelectedTag = element.tag
             midPanelTabView.selectTabViewItem(element.midPanelTabViewItem)
             currentToolsTabViewItem = element.leftPanelTabViewItem
+            toolsButton.enabled = currentToolsTabViewItem != nil
             if let currentToolsTabViewItem = currentToolsTabViewItem where toolsShowing {
                 leftPanelTabView.selectTabViewItem(currentToolsTabViewItem)
             } else if toolsShowing {

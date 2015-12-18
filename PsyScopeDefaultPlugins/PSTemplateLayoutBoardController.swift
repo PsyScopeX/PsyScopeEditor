@@ -42,13 +42,12 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
     var templateObject : LayoutObject!
     var selectedEvent : LayoutObject!
     
-    var layoutObjects : [LayoutObject] = []
     var events : [PSTemplateEvent] = []
     var eventsAttribute : PSStringList!
     var linkLines : [CALayer] = []
     var writingRow : Int? = nil
     var zoomMultiplier : CGFloat = 1
-    
+    var errorsPresent : Bool = false
     
     //MARK: Setup
     
@@ -74,14 +73,10 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
             timeLineTableViewScrollView.hasHorizontalRuler = true;
             timeLineTableViewScrollView.rulersVisible = true;
 
-            
-   
-            
+        
             if let horizontalRulerView = timeLineTableViewScrollView.horizontalRulerView {
                 rulerView = horizontalRulerView
             }
-            
-            //rulerView = NSRulerView(scrollView: timeLineTableViewScrollView, orientation: NSRulerOrientation.HorizontalRuler)
             
             timeLineTableView.superview!.addSubview(overlayView)
         }
@@ -107,6 +102,7 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
         
         defer { fullRefresh() }
         
+        //This code selects the appropriate templte for the selected entry
         if let e = selectionInterface.getSelectedEntry(), lobject = e.layoutObject {
             if scriptData.typeIsEvent(e.type) {
                 let parentLinks = Array(e.layoutObject.parentLink as! Set<LayoutObject>)
@@ -140,48 +136,53 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
     
     func fullRefresh() {
         //reset arrays containing events and layout objects
-        layoutObjects = []
+        errorsPresent = false
         events = []
         
-        //get existing objects and create them
-        if templateObject != nil && templateObject.mainEntry != nil {
-            let lobjects = templateObject.childLink.array as! [LayoutObject]
-            
-            for lobject in lobjects {
-                addEventToListIfValid(lobject)
-            }
+        defer { refreshTimeLineTableViews() }
+        
+        //get list of events
+        guard let templateObject = templateObject, templateEntry = templateObject.mainEntry else {
+            addError("No template object selected.")
+            return }
+        
+        let eventsEntry = scriptData.getOrCreateSubEntry("Events", entry: templateEntry, isProperty: true)
+        
+        let parser = PSEntryValueParser(stringValue: eventsEntry.currentValue)
+        
+        if parser.foundErrors {
+            addError("There were errors found in the Events: attribute for this template")
+            return
         }
         
-        refreshTimeLineTableViews()
+        let eventValues : [PSEntryElement] = parser.values
+        
+        for event in eventValues {
+            addEventToListIfValid(event)
+        }
+        
+        
+    }
+    
+    
+    
+    func addError(stringReason: String) {
+        errorsPresent = true
+        print(stringReason)
     }
     
     func refreshTimeLineTableViews() {
         
+        
+        
         CATransaction.begin()
         CATransaction.setDisableActions(true)
         
-        //now update all the objects
-        for event in events {
-            PSEventStringParser.parseForTemplateLayoutBoardEvent(event, events: events)
-        }
         
-        //make sure they are sorted correctly
-        if events.count > 0 {
-            if let events_attribute = scriptData.getSubEntry("Events", entry: templateObject.mainEntry) {
-                self.eventsAttribute = PSStringList(entry: events_attribute, scriptData: scriptData)
-                var sorted : [PSTemplateEvent] = []
-                for name in eventsAttribute.stringListLiteralsOnly {
-                    for ev in events {
-                        if ev.entry.name == name {
-                            sorted.append(ev)
-                            break
-                        }
-                    }
-                }
-                events = sorted
-                
-            } else {
-                fatalError("Internal inconsistency: child links on layoutobjects do not match list in main template entry")
+        if !errorsPresent {
+            //now update all the objects
+            for event in events {
+                PSEventStringParser.parseForTemplateLayoutBoardEvent(event, events: events)
             }
         }
         
@@ -234,24 +235,32 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
         linkLines = []
         //for each event determine if it relies on another ending or starting
         for event in events {
-            
+
             if let sc = event.startCondition as? EventStartEventRelated {
                 
-                let starting_event = sc.event!
-                let (start, duration) = eventTimes[starting_event]!
-                
-                var start_x = sc.position == EventStartEventRelatedPosition.End ? start + duration : start
-                
-                start_x++ //seems to be offset of one required
-                let start_point = CGPoint(x: start_x * zoomMultiplier, y: cellYLocations[starting_event]!)
-                var (end, _) = eventTimes[event]!
-                end++ //ditto
-                let end_point = CGPoint(x: end * zoomMultiplier, y: cellYLocations[event]!)
-                
-                for line in makeLineLinkLayer(start_point, to: end_point) {
+                if let starting_event = sc.event {
+                    let (start, duration) = eventTimes[starting_event]!
                     
-                    linkLines.append(line)
+                    var start_x = sc.position == EventStartEventRelatedPosition.End ? start + duration : start
+                    
+                    start_x++ //seems to be offset of one required
+                    let start_point = CGPoint(x: start_x * zoomMultiplier, y: cellYLocations[starting_event]!)
+                    var (end, _) = eventTimes[event]!
+                    end++ //ditto
+                    let end_point = CGPoint(x: end * zoomMultiplier, y: cellYLocations[event]!)
+                    
+                    for line in makeLineLinkLayer(start_point, to: end_point) {
+                        
+                        linkLines.append(line)
+                        overlayView.layer!.addSublayer(line)
+                    }
+                } else {
+                    let (start, _) = eventTimes[event]!
+                    let line = makeLineLayer(CGPoint(x: 0, y: cellYLocations[event]!), to: CGPoint(x: start, y:cellYLocations[event]!))
+                    line.lineDashPattern = nil
+                    line.lineWidth = 2
                     overlayView.layer!.addSublayer(line)
+                    linkLines.append(line)
                 }
             } else if let _ = event.startCondition as? EventStartConditionTrialStart {
                 let (start, _) = eventTimes[event]!
@@ -262,13 +271,6 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
                 linkLines.append(line)
             }
         }
-        
-        //add scale to timeline
-        /*
-        let startPoint = CGPoint(x: 0, y: 10)
-        let endPoint = CGPoint(x: minimumframeWidth, y: 10)
-        let scaleLine = makeLineLayer(startPoint, to: endPoint)
-        overlayView.layer!.addSublayer(scaleLine)*/
         
         
         //update nsrulerview
@@ -295,16 +297,55 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
     //MARK: Adding events
     
     //adds to event list, if not already in the list, and is a member of the template
-    func addEventToListIfValid(lobject : LayoutObject) {
-        if !layoutObjects.contains(lobject) {
-            //event is not in list
-            let isEventAndOnThisTemplate = scriptData.isEventAndOnThisTemplate(lobject, templateObject: templateObject)
-            if  isEventAndOnThisTemplate && lobject.mainEntry != nil {
+    func addEventToListIfValid(event : PSEntryElement) {
+        
+        switch (event) {
+        case .Null:
+            addError("You cannot have NULL events in Events: attribute.")
+            return
+        case .Function(let functionElement):
+            if functionElement.bracketType != .Expression ||
+                functionElement.values.count != 3 ||
+                functionElement.values[1].stringValue() != "~" {
+                addError("The template editor cannot parse templates with expressions / functions beyond the ~ operator")
+                return
+            }
+            
+            let eventName = functionElement.values[2].stringValue()
+            
+            guard let repeats = Int(PSFunctionEvaluate(functionElement.values[0], scriptData: scriptData)) else {
+                addError("The template editor cannot parse templates with expressions / functions beyond the ~ operator (with just numbers or references to an entry with a number")
+                return
+            }
+            
+            if let entry = scriptData.getBaseEntry(eventName) {
+                //check there is no start ref
+                if scriptData.getSubEntry("StartRef", entry: entry) != nil {
+                    addError("The Entry '\(eventName)' is referenced by a tilde in the Events attribute, but it also has a StartRef attribute, meaning it will lead to unpredictable behaviour.")
+                    return
+                }
                 
-                //event is on template
-                layoutObjects.append(lobject)
-                events.append(PSTemplateEvent(entry: lobject.mainEntry, scriptData: scriptData))
-            }   
+                events.append(PSTemplateEvent(entry: entry, scriptData: scriptData, repeats: repeats))
+            } else {
+                addError("Either the entry '\(eventName)' in the Events Attribute cannot be found, or it is a expression that cannot be interpreted by the template editor.")
+                return
+            }
+            
+            break
+        case .List:
+            addError("You cannot have sub lists in Events: attribute.")
+            return
+        case .StringToken(let stringElement):
+            
+            let entryName = stringElement.value
+            if let entry = scriptData.getBaseEntry(entryName) {
+                events.append(PSTemplateEvent(entry: entry, scriptData: scriptData, repeats: 1))
+            } else {
+                addError("The entry '\(entryName)' in the Events Attribute cannot be found.")
+                return
+            }
+            
+            break
         }
     }
     
@@ -326,9 +367,9 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
                 let objToDelete = event.entry.layoutObject
                 //select another object from this template
                 var objToSelect : LayoutObject? = nil
-                for lo in self.layoutObjects {
-                    if lo != objToDelete {
-                        objToSelect = lo
+                for otherEvent in self.events {
+                    if otherEvent.entry.layoutObject != objToDelete {
+                        objToSelect = otherEvent.entry.layoutObject
                         break
                     }
                 }
@@ -451,7 +492,6 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
                         for e in new_events {
                             e.unarchiveData(scriptData)
                             events.append(e)
-                            layoutObjects.append(e.entry.layoutObject)
                             //link to template in correct place
                             scriptData.createLinkFrom(templateObject.mainEntry, to: e.entry, withAttribute: "Events")
                             scriptData.moveEvent(templateObject.mainEntry, fromIndex: events.count - 1, toIndex: row)

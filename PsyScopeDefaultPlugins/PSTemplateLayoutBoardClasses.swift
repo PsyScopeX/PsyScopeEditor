@@ -259,9 +259,6 @@ enum EventStartEventRelatedPosition {
 }
 
 class EventStartEventRelated : EventStartCondition {
-    
-    
-    
     var position : EventStartEventRelatedPosition?
     var event : PSTemplateEvent?
     
@@ -269,8 +266,28 @@ class EventStartEventRelated : EventStartCondition {
         self.init()
         event = ev
     }
+}
+
+//default behaviurs when no startref is included.
+//if no event specified then it will start at beginning of trial
+class EventStartConditionDefault : EventStartEventRelated {
+    override init() {
+        super.init()
+        position = EventStartEventRelatedPosition.End
+    }
     
+    override func getStartMS(base_event : PSTemplateEvent) -> EventMSecs {
+        if let event = event {
+            let (start, duration) = event.getMSRecursively(base_event)
+            return start + duration + event_time.ToEventMSecs()
+        } else {
+            return super.getStartMS(base_event)
+        }
+    }
     
+    override func menuName() -> String {
+        return "Default"
+    }
 }
 
 class EventStartConditionUnscheduled : EventStartCondition {
