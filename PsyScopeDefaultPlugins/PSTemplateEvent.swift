@@ -163,6 +163,7 @@ class PSTemplateEvent : NSObject, NSPasteboardWriting, NSPasteboardReading {
 //dictionary [menuName string: (EventStartCondition object, bool (if takes other event))
 
 var EventStartConditions : [String:(() -> EventStartCondition,Bool)] = [
+    EventStartConditionDefault().menuName() : ({() -> EventStartCondition in return EventStartConditionDefault()}, false),
     EventStartConditionUnscheduled().menuName() : ({() -> EventStartCondition in return EventStartConditionUnscheduled()}, false),
     EventStartConditionTrialStart().menuName() : ({() -> EventStartCondition in return EventStartConditionTrialStart()}, false),
     EventStartConditionEventStart().menuName() : ({() -> EventStartCondition in return EventStartConditionEventStart()}, true),

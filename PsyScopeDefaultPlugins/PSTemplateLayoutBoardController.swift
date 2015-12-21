@@ -195,6 +195,7 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
             overlayView.addSubview(newErrorLabel)
             newErrorLabel.stringValue = errorList.joinWithSeparator("\n")
             newErrorLabel.frame = overlayView.bounds
+            newErrorLabel.bezeled = false
             errorLabel = newErrorLabel
             return
         }

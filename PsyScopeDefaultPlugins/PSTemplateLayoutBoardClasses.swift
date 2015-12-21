@@ -285,6 +285,12 @@ class EventStartConditionDefault : EventStartEventRelated {
         }
     }
     
+    override var textFieldStartTime : String? {
+        get {
+            return nil
+        }
+    }
+    
     override func menuName() -> String {
         return "Default"
     }
