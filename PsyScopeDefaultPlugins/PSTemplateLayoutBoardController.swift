@@ -34,7 +34,9 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
     var selectionInterface : PSSelectionInterface!
     var rulerView : NSRulerView!
     var overlayView : NSFlippedView! //this view goes over the timeline table view, and draws lines connecteing etc
+    var errorLabel : NSTextField? //view to rpesent errors on the overlay (if impossible processing template possibly due to custom code)
     var initialized : Bool = false
+    var errorList : [String] = []
     
     
     //MARK: Current selection
@@ -137,6 +139,7 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
     func fullRefresh() {
         //reset arrays containing events and layout objects
         errorsPresent = false
+        errorList = []
         events = []
         
         defer { refreshTimeLineTableViews() }
@@ -168,23 +171,44 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
     
     func addError(stringReason: String) {
         errorsPresent = true
+        errorList.append(stringReason)
         print(stringReason)
     }
     
     func refreshTimeLineTableViews() {
         
+        //remove error label
+        if let errorLabel = errorLabel {
+            errorLabel.removeFromSuperview()
+            self.errorLabel = nil
+        }
         
+        if errorsPresent {
+            events = []
+            //trigger the reloading of the events.
+            eventIconTableView.reloadData()
+            timeLineTableView.reloadData()
+            
+            
+            //add errorlabel
+            let newErrorLabel = NSTextField()
+            overlayView.addSubview(newErrorLabel)
+            newErrorLabel.stringValue = errorList.joinWithSeparator("\n")
+            newErrorLabel.frame = overlayView.bounds
+            errorLabel = newErrorLabel
+            return
+        }
         
         CATransaction.begin()
         CATransaction.setDisableActions(true)
         
         
-        if !errorsPresent {
-            //now update all the objects
-            for event in events {
-                PSEventStringParser.parseForTemplateLayoutBoardEvent(event, events: events)
-            }
+
+        //now update all the objects
+        for event in events {
+            PSEventStringParser.parseForTemplateLayoutBoardEvent(event, events: events)
         }
+    
         
         
         
