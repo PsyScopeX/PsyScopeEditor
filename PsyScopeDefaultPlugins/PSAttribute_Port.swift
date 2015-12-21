@@ -45,6 +45,7 @@ public class PSAttribute_Port: PSAttributeGeneric {
         errors += super.identifyEntries(ghostScript) as! [PSScriptError]
         var portNamesEntry : PSStringListCachedContainer!
         var portNamesGE : PSGhostEntry!
+
         for ge in ghostScript.entries as [PSGhostEntry] {
             if ge.name == "PortNames" {
                 portNamesEntry = PSStringListCachedContainer()
@@ -53,7 +54,7 @@ public class PSAttribute_Port: PSAttributeGeneric {
                 if (ge.type.isEmpty || ge.type == "Port") {
                     ge.type = "Port"
                 } else {
-                    errors.append(PSErrorPortNamesEntryTypeMismatch(ge.type, range: ge.range))
+                    errors.append(PSErrorPortNamesEntryTypeMismatch(ge.type))
                 }
                 break
             }
@@ -74,13 +75,13 @@ public class PSAttribute_Port: PSAttributeGeneric {
                             errors += identifyPositions(ge, ghostScript: ghostScript)
                             break
                         } else {
-                            errors.append(PSErrorPortEntryTypeMismatch(ge.name, incorrectType: ge.type, range: ge.range))
+                            errors.append(PSErrorPortEntryTypeMismatch(ge.name, incorrectType: ge.type))
                         }
                     }
                 }
                 
                 if (!found_port) {
-                    errors.append(PSErrorMissingPortEntry(portName, range: portNamesGE.range))
+                    errors.append(PSErrorMissingPortEntry(portName))
                 }
                 
             }
@@ -93,13 +94,11 @@ public class PSAttribute_Port: PSAttributeGeneric {
     func identifyPositions(portGhostEntry : PSGhostEntry, ghostScript: PSGhostScript) -> [PSScriptError] {
         //find portNames entry, plus identify all entries associated with that
         var errors : [PSScriptError] = []
-        var positionNamesEntry : PSStringListCachedContainer!
-        var positionNamesGE : PSGhostEntry!
+        var positionNamesEntry : PSStringListCachedContainer?
         for ge in portGhostEntry.subEntries as [PSGhostEntry] {
             if ge.name == "Points" {
                 positionNamesEntry = PSStringListCachedContainer()
-                positionNamesEntry.stringValue = ge.currentValue
-                positionNamesGE = ge
+                positionNamesEntry!.stringValue = ge.currentValue
                 break
             }
         }
@@ -117,13 +116,13 @@ public class PSAttribute_Port: PSAttributeGeneric {
                             
                             break
                         } else {
-                            errors.append(PSErrorPositionEntryTypeMismatch(ge.name, port: portGhostEntry.name, incorrectType: ge.type, range: ge.range))
+                            errors.append(PSErrorPositionEntryTypeMismatch(ge.name, port: portGhostEntry.name, incorrectType: ge.type))
                         }
                     }
                 }
                 
                 if (!found_position) {
-                    errors.append(PSErrorMissingPositionEntry(positionName, port: portGhostEntry.name, range: positionNamesGE.range))
+                    errors.append(PSErrorMissingPositionEntry(positionName, port: portGhostEntry.name))
                 }
                 
             }
@@ -132,34 +131,34 @@ public class PSAttribute_Port: PSAttributeGeneric {
         return errors
     }
     
-    func PSErrorMissingPositionEntry(name : String, port : String, range : NSRange) -> PSScriptError {
+    func PSErrorMissingPositionEntry(name : String, port : String) -> PSScriptError {
         let description = "No entry for the position named: \(name) could be found"
         let solution = "Check the entry is not misspelled, or remove the reference from the Port: \(port)"
-        return PSScriptError(errorDescription: "Missing Position Entry", detailedDescription: description, solution: solution, range: range)
+        return PSScriptError(errorDescription: "Missing Position Entry", detailedDescription: description, solution: solution, entryName: port, searchString: name)
     }
     
-    func PSErrorPositionEntryTypeMismatch(name : String, port : String, incorrectType : String, range : NSRange) -> PSScriptError {
+    func PSErrorPositionEntryTypeMismatch(name : String, port : String, incorrectType : String) -> PSScriptError {
         let description = "The entry named: \(name) was identified as a \(incorrectType), yet was listed as a port in Port: \(port)"
         let solution = "Check the entry is not referenced incorrectly elsewhere, or remove from PortNames"
-        return PSScriptError(errorDescription: "Position Entry Mismatch", detailedDescription: description, solution: solution, range: range)
+        return PSScriptError(errorDescription: "Position Entry Mismatch", detailedDescription: description, solution: solution, entryName: name)
     }
     
-    func PSErrorMissingPortEntry(name : String, range : NSRange) -> PSScriptError {
+    func PSErrorMissingPortEntry(name : String) -> PSScriptError {
         let description = "No entry for the port named: \(name) could be found"
         let solution = "Check the entry is not misspelled, or remove the reference from PortNames"
-        return PSScriptError(errorDescription: "Missing Port Entry", detailedDescription: description, solution: solution, range: range)
+        return PSScriptError(errorDescription: "Missing Port Entry", detailedDescription: description, solution: solution, entryName: "PortNames", searchString: name)
     }
     
-    func PSErrorPortEntryTypeMismatch(name : String, incorrectType : String, range : NSRange) -> PSScriptError {
+    func PSErrorPortEntryTypeMismatch(name : String, incorrectType : String) -> PSScriptError {
         let description = "The entry named: \(name) was identified as a \(incorrectType), yet was listed as a port in PortNames entry"
         let solution = "Check the entry is not referenced incorrectly elsewhere, or remove from PortNames"
-        return PSScriptError(errorDescription: "Port Entry Mismatch", detailedDescription: description, solution: solution, range: range)
+        return PSScriptError(errorDescription: "Port Entry Mismatch", detailedDescription: description, solution: solution, entryName: "PortNames", searchString: name)
     }
     
-    func PSErrorPortNamesEntryTypeMismatch(incorrectType : String, range : NSRange) -> PSScriptError {
+    func PSErrorPortNamesEntryTypeMismatch(incorrectType : String) -> PSScriptError {
         let description = "The reserved PortNames entry was misidentified as a \(incorrectType)"
         let solution = "Remove unecessary attributes and check the entry is not referenced incorrectly elsewhere"
-        return PSScriptError(errorDescription: "PortNames Entry Mismatch", detailedDescription: description, solution: solution, range: range)
+        return PSScriptError(errorDescription: "PortNames Entry Mismatch", detailedDescription: description, solution: solution, entryName: "PortNames")
     }
 
 }

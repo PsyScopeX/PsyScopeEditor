@@ -57,9 +57,9 @@ class PSExperimentTool: PSTool, PSToolInterface {
                         } else {
                             print("Error here: \(ge2.type) key type already defined")
                             if (ge2.type == type()) {
-                                errors.append(PSErrorAlreadyDefinedType(ge2.name, type1: ge2.type, range: ge.range))
+                                errors.append(PSErrorAlreadyDefinedType(ge2.name, type1: ge2.type))
                             } else {
-                                errors.append(PSErrorAmbiguousType(ge2.name, type1: ge2.type, type2: type(), range: ge.range))
+                                errors.append(PSErrorAmbiguousType(ge2.name, type1: ge2.type, type2: type()))
                             }
                         }
                         break
@@ -69,7 +69,7 @@ class PSExperimentTool: PSTool, PSToolInterface {
                 //finishedd searching through allentries for main experiment entry - has it been found?
                 if (!foundMainEntry) {
                     if ge.currentValue != "" {
-                        errors.append(PSErrorEntryNotFound(ge.currentValue, parentEntry: ge.name, subEntry: "", range: ge.range))
+                        errors.append(PSErrorEntryNotFound(ge.currentValue, parentEntry: ge.name, subEntry: ""))
                     } else {
                         errors.append(PSErrorNoExperimentsEntry())
                     }
@@ -90,7 +90,7 @@ class PSExperimentTool: PSTool, PSToolInterface {
             }
             
             if foundAttributes > 1 {
-                errors.append(PSTooManyStructuralAttributesType(ge.name, range: ge.range))
+                errors.append(PSTooManyStructuralAttributesType(ge.name))
             }
             
             
@@ -405,19 +405,19 @@ class PSExperimentTool: PSTool, PSToolInterface {
 func PSErrorDataFileEntry() -> PSScriptError {
     let d = "The -DataFile- sub entry must be defined, and have a valid file name as its value"
     let s = "Add DataFile sub entry to the main experiment entry, and set it's value"
-    return PSScriptError(errorDescription: "Missing DataFile Sub Entry", detailedDescription: d, solution: s, range: NSMakeRange(0, 0))
+    return PSScriptError(errorDescription: "Missing DataFile Sub Entry", detailedDescription: d, solution: s)
     
 }
 
-func PSTooManyStructuralAttributesType(name : String, range : NSRange) -> PSScriptError {
+func PSTooManyStructuralAttributesType(name : String) -> PSScriptError {
     let d = "Two or more mutually exclusive structural attributes in entry"
     let s = "Structural attributes (Experiments, Groups, Blocks, Templates, Events) are mutually exclusive - make sure each entry has only one type of these"
-    return PSScriptError(errorDescription: "Too Many Structural Attributes Error",detailedDescription: d,solution: s,range: range)
+    return PSScriptError(errorDescription: "Too Many Structural Attributes Error",detailedDescription: d,solution: s, entryName: name)
 }
 
 func PSErrorNoExperimentsEntry() -> PSScriptError {
         let d = "The -Experiments- entry must be defined, and have as it's value the name of a single experiment entry"
         let s = "Add Experiments entry to script"
-        return PSScriptError(errorDescription: "Missing Experiments Entry", detailedDescription: d, solution: s, range: NSMakeRange(0, 0))
+        return PSScriptError(errorDescription: "Missing Experiments Entry", detailedDescription: d, solution: s)
     
 }

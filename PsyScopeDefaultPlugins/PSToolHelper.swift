@@ -47,7 +47,7 @@ class PSToolHelper: NSObject {
                 if (ge.type.isEmpty || ge.type == type.name) {
                     ge.type = type.name
                 } else {
-                    errors.append(PSErrorAmbiguousType(ge.name,type1: ge.type,type2: type.name, range: ge.range))
+                    errors.append(PSErrorAmbiguousType(ge.name,type1: ge.type,type2: type.name))
                 }
             }
         }
@@ -65,7 +65,7 @@ class PSToolHelper: NSObject {
                     if (ge.type.isEmpty || ge.type == type.name) {
                         ge.type = type.name
                     } else {
-                        errors.append(PSErrorAmbiguousType(ge.name,type1: ge.type,type2: type.name, range: ge.range))
+                        errors.append(PSErrorAmbiguousType(ge.name,type1: ge.type,type2: type.name))
                     }
                 }
             }
@@ -105,14 +105,14 @@ class PSToolHelper: NSObject {
                                             ge.links.append(ge2)
                                             
                                         } else {
-                                            errors.append(PSErrorAmbiguousType(ge2.name,type1: ge2.type,type2: type.name, range: ge.range))
+                                            errors.append(PSErrorAmbiguousType(ge2.name,type1: ge2.type,type2: type.name))
                                         }
                                         
                                     }
                                 }
                                 
                                 if (!found_entry_name) {
-                                    errors.append(PSErrorEntryNotFound(stringElement.value, parentEntry: ge.name, subEntry: a.name, range: ge.range))
+                                    errors.append(PSErrorEntryNotFound(stringElement.value, parentEntry: ge.name, subEntry: a.name))
                                 }
                                 
                                 

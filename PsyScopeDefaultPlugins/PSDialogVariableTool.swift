@@ -97,7 +97,7 @@ class PSDialogVariableTool: PSTool, PSToolInterface {
         for entry in ghostScript.entries {
             if illegalEntryNames.contains(entry.name) {
                 entry.type = toolType.name
-                errors.append(PSIllegalScheduleEntry(entry.name,range: entry.range))
+                errors.append(PSIllegalScheduleEntry(entry.name))
             }
         }
         
@@ -106,10 +106,10 @@ class PSDialogVariableTool: PSTool, PSToolInterface {
         return errors
     }
     
-    func PSIllegalScheduleEntry(nameOfIllegalEntry: NSString, range : NSRange) -> PSScriptError {
+    func PSIllegalScheduleEntry(nameOfIllegalEntry: String) -> PSScriptError {
         let description = "The name for base entry: \(nameOfIllegalEntry):: is illegal."
         let solution = "Delete the entry named: \(nameOfIllegalEntry): and move the functionality elsewhere - you can schedule dialogs before running the experiment and after - but not other times."
-        return PSScriptError(errorDescription: "Illegal Schedule Entry", detailedDescription: description, solution: solution, range: range)
+        return PSScriptError(errorDescription: "Illegal Schedule Entry", detailedDescription: description, solution: solution, entryName: nameOfIllegalEntry)
     }
     
     

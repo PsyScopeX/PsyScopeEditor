@@ -107,7 +107,7 @@ class PSVariableTool: PSTool, PSToolInterface {
                                 for variableSubEntry in ghostEntry.subEntries {
                                     if variableSubEntry.name.lowercaseString == "type" && !PSVariableTypesAllowedInDataFile.contains(variableSubEntry.currentValue) {
                                         //error
-                                        errors.append(PSErrorVariableDataFile(ghostEntry.name, type: variableSubEntry.currentValue, range: ghostEntry.range))
+                                        errors.append(PSErrorVariableDataFile(ghostEntry.name, type: variableSubEntry.currentValue))
                                     }
                                 }
                             }
@@ -127,8 +127,8 @@ class PSVariableTool: PSTool, PSToolInterface {
     
 }
 
-public func PSErrorVariableDataFile(nameOfVariable: String, type : String, range : NSRange) -> PSScriptError {
+public func PSErrorVariableDataFile(nameOfVariable: String, type : String) -> PSScriptError {
     let description = "The variable: " + nameOfVariable + " has a type " + type + " which is not allowed in the DataFile"
     let solution = "Remove the variable's name from the DataVariables entry"
-    return PSScriptError(errorDescription: "DataVariables Error", detailedDescription: description, solution: solution, range: range)
+    return PSScriptError(errorDescription: "DataVariables Error", detailedDescription: description, solution: solution, entryName: nameOfVariable)
 }

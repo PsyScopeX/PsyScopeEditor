@@ -3,12 +3,6 @@ import Foundation
 typealias PSRule = (()->(Bool))
 typealias PSMemoization = [Int:Int]
 
-/*func PSEntryValueSyntaxError(token : String, range : NSRange) -> PSScriptError {
-    let description = token == "" ? "A syntax error was detected on this line." : "The token \"\(token)\" has caused a syntax error."
-    let solution = "Check the entire value for correct syntax."
-    var new_error = PSScriptError(errorDescription: "Syntax Error", detailedDescription: description, solution: solution, range: range)
-    return new_error
-}*/
 
 public class PSEntryValueParser {
     private let tokens : [PSToken]

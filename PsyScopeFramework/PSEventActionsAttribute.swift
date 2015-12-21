@@ -488,5 +488,5 @@ public class PSEventActionsAttribute : PSStringListElement {
 
 
 func PSScriptErrorEventActionsParsingError(unknownToken : String, entryName : String) -> PSScriptError {
-    return PSScriptError(errorDescription: "Could not parse actions parameter in entry: \(entryName)", detailedDescription: "Unknown function / character / token found: \(unknownToken)", solution: "Remove said token", range: NSMakeRange(0,0))
+    return PSScriptError(errorDescription: "Could not parse actions parameter in entry: \(entryName)", detailedDescription: "Unknown function / character / token found: \(unknownToken)", solution: "Remove said token", entryName: entryName, searchString: unknownToken)
 }

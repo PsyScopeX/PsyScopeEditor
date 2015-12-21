@@ -51,7 +51,7 @@ class PSEventTool: PSTool, PSToolInterface, PSEventInterface {
                     if (ge.type.isEmpty || ge.type == type) {
                         ge.type = type
                     } else {
-                        errors.append(PSErrorAmbiguousType(ge.name,type1: ge.type,type2: type,range: ge.range))
+                        errors.append(PSErrorAmbiguousType(ge.name,type1: ge.type,type2: type))
                     }
                 }
             }
@@ -79,7 +79,7 @@ class PSEventTool: PSTool, PSToolInterface, PSEventInterface {
         if parser.foundErrors {
             let description = "A syntax error was detected in the Events attribute for the entry named \(ge.name)."
             let solution = "Check the entire value for correct syntax."
-            let newError = PSScriptError(errorDescription: "Syntax Error", detailedDescription: description, solution: solution, range: ge.range)
+            let newError = PSScriptError(errorDescription: "Syntax Error", detailedDescription: description, solution: solution, entryName: ge.name, searchString: "Events:")
             errors.append(newError)
         } else {
             for value in parser.values {
@@ -106,7 +106,7 @@ class PSEventTool: PSTool, PSToolInterface, PSEventInterface {
                     }
                     
                     if (!found_block_name) {
-                        errors.append(PSErrorEntryNotFound(eventName, parentEntry: ge.name, subEntry: "Events", range: ge.range))
+                        errors.append(PSErrorEntryNotFound(eventName, parentEntry: ge.name, subEntry: "Events"))
                     }
                     
                     
@@ -126,7 +126,7 @@ class PSEventTool: PSTool, PSToolInterface, PSEventInterface {
                     }
                     
                     if (!found_block_name) {
-                        errors.append(PSErrorEntryNotFound(eventName, parentEntry: ge.name, subEntry: "Events", range: ge.range))
+                        errors.append(PSErrorEntryNotFound(eventName, parentEntry: ge.name, subEntry: "Events"))
                     }
                     
                     break

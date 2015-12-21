@@ -43,10 +43,9 @@ class PSScriptErrorViewController: NSObject, NSTableViewDataSource, NSTableViewD
     func tableView(tableView: PSClickableTableView, didClickTableRow row: Int) {
         let error = row < errors.count ? errors[row] : warnings[row - errors.count]
         
-        if let errorEntry = error.entry {
-            let baseEntry = mainWindowController.scriptData.getBaseEntryOfSubEntry(errorEntry)
-            if let str = textView.string, name = baseEntry.name {
-                var range = (str as NSString).rangeOfString("\n" + name + "::")
+        if let entryName = error.entryName,
+            str = textView.string {
+                var range = (str as NSString).rangeOfString("\n" + entryName + "::")
                 
                 if range.location != NSNotFound && range.length > 0 {
                     range.length--
@@ -54,10 +53,16 @@ class PSScriptErrorViewController: NSObject, NSTableViewDataSource, NSTableViewD
                     textView.scrollRangeToVisible(range)
                     textView.setSelectedRange(range)
                 }
+            
+        } else if let searchString = error.searchString, str = textView.string {
+            let range = (str as NSString).rangeOfString(searchString)
+            
+            if range.location != NSNotFound && range.length > 0 {
+                //range.length--
+                //range.location++
+                textView.scrollRangeToVisible(range)
+                textView.setSelectedRange(range)
             }
-        } else {
-            textView.setSelectedRange(error.range)
-            textView.scrollRangeToVisible(error.range)
         }
         if let w = textView.window {
             w.makeFirstResponder(textView)

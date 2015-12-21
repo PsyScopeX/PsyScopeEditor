@@ -10,17 +10,17 @@ import Foundation
 
 
 public class PSScriptError : NSObject {
-    public var errorDescription : NSString = ""
-    public var detailedDescription : NSString = ""
-    public var solution : NSString = ""
-    public var range : NSRange = NSMakeRange(0, 0)
-    public var entry : Entry?
-    public init(errorDescription : NSString, detailedDescription : NSString, solution : NSString, range : NSRange, entry : Entry? = nil) {
-        self.entry = entry
+    public var errorDescription : String = ""
+    public var detailedDescription : String = ""
+    public var solution : String = ""
+    public var entryName : String?
+    public var searchString : String? //the string to search for and highlight within entry
+    public init(errorDescription : String, detailedDescription : String, solution : String, entryName : String? = nil, searchString : String? = nil) {
+        self.searchString = entryName
+        self.searchString = searchString
         self.errorDescription = errorDescription
         self.detailedDescription = detailedDescription
         self.solution = solution
-        self.range = range
         super.init()
     }
 }
@@ -28,81 +28,81 @@ public class PSScriptError : NSObject {
 
 //Parse errors
 
-public func PSErrorEntryName(nameOfDoubledEntry: NSString, range : NSRange) -> PSScriptError {
-    let description = "The name for entry: " + (nameOfDoubledEntry as String) + " : must consist of just one word"
-    let solution = "Rename the entries named: " + (nameOfDoubledEntry as String) + " :to something that is just one word"
-    return PSScriptError(errorDescription: "Entry Name Error", detailedDescription: description, solution: solution, range: range)
+public func PSErrorEntryName(nameOfIllegalEntry: String) -> PSScriptError {
+    let description = "The name for entry: " + nameOfIllegalEntry + " : must consist of just one word"
+    let solution = "Rename the entries named: " + nameOfIllegalEntry + " :to something that is just one word"
+    return PSScriptError(errorDescription: "Entry Name Error", detailedDescription: description, solution: solution, entryName: nameOfIllegalEntry)
 }
 
 
 //Structure errors
 
-public func PSErrorDoubleEntry(nameOfDoubledEntry: NSString, range : NSRange) -> PSScriptError  {
-        let description = "There are two entries named: " + (nameOfDoubledEntry as String)
-        let solution = "Rename one of the entries named " + (nameOfDoubledEntry as String) + " to something different, or delete it"
-    return PSScriptError(errorDescription: "Double Entry Error", detailedDescription: description, solution: solution, range: range)
+public func PSErrorDoubleEntry(nameOfDoubledEntry: String) -> PSScriptError  {
+        let description = "There are two entries named: " + nameOfDoubledEntry
+        let solution = "Rename one of the entries named " + nameOfDoubledEntry + " to something different, or delete it"
+    return PSScriptError(errorDescription: "Double Entry Error", detailedDescription: description, solution: solution, entryName: nameOfDoubledEntry)
     }
 
 
 public func PSErrorNoEntries() -> PSScriptError  {
         let description = "A parsing error occurred - there are no entries"
         let solution = "Can't parse without any entries"
-    return PSScriptError(errorDescription: "No Entries Error", detailedDescription: description, solution: solution, range: NSMakeRange(0,0))
+    return PSScriptError(errorDescription: "No Entries Error", detailedDescription: description, solution: solution)
     }
 
 
 
-public func PSErrorUnknownSyntax(range : NSRange) -> PSScriptError  {
+public func PSErrorUnknownSyntax(searchString : String) -> PSScriptError  {
         let d = "There is unknown syntax at beginning of script."
         let s = "Check syntax"
-        return PSScriptError(errorDescription: "Unknown syntax error", detailedDescription: d, solution: s, range: range)
+        return PSScriptError(errorDescription: "Unknown syntax error", detailedDescription: d, solution: s, searchString: searchString)
     }
 
 
-public func PSErrorInvalidEntryToken(name : NSString, range : NSRange)  -> PSScriptError {
-        let d = "The entry " + (name as String) + " has an invalid token type"
+public func PSErrorInvalidEntryToken(name : String, searchString : String?)  -> PSScriptError {
+        let d = "The entry " + name + " has an invalid token type"
         let s = "Check syntax"
-        return PSScriptError(errorDescription: "Invalid Entry Token Error", detailedDescription: d, solution: s, range: range)
+    return PSScriptError(errorDescription: "Invalid Entry Token Error", detailedDescription: d, solution: s, entryName: name, searchString: searchString)
     }
 
 
-public func PSErrorDeepEntryToken(name : NSString, range : NSRange) -> PSScriptError {
-        let d = "The entry " + (name as String) + " cannot be a sub entry of any preceeding entries, as it's token suggests it is a level deeper than expected."
+public func PSErrorDeepEntryToken(entryName : String, subEntryName : String) -> PSScriptError {
+        let d = "The sub entry " + subEntryName + " cannot be a sub entry of any preceeding entries, as it's token suggests it is a level deeper than expected."
         let s = "Check syntax"
-        return PSScriptError(errorDescription: "Deep Entry Error", detailedDescription: d, solution: s, range: range)
+    return PSScriptError(errorDescription: "Deep Entry Error", detailedDescription: d, solution: s, entryName: entryName, searchString: subEntryName)
     }
 
 
 
-public func PSErrorAlreadyDefinedType(name : NSString, type1 : String, range : NSRange) -> PSScriptError {
-        let d = "The entry " + (name as String) + " has already been defined as a " + type1 + " double definition is illegal"
+public func PSErrorAlreadyDefinedType(entryName : String, type1 : String) -> PSScriptError {
+        let d = "The entry " + entryName + " has already been defined as a " + type1 + " double definition is illegal"
         let s = "Check syntax"
-        return PSScriptError(errorDescription: "Double Definition Error", detailedDescription: d, solution: s, range: range)
+        return PSScriptError(errorDescription: "Double Definition Error", detailedDescription: d, solution: s, entryName: entryName)
     }
 
 
-public func PSErrorAmbiguousType(name : NSString, type1 : String, type2 : NSString, range : NSRange) -> PSScriptError {
-        let d = "The entry " + (name as String) + " can be defined as either a " + type1 + " or a " + (type2 as String)
+public func PSErrorAmbiguousType(entryName : String, type1 : String, type2 : String) -> PSScriptError {
+        let d = "The entry " + entryName + " can be defined as either a " + type1 + " or a " + type2
         let s = "Check syntax"
-        return PSScriptError(errorDescription: "Ambiguous Type Error", detailedDescription: d, solution: s, range: range)
+        return PSScriptError(errorDescription: "Ambiguous Type Error", detailedDescription: d, solution: s, entryName: entryName)
     }
 
 
-public func PSErrorEntryNotFound(name : String, parentEntry : String, subEntry : String, range : NSRange) -> PSScriptError {
+public func PSErrorEntryNotFound(entryName : String, parentEntry : String, subEntry : String) -> PSScriptError {
     var entryLocation = parentEntry
     if subEntry != "" {
         entryLocation = entryLocation + "->" + subEntry
     }
     
-    let d = "The entry " + name + " is referenced in " + entryLocation + " but cannot be found"
+    let d = "The entry " + entryName + " is referenced in " + entryLocation + " but cannot be found"
     let s = "Create entry or check existing entries for typographical error"
-    return PSScriptError(errorDescription:"Entry Not Found Error", detailedDescription: d, solution: s, range: range)
+    return PSScriptError(errorDescription:"Entry Not Found Error", detailedDescription: d, solution: s, entryName: parentEntry, searchString: subEntry)
 }
 
 //Name Error
 
-public func PSErrorIllegalEntryName(nameOfEntry: NSString, range : NSRange) -> PSScriptError  {
-    let description = "The name: \(nameOfEntry as String) is illegal for entries in this version of PsyScope"
+public func PSErrorIllegalEntryName(nameOfEntry: String) -> PSScriptError  {
+    let description = "The name: \(nameOfEntry) is illegal for entries in this version of PsyScope"
     let solution = "Please rename all references to this entry to a new name"
-    return PSScriptError(errorDescription: "Illegal Name Error", detailedDescription: description, solution: solution, range: range)
+    return PSScriptError(errorDescription: "Illegal Name Error", detailedDescription: description, solution: solution, entryName: nameOfEntry)
 }

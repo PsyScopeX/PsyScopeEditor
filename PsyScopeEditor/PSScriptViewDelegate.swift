@@ -263,7 +263,7 @@ class PSScriptViewDelegate : NSObject, NSTextViewDelegate, NSTextStorageDelegate
                     let fullRange = NSMakeRange(0, minLength)
                     self.scriptBoard.textStorage!.setAttributes([:], range: fullRange)//clear
                     
-                    
+                    self.errorHandler.reset()
                     for e in readingOperation.errors {
                         self.errorHandler.newError(e)
                     }

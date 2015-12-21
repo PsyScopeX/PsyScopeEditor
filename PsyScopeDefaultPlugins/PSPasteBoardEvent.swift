@@ -111,7 +111,7 @@ class PSPasteBoardEvent : PSEventTool {
                                 }
                                 
                                 if (!found_block_name) {
-                                    errors.append(PSErrorEntryNotFound(block_name, parentEntry: ge.name, subEntry: a.name, range: ge.range))
+                                    errors.append(PSErrorEntryNotFound(block_name, parentEntry: ge.name, subEntry: a.name))
                                 }
                             }
                         }

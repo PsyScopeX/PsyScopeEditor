@@ -90,7 +90,7 @@ public class PSScriptReader {
                 scanEntryValue(scanner, justACheck: fullScan)
                 newGhostEntry.currentValue = prevValue
                 formatRange(startErrorLocation, end: scanner.scanLocation,color: PSConstants.Fonts.scriptErrorColor)
-                errors.append(PSErrorUnknownSyntax(NSMakeRange(startErrorLocation, scanner.scanLocation - startErrorLocation)))
+                errors.append(PSErrorUnknownSyntax(prevValue))
             }
         }
         
@@ -211,7 +211,7 @@ public class PSScriptReader {
             //populate the entry
             let newEntryLevel = Int(newGhostEntry.level)
             if (debugMode) { print("NEW ENTRY: \(name!) LEVEL: \(newEntryLevel)") }
-            newGhostEntry.range = NSMakeRange(startScanLocation,scanner.scanLocation - startScanLocation)
+            //newGhostEntry.range = NSMakeRange(startScanLocation,scanner.scanLocation - startScanLocation)
             
             if newEntryLevel == 0 {
                 //base entry
@@ -222,7 +222,14 @@ public class PSScriptReader {
             } else if newEntryLevel > Int(previousGhostEntry.level) + 1 {
                 // error as entry is too far inwards
                 formatRange(entryNameLocation,end: entryTokenLocation,color: PSConstants.Fonts.scriptErrorColor)
-                errors.append(PSErrorDeepEntryToken(name!, range: NSMakeRange(entryNameLocation,entryTokenLocation - entryNameLocation)))
+                
+                //get base entry
+                var parentGhostEntry = previousGhostEntry
+                while (0 < Int(parentGhostEntry.level)) {
+                    parentGhostEntry = parentGhostEntry.parent!
+                }
+                
+                errors.append(PSErrorDeepEntryToken(parentGhostEntry.name, subEntryName: name! as String))
             } else {
                 //entry has a valid parent
                 var parentGhostEntry = previousGhostEntry
@@ -291,7 +298,7 @@ public class PSScriptReader {
             } else {
                 //error with getting entry level, so don't store the entry
                 formatRange(startScanLocation,end: scanner.scanLocation,color: PSConstants.Fonts.scriptErrorColor)
-                errors.append(PSErrorInvalidEntryToken(newGhostEntry.name, range: NSMakeRange(startScanLocation, scanner.scanLocation - startScanLocation)))
+                errors.append(PSErrorInvalidEntryToken(newGhostEntry.name, searchString: token))
             }
         }
         

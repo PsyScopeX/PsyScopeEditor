@@ -18,6 +18,5 @@ public class PSGhostEntry : NSObject {
     public var links : [PSGhostEntry] = []
     public var parent : PSGhostEntry? = nil
     public var level : Int = 0
-    public var range : NSRange = NSMakeRange(0, 0)
     public var comments : String = ""
 }
