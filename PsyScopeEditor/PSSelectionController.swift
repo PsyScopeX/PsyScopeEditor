@@ -21,6 +21,7 @@ class PSSelectionController : NSObject, PSSelectionInterface {
     var menu : NSMenu!
     
     var docMocChangesPending : Bool = false
+    var preventRefresh : Bool = false
     
     func initialize(document : Document, scriptData : PSScriptData) {
         self.document = document
@@ -51,8 +52,10 @@ class PSSelectionController : NSObject, PSSelectionInterface {
             let haveACurrentlySelectedEntry = selectedEntry != nil
             if haveACurrentlySelectedEntry && (selectedEntry!.deleted == true || selectedEntry!.name == nil) {
                 selectEntry(nil)
+            } else {
+                refreshGUI()
             }
-            refreshGUI()
+            
             docMocChangesPending = false
         }
 
@@ -64,7 +67,7 @@ class PSSelectionController : NSObject, PSSelectionInterface {
     func docMocChanged(notification : NSNotification) {
         docMocChangesPending = true
         if (debugMocChanges) { dumpDocMocChanges(notification) }
-        if scriptData.inUndoGroup {
+        if scriptData.inUndoGroup  {
             //prevent doc moc changes for grouped changes
             print("Doc moc changed: In undo group so not refreshing")
             return
@@ -188,13 +191,15 @@ class PSSelectionController : NSObject, PSSelectionInterface {
     
     func refreshGUI() {
         //print("Refresh")
-        buildEventActionsAttributeAndMetaData() //must be done at start of refresh
-        updateVaryByMenu() //perhaps this doesn't belong here?
+        if !preventRefresh {
+            buildEventActionsAttributeAndMetaData() //must be done at start of refresh
+            updateVaryByMenu() //perhaps this doesn't belong here?
         
-        document.mainWindowController.refreshGUI()
+            document.mainWindowController.refreshGUI()
 
-        for interface in windowViews {
-            interface.refresh()
+            for interface in windowViews {
+                interface.refresh()
+            }
         }
     }
     

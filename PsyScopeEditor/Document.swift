@@ -34,8 +34,11 @@ class Document: NSPersistentDocument {
     //MARK: NSDocument Overrides
     
     override func revertToContentsOfURL(inAbsoluteURL: NSURL, ofType inTypeName: String) throws {
+        selectionController.preventRefresh = true
         try super.revertToContentsOfURL(inAbsoluteURL, ofType: inTypeName)
-        self.mainWindowController.layoutController.refresh()
+        selectionController.preventRefresh = false
+        //self.mainWindowController.layoutController.refresh()
+        selectionController.refresh()
     }
     
     override func readFromURL(absoluteURL: NSURL, ofType typeName: String) throws {
