@@ -8,6 +8,10 @@
 
 import Foundation
 
+
+/**
+ * PSConvertEvents: Sheet-style dialog for converting events from one type to another.  Activated in Layout editor, after right clicking on a selection of events.
+ */
 class PSConvertEvents : NSObject, NSTableViewDataSource, NSTableViewDelegate {
     
 
@@ -27,6 +31,8 @@ class PSConvertEvents : NSObject, NSTableViewDataSource, NSTableViewDelegate {
     var parentWindow : NSWindow!
     let eventTypes : [String]
     var selectedType : String
+    
+    //MARK: Setup
     
     init(scriptData : PSScriptData, events : [Entry]) {
         self.events = events
@@ -59,10 +65,7 @@ class PSConvertEvents : NSObject, NSTableViewDataSource, NSTableViewDelegate {
         parentWindow.beginSheet(attributeSheet, completionHandler: {
             (response : NSModalResponse) -> () in
             
-            
             //NSApp.stopModalWithCode(response)
-            
-            
         })
         
         //disabled to allow manageobjectcontext notifications
@@ -93,14 +96,18 @@ class PSConvertEvents : NSObject, NSTableViewDataSource, NSTableViewDelegate {
         return proposedSelectionIndexes
     }
     
+    //MARK: Actions
+    
     @IBAction func okButtonClicked(_: AnyObject) {
+        
+        //convert the events to the selectedType
         if eventTypes.contains(selectedType) {
+            
             let plugin = scriptData.pluginProvider.eventPlugins[selectedType]!
             var success = true
+            
             scriptData.beginUndoGrouping("Convert Events")
             let conversions = convertAttributesController.conversions
-            
-            
             for event in events {
                 //change icon
                 if let icon = PSPluginSingleton.sharedInstance.getIconForType(selectedType) where event.layoutObject != nil {

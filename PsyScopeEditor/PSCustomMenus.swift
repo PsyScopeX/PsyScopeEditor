@@ -8,13 +8,22 @@
 
 import Foundation
 
+/**
+ * PSCustomMenus: Object loaded in Document.xib.  Controls NSPopUpButton that shows custom menu structure.
+ */
 class PSCustomMenus : NSObject {
+    
+    //MARK: Outlets
     
     @IBOutlet var mainWindowController : PSMainWindowController!
     @IBOutlet var customMenuPopUp : NSPopUpButton!
     
+    //MARK: Variables
+    
     var menuTitles : [String] = []
     var editController : PSEditMenusController!
+    
+    //MARK: Setup
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -23,16 +32,18 @@ class PSCustomMenus : NSObject {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "popUpWillPopUp:", name: "NSPopUpButtonWillPopUpNotification", object: customMenuPopUp)
     }
     
+    //MARK: On NSPopUpButtonWillPopUpNotification
+    
     func popUpWillPopUp(_: AnyObject) {
         //construct menu from script
+        
+        //get scriptData
         let scriptData = mainWindowController.scriptData
         
-        //save first and second item
+        //save default items then remove all items from popup
         let firstItem = customMenuPopUp.itemAtIndex(0)! //the icon
         let secondItem = customMenuPopUp.itemAtIndex(1)! //'edit items' item
         let seperator = customMenuPopUp.itemAtIndex(2)! //seperator
-        
-        //remove all items
         customMenuPopUp.removeAllItems()
         
         //create new  menu with original items
@@ -41,60 +52,49 @@ class PSCustomMenus : NSObject {
         menu.addItem(secondItem)
         menu.addItem(seperator)
         
+        //parse the script to get the menu structyre
         let menuStructure = PSMenuStructure(scriptData: scriptData)
         
-        //base items
+        //cycle base items recursively
         for menuComponent in menuStructure.menuComponents {
+            
             //skip Experiment menu item
             if menuComponent.name == "Experiment" { break }
-            //create a new menu item
-            let menuItem = NSMenuItem()
-            menuItem.title = menuComponent.name
-            addItemsToMenuItem(menuItem, menuComponent: menuComponent, scriptData: scriptData)
+            
+            //create menu item from base component
+            let menuItem = createMenuItemFromMenuComponent(menuComponent, scriptData: scriptData)
             menu.addItem(menuItem)
         }
-        
-        //get base items
-        
+
         //add menu to popup buttom
         customMenuPopUp.menu = menu
     }
     
-    @IBAction func addNewMenuItemClick(_: AnyObject) {
-        editController = PSEditMenusController(scriptData: mainWindowController.scriptData)
-        editController.showAttributeModalForWindow(mainWindowController.scriptData.window)
-    }
-    
-    func menuItemSelected(menuItem : NSMenuItem) {
-        let scriptData = mainWindowController.scriptData
-        let selectedTitle = menuItem.title
-        if let entry = scriptData.getBaseEntry(selectedTitle) {
-            let variable = PSSubjectVariable(entry: entry, scriptData: scriptData)
-            //activate dialog for selected item
-            PSSubjectVariableDialog(variable, currentValue: entry.currentValue)
-        }
-    }
-    
-    func addItemsToMenuItem(parentMenuItem : NSMenuItem, menuComponent : PSMenuComponent, scriptData : PSScriptData) {
+    func createMenuItemFromMenuComponent(menuComponent : PSMenuComponent, scriptData : PSScriptData) -> NSMenuItem {
         
+        //create a new menu item
+        let menuItem = NSMenuItem()
+        menuItem.title = menuComponent.name
         
         if menuComponent.subMenus {
+            
+            //menuComponent has submenus, add these recursively
             let subComponents = menuComponent.subComponents
             if subComponents.count > 0 {
                 let subMenu = NSMenu()
-                parentMenuItem.submenu = subMenu
+                menuItem.submenu = subMenu
                 for subComponent in subComponents {
-                    let childMenuItem = NSMenuItem()
-                    childMenuItem.title = subComponent.name
+                    let childMenuItem = createMenuItemFromMenuComponent(subComponent, scriptData: scriptData)
                     subMenu.addItem(childMenuItem)
-                    addItemsToMenuItem(childMenuItem, menuComponent: subComponent, scriptData: scriptData)
                 }
             }
         } else {
+            
+            //menuComponent has dialogVariables
             let dialogVariables = menuComponent.dialogVariables
             if dialogVariables.count > 0 {
                 let subMenu = NSMenu()
-                parentMenuItem.submenu = subMenu
+                menuItem.submenu = subMenu
                 for dialogVariable in dialogVariables {
                     let childMenuItem = NSMenuItem()
                     childMenuItem.title = dialogVariable.name
@@ -104,7 +104,31 @@ class PSCustomMenus : NSObject {
                 }
             }
         }
- 
         
+        return menuItem
     }
+    
+    //MARK: Actions
+    
+    @IBAction func addNewMenuItemClick(_: AnyObject) {
+        //open dialog to edit the menu
+        editController = PSEditMenusController(scriptData: mainWindowController.scriptData)
+        editController.showAttributeModalForWindow(mainWindowController.scriptData.window)
+    }
+    
+    
+    func menuItemSelected(menuItem : NSMenuItem) {
+        //User has selected a dialog variable from the menu
+        
+        let scriptData = mainWindowController.scriptData
+        let selectedTitle = menuItem.title
+        if let entry = scriptData.getBaseEntry(selectedTitle) {
+            let variable = PSSubjectVariable(entry: entry, scriptData: scriptData)
+            
+            //activate dialog for selected item
+            PSSubjectVariableDialog(variable, currentValue: entry.currentValue)
+        }
+    }
+    
+    
 }

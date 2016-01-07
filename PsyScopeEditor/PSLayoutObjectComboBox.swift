@@ -8,6 +8,9 @@
 
 import Foundation
 
+/*
+ * PSLayoutObjectComboBox: Object loaded on Document.xib.  Controls combobox which appears in tool bar allowing to switch selection of layout objects.
+*/
 class PSLayoutObjectComboBox : NSObject, NSComboBoxDataSource, NSComboBoxDelegate {
     
     //MARK: Outlets
@@ -17,37 +20,38 @@ class PSLayoutObjectComboBox : NSObject, NSComboBoxDataSource, NSComboBoxDelegat
     
     //MARK: Variables
     
-    var items : [String] = [] //holds entries to switch between
+    var entryNames : [String] = [] //holds names of entries to switch between
     
     //MARK: Combobox methods
     
     func numberOfItemsInComboBox(aComboBox: NSComboBox) -> Int {
-        return items.count
+        return entryNames.count
     }
     
     func comboBox(aComboBox: NSComboBox, objectValueForItemAtIndex index: Int) -> AnyObject {
-        if (index >= items.count || index < 0) {
+        if (index >= entryNames.count || index < 0) {
             return ""
         } else {
-            return items[index]
+            return entryNames[index]
         }
     }
     
     func comboBox(aComboBox: NSComboBox, indexOfItemWithStringValue string: String) -> Int {
-        if let r = items.indexOf(string) {
+        if let r = entryNames.indexOf(string) {
             return r
         }
         return -1
     }
+    
     func comboBoxSelectionDidChange(notification: NSNotification) {
         mainWindowController.selectionController.selectObjectForEntryNamed(getSelectedComboBoxItem())
     }
     
     func getSelectedComboBoxItem() -> String {
-        if (comboBox.indexOfSelectedItem >= items.count || comboBox.indexOfSelectedItem < 0) {
+        if (comboBox.indexOfSelectedItem >= entryNames.count || comboBox.indexOfSelectedItem < 0) {
             return ""
         } else {
-            return items[comboBox.indexOfSelectedItem]
+            return entryNames[comboBox.indexOfSelectedItem]
         }
     }
     
@@ -56,7 +60,7 @@ class PSLayoutObjectComboBox : NSObject, NSComboBoxDataSource, NSComboBoxDelegat
     func refresh() {
         let entries = mainWindowController.scriptData.getBaseEntriesWithLayoutObjects()
         let new_items = mainWindowController.scriptData.getNamesOfEntries(entries)
-        items = new_items.sort({ (s1: String, s2: String) -> Bool in
+        entryNames = new_items.sort({ (s1: String, s2: String) -> Bool in
             return s1 < s2 })
         
         
@@ -72,12 +76,12 @@ class PSLayoutObjectComboBox : NSObject, NSComboBoxDataSource, NSComboBoxDelegat
     
     //selects item in combobox, no delegate fired
     func selectItem(item : String) {
-        if let index = items.indexOf(item) {
-            comboBox.setDelegate(nil) //prevent firing selection did change
+        if let index = entryNames.indexOf(item) {
+            comboBox.setDelegate(nil) //prevent firing comboBoxSelectionDidChange
             comboBox.selectItemAtIndex(index)
             comboBox.setDelegate(self)
         } else {
-            comboBox.setDelegate(nil) //prevent firing selection did change
+            comboBox.setDelegate(nil) //prevent firing comboBoxSelectionDidChange
             comboBox.stringValue = ""
             comboBox.setDelegate(self)
         }

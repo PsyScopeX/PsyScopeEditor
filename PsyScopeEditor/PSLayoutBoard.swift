@@ -234,7 +234,7 @@ class PSLayoutBoard: NSView {
     override func mouseDragged(theEvent: NSEvent) {
         
         if let info = clickedObject {
-            var displacement = theEvent.locationInWindow.minusPoint(info.mouseDownPoint)
+            var displacement = theEvent.locationInWindow - info.mouseDownPoint
             displacement.y = 0 - displacement.y
             
             
@@ -243,11 +243,11 @@ class PSLayoutBoard: NSView {
             
             if (dragSelectedLayoutItems != [:]) {
                 for eachLayoutItem in dragSelectedLayoutItems.keys {
-                    let new_position = dragSelectedLayoutItems[eachLayoutItem]!.plusPoint(displacement)
+                    let new_position = dragSelectedLayoutItems[eachLayoutItem]! + displacement
                     updateObjectLayoutItem(eachLayoutItem, x: Int(new_position.x), y:Int(new_position.y))
                 }
             } else {
-                let new_position = info.originalPosition.plusPoint(displacement)
+                let new_position = info.originalPosition + displacement
                 updateObjectLayoutItem(info.clickedLayoutItem, x: Int(new_position.x), y: Int(new_position.y))
             }
             CATransaction.commit()
@@ -841,13 +841,34 @@ class PSLayoutBoard: NSView {
     func hitLinkItem(point : CGPoint) -> Link? {
         for eachLayoutItem in objectLinks {
             let point2 = eachLayoutItem.lineLayer.convertPoint(point, fromLayer: eachLayoutItem.lineLayer.superlayer)
-            let min_distance =  CGPoint.minDistanceFromLineSegment(eachLayoutItem.startLayoutItem.icon.position, segB: eachLayoutItem.destLayoutItem.icon.position, p: point2)
+            let min_distance =  minDistanceFromLineSegment(eachLayoutItem.startLayoutItem.icon.position, segB: eachLayoutItem.destLayoutItem.icon.position, p: point2)
             
             if min_distance < 5 {
                 return eachLayoutItem
             }
         }
         return nil
+    }
+    
+    func minDistanceFromLineSegment(segA : CGPoint, segB : CGPoint, p: CGPoint) -> CGFloat {
+        let p2 = CGPoint(x: segB.x - segA.x, y: segB.y - segA.y);
+        let something = (p2.x*p2.x) + (p2.y*p2.y)
+        var u = ((p.x - segA.x) * p2.x + (p.y - segA.y) * p2.y) / something;
+        
+        if (u > 1) {
+            u = 1 }
+        else if (u < 0) {
+            u = 0 }
+        
+        let x = segA.x + u * p2.x;
+        let y = segA.y + u * p2.y;
+        
+        let dx = x - p.x;
+        let dy = y - p.y;
+        
+        let dist = sqrt(dx*dx + dy*dy);
+        
+        return dist;
     }
     
     //scrolls the view to display the layoutItem

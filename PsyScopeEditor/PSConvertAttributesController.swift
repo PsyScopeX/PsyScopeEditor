@@ -9,7 +9,9 @@
 import Foundation
 
 
-
+/**
+ * PSConvertAttributesController: Controller in ConvertEvents.xib to allow the selection of attributes to be changed during conversion of events in PSConvertEvents.  User enters the name of an existing attribute, and the name to change it to, then clicks add.
+*/
 class PSConvertAttributesController : NSObject, NSTableViewDataSource, NSTableViewDelegate, NSTextFieldDelegate {
     
     //MARK: Outlets
@@ -21,8 +23,10 @@ class PSConvertAttributesController : NSObject, NSTableViewDataSource, NSTableVi
     @IBOutlet var renameTableView : NSTableView!
     
     //MARK: Variables
+    
     var conversions : [String : String] = [:]
     
+    //MARK: Startup
     
     override func awakeFromNib() {
         removeButton.enabled = false
@@ -34,6 +38,7 @@ class PSConvertAttributesController : NSObject, NSTableViewDataSource, NSTableVi
     
     @IBAction func addButtonClicked(_:AnyObject) {
         if (fromTextField.stringValue == "") || (toTextField.stringValue == "") {
+            //cannot have blank strings on from or to text fields
             NSBeep()
             return
         }

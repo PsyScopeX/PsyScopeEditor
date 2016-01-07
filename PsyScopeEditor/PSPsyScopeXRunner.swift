@@ -9,10 +9,18 @@ import CoreServices.LaunchServices
 import CoreServices
 import Foundation
 
-//controls running psyscope from unix commands
-
+/**
+ * PSPsyScopeXRunner: Deals with running scripts in the old PsyscopeX.
+ * Called by PSMainWindowController.runExperiment(_)
+ */
 class PSPsyScopeXRunner : NSObject {
+    
+    //MARK: Singleton Instance
+    
     static let sharedInstance : PSPsyScopeXRunner = PSPsyScopeXRunner()
+    
+    //MARK: Flags for PsyscopeX
+    
     let openFlag = "-o"
     let quitOnEndFlag = "-q"
     let runningFlag = "-f"
@@ -21,9 +29,13 @@ class PSPsyScopeXRunner : NSObject {
     let printHelp = "-h"
     let saveOnExit = "-s"
     
+    //MARK: Variables
+    
     var currentlyRunningPsyScopeTask : NSTask?
     var currentlyRunningDocument : Document?
     var currentlyRunningScriptFileName : String?
+    
+    //MARK: Path to PsyscopeX' executable
     
     var executablePath : String? {
         get {
@@ -42,33 +54,39 @@ class PSPsyScopeXRunner : NSObject {
         }
     }
     
+    //MARK: Running / terminating a script
+    
     func runThisScript(document : Document) {
         
         //check for running task and close it
         terminate()
         
-        //check for existence of psyscope x
+        //get the path to psyscopeX
         guard let launchPath = executablePath where launchPath != "" else {
-            PSModalAlert("You need to set the path for PsyScopeX in the Preferences before continuing.  It may need to be refreshed, if you have moved the application.  To do this, go to Preferences, then click the button to reset it to the default internal copy of PsyScopeX")
+            PSModalAlert("You need to set the path for PsyScopeX in the Preferences before continuing.  It may need to be refreshed if you have moved the application.  To do this, go to Preferences, then click the button to reset it to the default internal copy of PsyScopeX")
             return
         }
         
-        //if file exists create a file with the script in sub directory 'running'
+        //get the location of where the document is saved
         guard let documentPath = document.scriptData.documentDirectory() else {
             document.scriptData.alertIfNoValidDocumentDirectory()
             return
         }
         
-        
+        //get the path to the document
         guard let scriptFileURL = document.fileURL, scriptFileName = scriptFileURL.path else  {
             PSModalAlert("Error getting document's name - try resaving the document elsewhere.")
             return
         }
         
+        //create the name for the PsyScopeX script
         let scriptName = scriptFileName.lastPathComponent.stringByDeletingPathExtension
         let psyXScriptFileName = documentPath.stringByAppendingPathComponent(scriptName)
+        
+        //get a psyscopeX copy of the script from the document.
         let script = PSScriptWriter(scriptData: document.scriptData).generatePsyScopeXScript()
         
+        //write the script file
         do {
             try script.writeToFile(psyXScriptFileName, atomically: true, encoding: NSMacOSRomanStringEncoding)
             HFSFileTypeHelper.setTextFileAttribs(psyXScriptFileName)
@@ -118,8 +136,17 @@ class PSPsyScopeXRunner : NSObject {
         currentlyRunningPsyScopeTask = task
     }
     
+    func terminate() {
+        if let currentlyRunningPsyScopeTask = currentlyRunningPsyScopeTask {
+            currentlyRunningPsyScopeTask.terminate()
+            self.currentlyRunningPsyScopeTask = nil
+        }
+    }
+    
+    //MARK: NSTaskDidTerminateNotification
+    
+    // When PsyscopeX task has finished, make sure data and log file are text files, and check if user wants to update document from any changes made by psyscopeX
     func terminated(_: AnyObject) {
-        print("TERMINATED")
         
         //try to load
         guard let currentlyRunningScriptFileName = currentlyRunningScriptFileName,
@@ -130,8 +157,6 @@ class PSPsyScopeXRunner : NSObject {
         defer {
             //convert old log and script file to text format
             if let documentPath = currentlyRunningDocument.scriptData.documentDirectory() {
-            
-            
                 let dataFileName = documentPath.stringByAppendingPathComponent(PSGetDataFileName(currentlyRunningDocument.scriptData))
                 let logFileName = documentPath.stringByAppendingPathComponent(PSGetLogFileName(currentlyRunningDocument.scriptData))
                 
@@ -166,9 +191,10 @@ class PSPsyScopeXRunner : NSObject {
                 }
             }
             
+            //only update changes if user wants to
             let shouldAutomaticallyUpdate = PSPreferences.automaticallyUpdateScript.boolValue
             
-            if foundDifferences && (shouldAutomaticallyUpdate || userWantsToChangeDifferences()) {
+            if foundDifferences && (shouldAutomaticallyUpdate || askIfUserWantsToChangeDifferences()) {
                 currentlyRunningDocument.scriptData.beginUndoGrouping("Update Script From Run")
                 for ghostEntry in scriptReader.ghostScript.entries {
                     for realEntry in baseEntries {
@@ -187,10 +213,12 @@ class PSPsyScopeXRunner : NSObject {
             }
             
         } catch {
+            PSModalAlert("Error loading script, expected at \(currentlyRunningScriptFileName).  This document's current script will remain unchanged.")
             return
         }
     }
     
+    //updates real entries with ghost entries
     func updateGhostScriptSubEntries(realEntry : Entry, ghostEntry : PSGhostEntry) {
         for subGhostEntry in ghostEntry.subEntries {
             for subRealEntry in realEntry.subEntries.array as! [Entry] {
@@ -207,6 +235,7 @@ class PSPsyScopeXRunner : NSObject {
         }
     }
     
+    //checks for differences between real entries and ghost entries
     func areThereDifferencesBetween(realEntry : Entry, ghostEntry : PSGhostEntry) -> Bool {
         for subGhostEntry in ghostEntry.subEntries {
             for subRealEntry in realEntry.subEntries.array as! [Entry] {
@@ -226,7 +255,7 @@ class PSPsyScopeXRunner : NSObject {
         return false
     }
     
-    func userWantsToChangeDifferences() -> Bool {
+    func askIfUserWantsToChangeDifferences() -> Bool {
         let question = "Perform PsyScopeX Script changes?"
         let info = "PsyScopeX has caused some changes to the script, do you want to update the values in your current script to these new values?  (Note: This will only affect entry values, if PsyScopeX deleted or added entries, these changes will not be propogated)"
         let overrideButton = "Accept Changes"
@@ -245,64 +274,7 @@ class PSPsyScopeXRunner : NSObject {
         }
     }
     
-    func terminate() {
-        if let currentlyRunningPsyScopeTask = currentlyRunningPsyScopeTask {
-            currentlyRunningPsyScopeTask.terminate()
-            self.currentlyRunningPsyScopeTask = nil
-        }
-        
-        
-    }
-    func kill() {
-        /*
-        // define command
-        NSString* appName = @"Finder";
-        NSString* killCommand = [@"/usr/bin/killall " stringByAppendingString:appName];
-        
-        // execute shell command
-        NSTask *task = [[NSTask alloc] init];
-        [task setLaunchPath:@"/bin/bash"];
-        [task setArguments:@[ @"-c", killCommand]];
-        [task launch];*/
-    }
+    
+
 }
 
-/*
-
-This is easy and potentially very powerful. The only thing you must remember is that PsyScope, is a package, so you have to address the program inside the package. Thus, assuming that you are in Terminal, and that PsyScope X is in your Home directory,
-
-Me:~ luca$ /Users/luca/PsyScope\ X\ B57.app
-
-won't work. Instead,
-
-Me:~ luca$ PsyScope\ X\ B57.app/Contents/MacOS/PsyScope\ X\ B57
-
-will start PsyScope X. Now, the nice things are the parameters you can pass. The options are:
-
--o: Open script. (Requires a file name)
--f: Create a flag file when running a script.
--q: Quit on experiment end
--s: Save script on exit. Arg: [a|y|n] (a)sk (y)es (n)o
--fg: Execute in foreground
--r: Run script on open
--h: Print this help
-
-Most options are self-explanatory. Let us look at an example. If you write
-
-Me:~ luca$ PsyScope\ X\ B57.app/Contents/MacOS/PsyScope\ X\ B57	-o MyScript
-
-the terminal will open the script after opening the program (remember that you can simply drag and drop on the terminal the file to get the path pasted in it. If you add an option '-r' and the script will automatically run.If you add the option -fg, the script will run in the foreground, so that you will just see the script running without even seeing the startup graphical interface or the PsyScope startup window. And if you add a -q....
-
-Me:~ luca$ PsyScope\ X\ B57.app/Contents/MacOS/PsyScope\ X\ B57 -o /Users/luca/Desktop/Archive/onlymovie\ Script\ copy -r -fg -q
-
-the script will run and the program will quit after finishing the execution of the script.
-
-Perhaps you can now see the interest of this possibility. You can write shell files that chain several experiments together, potentially using the result of one experiment to modify the execution of the next one.
-
-This is where the only strange option, -f, comes in. The option serves to create an empty file, which exists only while PsyScope X is running. You can then write your shell scripts by checking whether this file exists (instead of looking for the process number, which turns out to be more complex) in order to know that the program is running.
-
-Thus you can know how to run your sequence of experiments. This shell script shows how you could run two experiments by dragging and dropping the icon of the program (without looking inside the program's package) and the two scripts onto the terminal. You can check the script to see how it uses the existence of the flag file to close and restart the program without your intervention. Be aware that
-
-
-
-*/

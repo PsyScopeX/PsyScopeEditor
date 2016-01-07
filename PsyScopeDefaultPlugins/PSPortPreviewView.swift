@@ -192,12 +192,12 @@ struct PSPortClickedLayer {
         dragged = true
         
         if let clickedLayer = clickedLayer {
-            let displacement = convertMousePoint(theEvent.locationInWindow).minusPoint(clickedLayer.mouseDownPoint)
+            let displacement = convertMousePoint(theEvent.locationInWindow) - clickedLayer.mouseDownPoint
   
             CATransaction.begin()
             CATransaction.setDisableActions(true)
             
-            let new_position = clickedLayer.originalPosition.plusPoint(displacement)
+            let new_position = clickedLayer.originalPosition + displacement
             clickedLayer.clickedLayer.position = new_position
             
             CATransaction.commit()

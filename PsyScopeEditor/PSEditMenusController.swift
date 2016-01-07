@@ -8,6 +8,7 @@
 
 import Foundation
 
+
 class PSEditMenusController : NSObject, NSOutlineViewDataSource, NSOutlineViewDelegate {
     
     let scriptData : PSScriptData
