@@ -294,7 +294,7 @@ class PSTemplateEventTimeLineView : NSView {
             //text_layer.borderColor = NSColor.lightGrayColor().CGColor
             //text_layer.borderWidth = 1
             let offset : CGFloat = CGFloat(3 + (icons * 20))
-            let xPos : CGFloat = unscheduled ? 18 : 3
+            let xPos : CGFloat = (unscheduled || event.repeats > 1) ? 18 : 3
             let width = durationTime - xPos - offset
             text_layer.frame = CGRect(origin: CGPoint(x: startTime + xPos, y: currentValue_y_pos),
                 size: CGSizeMake(width, 16))
