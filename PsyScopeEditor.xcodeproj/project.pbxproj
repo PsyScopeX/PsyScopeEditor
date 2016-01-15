@@ -11,6 +11,9 @@
 		1A0554FC1AAF391C00618032 /* MASPreferencesWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A0554F91AAF391C00618032 /* MASPreferencesWindow.xib */; };
 		1A0554FE1AAF394000618032 /* LICENSE.md in Sources */ = {isa = PBXBuildFile; fileRef = 1A0554FD1AAF394000618032 /* LICENSE.md */; };
 		1A05DA5B1995463700379D2E /* psyscopegrammar.grammar in Resources */ = {isa = PBXBuildFile; fileRef = 1A05DA5A1995463700379D2E /* psyscopegrammar.grammar */; };
+		1A06EB211C4924880066A7F6 /* PSTobiiSetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A06EB201C4924880066A7F6 /* PSTobiiSetup.swift */; };
+		1A06EB231C4924C50066A7F6 /* PSTobiiSetup.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A06EB221C4924C50066A7F6 /* PSTobiiSetup.xib */; };
+		1A06EB251C4925950066A7F6 /* eye_watch.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A06EB241C4925950066A7F6 /* eye_watch.png */; };
 		1A0A252C1A31F2340000D621 /* ActionsBuilderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A0A252B1A31F2340000D621 /* ActionsBuilderCell.xib */; };
 		1A0A25341A3239840000D621 /* KeyCondition.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A0A25331A3239840000D621 /* KeyCondition.xib */; };
 		1A0A25361A334DA70000D621 /* Condition_KeyCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A0A25351A334DA70000D621 /* Condition_KeyCell.xib */; };
@@ -683,6 +686,9 @@
 		1A0554FA1AAF391C00618032 /* MASPreferencesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASPreferencesViewController.h; sourceTree = "<group>"; };
 		1A0554FD1AAF394000618032 /* LICENSE.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = "<group>"; };
 		1A05DA5A1995463700379D2E /* psyscopegrammar.grammar */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = psyscopegrammar.grammar; sourceTree = "<group>"; };
+		1A06EB201C4924880066A7F6 /* PSTobiiSetup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSTobiiSetup.swift; sourceTree = "<group>"; };
+		1A06EB221C4924C50066A7F6 /* PSTobiiSetup.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PSTobiiSetup.xib; sourceTree = "<group>"; };
+		1A06EB241C4925950066A7F6 /* eye_watch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = eye_watch.png; sourceTree = "<group>"; };
 		1A0A252B1A31F2340000D621 /* ActionsBuilderCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ActionsBuilderCell.xib; sourceTree = "<group>"; };
 		1A0A25331A3239840000D621 /* KeyCondition.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KeyCondition.xib; sourceTree = "<group>"; };
 		1A0A25351A334DA70000D621 /* Condition_KeyCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Condition_KeyCell.xib; sourceTree = "<group>"; };
@@ -1491,12 +1497,15 @@
 		1A3018551BE23D2800AF0684 /* PsyScopeTobii */ = {
 			isa = PBXGroup;
 			children = (
+				1A06EB241C4925950066A7F6 /* eye_watch.png */,
 				1A30185F1BE255E100AF0684 /* Condition_TobiiPlusCell.xib */,
 				1A3018601BE255E100AF0684 /* PSAction_TobiiPlus.swift */,
 				1A3018611BE255E100AF0684 /* PSCondition_TobiiPlus.swift */,
 				1A3018561BE23D2800AF0684 /* Info.plist */,
 				1A30185D1BE254EF00AF0684 /* PsyScopeTobii.swift */,
 				1A30185C1BE254EF00AF0684 /* PsyScopeTobii-Bridging-Header.h */,
+				1A06EB201C4924880066A7F6 /* PSTobiiSetup.swift */,
+				1A06EB221C4924C50066A7F6 /* PSTobiiSetup.xib */,
 			);
 			path = PsyScopeTobii;
 			sourceTree = "<group>";
@@ -2922,7 +2931,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A06EB231C4924C50066A7F6 /* PSTobiiSetup.xib in Resources */,
 				1A3018621BE255E100AF0684 /* Condition_TobiiPlusCell.xib in Resources */,
+				1A06EB251C4925950066A7F6 /* eye_watch.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3232,6 +3243,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A06EB211C4924880066A7F6 /* PSTobiiSetup.swift in Sources */,
 				1A3018641BE255E100AF0684 /* PSCondition_TobiiPlus.swift in Sources */,
 				1A3018631BE255E100AF0684 /* PSAction_TobiiPlus.swift in Sources */,
 				1A30185E1BE254EF00AF0684 /* PsyScopeTobii.swift in Sources */,
