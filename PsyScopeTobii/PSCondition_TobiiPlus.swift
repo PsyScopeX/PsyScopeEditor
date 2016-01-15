@@ -14,25 +14,25 @@ class PSCondition_TobiiPlus : NSObject, PSConditionInterface {
     var userFriendlyNameString : String = ""
     var helpfulDescriptionString : String = ""
     
-    func type() -> String! {
+    func type() -> String {
         return "TobiiPlus"
     }
     
-    func userFriendlyName() -> String! {
+    func userFriendlyName() -> String {
         return "Tobii Plus"
     }
     
-    func helpfulDescription() -> String! {
+    func helpfulDescription() -> String {
         return "This condition allows events to trigger when eye movement enters a port area."
     }
     
-    func icon() -> NSImage! {
+    func icon() -> NSImage {
         let image : NSImage = NSImage(contentsOfFile: NSBundle(forClass:self.dynamicType).pathForImageResource("MouseClick")!)!
         return image
     }
     
-    func nib() -> NSNib! {
-        return NSNib(nibNamed: "Condition_TobiiPlusCell", bundle: NSBundle(forClass:self.dynamicType))
+    func nib() -> NSNib {
+        return NSNib(nibNamed: "Condition_TobiiPlusCell", bundle: NSBundle(forClass:self.dynamicType))!
     }
     
     func expandedCellHeight() -> CGFloat {
@@ -41,6 +41,10 @@ class PSCondition_TobiiPlus : NSObject, PSConditionInterface {
     
     func isInputDevice() -> Bool {
         return true
+    }
+    
+    func turnInputDeviceOn(on : Bool, scriptData : PSScriptData) {
+        
     }
 }
 

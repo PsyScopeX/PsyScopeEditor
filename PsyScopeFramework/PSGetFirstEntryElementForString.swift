@@ -48,6 +48,25 @@ public func PSGetListElementForString(string : String) -> PSEntryElement {
     }
 }
 
+public func PSGetEntryElementAsStringList(entryElement : PSEntryElement) -> PSStringListElement {
+    switch(entryElement) {
+    case .Null:
+        let stringListElement = PSStringListElement()
+        stringListElement.stringValue = "NULL"
+        return stringListElement
+    case let .List(stringListElement):
+        return stringListElement
+    case let .Function(functionElement):
+        let stringListElement = PSStringListElement()
+        stringListElement.stringValue = functionElement.stringValue
+        return stringListElement
+    case let .StringToken(stringElement):
+        let stringListElement = PSStringListElement()
+        stringListElement.stringValue = stringElement.quotedValue
+        return stringListElement
+    }
+}
+
 //if list needs to appear as a sub list, then enclose it
 public func PSConvertListElementToStringElement(element : PSEntryElement) -> PSEntryElement {
     if case .List(let stringListElement) = element {

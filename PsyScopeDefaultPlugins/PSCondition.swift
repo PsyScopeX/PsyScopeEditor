@@ -14,23 +14,23 @@ class PSCondition : NSObject, PSConditionInterface {
     var helpfulDescriptionString : String = ""
     var expandedHeight : CGFloat = 30
     
-    func type() -> String! {
+    func type() -> String {
         return typeString
     }
     
-    func userFriendlyName() -> String! {
+    func userFriendlyName() -> String {
         return userFriendlyNameString
     }
     
-    func helpfulDescription() -> String! {
+    func helpfulDescription() -> String {
         return helpfulDescriptionString
     }
     
-    func icon() -> NSImage! {
-        return nil
+    func icon() -> NSImage {
+        return NSImage()
     }
     
-    func nib() -> NSNib! {
+    func nib() -> NSNib {
         fatalError("Use of PSCondition virtual function nib")
     }
     
@@ -40,5 +40,9 @@ class PSCondition : NSObject, PSConditionInterface {
     
     func isInputDevice() -> Bool {
         return false
+    }
+    
+    func turnInputDeviceOn(on : Bool, scriptData : PSScriptData) {
+        //do nothing
     }
 }

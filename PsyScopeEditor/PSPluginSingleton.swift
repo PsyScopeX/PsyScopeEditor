@@ -159,11 +159,8 @@ class PSPluginSingleton: NSObject {
         }
         let loader : PSPluginLoader! = pluginLoader
         var new_conditionObjects  : [String : PSConditionInterface] = [:]
-        let initial_conditionObjects : [AnyObject] = loader.conditions
-        for obj in initial_conditionObjects {
-            if let psattr = obj as? PSConditionInterface {
-                new_conditionObjects[psattr.type()] = psattr
-            }
+        for obj in loader.conditions {
+            new_conditionObjects[obj.type()] = obj
         }
         _conditionObjects = new_conditionObjects
         return _conditionObjects!
