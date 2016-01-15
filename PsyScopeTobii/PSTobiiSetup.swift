@@ -14,7 +14,7 @@ class PSTobiiSetup: NSObject, PSWindowViewInterface {
     var templateEntry : Entry!
     
     @IBOutlet var midPanelView : NSView!
-
+    @IBOutlet var tobiiSetupController : PSTobiiSetupController!
     
     var topLevelObjects : NSArray?
     
@@ -22,6 +22,7 @@ class PSTobiiSetup: NSObject, PSWindowViewInterface {
         self.scriptData = scriptData
         //load nib and gain access to views
         NSBundle(forClass:self.dynamicType).loadNibNamed("PSTobiiSetup", owner: self, topLevelObjects: &topLevelObjects)
+        
     }
     
     //return a tool bar item for the item
@@ -51,6 +52,6 @@ class PSTobiiSetup: NSObject, PSWindowViewInterface {
     
     //called to refresh with selected object
     func refresh() {
-        
+        tobiiSetupController.refresh()
     }
 }
