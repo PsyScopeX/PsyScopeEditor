@@ -18,7 +18,7 @@ class PsyScopeTobii: NSObject, PSPluginInterface {
         case .Event:
             return []
         case .WindowView:
-            return []
+            return [PSTobiiSetup.self]
         case .Action:
             return [PSAction_TobiiPlus.self]
         case .Condition:

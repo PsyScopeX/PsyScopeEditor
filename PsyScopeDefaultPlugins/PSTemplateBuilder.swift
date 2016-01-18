@@ -63,9 +63,5 @@ class PSTemplateBuilder: NSObject, PSWindowViewInterface {
     }
     
     func entryDeleted(entry: Entry) { }
-    
-    func type() -> String {
-        return "TemplateBuilder"
-    }
 
 }

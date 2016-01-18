@@ -26,9 +26,6 @@ public protocol PSWindowViewInterface {
 //returns a view for the left panel item (optional)
     func leftPanelTab() -> NSView?
 
-//returns name for the type
-    func type() -> String
-
 //called when an object is deleted
     func entryDeleted(entry : Entry)
 

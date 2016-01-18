@@ -67,7 +67,7 @@ class PSWindowView: NSObject, PSWindowViewInterface {
     }
     
     func identifier() -> String {
-        return "ActionsBuilder"
+        return toolbarItemIdentifier
     }
 
     
@@ -87,10 +87,6 @@ class PSWindowView: NSObject, PSWindowViewInterface {
     
     func entryDeleted(entry: Entry) {
         
-    }
-    
-    func type() -> String {
-        return toolbarItemIdentifier
     }
     
 }

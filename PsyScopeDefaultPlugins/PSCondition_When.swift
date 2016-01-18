@@ -19,11 +19,11 @@ class PSCondition_When : PSCondition {
     }
     
     
-    override func nib() -> NSNib! {
-        return NSNib(nibNamed: "Condition_WhenCell", bundle: NSBundle(forClass:self.dynamicType))
+    override func nib() -> NSNib {
+        return NSNib(nibNamed: "Condition_WhenCell", bundle: NSBundle(forClass:self.dynamicType))!
     }
 
-    override func icon() -> NSImage! {
+    override func icon() -> NSImage {
         let image : NSImage = NSImage(contentsOfFile: NSBundle(forClass:self.dynamicType).pathForImageResource("MouseClick")!)!
         return image
     }

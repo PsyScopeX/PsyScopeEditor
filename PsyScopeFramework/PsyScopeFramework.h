@@ -21,7 +21,6 @@
 #import "PSDoubleClickAction.h"
 
 #import "PSActionInterface.h"
-#import "PSConditionInterface.h"
 
 #import "PSSmoothTextLayer.h"
 

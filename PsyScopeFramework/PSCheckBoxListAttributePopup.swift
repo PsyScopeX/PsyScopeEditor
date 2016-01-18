@@ -40,7 +40,7 @@ public class PSCheckBoxListAttributePopup: PSAttributePopup {
         view.setFrameSize(size)
         
         //add check boxes
-        var y = view.frame.height - 40;
+        var y = view.frame.height - 50;
         for checkBoxString in checkBoxStrings {
             let rect = NSMakeRect(10, y, 400, 20)
             let new_check_box : NSButton = NSButton(frame: rect)
@@ -54,7 +54,7 @@ public class PSCheckBoxListAttributePopup: PSAttributePopup {
         }
         
         //add ok button
-        okButton = NSButton(frame: NSMakeRect(10,20,50,20))
+        okButton = NSButton(frame: NSMakeRect(190,10,50,20))
         okButton.title = "OK"
         okButton.target = self
         okButton.action = "closeWindow:"

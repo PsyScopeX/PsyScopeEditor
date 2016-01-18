@@ -157,11 +157,14 @@ class PSMainWindowController : NSWindowController, NSWindowDelegate {
     }
     
     func inputDevicesMenuItem(sender : NSMenuItem) {
-        let checkBoxStrings : [(String,String)] = scriptData.pluginProvider.conditionPlugins.values.filter( {
+        let types : [String] = scriptData.pluginProvider.conditionPlugins.values.filter( {
             return $0.isInputDevice()
         }).map({
-            let type = $0.type()
-            return (type,type)
+            return $0.type()
+        })
+        
+        let checkBoxStrings : [(String,String)] =  types.map({
+            return ($0,$0)
         })
         
         //get current value
@@ -174,6 +177,14 @@ class PSMainWindowController : NSWindowController, NSWindowDelegate {
             self.scriptData.beginUndoGrouping("Edit Input Devices")
             let id = self.scriptData.getOrCreateSubEntry("InputDevices", entry: experimentEntry, isProperty: true)
             id.currentValue = newValue.stringValue()
+            
+            let stringListValues = PSGetEntryElementAsStringList(newValue).getStrippedStringValues()
+            
+            for type in types {
+                let on = stringListValues.contains(type)
+                self.scriptData.pluginProvider.conditionPlugins[type]?.turnInputDeviceOn(on, scriptData: self.scriptData)
+            }
+            
             self.scriptData.endUndoGrouping()
         
         })
