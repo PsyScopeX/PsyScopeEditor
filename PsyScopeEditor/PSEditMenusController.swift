@@ -8,22 +8,37 @@
 
 import Foundation
 
-
+/**
+ * PSEditMenusController: Loaded in EditMenus.xib.  Controls everything to do with editing menu structure, adding / removing / drag reordering.
+ * 
+ */
 class PSEditMenusController : NSObject, NSOutlineViewDataSource, NSOutlineViewDelegate {
+    
+    //MARK: Dependencies
     
     let scriptData : PSScriptData
     let menuStructure : PSMenuStructure
+    
+    //MARK: Outlets
     
     @IBOutlet var menuStructureOutlineView : NSOutlineView!
     @IBOutlet var menuStructureSegmentedControl : NSSegmentedControl!
     @IBOutlet var attributeSheet : NSWindow!
     @IBOutlet var subjectVariablesController : PSEditMenusSubjectVariablesController!
+    
+    //MARK: Variables 
+    
     var topLevelObjects : NSArray?
     var parentWindow : NSWindow!
     var initialized : Bool
     
+    //MARK: Constants
+    
     static let dragReorderVariableType = "PSEditMenusControllerSubjectVariable"
     static let dragReorderMenuType = "PSEditMenusControllerMenu"
+    
+    
+    //MARK: Setup
     
     init(scriptData : PSScriptData) {
         self.scriptData = scriptData
@@ -58,6 +73,8 @@ class PSEditMenusController : NSObject, NSOutlineViewDataSource, NSOutlineViewDe
     deinit {
         registeredForChanges = false
     }
+    
+    //MARK: Add/Remove Segmented Control
     
     @IBAction func menuStructureSegmentedControlClicked(_ : AnyObject) {
         switch menuStructureSegmentedControl.selectedSegment {
@@ -280,6 +297,7 @@ class PSEditMenusController : NSObject, NSOutlineViewDataSource, NSOutlineViewDe
         return false
     }
 
+    //MARK: Showing the window
 
     func showAttributeModalForWindow(window : NSWindow) {
         if (attributeSheet == nil) {

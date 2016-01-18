@@ -8,20 +8,27 @@
 
 import Foundation
 
+/*
+ * PSExperimentSetup: Loaded in Document.xib.  Initialized by PSMainWindowController, which loads the ExperimentSetup.xib.
+ * Later PSDocumentTabDelegate adds the loaded views into the correct tabViews.
+ */
 class PSExperimentSetup: NSObject {
     
     //MARK: Outlets
+    
     @IBOutlet var mainWindowController : PSMainWindowController!
-    var selectionInterface : PSSelectionInterface!
     @IBOutlet var subjectVariablesController: PSSubjectVariablesController!
     @IBOutlet var midPanelView : NSView!
     @IBOutlet var groupTableViewController : PSGroupsTableViewController!
 
+    //MARK: Variables
     
-    
+    var selectionInterface : PSSelectionInterface!
     var topLevelObjects : NSArray?
     var scriptData : PSScriptData!
     var templateEntry : Entry!
+    
+    //MARK: Setup
     
     func initialize() {
         self.scriptData = mainWindowController.scriptData
@@ -31,15 +38,12 @@ class PSExperimentSetup: NSObject {
         self.groupTableViewController.setup(mainWindowController.scriptData)
     }
     
-    func update() {
-        subjectVariablesController.reloadSubjectVariablesData()
-        self.groupTableViewController.refreshView()
-    }
+    
+    //MARK: PSDocumentTabDelegate
     
     func identifier() -> String! {
         return "ExperimentSetup"
     }
-    
     
     //returns a new tabview item for the central panel
     func midPanelTab() -> NSTabViewItem! {
@@ -48,6 +52,12 @@ class PSExperimentSetup: NSObject {
         return tabViewItem
     }
     
+    //MARK: PSSelectionController
+    
+    func update() {
+        subjectVariablesController.reloadSubjectVariablesData()
+        self.groupTableViewController.refreshView()
+    }
     
     func selectEntry(entry : Entry?) {
         selectionInterface.selectEntry(entry)
@@ -55,12 +65,6 @@ class PSExperimentSetup: NSObject {
     
     func entrySelected() {
         subjectVariablesController.entrySelected()
-    }
-    
-    func entryDeleted(entry: Entry!) { }
-    
-    func type() -> String! {
-        return "TemplateBuilder"
     }
     
 }

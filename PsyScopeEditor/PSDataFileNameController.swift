@@ -8,18 +8,30 @@
 
 import Foundation
 
+/*
+ * PSDataFileNameController: Loaded by ExperimentSetup.xib.  Controls everything to do with setting the DataFile's name (either automatically generated or custom)
+ *
+ */
 class PSDataFileNameController : NSObject, NSTokenFieldDelegate, NSTextFieldDelegate {
+    
+    //MARK: Outlets
     
     @IBOutlet var tokenField : NSTokenField!
     @IBOutlet var currentDataFileNamePreview : NSTextField!
     @IBOutlet var autoGenerateCheckButton : NSButton!
     
+    //MARK: Variables
     var tokenCount : Int = 0
     var layoutManager : NSLayoutManager? = nil
     var subjectVariableNames : [String] = []
     var scriptData : PSScriptData! //gets populated by subjectvariablescontroller
     var autoDataFile : PSAutoDataFile!
+    
+    //MARK: Constants
+    
     let bannedCharacters : NSCharacterSet
+    
+    //MARK: Setup
     
     override init() {
         let toBeBanned = NSMutableCharacterSet.alphanumericCharacterSet()
@@ -28,9 +40,9 @@ class PSDataFileNameController : NSObject, NSTokenFieldDelegate, NSTextFieldDele
         super.init()
     }
     
-    func reloadData(variables : [PSSubjectVariable]) {
-        
-
+    //MARK: Refresh
+    
+    func reloadData(variables : [PSSubjectVariable]) { // called by PSSubjectVariablesController's refresh
         
         //update list of tokens
         subjectVariableNames = variables.map { $0.name }
@@ -49,6 +61,8 @@ class PSDataFileNameController : NSObject, NSTokenFieldDelegate, NSTextFieldDele
         tokenField.tokenizingCharacterSet = nil
 
     }
+    
+    //MARK: NSTokenFieldDelegate
     
     // Each element in the array should be an NSString or an array of NSStrings.
     // substring is the partial string that is being completed.  tokenIndex is the index of the token being completed.
@@ -83,9 +97,11 @@ class PSDataFileNameController : NSObject, NSTokenFieldDelegate, NSTextFieldDele
             return token
         }
     }
+    
     func tokenField(tokenField: NSTokenField, editingStringForRepresentedObject representedObject: AnyObject) -> String? {
         return representedObject as? String
     }
+    
     func tokenField(tokenField: NSTokenField, representedObjectForEditingString editingString: String) -> AnyObject {
         let cleanEditingString = editingString.componentsSeparatedByCharactersInSet(bannedCharacters).joinWithSeparator("")
         return cleanEditingString
@@ -101,6 +117,8 @@ class PSDataFileNameController : NSObject, NSTokenFieldDelegate, NSTextFieldDele
         }
     }
     
+    //MARK: NSTextFieldDelegate
+    
     override func controlTextDidChange(obj: NSNotification) {
         updatePreviewTextView()
     }
@@ -109,6 +127,19 @@ class PSDataFileNameController : NSObject, NSTokenFieldDelegate, NSTextFieldDele
         updatePreviewTextView()
         updateAutoDataFileScriptEntry()
     }
+    
+    func control(control: NSControl, textShouldBeginEditing fieldEditor: NSText) -> Bool {
+        scriptData.beginUndoGrouping("Edit DataFile Name")
+        self.layoutManager = (fieldEditor as! NSTextView).layoutManager
+        return true
+    }
+    
+    func control(control: NSControl, textShouldEndEditing fieldEditor: NSText) -> Bool {
+        scriptData.endUndoGrouping()
+        return true
+    }
+    
+    //MARK: Update methods
     
     func updateAutoDataFileScriptEntry() {
         scriptData.beginUndoGrouping("Update DataFile Name")
@@ -125,33 +156,6 @@ class PSDataFileNameController : NSObject, NSTokenFieldDelegate, NSTextFieldDele
         currentDataFileNamePreview.stringValue = autoDataFile.generateCurrentDataFileName()
     }
     
-    func control(control: NSControl, textShouldBeginEditing fieldEditor: NSText) -> Bool {
-        scriptData.beginUndoGrouping("Edit DataFile Name")
-        self.layoutManager = (fieldEditor as! NSTextView).layoutManager
-        return true
-    }
-    
-    func control(control: NSControl, textShouldEndEditing fieldEditor: NSText) -> Bool {
-        scriptData.endUndoGrouping()
-        return true
-    }
-    
-    func countAttachmentsInAttributedString(attributedString : NSAttributedString) -> Int {
-        let string : NSString = attributedString.string
-        let maxIndex = string.length - 1
-        var counter : Int = 0
-        
-        if maxIndex >= 0 {
-            for i in 0...maxIndex {
-                if string.characterAtIndex(i) == unichar(NSAttachmentCharacter) {
-                    counter++
-                }
-            }
-        }
-        
-        return counter
-    }
-
     
     //MARK: Auto generate check box
     

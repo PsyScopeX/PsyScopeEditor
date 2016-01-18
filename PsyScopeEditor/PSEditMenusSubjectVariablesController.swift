@@ -8,24 +8,26 @@
 
 import Foundation
 
-//Seperate class to control to list subject variables to drag onto menu setup
+/*
+ * PSEditMenusSubjectVariablesController: Loaded in EditMenus.xib.  Seperate class to control to list subject variables to drag onto menu setup
+ */
 class PSEditMenusSubjectVariablesController : NSObject, NSTableViewDataSource, NSTableViewDelegate {
+    
+    //MARK: Outlets
+    
     @IBOutlet var editMenusController : PSEditMenusController!
     @IBOutlet var tableView : NSTableView!
-    @IBOutlet var segmentedControl : NSSegmentedControl!
+ 
+    //MARK: Variables
     
     var subjectVariables : [PSSubjectVariable] = []
     
+    //MARK: Constants
+    
     static let subjectVariableType : String = "PSSubjectVariable"
     
-    @IBAction func segmentedControlClicked(_ : AnyObject) {
-        switch segmentedControl.selectedSegment {
-        case 0: break
-        case 1: break
-        default: break
-        }
-    }
 
+    //MARK: Refresh
     
     func refresh() {
         //get all subject variable

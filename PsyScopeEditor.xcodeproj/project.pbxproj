@@ -543,7 +543,6 @@
 		1AFEBC9F1B2F3D8A00A3437E /* PSVariableUsedInPullDownController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFEBC9E1B2F3D8A00A3437E /* PSVariableUsedInPullDownController.swift */; };
 		1AFEBCB11B30961600A3437E /* PSCustomMenus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFEBCB01B30961600A3437E /* PSCustomMenus.swift */; };
 		1AFEBCB31B31F09B00A3437E /* PSDataFileNameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFEBCB21B31F09B00A3437E /* PSDataFileNameController.swift */; };
-		1AFEBCB51B31F10C00A3437E /* PSSubjectVariableToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFEBCB41B31F10C00A3437E /* PSSubjectVariableToken.swift */; };
 		1AFEBCB81B322CE000A3437E /* PSSelectionInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFEBCB71B322CE000A3437E /* PSSelectionInterface.swift */; };
 		8119093C1BD92446005C7A05 /* Line.png in Resources */ = {isa = PBXBuildFile; fileRef = 8119093B1BD92446005C7A05 /* Line.png */; };
 		81427DA81A80CF3A0092DDBA /* Variable-icon-Medium.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 81427DA71A80CF390092DDBA /* Variable-icon-Medium.PNG */; };
@@ -1215,7 +1214,6 @@
 		1AFEBC9E1B2F3D8A00A3437E /* PSVariableUsedInPullDownController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSVariableUsedInPullDownController.swift; sourceTree = "<group>"; };
 		1AFEBCB01B30961600A3437E /* PSCustomMenus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSCustomMenus.swift; sourceTree = "<group>"; };
 		1AFEBCB21B31F09B00A3437E /* PSDataFileNameController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSDataFileNameController.swift; sourceTree = "<group>"; };
-		1AFEBCB41B31F10C00A3437E /* PSSubjectVariableToken.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSSubjectVariableToken.swift; sourceTree = "<group>"; };
 		1AFEBCB71B322CE000A3437E /* PSSelectionInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSSelectionInterface.swift; sourceTree = "<group>"; };
 		8119093B1BD92446005C7A05 /* Line.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Line.png; sourceTree = "<group>"; };
 		81427DA71A80CF390092DDBA /* Variable-icon-Medium.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Variable-icon-Medium.PNG"; sourceTree = "<group>"; };
@@ -1308,7 +1306,6 @@
 			children = (
 				1AF8B5C11BF0DDD900C0449B /* PSAutoDataFile.swift */,
 				1AFEBCB21B31F09B00A3437E /* PSDataFileNameController.swift */,
-				1AFEBCB41B31F10C00A3437E /* PSSubjectVariableToken.swift */,
 				1AFEBC961B2F050B00A3437E /* PSExperimentSetup.swift */,
 				1A0B524C1AEFF97300E0ADDB /* PSSubjectVariablesController.swift */,
 				1A0B524E1AEFF98500E0ADDB /* ExperimentSetup.xib */,
@@ -3399,7 +3396,6 @@
 				1A5E27B61AAF1D54001E6D89 /* PSCleanUpLayoutPreferences.swift in Sources */,
 				1A2FBE301973E33600F5FFB5 /* PSToolBrowserView.swift in Sources */,
 				1ACA562B1C03B412008A2787 /* PSEditMenusSubjectVariablesController.swift in Sources */,
-				1AFEBCB51B31F10C00A3437E /* PSSubjectVariableToken.swift in Sources */,
 				1A9CE34E1AA77F3300C846F4 /* PSScriptViewDelegate.swift in Sources */,
 				1A7886161BD907EC0030EBCF /* PSPluginPreferences.swift in Sources */,
 				1A4CA3A31B62CEF500CB1BD2 /* PSMainWindowController.swift in Sources */,

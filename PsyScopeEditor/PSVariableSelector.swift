@@ -7,18 +7,27 @@
 //
 
 import Foundation
-
+/*
+ * PSVariableSelector: Loaded in Document.xib. Controls a popupButton that allows the selection of variables (as they do not appear on LayoutBoard)
+ * Button appears in LayoutBoard Window (blue x)
+ */
 class PSVariableSelector : NSObject {
+    
+    //MARK: Outlets
     
     @IBOutlet var mainWindowController : PSMainWindowController!
     @IBOutlet var popupButton : NSPopUpButton!
     @IBOutlet var iconItem : NSMenuItem!
+    
+    //MARK: Variables
+    
     var scriptData : PSScriptData!
     var variableNames : [String] = []
     
-
+    //MARK: Update
     
-    func update() {
+    func update() {  // Triggered by PSSelectionController
+        
         for variableName in variableNames {
             popupButton.removeItemWithTitle(variableName)
         }
@@ -32,6 +41,8 @@ class PSVariableSelector : NSObject {
             popupButton.enabled = false
         }
     }
+    
+    //MARK: Actions
     
     @IBAction func itemSelected(button : NSPopUpButton) {
         mainWindowController.selectionController.selectObjectForEntryNamed(popupButton.selectedItem!.title)

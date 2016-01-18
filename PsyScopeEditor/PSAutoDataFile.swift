@@ -8,16 +8,30 @@
 
 import Foundation
 
+/*
+ * PSAutoDataFile: Controls updating the script to use the AutoDataFile entry (which allows the datafile name to be generated automatically)
+ * Called from PSDataFileNameController.
+ */
 class PSAutoDataFile {
     
+    //MARK: Dependencies
+    
     let scriptData : PSScriptData
+    
+    //MARK: Variables
+    
     var subjectVariableNames : [String]
+    
+    //MARK: Setup
     
     init(scriptData : PSScriptData, subjectVariableNames : [String]) {
         self.scriptData = scriptData
         self.subjectVariableNames = subjectVariableNames
     }
     
+    //MARK: Auto
+    
+    //set whether the script is using autodatafile entry or not
     var auto : Bool {
         get {
             //get current value
@@ -87,6 +101,8 @@ class PSAutoDataFile {
         }
     }
     
+    //MARK: DataFile sub entry
+    
     var dataFileSubEntry : Entry? {
         get {
             guard let experimentsEntry = scriptData.getMainExperimentEntryIfItExists() else {
@@ -96,8 +112,9 @@ class PSAutoDataFile {
         }
     }
     
+    //MARK: AutoDataFile Elements
     
-    //the components that make the auto data file
+    //the components that make the content of the autodatafile
     var autoDataFileElements : [String] {
         get {
             if !self.auto { //handle when data file is not auto generated
@@ -168,6 +185,7 @@ class PSAutoDataFile {
         }
     }
 
+    //MARK: Name Generation
     
     func generateCurrentDataFileName() -> String {
 
