@@ -40,7 +40,7 @@ func PSColorStringToNSColor(_ colorString : String) -> NSColor {
 
 open class PSColorAttributePopup: PSAttributePopup {
     public init(currentValue: PSEntryElement, displayName : String, setCurrentValueBlock : ((PSEntryElement) -> ())?) {
-        super.init(nibName: "ColorAttribute",bundle: Bundle(for:self.dynamicType),currentValue: currentValue, displayName: displayName, setCurrentValueBlock: setCurrentValueBlock)
+        super.init(nibName: "ColorAttribute",bundle: Bundle(for:type(of: self)),currentValue: currentValue, displayName: displayName, setCurrentValueBlock: setCurrentValueBlock)
     }
     
     @IBOutlet var colorWell : NSColorWell!

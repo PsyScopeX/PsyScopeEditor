@@ -28,7 +28,7 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
     
     //general method for selecting an object
     func selectEntry(_ entry : Entry?) {
-        if let e = entry, lobject = e.layoutObject, layoutItem = objectsTolayoutItems[lobject] {
+        if let e = entry, let lobject = e.layoutObject, let layoutItem = objectsTolayoutItems[lobject] {
             selectedObject = lobject
             layoutBoard.highlightLayoutItem(layoutItem)
         } else {
@@ -71,7 +71,7 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
         }
         
         //update selection
-        if let se = selectionController.selectedEntry, _ = se.layoutObject {
+        if let se = selectionController.selectedEntry, let _ = se.layoutObject {
             selectEntry(se)
         }
         
@@ -259,8 +259,8 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
             
             //not all objects need to have a layoutObject now
             if let layoutObject = new_entry.layoutObject {
-                layoutObject.xPos = location.x
-                layoutObject.yPos = location.y
+                layoutObject.xPos = location.x as NSNumber
+                layoutObject.yPos = location.y as NSNumber
             }
             success = true
             selectionController.selectEntry(new_entry)
@@ -277,8 +277,8 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
         let the_object = layoutItemsToObjects[objectlayoutItem] as LayoutObject?
         if let safe_object = the_object {
             scriptData.beginUndoGrouping("Move Object")
-            safe_object.xPos = objectlayoutItem.icon.position.x
-            safe_object.yPos = objectlayoutItem.icon.position.y
+            safe_object.xPos = objectlayoutItem.icon.position.x as NSNumber
+            safe_object.yPos = objectlayoutItem.icon.position.y as NSNumber
             scriptData.endUndoGrouping()
         }
     }
@@ -289,8 +289,8 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
             let the_object = layoutItemsToObjects[layoutItem] as LayoutObject?
             if let safe_object = the_object {
                 
-                safe_object.xPos = layoutItem.icon.position.x
-                safe_object.yPos = layoutItem.icon.position.y
+                safe_object.xPos = layoutItem.icon.position.x as NSNumber
+                safe_object.yPos = layoutItem.icon.position.y as NSNumber
                 
             }
         }
@@ -414,7 +414,7 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
                 guard let pasteboard = pasteboard else { return }
                 let data = scriptData.archiveBaseEntry(ce)
                 pasteboard.setData(data, forType: PSPasteboardTypeLayoutObject)
-            case PSPasteboardTypeAttribute:
+            case PSPasteboardTypeAttribute as String as String:
                 print("Cannot provide data for type : \(type)")
             default:
                 print("Cannot provide data for type : \(type)")
@@ -443,9 +443,9 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
         var offset : CGFloat = 0
         for (fn, tools) in filesToImport {
             //1. offer choice from tools (with use this setting for all files with same extension
-            if let tool = tools.first, new_entry = tool.createFromDraggedFile(fn, scriptData: scriptData) {
-                new_entry.layoutObject.xPos = location.x + offset
-                new_entry.layoutObject.yPos = location.y + offset
+            if let tool = tools.first, let new_entry = tool.createFromDraggedFile(fn, scriptData: scriptData) {
+                new_entry.layoutObject.xPos = location.x + offset as NSNumber
+                new_entry.layoutObject.yPos = location.y + offset as NSNumber
                 offset = offset + 5
             }
         }
@@ -457,7 +457,7 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
         let types = layoutItems.flatMap({ return self.layoutItemsToObjects[$0] }).map({ $0.mainEntry.type})
         
         if let type = types.first {
-            return scriptData.typeIsEvent(type) && !types.contains(where: { $0 != type })
+            return scriptData.typeIsEvent(type!) && !types.contains(where: { $0 != type })
         }
         
         return false

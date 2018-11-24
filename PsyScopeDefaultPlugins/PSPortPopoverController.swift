@@ -312,7 +312,7 @@ class PSPortPopoverController : NSObject {
             let x = hotspotXText.integerValue
             selectedPort.alignmentPoint = PSAlignmentPoint.specified(x, y)
         case portNameText:
-            selectedPort.name = portNameText.stringValue
+            selectedPort.name = portNameText.stringValue as NSString
         default:
             break
             

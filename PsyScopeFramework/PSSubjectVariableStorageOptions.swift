@@ -158,7 +158,7 @@ public struct PSSubjectVariableStorageOptions {
         let experimentEntry = scriptData.getMainExperimentEntry()
         let proxyEntryName = entry.name + "_Variable"
         if let proxyEntry = scriptData.getBaseEntry(proxyEntryName),
-            expVariables = scriptData.getSubEntry("ExpVariables", entry: experimentEntry) {
+            let expVariables = scriptData.getSubEntry("ExpVariables", entry: experimentEntry) {
                 let expVariablesList = PSStringList(entry: expVariables, scriptData: scriptData)
                 
                 let inList = expVariablesList.contains(proxyEntryName)
@@ -194,7 +194,7 @@ public struct PSSubjectVariableStorageOptions {
         }
         
         //also allow never variables to be in logRunEnd
-        if let logRunEnd = scriptData.getBaseEntry("LogRunEnd") where storageOptions.schedule == .never {
+        if let logRunEnd = scriptData.getBaseEntry("LogRunEnd"), storageOptions.schedule == .never {
             let logRunEndList = PSStringList(entry: logRunEnd, scriptData: scriptData)
             storageOptions.inLogFile = logRunEndList.contains(entry.name)
         }

@@ -28,7 +28,7 @@ class PSEditMenusController : NSObject, NSOutlineViewDataSource, NSOutlineViewDe
     
     //MARK: Variables 
     
-    var topLevelObjects : NSArray?
+    var topLevelObjects : NSArray = []
     var parentWindow : NSWindow!
     var initialized : Bool
     
@@ -101,7 +101,7 @@ class PSEditMenusController : NSObject, NSOutlineViewDataSource, NSOutlineViewDe
 
             //get parent and remove from list
             if let menuComponentParent = selectedItemParent as? PSMenuComponent,
-                index = menuComponentParent.subComponents.index(of: menuComponent) {
+                let index = menuComponentParent.subComponents.index(of: menuComponent) {
                 menuComponentParent.subComponents.remove(at: index)
                 menuComponentParent.saveToScript()
             } else if let index = menuStructure.menuComponents.index(of: menuComponent) {
@@ -111,7 +111,7 @@ class PSEditMenusController : NSObject, NSOutlineViewDataSource, NSOutlineViewDe
             }
         } else if let dialogVariable = selectedItem as? PSSubjectVariable {
             if let menuComponentParent = selectedItemParent as? PSMenuComponent,
-                index = menuComponentParent.dialogVariables.index(of: dialogVariable) {
+                let index = menuComponentParent.dialogVariables.index(of: dialogVariable) {
                     menuComponentParent.dialogVariables.remove(at: index)
                     menuComponentParent.saveToScript()
             }
@@ -190,9 +190,9 @@ class PSEditMenusController : NSObject, NSOutlineViewDataSource, NSOutlineViewDe
     }
     
     func outlineView(_ outlineView: NSOutlineView, setObjectValue object: Any?, for tableColumn: NSTableColumn?, byItem item: Any?) {
-        if let menuComponent = item as? PSMenuComponent, string = object as? String {
+        if let menuComponent = item as? PSMenuComponent, let string = object as? String {
             menuComponent.name = string
-        } else if let subjectVariable = item as? PSSubjectVariable, string = object as? String {
+        } else if let subjectVariable = item as? PSSubjectVariable, let string = object as? String {
             subjectVariable.name = string
         }
     }
@@ -204,8 +204,8 @@ class PSEditMenusController : NSObject, NSOutlineViewDataSource, NSOutlineViewDe
         let indexToInsert = max(index,0)
         
         if let data = pboard.data(forType: PSEditMenusSubjectVariablesController.subjectVariableType),
-            newSubjectVariables : [String] = NSKeyedUnarchiver.unarchiveObject(with: data) as? [String],
-            menuComponent = item as? PSMenuComponent {
+            let newSubjectVariables : [String] = NSKeyedUnarchiver.unarchiveObject(with: data) as? [String],
+            let menuComponent = item as? PSMenuComponent {
         
                 
                 menuStructure.addSubjectVariables(newSubjectVariables, toMenu: menuComponent.name, atIndex: indexToInsert)
@@ -213,14 +213,14 @@ class PSEditMenusController : NSObject, NSOutlineViewDataSource, NSOutlineViewDe
                 return true
             
         } else if let data = pboard.data(forType: PSEditMenusController.dragReorderVariableType),
-            subjectVariableName : String = NSKeyedUnarchiver.unarchiveObject(with: data) as? String,
-            menuComponent = item as? PSMenuComponent {
+            let subjectVariableName : String = NSKeyedUnarchiver.unarchiveObject(with: data) as? String,
+            let menuComponent = item as? PSMenuComponent {
                 
                 menuStructure.moveSubjectVariable(subjectVariableName, toMenu: menuComponent.name, atIndex: indexToInsert)
                 menuStructure.saveToScript()
                 return true
         } else if let data = pboard.data(forType: PSEditMenusController.dragReorderMenuType),
-            menuName : String = NSKeyedUnarchiver.unarchiveObject(with: data) as? String {
+            let menuName : String = NSKeyedUnarchiver.unarchiveObject(with: data) as? String {
                 
                 if let menuItem = item as? PSMenuComponent {
                     menuStructure.moveMenu(menuName, toMenu: menuItem.name, atIndex: indexToInsert)
@@ -238,15 +238,15 @@ class PSEditMenusController : NSObject, NSOutlineViewDataSource, NSOutlineViewDe
         let pboard = info.draggingPasteboard()
         guard let types = pboard.types else { return NSDragOperation() }
         if types.contains(PSEditMenusSubjectVariablesController.subjectVariableType) {
-            if let menuComponent = item as? PSMenuComponent where !menuComponent.subMenus {
+            if let menuComponent = item as? PSMenuComponent, !menuComponent.subMenus {
                 return NSDragOperation.link
             }
         } else if types.contains(PSEditMenusController.dragReorderMenuType) {
             if let proposedParentItem = item as? PSMenuComponent  {
                 
                 if let data = pboard.data(forType: PSEditMenusController.dragReorderMenuType),
-                    menuName : String = NSKeyedUnarchiver.unarchiveObject(with: data) as? String,
-                    menuEntry = scriptData.getBaseEntry(menuName) {
+                    let menuName : String = NSKeyedUnarchiver.unarchiveObject(with: data) as? String,
+                    let menuEntry = scriptData.getBaseEntry(menuName) {
                         
                         let proposedChildItem = PSMenuComponent(entry: menuEntry, scriptData: scriptData)
                         
@@ -273,7 +273,7 @@ class PSEditMenusController : NSObject, NSOutlineViewDataSource, NSOutlineViewDe
             
             return NSDragOperation()
         } else if types.contains(PSEditMenusController.dragReorderVariableType) {
-            if let menuComponent = item as? PSMenuComponent where !menuComponent.subMenus {
+            if let menuComponent = item as? PSMenuComponent, !menuComponent.subMenus {
                 return NSDragOperation.link
             }
         }
@@ -282,7 +282,7 @@ class PSEditMenusController : NSObject, NSOutlineViewDataSource, NSOutlineViewDe
     }
     
     func outlineView(_ outlineView: NSOutlineView, writeItems items: [Any], to pasteboard: NSPasteboard) -> Bool {
-        guard let item = items.first where items.count == 1 else { return false }
+        guard let item = items.first, items.count == 1 else { return false }
         if let menuComponent = item as? PSMenuComponent {
             let data = NSKeyedArchiver.archivedData(withRootObject: menuComponent.name)
             pasteboard.declareTypes([PSEditMenusController.dragReorderMenuType], owner: self)
@@ -301,7 +301,7 @@ class PSEditMenusController : NSObject, NSOutlineViewDataSource, NSOutlineViewDe
 
     func showAttributeModalForWindow(_ window : NSWindow) {
         if (attributeSheet == nil) {
-            Bundle(for: self.dynamicType).loadNibNamed("EditMenus", owner: self, topLevelObjects: &topLevelObjects)
+            Bundle(for: type(of: self)).loadNibNamed("EditMenus", owner: self, topLevelObjects: &topLevelObjects)
         }
         
         parentWindow = window

@@ -11,16 +11,16 @@ class PSEventTableCellView : NSTableCellView, PSHighLightOnMouseHoverProtocol {
     var event : PSTemplateEvent?
     @IBOutlet var deleteButton : NSButton!
     var deleteAction : ((PSTemplateEvent) -> ())?
-    override var objectValue : AnyObject? {
+    override var objectValue : Any? {
         get {
             return event
         }
         
         set {
             if let event = newValue as? PSTemplateEvent,
-                eventEntry = event.entry,
-                layoutObject = eventEntry.layoutObject,
-                icon = layoutObject.icon {
+                let eventEntry = event.entry,
+                let layoutObject = eventEntry.layoutObject,
+                let icon = layoutObject.icon {
                 self.event = event
                 self.imageView!.image = (icon as! NSImage)
                 self.textField!.stringValue = eventEntry.name

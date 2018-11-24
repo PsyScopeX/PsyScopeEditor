@@ -131,7 +131,7 @@ open class PSPort : Hashable, Equatable {
     }
     
     var name : NSString {
-        get { return entry.name }
+        get { return entry.name as! NSString }
         set {
             //updates entry as well as in ports entry
             scriptData.renameEntry(entry, nameSuggestion: newValue as String)
@@ -172,7 +172,7 @@ open class PSPort : Hashable, Equatable {
             layer.strokeColor =  NSColor.white.cgColor // luca trying to use the same convention as in the main interface: selected objects have white border
             
             //bring to front
-            if let superlayer = layer.superlayer, sublayers = superlayer.sublayers {
+            if let superlayer = layer.superlayer, let sublayers = superlayer.sublayers {
                 layer.removeFromSuperlayer()
                 superlayer.insertSublayer(layer, at: UInt32(sublayers.count))
             }
@@ -266,10 +266,12 @@ open class PSPort : Hashable, Equatable {
         
         //create the line for the border
         let path = CGMutablePath();
-        CGPathMoveToPoint(path, nil, 0, 0);
-        CGPathAddLineToPoint(path, nil, 0, layer.bounds.height);
-        CGPathAddLineToPoint(path, nil, layer.bounds.width, layer.bounds.height);
-        CGPathAddLineToPoint(path, nil, layer.bounds.width, 0);
+        path.move(to: CGPoint(x:0,y:0))
+        path.addLine(to: CGPoint(x:0,y:layer.bounds.height))
+        path.addLine(to: CGPoint(x:layer.bounds.width,y:layer.bounds.height))
+
+        path.addLine(to: CGPoint(x:layer.bounds.width,y:0))
+
         path.closeSubpath();
         layer.path = path;
         

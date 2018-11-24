@@ -92,7 +92,7 @@ open class PSGroup {
     open func valueForCriteria(_ name : String) -> String{
 
         if let criteriaEntry = scriptData.getSubEntry("Criteria", entry: entry),
-         valueEntry = scriptData.getSubEntry(name, entry: criteriaEntry) {
+         let valueEntry = scriptData.getSubEntry(name, entry: criteriaEntry) {
             return valueEntry.currentValue
         }
         return ""

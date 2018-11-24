@@ -40,7 +40,7 @@ class PSPluginPreferences : NSViewController, MASPreferencesViewController {
             (int_code : Int) -> () in
             if int_code == NSFileHandlingPanelOKButton {
                 //relative to files location
-                let path : NSString = openPanel.url!.path!
+                let path : NSString = openPanel.url!.path as NSString
                 self.pluginPathText.stringValue = path as String
                 UserDefaults.standard.set(path, forKey: PSPluginPathKey)
             }

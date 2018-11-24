@@ -167,7 +167,7 @@ open class PSEventActionsAttribute : PSStringListElement {
     
     open func moveSetUp(_ actionCondition : PSEventActionCondition?) {
         guard let actionCondition = actionCondition else { return }
-        if let (index1, _, _) = getIndexesForActionCondition(actionCondition) where
+        if let (index1, _, _) = getIndexesForActionCondition(actionCondition),
             index1 > 0 {
             scriptData.beginUndoGrouping("Move Action Set")
             let set = actionConditionSets[index1]
@@ -180,7 +180,7 @@ open class PSEventActionsAttribute : PSStringListElement {
     
     open func moveSetDown(_ actionCondition : PSEventActionCondition?) {
         guard let actionCondition = actionCondition else { return }
-        if let (index1, _, _) = getIndexesForActionCondition(actionCondition) where
+        if let (index1, _, _) = getIndexesForActionCondition(actionCondition),
             index1 < actionConditionSets.count - 1 {
                 scriptData.beginUndoGrouping("Move Action Set")
                 let set = actionConditionSets[index1]
@@ -245,8 +245,7 @@ open class PSEventActionsAttribute : PSStringListElement {
             
             //process all functions in the values
             for val in values {
-                if case .function(let functionElement) = val
-                    where functionElement.functionName == ""
+                if case .function(let functionElement) = val, functionElement.functionName == ""
                     && functionElement.bracketType == .expression {
                         addActionsFromValues(functionElement.values)
                 }
@@ -278,7 +277,7 @@ open class PSEventActionsAttribute : PSStringListElement {
                     if populatingActions {
                         //end of action condition pair so add new set
                         actionConditionSets.append((conditions: [],actions: []))
-                        action_condition_count++
+                        action_condition_count += 1
                     }
                     
                     populatingConditions = true
@@ -413,10 +412,10 @@ open class PSEventActionsAttribute : PSStringListElement {
     
     func loadMetaData(_ metaData : String?) {
 
-        if let md = metaData, data = md.data(using: String.Encoding.utf8, allowLossyConversion: false) {
+        if let md = metaData, let data = md.data(using: String.Encoding.utf8, allowLossyConversion: false) {
             do {
                 if let ei = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions(rawValue: 0)) as? NSArray,
-                expandedMetaData = ei as? [String] {
+                let expandedMetaData = ei as? [String] {
 
                     parseExpandedItemsMetaData(expandedMetaData)
                 }
@@ -445,7 +444,7 @@ open class PSEventActionsAttribute : PSStringListElement {
 
         do {
             let data = try JSONSerialization.data(withJSONObject: savedExpandedMetaData, options:JSONSerialization.WritingOptions(rawValue: 0))
-            return String(NSString(data: data, encoding: String.Encoding.utf8)!)
+            return String(NSString(data: data, encoding: String.Encoding.utf8.rawValue)!)
         } catch {
             return ""
         }

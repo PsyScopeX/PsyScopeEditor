@@ -31,9 +31,9 @@ class PSVariableCompositeTypePopoverController : NSObject, NSOutlineViewDelegate
     @IBAction func compositeTypeButtonPressed(_: AnyObject) {
         
         let scriptData = propertiesController.scriptData
-        let typeEntry = scriptData.getOrCreateSubEntry("Type", entry: propertiesController.entry, isProperty: true)
+        let typeEntry = scriptData?.getOrCreateSubEntry("Type", entry: propertiesController.entry, isProperty: true)
         
-        let namedType = EntryToVariableNamedType(typeEntry, scriptData: propertiesController.scriptData)
+        let namedType = EntryToVariableNamedType(typeEntry!, scriptData: propertiesController.scriptData)
         variableType = namedType.type
         comboBoxDataSource.refreshController = refresh
         refresh()
@@ -72,10 +72,10 @@ class PSVariableCompositeTypePopoverController : NSObject, NSOutlineViewDelegate
     
     func updateScript() {
         let scriptData = propertiesController.scriptData
-        scriptData.beginUndoGrouping("Update Variable Type")
-        let typeEntry = scriptData.getOrCreateSubEntry("Type", entry: propertiesController.entry, isProperty: true)
-        VariableTypeToEntry(variableType, entry: typeEntry, scriptData: scriptData)
-        scriptData.endUndoGrouping(true)
+        scriptData?.beginUndoGrouping("Update Variable Type")
+        let typeEntry = scriptData?.getOrCreateSubEntry("Type", entry: propertiesController.entry, isProperty: true)
+        VariableTypeToEntry(variableType, entry: typeEntry!, scriptData: scriptData!)
+        scriptData?.endUndoGrouping(true)
         
     }
     
@@ -210,7 +210,7 @@ class PSVariableCompositeTypePopoverController : NSObject, NSOutlineViewDelegate
             return view
         } else if tableColumn == valueColumn {
             let view = outlineView.make(withIdentifier: tableColumn!.identifier, owner: nil) as! PSVariableTypeComboBoxTableCellView
-            view.item = item
+            view.item = item as AnyObject
             view.comboBox.dataSource = comboBoxDataSource
             view.comboBox.delegate = comboBoxDataSource
             view.comboBox.reloadData()
@@ -245,7 +245,7 @@ class PSVariableCompositeTypePopoverController : NSObject, NSOutlineViewDelegate
         
         //if it's a record then add as a child...
         if outlineView.selectedRow > -1 {
-            let item : AnyObject? = outlineView.item(atRow: outlineView.selectedRow)
+            let item : AnyObject? = outlineView.item(atRow: outlineView.selectedRow) as AnyObject
             
             var typeOfRow : PSVariableTypeEnum = .stringType //temp value
             
@@ -271,8 +271,8 @@ class PSVariableCompositeTypePopoverController : NSObject, NSOutlineViewDelegate
     
     func deleteVariableType() {
         if outlineView.selectedRow > -1 {
-            let item : AnyObject? = outlineView.item(atRow: outlineView.selectedRow)
-            let parent : AnyObject? = outlineView.parent(forItem: item)
+            let item : AnyObject? = outlineView.item(atRow: outlineView.selectedRow) as AnyObject
+            let parent : AnyObject? = outlineView.parent(forItem: item) as AnyObject
             
             if let namedType = item as? PSVariableNamedType {
                 if parent != nil {

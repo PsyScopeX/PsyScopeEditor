@@ -91,7 +91,7 @@ open class PSConditionAttribute : PSStringListElement {
     }
     
     func loadMetaData(_ metaData : String?) {
-        if let md = metaData, data = md.data(using: String.Encoding.utf8, allowLossyConversion: true) {
+        if let md = metaData, let data = md.data(using: String.Encoding.utf8, allowLossyConversion: true) {
             do {
                 if let ei = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions(rawValue: 0)) as? NSDictionary {
                     expandedItems = ei as! [String : Bool]
@@ -114,7 +114,7 @@ open class PSConditionAttribute : PSStringListElement {
         } catch  {
             data = nil
         }
-        return String(NSString(data: data!, encoding: String.Encoding.utf8)!)
+        return String(NSString(data: data!, encoding: String.Encoding.utf8.rawValue)!)
     }
     
     func validateExpandedItems() {

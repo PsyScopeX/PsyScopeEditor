@@ -82,7 +82,7 @@ class PSTokenizer {
         var set : NSMutableCharacterSet = NSMutableCharacterSet.alphanumeric()
         set.addCharacters(in: "_")
         set.addCharacters(in: "%")
-        return set
+        return set as CharacterSet
         }()
     
     func tokenizeStringArray(_ array : [String], type: PSTokenType) -> Bool {
@@ -159,12 +159,12 @@ class PSTokenizer {
             
                 if scanner.scanString("{", into: nil) {
                     fullValue += "{"
-                    nestedLevel++
+                    nestedLevel += 1
                 } else if scanner.scanString("}", into: nil) {
                     if nestedLevel > 1 {
                         fullValue += "}"
                     }
-                    nestedLevel--
+                    nestedLevel -= 1
                 } else {
                     
                 }

@@ -84,7 +84,7 @@ class PSExperimentTool: PSTool, PSToolInterface {
             for property in PSDefaultConstants.StructuralProperties.MutuallyExclusiveSet {
                 for subEntry in ge.subEntries {
                     if subEntry.name == property.name {
-                        foundAttributes++
+                        foundAttributes += 1
                     }
                 }
             }
@@ -196,7 +196,7 @@ class PSExperimentTool: PSTool, PSToolInterface {
             experimentsEntry = scriptData.insertNewBaseEntry("Experiments", type: toolType)
             
             //if newName has spaces then add quotes
-            if newName.components(separatedBy: CharacterSet.whitespacesAndNewlines).count > 1 {
+            if (newName?.components(separatedBy: CharacterSet.whitespacesAndNewlines).count)! > 1 {
                 newName = "\"\(newName)\""
             }
             experimentsEntry.currentValue = newName
@@ -355,7 +355,7 @@ class PSExperimentTool: PSTool, PSToolInterface {
         //create main experiments entry
         let experiments_entry = scriptData.insertNewBaseEntry("Experiments",type: toolType)
         experiments_entry.name = "Experiments"
-        experiments_entry.currentValue = experiment_main_entry.name
+        experiments_entry.currentValue = experiment_main_entry?.name
         experiments_entry.isKeyEntry = false
         experiments_entry.type = type()
         root_section.addObjectsObject(experiments_entry)
@@ -364,7 +364,7 @@ class PSExperimentTool: PSTool, PSToolInterface {
         
         //now do properties
         for property in properties {
-            scriptData.addDefaultProperty(property, entry: experiment_main_entry)
+            scriptData.addDefaultProperty(property, entry: experiment_main_entry!)
         }
         
         scriptData.addDefaultProperty(ExperimentsProperties.Current, entry: experiments_entry)

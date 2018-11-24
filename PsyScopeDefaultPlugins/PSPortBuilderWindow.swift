@@ -34,7 +34,7 @@ class PSPortBuilderWindow : NSWindow, NSWindowDelegate {
     }
     
     override func keyDown(with theEvent: NSEvent) {
-        if theEvent.charactersIgnoringModifiers == String(Character(UnicodeScalar(NSDeleteCharacter))) {
+        if theEvent.charactersIgnoringModifiers! == String(Character(UnicodeScalar(NSDeleteCharacter)!)) {
             controller.deleteCurrentlySelectedItem()
             return
         }

@@ -36,7 +36,7 @@ class PSEventPropertiesController : PSToolPropertyController {
     }
     
     init(entry : Entry, scriptData : PSScriptData) {
-        let bundle = Bundle(for:self.dynamicType)
+        let bundle = Bundle(for:type(of: self))
         super.init(nibName: "EventProperties", bundle: bundle, entry: entry, scriptData: scriptData)
         self.entry = entry
         
@@ -99,7 +99,7 @@ class PSEventPropertiesController : PSToolPropertyController {
                         new_sm_item.isEnabled = true
                         new_sm_item.tag = current_tag
                         popOverStartConditionEvents[current_tag] = (eventClass, event.entry)
-                        current_tag++
+                        current_tag += 1
                         new_submenu.addItem(new_sm_item)
                     }
                     
@@ -114,7 +114,7 @@ class PSEventPropertiesController : PSToolPropertyController {
                 new_item.target = self
                 new_item.tag = current_tag
                 popOverStartConditionEvents[current_tag] = (eventClass, nil)
-                current_tag++
+                current_tag += 1
             }
             new_menu.addItem(new_item)
         }
@@ -134,7 +134,7 @@ class PSEventPropertiesController : PSToolPropertyController {
             textFieldStartTime.stringValue = startTimeString
             
             //does the event have an event associated with it
-            if let er = event.startCondition as? EventStartEventRelated where er.event != nil {
+            if let er = event.startCondition as? EventStartEventRelated, er.event != nil {
                 //there is an event
                 labelStartEvent.stringValue = "Event: \(er.event!.entry.name)"
             }

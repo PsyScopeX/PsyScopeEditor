@@ -15,7 +15,7 @@ class PSActionPickerCell: NSView {
     var clickCallback : ((PSActionPickerAction)->())? = nil
     var action : PSActionPickerAction!
     
-    func setup(_ action : PSActionPickerAction, clickCallback : ((PSActionPickerAction)->())) {
+    func setup(_ action : PSActionPickerAction, clickCallback : @escaping ((PSActionPickerAction)->())) {
         label.stringValue = action.userFriendlyName
         self.action = action
         self.clickCallback = clickCallback

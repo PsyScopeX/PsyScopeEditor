@@ -30,7 +30,7 @@ class PSAttributesBrowser: NSObject, NSTableViewDelegate, NSTableViewDataSource,
     //MARK: AwakeFromNib
     
     override func awakeFromNib()  {
-        let anib = NSNib(nibNamed: "AddAttributeCell", bundle: Bundle(for:self.dynamicType))
+        let anib = NSNib(nibNamed: "AddAttributeCell", bundle: Bundle(for:type(of: self)))
         tableView.register(anib!, forIdentifier: addAttributeCellIdentifier)
         self.selectionController = mainWindowController.selectionController
     }
@@ -41,8 +41,7 @@ class PSAttributesBrowser: NSObject, NSTableViewDelegate, NSTableViewDataSource,
     
     func refresh() {
         if let selectedEntry = selectionController.selectedEntry,
-         interface = mainWindowController.scriptData.pluginProvider.getInterfaceForType(PSType.FromName(selectedEntry.type))
-            where interface.canAddAttributes() == true {
+         let interface = mainWindowController.scriptData.pluginProvider.getInterfaceForType(PSType.FromName(selectedEntry.type)), interface.canAddAttributes() == true {
                 
             self.canAddAttributes = true
             let entries = selectedEntry.subEntries.array as! [Entry]
@@ -127,7 +126,7 @@ class PSAttributesBrowser: NSObject, NSTableViewDelegate, NSTableViewDataSource,
     }
     
     func deleteObject(_ sender : AnyObject) {
-        let index = tableView.selectedRowIndexes.first
+        let index = tableView.selectedRowIndexes.first!
         if index > 0 && index < content.count {
             mainWindowController.scriptData.beginUndoGrouping("Delete Attribute")
             mainWindowController.scriptData.deleteSubEntryFromBaseEntry(content[index].parent, subEntry: content[index])
@@ -140,10 +139,10 @@ class PSAttributesBrowser: NSObject, NSTableViewDelegate, NSTableViewDataSource,
     //MARK : Copy/Paste of attributes
     
     func copyObject(_ sender : AnyObject) {
-        let index = tableView.selectedRowIndexes.first
+        let index = tableView.selectedRowIndexes.first!
         if index > 0 && index < content.count {
             let pasteboardItem = NSPasteboardItem()
-            let types = [NSPasteboardTypeString, PSPasteboardTypeAttribute]
+            let types = [NSPasteboardTypeString, PSPasteboardTypeAttribute] as [Any]
             var ok = pasteboardItem.setDataProvider(self, forTypes: types)
             if ok {
                 let pasteboard = NSPasteboard.general()
@@ -184,7 +183,7 @@ class PSAttributesBrowser: NSObject, NSTableViewDelegate, NSTableViewDataSource,
                 
                 let string = writer.entryToText(ce, level: 1)
                 pasteboard.setString(string, forType: NSPasteboardTypeString)
-            case PSPasteboardTypeAttribute:
+            case PSPasteboardTypeAttribute as String as String:
                 let dataDictionary = PSAttributeEntryToNSDictionary(ce)
                 let archive = NSKeyedArchiver.archivedData(withRootObject: dataDictionary)
                 pasteboard.setData(archive, forType: PSPasteboardTypeAttribute as String)

@@ -50,8 +50,8 @@ class PSToolTablePropertyController: NSObject, NSTableViewDataSource, NSTableVie
     func tableView(_ tableView: NSTableView, acceptDrop info: NSDraggingInfo, row: Int, dropOperation: NSTableViewDropOperation) -> Bool {
         let pboard = info.draggingPasteboard()
         if let data = pboard.data(forType: dragReorderType),
-            rowIndexes : IndexSet = NSKeyedUnarchiver.unarchiveObject(with: data) as? IndexSet {
-            stringList.move(rowIndexes.first, to: row)
+            let rowIndexes : IndexSet = NSKeyedUnarchiver.unarchiveObject(with: data) as? IndexSet {
+            stringList.move(rowIndexes.first!, to: row)
             return true
         }
         return false

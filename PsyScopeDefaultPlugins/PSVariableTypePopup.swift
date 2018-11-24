@@ -17,7 +17,7 @@ class PSVariableTypePopup: NSObject {
         super.init()
 
         
-        Bundle(for:self.dynamicType).loadNibNamed("VariableTypeBuilder", owner: self, topLevelObjects: &topLevelObjects)
+        Bundle(for:type(of: self)).loadNibNamed("VariableTypeBuilder", owner: self, topLevelObjects: &topLevelObjects)
     }
     
     //MARK: Variables / Constants
@@ -25,7 +25,7 @@ class PSVariableTypePopup: NSObject {
     let scriptData : PSScriptData
     let window : NSWindow
     
-    var topLevelObjects : NSArray?
+    var topLevelObjects : NSArray = []
     
     
     //MARK: Outlets

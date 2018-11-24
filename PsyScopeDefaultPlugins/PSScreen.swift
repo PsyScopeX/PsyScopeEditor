@@ -28,7 +28,7 @@ class PSScreen {
         
         //make sure that we can detect any changes in the display config
         if !registered {
-            CGDisplayRegisterReconfigurationCallback(DisplayCallback, nil)
+            CGDisplayRegisterReconfigurationCallback(DisplayCallback as! CGDisplayReconfigurationCallBack, nil)
             registered = true
         }
         

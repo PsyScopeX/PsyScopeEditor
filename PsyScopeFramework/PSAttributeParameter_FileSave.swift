@@ -26,9 +26,9 @@ open class PSAttributeParameter_FileSave : PSAttributeParameter_Button {
             (int_code : Int) -> () in
             if int_code == NSFileHandlingPanelOKButton {
                 //relative to files location
-                if let url = savePanel.url, path = url.path {
+                if let url = savePanel.url {
                     DispatchQueue.main.async(execute: {
-                        self.setFileName(path)
+                        self.setFileName(url.path)
                     })
                 }
             }

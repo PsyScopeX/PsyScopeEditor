@@ -47,9 +47,9 @@ open class PSAttributePickerEntry : PSAttributePicker {
         let type = tableViewAttributes[row].type
         let interface = tableViewAttributes[row].attribute
         if clickedOn {
-            addAttributeToEntry(interface, type: type)
+            addAttributeToEntry(interface!, type: type)
         } else {
-            removeAttributeFromEntry(interface)
+            removeAttributeFromEntry(interface!)
         }
     }
     

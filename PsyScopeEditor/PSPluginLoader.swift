@@ -45,8 +45,8 @@ class PSPluginLoader : NSObject {
         
     func loadPluginsInPath(_ resourcePath : String) {
         guard let pluginBundle = Bundle(path: resourcePath),
-            pluginClass = pluginBundle.principalClass,
-            pluginInterface = pluginClass as? PSPluginInterface.Type else {
+            let pluginClass = pluginBundle.principalClass,
+            let pluginInterface = pluginClass as? PSPluginInterface.Type else {
                 print("Incorrect setup for plugin at \(resourcePath) - bundle principal class must be PSPluginInterface")
                 return
         }
@@ -77,7 +77,7 @@ class PSPluginLoader : NSObject {
         var pluginInstances : [NSObject] = []
         for pluginClass in classes {
             
-            let name = String(pluginClass.dynamicType)
+            let name = String(describing: type(of: pluginClass))
             let pluginObject = pluginClass.init()
             pluginInstances.append(pluginObject)
             pluginClasses[name] = pluginClass

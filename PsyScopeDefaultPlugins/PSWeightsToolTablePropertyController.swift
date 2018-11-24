@@ -19,9 +19,9 @@ class PSWeightsToolTablePropertyController : PSToolTablePropertyController {
         return super.tableView(tableView,shouldEdit:tableColumn,row: row)
     }
     
-    override func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> AnyObject? {
+    override func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
         if tableColumn!.identifier == weightsColumn.identifier {
-            return "1"
+            return "1" as AnyObject
         }
         return super.tableView(tableView, objectValueFor: tableColumn, row: row)
     }

@@ -29,7 +29,7 @@ class PSToolBrowserView: NSOutlineView {
 
         //select row that was clicked
         self.selectRowIndexes(IndexSet(integer: clickedRow), byExtendingSelection: false)
-        guard let selectedRow : NSTableCellView = self.view(atColumn: 0, row: clickedRow, makeIfNecessary: false) as? NSTableCellView, psextension = selectedRow.objectValue as? PSExtension else {
+        guard let selectedRow : NSTableCellView = self.view(atColumn: 0, row: clickedRow, makeIfNecessary: false) as? NSTableCellView, let psextension = selectedRow.objectValue as? PSExtension else {
             return
         }
         

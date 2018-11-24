@@ -23,7 +23,7 @@ class Document: NSPersistentDocument {
     
     func setupInitialState() {
         
-        if let scriptData = scriptData where self.mainWindowController.initialized {
+        if let scriptData = scriptData, self.mainWindowController.initialized {
             scriptData.setUpInitialScriptState()
             self.isNewDocument = false
         } else {
@@ -131,9 +131,8 @@ class Document: NSPersistentDocument {
         //options provide automatic data migration - for simple cases
         
         
-        var newStoreOptions = storeOptions
-        
-        if newStoreOptions == nil { newStoreOptions = [:] }
+        var newStoreOptions = storeOptions ?? [:]
+
         newStoreOptions[NSMigratePersistentStoresAutomaticallyOption] = true
         newStoreOptions[NSInferMappingModelAutomaticallyOption] = true
         var result : Bool

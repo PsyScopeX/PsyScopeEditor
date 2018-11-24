@@ -19,16 +19,16 @@ class PSTrialsToolTablePropertyController : PSToolTablePropertyController {
         return super.tableView(tableView,shouldEdit:tableColumn,row: row)
     }
     
-    override func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> AnyObject? {
+    override func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
         if tableColumn!.identifier == trialsColumn.identifier {
             //calculate number of trials   
             //entry name = stringList.stringListRawUnstripped[row]
             let entryName = stringList.stringListRawUnstripped[row]
             if let entry = scriptData.getBaseEntry(entryName) {
-                return PSNumberOfTrialsInBlock(entry, scriptData: scriptData).toString()
+                return PSNumberOfTrialsInBlock(entry, scriptData: scriptData).toString() as AnyObject
             }
             
-            return "?"
+            return "?" as AnyObject
         }
         return super.tableView(tableView, objectValueFor: tableColumn, row: row)
     }

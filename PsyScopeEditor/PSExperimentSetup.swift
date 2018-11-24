@@ -24,7 +24,7 @@ class PSExperimentSetup: NSObject {
     //MARK: Variables
     
     var selectionInterface : PSSelectionInterface!
-    var topLevelObjects : NSArray?
+    var topLevelObjects : NSArray = []
     var scriptData : PSScriptData!
     var templateEntry : Entry!
     
@@ -34,7 +34,7 @@ class PSExperimentSetup: NSObject {
         self.scriptData = mainWindowController.scriptData
         self.selectionInterface = self.scriptData.selectionInterface
         //load nib and gain access to views
-        Bundle(for:self.dynamicType).loadNibNamed("ExperimentSetup", owner: self, topLevelObjects: &topLevelObjects)
+        Bundle(for:type(of: self)).loadNibNamed("ExperimentSetup", owner: self, topLevelObjects: &topLevelObjects)
         self.groupTableViewController.setup(mainWindowController.scriptData)
     }
     

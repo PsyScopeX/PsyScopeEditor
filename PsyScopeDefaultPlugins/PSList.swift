@@ -75,7 +75,7 @@ class PSList : NSObject {
         
         get {
             if let levels = scriptData.getSubEntry("Levels", entry: listEntry),
-                weights = scriptData.getSubEntry("Weights", entry: levels) {
+                let weights = scriptData.getSubEntry("Weights", entry: levels) {
                     
                     return weights.currentValue.components(separatedBy: " ").map({
                         if let i = Int($0){
@@ -105,7 +105,7 @@ class PSList : NSObject {
     }
     
     func weightForRow(_ row : Int) -> Int {
-        if let currentWeights = currentWeights where row < currentWeights.count && row > -1 {
+        if let currentWeights = currentWeights, row < currentWeights.count && row > -1 {
             return currentWeights[row]
         } else {
             return 1
@@ -145,7 +145,7 @@ class PSList : NSObject {
         var number = levelsStringList.count + 1
         var name = "Item\(number)"
         while (levelsStringList.contains(name)) {
-            number++
+            number += 1
             name = "Item\(number)"
         }
         
@@ -229,9 +229,9 @@ class PSList : NSObject {
     func itemAtColumn(_ col : Int, andRow row: Int) -> AnyObject {
         if col < fields.count && row < (fields[col].count) {
             let return_val = fields[col][row]
-            return return_val
+            return return_val as AnyObject
         } else {
-            return ""
+            return "" as AnyObject
         }
     }
     

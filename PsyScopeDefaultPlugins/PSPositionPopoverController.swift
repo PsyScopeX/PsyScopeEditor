@@ -115,7 +115,7 @@ class PSPositionPopoverController : NSObject {
             selectedPosition.x = selectedPosition.x.sameWithNewValue(Int(posxText.stringValue)!)
             break
         case positionNameText:
-            selectedPosition.name = positionNameText.stringValue
+            selectedPosition.name = positionNameText.stringValue as NSString
         default:
             break
             

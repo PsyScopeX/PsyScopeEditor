@@ -90,7 +90,7 @@ class PSFileListBuilderTableController : NSObject, NSTableViewDataSource, NSTabl
     }
     
     func tableView(_ tableView: NSTableView, setObjectValue object: Any?, for tableColumn: NSTableColumn?, row: Int) {
-        controller.setWeightsValue(object as! String, row: row)
+        controller.setWeightsValue(value: object as! String, row: row)
     }
     
     @IBAction func singleClickEdit(_:AnyObject) {

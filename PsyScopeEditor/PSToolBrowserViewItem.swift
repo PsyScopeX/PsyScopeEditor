@@ -15,7 +15,7 @@ class PSToolBrowserViewItem: NSTableCellView {
 
     var psExtension : PSExtension!
     
-    override var objectValue : AnyObject? {
+    override var objectValue : Any? {
         set {
             if let pse = newValue as? PSExtension {
                 self.imageView!.image = pse.icon

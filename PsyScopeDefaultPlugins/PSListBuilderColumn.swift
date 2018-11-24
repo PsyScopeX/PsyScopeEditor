@@ -15,7 +15,7 @@ class PSListBuilderColumn : NSTableColumn {
         super.init(identifier: identifier)
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }

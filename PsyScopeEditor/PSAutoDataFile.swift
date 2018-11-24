@@ -35,7 +35,7 @@ class PSAutoDataFile {
     var auto : Bool {
         get {
             //get current value
-            if let dataFileEntry = self.dataFileSubEntry where dataFileEntry.currentValue.lowercased() == "@autodatafile" {
+            if let dataFileEntry = self.dataFileSubEntry, dataFileEntry.currentValue.lowercased() == "@autodatafile" {
                 return true
             }
             return false
@@ -124,7 +124,7 @@ class PSAutoDataFile {
                 return [PSUnquotedString(dataFileEntry.currentValue)]
             }
             guard let autoDatafile = scriptData.getBaseEntry("AutoDataFile"),
-                stringSubEntry = scriptData.getSubEntry("Strings", entry: autoDatafile) else { return [] }
+                let stringSubEntry = scriptData.getSubEntry("Strings", entry: autoDatafile) else { return [] }
             
             let strings = PSStringList(entry: stringSubEntry, scriptData: scriptData)
             var elementsToAdd : [String] = []
@@ -160,7 +160,7 @@ class PSAutoDataFile {
             }
             
             guard let autoDatafile = scriptData.getBaseEntry("AutoDataFile"),
-                stringSubEntry = scriptData.getSubEntry("Strings", entry: autoDatafile) else { return }
+                let stringSubEntry = scriptData.getSubEntry("Strings", entry: autoDatafile) else { return }
             
             
             //construct autodatafile->strings entry

@@ -15,7 +15,7 @@ class PSDialogVariablePropertiesController : PSToolPropertyController {
     }
     
     init(entry : Entry, scriptData : PSScriptData) {
-        let bundle = Bundle(for:self.dynamicType)
+        let bundle = Bundle(for:type(of: self))
         self.selectedSubjectVariable = PSSubjectVariable(entry: entry, scriptData: scriptData)
         self.items = []
         super.init(nibName: "SubjectVariableView", bundle: bundle, entry: entry, scriptData: scriptData)
@@ -174,7 +174,7 @@ class PSDialogVariablePropertiesController : PSToolPropertyController {
     }
     
     func tableView(_ tableView: NSTableView, objectValueForTableColumn tableColumn: NSTableColumn?, row: Int) -> AnyObject? {
-        return items[row]
+        return items[row] as AnyObject
     }
     
     func tableView(_ tableView: NSTableView, setObjectValue object: AnyObject?, forTableColumn tableColumn: NSTableColumn?, row: Int) {

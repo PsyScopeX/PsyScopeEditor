@@ -28,7 +28,7 @@ class PSListViewController : PSToolPropertyController, NSWindowDelegate, PSEntry
     var listType : PSListType = PSListType.normalType
     
     init(entry : Entry, scriptData : PSScriptData) {
-        let bundle = Bundle(for:self.dynamicType)
+        let bundle = Bundle(for:type(of: self))
         super.init(nibName: "ListView", bundle: bundle, entry: entry, scriptData: scriptData)
         storedDoubleClickAction = { () in
             self.editObjectsButton(self)
@@ -136,7 +136,7 @@ class PSListViewController : PSToolPropertyController, NSWindowDelegate, PSEntry
             (int_code : Int) -> () in
             if int_code == NSFileHandlingPanelOKButton {
                 //relative to files location
-                let path : NSString = openPanel.url!.path!
+                let path : NSString = openPanel.url!.path as NSString
                 self.scriptData.beginUndoGrouping("Change List File")
                 let fileList = PSFileList(entry: self.entry, scriptData: self.scriptData)
                 fileList.filePath = path as String

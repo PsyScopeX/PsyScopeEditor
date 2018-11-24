@@ -23,7 +23,7 @@ class PSVaryByListPopup: PSAttributePopup, NSOutlineViewDataSource, NSOutlineVie
     init(baseEntry : Entry, scriptData : PSScriptData, setCurrentValueBlock : ((PSEntryElement)->())?) {
         self.scriptData = scriptData
         self.entry = baseEntry
-        super.init(nibName: "VaryByListPopup", bundle: Bundle(for:self.dynamicType), currentValue: .null, displayName: "", setCurrentValueBlock: setCurrentValueBlock)
+        super.init(nibName: "VaryByListPopup", bundle: Bundle(for:type(of: self)), currentValue: .null, displayName: "", setCurrentValueBlock: setCurrentValueBlock)
         
         //get all lists
         let all_lists = scriptData.getBaseEntriesOfType(PSType.List)
@@ -40,7 +40,7 @@ class PSVaryByListPopup: PSAttributePopup, NSOutlineViewDataSource, NSOutlineVie
     }
     
     func outlineViewSelectionDidChange(_ notification: Notification) {
-        let selected_item : AnyObject? = outlineView.item(atRow: outlineView.selectedRow)
+        let selected_item : AnyObject? = outlineView.item(atRow: outlineView.selectedRow) as AnyObject
         
         //check if item is attribute (rather than a block)
         if let i = selected_item as? PSList {

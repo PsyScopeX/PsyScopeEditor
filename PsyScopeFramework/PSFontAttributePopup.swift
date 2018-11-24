@@ -15,7 +15,7 @@ import Cocoa
 open class PSFontAttributePopup: PSAttributePopup, NSControlTextEditingDelegate {
     public init(currentValue: PSEntryElement, displayName : String, type : PSFontAttributePopupType, setCurrentValueBlock : ((PSEntryElement) -> ())?) {
         self.type = type
-        super.init(nibName: "FontAttribute",bundle: Bundle(for:self.dynamicType),currentValue: currentValue, displayName: displayName, setCurrentValueBlock: setCurrentValueBlock )
+        super.init(nibName: "FontAttribute",bundle: Bundle(for:type(of: self)),currentValue: currentValue, displayName: displayName, setCurrentValueBlock: setCurrentValueBlock )
     }
     
     @IBOutlet var fontManager : NSFontManager!

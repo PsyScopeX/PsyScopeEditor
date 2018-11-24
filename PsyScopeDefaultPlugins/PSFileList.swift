@@ -21,7 +21,7 @@ class PSFileList {
     var filePath : String {
         get {
             if let fileListEntry = scriptData.getSubEntry("ListFile", entry: entry),
-                path = PSScriptFile.PathFromFileRef(fileListEntry.currentValue, scriptData: scriptData) {
+                let path = PSScriptFile.PathFromFileRef(fileListEntry.currentValue, scriptData: scriptData) {
                 
                 return path
             } else {
@@ -56,7 +56,7 @@ class PSFileList {
     var numberOfColumns : Int {
         get {
             if let numberOfColumnsEntry = scriptData.getSubEntry("NumberOfColumnsInFile", entry: entry),
-             intValue = Int(numberOfColumnsEntry.currentValue) {
+             let intValue = Int(numberOfColumnsEntry.currentValue) {
                 return intValue
             } else if let fileReader = self.fileReader {
                 return fileReader.numberOfColumnsInFirstRow
@@ -84,7 +84,7 @@ class PSFileList {
         
         get {
             if let levels = scriptData.getSubEntry("Levels", entry: entry),
-                weights = scriptData.getSubEntry("Weights", entry: levels) {
+                let weights = scriptData.getSubEntry("Weights", entry: levels) {
                     
                     return weights.currentValue.components(separatedBy: " ").map({
                         if let i = Int($0){
@@ -122,7 +122,7 @@ class PSFileList {
         Column:> 3*/
         for subEntry in entry.subEntries.array as! [Entry] {
             if let columnSubEntry = scriptData.getSubEntry("Column", entry: subEntry),
-                columnInt = Int(columnSubEntry.currentValue) {
+                let columnInt = Int(columnSubEntry.currentValue) {
                 if columnInt == columnIndex {
                     return subEntry.name
                 }

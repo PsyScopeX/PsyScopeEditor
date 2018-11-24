@@ -17,7 +17,7 @@ class PSPortBuilderOutlineView : NSOutlineView {
         self.selectRowIndexes(IndexSet(integer: clickedRow), byExtendingSelection: false)
         if let view = self.view(atColumn: clickedCol, row: clickedRow, makeIfNecessary: false) {
             
-            let item: AnyObject! = self.item(atRow: clickedRow)
+            let item: AnyObject! = self.item(atRow: clickedRow) as AnyObject
             
             if let _ = item as? PSPort {
                 portController.rightClickedPort(view)
@@ -28,7 +28,7 @@ class PSPortBuilderOutlineView : NSOutlineView {
     }
     
     override func keyDown(with theEvent: NSEvent) {
-        if theEvent.charactersIgnoringModifiers == String(Character(UnicodeScalar(NSDeleteCharacter))) {
+        if theEvent.charactersIgnoringModifiers! == String(Character(UnicodeScalar(NSDeleteCharacter)!)) {
             portController.deleteCurrentlySelectedItem()
             return
         }

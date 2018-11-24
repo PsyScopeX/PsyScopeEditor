@@ -14,7 +14,7 @@ class PSGroupsViewController : PSToolPropertyController, NSTableViewDelegate, NS
     var subjectVariables : [PSSubjectVariable]
     
     init(entry : Entry, scriptData : PSScriptData) {
-        let bundle = Bundle(for:self.dynamicType)
+        let bundle = Bundle(for:type(of: self))
         group = PSGroup(entry: entry, scriptData: scriptData)
         criteria = []
         subjectVariables = []

@@ -78,7 +78,7 @@ open class PSAttributeParameterBuilder {
         self.parameter.hideBorders()
     }
     
-    open func setupElementViewer(_ cell: PSAttributeEntryCellView, gotoEntryBlock : () -> ()) {
+    open func setupElementViewer(_ cell: PSAttributeEntryCellView, gotoEntryBlock : @escaping () -> ()) {
         assertNotSetup()
         self.parameter.attributeType = PSAttributeType(fullType: cell.entry.type)
         self.parameter.name = cell.entry.name
@@ -111,7 +111,7 @@ open class PSAttributeParameterBuilder {
         parameter.cell.addSubview(title_label)
     }
     
-    func setElementViewerControls(_ gotoEntryBlock : () -> ()) {
+    func setElementViewerControls(_ gotoEntryBlock : @escaping () -> ()) {
         //vary by button
         
         let x = parameter.cell.frame.width - 80
@@ -143,7 +143,7 @@ open class PSAttributeParameterBuilder {
 
 class PSBlockButton : NSButton {
     let block : (() -> ())
-    init(frame frameRect: NSRect, block : (() -> ())) {
+    init(frame frameRect: NSRect, block : @escaping (() -> ())) {
         self.block = block
         super.init(frame: frameRect)
         self.target = self

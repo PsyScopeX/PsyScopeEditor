@@ -132,7 +132,7 @@ class EventDurationConditionSelfTerminate : EventDurationCondition {
     }
     
     override func getIcons() -> [NSImage] {
-        let image : NSImage = NSImage(contentsOfFile: Bundle(for:self.dynamicType).pathForImageResource("SelfTerminate")!)!
+        let image : NSImage = NSImage(contentsOfFile: Bundle(for:type(of: self)).pathForImageResource("SelfTerminate")!)!
         return [image]
     }
 }
@@ -156,7 +156,7 @@ class EventDurationConditionTrialEnd : EventDurationCondition {
     }
     
     override func getIcons() -> [NSImage] {
-        let image : NSImage = NSImage(contentsOfFile: Bundle(for:self.dynamicType).pathForImageResource("Line")!)!
+        let image : NSImage = NSImage(contentsOfFile: Bundle(for:type(of: self)).pathForImageResource("Line")!)!
         return [image]
     }
 }
@@ -196,7 +196,7 @@ class EventDurationConditionOther : EventDurationCondition {
         
         if icons.count < 1 {
             //then do unknwon
-            let image : NSImage = NSImage(contentsOfFile: Bundle(for:self.dynamicType).pathForImageResource("Question-icon")!)!
+            let image : NSImage = NSImage(contentsOfFile: Bundle(for:type(of: self)).pathForImageResource("Question-icon")!)!
             icons.append(image)
         }
         

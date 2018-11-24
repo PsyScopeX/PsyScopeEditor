@@ -37,7 +37,7 @@ open class PSAttribute_Port: PSAttributeGeneric {
         section = PSSection.PortDefinitions
     }
     
-    open override func identifyEntries(_ ghostScript: PSGhostScript!) -> [AnyObject]! {
+    open override func identifyEntries(_ ghostScript: PSGhostScript!) -> [Any]! {
         
         //remember pasteboard port attribute inherits this so, make sure it is compatible by using codeNameString
         //next find portNames entry, plus identify all entries associated with that

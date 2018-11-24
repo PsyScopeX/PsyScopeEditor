@@ -30,9 +30,9 @@ open class PSAttributeParameter_FileOpen : PSAttributeParameter_Button {
             (int_code : Int) -> () in
             if int_code == NSFileHandlingPanelOKButton {
                 //relative to files location
-                if let url = openPanel.url, path = url.path {
+                if let url = openPanel.url {
                     DispatchQueue.main.async(execute: {
-                        self.setFileName(path)
+                        self.setFileName(url.path)
                     })
                 }
                 
@@ -43,7 +43,7 @@ open class PSAttributeParameter_FileOpen : PSAttributeParameter_Button {
     func setFileName(_ path : String) {
         let docPath = self.scriptData.documentDirectory()!
 
-        if let pspath = PSPath(path, basePath: docPath) where pspath != "" {
+        if let pspath = PSPath(path, basePath: docPath), pspath != "" {
             self.currentValue = PSGetFirstEntryElementForStringOrNull("\"\(pspath)\"")
         } else {
             self.currentValue = .null

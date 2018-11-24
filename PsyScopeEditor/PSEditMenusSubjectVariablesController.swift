@@ -58,7 +58,7 @@ class PSEditMenusSubjectVariablesController : NSObject, NSTableViewDataSource, N
     
     func tableView(_ tableView: NSTableView, writeRowsWith rowIndexes: IndexSet, to pboard: NSPasteboard) -> Bool {
         // Copy the subjectVariableNames
-        let subjectVariableNames : [String] = rowIndexes.enumerated().map({ subjectVariables[$0.index].name })
+        let subjectVariableNames : [String] = rowIndexes.enumerated().map({ subjectVariables[$0.element].name })
         let data = NSKeyedArchiver.archivedData(withRootObject: subjectVariableNames)
         pboard.declareTypes([PSEditMenusSubjectVariablesController.subjectVariableType], owner: self)
         pboard.setData(data, forType: PSEditMenusSubjectVariablesController.subjectVariableType)

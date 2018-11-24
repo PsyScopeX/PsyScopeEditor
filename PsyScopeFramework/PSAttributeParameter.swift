@@ -30,7 +30,7 @@ open class PSAttributeParameter : NSObject {
     //adds / sets up the attribute's control to the cell view
     public final func updateAttributeControl(_ attributeValueControlFrame : NSRect) {
         self.attributeValueControlFrame = attributeValueControlFrame
-        if let scriptData = scriptData, attributedStringAndEntry = scriptData.identifyAsAttributeSourceAndReturnRepresentiveString(self.currentValue.stringValue()) {
+        if let scriptData = scriptData, let attributedStringAndEntry = scriptData.identifyAsAttributeSourceAndReturnRepresentiveString(self.currentValue.stringValue()) {
             varyByEntryName = attributedStringAndEntry.1
             setupAttributeSourceLabel(attributedStringAndEntry.0)
             setCustomControl(false)
@@ -70,7 +70,7 @@ open class PSAttributeParameter : NSObject {
     }
     
     open func clickMenuItem(_ sender : NSMenuItem) {
-        if let scriptData = scriptData, val = scriptData.valueForMenuItem(sender, original: self.currentValue.stringValue(), originalFullType: attributeType) , entryElement = PSGetFirstEntryElementForString(val) {
+        if let scriptData = scriptData, let val = scriptData.valueForMenuItem(sender, original: self.currentValue.stringValue(), originalFullType: attributeType) , let entryElement = PSGetFirstEntryElementForString(val) {
             self.currentValue = entryElement
             cell.updateScript()
             return

@@ -11,7 +11,7 @@ import Foundation
 //a subclass which allows psyscope functions etc
 class PSTextField : NSTextField {
     
-    enum Type {
+    enum FType {
         case int, float, string, list, path
     }
     

@@ -15,7 +15,7 @@ open class PSAttributePopup : NSObject {
     open var nibName : String
     open var bundle : Bundle
     @IBOutlet open var attributeSheet : NSWindow!
-    open var topLevelObjects : NSArray?
+    open var topLevelObjects : NSArray = []
     open var parentWindow : NSWindow!
     open var setCurrentValueBlock : ((PSEntryElement) -> ())?
     

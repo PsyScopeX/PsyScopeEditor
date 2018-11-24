@@ -23,7 +23,7 @@ class PSVariableTypeTextFieldCellView : NSTableCellView, NSTextFieldDelegate {
     }
     
     func control(_ control: NSControl, textShouldEndEditing fieldEditor: NSText) -> Bool {
-        if let item = item, tf = textField {
+        if let item = item, let tf = textField {
             if tf.stringValue == "" {
                 return false
             }

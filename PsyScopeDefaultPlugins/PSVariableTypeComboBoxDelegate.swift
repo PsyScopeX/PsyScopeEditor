@@ -19,7 +19,7 @@ class PSVariableTypeComboBoxDelegate : NSObject, NSComboBoxDataSource, NSComboBo
     
     //MARK: Refresh
     
-    var refreshController : ((selectItem: AnyObject?)->())?
+    var refreshController : ((_ selectItem: AnyObject?)->())?
     func refreshWithVariableTypeNames(_ names : [String]) {
         items = names
     }
@@ -57,18 +57,18 @@ class PSVariableTypeComboBoxDelegate : NSObject, NSComboBoxDataSource, NSComboBo
     
     func comboBoxSelectionDidChange(_ notification: Notification) {
         if let comboBox = notification.object as? NSComboBox,
-            superView = comboBox.superview,
-            tableCellView = superView as? PSVariableTypeComboBoxTableCellView,
-            variableTypeItem : AnyObject = tableCellView.item {
+            let superView = comboBox.superview,
+            let tableCellView = superView as? PSVariableTypeComboBoxTableCellView,
+            let variableTypeItem : AnyObject = tableCellView.item {
                 setNewType(comboBox.stringValue, variableTypeItem: variableTypeItem, comboBox: comboBox)
         }
     }
     
     override func controlTextDidEndEditing(_ obj: Notification) {
         if let comboBox = obj.object as? NSComboBox,
-            superView = comboBox.superview,
-            tableCellView = superView as? PSVariableTypeComboBoxTableCellView,
-            variableTypeItem : AnyObject = tableCellView.item {
+            let superView = comboBox.superview,
+            let tableCellView = superView as? PSVariableTypeComboBoxTableCellView,
+            let variableTypeItem : AnyObject = tableCellView.item {
                 setNewType(comboBox.stringValue, variableTypeItem: variableTypeItem, comboBox: comboBox)
         }
     }
@@ -105,7 +105,7 @@ class PSVariableTypeComboBoxDelegate : NSObject, NSComboBoxDataSource, NSComboBo
                 //probably trying to create an array
                 let stripped = typeString.trimmingCharacters(in: CharacterSet.decimalDigits.inverted)
                 
-                if let arraySize = Int(stripped) where arraySize > 0 {
+                if let arraySize = Int(stripped), arraySize > 0 {
                     newTypeEnum = .array(PSVariableArray(count: arraySize, type: PSVariableType()))
                 }
                 
@@ -125,7 +125,7 @@ class PSVariableTypeComboBoxDelegate : NSObject, NSComboBoxDataSource, NSComboBo
         
     
         if let refreshController = refreshController {
-            refreshController(selectItem: nil)
+            refreshController(nil)
         }
         
     }
@@ -146,7 +146,7 @@ class PSVariableTypeComboBoxDelegate : NSObject, NSComboBoxDataSource, NSComboBo
         }
         currentPopoverVariableTypeItem = nil
         if let refreshController = refreshController {
-            refreshController(selectItem: selectItem)
+            refreshController(selectItem)
         }
     }
     

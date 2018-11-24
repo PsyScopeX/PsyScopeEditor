@@ -175,7 +175,7 @@ class PSToolHelper: NSObject {
             attributedString.append(stringPart)
             
             //now put together array
-            let returnArray : [AnyObject] = [attributedString, nameOfEntry!]
+            let returnArray : [AnyObject] = [attributedString, nameOfEntry! as AnyObject]
             
             return returnArray
         }

@@ -10,7 +10,7 @@ import Foundation
 class PSExperimentViewController : PSToolPropertyController {
 
     init(entry : Entry, scriptData : PSScriptData) {
-        let bundle = Bundle(for:self.dynamicType)
+        let bundle = Bundle(for:type(of: self))
         super.init(nibName: "ExperimentView", bundle: bundle, entry: entry, scriptData: scriptData)
     }
 

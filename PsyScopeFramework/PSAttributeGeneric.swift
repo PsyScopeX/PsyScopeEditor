@@ -8,6 +8,8 @@
 import Foundation
 
 open class PSAttributeGeneric : NSObject, PSAttributeInterface {
+
+
     open var userFriendlyNameString : String
     open var helpfulDescriptionString : String
     open var codeNameString : String
@@ -26,7 +28,7 @@ open class PSAttributeGeneric : NSObject, PSAttributeInterface {
         helpfulDescriptionString = ""
         codeNameString = ""
         attributeClass = PSAttributeParameter_String.self
-        classNameString = NSStringFromClass(self.dynamicType)
+        classNameString = NSStringFromClass(type(of: self))
         defaultValueString = ""
         toolsArray = []
         keyValuesArray = []
@@ -52,11 +54,11 @@ open class PSAttributeGeneric : NSObject, PSAttributeInterface {
         return classNameString
     }
     
-    open func keyValues() -> [AnyObject]! {
+    open func keyValues() -> [Any]! {
         return keyValuesArray
     }
     
-    open func tools() -> [AnyObject]! {
+    open func tools() -> [Any]! {
         return toolsArray
     }
     
@@ -64,7 +66,7 @@ open class PSAttributeGeneric : NSObject, PSAttributeInterface {
         return defaultValueString
     }
     
-    open func attributeParameter() -> AnyObject! {
+    open func attributeParameter() -> Any! {
         let newAP = attributeClass.init() as! PSAttributeParameter
         if let customAP = newAP as? PSAttributeParameter_Custom {
             customAP.customButtonAction = customAttributeParameterAction!
@@ -76,7 +78,7 @@ open class PSAttributeGeneric : NSObject, PSAttributeInterface {
         
     }
     
-    open func identifyEntries(_ ghostScript: PSGhostScript!) -> [AnyObject]! {
+    open func identifyEntries(_ ghostScript: PSGhostScript!) -> [Any]! {
         //find all sub entries named codeNameString, in entries of valid type
         for ge in ghostScript.entries as [PSGhostEntry] {
             for type in toolsArray {
@@ -94,7 +96,7 @@ open class PSAttributeGeneric : NSObject, PSAttributeInterface {
         return []
     }
     
-    open func createBaseEntries(withGhostEntries entries: [AnyObject]!, withScript scriptData: PSScriptData!) -> [AnyObject]! {
+    open func createBaseEntries(withGhostEntries entries: [Any]!, withScript scriptData: PSScriptData!) -> [Any]! {
         for ent in entries {
             if let e = ent as? PSGhostEntry {
                 let new_blank_obj = scriptData.getOrCreateBaseEntry(e.name, type: PSType.FromName(e.type), section: section)
@@ -109,10 +111,10 @@ open class PSAttributeGeneric : NSObject, PSAttributeInterface {
         PSUpdateEntryWithGhostEntry(realEntry, ghostEntry: ghostEntry, scriptData: scriptData)
     }
     
-    open func getReservedEntryNames() -> [AnyObject]! {
+    open func getReservedEntryNames() -> [Any]! {
         return reservedEntryNames
     }
-    open func getIllegalEntryNames() -> [AnyObject]! {
+    open func getIllegalEntryNames() -> [Any]! {
         return illegalEntryNames
     }
 }

@@ -15,7 +15,7 @@ open class PSPortBuilderController: NSObject, NSOutlineViewDataSource, NSOutline
     internal var nibName : String
     internal var bundle : Bundle
     @IBOutlet internal var attributeSheet : NSWindow!
-    internal var topLevelObjects : NSArray?
+    internal var topLevelObjects : NSArray = []
     internal var parentWindow : NSWindow!
     internal var setCurrentValueBlock : ((PSEntryElement) -> ())?
     
@@ -84,7 +84,7 @@ open class PSPortBuilderController: NSObject, NSOutlineViewDataSource, NSOutline
         self.scriptData = scriptData
         self.currentValue = currentValue.stringValue()
         self.nibName = "PortBuilder"
-        self.bundle = Bundle(for:self.dynamicType)
+        self.bundle = Bundle(for:type(of: self))
         self.displayName = "Port"
         self.setCurrentValueBlock = setCurrentValueBlock
         super.init()
@@ -99,7 +99,7 @@ open class PSPortBuilderController: NSObject, NSOutlineViewDataSource, NSOutline
                 if newValue {
                     NotificationCenter.default.addObserver(self, selector: "refreshNotification:", name: NSNotification.Name.NSManagedObjectContextObjectsDidChange, object: scriptData.docMoc)
 
-                    NotificationCenter.default.addObserver(self, selector: "refreshNotification:", name: PSScreenChangeNotification, object: nil)
+                    NotificationCenter.default.addObserver(self, selector: "refreshNotification:", name: NSNotification.Name(rawValue: PSScreenChangeNotification), object: nil)
                 } else {
                     NotificationCenter.default.removeObserver(self)
                 }
@@ -145,13 +145,13 @@ open class PSPortBuilderController: NSObject, NSOutlineViewDataSource, NSOutline
             {
                 let selectedItem = values[0]
                 for port in portScript.portEntries {
-                    if port.name == selectedItem {
+                    if port.name as String == selectedItem {
                         self.selectPort(port)
                         return
                     }
                 }
                 for position in portScript.positionEntries {
-                    if position.name == selectedItem {
+                    if position.name as String == selectedItem {
                         self.selectPosition(position)
                         return
                     }
@@ -190,10 +190,10 @@ open class PSPortBuilderController: NSObject, NSOutlineViewDataSource, NSOutline
         }
         
         //check if selected port / positionstill exists + update popovers
-        if let selectedPort = selectedPort where portScript.portEntries.contains(selectedPort) {
+        if let selectedPort = selectedPort, portScript.portEntries.contains(selectedPort) {
             
             portPopoverController.updatePopoverControls(selectedPort)
-            if let selectedPosition = selectedPosition where portScript.positionEntries.contains(selectedPosition) {
+            if let selectedPosition = selectedPosition, portScript.positionEntries.contains(selectedPosition) {
                     positionPopoverController.updatePopoverControls(selectedPosition)
             } 
         } else {
@@ -285,7 +285,7 @@ open class PSPortBuilderController: NSObject, NSOutlineViewDataSource, NSOutline
     //opens popover for selected item
     @IBAction func editButtonClick(_ sender : NSButton) {
         let row = outlineView.selectedRow
-        let item: AnyObject? = outlineView.item(atRow: row)
+        let item: AnyObject? = outlineView.item(atRow: row) as AnyObject
         positionPopoverController.close()
         portPopoverController.close()
         
@@ -366,7 +366,7 @@ open class PSPortBuilderController: NSObject, NSOutlineViewDataSource, NSOutline
     }
     
     func selectPort(_ port : PSPort) {
-        if let sp = selectedPort where port !== sp {
+        if let sp = selectedPort, port !== sp {
             //undo highlighting
             sp.updateLayer()
             sp.setHighlight(false)
@@ -392,7 +392,7 @@ open class PSPortBuilderController: NSObject, NSOutlineViewDataSource, NSOutline
         
         if preventSelectingObject { return }
         
-        let selected_item : AnyObject? = outlineView.item(atRow: outlineView.selectedRow)
+        let selected_item : AnyObject? = outlineView.item(atRow: outlineView.selectedRow) as AnyObject
         
         if let port = selected_item as? PSPort {
 
@@ -516,7 +516,7 @@ open class PSPortBuilderController: NSObject, NSOutlineViewDataSource, NSOutline
             return true
         }
         let selectedRow = outlineView.selectedRow
-        let selected_item : AnyObject? = outlineView.item(atRow: selectedRow)
+        let selected_item : AnyObject? = outlineView.item(atRow: selectedRow) as AnyObject
         
         if let port = selected_item as? PSPort {
             //warn if referenced
@@ -571,7 +571,7 @@ open class PSPortBuilderController: NSObject, NSOutlineViewDataSource, NSOutline
     }
     
     func deleteItemAtRow(_ row : Int) {
-        let selected_item : AnyObject? = outlineView.item(atRow: row)
+        let selected_item : AnyObject? = outlineView.item(atRow: row) as AnyObject
         
         if let port = selected_item as? PSPort {
             portScript.deletePort(port)

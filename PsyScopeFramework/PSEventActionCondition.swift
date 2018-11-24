@@ -37,7 +37,7 @@ open class PSEventActionFunction : PSEventActionCondition {
             case let .function(functionElement):
                 if functionElement.functionName.lowercased() == "instances" {
                     if let first = functionElement.getStrippedStringValues().first,
-                        integerValue = Int(first) {
+                        let integerValue = Int(first) {
                             instancesValue = integerValue
                     }
                 } else if functionElement.functionName.lowercased() == "activeuntil" {

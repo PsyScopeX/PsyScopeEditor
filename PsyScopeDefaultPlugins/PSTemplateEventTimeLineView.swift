@@ -222,7 +222,7 @@ class PSTemplateEventTimeLineView : NSView {
             new_icon.position = CGPoint(x: startTime + durationTime - offset, y: icon_y_pos)
             self.layer!.addSublayer(new_icon)
             durationIconLayers.append(new_icon)
-            icons++
+            icons += 1
         }
         
         //add text layer if appropriate 

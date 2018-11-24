@@ -9,16 +9,18 @@ import Cocoa
 
 class PSPluginSingleton: NSObject {
     
-    private static var __once: () = {
-            Static.instance = PSPluginSingleton()
-            
-            var pstools : [String : PSToolInterface] = Static.instance!.toolObjects
-            let psattributes : [String : PSAttributeInterface] = Static.instance!.attributeObjects
-            var psevents : [String : PSToolInterface] = Static.instance!.eventObjects
-            Static.instance!.tools = []
-            Static.instance!.eventTools = []
-            Static.instance!.attributes = []
-            let tool_names =  Static.instance!.toolObjectOrder
+    static let sharedInstance = PSPluginSingleton()
+    private override init() {
+        
+            super.init()
+        
+            var pstools : [String : PSToolInterface] = toolObjects
+            let psattributes : [String : PSAttributeInterface] = attributeObjects
+            var psevents : [String : PSToolInterface] = eventObjects
+            tools = []
+            eventTools = []
+            attributes = []
+            let tool_names =  toolObjectOrder!
             for tool_name in tool_names  {
                 
                 if let tool = pstools[tool_name] {
@@ -30,11 +32,11 @@ class PSPluginSingleton: NSObject {
                     empty_object.toolClass = tool
                     empty_object.appearsInToolMenu = tool.appearsInToolMenu()
                     empty_object.isEvent = false
-                    Static.instance?.tools.append(empty_object)
+                    tools.append(empty_object)
                 }
             }
             
-            let event_names = Static.instance!.eventObjectOrder
+            let event_names = eventObjectOrder!
             for event_name in event_names {
                 
                 if let tool = psevents[event_name] {
@@ -46,11 +48,11 @@ class PSPluginSingleton: NSObject {
                     empty_object.toolClass = tool
                     empty_object.appearsInToolMenu = tool.appearsInToolMenu()
                     empty_object.isEvent = true
-                    Static.instance!.eventTools.append(empty_object)
+                    eventTools.append(empty_object)
                 }
             }
             
-            let loadedTools : [PSExtension]! = Static.instance!.tools
+            let loadedTools : [PSExtension]! = tools
             
             for plugin in psattributes {
                 
@@ -74,31 +76,15 @@ class PSPluginSingleton: NSObject {
                             et.attributes.append(empty_object)
                         }
                     }
-                    Static.instance?.attributes.append(empty_object)
+                    attributes.append(empty_object)
                 }
                 
                         
             }
                     
-        }()
+        }
     
-    //thread safe singleton pattern
-    class var sharedInstance: PSPluginSingleton {
-        
-        struct Static {
-            
-            static var instance: PSPluginSingleton?
-            static var token: Int = 0
-            }
-        
-        _ = PSPluginSingleton.__once
-                
-        
-            
-        
-        
-        return Static.instance!
-    }
+
 
     var tools : [PSExtension]!
     var eventTools : [PSExtension]!

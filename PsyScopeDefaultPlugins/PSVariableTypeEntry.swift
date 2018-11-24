@@ -21,14 +21,14 @@ func TypeEntryToFullVariableType(_ typeEntry : Entry, scriptData : PSScriptData)
         
         //set count if available
         var count = 1
-        if let countSubEntry = scriptData.getSubEntry("Count",entry: typeEntry), iVal = Int(countSubEntry.currentValue) {
+        if let countSubEntry = scriptData.getSubEntry("Count",entry: typeEntry), let iVal = Int(countSubEntry.currentValue) {
             count = iVal
         }
         
         //set type if available
         var arrayType = PSVariableType() //default to this
         if let arrayTypeSubEntry = scriptData.getSubEntry("Type", entry: typeEntry),
-            givenType = TypeEntryToFullVariableType(arrayTypeSubEntry, scriptData: scriptData) {
+            let givenType = TypeEntryToFullVariableType(arrayTypeSubEntry, scriptData: scriptData) {
                 
             arrayType = givenType
         }
@@ -151,7 +151,7 @@ func VariableTypeToEntry(_ type : PSVariableType, entry : Entry, scriptData : PS
 func EntryToVariableNamedType(_ entry : Entry, scriptData : PSScriptData) -> PSVariableNamedType {
     let name = entry.name
     let type = EntryToVariableType(entry, scriptData: scriptData)
-    return PSVariableNamedType(name: name, type: type)
+    return PSVariableNamedType(name: name!, type: type)
 }
 
 func EntryToVariableType(_ entry : Entry, scriptData : PSScriptData) -> PSVariableType {
@@ -160,7 +160,7 @@ func EntryToVariableType(_ entry : Entry, scriptData : PSScriptData) -> PSVariab
         
         //set count if available
         var count = 1
-        if let countSubEntry = scriptData.getSubEntry("Count",entry: entry), iVal = Int(countSubEntry.currentValue) {
+        if let countSubEntry = scriptData.getSubEntry("Count",entry: entry), let iVal = Int(countSubEntry.currentValue) {
             count = iVal
         }
         

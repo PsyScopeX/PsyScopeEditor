@@ -10,7 +10,7 @@ import Foundation
 
 func PSGetDataFileName(_ scriptData : PSScriptData) -> String {
     guard let experimentsEntry = scriptData.getMainExperimentEntryIfItExists(),
-        dataFileEntry = scriptData.getSubEntry("DataFile", entry: experimentsEntry) else {
+        let dataFileEntry = scriptData.getSubEntry("DataFile", entry: experimentsEntry) else {
             return ""
     }
     

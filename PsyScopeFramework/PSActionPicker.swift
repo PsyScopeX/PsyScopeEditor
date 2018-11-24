@@ -16,12 +16,12 @@ public typealias PSActionPickerCallback = ((PSActionInterface) -> ())
 
 open class PSActionPicker: NSObject, NSOutlineViewDataSource, NSOutlineViewDelegate {
     
-    public init(scriptData : PSScriptData, selectActionCallback : PSActionPickerCallback) {
+    public init(scriptData : PSScriptData, selectActionCallback : @escaping PSActionPickerCallback) {
         self.scriptData = scriptData
         self.selectActionCallback = selectActionCallback
         self.groups = PSActionPickerGroups(scriptData)
         super.init()
-        Bundle(for:self.dynamicType).loadNibNamed("ActionPicker", owner: self, topLevelObjects: &topLevelObjects)
+        Bundle(for:type(of: self)).loadNibNamed("ActionPicker", owner: self, topLevelObjects: &topLevelObjects)
     }
     
     //MARK: Variables / Constants
@@ -31,7 +31,7 @@ open class PSActionPicker: NSObject, NSOutlineViewDataSource, NSOutlineViewDeleg
     let tableCellViewIdentifier : String = "PSActionPickerCell"
     let groups : [PSActionPickerGroup]
     
-    var topLevelObjects : NSArray?
+    var topLevelObjects : NSArray = []
     
     //MARK: Outlets
     
@@ -41,7 +41,7 @@ open class PSActionPicker: NSObject, NSOutlineViewDataSource, NSOutlineViewDeleg
     //MARK: Setup and start
 
     override open func awakeFromNib() {
-        let nib = NSNib(nibNamed: "ActionPickerCell", bundle: Bundle(for:self.dynamicType))
+        let nib = NSNib(nibNamed: "ActionPickerCell", bundle: Bundle(for:type(of: self)))
         actionOutlineView.register(nib!, forIdentifier: tableCellViewIdentifier)
     }
     
@@ -65,7 +65,7 @@ open class PSActionPicker: NSObject, NSOutlineViewDataSource, NSOutlineViewDeleg
     
     func actionButtonClicked(_ action : PSActionPickerAction) {
         let tool = action.action
-        selectActionCallback(tool)
+        selectActionCallback(tool!)
     }
 
     //MARK: Outlineview

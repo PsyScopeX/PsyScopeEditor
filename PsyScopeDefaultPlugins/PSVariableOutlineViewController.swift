@@ -33,16 +33,16 @@ class PSVariableOutlineViewController : NSObject, NSOutlineViewDataSource, NSOut
         let scriptData = controller.scriptData
         selectedEntry = entry
         
-        if let typeSubEntry = scriptData.getSubEntry("Type", entry: entry),
-            fullType = TypeEntryToFullVariableType(typeSubEntry, scriptData: scriptData) {
+        if let typeSubEntry = scriptData?.getSubEntry("Type", entry: entry),
+            let fullType = TypeEntryToFullVariableType(typeSubEntry, scriptData: scriptData!) {
             type = fullType
                 
             currentValues = PSVariableValuesFromVariableType("Current Value", variableType: type)
-            UpdateVariableValuesWithEntryCurrentValues(entry, values: currentValues, scriptData: scriptData)
+            UpdateVariableValuesWithEntryCurrentValues(entry, values: currentValues, scriptData: scriptData!)
                 
             if editInitialValues {
                 initialValues = PSVariableValuesFromVariableType("Initial Value", variableType: type)
-                if let initEntry = scriptData.getSubEntry("Init", entry: entry) {
+                if let initEntry = scriptData?.getSubEntry("Init", entry: entry) {
                     UpdateVariableValuesWithInlineEntryCurrentValues(initEntry.currentValue, values: initialValues)
                 }
             }
@@ -128,15 +128,15 @@ class PSVariableOutlineViewController : NSObject, NSOutlineViewDataSource, NSOut
     
     
     func outlineView(_ outlineView: NSOutlineView, shouldExpandItem item: Any) -> Bool {
-        expandedItems.append(item)
+        expandedItems.append(item as AnyObject)
         return true
     }
     
     func outlineView(_ outlineView: NSOutlineView, shouldCollapseItem item: Any) -> Bool {
         var newExpandedItems : [AnyObject] = []
         for obj in expandedItems {
-            if obj !== item {
-                newExpandedItems.append(obj)
+            if obj as AnyObject !== item as AnyObject {
+                newExpandedItems.append(obj as AnyObject)
             }
         }
         expandedItems = newExpandedItems

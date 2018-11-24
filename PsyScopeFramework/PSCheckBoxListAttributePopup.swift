@@ -20,7 +20,7 @@ import Foundation
 open class PSCheckBoxListAttributePopup: PSAttributePopup {
     
     public init(currentValue : PSEntryElement, displayName : String, checkBoxStrings : [(String,String)], setCurrentValueBlock : ((PSEntryElement) -> ())?) {
-        let bundle = Bundle(for:self.dynamicType)
+        let bundle = Bundle(for:type(of: self))
         self.checkBoxStrings = checkBoxStrings
         super.init(nibName: "CheckBoxListAttributePopup", bundle: bundle, currentValue: currentValue, displayName: displayName, setCurrentValueBlock: setCurrentValueBlock)
     }

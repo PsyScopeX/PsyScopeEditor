@@ -67,15 +67,15 @@ enum PSPortMeasurement {
             return x
         case let .percentage(val):
             return val
-        case centre:
+        case .centre:
             return 50
-        case top:
+        case .top:
             return 0
-        case left:
+        case .left:
             return 0
-        case right:
+        case .right:
             return 100
-        case bottom:
+        case .bottom:
             return 100
         }
     }
@@ -87,15 +87,15 @@ enum PSPortMeasurement {
         case let .percentage(val):
             let x = res * val / 100
             return x
-        case centre:
+        case .centre:
             return res / 2
-        case top:
+        case .top:
             return 0
-        case left:
+        case .left:
             return 0
-        case right:
+        case .right:
             return res
-        case bottom:
+        case .bottom:
             return res
         }
         
@@ -107,15 +107,15 @@ enum PSPortMeasurement {
             return "\(val)"
         case let .percentage(val):
             return "\(val)%"
-        case centre:
+        case .centre:
             return "Center"
-        case top:
+        case .top:
             return "Top"
-        case left:
+        case .left:
             return "Left"
-        case right:
+        case .right:
             return "Right"
-        case bottom:
+        case .bottom:
             return "Bottom"
         }
     }

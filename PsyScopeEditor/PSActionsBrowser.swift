@@ -31,7 +31,7 @@ class PSActionsBrowser : NSObject, NSTableViewDataSource, NSTableViewDelegate {
     
     func setup(_ scriptData : PSScriptData) {
         //setup actions table view
-        let nib = NSNib(nibNamed: "ActionConditionView", bundle: Bundle(for:self.dynamicType))
+        let nib = NSNib(nibNamed: "ActionConditionView", bundle: Bundle(for:type(of: self)))
         actionsTableView.register(nib!, forIdentifier: tableCellViewIdentifier)
         
         
@@ -86,7 +86,7 @@ class PSActionsBrowser : NSObject, NSTableViewDataSource, NSTableViewDelegate {
         actionsSegmentedControl.setEnabled((selectedActionCondition == nil), forSegment: 1)
         
         if let selectedActionCondition = selectedActionCondition,
-            actionFunction = selectedActionCondition as? PSEventActionFunction {
+            let actionFunction = selectedActionCondition as? PSEventActionFunction {
                 instancesActiveUntilMenuItem.isHidden = false
                 if actionFunction.hasInstancesOrActiveUntilValueAttributes {
                     instancesActiveUntilMenuItem.state = NSOnState
@@ -185,7 +185,7 @@ class PSActionsBrowser : NSObject, NSTableViewDataSource, NSTableViewDelegate {
     }
     
     func deleteActionCondition(_ actionCondition : PSEventActionCondition) {
-        if let aa = actionsAttribute, _ = aa.removeActionCondition(actionCondition) {
+        if let aa = actionsAttribute, let _ = aa.removeActionCondition(actionCondition) {
             updateEventActions()
             actionsSegmentedControl.setEnabled(false, forSegment: 1) //nothing selected when deleted
         }
@@ -196,7 +196,7 @@ class PSActionsBrowser : NSObject, NSTableViewDataSource, NSTableViewDelegate {
     
     @IBAction func toggleInstancesActiveUntil(_ sender : AnyObject) {
         if let selectedActionCondition = selectedActionCondition,
-            actionFunction = selectedActionCondition as? PSEventActionFunction {
+            let actionFunction = selectedActionCondition as? PSEventActionFunction {
                 actionFunction.setInstancesActiveUntilOn(!actionFunction.hasInstancesOrActiveUntilValueAttributes)
                 updateEventActions()
         }

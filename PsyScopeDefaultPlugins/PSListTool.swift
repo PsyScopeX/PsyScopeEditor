@@ -135,7 +135,7 @@ class PSListTool: PSTool, PSToolInterface {
                 }
                 
                 //if given an original type, check if types match
-                if let originalFullType = originalFullType where originalFullType.fullType != "" {
+                if let originalFullType = originalFullType, originalFullType.fullType != "" {
                     if field.type != originalFullType {
                         
                         //show warning

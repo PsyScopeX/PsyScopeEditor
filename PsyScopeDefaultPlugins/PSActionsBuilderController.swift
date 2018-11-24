@@ -41,7 +41,7 @@ class PSActionsBuilderController : NSObject, NSTableViewDataSource, NSTableViewD
     
     override func awakeFromNib() {
         scriptData = actionsBuilder.scriptData
-        let nib = NSNib(nibNamed: "ActionsBuilderCell", bundle: Bundle(for:self.dynamicType))
+        let nib = NSNib(nibNamed: "ActionsBuilderCell", bundle: Bundle(for:type(of: self)))
         actionsTableView.register(nib!, forIdentifier: tableCellViewIdentifier)
         
 
@@ -117,7 +117,7 @@ class PSActionsBuilderController : NSObject, NSTableViewDataSource, NSTableViewD
         }
         
         //restore selection
-        if let selectedActionConditionLocation = selectedActionConditionLocation where
+        if let selectedActionConditionLocation = selectedActionConditionLocation,
             row == selectedActionConditionLocation.index1 {
                 let selected = view.selectActionCondition(selectedActionConditionLocation.index2,action: selectedActionConditionLocation.action, window: scriptData.window)
                 
@@ -153,7 +153,7 @@ class PSActionsBuilderController : NSObject, NSTableViewDataSource, NSTableViewD
         //deleteButton.enabled = (selectedActionCondition == nil)
         
         if let selectedActionCondition = selectedActionCondition,
-            actionFunction = selectedActionCondition as? PSEventActionFunction {
+            let actionFunction = selectedActionCondition as? PSEventActionFunction {
                 instancesActiveUntilMenuItem.isHidden = false
                 if actionFunction.hasInstancesOrActiveUntilValueAttributes {
                     instancesActiveUntilMenuItem.state = NSOnState
@@ -177,7 +177,7 @@ class PSActionsBuilderController : NSObject, NSTableViewDataSource, NSTableViewD
         
         //remember selection
         if let actionsAttribute = actionsAttribute,
-            actionCondition = actionCondition {
+            let actionCondition = actionCondition {
             selectedActionConditionLocation = actionsAttribute.getIndexesForActionCondition(actionCondition)
         } else {
             selectedActionConditionLocation = nil
@@ -254,7 +254,7 @@ class PSActionsBuilderController : NSObject, NSTableViewDataSource, NSTableViewD
     //MARK: Action button menu items
     
     @IBAction func deleteActionMenuClicked(_ sender : AnyObject) {
-        if let s = selectedActionCondition, actionsAttribute = actionsAttribute {
+        if let s = selectedActionCondition, let actionsAttribute = actionsAttribute {
             actionsAttribute.removeActionCondition(s)
         }
     }
@@ -267,7 +267,7 @@ class PSActionsBuilderController : NSObject, NSTableViewDataSource, NSTableViewD
     
     @IBAction func toggleInstancesActiveUntil(_ sender : AnyObject) {
         if let selectedActionCondition = selectedActionCondition,
-            actionFunction = selectedActionCondition as? PSEventActionFunction {
+            let actionFunction = selectedActionCondition as? PSEventActionFunction {
                 actionFunction.setInstancesActiveUntilOn(!actionFunction.hasInstancesOrActiveUntilValueAttributes)
                 
                 self.actionsAttribute!.updateAttributeEntry()
@@ -276,7 +276,7 @@ class PSActionsBuilderController : NSObject, NSTableViewDataSource, NSTableViewD
     
     @IBAction func moveUpClicked(_ sender : AnyObject) {
         if let actionsAttribute = actionsAttribute,
-        selectedActionCondition = selectedActionCondition{
+        let selectedActionCondition = selectedActionCondition{
             let newIndex2 = actionsAttribute.moveActionConditionUp(selectedActionCondition)
             if selectedActionConditionLocation != nil {
                 selectedActionConditionLocation!.index2 = newIndex2
@@ -286,7 +286,7 @@ class PSActionsBuilderController : NSObject, NSTableViewDataSource, NSTableViewD
     
     @IBAction func moveDownClicked(_ sender : AnyObject) {
         if let actionsAttribute = actionsAttribute,
-        selectedActionCondition = selectedActionCondition{
+        let selectedActionCondition = selectedActionCondition{
             let newIndex2 = actionsAttribute.moveActionConditionDown(selectedActionCondition)
             if selectedActionConditionLocation != nil {
                 selectedActionConditionLocation!.index2 = newIndex2
@@ -299,7 +299,7 @@ class PSActionsBuilderController : NSObject, NSTableViewDataSource, NSTableViewD
         //update selection
         if let s = selectedActionConditionLocation {
             if s.index1 > 0 {
-                selectedActionConditionLocation!.index1--
+                selectedActionConditionLocation!.index1 -= 1
             }
         }
         
@@ -311,7 +311,7 @@ class PSActionsBuilderController : NSObject, NSTableViewDataSource, NSTableViewD
             //update selection
             if let s = selectedActionConditionLocation {
                 if s.index1 < actionsAttribute.actionConditionSets.count - 1 {
-                    selectedActionConditionLocation!.index1++
+                    selectedActionConditionLocation!.index1 += 1
                 }
             }
         }

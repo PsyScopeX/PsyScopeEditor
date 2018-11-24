@@ -40,7 +40,7 @@ open class PSActionCell : PSCellView {
         //find last element with value
         let nElements = values.count
         var indexOfLastValue = 0
-        for indexOfLastValue = (nElements - 1); indexOfLastValue > 0; --indexOfLastValue {
+        for indexOfLastValue in stride(from: (nElements - 1), to: 0, by: -1) {
             if values[indexOfLastValue] != PSEntryElement.null {
                 break
             }

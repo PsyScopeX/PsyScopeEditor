@@ -58,9 +58,9 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
         
         if (!initialized) {
             initialized = true
-            let nib = NSNib(nibNamed: "TemplateEventIconCell", bundle: Bundle(for:self.dynamicType))
+            let nib = NSNib(nibNamed: "TemplateEventIconCell", bundle: Bundle(for:type(of: self)))
             eventIconTableView.register(nib!, forIdentifier: eventIconCellViewIdentifier)
-            let nib2 = NSNib(nibNamed: "TemplateTimeLineCell", bundle: Bundle(for:self.dynamicType))
+            let nib2 = NSNib(nibNamed: "TemplateTimeLineCell", bundle: Bundle(for:type(of: self)))
             timeLineTableView.register(nib2!, forIdentifier: timeLineCellViewIdentifier)
             
             eventIconTableView.register(forDraggedTypes: [PSConstants.PSEventBrowserView.dragType, PSConstants.PSEventBrowserView.pasteboardType,"psyscope.pstemplateevent"])
@@ -105,7 +105,7 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
         defer { fullRefresh() }
         
         //This code selects the appropriate templte for the selected entry
-        if let e = selectionInterface.getSelectedEntry(), lobject = e.layoutObject {
+        if let e = selectionInterface.getSelectedEntry(), let lobject = e.layoutObject {
             if scriptData.typeIsEvent(e.type) {
                 let parentLinks = Array(e.layoutObject.parentLink as! Set<LayoutObject>)
                 
@@ -145,7 +145,7 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
         defer { refreshTimeLineTableViews() }
         
         //get list of events
-        guard let templateObject = templateObject, templateEntry = templateObject.mainEntry else {
+        guard let templateObject = templateObject, let templateEntry = templateObject.mainEntry else {
             addError("No template object selected.")
             return }
         
@@ -268,10 +268,10 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
                     
                     var start_x = sc.position == EventStartEventRelatedPosition.end ? start + duration : start
                     
-                    start_x++ //seems to be offset of one required
+                    start_x += 1 //seems to be offset of one required
                     let start_point = CGPoint(x: start_x * zoomMultiplier, y: cellYLocations[starting_event]!)
                     var (end, _) = eventTimes[event]!
-                    end++ //ditto
+                    end += 1 //ditto
                     let end_point = CGPoint(x: end * zoomMultiplier, y: cellYLocations[event]!)
                     
                     for line in makeLineLinkLayer(start_point, to: end_point) {
@@ -403,7 +403,7 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
                 if objToSelect == nil {
                     objToSelect = self.templateObject
                 }
-                self.selectionInterface.deleteObject(objToDelete, andSelect: objToSelect!.mainEntry)
+                self.selectionInterface.deleteObject(objToDelete!, andSelect: objToSelect!.mainEntry)
             }
             return view
         case timeLineTableView:
@@ -589,8 +589,8 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
     func makeLineLayer(_ lineFrom: CGPoint, to: CGPoint) -> CAShapeLayer {
         let line = CAShapeLayer()
         let linePath = CGMutablePath()
-        CGPathMoveToPoint(linePath, nil, lineFrom.x, lineFrom.y)
-        CGPathAddLineToPoint(linePath, nil, to.x, to.y)
+        linePath.move(to: lineFrom)
+        linePath.addLine(to: to)
         linePath.closeSubpath()
         
         line.path = linePath

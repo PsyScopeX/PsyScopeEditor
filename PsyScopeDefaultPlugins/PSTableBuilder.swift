@@ -40,7 +40,7 @@ class PSTableBuilder: NSObject {
 
     
     func showWindow() {
-        Bundle(for:self.dynamicType).loadNibNamed("TableBuilder", owner: self, topLevelObjects: &objects)
+        Bundle(for:type(of: self)).loadNibNamed("TableBuilder", owner: self, topLevelObjects: &objects!)
         window.title = "Edit Table: \(tableEntry.name)"
         window.isReleasedWhenClosed = true
         registeredForChanges = true

@@ -165,14 +165,14 @@ class PSVariableTypeOutlineViewDelegate : NSObject, NSOutlineViewDataSource, NSO
     
     
     func outlineView(_ outlineView: NSOutlineView, shouldExpandItem item: Any) -> Bool {
-        expandedItems.append(item)
+        expandedItems.append(item as AnyObject)
         return true
     }
     
     func outlineView(_ outlineView: NSOutlineView, shouldCollapseItem item: Any) -> Bool {
         var newExpandedItems : [AnyObject] = []
         for obj in expandedItems {
-            if obj !== item {
+            if obj !== item as AnyObject {
                 newExpandedItems.append(obj)
             }
         }
@@ -201,7 +201,7 @@ class PSVariableTypeOutlineViewDelegate : NSObject, NSOutlineViewDataSource, NSO
             return view
         } else if tableColumn == valueColumn {
             let view = outlineView.make(withIdentifier: tableColumn!.identifier, owner: nil) as! PSVariableTypeComboBoxTableCellView
-            view.item = item
+            view.item = item as AnyObject
             view.comboBox.dataSource = comboBoxDataSource
             view.comboBox.delegate = comboBoxDataSource
             view.comboBox.reloadData()

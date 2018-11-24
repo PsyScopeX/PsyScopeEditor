@@ -14,13 +14,13 @@ public typealias PSConditionPickerCallback = ((PSConditionInterface,Bool) -> ())
 
 open class PSConditionPicker: NSObject, NSTableViewDataSource, NSTableViewDelegate {
     
-    public init(scriptData : PSScriptData, existingConditionTypes : [String], selectConditionCallback : PSConditionPickerCallback) {
+    public init(scriptData : PSScriptData, existingConditionTypes : [String], selectConditionCallback : @escaping PSConditionPickerCallback) {
         self.scriptData = scriptData
         self.tableCellViewIdentifier = "PSConditionPickerCell"
         self.existingConditionTypes = existingConditionTypes
         self.selectConditionCallback = selectConditionCallback
         super.init()
-        Bundle(for:self.dynamicType).loadNibNamed("ConditionPicker", owner: self, topLevelObjects: &topLevelObjects)
+        Bundle(for:type(of: self)).loadNibNamed("ConditionPicker", owner: self, topLevelObjects: &topLevelObjects)
     }
     
     // MARK: Variables / Constants
@@ -29,7 +29,7 @@ open class PSConditionPicker: NSObject, NSTableViewDataSource, NSTableViewDelega
     let selectConditionCallback : PSConditionPickerCallback
     
     var tableViewConditions : [PSConditionPickerCondition] = []
-    var topLevelObjects : NSArray?
+    var topLevelObjects : NSArray = []
     var existingConditionTypes : [String]
     
     // MARK: Outlets
@@ -40,7 +40,7 @@ open class PSConditionPicker: NSObject, NSTableViewDataSource, NSTableViewDelega
     // MARK: Setup and start
     
     override open func awakeFromNib() {
-        let nib = NSNib(nibNamed: "ConditionPickerCell", bundle: Bundle(for:self.dynamicType))
+        let nib = NSNib(nibNamed: "ConditionPickerCell", bundle: Bundle(for:type(of: self)))
         conditionTableView.register(nib!, forIdentifier: tableCellViewIdentifier)
         tableViewConditions = []
         

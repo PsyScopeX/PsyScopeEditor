@@ -197,7 +197,7 @@ class PSScriptViewDelegate : NSObject, NSTextViewDelegate, NSTextStorageDelegate
         }
         
         let readingOperation = PSScriptReaderOperation(scriptWriter: scriptWriter)
-        readingOperationIndex++
+        readingOperationIndex += 1
         let index = readingOperationIndex
         readingOperations[index] = readingOperation
         readingOperation.completionBlock = {
@@ -226,12 +226,12 @@ class PSScriptViewDelegate : NSObject, NSTextViewDelegate, NSTextStorageDelegate
     }
     
     func scrollToSelectedEntry() {
-        if let str = scriptBoard.string, e = selectedEntry, name = e.name {
+        if let str = scriptBoard.string, let e = selectedEntry, let name = e.name {
             var range = (str as NSString).range(of: "\n" + name + "::")
             
             if range.location != NSNotFound && range.length > 0 {
-                range.length--
-                range.location++
+                range.length -= 1
+                range.location += 1
                 scriptBoard.scrollRangeToVisible(range)
                 scriptBoard.setSelectedRange(range)
             }
@@ -250,7 +250,7 @@ class PSScriptViewDelegate : NSObject, NSTextViewDelegate, NSTextStorageDelegate
             //start a formatting only update
             let script = replaceCurlyQuotes(scriptBoard.string!)
             let readingOperation = PSScriptReaderOperation(script: script)
-            readingOperationIndex++
+            readingOperationIndex += 1
             let index = readingOperationIndex
             readingOperations[index] = readingOperation
             readingOperation.completionBlock = {
@@ -272,7 +272,7 @@ class PSScriptViewDelegate : NSObject, NSTextViewDelegate, NSTextStorageDelegate
                  
 
                     readingOperation.attributedString.enumerateAttributes(in: fullRange, options: NSAttributedString.EnumerationOptions(rawValue: 0), using: {
-                        ( dic :[String : AnyObject], range : NSRange, stop : UnsafeMutablePointer<ObjCBool>) -> Void in
+                        ( dic :[String : Any], range : NSRange, stop : UnsafeMutablePointer<ObjCBool>) -> Void in
                             self.scriptBoard.textStorage!.setAttributes(dic, range: range)
                         })
                     

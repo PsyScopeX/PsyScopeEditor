@@ -27,7 +27,7 @@ class PSConvertEvents : NSObject, NSTableViewDataSource, NSTableViewDelegate {
     
     let scriptData : PSScriptData
     let events : [Entry]
-    var topLevelObjects : NSArray?
+    var topLevelObjects : NSArray = []
     var parentWindow : NSWindow!
     let eventTypes : [String]
     var selectedType : String
@@ -57,7 +57,7 @@ class PSConvertEvents : NSObject, NSTableViewDataSource, NSTableViewDelegate {
     
     func showAttributeModalForWindow(_ window : NSWindow) {
         if (attributeSheet == nil) {
-            Bundle(for: self.dynamicType).loadNibNamed("ConvertEvents", owner: self, topLevelObjects: &topLevelObjects)
+            Bundle(for: type(of: self)).loadNibNamed("ConvertEvents", owner: self, topLevelObjects: &topLevelObjects)
         }
         
         parentWindow = window
@@ -86,7 +86,7 @@ class PSConvertEvents : NSObject, NSTableViewDataSource, NSTableViewDelegate {
     //MARK: Delegate
     
     func tableView(_ tableView: NSTableView, selectionIndexesForProposedSelection proposedSelectionIndexes: IndexSet) -> IndexSet {
-        let index = proposedSelectionIndexes.first
+        let index = proposedSelectionIndexes.first!
         let indexInRange = index > -1 && index < eventTypes.count
         if indexInRange {
             selectedType = eventTypes[index]
@@ -110,7 +110,7 @@ class PSConvertEvents : NSObject, NSTableViewDataSource, NSTableViewDelegate {
             let conversions = convertAttributesController.conversions
             for event in events {
                 //change icon
-                if let icon = PSPluginSingleton.sharedInstance.getIconForType(selectedType) where event.layoutObject != nil {
+                if let icon = PSPluginSingleton.sharedInstance.getIconForType(selectedType), event.layoutObject != nil {
                     event.layoutObject.icon = icon
                 }
                 
@@ -126,7 +126,7 @@ class PSConvertEvents : NSObject, NSTableViewDataSource, NSTableViewDelegate {
                 let attributeNames = scriptData.getSubEntryNames(event)
                 for attributeName in attributeNames {
                     if let replacementName = conversions[attributeName],
-                    subEntry = scriptData.getSubEntry(attributeName, entry: event)
+                    let subEntry = scriptData.getSubEntry(attributeName, entry: event)
                     {
                         //do replacement
                         success = success && scriptData.renameEntry(subEntry, nameSuggestion: replacementName)

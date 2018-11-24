@@ -257,7 +257,7 @@ public func PSQuotedString(_ string : String) -> String {
 
 //returns the string without surrounding quotes / brackets (but leaves them in if they are nested)
 public func PSUnquotedString(_ string : String) -> String {
-    return string.trimmingCharacters(in: whiteSpaceAndQuoteCharacterSet)
+    return string.trimmingCharacters(in: whiteSpaceAndQuoteCharacterSet as CharacterSet)
 }
 
 open class PSStringListElement : PSCompoundEntryElement {
@@ -297,14 +297,14 @@ open class PSFunctionElement : PSCompoundEntryElement {
     }
     
     open var functionName : String = ""
-    public enum Type {
+    public enum FType {
         case square
         case round
         case expression
         case inlineEntry
     }
     
-    open var bracketType : Type = .square
+    open var bracketType : FType = .square
     
     open func getParametersStringValue() -> String {
         let elements = getStringValues()

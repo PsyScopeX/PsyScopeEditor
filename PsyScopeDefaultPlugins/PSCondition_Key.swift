@@ -20,11 +20,11 @@ class PSCondition_Key : PSCondition {
     }
     
     override func nib() -> NSNib {
-        return NSNib(nibNamed: "Condition_KeyCell", bundle: Bundle(for:self.dynamicType))!
+        return NSNib(nibNamed: "Condition_KeyCell", bundle: Bundle(for:type(of: self)))!
     }
     
     override func icon() -> NSImage {
-        let image : NSImage = NSImage(contentsOfFile: Bundle(for:self.dynamicType).pathForImageResource("Key")!)!
+        let image : NSImage = NSImage(contentsOfFile: Bundle(for:type(of: self)).pathForImageResource("Key")!)!
         return image
     }
     
@@ -54,7 +54,7 @@ class PSCondition_Key_Popup : PSAttributePopup, NSTableViewDelegate, NSTableView
         for aKey in inputValue {
             pressedKeys.append(PSCondition_Key_Key(fromString: aKey))
         }
-        super.init(nibName: "KeyCondition",bundle: Bundle(for:self.dynamicType), currentValue: currentValue, displayName: "Key", setCurrentValueBlock: setCurrentValueBlock)
+        super.init(nibName: "KeyCondition",bundle: Bundle(for:type(of: self)), currentValue: currentValue, displayName: "Key", setCurrentValueBlock: setCurrentValueBlock)
         
     }
     

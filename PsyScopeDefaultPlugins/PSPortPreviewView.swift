@@ -145,7 +145,7 @@ struct PSPortClickedLayer {
     //MARK: Key events
     
     override func keyDown(with theEvent: NSEvent) {
-        if theEvent.charactersIgnoringModifiers == String(Character(UnicodeScalar(NSDeleteCharacter))) {
+        if theEvent.charactersIgnoringModifiers! == String(Character(UnicodeScalar(NSDeleteCharacter)!)) {
             if !controller.deleteCurrentlySelectedItem() {
                 if (fullScreen) { leaveFullScreen() }
             }
@@ -266,7 +266,7 @@ struct PSPortClickedLayer {
     
     func hitLayers(_ point : CGPoint) -> [CALayer] {
         var hitLayers : [CALayer] = []
-        guard let mainLayer = mainLayer, sublayers = mainLayer.sublayers else { fatalError("No layer detected") }
+        guard let mainLayer = mainLayer, let sublayers = mainLayer.sublayers else { fatalError("No layer detected") }
         
         //cycle through each screen
         for layer in sublayers {
@@ -343,7 +343,7 @@ struct PSPortClickedLayer {
     }
     
     func addLayerAtTop(_ layer : CALayer) {
-        guard let mainLayer = mainLayer, sublayers = mainLayer.sublayers else { fatalError("No layer detected") }
+        guard let mainLayer = mainLayer, let sublayers = mainLayer.sublayers else { fatalError("No layer detected") }
         layer.removeFromSuperlayer()
         mainLayer.insertSublayer(layer, at: UInt32(sublayers.count))
         if !contentsLayers.contains(layer) {

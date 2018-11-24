@@ -37,7 +37,7 @@ class PSEntryBrowser : NSObject, NSOutlineViewDataSource, NSOutlineViewDelegate 
     
     func setup(_ scriptData : PSScriptData) {
         self.scriptData = scriptData
-        let nib = NSNib(nibNamed: "PSEntryBrowserCell", bundle: Bundle(for:self.dynamicType))!
+        let nib = NSNib(nibNamed: "PSEntryBrowserCell", bundle: Bundle(for:type(of: self)))!
         outlineView.register(nib, forIdentifier: "PSEntryBrowserCell")
     }
     
@@ -88,7 +88,7 @@ class PSEntryBrowser : NSObject, NSOutlineViewDataSource, NSOutlineViewDelegate 
     
     func categoryForType(_ type : String) -> PSEntryBrowserCategory {
         //search for pre stored
-        if let categoryName = typeToCategoryName[type], category = categoryDictionary[categoryName] {
+        if let categoryName = typeToCategoryName[type], let category = categoryDictionary[categoryName] {
             return category
         }
         

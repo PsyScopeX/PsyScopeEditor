@@ -134,9 +134,9 @@ class PSLayoutBoard: NSView {
         } else if let filenames : [AnyObject] = pasteboard.propertyList(forType: NSFilenamesPboardType) as? [AnyObject] {
             var valid_files = true
             for filename in filenames {
-                if let fn = filename as? String, absPath = URL(fileURLWithPath: fn).path {
+                if let fn = filename as? String {
                     //check for type
-            
+                    let absPath = URL(fileURLWithPath: fn).path
                     if let types = layoutController.toolTypesForPath(fn) {
                         filesToImport[absPath] = types
                     } else {
@@ -256,10 +256,11 @@ class PSLayoutBoard: NSView {
             // create path for the shape LayoutItem
             
             let path = CGMutablePath();
-            CGPathMoveToPoint(path, nil, self.dragSelectionPoint.x, self.dragSelectionPoint.y);
-            CGPathAddLineToPoint(path, nil, self.dragSelectionPoint.x, point.y);
-            CGPathAddLineToPoint(path, nil, point.x, point.y);
-            CGPathAddLineToPoint(path, nil, point.x, self.dragSelectionPoint.y);
+            path.move(to: self.dragSelectionPoint)
+            path.addLine(to:CGPoint(x:self.dragSelectionPoint.x,y:point.y))
+            path.addLine(to:CGPoint(x:point.x,y:point.y))
+            path.addLine(to:CGPoint(x:point.x,y:self.dragSelectionPoint.y))
+  
             path.closeSubpath();
             
             // set the shape LayoutItem's path
@@ -316,7 +317,7 @@ class PSLayoutBoard: NSView {
             } else if theEvent.clickCount == 1 {
                 if commandDown {
                     //if nothing already drag selected, ensure first item is included too
-                    if let highlightedLayoutItem = highlightedLayoutItem where dragSelectedLayoutItems.count == 0 {
+                    if let highlightedLayoutItem = highlightedLayoutItem, dragSelectedLayoutItems.count == 0 {
                         dragSelectLayoutItem(highlightedLayoutItem, on: true)
                     }
                     
@@ -453,7 +454,7 @@ class PSLayoutBoard: NSView {
         let click_point = NSPointToCGPoint(self.convert(event.locationInWindow, from: nil))
         
         let hit_layoutItem = hitLayoutItem(click_point)
-        if let l = hit_layoutItem, cmo = contextMenuObject {
+        if let l = hit_layoutItem, let cmo = contextMenuObject {
             
             //determine if single or multiple objects selected
             switch (cmo) {
@@ -645,7 +646,7 @@ class PSLayoutBoard: NSView {
             subLayoutItem.text.string = n
         }
         
-        let size = subLayoutItem.text.string!.size(withAttributes: [NSFontAttributeName : PSConstants.Fonts.layoutBoardIcons])
+        let size = (subLayoutItem.text.string! as AnyObject).size(withAttributes: [NSFontAttributeName : PSConstants.Fonts.layoutBoardIcons])
         subLayoutItem.text.bounds = CGRect(origin: CGPoint.zero, size: size)
         subLayoutItem.text.position = CGPoint(x: x, y: y + PSConstants.Spacing.iconSize)
         
@@ -799,8 +800,8 @@ class PSLayoutBoard: NSView {
     func makeCGLine(_ lineFrom: CGPoint, to: CGPoint) -> CGPath {
         //makes a path to insert into a CAShapeLayer
         let linePath = CGMutablePath()
-        CGPathMoveToPoint(linePath, nil, lineFrom.x, lineFrom.y + PSConstants.Spacing.halfIconSize)
-        CGPathAddLineToPoint(linePath, nil, to.x, to.y - PSConstants.Spacing.halfIconSize)
+        linePath.move(to:CGPoint(x:lineFrom.x,y: lineFrom.y + PSConstants.Spacing.halfIconSize))
+        linePath.addLine(to:CGPoint(x:to.x, y: to.y - PSConstants.Spacing.halfIconSize))
         linePath.closeSubpath()
         return linePath
     }

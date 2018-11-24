@@ -78,7 +78,7 @@ open class PSEntryValueController : NSObject, NSTextFieldDelegate {
         
     open func hideMainControlDisplayFunctionTextField() {
         
-        if let superview = mainControl.superview where functionTextField.superview != superview {
+        if let superview = mainControl.superview, functionTextField.superview != superview {
             superview.addSubview(functionTextField)
             functionTextField.frame = mainControl.frame
             functionTextField.delegate = self

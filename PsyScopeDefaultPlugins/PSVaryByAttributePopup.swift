@@ -36,7 +36,7 @@ class PSVaryByAttributePopup: PSAttributePopup, NSOutlineViewDataSource, NSOutli
         self.scriptData = scriptData
         self.type = type
         self.entry = baseEntry
-        super.init(nibName: "VaryByAttributePopup", bundle: Bundle(for:self.dynamicType), currentValue: .null, displayName: "", setCurrentValueBlock: setCurrentValueBlock)
+        super.init(nibName: "VaryByAttributePopup", bundle: Bundle(for:type(of: self)), currentValue: .null, displayName: "", setCurrentValueBlock: setCurrentValueBlock)
         
         //get all blocks, that this attribute is linked to, and list attributes
         let parentLinks = scriptData.getLinkedParentEntriesOfType(type, entry: entry)
@@ -69,7 +69,7 @@ class PSVaryByAttributePopup: PSAttributePopup, NSOutlineViewDataSource, NSOutli
     }
     
     func outlineViewSelectionDidChange(_ notification: Notification) {
-        let selected_item : AnyObject? = outlineView.item(atRow: outlineView.selectedRow)
+        let selected_item : AnyObject? = outlineView.item(atRow: outlineView.selectedRow) as AnyObject
         
         //check if item is attribute (rather than a block)
         if let i = selected_item as? PSVaryByAttribute {

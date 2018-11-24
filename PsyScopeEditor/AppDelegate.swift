@@ -35,7 +35,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         psyScopeVC.windowController = _preferencesWindowController
         pluginVC.windowController = _preferencesWindowController
-        return _preferencesWindowController
+        return _preferencesWindowController!
         
     } ()
     

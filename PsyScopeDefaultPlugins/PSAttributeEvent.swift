@@ -30,7 +30,7 @@ class PSEventPicker : PSAttributePopup {
     
     init(currentValue: PSEntryElement, scriptData: PSScriptData, setCurrentValueBlock : ((PSEntryElement)->())?){
         self.scriptData = scriptData
-        super.init(nibName: "EventPicker",bundle: Bundle(for:self.dynamicType), currentValue: currentValue, displayName: "Event", setCurrentValueBlock: setCurrentValueBlock)
+        super.init(nibName: "EventPicker",bundle: Bundle(for:type(of: self)), currentValue: currentValue, displayName: "Event", setCurrentValueBlock: setCurrentValueBlock)
     }
     override func awakeFromNib() {
         super.awakeFromNib()

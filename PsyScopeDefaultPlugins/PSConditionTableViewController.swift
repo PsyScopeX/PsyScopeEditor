@@ -18,7 +18,7 @@ class PSConditionTableViewController: NSObject, NSTableViewDelegate, NSTableView
     var conditionPicker : PSConditionPicker? //to prevent conditoin picker becoming zombie
     
     override func awakeFromNib() {
-        let accnib = NSNib(nibNamed: "AddConditionCell", bundle: Bundle(for:self.dynamicType))
+        let accnib = NSNib(nibNamed: "AddConditionCell", bundle: Bundle(for:type(of: self)))
         conditionsTableView.register(accnib!, forIdentifier: addConditionCellViewIdentifier)
         
     }

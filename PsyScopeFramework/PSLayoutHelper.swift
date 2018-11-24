@@ -103,8 +103,8 @@ public func PSCleanUpTree(_ scriptData : PSScriptData) {
     
     scriptData.beginUndoGrouping("Reposition Objects")
     for lobj in lobjects {
-        lobj.xPos = (1 + lobjToTreeNode[lobj]!.x) * xmult
-        lobj.yPos = (1 + lobjToTreeNode[lobj]!.depth) * ymult
+        lobj.xPos = (1 + lobjToTreeNode[lobj]!.x) * xmult as NSNumber
+        lobj.yPos = (1 + lobjToTreeNode[lobj]!.depth) * ymult as NSNumber
     }
     scriptData.endUndoGrouping(true)
 
@@ -189,8 +189,8 @@ class TreeNode : NSObject {
 
     
     func setLayoutObjectPosition(_ xmult : Double, ymult : Double, xOffset : Double, yOffset : Double) {
-        lobject.xPos = ((1 + self.x) * xmult) + xOffset
-        lobject.yPos = ((1 + self.depth) * ymult) + yOffset
+        lobject.xPos = ((1 + self.x) * xmult) + xOffset as NSNumber
+        lobject.yPos = ((1 + self.depth) * ymult) + yOffset as NSNumber
         for c in children {
             c.setLayoutObjectPosition(xmult, ymult: ymult, xOffset: xOffset, yOffset: yOffset)
         }
@@ -332,8 +332,8 @@ public func PSPositionNewObjectWithParent(_ lobject : LayoutObject, parentObject
             xPos = Int(child.xPos) + xMult
         }
     }
-    lobject.yPos = yPos
-    lobject.xPos = xPos
+    lobject.yPos = yPos as NSNumber
+    lobject.xPos = xPos as NSNumber
 }
 
 public func PSPutInFreeSpot(_ lobject : LayoutObject, scriptData : PSScriptData) {
@@ -355,8 +355,8 @@ public func PSPutInFreeSpot(_ lobject : LayoutObject, scriptData : PSScriptData)
             }
         }
     } while (tooClose)
-    lobject.xPos = x
-    lobject.yPos = y
+    lobject.xPos = x as NSNumber
+    lobject.yPos = y as NSNumber
     
     PSSortSubTree(lobject, scriptData: scriptData) //ok position for this object, so sort its children
 }

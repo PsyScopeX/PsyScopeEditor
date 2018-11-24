@@ -10,7 +10,7 @@ import Foundation
 
 class PSTemplatesViewController : PSToolPropertyController {
     init(entry : Entry, scriptData : PSScriptData) {
-        let bundle = Bundle(for:self.dynamicType)
+        let bundle = Bundle(for:type(of: self))
         super.init(nibName: "TemplatesView", bundle: bundle, entry: entry, scriptData: scriptData)
     }
     

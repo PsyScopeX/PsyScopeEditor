@@ -27,7 +27,7 @@ class PSTemplateEvent : NSObject, NSPasteboardWriting, NSPasteboardReading {
     
     func getMainStimulusAttributeValue() -> String {
         if let tool = scriptData.pluginProvider.getInterfaceForType(PSType.FromName(entry.type)),
-            eventTool = tool as? PSEventInterface {
+            let eventTool = tool as? PSEventInterface {
                 let name = eventTool.mainStimulusAttributeName
                 if name != "" {
                     if let attribute = scriptData.getSubEntry(name, entry: entry) {

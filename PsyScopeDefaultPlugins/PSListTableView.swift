@@ -9,7 +9,7 @@
 import Foundation
 
 @objc protocol PSListTableViewDelegate : class {
-    optional func tableView(_ tableView : NSTableView, clickedRow : NSInteger, clickedCol : NSInteger)
+    @objc optional func tableView(_ tableView : NSTableView, clickedRow : NSInteger, clickedCol : NSInteger)
     func keyDownMessage(_ theEvent : NSEvent)
 }
 

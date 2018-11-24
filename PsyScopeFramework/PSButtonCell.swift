@@ -9,10 +9,10 @@
 import Foundation
 
 open class PSButtonCell : NSView {
-    open var action : ((sender : NSButton) -> ())?
+    open var action : ((_ sender : NSButton) -> ())?
     @IBAction open func buttonPress(_ sender : NSButton) {
         if let a = action {
-            a(sender: sender as NSButton)
+            a(sender as NSButton)
         }
     }
 }

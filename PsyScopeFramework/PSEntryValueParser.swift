@@ -32,7 +32,7 @@ open class PSEntryValueParser {
         
         let currentToken = tokens[p]
         if (currentToken.type == tokenType) {
-            p++
+            p += 1
             return currentToken
         }
         

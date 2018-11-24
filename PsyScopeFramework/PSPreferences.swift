@@ -19,7 +19,7 @@ public struct PSPreference {
     public var value : AnyObject {
         get {
             if let val = UserDefaults.standard.object(forKey: key) {
-                return val
+                return val as AnyObject
             } else {
                 return defaultValue
             }
@@ -54,15 +54,15 @@ public let PSPluginPathKey = "pluginPath"
 open class PSPreferences {
     
     //warning: do not change these string values as they will mess up bindings!
-    open static let cleanUpXSpacing : PSPreference = PSPreference(key: "CleanUpXSpacing", defaultValue: Int(50))
-    open static let cleanUpYSpacing : PSPreference = PSPreference(key: "CleanUpYSpacing", defaultValue: Int(75))
+    open static let cleanUpXSpacing : PSPreference = PSPreference(key: "CleanUpXSpacing", defaultValue: Int(50) as AnyObject)
+    open static let cleanUpYSpacing : PSPreference = PSPreference(key: "CleanUpYSpacing", defaultValue: Int(75) as AnyObject)
     
-    open static let showEvents : PSPreference = PSPreference(key: "showingEvents", defaultValue: true)
-    open static let showLists : PSPreference = PSPreference(key: "showingLists", defaultValue: true)
+    open static let showEvents : PSPreference = PSPreference(key: "showingEvents", defaultValue: true as AnyObject)
+    open static let showLists : PSPreference = PSPreference(key: "showingLists", defaultValue: true as AnyObject)
     
-    open static let psyScopeXPath : PSPreference = PSPreference(key: "psyScopeXPath", defaultValue: ((Bundle.main.resourcePath! as NSString).appendingPathComponent("PsyScopeXCurrentVersion") as NSString).appendingPathComponent("PsyScope X B77.app"))
-    open static let pluginPath : PSPreference = PSPreference(key: PSPluginPathKey, defaultValue: "")
-    open static let automaticallyUpdateScript : PSPreference = PSPreference(key: "automaticallyUpdateScript", defaultValue: false)
+    open static let psyScopeXPath : PSPreference = PSPreference(key: "psyScopeXPath", defaultValue: ((Bundle.main.resourcePath! as NSString).appendingPathComponent("PsyScopeXCurrentVersion") as NSString).appendingPathComponent("PsyScope X B77.app") as AnyObject)
+    open static let pluginPath : PSPreference = PSPreference(key: PSPluginPathKey, defaultValue: "" as AnyObject)
+    open static let automaticallyUpdateScript : PSPreference = PSPreference(key: "automaticallyUpdateScript", defaultValue: false as AnyObject)
     open class func getDefaults() -> [String : AnyObject] {
         let defaults : [PSPreference] = [cleanUpXSpacing, cleanUpYSpacing, showEvents, showLists, psyScopeXPath]
         var dic : [String : AnyObject] = [:]

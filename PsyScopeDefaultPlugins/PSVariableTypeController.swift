@@ -103,7 +103,7 @@ class PSVariableTypeController : NSObject {
         
         //if it's a record then add as a child...
         if outlineViewDelegate.outlineView.selectedRow > -1 {
-            let item : AnyObject? = outlineViewDelegate.outlineView.item(atRow: outlineViewDelegate.outlineView.selectedRow)
+            let item : AnyObject? = outlineViewDelegate.outlineView.item(atRow: outlineViewDelegate.outlineView.selectedRow) as AnyObject
             
             var typeOfRow : PSVariableTypeEnum = .stringType //temp value
             
@@ -133,8 +133,8 @@ class PSVariableTypeController : NSObject {
     
     func deleteVariableType() {
         if outlineViewDelegate.outlineView.selectedRow > -1 {
-            let item : AnyObject? = outlineViewDelegate.outlineView.item(atRow: outlineViewDelegate.outlineView.selectedRow)
-            let parent : AnyObject? = outlineViewDelegate.outlineView.parent(forItem: item)
+            let item : AnyObject? = outlineViewDelegate.outlineView.item(atRow: outlineViewDelegate.outlineView.selectedRow) as AnyObject
+            let parent : AnyObject? = outlineViewDelegate.outlineView.parent(forItem: item) as AnyObject
             
             if let namedType = item as? PSVariableNamedType {
                 if parent == nil {

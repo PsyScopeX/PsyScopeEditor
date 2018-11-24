@@ -85,10 +85,10 @@ class PSDocumentTabDelegate: NSObject, NSTabViewDelegate {
         self.selectionInterface = mainWindowController.selectionController
         
         //create notification listeners for left panel windows
-        NotificationCenter.default.addObserver(self, selector: "showErrors", name: "PSShowErrorsNotification", object: mainWindowController.document)
-        NotificationCenter.default.addObserver(self, selector: "showProperties", name: "PSShowPropertiesNotification", object: mainWindowController.document)
-        NotificationCenter.default.addObserver(self, selector: "showAttributes", name: "PSShowAttributesNotification", object: mainWindowController.document)
-        NotificationCenter.default.addObserver(self, selector: "showActions", name: "PSShowActionsNotification", object: mainWindowController.document)
+        NotificationCenter.default.addObserver(self, selector: "showErrors", name: NSNotification.Name(rawValue: "PSShowErrorsNotification"), object: mainWindowController.document)
+        NotificationCenter.default.addObserver(self, selector: "showProperties", name: NSNotification.Name(rawValue: "PSShowPropertiesNotification"), object: mainWindowController.document)
+        NotificationCenter.default.addObserver(self, selector: "showAttributes", name: NSNotification.Name(rawValue: "PSShowAttributesNotification"), object: mainWindowController.document)
+        NotificationCenter.default.addObserver(self, selector: "showActions", name: NSNotification.Name(rawValue: "PSShowActionsNotification"), object: mainWindowController.document)
         
         //setup initial state
         currentToolsTabViewItem = leftPanelTabView.selectedTabViewItem
@@ -101,7 +101,7 @@ class PSDocumentTabDelegate: NSObject, NSTabViewDelegate {
         
         
         //register experiment setup view (comes from seperate nib, so using -1 as index)
-        let expSetupMidPanel = experimentSetup.midPanelTab()
+        let expSetupMidPanel = experimentSetup.midPanelTab()!
         items[-1] = PSWindowViewElement(tag: -1, midPanelView: expSetupMidPanel.view!, leftPanelView: nil, midPanelTabViewItem: expSetupMidPanel, leftPanelTabViewItem: nil)
         
         
@@ -143,8 +143,8 @@ class PSDocumentTabDelegate: NSObject, NSTabViewDelegate {
             let segmentIndex = tag
             toolbarSegmentedControl.setImage(icon, forSegment: segmentIndex)
             toolbarSegmentedControl.setImageScaling(toolbarSegmentedControl.imageScaling(forSegment: 0), forSegment: segmentIndex)
-            NotificationCenter.default.addObserver(self, selector: "showWindowNotification:", name: "PSShowWindowNotificationFor\(identifier)", object: mainWindowController.document)
-            totalTags++
+            NotificationCenter.default.addObserver(self, selector: "showWindowNotification:", name: NSNotification.Name(rawValue: "PSShowWindowNotificationFor\(identifier)"), object: mainWindowController.document)
+            totalTags += 1
         }
 
     }
@@ -181,12 +181,12 @@ class PSDocumentTabDelegate: NSObject, NSTabViewDelegate {
     
     func showWindowNotification(_ notification : Notification) {
         //get window name from notification
-        let windowName = notification.name.replacingOccurrences(of: "PSShowWindowNotificationFor", with: "")
+        let windowName = (notification.name as NSString).replacingOccurrences(of: "PSShowWindowNotificationFor", with: "")
         showWindow(windowName)
     }
     
     func showWindow(_ windowName : String) {
-        if let tag = identifiers[windowName], item = items[tag] {
+        if let tag = identifiers[windowName], let item = items[tag] {
             show(item)
         } else {
             print(windowName + " not found")
@@ -251,7 +251,7 @@ class PSDocumentTabDelegate: NSObject, NSTabViewDelegate {
             midPanelTabView.selectTabViewItem(element.midPanelTabViewItem)
             currentToolsTabViewItem = element.leftPanelTabViewItem
             toolsButton.isEnabled = currentToolsTabViewItem != nil
-            if let currentToolsTabViewItem = currentToolsTabViewItem where toolsShowing {
+            if let currentToolsTabViewItem = currentToolsTabViewItem, toolsShowing {
                 leftPanelTabView.selectTabViewItem(currentToolsTabViewItem)
             } else if toolsShowing {
                 //tools showing but window doesnt have a tool kit so deaflut to entries browser
@@ -271,7 +271,7 @@ class PSDocumentTabDelegate: NSObject, NSTabViewDelegate {
         var selectedViewController : PSPluginViewController?
         
         //always need to get the view controller, because it can change with context
-        if let e = entry, vc = PSPluginSingleton.sharedInstance.getViewControllerFor(e, document: mainWindowController.mainDocument) {
+        if let e = entry, let vc = PSPluginSingleton.sharedInstance.getViewControllerFor(e, document: mainWindowController.mainDocument) {
             selectedViewController = vc
         } else if let e = entry {
             selectedViewController = PSDefaultPropertiesViewController(entry: e, scriptData: mainWindowController.scriptData)
@@ -297,7 +297,7 @@ class PSDocumentTabDelegate: NSObject, NSTabViewDelegate {
     
     func detachCurrentWindow() {
         
-        guard let element = items[currentlySelectedTag] where currentlySelectedTag > -1 else { return }
+        guard let element = items[currentlySelectedTag], currentlySelectedTag > -1 else { return }
         
         //show another window
         guard let otherElement = items[-1] else { return }

@@ -14,7 +14,7 @@ import Cocoa
 open class PSFloatAttributePopup : PSAttributePopup {
     
     public init(currentValue: PSEntryElement, displayName : String, setCurrentValueBlock : ((PSEntryElement) -> ())?){
-        super.init(nibName: "FloatAttribute",bundle: Bundle(for:self.dynamicType), currentValue: currentValue, displayName: displayName, setCurrentValueBlock: setCurrentValueBlock)
+        super.init(nibName: "FloatAttribute",bundle: Bundle(for:type(of: self)), currentValue: currentValue, displayName: displayName, setCurrentValueBlock: setCurrentValueBlock)
     }
 
     @IBOutlet var label : NSTextField!

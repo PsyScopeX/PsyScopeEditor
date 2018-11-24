@@ -13,7 +13,7 @@ class PSDefaultPropertiesViewController : PSToolPropertyController {
     @IBOutlet var valueText : NSTextField!
     
     init(entry : Entry, scriptData : PSScriptData) {
-        var bundle = Bundle(for:self.dynamicType)
+        var bundle = Bundle(for:type(of: self))
         super.init(nibName: "DefaultPropertiesView", bundle: bundle, entry: entry, scriptData: scriptData)
     }
     

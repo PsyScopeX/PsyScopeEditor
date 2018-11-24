@@ -35,7 +35,9 @@ class PSScriptConverter: NSObject {
             //println("Errors detected in script - no building")
             return false
         }
-        let scriptData = mainWindowController.scriptData
+        guard let scriptData = mainWindowController.scriptData else {
+            return false
+        }
         print("BEGINNING CONVERSION FROM GHOST TO REAL")
         errorHandler.reset()
         
@@ -190,7 +192,9 @@ class PSScriptConverter: NSObject {
     //6. delete no longer existing entries and create new entries which are not present
     func matchExistingEntries() -> Bool {
     
-        let scriptData = mainWindowController.scriptData
+        guard let scriptData = mainWindowController.scriptData else {
+            return false;
+        }
         //next for each key entry/attribute, scan for this in the ghost objects,
         let baseEntries = scriptData.getBaseEntries()
         
@@ -349,7 +353,7 @@ class PSScriptConverter: NSObject {
     
     func positionNewLayoutObjects(_ new_lobjects : [LayoutObject], all_lobjects : [LayoutObject]) {
         
-        let scriptData = mainWindowController.scriptData
+        let scriptData = mainWindowController.scriptData!
         
         //to flag unpositioned objects
         for new_lobject in new_lobjects {

@@ -14,7 +14,7 @@ open class PSAttributePicker: NSObject, NSTableViewDataSource, NSTableViewDelega
         self.categories = PSAttributePickerCategories(scriptData)
         self.tableCellViewIdentifier = "PSAttributePickerCell"
         super.init()
-        Bundle(for:self.dynamicType).loadNibNamed("AttributePicker", owner: self, topLevelObjects: &topLevelObjects)
+        Bundle(for:type(of: self)).loadNibNamed("AttributePicker", owner: self, topLevelObjects: &topLevelObjects)
     }
     
     
@@ -23,7 +23,7 @@ open class PSAttributePicker: NSObject, NSTableViewDataSource, NSTableViewDelega
     let categories : [PSAttributePickerCategory]
     let tableCellViewIdentifier : String
     
-    var topLevelObjects : NSArray?
+    var topLevelObjects : NSArray = []
     var tableViewAttributes : [PSAttributePickerAttribute] = []
     var existingAttributes : [PSAttributeType] = []
     
@@ -36,7 +36,7 @@ open class PSAttributePicker: NSObject, NSTableViewDataSource, NSTableViewDelega
     // MARK: Setup and Start
     
     override open func awakeFromNib() {
-        let nib = NSNib(nibNamed: "AttributePickerCell", bundle: Bundle(for:self.dynamicType))
+        let nib = NSNib(nibNamed: "AttributePickerCell", bundle: Bundle(for:type(of: self)))
         attributeTableView.register(nib!, forIdentifier: tableCellViewIdentifier)
         
         //put categories into popup menu

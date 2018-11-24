@@ -20,7 +20,7 @@ class PSChildTypeViewController : NSViewController {
         self.entry = pluginViewController.entry
         self.scriptData = pluginViewController.scriptData
         self.pluginViewController = pluginViewController
-        super.init(nibName: nibName, bundle: Bundle(for:self.dynamicType))
+        super.init(nibName: nibName, bundle: Bundle(for:type(of: self)))
     }
 
     required init?(coder: NSCoder) {
@@ -29,13 +29,13 @@ class PSChildTypeViewController : NSViewController {
     
     class func createForEntry(_ entry : Entry, pluginViewController : PSPluginViewController) -> PSChildTypeViewController {
         let scriptData = pluginViewController.scriptData
-        if let _ = scriptData.getSubEntry("Groups", entry: entry) {
+        if let _ = scriptData?.getSubEntry("Groups", entry: entry) {
             return PSGroupsTableController(pluginViewController: pluginViewController)!
-        } else if let _ = scriptData.getSubEntry("Blocks", entry: entry) {
+        } else if let _ = scriptData?.getSubEntry("Blocks", entry: entry) {
             return PSBlocksTableController(pluginViewController: pluginViewController)!
-        } else if let _ = scriptData.getSubEntry("Templates", entry: entry) {
+        } else if let _ = scriptData?.getSubEntry("Templates", entry: entry) {
             return PSTemplateTableController(pluginViewController: pluginViewController)!
-        } else if let _ = scriptData.getSubEntry("Events", entry: entry) {
+        } else if let _ = scriptData?.getSubEntry("Events", entry: entry) {
             return PSEventsTableController(pluginViewController: pluginViewController)!
         } else {
             //offer appropriate choice

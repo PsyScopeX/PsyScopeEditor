@@ -19,7 +19,7 @@ class PSEventBrowserViewDelegate : NSObject, NSTableViewDelegate {
     
     func setup(_ pluginProvider : PSPluginProvider) {
         self.pluginProvider = pluginProvider
-        let nib = NSNib(nibNamed: "ToolBrowserViewItem", bundle: Bundle(for:self.dynamicType))
+        let nib = NSNib(nibNamed: "ToolBrowserViewItem", bundle: Bundle(for:type(of: self)))
         objectTableView.register(nib!, forIdentifier: tableCellViewIdentifier)
         refresh()
     }

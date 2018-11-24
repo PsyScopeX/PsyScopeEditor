@@ -57,7 +57,7 @@ open class PSScriptReader {
         () -> CharacterSet in
         var allowed_characters = NSMutableCharacterSet(charactersIn: " _\"")
         allowed_characters.formUnion(with: CharacterSet.alphanumerics)
-        return allowed_characters
+        return allowed_characters as CharacterSet
         }()
     
     
@@ -173,11 +173,11 @@ open class PSScriptReader {
         
         if success {
             //trim spaces
-            name = name!.trimmingCharacters(in: space)
+            name = name!.trimmingCharacters(in: space) as NSString
             
             //check for valid name i.e. matched quotes on outside or no quotes.
             if name!.contains("\"") {
-                let trimmedName : NSString = name!.trimmingCharacters(in: quote)
+                let trimmedName : NSString = name!.trimmingCharacters(in: quote) as NSString
                 if (trimmedName.length == name!.length - 2) && !trimmedName.contains("\"") {
                     success = true
                 } else {
@@ -342,13 +342,13 @@ open class PSScriptReader {
                     for char in (valueTemp! as String).characters {
                         if inCurlyQuotes == 0 && !inQuotes {
                             if char == "[" {
-                                inBrackets++
+                                inBrackets += 1
                             } else if char == "]" {
-                                inBrackets--
+                                inBrackets -= 1
                             } else if char == "{" {
-                                inCurlyQuotes++
+                                inCurlyQuotes += 1
                             } else if char == "}" {
-                                inCurlyQuotes--
+                                inCurlyQuotes -= 1
                             } else if char == "\"" {
                                 inQuotes = true
                             }
@@ -356,9 +356,9 @@ open class PSScriptReader {
                             inQuotes = false
                         } else if !inQuotes {
                             if char == "{" {
-                                inCurlyQuotes++
+                                inCurlyQuotes += 1
                             } else if char == "}" {
-                                inCurlyQuotes--
+                                inCurlyQuotes -= 1
                             }
                         }
                         

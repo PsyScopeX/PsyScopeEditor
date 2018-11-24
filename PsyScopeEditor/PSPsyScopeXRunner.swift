@@ -62,7 +62,7 @@ class PSPsyScopeXRunner : NSObject {
         terminate()
         
         //get the path to psyscopeX
-        guard let launchPath = executablePath where launchPath != "" else {
+        guard let launchPath = executablePath, launchPath != "" else {
             PSModalAlert("You need to set the path for PsyScopeX in the Preferences before continuing.  It may need to be refreshed if you have moved the application.  To do this, go to Preferences, then click the button to reset it to the default internal copy of PsyScopeX")
             return
         }
@@ -74,13 +74,13 @@ class PSPsyScopeXRunner : NSObject {
         }
         
         //get the path to the document
-        guard let scriptFileURL = document.fileURL, scriptFileName = scriptFileURL.path else  {
+        guard let scriptFileURL = document.fileURL else  {
             PSModalAlert("Error getting document's name - try resaving the document elsewhere.")
             return
         }
         
         //create the name for the PsyScopeX script
-        let scriptName = scriptFileName.lastPathComponent.stringByDeletingPathExtension
+        let scriptName = scriptFileURL.path.lastPathComponent.stringByDeletingPathExtension
         let psyXScriptFileName = documentPath.stringByAppendingPathComponent(scriptName)
         
         //get a psyscopeX copy of the script from the document.
@@ -150,7 +150,7 @@ class PSPsyScopeXRunner : NSObject {
         
         //try to load
         guard let currentlyRunningScriptFileName = currentlyRunningScriptFileName,
-            currentlyRunningDocument = currentlyRunningDocument else {
+            let currentlyRunningDocument = currentlyRunningDocument else {
                 return
         }
         

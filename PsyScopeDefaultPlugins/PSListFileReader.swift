@@ -51,7 +51,7 @@ open class PSListFileReader {
             var row : [String] = []
             for element in elements {
                 row.append(element)
-                colCounter++
+                colCounter += 1
                 if colCounter > forceNumberOfColumns {
                     colCounter = 1
                     rows.append(row)

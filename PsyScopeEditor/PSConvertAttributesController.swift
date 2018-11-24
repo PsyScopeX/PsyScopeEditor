@@ -71,7 +71,7 @@ class PSConvertAttributesController : NSObject, NSTableViewDataSource, NSTableVi
     //MARK: Delegate
     
     func tableView(_ tableView: NSTableView, selectionIndexesForProposedSelection proposedSelectionIndexes: IndexSet) -> IndexSet {
-        let index = proposedSelectionIndexes.first
+        let index = proposedSelectionIndexes.first!
         let indexInRange = index > -1 && index < conversions.count
         removeButton.isEnabled = indexInRange
         return proposedSelectionIndexes

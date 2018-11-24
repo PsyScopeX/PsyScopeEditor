@@ -112,14 +112,14 @@ open class PSSubjectInformation : NSObject {
         switch schedule {
         case .runStart:
             if let runStartList = PSStringList(baseEntryName: "RunStart", scriptData: scriptData),
-                index = runStartList.indexOfValueWithString(variable.name) {
+                let index = runStartList.indexOfValueWithString(variable.name) {
                     //print("RunStart move \(index) to \(position)")
                     runStartList.move(index, to: position)
             }
             
         case.runEnd:
             if let runEndList = PSStringList(baseEntryName: "RunEnd", scriptData: scriptData),
-                index = runEndList.indexOfValueWithString(variable.name) {
+                let index = runEndList.indexOfValueWithString(variable.name) {
                     runEndList.move(index, to: position)
             }
         case .never:

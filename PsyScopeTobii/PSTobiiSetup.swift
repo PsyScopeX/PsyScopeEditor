@@ -16,18 +16,18 @@ class PSTobiiSetup: NSObject, PSWindowViewInterface {
     @IBOutlet var midPanelView : NSView!
     @IBOutlet var tobiiSetupController : PSTobiiSetupController!
     
-    var topLevelObjects : NSArray?
+    var topLevelObjects : NSArray = []
     
     func setup(_ scriptData: PSScriptData, selectionInterface: PSSelectionInterface) {
         self.scriptData = scriptData
         //load nib and gain access to views
-        Bundle(for:self.dynamicType).loadNibNamed("PSTobiiSetup", owner: self, topLevelObjects: &topLevelObjects)
+        Bundle(for:type(of: self)).loadNibNamed("PSTobiiSetup", owner: self, topLevelObjects: &topLevelObjects)
         
     }
     
     //return a tool bar item for the item
     func icon() -> NSImage {
-        return NSImage(contentsOfFile: Bundle(for:self.dynamicType).pathForImageResource("eye_watch")!)!
+        return NSImage(contentsOfFile: Bundle(for:type(of: self)).pathForImageResource("eye_watch")!)!
     }
     
     //return a tool bar item for the item

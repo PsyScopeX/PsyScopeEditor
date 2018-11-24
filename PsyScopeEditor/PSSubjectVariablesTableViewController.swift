@@ -87,7 +87,7 @@ class PSSubjectVariablesTableViewController : NSObject, NSTableViewDataSource, N
     
     func selectItem(_ subjectVariable : PSSubjectVariable?) {
         selectedVariable = subjectVariable
-        if let selectedVariable = selectedVariable, row = rowForVariable(selectedVariable) {
+        if let selectedVariable = selectedVariable, let row = rowForVariable(selectedVariable) {
             tableView.selectRowIndexes(IndexSet(integer: row), byExtendingSelection: false)
         } else {
             tableView.deselectAll(nil)
@@ -103,7 +103,7 @@ class PSSubjectVariablesTableViewController : NSObject, NSTableViewDataSource, N
     }
     
     func tableView(_ tableView: NSTableView, selectionIndexesForProposedSelection proposedSelectionIndexes: IndexSet) -> IndexSet {
-        if proposedSelectionIndexes.count <= 1 && variableForRow(proposedSelectionIndexes.first) != nil {
+        if proposedSelectionIndexes.count <= 1 && variableForRow(proposedSelectionIndexes.first!) != nil {
             return proposedSelectionIndexes
         } else {
             return IndexSet(integer: -1)
@@ -192,10 +192,10 @@ class PSSubjectVariablesTableViewController : NSObject, NSTableViewDataSource, N
         print("Row: \(row)")
         let pboard = info.draggingPasteboard()
         if let data = pboard.data(forType: dragReorderType),
-            rowIndexes : IndexSet = NSKeyedUnarchiver.unarchiveObject(with: data) as? IndexSet {
+            let rowIndexes : IndexSet = NSKeyedUnarchiver.unarchiveObject(with: data) as? IndexSet {
                 
-                guard let subjectVariableToMove = variableForRow(rowIndexes.first),
-                    subjectInformation = subjectInformation else { return false }
+                guard let subjectVariableToMove = variableForRow(rowIndexes.first!),
+                    let subjectInformation = subjectInformation else { return false }
                 if let variablePositionToMoveTo = variableForRow(row) {
                     //this is a row with a subject variable so need to get index of where it is
                     var indexToMoveTo : Int = 0

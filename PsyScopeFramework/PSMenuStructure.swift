@@ -145,7 +145,7 @@ open class PSMenuStructure : NSObject {
     open func moveSubjectVariable(_ subjectVariableName : String, toMenu menuName: String, atIndex indexToInsert : Int) {
         
         guard let subjectVariableToMove = getVariableNamed(subjectVariableName),
-            menuToMoveTo = getMenuNamed(menuName) else { return }
+            let menuToMoveTo = getMenuNamed(menuName) else { return }
         
         //are we moving within same menu?
         if let oldIndex = menuToMoveTo.dialogVariables.index(of: subjectVariableToMove) {
@@ -164,7 +164,7 @@ open class PSMenuStructure : NSObject {
         } else {
             //moving from one menu to another
             if let subjectVariableParent = getParentForVariable(subjectVariableToMove),
-                index = subjectVariableParent.dialogVariables.index(of: subjectVariableToMove) {
+                let index = subjectVariableParent.dialogVariables.index(of: subjectVariableToMove) {
                     subjectVariableParent.dialogVariables.remove(at: index)
             }
             
@@ -192,11 +192,11 @@ open class PSMenuStructure : NSObject {
     open func moveMenu(_ childMenuName : String, toMenu newParentMenuName: String, atIndex indexToInsert : Int) {
         
         guard let childMenu = getMenuNamed(childMenuName),
-            newParentMenu = getMenuNamed(newParentMenuName) else { return }
+            let newParentMenu = getMenuNamed(newParentMenuName) else { return }
         
         
         if let oldParentMenu = getParentForComponent(childMenu),
-            oldIndex = oldParentMenu.subComponents.index(of: childMenu) where oldParentMenu == newParentMenu {
+            let oldIndex = oldParentMenu.subComponents.index(of: childMenu), oldParentMenu == newParentMenu {
                 // Special case as moving within same menu (reordering)
                 if (oldIndex < indexToInsert) {
                     newParentMenu.subComponents.insert(childMenu, at: indexToInsert)

@@ -14,7 +14,7 @@ import Foundation
 extension NSManagedObjectContext {
     public func getAllObjectsOfEntity(_ name : String) -> [NSManagedObject] {
         
-        let fetch = NSFetchRequest()
+        let fetch = NSFetchRequest<NSFetchRequestResult>()
         fetch.entity = NSEntityDescription.entity(forEntityName: name, in: self)
         
         do {
@@ -91,8 +91,7 @@ open class PSScriptData : NSObject {
     open func getWindowControllersAssociatedWithEntry(_ entry : Entry) -> [PSEntryWindowController] {
         var windowControllers : [PSEntryWindowController] = []
         for windowController in self.document.windowControllers {
-            if let entryWindowController = windowController as? PSEntryWindowController
-                where entryWindowController.entry == entry {
+            if let entryWindowController = windowController as? PSEntryWindowController, entryWindowController.entry == entry {
                     windowControllers.append(entryWindowController)
             }
         }
@@ -102,8 +101,8 @@ open class PSScriptData : NSObject {
     //MARK: Directory
     
     open func documentDirectory() -> String? {
-        if let url = document.fileURL, abs = url.path {
-            return (abs as NSString).deletingLastPathComponent
+        if let url = document.fileURL {
+            return (url.path as NSString).deletingLastPathComponent
         }
         return nil
     }
@@ -152,7 +151,7 @@ open class PSScriptData : NSObject {
         } else if menuItem.title == "Enter Formula" {
             return nil
         } else if let entry = menuItem.representedObject as? Entry,
-            tool = pluginProvider.getInterfaceForType(PSType.FromName(entry.type)) {
+            let tool = pluginProvider.getInterfaceForType(PSType.FromName(entry.type)) {
                 
                 return tool.menuItemSelectedForAttributeSource(menuItem.title, tag: menuItem.tag, entry: entry, originalValue: original, originalFullType: originalFullType, scriptData: self)
         } else if let tool = menuItem.representedObject as? PSToolInterface {
@@ -269,7 +268,7 @@ open class PSScriptData : NSObject {
     //to be used when building objects during script creation etc
     open func getMainExperimentEntryIfItExists() -> Entry? {
         if let exps = getBaseEntry("Experiments"),
-            expEntry = getBaseEntry(exps.currentValue) {
+            let expEntry = getBaseEntry(exps.currentValue) {
                 return expEntry
         }
         return nil
@@ -471,7 +470,7 @@ open class PSScriptData : NSObject {
             isFree = true
             if (run > 0) { testName = entry_base + "\(run)" }
             if existingNames.contains(testName) ||  pluginProvider.entryNameIsReservedOrIllegal(testName) { isFree = false }
-            run++
+            run += 1
         } while (!isFree)
         
         return testName
@@ -484,10 +483,10 @@ open class PSScriptData : NSObject {
         var siblingEntries : [Entry]
         //check siblings for same name
         if let parentEntry = entry.parent,
-            siblings = parentEntry.subEntries {
+            let siblings = parentEntry.subEntries {
             
                 for sibling in siblings {
-                    if sibling.name == nameSuggestion {
+                    if (sibling as! Entry).name == nameSuggestion {
                         return renameEntry(entry, nameSuggestion: nameSuggestion + "_2")
                     }
                 }
@@ -510,8 +509,8 @@ open class PSScriptData : NSObject {
             let baseEntrNames = getBaseEntryNames()
             var baseEntryNamesToChange : [(oldName: String, newName : String)] = []
             for baseEntryName in baseEntrNames {
-                if (baseEntryName.range(of: oldName) != nil) && (baseEntryName != oldName) {
-                    baseEntryNamesToChange.append((baseEntryName,baseEntryName.replacingOccurrences(of: oldName, with: nameSuggestion)))
+                if (baseEntryName.range(of: oldName!) != nil) && (baseEntryName != oldName) {
+                    baseEntryNamesToChange.append((baseEntryName,baseEntryName.replacingOccurrences(of: oldName!, with: nameSuggestion)))
                 }
             }
             
@@ -547,7 +546,7 @@ open class PSScriptData : NSObject {
             entry.name = nameSuggestion
             
             //if a base entry, then need to change references to it from other parts of the script (otherwise just in siblings)
-            searchAndReplaceValues(oldName, newName: nameSuggestion, entries: siblingEntries)
+            searchAndReplaceValues(oldName!, newName: nameSuggestion, entries: siblingEntries)
             
             
             return true
@@ -561,7 +560,7 @@ open class PSScriptData : NSObject {
         () -> CharacterSet in
         var allowed_characters = NSMutableCharacterSet(charactersIn: " _\"")
         allowed_characters.formUnion(with: CharacterSet.alphanumerics)
-        return allowed_characters
+        return allowed_characters as CharacterSet
         }()
     
     //MARK: Entry inserting
@@ -657,7 +656,7 @@ open class PSScriptData : NSObject {
         
         if let existing_entry = getSubEntry(name, entry: entry) {
             
-            if existing_entry.isProperty != isProperty { existing_entry.isProperty = isProperty }
+            if existing_entry.isProperty.boolValue != isProperty { existing_entry.isProperty = isProperty as NSNumber }
             
             if !isProperty && existing_entry.type != type.fullType {
                 
@@ -674,12 +673,12 @@ open class PSScriptData : NSObject {
         if type != nil {
             let new_sub_entry = insertNewSubEntryForEntry(name, entry: entry, type : type)
             new_sub_entry.userFriendlyName = name
-            new_sub_entry.isProperty = isProperty
+            new_sub_entry.isProperty = isProperty as NSNumber
             return new_sub_entry
         } else {
             let new_sub_entry = insertNewSubEntryForEntry(name, entry: entry, type : PSAttributeType(fullType: ""))
             new_sub_entry.userFriendlyName = name
-            new_sub_entry.isProperty = isProperty
+            new_sub_entry.isProperty = isProperty as NSNumber
             return new_sub_entry
         }
     }
@@ -696,7 +695,7 @@ open class PSScriptData : NSObject {
         let new_section = docMoc.insertNewObjectOfEntity("Section") as! Section
         scriptObject.addSectionsObject(new_section)
         new_section.sectionName = section.name
-        new_section.scriptOrder = section.zOrder
+        new_section.scriptOrder = section.zOrder as NSNumber
         return new_section
     }
     
@@ -787,14 +786,14 @@ open class PSScriptData : NSObject {
             docMoc.undoManager!.beginUndoGrouping()
             docMoc.undoManager!.setActionName(name)
         }
-        undoLevel++
+        undoLevel += 1
         print("Begin undo grouping: \(name) - level: \(undoLevel)")
     }
     
     open func endUndoGrouping(_ success : Bool = true) {
         if undoLevel > 0 {
 
-            undoLevel--
+            undoLevel -= 1
             print("End undo grouping - level: \(undoLevel)")
             
             if undoLevel == 0 {
@@ -962,7 +961,7 @@ open class PSScriptData : NSObject {
         var dict : [AnyHashable: Any] = [:]
         
         //archive attributes
-        let attributes : [NSString] = Array(entry.entity.attributesByName.keys)
+        let attributes : [NSString] = Array(entry.entity.attributesByName.keys) as [NSString]
         for at in attributes {
             let val = entry.value(forKey: at as NSString as String) as! NSObject?
             if let v = val {
@@ -1057,7 +1056,7 @@ open class PSScriptData : NSObject {
                 
             case "layoutObjectXPos":
                 let xval : NSNumber = kvp.value as! NSNumber
-                new_entry.layoutObject.xPos = xval.intValue + 100
+                new_entry.layoutObject.xPos = xval.intValue + 100 as NSNumber
             case "layoutObjectYPos":
                 new_entry.layoutObject.yPos = kvp.value as! NSNumber
             default:
@@ -1115,7 +1114,7 @@ open class PSScriptData : NSObject {
     open func createNewEventFromTool(_ type : String, templateObject : LayoutObject, order : Int) -> Entry? {
         //println("Creating event type: " + type)
         if let psevent = self.pluginProvider.eventPlugins[type],
-            new_entry = psevent.createObject(self) {
+            let new_entry = psevent.createObject(self) {
             let event_type_entry = getOrCreateSubEntry("EventType", entry: new_entry, isProperty: true)
             event_type_entry.currentValue = type
             new_entry.layoutObject.icon = getIconForType(new_entry.type)

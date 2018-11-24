@@ -166,7 +166,7 @@ open class PSStringListCachedContainer : PSStringListContainer {
         }
         
         if from < to {
-            to--
+            to -= 1
         }
         
         let val1 = values[from]

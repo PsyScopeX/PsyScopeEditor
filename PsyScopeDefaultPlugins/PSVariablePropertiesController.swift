@@ -16,7 +16,7 @@ class PSVariablePropertiesController : PSToolPropertyController {
     }
     
     init(entry : Entry, scriptData : PSScriptData) {
-        let bundle = Bundle(for:self.dynamicType)
+        let bundle = Bundle(for:type(of: self))
         super.init(nibName: "VariableView", bundle: bundle, entry: entry, scriptData: scriptData)
         self.entry = entry
     }

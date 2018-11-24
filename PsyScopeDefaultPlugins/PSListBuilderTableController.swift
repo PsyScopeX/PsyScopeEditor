@@ -128,12 +128,12 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
         if(lastDoubleClickCoords.row == -1 && lastDoubleClickCoords.col >= 2) {
             
             let fieldEntry = list.fields[lastDoubleClickCoords.col - 2].entry
-            scriptData.renameEntry(fieldEntry, nameSuggestion: name)
+            scriptData.renameEntry(fieldEntry!, nameSuggestion: name)
             
             let tc = listTableView.tableColumns[lastDoubleClickCoords.col] as NSTableColumn
             _ = listTableView.headerView!;
             let hc = tc.headerCell as! PSFieldHeaderCell
-            hc.title = fieldEntry.name
+            hc.title = (fieldEntry?.name)!
             
             hc.isHighlighted = false
             hc.endEditing(editor)
@@ -306,7 +306,7 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
                     break
                 }
             }
-            run++
+            run += 1
         } while (!isFree)
         
         let new_field = self.list.addNewField(PSAttributeType(fullType: ""), interface: PSAttributeGeneric())
@@ -369,19 +369,19 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
             switch(keyPressed) {
             case 123: //left
                 switchView = true
-                col--
+                col -= 1
                 break
             case 124: //right
                 switchView = true
-                col++
+                col += 1
                 break
             case 125: //down
                 switchView = true
-                row++
+                row += 1
                 break
             case 126: //up
                 switchView = true
-                row--
+                row -= 1
                 break
             case 48: //tab - only needed at end of rows
                 tabbedView = true
@@ -390,7 +390,7 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
                     if row == (listTableView.numberOfRows - 1) {
                         row = 0
                     } else {
-                        row++
+                        row += 1
                     }
                 }
                 break

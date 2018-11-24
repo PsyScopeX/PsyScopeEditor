@@ -20,7 +20,7 @@ class PSActionsBuilder : PSWindowView {
     
     override func setup(_ scriptData: PSScriptData, selectionInterface: PSSelectionInterface) {
         super.setup(scriptData, selectionInterface: selectionInterface)
-        Bundle(for:self.dynamicType).loadNibNamed("ActionsBuilder", owner: self, topLevelObjects: &topLevelObjects)
+        Bundle(for:type(of: self)).loadNibNamed("ActionsBuilder", owner: self, topLevelObjects: &topLevelObjects)
         layoutController.selectionInterface = selectionInterface
     }
     
@@ -51,7 +51,7 @@ class PSWindowView: NSObject, PSWindowViewInterface {
     @IBOutlet var leftPanelView : NSView!
     @IBOutlet var controller : PSActionsBuilderController!
     
-    var topLevelObjects : NSArray?
+    var topLevelObjects : NSArray = []
     
     func setup(_ scriptData: PSScriptData, selectionInterface: PSSelectionInterface) {
         self.scriptData = scriptData
@@ -63,7 +63,7 @@ class PSWindowView: NSObject, PSWindowViewInterface {
     }
     
     func icon() -> NSImage {
-        return NSImage(contentsOfFile: Bundle(for:self.dynamicType).pathForImageResource("hand225")!)! as NSImage
+        return NSImage(contentsOfFile: Bundle(for:type(of: self)).pathForImageResource("hand225")!)! as NSImage
     }
     
     func identifier() -> String {

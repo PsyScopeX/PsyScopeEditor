@@ -44,17 +44,17 @@ class PSScriptErrorViewController: NSObject, NSTableViewDataSource, NSTableViewD
         let error = row < errors.count ? errors[row] : warnings[row - errors.count]
         
         if let entryName = error.entryName,
-            str = textView.string {
+            let str = textView.string {
                 var range = (str as NSString).range(of: "\n" + entryName + "::")
                 
                 if range.location != NSNotFound && range.length > 0 {
-                    range.length--
-                    range.location++
+                    range.length -= 1
+                    range.location += 1
                     textView.scrollRangeToVisible(range)
                     textView.setSelectedRange(range)
                 }
             
-        } else if let searchString = error.searchString, str = textView.string {
+        } else if let searchString = error.searchString, let str = textView.string {
             let range = (str as NSString).range(of: searchString)
             
             if range.location != NSNotFound && range.length > 0 {

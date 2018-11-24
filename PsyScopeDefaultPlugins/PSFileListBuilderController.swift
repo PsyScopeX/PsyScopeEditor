@@ -59,7 +59,7 @@ class PSFileListBuilderController : NSObject {
         }
     }
     
-    func setWeightsValue(_ value : String, row: Int) {
+    func setWeightsValue(value : String, row: Int) {
         
         guard let intValue = Int(value) else { return }
         
@@ -90,10 +90,10 @@ class PSFileListBuilderController : NSObject {
     
     //MARK: Adjust number of columns
     
-    override func controlTextDidEndEditing(_ obj: Notification) {
-        if obj.object === numberOfColumnsTextField {
+    func controlTextDidEndEditing(obj: NSNotification) {
+        if obj.object as AnyObject === numberOfColumnsTextField as AnyObject {
             fileList.numberOfColumns = numberOfColumnsTextField.integerValue
-        } else if obj.object === filePathTextField {
+        } else if obj.object as AnyObject === filePathTextField as AnyObject {
             fileList.filePath = filePathTextField.stringValue
         }
         
@@ -105,7 +105,7 @@ class PSFileListBuilderController : NSObject {
     @IBAction func weightsCheckButtonClicked(_:AnyObject) {
         if weightsCheckButton.state == 1 {
             let numberOfRows = fileList.previewOfContents.count
-            fileList.weightsColumn = [Int](repeating: 1, count: numberOfRows)
+            fileList.weightsColumn = [Int](repeating: 1, count:numberOfRows)
         } else {
             fileList.weightsColumn = nil
         }

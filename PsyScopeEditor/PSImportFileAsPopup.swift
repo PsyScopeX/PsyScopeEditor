@@ -15,7 +15,7 @@ open class PSImportFileAsPopup : PSAttributePopup {
     public init(types : [PSToolInterface], scriptData: PSScriptData, setCurrentValueBlock : ((PSEntryElement)->())?){
         self.types = types
         self.scriptData = scriptData
-        super.init(nibName: "ImportFilesAs",bundle: Bundle(for:self.dynamicType), currentValue: .null, displayName: "Action", setCurrentValueBlock: setCurrentValueBlock)
+        super.init(nibName: "ImportFilesAs",bundle: Bundle(for:type(of: self)), currentValue: .null, displayName: "Action", setCurrentValueBlock: setCurrentValueBlock)
     }
     
     override open func awakeFromNib() {

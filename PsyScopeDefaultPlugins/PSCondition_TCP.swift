@@ -17,11 +17,11 @@ class PSCondition_TCP : PSCondition {
     }
     
     override func nib() -> NSNib {
-        return NSNib(nibNamed: "Condition_TCPCell", bundle: Bundle(for:self.dynamicType))!
+        return NSNib(nibNamed: "Condition_TCPCell", bundle: Bundle(for:type(of: self)))!
     }
     
     override func icon() -> NSImage {
-        let image : NSImage = NSImage(contentsOfFile: Bundle(for:self.dynamicType).pathForImageResource("MouseClick")!)!
+        let image : NSImage = NSImage(contentsOfFile: Bundle(for:type(of: self)).pathForImageResource("MouseClick")!)!
         return image
     }
     

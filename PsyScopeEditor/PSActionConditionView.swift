@@ -29,9 +29,9 @@ class PSActionConditionView: NSView, NSTableViewDelegate, NSTableViewDataSource 
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        let aacnib = NSNib(nibNamed: "AddActionCell", bundle: Bundle(for:self.dynamicType))
+        let aacnib = NSNib(nibNamed: "AddActionCell", bundle: Bundle(for:type(of: self)))
         actionsTableView.register(aacnib!, forIdentifier: addActionCellViewIdentifier)
-        let accnib = NSNib(nibNamed: "AddConditionCell", bundle: Bundle(for:self.dynamicType))
+        let accnib = NSNib(nibNamed: "AddConditionCell", bundle: Bundle(for:type(of: self)))
         conditionsTableView.register(accnib!, forIdentifier: addConditionCellViewIdentifier)
     }
     
@@ -98,7 +98,7 @@ class PSActionConditionView: NSView, NSTableViewDelegate, NSTableViewDataSource 
             //is action
             if row < actions.count {
             let ac = actions[row]
-                let view = ac.action.createCellView(ac, scriptData: actionsBrowser.scriptData, expandedHeight: currentViewMetaData.actions[row].expandedCellHeight) //set up done inside
+                let view = ac.action.createCellView(ac, scriptData: actionsBrowser.scriptData, expandedHeight: currentViewMetaData.actions[row].expandedCellHeight)! //set up done inside
             view.updateScriptBlock = { () -> () in self.actionsBrowser.updateEventActions() }
             view.expandAction = { (expanded : Bool) -> () in
                 self.actionsAttribute.userSetItemExpanded(self.rowIndex, itemIndex: row, action: true, expanded: expanded)

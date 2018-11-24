@@ -85,7 +85,7 @@ func relativePath(_ absolutePath : String, basePath : String) -> String {
         if (baseComponent != absolutePathComponents[index]) {
             break
         }
-        levelIndex++
+        levelIndex += 1
     }
     
     var relativePath : String = ""
@@ -93,13 +93,13 @@ func relativePath(_ absolutePath : String, basePath : String) -> String {
     
     if levelIndex < basePathComponents.count {
         //outside of base path
-        for (var index = levelIndex; index < basePathComponents.count; index++) {
+        for index in stride(from: levelIndex, to: basePathComponents.count, by: 1) {
             relativePath = (relativePath as NSString).appendingPathComponent("../")
         }
     }
     
     
-    for(var index = levelIndex; index < absolutePathComponents.count; index++) {
+    for index in stride(from: levelIndex, to: absolutePathComponents.count, by: 1) {
         relativePath = (relativePath as NSString).appendingPathComponent(absolutePathComponents[index])
     }
     

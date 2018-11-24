@@ -53,7 +53,7 @@ open class PSPosition : Hashable, Equatable {
     var yAlign : PSPositionAlignment { didSet { updateIfNotParsing() } }
     
     var name : NSString {
-        get { return entry.name }
+        get { return entry.name as! NSString }
         set {
             //updates entry as well as in ports entry
             scriptData.renameEntry(entry, nameSuggestion: newValue as String)

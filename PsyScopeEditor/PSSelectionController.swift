@@ -147,7 +147,7 @@ class PSSelectionController : NSObject, PSSelectionInterface {
         if let pstool = PSPluginSingleton.sharedInstance.getPlugin(layoutObject.mainEntry.type) {
             scriptData.beginUndoGrouping("Delete Object")
             
-            let mainEntry = layoutObject.mainEntry
+            let mainEntry = layoutObject.mainEntry!
             let success = pstool.deleteObject(mainEntry, withScript: scriptData)
             scriptData.endUndoGrouping(success)
             if (success) {
@@ -288,13 +288,13 @@ class PSSelectionController : NSObject, PSSelectionInterface {
     }
     
     func dumpDocMocChanges(_ notification : Notification) {
-        let keys_to_check : [NSString] = [NSInsertedObjectsKey, NSUpdatedObjectsKey, NSDeletedObjectsKey, NSRefreshedObjectsKey, NSInvalidatedObjectsKey, NSInvalidatedAllObjectsKey];
+        let keys_to_check : [String] = [NSInsertedObjectsKey, NSUpdatedObjectsKey, NSDeletedObjectsKey, NSRefreshedObjectsKey , NSInvalidatedObjectsKey, NSInvalidatedAllObjectsKey];
         for key in keys_to_check {
-            if let objects: AnyObject = notification.userInfo![key] {
+            if let objects: AnyObject = notification.userInfo![key] as AnyObject {
                 var array : NSArray = []
                 if let set = objects as? NSSet {
                     print("Doc Moc changed: \(key) type, set with \(set.count) objects.")
-                    array = set.allObjects
+                    array = set.allObjects as NSArray
                 } else if let arr = objects as? NSArray {
                     print("Doc Moc changed: \(key) type, array with \(arr.count) objects.")
                     array = arr

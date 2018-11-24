@@ -88,7 +88,7 @@ public final class PSSubjectVariable : Equatable {
     fileprivate func detectIfGroupingVariable() -> Bool {
         //get group variable names
         if let subjectNumAndGroup = scriptData.getBaseEntry("SubjectNumAndGroup"),
-            groupSpecs = scriptData.getSubEntry("GroupSpecs", entry: subjectNumAndGroup) {
+            let groupSpecs = scriptData.getSubEntry("GroupSpecs", entry: subjectNumAndGroup) {
                 
                 let groupsSpecsValue = PSStringList(entry: groupSpecs, scriptData: scriptData)
                 
