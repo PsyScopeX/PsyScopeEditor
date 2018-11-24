@@ -20,11 +20,11 @@ class PSCondition_Key : PSCondition {
     }
     
     override func nib() -> NSNib {
-        return NSNib(nibNamed: "Condition_KeyCell", bundle: NSBundle(forClass:self.dynamicType))!
+        return NSNib(nibNamed: "Condition_KeyCell", bundle: Bundle(for:self.dynamicType))!
     }
     
     override func icon() -> NSImage {
-        let image : NSImage = NSImage(contentsOfFile: NSBundle(forClass:self.dynamicType).pathForImageResource("Key")!)!
+        let image : NSImage = NSImage(contentsOfFile: Bundle(for:self.dynamicType).pathForImageResource("Key")!)!
         return image
     }
     
@@ -50,11 +50,11 @@ class PSCondition_Key_Popup : PSAttributePopup, NSTableViewDelegate, NSTableView
     init(currentValue: PSEntryElement, setCurrentValueBlock : ((PSEntryElement)->())?){
         
         pressedKeys = []
-        let inputValue = currentValue.stringValue().stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()).componentsSeparatedByCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+        let inputValue = currentValue.stringValue().trimmingCharacters(in: CharacterSet.whitespaces).components(separatedBy: CharacterSet.whitespaces)
         for aKey in inputValue {
             pressedKeys.append(PSCondition_Key_Key(fromString: aKey))
         }
-        super.init(nibName: "KeyCondition",bundle: NSBundle(forClass:self.dynamicType), currentValue: currentValue, displayName: "Key", setCurrentValueBlock: setCurrentValueBlock)
+        super.init(nibName: "KeyCondition",bundle: Bundle(for:self.dynamicType), currentValue: currentValue, displayName: "Key", setCurrentValueBlock: setCurrentValueBlock)
         
     }
     
@@ -62,35 +62,35 @@ class PSCondition_Key_Popup : PSAttributePopup, NSTableViewDelegate, NSTableView
         super.awakeFromNib()
         segmentedControl.setMenu(actionsMenu, forSegment: 2)
         updateSegmentedControl(selectedRow)
-        self.attributeSheet.addObserver(self, forKeyPath: "firstResponder", options: .New, context: nil)
+        self.attributeSheet.addObserver(self, forKeyPath: "firstResponder", options: .new, context: nil)
     }
     
-    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == "firstResponder" {
             if attributeSheet.firstResponder != tableView {
                 tableView.deselectAll(self)
                 selectedRow = -1 //this will disable the remove and actions buttons
             }
         } else {
-            super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
+            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
         }
     }
     
-    func numberOfRowsInTableView(tableView: NSTableView) -> Int {
+    func numberOfRows(in tableView: NSTableView) -> Int {
         return pressedKeys.count
     }
-    func tableView(tableView: NSTableView, objectValueForTableColumn tableColumn: NSTableColumn?, row: Int) -> AnyObject? {
+    func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
         return pressedKeys[row].toDisplayString()
     }
     
-    func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        let view = tableView.makeViewWithIdentifier(tableColumn!.identifier, owner: self) as! NSTableCellView
-        view.textField!.editable = false
+    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+        let view = tableView.make(withIdentifier: tableColumn!.identifier, owner: self) as! NSTableCellView
+        view.textField!.isEditable = false
         return view
     }
     
 
-    func tableViewSelectionDidChange(notification: NSNotification) {
+    func tableViewSelectionDidChange(_ notification: Notification) {
         selectedRow = tableView.selectedRow
     }
     
@@ -99,44 +99,44 @@ class PSCondition_Key_Popup : PSAttributePopup, NSTableViewDelegate, NSTableView
         tableView.reloadData()
         let validSelection = selectedRow >= 0 && selectedRow < pressedKeys.count
         if validSelection {
-            tableView.selectRowIndexes(NSIndexSet(index: selectedRow), byExtendingSelection: false)
+            tableView.selectRowIndexes(IndexSet(integer: selectedRow), byExtendingSelection: false)
         } else {
             tableView.deselectAll(self)
         }
     }
     
     
-    func menuNeedsUpdate(menu: NSMenu) {
+    func menuNeedsUpdate(_ menu: NSMenu) {
         let validSelection = tableView.clickedRow >= 0 && tableView.selectedRow < pressedKeys.count
         if validSelection {
-            tableView.selectRowIndexes(NSIndexSet(index: tableView.clickedRow), byExtendingSelection: false)
+            tableView.selectRowIndexes(IndexSet(integer: tableView.clickedRow), byExtendingSelection: false)
         }
-        for item in menu.itemArray as [NSMenuItem]{
-            item.enabled = validSelection
+        for item in menu.items as [NSMenuItem]{
+            item.isEnabled = validSelection
         }
     }
    
     
-    func updateSegmentedControl(row : Int) {
+    func updateSegmentedControl(_ row : Int) {
         let validSelection = (row >= 0 && row < pressedKeys.count)
         windowListener.listening = validSelection
         segmentedControl.setEnabled(validSelection, forSegment: 1)
         segmentedControl.setEnabled(validSelection, forSegment: 2)
         let allowAnyButton = validSelection && !pressedKeys[row].any
-        anyButton.enabled = allowAnyButton
+        anyButton.isEnabled = allowAnyButton
     }
     
-    @IBAction func onKeyUpMenuItemSelected(sender : NSMenuItem) {
+    @IBAction func onKeyUpMenuItemSelected(_ sender : NSMenuItem) {
         pressedKeys[selectedRow].keyUp = true
         reloadTableView()
     }
     
-    @IBAction func onKeyDownMenuItemSelected(sender : NSMenuItem) {
+    @IBAction func onKeyDownMenuItemSelected(_ sender : NSMenuItem) {
         pressedKeys[selectedRow].keyUp = false
         reloadTableView()
     }
     
-    @IBAction func actionsSegmentedControlClicked(sender : AnyObject) {
+    @IBAction func actionsSegmentedControlClicked(_ sender : AnyObject) {
         switch(segmentedControl.selectedSegment) {
         case 0:
             //add
@@ -145,7 +145,7 @@ class PSCondition_Key_Popup : PSAttributePopup, NSTableViewDelegate, NSTableView
         case 1:
             //delete selected
             if selectedRow >= 0 && selectedRow < pressedKeys.count {
-                pressedKeys.removeAtIndex(selectedRow)
+                pressedKeys.remove(at: selectedRow)
             }
             
         default:
@@ -155,14 +155,14 @@ class PSCondition_Key_Popup : PSAttributePopup, NSTableViewDelegate, NSTableView
         reloadTableView()
     }
     
-    @IBAction func anyButtonClicked(sender : NSButton) {
+    @IBAction func anyButtonClicked(_ sender : NSButton) {
         pressedKeys[tableView.selectedRow].any = true
-        anyButton.enabled = false
+        anyButton.isEnabled = false
         tableView.reloadData()
     }
     @IBOutlet var anyButton : NSButton!
     
-    func keyDown(theEvent: NSEvent) {
+    func keyDown(_ theEvent: NSEvent) {
         if let key = PSCondition_Key_Key(fromEvent: theEvent) {
             pressedKeys[selectedRow] = key
             selectedRow = -1
@@ -172,7 +172,7 @@ class PSCondition_Key_Popup : PSAttributePopup, NSTableViewDelegate, NSTableView
         }
     }
     
-    override func closeMyCustomSheet(sender: AnyObject) {
+    override func closeMyCustomSheet(_ sender: AnyObject) {
         var outputString = ""
         self.attributeSheet.removeObserver(self, forKeyPath: "firstResponder")
         for k in pressedKeys {
@@ -193,26 +193,26 @@ class PSCondition_Key_Key : NSObject {
     init?(fromEvent event : NSEvent) {
         any = false
         keyUp = false
-        if event.modifierFlags.contains(.ControlKeyMask) {
+        if event.modifierFlags.contains(.control) {
             control = true
         } else {
             control = false
         }
         
-        if event.modifierFlags.contains(.ShiftKeyMask) {
+        if event.modifierFlags.contains(.shift) {
             shift = true
         } else {
             shift = false
         }
         
-        self.character = PSUnicodeUtilities.characterForEventWithoutModifiers(event)
+        self.character = PSUnicodeUtilities.character(forEventWithoutModifiers: event)
         //character = event.charactersIgnoringModifiers!.lowercaseString
         
        
-        let keepCharacters = NSMutableCharacterSet.lowercaseLetterCharacterSet()
-        keepCharacters.addCharactersInString(" ,./;'[]-=`")
-        let removeCharacters = keepCharacters.invertedSet
-        character = (character.componentsSeparatedByCharactersInSet(removeCharacters) as NSArray).componentsJoinedByString("")
+        let keepCharacters = NSMutableCharacterSet.lowercaseLetter()
+        keepCharacters.addCharacters(in: " ,./;'[]-=`")
+        let removeCharacters = keepCharacters.inverted
+        character = (character.components(separatedBy: removeCharacters) as NSArray).componentsJoined(by: "")
         
         if character == "" {
             self.any = false
@@ -240,39 +240,39 @@ class PSCondition_Key_Key : NSObject {
         • the RETURN keyword, representing the return key.
         To specify a key combination containing modifiers, prefixes are added to one of the base forms described above. The CMD- prefix matches only when the command key is held down at the same time as the base key. Similarly, CTL- matches with the con- trol key and OPT- matches with the option key. SHIFT- matches with the shift key only when it is not already represented in the base character (e.g.: SHIFT-* can nev- er match, since * – which is the same as SHIFT-8 – already contains SHIFT).
         */
-        var unquoted = string.stringByTrimmingCharactersInSet(NSCharacterSet(charactersInString: "\""))
+        var unquoted = string.trimmingCharacters(in: CharacterSet(charactersIn: "\""))
         
-        if let r = unquoted.lowercaseString.rangeOfString("any") {
+        if let r = unquoted.lowercased().range(of: "any") {
             any = true
-            unquoted.removeRange(r)
+            unquoted.removeSubrange(r)
         } else {
             any = false
         }
         
-        if let r = unquoted.lowercaseString.rangeOfString("up-") {
+        if let r = unquoted.lowercased().range(of: "up-") {
             keyUp = true
-            unquoted.removeRange(r)
+            unquoted.removeSubrange(r)
         } else {
             keyUp = false
         }
-        if let r = unquoted.lowercaseString.rangeOfString("ctl-") {
+        if let r = unquoted.lowercased().range(of: "ctl-") {
             control = true
-            unquoted.removeRange(r)
+            unquoted.removeSubrange(r)
         } else {
             control = false
         }
-        if let r = unquoted.lowercaseString.rangeOfString("shift-") {
+        if let r = unquoted.lowercased().range(of: "shift-") {
             shift = true
-            unquoted.removeRange(r)
+            unquoted.removeSubrange(r)
         } else {
             shift = false
         }
         
-        if let _ = unquoted.lowercaseString.rangeOfString("space") {
+        if let _ = unquoted.lowercased().range(of: "space") {
             character = " "
         } else {
             if unquoted.utf16.count > 0 {
-                character = unquoted.substringFromIndex(unquoted.endIndex.predecessor())
+                character = unquoted.substring(from: unquoted.characters.index(before: unquoted.endIndex))
             } else {
                 character = "" //default to any
                 any = true
@@ -307,18 +307,18 @@ class PSCondition_Key_Key : NSObject {
 class PSCondition_Key_Cell : PSConditionCell {
     @IBOutlet var button : NSButton!
     
-    override func setup(conditionInterface: PSConditionInterface, function entryFunction: PSFunctionElement, scriptData: PSScriptData, expandedHeight: CGFloat) {
+    override func setup(_ conditionInterface: PSConditionInterface, function entryFunction: PSFunctionElement, scriptData: PSScriptData, expandedHeight: CGFloat) {
         super.setup(conditionInterface,function: entryFunction,scriptData: scriptData, expandedHeight: expandedHeight)
         button.title = entryFunction.getParametersStringValue()
     }
     
-    @IBAction func buttonPressed(sender : NSButton) {
+    @IBAction func buttonPressed(_ sender : NSButton) {
         let listElement = PSStringListElement()
         listElement.values = self.entryFunction.values
         
-        let popup = PSCondition_Key_Popup(currentValue: .List(stringListElement: listElement), setCurrentValueBlock : { (cValue: PSEntryElement) -> () in
+        let popup = PSCondition_Key_Popup(currentValue: .list(stringListElement: listElement), setCurrentValueBlock : { (cValue: PSEntryElement) -> () in
             
-            if case .List(let newListElement) = cValue {
+            if case .list(let newListElement) = cValue {
                 self.entryFunction.values = newListElement.values
             } else {
                 self.entryFunction.values = [cValue]
@@ -335,11 +335,11 @@ class PSCondition_Key_Cell : PSConditionCell {
 class PSKeyListenerWindow : NSWindow {
     var controller : PSCondition_Key_Popup!
     var listening : Bool = false
-    override func keyDown(theEvent: NSEvent) {
+    override func keyDown(with theEvent: NSEvent) {
         if listening {
             controller.keyDown(theEvent)
         } else {
-            super.keyDown(theEvent)
+            super.keyDown(with: theEvent)
         }
     }
 }

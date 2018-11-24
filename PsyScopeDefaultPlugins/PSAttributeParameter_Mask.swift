@@ -8,9 +8,9 @@
 
 import Foundation
 
-public class PSAttributeParameter_Mask : PSAttributeParameter_String {
+open class PSAttributeParameter_Mask : PSAttributeParameter_String {
     
-    override public func setCustomControl(visible: Bool) {
+    override open func setCustomControl(_ visible: Bool) {
         super.setCustomControl(visible)
         if textField != nil && textField!.formatter == nil {
             textField!.formatter = PSAttribute_TextMaskFormatter()
@@ -18,11 +18,11 @@ public class PSAttributeParameter_Mask : PSAttributeParameter_String {
     }
 }
 
-let PSAttribute_TextMaskFormatterAllowedCharacters = NSCharacterSet.alphanumericCharacterSet()
+let PSAttribute_TextMaskFormatterAllowedCharacters = CharacterSet.alphanumerics
 
-class PSAttribute_TextMaskFormatter : NSFormatter {
+class PSAttribute_TextMaskFormatter : Formatter {
     
-    override func stringForObjectValue(obj: AnyObject?) -> String? {
+    override func string(for obj: Any?) -> String? {
         if obj != nil {
             if let o = obj as? String {
                 return o
@@ -30,11 +30,11 @@ class PSAttribute_TextMaskFormatter : NSFormatter {
         }
         return ""
     }
-    override func getObjectValue(obj: AutoreleasingUnsafeMutablePointer<AnyObject?>, forString string: String, errorDescription error: AutoreleasingUnsafeMutablePointer<NSString?>) -> Bool {
-        obj.memory = string
+    override func getObjectValue(_ obj: AutoreleasingUnsafeMutablePointer<AutoreleasingUnsafeMutablePointer<AnyObject?>>?, for string: String, errorDescription error: AutoreleasingUnsafeMutablePointer<AutoreleasingUnsafeMutablePointer<NSString?>>?) -> Bool {
+        obj.pointee = string
         return true
     }
-    override func isPartialStringValid(partialString: String, newEditingString newString: AutoreleasingUnsafeMutablePointer<NSString?>, errorDescription error: AutoreleasingUnsafeMutablePointer<NSString?>) -> Bool {
+    override func isPartialStringValid(_ partialString: String, newEditingString newString: AutoreleasingUnsafeMutablePointer<AutoreleasingUnsafeMutablePointer<NSString?>>?, errorDescription error: AutoreleasingUnsafeMutablePointer<AutoreleasingUnsafeMutablePointer<NSString?>>?) -> Bool {
         
         let c = partialString.characters.count
         if c > 1 {
@@ -45,10 +45,10 @@ class PSAttribute_TextMaskFormatter : NSFormatter {
         
         let ix = partialString.startIndex
         let ix2 = partialString.endIndex
-        let result = partialString.rangeOfCharacterFromSet(PSAttribute_TextMaskFormatterAllowedCharacters, options: [], range: ix..<ix2)
+        let result = partialString.rangeOfCharacter(from: PSAttribute_TextMaskFormatterAllowedCharacters, options: [], range: ix..<ix2)
         return result != nil
     }
-    override func attributedStringForObjectValue(obj: AnyObject, withDefaultAttributes attrs: [String : AnyObject]?) -> NSAttributedString? {
+    override func attributedString(for obj: Any, withDefaultAttributes attrs: [String : Any]?) -> NSAttributedString? {
         return nil
     }
 }

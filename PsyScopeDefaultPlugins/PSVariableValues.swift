@@ -24,30 +24,30 @@ class PSVariableValues : NSObject {
     var subValues : [PSVariableValues]
 
     enum ValuesType {
-        case Record
-        case Array
-        case SingleValue
+        case record
+        case array
+        case singleValue
     }
 }
 
 //MARK: Entry -> Values
 
 
-func UpdateVariableValuesWithInlineEntryCurrentValues(stringValue : String, values : PSVariableValues) {
+func UpdateVariableValuesWithInlineEntryCurrentValues(_ stringValue : String, values : PSVariableValues) {
     switch(values.type) {
-    case .Record:
+    case .record:
         
         let stringList = PSStringListCachedContainer()
         stringList.stringValue = stringValue
 
         if let inlineEntryFunction = stringList.values.first {
             switch(inlineEntryFunction) {
-            case let .Function(functionElement):
-                if functionElement.bracketType == .Square {
+            case let .function(functionElement):
+                if functionElement.bracketType == .square {
                     for inlineElement in functionElement.values {
                         switch(inlineElement) {
-                        case let .Function(inlineEntryFunctionElement):
-                            if inlineEntryFunctionElement.bracketType == .InlineEntry {
+                        case let .function(inlineEntryFunctionElement):
+                            if inlineEntryFunctionElement.bracketType == .inlineEntry {
                                 
                                 for field in values.subValues {
                                     if inlineEntryFunctionElement.functionName == field.label {
@@ -73,7 +73,7 @@ func UpdateVariableValuesWithInlineEntryCurrentValues(stringValue : String, valu
         }
    
         values.currentValue = "Not implemented"
-    case .Array:
+    case .array:
         let stringList = PSStringListCachedContainer()
         stringList.stringValue = stringValue
     
@@ -87,10 +87,10 @@ func UpdateVariableValuesWithInlineEntryCurrentValues(stringValue : String, valu
             }
         }
         
-        for (index,subValue) in values.subValues.enumerate() {
+        for (index,subValue) in values.subValues.enumerated() {
             UpdateVariableValuesWithInlineEntryCurrentValues(stringValues[index], values: subValue)
         }
-    case .SingleValue:
+    case .singleValue:
         let stringList = PSStringListCachedContainer()
         stringList.stringValue = stringValue
         
@@ -102,15 +102,15 @@ func UpdateVariableValuesWithInlineEntryCurrentValues(stringValue : String, valu
     }
 }
 
-func UpdateVariableValuesWithEntryCurrentValues(baseEntry : Entry, values : PSVariableValues, scriptData : PSScriptData) {
+func UpdateVariableValuesWithEntryCurrentValues(_ baseEntry : Entry, values : PSVariableValues, scriptData : PSScriptData) {
     switch(values.type) {
-    case .Record:
+    case .record:
         for subValue in values.subValues {
             if let subEntry = scriptData.getSubEntry(subValue.label, entry: baseEntry) {
                 UpdateVariableValuesWithEntryCurrentValues(subEntry, values: subValue, scriptData: scriptData)
             }
         }
-    case .Array:
+    case .array:
         let stringList = PSStringListCachedContainer()
         stringList.stringValue = baseEntry.currentValue
         
@@ -124,10 +124,10 @@ func UpdateVariableValuesWithEntryCurrentValues(baseEntry : Entry, values : PSVa
             }
         }
         
-        for (index,subValue) in values.subValues.enumerate() {
+        for (index,subValue) in values.subValues.enumerated() {
             UpdateVariableValuesWithInlineEntryCurrentValues(stringValues[index], values: subValue)
         }
-    case .SingleValue:
+    case .singleValue:
         
         let stringList = PSStringListCachedContainer()
         stringList.stringValue = baseEntry.currentValue
@@ -142,9 +142,9 @@ func UpdateVariableValuesWithEntryCurrentValues(baseEntry : Entry, values : PSVa
 
 //MARK: Values -> Entry
 
-func UpdateInlineEntryCurrentValuesWithVariableValues(values : PSVariableValues) -> String {
+func UpdateInlineEntryCurrentValuesWithVariableValues(_ values : PSVariableValues) -> String {
     switch(values.type) {
-    case .Record:
+    case .record:
         var inlineEntry : String = "["
         for subValue in values.subValues {
             inlineEntry += subValue.label + ": "
@@ -152,9 +152,9 @@ func UpdateInlineEntryCurrentValuesWithVariableValues(values : PSVariableValues)
         }
         inlineEntry += "]"
         return inlineEntry
-    case .Array:
-        return values.subValues.map { UpdateInlineEntryCurrentValuesWithVariableValues($0) }.joinWithSeparator(" ")
-    case .SingleValue:
+    case .array:
+        return values.subValues.map { UpdateInlineEntryCurrentValuesWithVariableValues($0) }.joined(separator: " ")
+    case .singleValue:
         if let stringElement = PSStringElement(strippedValue: values.currentValue) {
             return stringElement.quotedValue
         } else {
@@ -165,9 +165,9 @@ func UpdateInlineEntryCurrentValuesWithVariableValues(values : PSVariableValues)
 }
 
 
-func UpdateEntryCurrentValuesWithVariableValues(baseEntry : Entry, values : PSVariableValues, scriptData : PSScriptData) {
+func UpdateEntryCurrentValuesWithVariableValues(_ baseEntry : Entry, values : PSVariableValues, scriptData : PSScriptData) {
     switch(values.type) {
-    case .Record:
+    case .record:
         var subEntryNamesToKeep : [String] = ["Type"]
         for subValue in values.subValues {
             subEntryNamesToKeep.append(subValue.label)
@@ -182,28 +182,28 @@ func UpdateEntryCurrentValuesWithVariableValues(baseEntry : Entry, values : PSVa
         }
         
         baseEntry.currentValue = ""
-    case .Array:
-        let stringList = values.subValues.map { UpdateInlineEntryCurrentValuesWithVariableValues($0) }.joinWithSeparator(" ")
+    case .array:
+        let stringList = values.subValues.map { UpdateInlineEntryCurrentValuesWithVariableValues($0) }.joined(separator: " ")
         baseEntry.currentValue = stringList
-    case .SingleValue:
+    case .singleValue:
         baseEntry.currentValue = values.currentValue
     }
 }
 
 //MARK: Type -> Values
 
-func PSVariableValuesFromVariableType(name : String, variableType : PSVariableType) -> PSVariableValues {
+func PSVariableValuesFromVariableType(_ name : String, variableType : PSVariableType) -> PSVariableValues {
     switch (variableType.type) {
-    case let .Array(variableArray):
-        let values = PSVariableValues(label: name, type: .Array)
+    case let .array(variableArray):
+        let values = PSVariableValues(label: name, type: .array)
         for index in 1...variableArray.count {
             let arrayValueName = "[\(index)]"
             let arrayValueType = variableArray.type
             values.subValues.append(PSVariableValuesFromVariableType(arrayValueName, variableType: arrayValueType))
         }
         return values
-    case let .Record(variableRecord):
-        let values = PSVariableValues(label: name, type: .Record)
+    case let .record(variableRecord):
+        let values = PSVariableValues(label: name, type: .record)
         for field in variableRecord.fields {
             let fieldName = field.name
             let fieldType = field.type
@@ -211,6 +211,6 @@ func PSVariableValuesFromVariableType(name : String, variableType : PSVariableTy
         }
         return values
     default:
-        return PSVariableValues(label: name, type: .SingleValue)
+        return PSVariableValues(label: name, type: .singleValue)
     }
 }

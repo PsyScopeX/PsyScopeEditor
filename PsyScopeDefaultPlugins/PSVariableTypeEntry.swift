@@ -8,15 +8,15 @@
 
 import Foundation
 
-public class PSVariableTypes {
+open class PSVariableTypes {
     init(types : [PSVariableNamedType]) {
         self.types = types
     }
     var types : [PSVariableNamedType]
 }
 
-func TypeEntryToFullVariableType(typeEntry : Entry, scriptData : PSScriptData) -> PSVariableType? {
-    switch(typeEntry.currentValue.lowercaseString) {
+func TypeEntryToFullVariableType(_ typeEntry : Entry, scriptData : PSScriptData) -> PSVariableType? {
+    switch(typeEntry.currentValue.lowercased()) {
     case "array":
         
         //set count if available
@@ -75,18 +75,18 @@ func TypeEntryToFullVariableType(typeEntry : Entry, scriptData : PSScriptData) -
     return nil
 }
 
-func GetVariableTypeNames(scriptData : PSScriptData) -> [String] {
+func GetVariableTypeNames(_ scriptData : PSScriptData) -> [String] {
     return GetVariableTypeNames(GetCustomVariableTypes(scriptData))
 }
 
-func GetVariableTypeNames(customVariableTypes : PSVariableTypes) -> [String] {
+func GetVariableTypeNames(_ customVariableTypes : PSVariableTypes) -> [String] {
     var typeStrings = ["Integer","Long_Integer", "Float", "Double", "Array", "Record", "String", "Point", "Record", "Input"]
     typeStrings += customVariableTypes.types.map({ $0.name })
 
     return typeStrings
 }
 
-func GetCustomVariableTypes(scriptData : PSScriptData) -> PSVariableTypes {
+func GetCustomVariableTypes(_ scriptData : PSScriptData) -> PSVariableTypes {
     let expEntry = scriptData.getMainExperimentEntry()
     if let expVariables = scriptData.getSubEntry("ExpTypes", entry: expEntry) {
         
@@ -105,36 +105,36 @@ func GetCustomVariableTypes(scriptData : PSScriptData) -> PSVariableTypes {
 
 
 //entry should be created and pre-named!
-func VariableNamedTypeToEntry(namedType : PSVariableNamedType, entry : Entry, scriptData : PSScriptData) {
+func VariableNamedTypeToEntry(_ namedType : PSVariableNamedType, entry : Entry, scriptData : PSScriptData) {
     //delete all existing sub entries and start again (could try to keep exisitng structure in future)
     let subEntries = entry.subEntries.array as! [Entry]
     subEntries.forEach( { scriptData.deleteSubEntryFromBaseEntry(entry, subEntry: $0) } )
     VariableTypeToEntry(namedType.type, entry: entry, scriptData: scriptData)
 }
 
-func VariableTypeToEntry(type : PSVariableType, entry : Entry, scriptData : PSScriptData) {
+func VariableTypeToEntry(_ type : PSVariableType, entry : Entry, scriptData : PSScriptData) {
     //name of entry is already set when here
     
     switch (type.type) {
-    case .IntegerType:
+    case .integerType:
         entry.currentValue = "Integer"
-    case .LongIntegerType:
+    case .longIntegerType:
         entry.currentValue = "Long_Integer"
-    case .FloatType:
+    case .floatType:
         entry.currentValue = "Float"
-    case .DoubleType:
+    case .doubleType:
         entry.currentValue = "Double"
-    case .StringType:
+    case .stringType:
         entry.currentValue = "String"
-    case let .Defined(definedName):
+    case let .defined(definedName):
         entry.currentValue = definedName
-    case let .Array(variableArray):
+    case let .array(variableArray):
         entry.currentValue = "Array"
         let countEntry = scriptData.getOrCreateSubEntry("Count", entry: entry, isProperty: true)
         countEntry.currentValue = variableArray.count.description
         let typeEntry = scriptData.getOrCreateSubEntry("Type", entry: entry, isProperty: true)
         VariableTypeToEntry(variableArray.type, entry: typeEntry, scriptData: scriptData)
-    case let .Record(variableRecord):
+    case let .record(variableRecord):
         entry.currentValue = "Record"
         for field in variableRecord.fields {
             if scriptData.getSubEntryNames(entry).contains(field.name) {
@@ -148,14 +148,14 @@ func VariableTypeToEntry(type : PSVariableType, entry : Entry, scriptData : PSSc
 }
 
 
-func EntryToVariableNamedType(entry : Entry, scriptData : PSScriptData) -> PSVariableNamedType {
+func EntryToVariableNamedType(_ entry : Entry, scriptData : PSScriptData) -> PSVariableNamedType {
     let name = entry.name
     let type = EntryToVariableType(entry, scriptData: scriptData)
     return PSVariableNamedType(name: name, type: type)
 }
 
-func EntryToVariableType(entry : Entry, scriptData : PSScriptData) -> PSVariableType {
-    switch(entry.currentValue.lowercaseString) {
+func EntryToVariableType(_ entry : Entry, scriptData : PSScriptData) -> PSVariableType {
+    switch(entry.currentValue.lowercased()) {
     case "array":
         
         //set count if available

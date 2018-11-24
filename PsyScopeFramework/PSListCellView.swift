@@ -9,29 +9,29 @@
 import Foundation
 
 //adds highlighting + optional block to trigger when a subview becomes first responder
-public class PSListCellView : PSAttributeCellView, PSHighLightOnMouseHoverProtocol {
-    public var firstResponderBlock : (()->())?
-    public var col : Int = -1
-    public var row : Int = -1
-    public var highlighted = false
+open class PSListCellView : PSAttributeCellView, PSHighLightOnMouseHoverProtocol {
+    open var firstResponderBlock : (()->())?
+    open var col : Int = -1
+    open var row : Int = -1
+    open var highlighted = false
     
-    public func highLight(on: Bool) {
+    open func highLight(_ on: Bool) {
         highlighted = on
         self.needsDisplay = true
     }
     
-    override public func drawRect(dirtyRect: NSRect) {
+    override open func draw(_ dirtyRect: NSRect) {
         if highlighted {
             
             let selectionRect = self.bounds
             
             NSColor(calibratedWhite: 0.9, alpha: 1.0).setStroke()
             
-            NSColor(CGColor: PSConstants.BasicDefaultColors.backgroundColorLowAlpha)!.setFill()
+            NSColor(cgColor: PSConstants.BasicDefaultColors.backgroundColorLowAlpha)!.setFill()
             let selectionPath = NSBezierPath(rect: selectionRect)
             selectionPath.fill()
             selectionPath.stroke()
         }
-        super.drawRect(dirtyRect)
+        super.draw(dirtyRect)
     }
 }

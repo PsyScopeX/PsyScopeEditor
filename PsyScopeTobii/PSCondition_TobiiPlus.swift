@@ -27,12 +27,12 @@ class PSCondition_TobiiPlus : NSObject, PSConditionInterface {
     }
     
     func icon() -> NSImage {
-        let image : NSImage = NSImage(contentsOfFile: NSBundle(forClass:self.dynamicType).pathForImageResource("MouseClick")!)!
+        let image : NSImage = NSImage(contentsOfFile: Bundle(for:self.dynamicType).pathForImageResource("MouseClick")!)!
         return image
     }
     
     func nib() -> NSNib {
-        return NSNib(nibNamed: "Condition_TobiiPlusCell", bundle: NSBundle(forClass:self.dynamicType))!
+        return NSNib(nibNamed: "Condition_TobiiPlusCell", bundle: Bundle(for:self.dynamicType))!
     }
     
     func expandedCellHeight() -> CGFloat {
@@ -43,7 +43,7 @@ class PSCondition_TobiiPlus : NSObject, PSConditionInterface {
         return true
     }
     
-    func turnInputDeviceOn(on : Bool, scriptData : PSScriptData) {
+    func turnInputDeviceOn(_ on : Bool, scriptData : PSScriptData) {
         
     }
 }
@@ -66,7 +66,7 @@ class PSCondition_TobiiPlusCell : PSConditionCell {
         
     }
     
-    var portValue : PSEntryElement = .Null
+    var portValue : PSEntryElement = .null
     
     
     func parse() {
@@ -78,7 +78,7 @@ class PSCondition_TobiiPlusCell : PSConditionCell {
         portButton.title = portValue.stringValue()
     }
     
-    override func setup(conditionInterface: PSConditionInterface, function entryFunction: PSFunctionElement, scriptData: PSScriptData, expandedHeight: CGFloat) {
+    override func setup(_ conditionInterface: PSConditionInterface, function entryFunction: PSFunctionElement, scriptData: PSScriptData, expandedHeight: CGFloat) {
         super.setup(conditionInterface,function: entryFunction,scriptData: scriptData, expandedHeight: expandedHeight)
         parse()
     }

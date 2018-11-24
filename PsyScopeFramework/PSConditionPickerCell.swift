@@ -15,7 +15,7 @@ class PSConditionPickerCell: NSView {
     var clickCallback : ((Int,Bool)->())? = nil
     var row : Int = -1
     
-    func setup(title : String, image : NSImage, row : Int, clickCallback : ((Int,Bool)->())) {
+    func setup(_ title : String, image : NSImage, row : Int, clickCallback : ((Int,Bool)->())) {
         button.title = title
         self.row = row
         self.clickCallback = clickCallback

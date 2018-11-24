@@ -9,9 +9,9 @@ import Foundation
 
 
 //displays a cell with a file open dialog attached to button
-public class PSAttributeParameter_FileOpen : PSAttributeParameter_Button {
+open class PSAttributeParameter_FileOpen : PSAttributeParameter_Button {
     
-    override func clickButton(sender : NSButton) {
+    override func clickButton(_ sender : NSButton) {
         
         if !scriptData.alertIfNoValidDocumentDirectory() {
             return
@@ -26,12 +26,12 @@ public class PSAttributeParameter_FileOpen : PSAttributeParameter_Button {
         openPanel.canCreateDirectories = true
         openPanel.allowsMultipleSelection = false
         //openPanel.allowedFileTypes = [fileType]
-        openPanel.beginSheetModalForWindow(self.cell.window!, completionHandler: {
+        openPanel.beginSheetModal(for: self.cell.window!, completionHandler: {
             (int_code : Int) -> () in
             if int_code == NSFileHandlingPanelOKButton {
                 //relative to files location
-                if let url = openPanel.URL, path = url.path {
-                    dispatch_async(dispatch_get_main_queue(), {
+                if let url = openPanel.url, path = url.path {
+                    DispatchQueue.main.async(execute: {
                         self.setFileName(path)
                     })
                 }
@@ -40,13 +40,13 @@ public class PSAttributeParameter_FileOpen : PSAttributeParameter_Button {
         })
     }
     
-    func setFileName(path : String) {
+    func setFileName(_ path : String) {
         let docPath = self.scriptData.documentDirectory()!
 
         if let pspath = PSPath(path, basePath: docPath) where pspath != "" {
             self.currentValue = PSGetFirstEntryElementForStringOrNull("\"\(pspath)\"")
         } else {
-            self.currentValue = .Null
+            self.currentValue = .null
         }
         setButtonTitle()
         self.cell.updateScript()

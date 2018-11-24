@@ -30,8 +30,8 @@ class PSAttributesBrowser: NSObject, NSTableViewDelegate, NSTableViewDataSource,
     //MARK: AwakeFromNib
     
     override func awakeFromNib()  {
-        let anib = NSNib(nibNamed: "AddAttributeCell", bundle: NSBundle(forClass:self.dynamicType))
-        tableView.registerNib(anib!, forIdentifier: addAttributeCellIdentifier)
+        let anib = NSNib(nibNamed: "AddAttributeCell", bundle: Bundle(for:self.dynamicType))
+        tableView.register(anib!, forIdentifier: addAttributeCellIdentifier)
         self.selectionController = mainWindowController.selectionController
     }
     
@@ -55,7 +55,7 @@ class PSAttributesBrowser: NSObject, NSTableViewDelegate, NSTableViewDataSource,
                 return !entry.isProperty.boolValue
                 })
             
-            content = content.sort({ (s1: Entry, s2: Entry) -> Bool in
+            content = content.sorted(by: { (s1: Entry, s2: Entry) -> Bool in
                 return s1.name < s2.name })
         } else {
             self.canAddAttributes = false
@@ -67,7 +67,7 @@ class PSAttributesBrowser: NSObject, NSTableViewDelegate, NSTableViewDataSource,
     
     //MARK: Attributes TableView
     
-    func numberOfRowsInTableView(tableView: NSTableView) -> Int {
+    func numberOfRows(in tableView: NSTableView) -> Int {
         if selectionController != nil && selectionController.selectedEntry != nil && self.canAddAttributes == true {
             return content.count + 1 //add attribute button
         } else {
@@ -76,7 +76,7 @@ class PSAttributesBrowser: NSObject, NSTableViewDelegate, NSTableViewDataSource,
     }
     
     
-    func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
+    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         if row < content.count {
             //1. identify attribute type
             var attributeInterface : PSAttributeInterface = genericInterface
@@ -92,21 +92,21 @@ class PSAttributesBrowser: NSObject, NSTableViewDelegate, NSTableViewDataSource,
             return cell
         } else {
             //add attribute button
-            let new_view  = tableView.makeViewWithIdentifier(addAttributeCellIdentifier, owner: self) as! PSButtonCell
+            let new_view  = tableView.make(withIdentifier: addAttributeCellIdentifier, owner: self) as! PSButtonCell
             new_view.action = { (sender : NSButton) -> () in
                 self.addAttribute(sender) }
             return new_view
         }
     }
     
-    func tableView(tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
+    func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
         return PSConstants.Spacing.attributesTableViewRowHeight
     }
     
-    func tableView(tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
+    func tableView(_ tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
         //show popover
         if row < content.count {
-            let view : NSView = tableView.viewAtColumn(0, row: row, makeIfNecessary: true)!
+            let view : NSView = tableView.view(atColumn: 0, row: row, makeIfNecessary: true)!
         
             elementViewerController.showForView(view, attributeEntry: content[row])
         
@@ -118,7 +118,7 @@ class PSAttributesBrowser: NSObject, NSTableViewDelegate, NSTableViewDataSource,
     
     //MARK: Adding/deleting attributes
     
-    @IBAction func addAttribute(sender : NSView) { //from add attribute cell button
+    @IBAction func addAttribute(_ sender : NSView) { //from add attribute cell button
         
         if let selectedEntry = selectionController.selectedEntry {
             attributePicker = PSAttributePickerEntry(entry: selectedEntry, scriptData: mainWindowController.scriptData)
@@ -126,11 +126,11 @@ class PSAttributesBrowser: NSObject, NSTableViewDelegate, NSTableViewDataSource,
         }
     }
     
-    func deleteObject(sender : AnyObject) {
-        let index = tableView.selectedRowIndexes.firstIndex
+    func deleteObject(_ sender : AnyObject) {
+        let index = tableView.selectedRowIndexes.first
         if index > 0 && index < content.count {
             mainWindowController.scriptData.beginUndoGrouping("Delete Attribute")
-            mainWindowController.scriptData.deleteSubEntryFromBaseEntry(content[index].parentEntry, subEntry: content[index])
+            mainWindowController.scriptData.deleteSubEntryFromBaseEntry(content[index].parent, subEntry: content[index])
             mainWindowController.scriptData.endUndoGrouping(true)
         }
         
@@ -139,14 +139,14 @@ class PSAttributesBrowser: NSObject, NSTableViewDelegate, NSTableViewDataSource,
     
     //MARK : Copy/Paste of attributes
     
-    func copyObject(sender : AnyObject) {
-        let index = tableView.selectedRowIndexes.firstIndex
+    func copyObject(_ sender : AnyObject) {
+        let index = tableView.selectedRowIndexes.first
         if index > 0 && index < content.count {
             let pasteboardItem = NSPasteboardItem()
             let types = [NSPasteboardTypeString, PSPasteboardTypeAttribute]
             var ok = pasteboardItem.setDataProvider(self, forTypes: types)
             if ok {
-                let pasteboard = NSPasteboard.generalPasteboard()
+                let pasteboard = NSPasteboard.general()
                 pasteboard.clearContents()
                 ok = pasteboard.writeObjects([pasteboardItem])
             }
@@ -157,13 +157,13 @@ class PSAttributesBrowser: NSObject, NSTableViewDelegate, NSTableViewDataSource,
             }
         }
     }
-    func pasteObject(sender : AnyObject) {
+    func pasteObject(_ sender : AnyObject) {
         if let se = selectionController.selectedEntry {
-            let pasteboard = NSPasteboard.generalPasteboard()
-            let items = pasteboard.readObjectsForClasses([NSPasteboardItem.self], options: [:]) as! [NSPasteboardItem]
+            let pasteboard = NSPasteboard.general()
+            let items = pasteboard.readObjects(forClasses: [NSPasteboardItem.self], options: [:]) as! [NSPasteboardItem]
             for item in items {
-                if let data = item.dataForType(PSPasteboardTypeAttribute  as String) {
-                    let dict = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! NSDictionary
+                if let data = item.data(forType: PSPasteboardTypeAttribute  as String) {
+                    let dict = NSKeyedUnarchiver.unarchiveObject(with: data) as! NSDictionary
                     let new_entry = PSCreateEntryFromDictionary(mainWindowController.mainDocument.managedObjectContext!, dict: dict)
                     se.addSubEntriesObject(new_entry)
                 }
@@ -173,7 +173,7 @@ class PSAttributesBrowser: NSObject, NSTableViewDelegate, NSTableViewDataSource,
     
     
     
-    func pasteboard(pasteboard: NSPasteboard?, item: NSPasteboardItem, provideDataForType type: String) {
+    func pasteboard(_ pasteboard: NSPasteboard?, item: NSPasteboardItem, provideDataForType type: String) {
         
         guard let pasteboard = pasteboard else { return }
         
@@ -186,7 +186,7 @@ class PSAttributesBrowser: NSObject, NSTableViewDelegate, NSTableViewDataSource,
                 pasteboard.setString(string, forType: NSPasteboardTypeString)
             case PSPasteboardTypeAttribute:
                 let dataDictionary = PSAttributeEntryToNSDictionary(ce)
-                let archive = NSKeyedArchiver.archivedDataWithRootObject(dataDictionary)
+                let archive = NSKeyedArchiver.archivedData(withRootObject: dataDictionary)
                 pasteboard.setData(archive, forType: PSPasteboardTypeAttribute as String)
             
             default:

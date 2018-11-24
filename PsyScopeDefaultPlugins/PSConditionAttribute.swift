@@ -8,7 +8,7 @@
 import Foundation
 //holds a the value of an attribute holding condition functions in
 //'conditions' an array holding PSEventConditionFunction
-public class PSConditionAttribute : PSStringListElement {
+open class PSConditionAttribute : PSStringListElement {
     var conditions : [PSEventConditionFunction] = []
     var scriptData : PSScriptData
     var conditionEntry : Entry
@@ -31,29 +31,29 @@ public class PSConditionAttribute : PSStringListElement {
         scriptData.endUndoGrouping(true)
     }
     
-    func removeCondition(condition : PSConditionInterface) {
+    func removeCondition(_ condition : PSConditionInterface) {
         let name = condition.type()
-        if let index = conditions.lazy.map({ $0.functionName }).indexOf(name) {
+        if let index = conditions.lazy.map({ $0.functionName }).index(of: name) {
             removeConditionAtIndex(index)
         }
     }
     
-    func removeConditionAtIndex(index : Int) {
-        conditions.removeAtIndex(index)
+    func removeConditionAtIndex(_ index : Int) {
+        conditions.remove(at: index)
         updateEntry()
     }
     
-    func appendCondition(condition : PSConditionInterface) {
+    func appendCondition(_ condition : PSConditionInterface) {
         conditions.append(PSEventConditionFunction(condition: condition, values: []))
         setItemExpanded(conditions.count - 1, expanded: true)
         updateEntry()
     }
     
     
-    override public var stringValue : String {
+    override open var stringValue : String {
 
         get{
-            self.values = self.conditions.map({ PSEntryElement.Function(functionElement: $0) } )
+            self.values = self.conditions.map({ PSEntryElement.function(functionElement: $0) } )
             return super.stringValue
         }
         
@@ -65,7 +65,7 @@ public class PSConditionAttribute : PSStringListElement {
             for object in values {
                 
                 switch(object) {
-                case .Function(let functionElement):
+                case .function(let functionElement):
                     for (_, plugin) in conditionPlugins {
                         if plugin.type() == functionElement.functionName {
                             //match
@@ -83,17 +83,17 @@ public class PSConditionAttribute : PSStringListElement {
     }
     
     
-    public func setItemExpanded(itemIndex : Int, expanded : Bool) {
+    open func setItemExpanded(_ itemIndex : Int, expanded : Bool) {
         let name : String = conditions[itemIndex].functionName
         let code = "\(itemIndex)," + name
         expandedItems[code] = expanded
         conditionEntry.metaData = metaDataToString()
     }
     
-    func loadMetaData(metaData : String?) {
-        if let md = metaData, data = md.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true) {
+    func loadMetaData(_ metaData : String?) {
+        if let md = metaData, data = md.data(using: String.Encoding.utf8, allowLossyConversion: true) {
             do {
-                if let ei = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(rawValue: 0)) as? NSDictionary {
+                if let ei = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions(rawValue: 0)) as? NSDictionary {
                     expandedItems = ei as! [String : Bool]
                     validateExpandedItems()
                 } else {
@@ -108,20 +108,20 @@ public class PSConditionAttribute : PSStringListElement {
     }
     
     func metaDataToString() -> String {
-        var data: NSData?
+        var data: Data?
         do {
-            data = try NSJSONSerialization.dataWithJSONObject(expandedItems, options:NSJSONWritingOptions(rawValue: 0))
+            data = try JSONSerialization.data(withJSONObject: expandedItems, options:JSONSerialization.WritingOptions(rawValue: 0))
         } catch  {
             data = nil
         }
-        return String(NSString(data: data!, encoding: NSUTF8StringEncoding)!)
+        return String(NSString(data: data!, encoding: String.Encoding.utf8)!)
     }
     
     func validateExpandedItems() {
         let codes = expandedItems.keys
         for code in codes {
             var  ok = false
-            var comps = code.componentsSeparatedByString(",")
+            var comps = code.components(separatedBy: ",")
             let itemIndex = Int(comps[0])!
             if itemIndex < conditions.count {
                 if conditions[itemIndex].functionName == comps[1] {
@@ -137,7 +137,7 @@ public class PSConditionAttribute : PSStringListElement {
     
     var expandedItems : [String:Bool] = [:]
     
-    public func itemIsExpanded(itemIndex : Int) -> Bool {
+    open func itemIsExpanded(_ itemIndex : Int) -> Bool {
         let name : String = conditions[itemIndex].functionName
         let code = "\(itemIndex)," + name
         if let e = expandedItems[code] {

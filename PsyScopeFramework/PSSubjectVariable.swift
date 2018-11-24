@@ -10,18 +10,18 @@ import Foundation
 
 public final class PSSubjectVariable : Equatable {
     
-    public class func NewSubjectVariable(scriptData : PSScriptData) -> PSSubjectVariable {
+    public class func NewSubjectVariable(_ scriptData : PSScriptData) -> PSSubjectVariable {
         let newEntryName = scriptData.getNextFreeBaseEntryName("Item")
         let newEntry = scriptData.getOrCreateBaseEntry(newEntryName, type: PSType.SubjectInfo)
         let newSubjectVariable = PSSubjectVariable(entry: newEntry, scriptData: scriptData)
         newSubjectVariable.storageOptions = PSSubjectVariableStorageOptions(all: true)
-        newSubjectVariable.dialogType = .StringType
+        newSubjectVariable.dialogType = .stringType
         newSubjectVariable.isGroupingVariable = false
         newSubjectVariable.saveToScript()
         return newSubjectVariable
     }
     
-    public class func NewGroupingVariable(scriptData : PSScriptData) -> PSSubjectVariable {
+    public class func NewGroupingVariable(_ scriptData : PSScriptData) -> PSSubjectVariable {
         let newGroupingVariable = NewSubjectVariable(scriptData)
         newGroupingVariable.isGroupingVariable = true
         return newGroupingVariable
@@ -85,7 +85,7 @@ public final class PSSubjectVariable : Equatable {
     }
     
     
-    private func detectIfGroupingVariable() -> Bool {
+    fileprivate func detectIfGroupingVariable() -> Bool {
         //get group variable names
         if let subjectNumAndGroup = scriptData.getBaseEntry("SubjectNumAndGroup"),
             groupSpecs = scriptData.getSubEntry("GroupSpecs", entry: subjectNumAndGroup) {
@@ -94,7 +94,7 @@ public final class PSSubjectVariable : Equatable {
                 
                 for listValue in groupsSpecsValue.values {
                     switch(listValue) {
-                    case let .StringToken(stringValue):
+                    case let .stringToken(stringValue):
                         if stringValue.value == entry.name {
                             return true
                         }//found a reference to a group entry
@@ -122,7 +122,7 @@ public final class PSSubjectVariable : Equatable {
         var groupVarNames : Set<String> = Set()
         for listValue in groupsSpecsValue.values {
             switch(listValue) {
-            case let .StringToken(stringValue):
+            case let .stringToken(stringValue):
                 groupVarNames.insert(stringValue.value) //found a reference to a group entry
             default:
                 break

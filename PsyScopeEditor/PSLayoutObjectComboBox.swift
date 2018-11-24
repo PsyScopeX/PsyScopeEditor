@@ -24,11 +24,11 @@ class PSLayoutObjectComboBox : NSObject, NSComboBoxDataSource, NSComboBoxDelegat
     
     //MARK: Combobox methods
     
-    func numberOfItemsInComboBox(aComboBox: NSComboBox) -> Int {
+    func numberOfItems(in aComboBox: NSComboBox) -> Int {
         return entryNames.count
     }
     
-    func comboBox(aComboBox: NSComboBox, objectValueForItemAtIndex index: Int) -> AnyObject {
+    func comboBox(_ aComboBox: NSComboBox, objectValueForItemAt index: Int) -> Any? {
         if (index >= entryNames.count || index < 0) {
             return ""
         } else {
@@ -36,14 +36,14 @@ class PSLayoutObjectComboBox : NSObject, NSComboBoxDataSource, NSComboBoxDelegat
         }
     }
     
-    func comboBox(aComboBox: NSComboBox, indexOfItemWithStringValue string: String) -> Int {
-        if let r = entryNames.indexOf(string) {
+    func comboBox(_ aComboBox: NSComboBox, indexOfItemWithStringValue string: String) -> Int {
+        if let r = entryNames.index(of: string) {
             return r
         }
         return -1
     }
     
-    func comboBoxSelectionDidChange(notification: NSNotification) {
+    func comboBoxSelectionDidChange(_ notification: Notification) {
         mainWindowController.selectionController.selectObjectForEntryNamed(getSelectedComboBoxItem())
     }
     
@@ -60,7 +60,7 @@ class PSLayoutObjectComboBox : NSObject, NSComboBoxDataSource, NSComboBoxDelegat
     func refresh() {
         let entries = mainWindowController.scriptData.getBaseEntriesWithLayoutObjects()
         let new_items = mainWindowController.scriptData.getNamesOfEntries(entries)
-        entryNames = new_items.sort({ (s1: String, s2: String) -> Bool in
+        entryNames = new_items.sorted(by: { (s1: String, s2: String) -> Bool in
             return s1 < s2 })
         
         
@@ -75,15 +75,15 @@ class PSLayoutObjectComboBox : NSObject, NSComboBoxDataSource, NSComboBoxDelegat
     //MARK: Change selection
     
     //selects item in combobox, no delegate fired
-    func selectItem(item : String) {
-        if let index = entryNames.indexOf(item) {
-            comboBox.setDelegate(nil) //prevent firing comboBoxSelectionDidChange
-            comboBox.selectItemAtIndex(index)
-            comboBox.setDelegate(self)
+    func selectItem(_ item : String) {
+        if let index = entryNames.index(of: item) {
+            comboBox.delegate = nil //prevent firing comboBoxSelectionDidChange
+            comboBox.selectItem(at: index)
+            comboBox.delegate = self
         } else {
-            comboBox.setDelegate(nil) //prevent firing comboBoxSelectionDidChange
+            comboBox.delegate = nil //prevent firing comboBoxSelectionDidChange
             comboBox.stringValue = ""
-            comboBox.setDelegate(self)
+            comboBox.delegate = self
         }
     }
 }

@@ -77,7 +77,7 @@ class PSList : NSObject {
             if let levels = scriptData.getSubEntry("Levels", entry: listEntry),
                 weights = scriptData.getSubEntry("Weights", entry: levels) {
                     
-                    return weights.currentValue.componentsSeparatedByString(" ").map({
+                    return weights.currentValue.components(separatedBy: " ").map({
                         if let i = Int($0){
                             return i
                         }else {
@@ -100,11 +100,11 @@ class PSList : NSObject {
             }
             
             let weights = scriptData.getOrCreateSubEntry("Weights", entry: levels, isProperty: true)
-            weights.currentValue = newWeights.map({ String($0) }).joinWithSeparator(" ")
+            weights.currentValue = newWeights.map({ String($0) }).joined(separator: " ")
         }
     }
     
-    func weightForRow(row : Int) -> Int {
+    func weightForRow(_ row : Int) -> Int {
         if let currentWeights = currentWeights where row < currentWeights.count && row > -1 {
             return currentWeights[row]
         } else {
@@ -113,7 +113,7 @@ class PSList : NSObject {
     }
 
     
-    func setWeightsValueForRow(value : String, row: Int) {
+    func setWeightsValueForRow(_ value : String, row: Int) {
         
         guard let intValue = Int(value) else { return }
         
@@ -174,7 +174,7 @@ class PSList : NSObject {
         }
     }
     
-    func addNewField(new_type : PSAttributeType, interface : PSAttributeInterface?) -> PSField {
+    func addNewField(_ new_type : PSAttributeType, interface : PSAttributeInterface?) -> PSField {
         scriptData.beginUndoGrouping("Add New Field")
         let new_entry = scriptData.getOrCreateSubEntry(new_type.name, entry: listEntry, isProperty: true)
         if let int = interface {
@@ -192,7 +192,7 @@ class PSList : NSObject {
         return new_field
     }
     
-    func setItemName(name : String, forRow row : Int) -> Bool {
+    func setItemName(_ name : String, forRow row : Int) -> Bool {
         
         if row < (levelsStringList.count) && !levelsStringList.contains(name){
             scriptData.beginUndoGrouping("Edit Level Name")
@@ -203,14 +203,14 @@ class PSList : NSObject {
         return false
     }
     
-    func nameForColumn(col : Int) -> String {
+    func nameForColumn(_ col : Int) -> String {
         if col < fields.count {
             return fields[col].entry.name
         }
         return ""
     }
     
-    func nameForRow(row : Int) -> String {
+    func nameForRow(_ row : Int) -> String {
         if row < (levelsStringList.count) {
             return levelsStringList[row]
         } else {
@@ -218,7 +218,7 @@ class PSList : NSObject {
         }
     }
     
-    func setItem(item : AnyObject, forCol col: Int, andRow row: Int) {
+    func setItem(_ item : AnyObject, forCol col: Int, andRow row: Int) {
         if col < fields.count && row < (fields[col].count) {
             scriptData.beginUndoGrouping("Edit Item")
             fields[col][row] = item as! String
@@ -226,7 +226,7 @@ class PSList : NSObject {
         }
     }
     
-    func itemAtColumn(col : Int, andRow row: Int) -> AnyObject {
+    func itemAtColumn(_ col : Int, andRow row: Int) -> AnyObject {
         if col < fields.count && row < (fields[col].count) {
             let return_val = fields[col][row]
             return return_val
@@ -239,19 +239,19 @@ class PSList : NSObject {
         get { return levelsStringList.count }
     }
     
-    func removeField(col : Int) {
+    func removeField(_ col : Int) {
         if col < fields.count && col > 0 {
             let toDelete = fields[col]
             scriptData.beginUndoGrouping("Remove Field")
-            scriptData.deleteSubEntryFromBaseEntry(toDelete.entry.parentEntry, subEntry: toDelete.entry)
+            scriptData.deleteSubEntryFromBaseEntry(toDelete.entry.parent, subEntry: toDelete.entry)
             fields = fields.filter({ $0 != toDelete })
             updateBlankEntries()
             scriptData.endUndoGrouping()
         }
     }
     
-    func removeFieldByName(name : String) {
-        for (index, field) in fields.enumerate() {
+    func removeFieldByName(_ name : String) {
+        for (index, field) in fields.enumerated() {
             if field.entry.name == name {
                 removeField(index)
                 return
@@ -259,7 +259,7 @@ class PSList : NSObject {
         }
     }
     
-    func typeAtColumn(col : Int) -> PSAttributeType {
+    func typeAtColumn(_ col : Int) -> PSAttributeType {
         if col < fields.count && col > 0 {
             return fields[col].type
         } else {
@@ -267,8 +267,8 @@ class PSList : NSObject {
         }
     }
     
-    func removeRowByName(name : String) {
-        for (index, item) in levelsStringList.stringListRawUnstripped.enumerate() {
+    func removeRowByName(_ name : String) {
+        for (index, item) in levelsStringList.stringListRawUnstripped.enumerated() {
             if item == name {
                 removeRow(index)
                 return
@@ -277,7 +277,7 @@ class PSList : NSObject {
         
     }
     
-    func removeRow(row : Int) {
+    func removeRow(_ row : Int) {
         for field in fields {
             scriptData.beginUndoGrouping("Remove Level")
             field.removeAtIndex(row)

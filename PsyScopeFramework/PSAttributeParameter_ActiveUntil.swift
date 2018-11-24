@@ -8,12 +8,12 @@
 
 import Foundation
 
-public class PSAttributeParameter_ActiveUntil : PSAttributeParameter {
+open class PSAttributeParameter_ActiveUntil : PSAttributeParameter {
     var popUpButton : NSPopUpButton!
     
     var defaultValues = ["End of this event" : "NONE", "All instances" : "FORCE_ONE", "At least one instance" : "FORCE_ALL"]
     
-    override public func setCustomControl(visible: Bool) {
+    override open func setCustomControl(_ visible: Bool) {
         
         values = Array(defaultValues.keys)
         values += scriptData.getAllEvents().map({ $0.name })
@@ -22,29 +22,29 @@ public class PSAttributeParameter_ActiveUntil : PSAttributeParameter {
             if popUpButton == nil {
                 //add popupbutton
                 popUpButton = NSPopUpButton(frame: attributeValueControlFrame, pullsDown: false)
-                popUpButton.autoresizingMask = NSAutoresizingMaskOptions.ViewWidthSizable
+                popUpButton.autoresizingMask = NSAutoresizingMaskOptions.viewWidthSizable
                 popUpButton.target = self
                 popUpButton.action = "selected:"
                 cell.addSubview(popUpButton)
             } else {
-                popUpButton.hidden = false
+                popUpButton.isHidden = false
             }
             
             updatePopUpMenuContent()
             
             for value in values {
-                if currentValue.stringValue().lowercaseString == value.lowercaseString {
-                    popUpButton.selectItemWithTitle(value)
+                if currentValue.stringValue().lowercased() == value.lowercased() {
+                    popUpButton.selectItem(withTitle: value)
                 }
             }
         } else {
             if popUpButton != nil {
-                popUpButton.hidden = true
+                popUpButton.isHidden = true
             }
         }
     }
     
-    func selected(item : NSMenuItem) {
+    func selected(_ item : NSMenuItem) {
         if let defaultValue = defaultValues[item.title] {
             currentValue = PSGetFirstEntryElementForStringOrNull(defaultValue)
         } else {
@@ -53,7 +53,7 @@ public class PSAttributeParameter_ActiveUntil : PSAttributeParameter {
         self.cell.updateScript()
     }
     
-    public var values : [String] = []
+    open var values : [String] = []
     
     func updatePopUpMenuContent() {
         

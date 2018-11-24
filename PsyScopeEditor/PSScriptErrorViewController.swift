@@ -30,22 +30,22 @@ class PSScriptErrorViewController: NSObject, NSTableViewDataSource, NSTableViewD
     
     //MARK: Tableview Datasource
     
-    func numberOfRowsInTableView(tableView: NSTableView) -> Int {
+    func numberOfRows(in tableView: NSTableView) -> Int {
         return errors.count + warnings.count
     }
     
-    func tableView(tableView: NSTableView, objectValueForTableColumn tableColumn: NSTableColumn?, row: Int) -> AnyObject? {
+    func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
         if row < errors.count { return  errors[row] } else { return warnings[row - errors.count] }
     }
     
     //MARK: Tableview Delegate
     
-    func tableView(tableView: PSClickableTableView, didClickTableRow row: Int) {
+    func tableView(_ tableView: PSClickableTableView, didClickTableRow row: Int) {
         let error = row < errors.count ? errors[row] : warnings[row - errors.count]
         
         if let entryName = error.entryName,
             str = textView.string {
-                var range = (str as NSString).rangeOfString("\n" + entryName + "::")
+                var range = (str as NSString).range(of: "\n" + entryName + "::")
                 
                 if range.location != NSNotFound && range.length > 0 {
                     range.length--
@@ -55,7 +55,7 @@ class PSScriptErrorViewController: NSObject, NSTableViewDataSource, NSTableViewD
                 }
             
         } else if let searchString = error.searchString, str = textView.string {
-            let range = (str as NSString).rangeOfString(searchString)
+            let range = (str as NSString).range(of: searchString)
             
             if range.location != NSNotFound && range.length > 0 {
                 //range.length--
@@ -71,11 +71,11 @@ class PSScriptErrorViewController: NSObject, NSTableViewDataSource, NSTableViewD
         
     }
     
-    func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
+    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         if row < errors.count {
-            return tableView.makeViewWithIdentifier("ErrorView", owner: nil)
+            return tableView.make(withIdentifier: "ErrorView", owner: nil)
         } else {
-            return tableView.makeViewWithIdentifier("WarningView", owner: nil)
+            return tableView.make(withIdentifier: "WarningView", owner: nil)
         }
     }
     
@@ -87,7 +87,7 @@ class PSScriptErrorViewController: NSObject, NSTableViewDataSource, NSTableViewD
         solutionText.string = ""
     }
     
-    func setErrorDetailToError(error : PSScriptError) {
+    func setErrorDetailToError(_ error : PSScriptError) {
         descriptionText.stringValue = error.errorDescription as String
         detailedDescriptionText.string = error.detailedDescription as String
         solutionText.string = error.solution as String
@@ -96,11 +96,11 @@ class PSScriptErrorViewController: NSObject, NSTableViewDataSource, NSTableViewD
 
     //MARK: Main methods (old protocol)
     
-    func newError(newError : PSScriptError) {
+    func newError(_ newError : PSScriptError) {
         errors.append(newError)
     }
     
-    func newWarning(newWarning : PSScriptError) {
+    func newWarning(_ newWarning : PSScriptError) {
         warnings.append(newWarning)
     }
     
@@ -113,7 +113,7 @@ class PSScriptErrorViewController: NSObject, NSTableViewDataSource, NSTableViewD
     func presentErrors() {
         tableView.reloadData()
         if errors.count > 0 || warnings.count > 0 {
-            NSNotificationCenter.defaultCenter().postNotificationName("PSShowErrorsNotification", object: mainWindowController.document)
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "PSShowErrorsNotification"), object: mainWindowController.document)
         }
     }
 }

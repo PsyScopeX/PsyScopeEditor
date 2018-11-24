@@ -12,14 +12,14 @@ import Cocoa
 
 
 
-public class PSFontAttributePopup: PSAttributePopup, NSControlTextEditingDelegate {
+open class PSFontAttributePopup: PSAttributePopup, NSControlTextEditingDelegate {
     public init(currentValue: PSEntryElement, displayName : String, type : PSFontAttributePopupType, setCurrentValueBlock : ((PSEntryElement) -> ())?) {
         self.type = type
-        super.init(nibName: "FontAttribute",bundle: NSBundle(forClass:self.dynamicType),currentValue: currentValue, displayName: displayName, setCurrentValueBlock: setCurrentValueBlock )
+        super.init(nibName: "FontAttribute",bundle: Bundle(for:self.dynamicType),currentValue: currentValue, displayName: displayName, setCurrentValueBlock: setCurrentValueBlock )
     }
     
     @IBOutlet var fontManager : NSFontManager!
-    var font : NSFont = NSFont.systemFontOfSize(12)
+    var font : NSFont = NSFont.systemFont(ofSize: 12)
     
     @IBOutlet var currentValueLabel : NSTextField!
     @IBOutlet var fontStylePopover : NSPopover!
@@ -36,17 +36,17 @@ public class PSFontAttributePopup: PSAttributePopup, NSControlTextEditingDelegat
     
     var fontSize : Int = 12
 
-    @IBAction func changeFontStylePressed(sender : AnyObject) {
-        fontStylePopover.showRelativeToRect(sender.bounds, ofView: sender as! NSView, preferredEdge: NSRectEdge.MaxX)
+    @IBAction func changeFontStylePressed(_ sender : AnyObject) {
+        fontStylePopover.show(relativeTo: sender.bounds, of: sender as! NSView, preferredEdge: NSRectEdge.maxX)
         
     }
     
-    public func control(control: NSControl, textShouldEndEditing fieldEditor: NSText) -> Bool {
+    open func control(_ control: NSControl, textShouldEndEditing fieldEditor: NSText) -> Bool {
         updateCurrentValue()
         return true
     }
     
-    @IBAction func fontButtonPressed(sender : AnyObject) {
+    @IBAction func fontButtonPressed(_ sender : AnyObject) {
         updateCurrentValue()
     }
     
@@ -57,41 +57,41 @@ public class PSFontAttributePopup: PSAttributePopup, NSControlTextEditingDelegat
         valueStringList.stringValue = self.currentValue.stringValue()
         
         switch (type) {
-        case .All:
+        case .all:
             if valueStringList.count == 5 {
-                fontFamilyPopUpButton.selectItemWithTitle(valueStringList[0])
+                fontFamilyPopUpButton.selectItem(withTitle: valueStringList[0])
                 fontSizeText.stringValue = valueStringList[1] //use number formatter
                 fontSize = fontSizeText.integerValue
                 fontSizeStepper.integerValue = fontSize
                 colorWell.color = PSColorStringToNSColor(valueStringList[4])
                 
-                if valueStringList[2].rangeOfString("Bold") != nil { boldCheck.state = 1 }
-                if valueStringList[2].rangeOfString("Italic") != nil { italicCheck.state = 1 }
-                if valueStringList[2].rangeOfString("Underline") != nil { underlinedCheck.state = 1 }
-                if valueStringList[2].rangeOfString("Outline") != nil { outlineCheck.state = 1 }
-                if valueStringList[2].rangeOfString("Shadow") != nil { shadowCheck.state = 1 }
+                if valueStringList[2].range(of: "Bold") != nil { boldCheck.state = 1 }
+                if valueStringList[2].range(of: "Italic") != nil { italicCheck.state = 1 }
+                if valueStringList[2].range(of: "Underline") != nil { underlinedCheck.state = 1 }
+                if valueStringList[2].range(of: "Outline") != nil { outlineCheck.state = 1 }
+                if valueStringList[2].range(of: "Shadow") != nil { shadowCheck.state = 1 }
             }
         
             break
-        case .FamilyOnly:
+        case .familyOnly:
             if valueStringList.count == 1 {
-                fontFamilyPopUpButton.selectItemWithTitle(valueStringList[0])
+                fontFamilyPopUpButton.selectItem(withTitle: valueStringList[0])
             }
             break
-        case .SizeOnly:
+        case .sizeOnly:
             if valueStringList.count == 1 {
                 fontSizeText.stringValue = valueStringList[0] //use number formatter
                 fontSize = fontSizeText.integerValue
                 fontSizeStepper.integerValue = fontSize
             }
             break
-        case .FaceOnly:
+        case .faceOnly:
             if valueStringList.count == 1 {
-                if valueStringList[0].rangeOfString("Bold") != nil { boldCheck.state = 1 }
-                if valueStringList[0].rangeOfString("Italic") != nil { italicCheck.state = 1 }
-                if valueStringList[0].rangeOfString("Underline") != nil { underlinedCheck.state = 1 }
-                if valueStringList[0].rangeOfString("Outline") != nil { outlineCheck.state = 1 }
-                if valueStringList[0].rangeOfString("Shadow") != nil { shadowCheck.state = 1 }
+                if valueStringList[0].range(of: "Bold") != nil { boldCheck.state = 1 }
+                if valueStringList[0].range(of: "Italic") != nil { italicCheck.state = 1 }
+                if valueStringList[0].range(of: "Underline") != nil { underlinedCheck.state = 1 }
+                if valueStringList[0].range(of: "Outline") != nil { outlineCheck.state = 1 }
+                if valueStringList[0].range(of: "Shadow") != nil { shadowCheck.state = 1 }
             }
             break
         }
@@ -101,7 +101,7 @@ public class PSFontAttributePopup: PSAttributePopup, NSControlTextEditingDelegat
         var cv = ""
         
         switch (type) {
-        case .All:
+        case .all:
             cv += "\""
             cv += fontFamilyPopUpButton.selectedItem!.title
             cv += "\" "
@@ -115,15 +115,15 @@ public class PSFontAttributePopup: PSAttributePopup, NSControlTextEditingDelegat
             cv += "\" Copy "
             cv += NSColorToPSColorString(colorWell.color)
             break
-        case .FamilyOnly:
+        case .familyOnly:
             cv += "\""
             cv += fontFamilyPopUpButton.selectedItem!.title
             cv += "\""
             break
-        case .SizeOnly:
+        case .sizeOnly:
             cv += "\(fontSize)"
             break
-        case .FaceOnly:
+        case .faceOnly:
             cv += "\""
             if (boldCheck.state == 1) { cv += "Bold " }
             if (italicCheck.state == 1) { cv += "Italic " }
@@ -136,7 +136,7 @@ public class PSFontAttributePopup: PSAttributePopup, NSControlTextEditingDelegat
         let parser = PSEntryValueParser(stringValue: cv)
         
         if parser.foundErrors {
-            self.currentValue = .Null
+            self.currentValue = .null
         } else {
             self.currentValue = parser.listElement
         }
@@ -144,46 +144,46 @@ public class PSFontAttributePopup: PSAttributePopup, NSControlTextEditingDelegat
     }
     
     var type : PSFontAttributePopupType
-    override public func awakeFromNib() {
+    override open func awakeFromNib() {
 
         super.awakeFromNib()
         
         //setup controls
-        fontSizeText.enabled = false
-        fontSizeStepper.enabled = false
-        fontFamilyPopUpButton.enabled = false
-        boldCheck.enabled = false
-        italicCheck.enabled = false
-        underlinedCheck.enabled = false
-        outlineCheck.enabled = false
-        shadowCheck.enabled = false
-        colorWell.enabled = false
+        fontSizeText.isEnabled = false
+        fontSizeStepper.isEnabled = false
+        fontFamilyPopUpButton.isEnabled = false
+        boldCheck.isEnabled = false
+        italicCheck.isEnabled = false
+        underlinedCheck.isEnabled = false
+        outlineCheck.isEnabled = false
+        shadowCheck.isEnabled = false
+        colorWell.isEnabled = false
         
         switch (type) {
-        case .All:
-            fontSizeText.enabled = true
-            fontSizeStepper.enabled = true
-            fontFamilyPopUpButton.enabled = true
-            boldCheck.enabled = true
-            italicCheck.enabled = true
-            underlinedCheck.enabled = true
-            outlineCheck.enabled = true
-            shadowCheck.enabled = true
-            colorWell.enabled = true
+        case .all:
+            fontSizeText.isEnabled = true
+            fontSizeStepper.isEnabled = true
+            fontFamilyPopUpButton.isEnabled = true
+            boldCheck.isEnabled = true
+            italicCheck.isEnabled = true
+            underlinedCheck.isEnabled = true
+            outlineCheck.isEnabled = true
+            shadowCheck.isEnabled = true
+            colorWell.isEnabled = true
             break
-        case .FamilyOnly:
-            fontFamilyPopUpButton.enabled = true
+        case .familyOnly:
+            fontFamilyPopUpButton.isEnabled = true
             break
-        case .SizeOnly:
-            fontSizeText.enabled = true
-            fontSizeStepper.enabled = true
+        case .sizeOnly:
+            fontSizeText.isEnabled = true
+            fontSizeStepper.isEnabled = true
             break
-        case .FaceOnly:
-            boldCheck.enabled = true
-            italicCheck.enabled = true
-            underlinedCheck.enabled = true
-            outlineCheck.enabled = true
-            shadowCheck.enabled = true
+        case .faceOnly:
+            boldCheck.isEnabled = true
+            italicCheck.isEnabled = true
+            underlinedCheck.isEnabled = true
+            outlineCheck.isEnabled = true
+            shadowCheck.isEnabled = true
             break
         }
         
@@ -192,16 +192,16 @@ public class PSFontAttributePopup: PSAttributePopup, NSControlTextEditingDelegat
     }
     
     @IBAction func enteredDone(_: AnyObject) {
-        NSColorPanel.sharedColorPanel().close()
+        NSColorPanel.shared().close()
         updateCurrentValue()
         closeMyCustomSheet(self)
-        NSFontPanel.sharedFontPanel().close()
+        NSFontPanel.shared().close()
     }
     
     
     
     
-    override public func changeFont(sender: AnyObject?) {
+    override open func changeFont(_ sender: Any?) {
         //var newFont = sender?.convertFont(font!)
         //font = newFont!
         //super.changeFont(sender)

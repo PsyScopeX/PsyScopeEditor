@@ -16,7 +16,7 @@ class PSEventsTableController : PSChildTypeViewController {
         pluginViewController.storedDoubleClickAction = { () in
         //TODO bring up template builder
         
-        NSNotificationCenter.defaultCenter().postNotificationName("PSShowWindowNotificationForTemplateBuilder", object: pluginViewController.scriptData.document)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: "PSShowWindowNotificationForTemplateBuilder"), object: pluginViewController.scriptData.document)
         return
         }
     }
@@ -26,6 +26,6 @@ class PSEventsTableController : PSChildTypeViewController {
     }
     
     @IBAction func openTemplateBuilderButtonClicked(_: AnyObject) {
-        NSNotificationCenter.defaultCenter().postNotificationName("PSShowWindowNotificationForTemplateBuilder", object: pluginViewController.scriptData.document)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: "PSShowWindowNotificationForTemplateBuilder"), object: pluginViewController.scriptData.document)
     }
 }

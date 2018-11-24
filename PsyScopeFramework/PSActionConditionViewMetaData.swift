@@ -28,7 +28,7 @@ public let PSActionsButtonHeight : CGFloat = CGFloat(30)
 public let PSCollapsedViewHeight : CGFloat = CGFloat(30)
 
 //since numerous things need this data, we collect it all at the start of a refresh
-public func PSActionConditionViewMetaData(actionsAttribute : PSEventActionsAttribute) -> [PSActionBuilderViewMetaDataSet] {
+public func PSActionConditionViewMetaData(_ actionsAttribute : PSEventActionsAttribute) -> [PSActionBuilderViewMetaDataSet] {
     
     var displayViewMetaData : [PSActionBuilderViewMetaDataSet] = []
     
@@ -37,7 +37,7 @@ public func PSActionConditionViewMetaData(actionsAttribute : PSEventActionsAttri
     
     
     
-    for (setNumber, set) in actionsAttribute.actionConditionSets.enumerate() {
+    for (setNumber, set) in actionsAttribute.actionConditionSets.enumerated() {
         
         var actionsHeight = PSActionsButtonHeight
         var conditionsHeight = PSConditionsButtonHeight
@@ -45,7 +45,7 @@ public func PSActionConditionViewMetaData(actionsAttribute : PSEventActionsAttri
         //each set has data for both actions and conditions
         var newSet : PSActionBuilderViewMetaDataSet = PSActionBuilderViewMetaDataSet()
         
-        for (row, action) in set.actions.enumerate() {
+        for (row, action) in set.actions.enumerated() {
             
             //to store if the cell is currently expanded or not
             let currentlyExpanded = actionsAttribute.itemIsExpanded(setNumber, itemIndex: row, action: true)
@@ -62,7 +62,7 @@ public func PSActionConditionViewMetaData(actionsAttribute : PSEventActionsAttri
             actionsHeight += CGFloat(2 + (currentlyExpanded ? expandedCellHeight : PSCollapsedViewHeight))
         }
         
-        for (row,condition) in set.conditions.enumerate() {
+        for (row,condition) in set.conditions.enumerated() {
             let currentlyExpanded = actionsAttribute.itemIsExpanded(setNumber, itemIndex: row, action: false)
             let expandedCellHeight = condition.condition.expandedCellHeight()
             let newViewMetaData : PSActionBuilderViewMetaData = PSActionBuilderViewMetaData(expandedCellHeight: expandedCellHeight, expanded: currentlyExpanded)

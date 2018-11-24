@@ -18,18 +18,18 @@ class PSEventBrowserView: NSTableView {
         super.awakeFromNib()
         
         //self.registerForDraggedTypes([pasteBoardType, NSPasteboardTypeString])
-        self.setDraggingSourceOperationMask(.Move, forLocal: true)
+        self.setDraggingSourceOperationMask(.move, forLocal: true)
     }
     
     
-    override func mouseDown(theEvent: NSEvent) {
+    override func mouseDown(with theEvent: NSEvent) {
         
-        let localLocation = self.convertPoint(theEvent.locationInWindow, fromView: nil)
-        let clickedRow = self.rowAtPoint(localLocation)
+        let localLocation = self.convert(theEvent.locationInWindow, from: nil)
+        let clickedRow = self.row(at: localLocation)
         
         //select row that was clicked
-        self.selectRowIndexes(NSIndexSet(index: clickedRow), byExtendingSelection: false)
-        let selectedRow : NSTableCellView = self.viewAtColumn(0, row: clickedRow, makeIfNecessary: false) as! NSTableCellView
+        self.selectRowIndexes(IndexSet(integer: clickedRow), byExtendingSelection: false)
+        let selectedRow : NSTableCellView = self.view(atColumn: 0, row: clickedRow, makeIfNecessary: false) as! NSTableCellView
         
         let psextension = selectedRow.objectValue as! PSExtension
         
@@ -41,11 +41,11 @@ class PSEventBrowserView: NSTableView {
         
         let dragItem = NSDraggingItem(pasteboardWriter: pbItem)
         dragItem.setDraggingFrame(imageBounds, contents: psextension.icon)
-        dragSession = self.beginDraggingSessionWithItems([dragItem], event: theEvent, source: self)
+        dragSession = self.beginDraggingSession(with: [dragItem], event: theEvent, source: self)
     }
     
-    override func draggingSession(session: NSDraggingSession, sourceOperationMaskForDraggingContext context: NSDraggingContext) -> NSDragOperation {
-        return NSDragOperation.Link
+    override func draggingSession(_ session: NSDraggingSession, sourceOperationMaskFor context: NSDraggingContext) -> NSDragOperation {
+        return NSDragOperation.link
     }
     
 }

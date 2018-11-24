@@ -9,7 +9,7 @@
 import Foundation
 
 //automatically updates an entry with attributes that are picked while popup is open
-public class PSAttributePickerEntry : PSAttributePicker {
+open class PSAttributePickerEntry : PSAttributePicker {
     
     public init(entry: Entry, scriptData: PSScriptData) {
         self.entry = entry
@@ -20,7 +20,7 @@ public class PSAttributePickerEntry : PSAttributePicker {
     
     //MARK: Overrides
     
-    public override func awakeFromNib() {
+    open override func awakeFromNib() {
         super.awakeFromNib()
         
         //populate existing entries
@@ -36,13 +36,13 @@ public class PSAttributePickerEntry : PSAttributePicker {
         //auto select entries category if found
         for category in categories {
             if category.name == self.entry.type {
-                self.attributePopupButton.selectItemWithTitle(category.userFriendlyName)
+                self.attributePopupButton.selectItem(withTitle: category.userFriendlyName)
                 break
             }
         }
     }
     
-    override func attributeButtonClicked(row : Int, clickedOn : Bool) {
+    override func attributeButtonClicked(_ row : Int, clickedOn : Bool) {
         super.attributeButtonClicked(row, clickedOn: clickedOn)
         let type = tableViewAttributes[row].type
         let interface = tableViewAttributes[row].attribute
@@ -57,7 +57,7 @@ public class PSAttributePickerEntry : PSAttributePicker {
     
     // MARK: Entry Modification
     
-    func addAttributeToEntry(interface : PSAttributeInterface, type : PSAttributeType) {
+    func addAttributeToEntry(_ interface : PSAttributeInterface, type : PSAttributeType) {
         //add the new entry - warn if exisiting incompatible type
         if let existing_att = scriptData.getSubEntry(interface.codeName(), entry: entry) {
             if existing_att.type != type.fullType {
@@ -78,8 +78,8 @@ public class PSAttributePickerEntry : PSAttributePicker {
                     let alert = NSAlert()
                     alert.messageText = question
                     alert.informativeText = info
-                    alert.addButtonWithTitle(quitButton)
-                    alert.addButtonWithTitle(cancelButton)
+                    alert.addButton(withTitle: quitButton)
+                    alert.addButton(withTitle: cancelButton)
                     
                     let answer = alert.runModal()
                     if answer == NSAlertFirstButtonReturn {
@@ -94,7 +94,7 @@ public class PSAttributePickerEntry : PSAttributePicker {
                     let alert = NSAlert()
                     alert.messageText = question
                     alert.informativeText = info
-                    alert.addButtonWithTitle(okButton)
+                    alert.addButton(withTitle: okButton)
                     _ = alert.runModal()
                 }
                 
@@ -111,7 +111,7 @@ public class PSAttributePickerEntry : PSAttributePicker {
         }
     }
     
-    func removeAttributeFromEntry(interface : PSAttributeInterface) {
+    func removeAttributeFromEntry(_ interface : PSAttributeInterface) {
         scriptData.deleteNamedSubEntryFromParentEntry(entry, name: interface.codeName())
     }
 

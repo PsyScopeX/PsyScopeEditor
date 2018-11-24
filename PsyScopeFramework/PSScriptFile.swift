@@ -9,8 +9,8 @@
 import Foundation
 
 
-public class PSScriptFile : NSObject {
-    public class func FileRefFromPath(path : String, scriptData : PSScriptData) -> String? {
+open class PSScriptFile : NSObject {
+    open class func FileRefFromPath(_ path : String, scriptData : PSScriptData) -> String? {
         if let docPath = scriptData.documentDirectory(),
             pspath = PSPath(path, basePath: docPath) {
             return "FileRef(\"\(pspath)\")"
@@ -19,7 +19,7 @@ public class PSScriptFile : NSObject {
         }
     }
     
-    public class func PathFromFileRef(fileref : String, scriptData : PSScriptData) -> String? {
+    open class func PathFromFileRef(_ fileref : String, scriptData : PSScriptData) -> String? {
         
         //should be fileref function nothing else
         
@@ -31,12 +31,12 @@ public class PSScriptFile : NSObject {
             
             //check there are no other functions contained within
             for value in function.values {
-                if case .Function = value {
+                if case .function = value {
                     return nil
                 }
             }
             var path = function.getParametersStringValue()
-            path = path.stringByTrimmingCharactersInSet(NSCharacterSet(charactersInString: "\" ()"))
+            path = path.trimmingCharacters(in: CharacterSet(charactersIn: "\" ()"))
             if scriptData.alertIfNoValidDocumentDirectory() {
                 if let docPath = scriptData.documentDirectory() {
                     return PSStandardPath(path, basePath: docPath)

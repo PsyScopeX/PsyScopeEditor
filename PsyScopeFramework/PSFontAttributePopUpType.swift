@@ -8,8 +8,8 @@
 import Foundation
 
 public enum PSFontAttributePopupType {
-    case All
-    case FamilyOnly
-    case SizeOnly
-    case FaceOnly
+    case all
+    case familyOnly
+    case sizeOnly
+    case faceOnly
 }

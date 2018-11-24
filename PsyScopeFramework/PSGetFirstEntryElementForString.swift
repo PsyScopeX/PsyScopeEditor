@@ -10,13 +10,13 @@ import Foundation
 
 
 //often we have a string that we want in entryElement form, and to exlude lists....
-public func PSGetFirstEntryElementForString(string : String) -> PSEntryElement? {
+public func PSGetFirstEntryElementForString(_ string : String) -> PSEntryElement? {
     let parser = PSEntryValueParser(stringValue: string)
     
     if parser.foundErrors {
         return nil
     } else {
-        if case .List(let listElement) = parser.listElement {
+        if case .list(let listElement) = parser.listElement {
             if let firstValue = listElement.values.first {
                 return firstValue
             }
@@ -26,41 +26,41 @@ public func PSGetFirstEntryElementForString(string : String) -> PSEntryElement? 
     return nil
 }
 
-public func PSGetFirstEntryElementForStringOrNull(string : String) -> PSEntryElement {
+public func PSGetFirstEntryElementForStringOrNull(_ string : String) -> PSEntryElement {
     if let entryElement = PSGetFirstEntryElementForString(string) {
         return entryElement
     } else {
-        return PSEntryElement.Null
+        return PSEntryElement.null
     }
 }
 
 
-public func PSStringTokenFromString(string : String) -> PSEntryElement {
-    return .StringToken(stringElement: PSStringElement(value: string, quotes: .None))
+public func PSStringTokenFromString(_ string : String) -> PSEntryElement {
+    return .stringToken(stringElement: PSStringElement(value: string, quotes: .none))
 }
 
-public func PSGetListElementForString(string : String) -> PSEntryElement {
+public func PSGetListElementForString(_ string : String) -> PSEntryElement {
     let parser = PSEntryValueParser(stringValue: string)
     if parser.foundErrors {
-        return .Null
+        return .null
     } else {
         return parser.listElement
     }
 }
 
-public func PSGetEntryElementAsStringList(entryElement : PSEntryElement) -> PSStringListElement {
+public func PSGetEntryElementAsStringList(_ entryElement : PSEntryElement) -> PSStringListElement {
     switch(entryElement) {
-    case .Null:
+    case .null:
         let stringListElement = PSStringListElement()
         stringListElement.stringValue = "NULL"
         return stringListElement
-    case let .List(stringListElement):
+    case let .list(stringListElement):
         return stringListElement
-    case let .Function(functionElement):
+    case let .function(functionElement):
         let stringListElement = PSStringListElement()
         stringListElement.stringValue = functionElement.stringValue
         return stringListElement
-    case let .StringToken(stringElement):
+    case let .stringToken(stringElement):
         let stringListElement = PSStringListElement()
         stringListElement.stringValue = stringElement.quotedValue
         return stringListElement
@@ -68,11 +68,11 @@ public func PSGetEntryElementAsStringList(entryElement : PSEntryElement) -> PSSt
 }
 
 //if list needs to appear as a sub list, then enclose it
-public func PSConvertListElementToStringElement(element : PSEntryElement) -> PSEntryElement {
-    if case .List(let stringListElement) = element {
+public func PSConvertListElementToStringElement(_ element : PSEntryElement) -> PSEntryElement {
+    if case .list(let stringListElement) = element {
         if stringListElement.values.count > 1 {
             //enclose
-            return .StringToken(stringElement: PSStringElement(value: element.stringValue(), quotes: .CurlyBrackets))
+            return .stringToken(stringElement: PSStringElement(value: element.stringValue(), quotes: .curlyBrackets))
         } else if let first = stringListElement.values.first {
             return first
         } else {

@@ -67,7 +67,7 @@ class PSFunctionElement_Tests: XCTestCase {
         
         var value3IsFunction = false
         
-        if case .Function(let inlineFunctionElement) = functionElement.values[2] {
+        if case .function(let inlineFunctionElement) = functionElement.values[2] {
             value3IsFunction = true
             XCTAssertEqual(inlineFunctionElement.functionName, "InlineEntry")
             let inlineValues = inlineFunctionElement.getStringValues()

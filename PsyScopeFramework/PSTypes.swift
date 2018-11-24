@@ -41,7 +41,7 @@ public struct PSType : Equatable {
     
     public static let DefaultTypes : [PSType] = [Experiment, SubjectInfo, Group, Block, Template, List, Variable, PortNames, Port, Position, Logging, ExecutionEntry, UndefinedEntry, Input, Text, Pict, KeySequence, Movie, SoundLabel, PasteBoard, Document, Paragraph, NullEvent, Menu]
     
-    public static func FromName(name : String) -> PSType {
+    public static func FromName(_ name : String) -> PSType {
         if let defaultType = DefaultTypes.filter({$0.name == name}).first {
             return defaultType
         } else {

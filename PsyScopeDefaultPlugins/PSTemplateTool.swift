@@ -14,7 +14,7 @@ class PSTemplateTool: PSTool , PSToolInterface {
         toolType = PSType.Template
         helpfulDescriptionString = "Node for defining a template"
         iconName = "Template-icon-128" //icon changed by Luca
-        iconColor = NSColor.redColor()
+        iconColor = NSColor.red
         classNameString = "PSTemplateTool"
         section = PSSection.TemplateDefinitions
         identityProperty = Properties.Templates
@@ -24,7 +24,7 @@ class PSTemplateTool: PSTool , PSToolInterface {
         static let Templates = PSProperty(name: "Templates", defaultValue: "")
     }
     
-    override func identifyEntries(ghostScript: PSGhostScript) -> [PSScriptError]{
+    override func identifyEntries(_ ghostScript: PSGhostScript) -> [PSScriptError]{
         return PSTool.identifyEntriesByPropertyInOtherEntry(ghostScript, property: identityProperty!, type: toolType)
     }
     
@@ -32,7 +32,7 @@ class PSTemplateTool: PSTool , PSToolInterface {
         return true
     }
     
-    override func menuItemSelectedForAttributeSource(itemTitle: String, tag: Int, entry: Entry?, originalValue: String, originalFullType : PSAttributeType?, scriptData: PSScriptData) -> String {
+    override func menuItemSelectedForAttributeSource(_ itemTitle: String, tag: Int, entry: Entry?, originalValue: String, originalFullType : PSAttributeType?, scriptData: PSScriptData) -> String {
         if entry != nil {
             return "TrialAttrib(\"\(itemTitle)\")"
         } else {
@@ -47,7 +47,7 @@ class PSTemplateTool: PSTool , PSToolInterface {
         
     }
     
-    override func constructAttributeSourceSubMenu(scriptData: PSScriptData) -> NSMenuItem {
+    override func constructAttributeSourceSubMenu(_ scriptData: PSScriptData) -> NSMenuItem {
         
         let subMenuItem = NSMenuItem(title: "Template", action: "", keyEquivalent: "t")
         subMenuItem.representedObject = self
@@ -63,7 +63,7 @@ class PSTemplateTool: PSTool , PSToolInterface {
             }
         }
         if suitableAttributes.count == 0 {
-            subMenuItem.enabled = false
+            subMenuItem.isEnabled = false
             return subMenuItem }
         let menu = NSMenu(title: "Template")
         subMenuItem.submenu = menu;
@@ -79,16 +79,16 @@ class PSTemplateTool: PSTool , PSToolInterface {
         return subMenuItem
     }
     
-    override func identifyAsAttributeSourceAndReturnRepresentiveString(currentValue: String) -> [AnyObject] {
+    override func identifyAsAttributeSourceAndReturnRepresentiveString(_ currentValue: String) -> [AnyObject] {
         return PSToolHelper.attributedStringForAttributeFunction("TrialAttrib", icon: self.icon(), currentValue: currentValue)
         
     }
     
-    override func getPropertiesViewController(entry: Entry, withScript scriptData: PSScriptData) -> PSPluginViewController? {
+    override func getPropertiesViewController(_ entry: Entry, withScript scriptData: PSScriptData) -> PSPluginViewController? {
         return PSTemplatesViewController(entry: entry, scriptData: scriptData)
     }
     
-    override func createLinkFrom(parent: Entry, to child: Entry, withScript scriptData: PSScriptData) -> Bool {
+    override func createLinkFrom(_ parent: Entry, to child: Entry, withScript scriptData: PSScriptData) -> Bool {
         if PSTool.createLinkFromToolToList(parent, to: child, withScript: scriptData) {
             return true
         }
@@ -105,7 +105,7 @@ class PSTemplateTool: PSTool , PSToolInterface {
         return false
     }
     
-    override func deleteLinkFrom(parent: Entry, to child: Entry, withScript scriptData: PSScriptData) -> Bool {
+    override func deleteLinkFrom(_ parent: Entry, to child: Entry, withScript scriptData: PSScriptData) -> Bool {
         var childAttributeName : String = ""
         
         if scriptData.typeIsEvent(child.type) {

@@ -8,11 +8,11 @@
 
 import Foundation
 
-public class PSAttributeParameter_Precompile : PSAttributeParameter {
+open class PSAttributeParameter_Precompile : PSAttributeParameter {
     var allCheck : NSButton!
     var numberText : NSTextField!
     
-    override public func setCustomControl(visible: Bool) {
+    override open func setCustomControl(_ visible: Bool) {
         
         if visible {
             if allCheck == nil {
@@ -23,7 +23,7 @@ public class PSAttributeParameter_Precompile : PSAttributeParameter {
                 
                 //add check box
                 allCheck = NSButton(frame: halfAttributeValueControlFrame)
-                allCheck.setButtonType(NSButtonType.SwitchButton)
+                allCheck.setButtonType(NSButtonType.switch)
                 allCheck.target = self
                 allCheck.action = "checkSelected:"
                 allCheck.title = "All"
@@ -34,27 +34,27 @@ public class PSAttributeParameter_Precompile : PSAttributeParameter {
                 
                 //add number text field
                 numberText = NSTextField(frame: locationAlong)
-                numberText.autoresizingMask = NSAutoresizingMaskOptions.ViewWidthSizable
+                numberText.autoresizingMask = NSAutoresizingMaskOptions.viewWidthSizable
                 numberText.target = self
                 numberText.action = "numberChanged:"
-                let intsOnly = NSNumberFormatter()
+                let intsOnly = NumberFormatter()
                 intsOnly.maximumFractionDigits = 0
                 numberText.formatter = intsOnly
                 cell.addSubview(numberText)
             } else {
-                allCheck.hidden = false
-                numberText.hidden = false
+                allCheck.isHidden = false
+                numberText.isHidden = false
             }
             updateContent()
         } else {
             if allCheck != nil {
-                allCheck.hidden = true
-                numberText.hidden = true
+                allCheck.isHidden = true
+                numberText.isHidden = true
             }
         }
     }
     
-    func checkSelected(item : NSMenuItem) {
+    func checkSelected(_ item : NSMenuItem) {
         if allCheck.state == 1 {
             currentValue = PSGetFirstEntryElementForStringOrNull("All")
         } else {
@@ -70,18 +70,18 @@ public class PSAttributeParameter_Precompile : PSAttributeParameter {
     
     func updateContent() {
         let stringValue = currentValue.stringValue()
-        if stringValue.lowercaseString == "all" {
+        if stringValue.lowercased() == "all" {
             allCheck.state = 1
             numberText.stringValue = ""
-            numberText.enabled = false
+            numberText.isEnabled = false
         } else if let _ = Int(stringValue) {
             allCheck.state = 0
             numberText.stringValue = stringValue
-            numberText.enabled = true
+            numberText.isEnabled = true
         } else {
             allCheck.state = 0
             numberText.stringValue = "0"
-            numberText.enabled = true
+            numberText.isEnabled = true
         }
     }
 }

@@ -17,10 +17,10 @@ import Foundation
 import Foundation
 
 
-public class PSCheckBoxListAttributePopup: PSAttributePopup {
+open class PSCheckBoxListAttributePopup: PSAttributePopup {
     
     public init(currentValue : PSEntryElement, displayName : String, checkBoxStrings : [(String,String)], setCurrentValueBlock : ((PSEntryElement) -> ())?) {
-        let bundle = NSBundle(forClass:self.dynamicType)
+        let bundle = Bundle(for:self.dynamicType)
         self.checkBoxStrings = checkBoxStrings
         super.init(nibName: "CheckBoxListAttributePopup", bundle: bundle, currentValue: currentValue, displayName: displayName, setCurrentValueBlock: setCurrentValueBlock)
     }
@@ -31,7 +31,7 @@ public class PSCheckBoxListAttributePopup: PSAttributePopup {
     var checkBoxStrings : [(String,String)]
     var checkBoxes : [(button : NSButton, token : String)] = []
     var okButton : NSButton! = nil
-    override public func awakeFromNib() {
+    override open func awakeFromNib() {
         let height = (checkBoxStrings.count * 20) + 60
         let size =  NSSize(width: 400, height: height)
         var frame = view.window!.frame
@@ -44,7 +44,7 @@ public class PSCheckBoxListAttributePopup: PSAttributePopup {
         for checkBoxString in checkBoxStrings {
             let rect = NSMakeRect(10, y, 400, 20)
             let new_check_box : NSButton = NSButton(frame: rect)
-            new_check_box.setButtonType(NSButtonType.SwitchButton)
+            new_check_box.setButtonType(NSButtonType.switch)
             new_check_box.title = checkBoxString.1
             
             view.addSubview(new_check_box)
@@ -61,7 +61,7 @@ public class PSCheckBoxListAttributePopup: PSAttributePopup {
         view.addSubview(okButton)
         
         //now set checkBoxes
-        let current_options : [String] = currentValue.stringValue().componentsSeparatedByString(" ")
+        let current_options : [String] = currentValue.stringValue().components(separatedBy: " ")
         for checkBox in checkBoxes {
             for active_option in current_options {
                 if active_option == checkBox.token {
@@ -81,7 +81,7 @@ public class PSCheckBoxListAttributePopup: PSAttributePopup {
         }
         
         
-        currentValue = PSGetListElementForString(value.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()))
+        currentValue = PSGetListElementForString(value.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines))
         
         self.closeMyCustomSheet(self)
     }

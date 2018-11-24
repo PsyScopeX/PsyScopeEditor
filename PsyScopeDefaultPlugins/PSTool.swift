@@ -22,7 +22,7 @@ class PSTool: PSToolHelper {
         toolType = PSType.UndefinedEntry
         helpfulDescriptionString = ""
         iconName = ""
-        iconColor = NSColor.whiteColor()
+        iconColor = NSColor.white
         classNameString = ""
         section =  PSSection.UndefinedEntries
         properties = []
@@ -52,26 +52,26 @@ class PSTool: PSToolHelper {
         return classNameString
     }
     
-    func createLinkFrom(parent: Entry, to child: Entry, withScript scriptData: PSScriptData) -> Bool {
+    func createLinkFrom(_ parent: Entry, to child: Entry, withScript scriptData: PSScriptData) -> Bool {
         return false
     }
     
-    func deleteLinkFrom(parent: Entry, to child: Entry, withScript scriptData: PSScriptData) -> Bool {
+    func deleteLinkFrom(_ parent: Entry, to child: Entry, withScript scriptData: PSScriptData) -> Bool {
         
         
         return false
     }
     
-    func identifyEntries(ghostScript: PSGhostScript) -> [PSScriptError]{
+    func identifyEntries(_ ghostScript: PSGhostScript) -> [PSScriptError]{
         // blank entries must always be identified after all other plugins (so do nothing for this stage)
         return []
     }
     
-    func validateBeforeRun(scriptData: PSScriptData) -> [PSScriptError] {
+    func validateBeforeRun(_ scriptData: PSScriptData) -> [PSScriptError] {
         return []
     }
     
-    func createObjectWithGhostEntries(entries: [PSGhostEntry], withScript scriptData: PSScriptData) -> [LayoutObject]? {
+    func createObjectWithGhostEntries(_ entries: [PSGhostEntry], withScript scriptData: PSScriptData) -> [LayoutObject]? {
         var return_array : [LayoutObject] = []
         for ent in entries {
             if let new_blank_obj = createObject(scriptData) {
@@ -85,7 +85,7 @@ class PSTool: PSToolHelper {
         return return_array
     }
     
-    func updateEntry(realEntry: Entry, withGhostEntry ghostEntry: PSGhostEntry, scriptData: PSScriptData) {
+    func updateEntry(_ realEntry: Entry, withGhostEntry ghostEntry: PSGhostEntry, scriptData: PSScriptData) {
         
         PSUpdateEntryWithGhostEntry(realEntry, ghostEntry: ghostEntry, scriptData: scriptData)
         
@@ -98,7 +98,7 @@ class PSTool: PSToolHelper {
         }
     }
     
-    func createObject(scriptData: PSScriptData) -> Entry? {
+    func createObject(_ scriptData: PSScriptData) -> Entry? {
         let layout_object = scriptData.createBaseEntryAndLayoutObjectPair(section, entryName: toolType.name, type: toolType)
         
         layout_object.icon = self.icon()
@@ -111,7 +111,7 @@ class PSTool: PSToolHelper {
         return layout_object.mainEntry
     }
     
-    func deleteObject(lobject: Entry, withScript scriptData: PSScriptData) -> Bool {
+    func deleteObject(_ lobject: Entry, withScript scriptData: PSScriptData) -> Bool {
         scriptData.deleteMainEntry(lobject)
         return true
     }
@@ -125,21 +125,21 @@ class PSTool: PSToolHelper {
         return true
     }
     
-    func menuItemSelectedForAttributeSource(itemTitle : String, tag : Int, entry : Entry?, originalValue : String, originalFullType : PSAttributeType?, scriptData: PSScriptData) -> String {
+    func menuItemSelectedForAttributeSource(_ itemTitle : String, tag : Int, entry : Entry?, originalValue : String, originalFullType : PSAttributeType?, scriptData: PSScriptData) -> String {
         fatalError("Tool is not source for script")
     }
     
-    func constructAttributeSourceSubMenu(scriptData: PSScriptData) -> NSMenuItem {
+    func constructAttributeSourceSubMenu(_ scriptData: PSScriptData) -> NSMenuItem {
         fatalError("Tool is not source for script")
     }
     
-    func identifyAsAttributeSourceAndReturnRepresentiveString(currentValue: String) -> [AnyObject] {
+    func identifyAsAttributeSourceAndReturnRepresentiveString(_ currentValue: String) -> [AnyObject] {
         return []
     }
     
     func appearsInToolMenu() -> Bool { return true }
     
-    func getPropertiesViewController(entry: Entry, withScript scriptData: PSScriptData) -> PSPluginViewController? {
+    func getPropertiesViewController(_ entry: Entry, withScript scriptData: PSScriptData) -> PSPluginViewController? {
         //default show nil
         return nil
         
@@ -149,7 +149,7 @@ class PSTool: PSToolHelper {
         return []
     }
     
-    func createFromDraggedFile(fileName : String, scriptData: PSScriptData) -> Entry? {
+    func createFromDraggedFile(_ fileName : String, scriptData: PSScriptData) -> Entry? {
         return nil
     }
     

@@ -18,11 +18,11 @@ class PSScriptWriter: NSObject {
     var new_line : String = "\n"
     
     
-    func entryToText(entry : Entry, level : Int) -> String {
-        var text : String = String(count: 4 * level, repeatedValue: Character(" "))
+    func entryToText(_ entry : Entry, level : Int) -> String {
+        var text : String = String(repeating: " ", count: 4 * level)
         text += entry.name + ":"
         if level == 0 { text += ":" }
-        if level > 1 { text += String(count: level - 1, repeatedValue: Character(">")) }
+        if level > 1 { text += String(repeating: ">", count: level - 1) }
         text += " " + entry.currentValue
         
         if entry.comments != "" {
@@ -37,7 +37,7 @@ class PSScriptWriter: NSObject {
         return text
     }
     
-    func sectionToText(section : Section) -> String {
+    func sectionToText(_ section : Section) -> String {
         
         var text : String = ""
         if section.sectionName != "Root" { text = "#> " + section.sectionName + new_line + new_line }
@@ -51,19 +51,19 @@ class PSScriptWriter: NSObject {
     func generateScript() -> String {
         let initialLine = "# Created or modified with PsyEditor 0.2\n\n"
         var sections = scriptData.getSections()
-        sections = sections.sort({
+        sections = sections.sorted(by: {
             (e1: Section, e2: Section) -> Bool in
-            return e1.scriptOrder.unsignedIntegerValue < e2.scriptOrder.unsignedIntegerValue })
+            return e1.scriptOrder.uintValue < e2.scriptOrder.uintValue })
         var script : String = initialLine
         for section in sections {
             script += sectionToText(section) + new_line
         }
-        return script.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+        return script.trimmingCharacters(in: CharacterSet.whitespaces)
     }
     
     func generatePsyScopeXScript() -> String {
         let script = "#PsyScope 1.0\n# Script template, Version 1.0\n\n" + generateScript()
-        return script.stringByReplacingOccurrencesOfString("\n", withString: "\r")
+        return script.replacingOccurrences(of: "\n", with: "\r")
     }
     
 }

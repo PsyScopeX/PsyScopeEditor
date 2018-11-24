@@ -18,7 +18,7 @@ class PSGroupsCreator {
         self.groupTool = scriptData.pluginProvider.getInterfaceForType(PSType.Group)!
     }
     
-    func generateGroups(groupVariables : [PSSubjectVariable]) {
+    func generateGroups(_ groupVariables : [PSSubjectVariable]) {
         //first delete existing groups
         let existingGroups = scriptData.getBaseEntriesOfType(PSType.Group)
         
@@ -30,8 +30,8 @@ class PSGroupsCreator {
             let alert = NSAlert()
             alert.messageText = question
             alert.informativeText = info
-            alert.addButtonWithTitle(yesButton)
-            alert.addButtonWithTitle(noButton)
+            alert.addButton(withTitle: yesButton)
+            alert.addButton(withTitle: noButton)
             
             let answer = alert.runModal()
             if answer != NSAlertFirstButtonReturn {
@@ -49,9 +49,9 @@ class PSGroupsCreator {
         for groupingVariable in groupVariables {
             var validCombinations : [String] = []
             switch (groupingVariable.dialogType) {
-            case let .CheckBoxes(values):
+            case let .checkBoxes(values):
                 validCombinations = generateCombinationsRecursive(values)
-            case let .RadioButtons(values):
+            case let .radioButtons(values):
                 validCombinations = values
             default:
                 break
@@ -68,7 +68,7 @@ class PSGroupsCreator {
         PSSortSubTree(experimentEntry.layoutObject, scriptData: scriptData)
     }
     
-    func createGroupRecursive(names : [String], combinations : [[String]], values : [String]) -> [Entry] {
+    func createGroupRecursive(_ names : [String], combinations : [[String]], values : [String]) -> [Entry] {
         
         if values.count == names.count {
             return [createGroupWithConditionNames(names, values: values)]
@@ -84,25 +84,25 @@ class PSGroupsCreator {
         return entries
     }
     
-    func createGroupWithConditionNames(names : [String], values : [String]) -> Entry {
+    func createGroupWithConditionNames(_ names : [String], values : [String]) -> Entry {
         guard let newEntry = groupTool.createObject(scriptData) else { fatalError("Could not create a Group Entry") }
         
         let group = PSGroup(entry: newEntry,scriptData: scriptData)
         
-        for (index, name) in names.enumerate() {
+        for (index, name) in names.enumerated() {
             group.addCriteria(name, value: values[index])
         }
         return newEntry
     }
     
-    func generateCombinationsRecursive(values : [String]) -> [String] {
+    func generateCombinationsRecursive(_ values : [String]) -> [String] {
         if values.count == 1 {
             return values + [""]
         }
         var newCombinations : [String] = []
         if let firstValue = values.first {
             var subSet = values
-            subSet.removeAtIndex(0)
+            subSet.remove(at: 0)
             let subCombinations = generateCombinationsRecursive(subSet)
             newCombinations = subCombinations
             newCombinations += subCombinations.map { $0 + " " + firstValue }

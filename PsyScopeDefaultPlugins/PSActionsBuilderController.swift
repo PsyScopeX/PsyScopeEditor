@@ -41,19 +41,19 @@ class PSActionsBuilderController : NSObject, NSTableViewDataSource, NSTableViewD
     
     override func awakeFromNib() {
         scriptData = actionsBuilder.scriptData
-        let nib = NSNib(nibNamed: "ActionsBuilderCell", bundle: NSBundle(forClass:self.dynamicType))
-        actionsTableView.registerNib(nib!, forIdentifier: tableCellViewIdentifier)
+        let nib = NSNib(nibNamed: "ActionsBuilderCell", bundle: Bundle(for:self.dynamicType))
+        actionsTableView.register(nib!, forIdentifier: tableCellViewIdentifier)
         
 
         //if nothing selected don't allow the pressing of action button
-        actionButton.enabled = (selectedActionCondition != nil)
+        actionButton.isEnabled = (selectedActionCondition != nil)
     }
     
-    func docMocChanged(notification : NSNotification) {
+    func docMocChanged(_ notification : Notification) {
         loadEvent()
     }
     
-    func entryDeleted(entry : Entry) {
+    func entryDeleted(_ entry : Entry) {
 
     }
     
@@ -70,7 +70,7 @@ class PSActionsBuilderController : NSObject, NSTableViewDataSource, NSTableViewD
     func loadEvent() {
         
         if eventEntry == nil {
-            addButton.enabled = false
+            addButton.isEnabled = false
             actionsTableView.reloadData()
             return
         }
@@ -81,7 +81,7 @@ class PSActionsBuilderController : NSObject, NSTableViewDataSource, NSTableViewD
         }
         
         self.actionsAttribute = actionsAttribute
-        actionsTypePopup.selectItemWithTitle(actionsAttribute.attributeName)
+        actionsTypePopup.selectItem(withTitle: actionsAttribute.attributeName)
         
         guard let displayViewMetaData = selectionInterface.getActionConditionViewMetaData() else {
             fatalError("Could not get view meta data")
@@ -89,13 +89,13 @@ class PSActionsBuilderController : NSObject, NSTableViewDataSource, NSTableViewD
         
         
         self.displayViewMetaData = displayViewMetaData
-        addButton.enabled = true
+        addButton.isEnabled = true
         
         
     }
 
     
-    func numberOfRowsInTableView(tableView: NSTableView) -> Int {
+    func numberOfRows(in tableView: NSTableView) -> Int {
         if let aa = actionsAttribute {
             return aa.actionConditionSets.count
         } else {
@@ -103,8 +103,8 @@ class PSActionsBuilderController : NSObject, NSTableViewDataSource, NSTableViewD
         }
     }
     
-    func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        let view = tableView.makeViewWithIdentifier(tableCellViewIdentifier, owner: self) as! PSActionsBuilderCell
+    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+        let view = tableView.make(withIdentifier: tableCellViewIdentifier, owner: self) as! PSActionsBuilderCell
         view.controller = self
         view.actionsAttribute = self.actionsAttribute
         view.rowIndex = row
@@ -130,7 +130,7 @@ class PSActionsBuilderController : NSObject, NSTableViewDataSource, NSTableViewD
         return view
     }
     
-    func tableView(tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
+    func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
         //get the height of the row (cannot get the exact view from this method)
         var heightData : PSActionBuilderViewMetaDataSet
         
@@ -142,26 +142,26 @@ class PSActionsBuilderController : NSObject, NSTableViewDataSource, NSTableViewD
         return CGFloat(10) + max(heightData.actionsHeight, heightData.conditionsHeight)
     }
     
-    func tableView(tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
+    func tableView(_ tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
         return false
     }
     
-    func selectedActionCondition(actionCondition : PSEventActionCondition?, fromView : PSActionsBuilderCell?) {
+    func selectedActionCondition(_ actionCondition : PSEventActionCondition?, fromView : PSActionsBuilderCell?) {
         selectedActionCondition = actionCondition
         //alter state of the action button
-        actionButton.enabled = (selectedActionCondition != nil)
+        actionButton.isEnabled = (selectedActionCondition != nil)
         //deleteButton.enabled = (selectedActionCondition == nil)
         
         if let selectedActionCondition = selectedActionCondition,
             actionFunction = selectedActionCondition as? PSEventActionFunction {
-                instancesActiveUntilMenuItem.hidden = false
+                instancesActiveUntilMenuItem.isHidden = false
                 if actionFunction.hasInstancesOrActiveUntilValueAttributes {
                     instancesActiveUntilMenuItem.state = NSOnState
                 } else {
                     instancesActiveUntilMenuItem.state = NSOffState
                 }
         } else {
-            instancesActiveUntilMenuItem.hidden = true
+            instancesActiveUntilMenuItem.isHidden = true
         }
 
         
@@ -228,32 +228,32 @@ class PSActionsBuilderController : NSObject, NSTableViewDataSource, NSTableViewD
         for (_,view) in views {
             view.deSelect()
         }
-        deleteSetMenuItem.enabled = false
-        deleteMenuItem.enabled = false
-        moveUpMenuItem.enabled = false
-        moveDownMenuItem.enabled = false
-        moveSetUpMenuItem.enabled = false
-        moveSetDownMenuItem.enabled = false
+        deleteSetMenuItem.isEnabled = false
+        deleteMenuItem.isEnabled = false
+        moveUpMenuItem.isEnabled = false
+        moveDownMenuItem.isEnabled = false
+        moveSetUpMenuItem.isEnabled = false
+        moveSetDownMenuItem.isEnabled = false
         instancesActiveUntilMenuItem.state = NSOffState
-        instancesActiveUntilMenuItem.enabled = false
+        instancesActiveUntilMenuItem.isEnabled = false
         selectedActionCondition = nil
         selectedActionConditionLocation = nil
-        actionButton.enabled = false
+        actionButton.isEnabled = false
     }
     
     func enableMenuItems() {
-        deleteSetMenuItem.enabled = true
-        deleteMenuItem.enabled = true
-        moveUpMenuItem.enabled = true
-        moveDownMenuItem.enabled = true
-        moveSetUpMenuItem.enabled = true
-        moveSetDownMenuItem.enabled = true
-        instancesActiveUntilMenuItem.enabled = true
+        deleteSetMenuItem.isEnabled = true
+        deleteMenuItem.isEnabled = true
+        moveUpMenuItem.isEnabled = true
+        moveDownMenuItem.isEnabled = true
+        moveSetUpMenuItem.isEnabled = true
+        moveSetDownMenuItem.isEnabled = true
+        instancesActiveUntilMenuItem.isEnabled = true
     }
     
     //MARK: Action button menu items
     
-    @IBAction func deleteActionMenuClicked(sender : AnyObject) {
+    @IBAction func deleteActionMenuClicked(_ sender : AnyObject) {
         if let s = selectedActionCondition, actionsAttribute = actionsAttribute {
             actionsAttribute.removeActionCondition(s)
         }
@@ -265,7 +265,7 @@ class PSActionsBuilderController : NSObject, NSTableViewDataSource, NSTableViewD
         }
     }
     
-    @IBAction func toggleInstancesActiveUntil(sender : AnyObject) {
+    @IBAction func toggleInstancesActiveUntil(_ sender : AnyObject) {
         if let selectedActionCondition = selectedActionCondition,
             actionFunction = selectedActionCondition as? PSEventActionFunction {
                 actionFunction.setInstancesActiveUntilOn(!actionFunction.hasInstancesOrActiveUntilValueAttributes)
@@ -274,7 +274,7 @@ class PSActionsBuilderController : NSObject, NSTableViewDataSource, NSTableViewD
         }
     }
     
-    @IBAction func moveUpClicked(sender : AnyObject) {
+    @IBAction func moveUpClicked(_ sender : AnyObject) {
         if let actionsAttribute = actionsAttribute,
         selectedActionCondition = selectedActionCondition{
             let newIndex2 = actionsAttribute.moveActionConditionUp(selectedActionCondition)
@@ -284,7 +284,7 @@ class PSActionsBuilderController : NSObject, NSTableViewDataSource, NSTableViewD
         }
     }
     
-    @IBAction func moveDownClicked(sender : AnyObject) {
+    @IBAction func moveDownClicked(_ sender : AnyObject) {
         if let actionsAttribute = actionsAttribute,
         selectedActionCondition = selectedActionCondition{
             let newIndex2 = actionsAttribute.moveActionConditionDown(selectedActionCondition)
@@ -319,7 +319,7 @@ class PSActionsBuilderController : NSObject, NSTableViewDataSource, NSTableViewD
     
     //MARK: Add / Delete Button
     
-    @IBAction func addActionButton(sender : AnyObject) {
+    @IBAction func addActionButton(_ sender : AnyObject) {
         actionsAttribute?.newActionConditionSet()
         actionsTableView.reloadData()
     }

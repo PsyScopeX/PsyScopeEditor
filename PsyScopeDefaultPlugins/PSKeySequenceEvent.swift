@@ -24,7 +24,7 @@ class PSKeySequenceEvent : PSEventTool {
         toolType = PSType.KeySequence
         helpfulDescriptionString = "allows the participant to enter a series of keys, e.g. a word."
         iconName = "KeySequenceIcon"
-        iconColor = NSColor.redColor()
+        iconColor = NSColor.red
         classNameString = "PSKeySequenceEvent"
         properties = [Properties.StartRef, Properties.Duration, Properties.EventType]
     }
@@ -35,7 +35,7 @@ class PSKeySequenceEvent : PSEventTool {
         static let EventType = PSProperty(name: "EventType", defaultValue: "KeySequence", essential: true)
     }
     
-    override func createObject(scriptData: PSScriptData) -> Entry? {
+    override func createObject(_ scriptData: PSScriptData) -> Entry? {
         guard let mainEntry = super.createObject(scriptData) else { return nil }
         if scriptData.getSubEntry("Stimulus", entry: mainEntry) == nil {
             let entry = scriptData.getOrCreateSubEntry("Stimulus", entry: mainEntry, isProperty: false, type: PSAttributeType(name: "Stimulus", parentType: toolType))

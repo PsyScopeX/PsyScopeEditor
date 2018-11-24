@@ -23,7 +23,7 @@ class PSSelectionController : NSObject, PSSelectionInterface {
     var docMocChangesPending : Bool = false
     var preventRefresh : Bool = false
     
-    func initialize(document : Document, scriptData : PSScriptData) {
+    func initialize(_ document : Document, scriptData : PSScriptData) {
         self.document = document
         self.scriptData = scriptData
     }
@@ -32,15 +32,15 @@ class PSSelectionController : NSObject, PSSelectionInterface {
         willSet {
             if newValue != registeredForChanges {
                 if newValue {
-                    NSNotificationCenter.defaultCenter().addObserver(self, selector: "docMocChanged:", name: NSManagedObjectContextObjectsDidChangeNotification, object: scriptData.docMoc)
+                    NotificationCenter.default.addObserver(self, selector: "docMocChanged:", name: NSNotification.Name.NSManagedObjectContextObjectsDidChange, object: scriptData.docMoc)
                 } else {
-                    NSNotificationCenter.defaultCenter().removeObserver(self)
+                    NotificationCenter.default.removeObserver(self)
                 }
             }
         }
     }
     
-    func registerSelectionInterface(interface : PSWindowViewInterface) {
+    func registerSelectionInterface(_ interface : PSWindowViewInterface) {
         windowViews.append(interface)
     }
     
@@ -50,7 +50,7 @@ class PSSelectionController : NSObject, PSSelectionInterface {
         
             //detect whether selected object has been deleted, if so deselect
             let haveACurrentlySelectedEntry = selectedEntry != nil
-            if haveACurrentlySelectedEntry && (selectedEntry!.deleted == true || selectedEntry!.name == nil) {
+            if haveACurrentlySelectedEntry && (selectedEntry!.isDeleted == true || selectedEntry!.name == nil) {
                 selectEntry(nil)
             } else {
                 refreshGUI()
@@ -64,7 +64,7 @@ class PSSelectionController : NSObject, PSSelectionInterface {
     
     
     
-    func docMocChanged(notification : NSNotification) {
+    func docMocChanged(_ notification : Notification) {
         docMocChangesPending = true
         if (debugMocChanges) { dumpDocMocChanges(notification) }
         if scriptData.inUndoGroup  {
@@ -88,14 +88,14 @@ class PSSelectionController : NSObject, PSSelectionInterface {
     }
     
     //general method for selecting an object
-    func selectEntry(entry : Entry?) {
+    func selectEntry(_ entry : Entry?) {
         selectedEntry = entry
         document.mainWindowController.selectEntry(entry)
         refreshGUI()
     }
     
     //for double click action
-    func doubleClickEntry(entry : Entry) {
+    func doubleClickEntry(_ entry : Entry) {
         if selectedEntry != entry {
             selectEntry(entry)
         }
@@ -103,7 +103,7 @@ class PSSelectionController : NSObject, PSSelectionInterface {
     }
     
     
-    func deleteObject(layoutObject : LayoutObject) {
+    func deleteObject(_ layoutObject : LayoutObject) {
         var new_entry_selection : Entry? = nil
         if layoutObject == selectedEntry?.layoutObject {
             //try to select a sibling
@@ -132,7 +132,7 @@ class PSSelectionController : NSObject, PSSelectionInterface {
         //call main routine
         deleteObject(layoutObject, andSelect: new_entry_selection)
     }
-    func deleteObject(layoutObject: LayoutObject, andSelect newSelection: Entry?) {
+    func deleteObject(_ layoutObject: LayoutObject, andSelect newSelection: Entry?) {
         
         if layoutObject == newSelection {
             fatalError("You cannot select the object about to be deleted")
@@ -178,7 +178,7 @@ class PSSelectionController : NSObject, PSSelectionInterface {
     
     //called when selection is made in attribute browser
     //action: layout object associated with base entry of the given name, and selects it
-    func selectObjectForEntryNamed(selectedItem : String) {
+    func selectObjectForEntryNamed(_ selectedItem : String) {
         
         let all_entries = scriptData.getBaseEntries()
         for e in all_entries {
@@ -287,7 +287,7 @@ class PSSelectionController : NSObject, PSSelectionInterface {
         return self.actionsAttributeViewData
     }
     
-    func dumpDocMocChanges(notification : NSNotification) {
+    func dumpDocMocChanges(_ notification : Notification) {
         let keys_to_check : [NSString] = [NSInsertedObjectsKey, NSUpdatedObjectsKey, NSDeletedObjectsKey, NSRefreshedObjectsKey, NSInvalidatedObjectsKey, NSInvalidatedAllObjectsKey];
         for key in keys_to_check {
             if let objects: AnyObject = notification.userInfo![key] {

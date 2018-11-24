@@ -9,7 +9,7 @@
 import Foundation
 
 class NSFlippedView: NSView {
-    override var flipped:Bool {
+    override var isFlipped:Bool {
         get {
             return true
         }

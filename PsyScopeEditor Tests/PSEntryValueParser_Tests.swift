@@ -57,14 +57,14 @@ class PSEntryValueParser_Tests: XCTestCase {
         var correctValueType = false
         if let val = parser.values.first {
             switch(val) {
-            case .Null:
+            case .null:
                 break
-            case .StringToken:
+            case .stringToken:
                 break
-            case .List:
+            case .list:
                 break
-            case let .Function(functionElement):
-                if functionElement.functionName == "" && functionElement.bracketType == .Expression {
+            case let .function(functionElement):
+                if functionElement.functionName == "" && functionElement.bracketType == .expression {
                     correctValueType = true
                     
                 }
@@ -86,14 +86,14 @@ class PSEntryValueParser_Tests: XCTestCase {
         var correctValueType = false
         if let val = parser.values.first {
             switch(val) {
-            case .Null:
+            case .null:
                 break
-            case .StringToken:
+            case .stringToken:
                 break
-            case .List:
+            case .list:
                 break
-            case let .Function(functionElement):
-                if functionElement.functionName == "" && functionElement.bracketType == .Expression {
+            case let .function(functionElement):
+                if functionElement.functionName == "" && functionElement.bracketType == .expression {
                     correctValueType = true
                 }
                 break
@@ -115,7 +115,7 @@ class PSEntryValueParser_Tests: XCTestCase {
         
         var firstElementCorrect = false
         switch(parser.values[0]) {
-        case let .StringToken(stringElement):
+        case let .stringToken(stringElement):
             XCTAssertEqual(stringElement.value, "100%" , "First Element incorrect")
             if stringElement.value == "100%" {
                 firstElementCorrect = true
@@ -130,7 +130,7 @@ class PSEntryValueParser_Tests: XCTestCase {
         
         var secondElementCorrect = false
         switch(parser.values[1]) {
-        case let .StringToken(stringElement):
+        case let .stringToken(stringElement):
             XCTAssertEqual(stringElement.value, "50%" , "Second Element incorrect")
             if stringElement.value == "100%" {
                 secondElementCorrect = true

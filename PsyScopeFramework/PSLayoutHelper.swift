@@ -10,11 +10,11 @@ import Foundation
 
 
 //get hiding preferences
-private var eventsHidden = !NSUserDefaults.standardUserDefaults().boolForKey(PSPreferences.showEvents.key)
-private var listsHidden = !NSUserDefaults.standardUserDefaults().boolForKey(PSPreferences.showLists.key)
+private var eventsHidden = !UserDefaults.standard.bool(forKey: PSPreferences.showEvents.key)
+private var listsHidden = !UserDefaults.standard.bool(forKey: PSPreferences.showLists.key)
 
 
-public func PSCleanUpTree(scriptData : PSScriptData) {
+public func PSCleanUpTree(_ scriptData : PSScriptData) {
 
     
     let allobjects : [LayoutObject] = scriptData.getLayoutObjects()
@@ -29,8 +29,8 @@ public func PSCleanUpTree(scriptData : PSScriptData) {
     
     
     //get hiding preferences
-    eventsHidden = !NSUserDefaults.standardUserDefaults().boolForKey(PSPreferences.showEvents.key)
-    listsHidden = !NSUserDefaults.standardUserDefaults().boolForKey(PSPreferences.showLists.key)
+    eventsHidden = !UserDefaults.standard.bool(forKey: PSPreferences.showEvents.key)
+    listsHidden = !UserDefaults.standard.bool(forKey: PSPreferences.showLists.key)
 
     var lobjects : [LayoutObject] = []
     for obj in allobjects {
@@ -111,10 +111,10 @@ public func PSCleanUpTree(scriptData : PSScriptData) {
 }
 
 
-public func PSSortSubTree(lobj : LayoutObject, scriptData : PSScriptData) {
+public func PSSortSubTree(_ lobj : LayoutObject, scriptData : PSScriptData) {
     //get hiding preferences
-    eventsHidden = !NSUserDefaults.standardUserDefaults().boolForKey(PSPreferences.showEvents.key)
-    listsHidden = !NSUserDefaults.standardUserDefaults().boolForKey(PSPreferences.showLists.key)
+    eventsHidden = !UserDefaults.standard.bool(forKey: PSPreferences.showEvents.key)
+    listsHidden = !UserDefaults.standard.bool(forKey: PSPreferences.showLists.key)
     
     var parentX = lobj.xPos.doubleValue
     let parentY = lobj.yPos.doubleValue
@@ -179,7 +179,7 @@ class TreeNode : NSObject {
         }
     }
     
-    func addChild(node : TreeNode) {
+    func addChild(_ node : TreeNode) {
         if node.parent == nil { //first come frst serve for child ownership
             children.append(node)
             node.parent = self
@@ -188,7 +188,7 @@ class TreeNode : NSObject {
     
 
     
-    func setLayoutObjectPosition(xmult : Double, ymult : Double, xOffset : Double, yOffset : Double) {
+    func setLayoutObjectPosition(_ xmult : Double, ymult : Double, xOffset : Double, yOffset : Double) {
         lobject.xPos = ((1 + self.x) * xmult) + xOffset
         lobject.yPos = ((1 + self.depth) * ymult) + yOffset
         for c in children {
@@ -198,10 +198,10 @@ class TreeNode : NSObject {
     
     
     
-    func setNewX(x : Double) {
+    func setNewX(_ x : Double) {
         self.x = x
         var childX = x
-        for (_,c) in children.enumerate() {
+        for (_,c) in children.enumerated() {
             c.setNewX(childX)
             childX += c.widthOfChildren
         }
@@ -215,7 +215,7 @@ class TreeNode : NSObject {
         for c in children {
             childLocs.append(c.centreOverChildren())
         }
-        self.x = childLocs.reduce(0,combine: { $0 + $1 }) / Double(childLocs.count)
+        self.x = childLocs.reduce(0,{ $0 + $1 }) / Double(childLocs.count)
         return self.x
     }
     
@@ -272,7 +272,7 @@ class TreeNode : NSObject {
         }
     }
     
-    func setTreeDepth(depth : Double) {
+    func setTreeDepth(_ depth : Double) {
         self.depth = depth
         for c in children {
             c.setTreeDepth(depth+1)
@@ -305,7 +305,7 @@ class TreeNode : NSObject {
     
 }
 
-public func PSPositionNewObject(lobject : LayoutObject, scriptData : PSScriptData) {
+public func PSPositionNewObject(_ lobject : LayoutObject, scriptData : PSScriptData) {
     //find all parent objects
     let parent_objects = lobject.parentLink as! Set<LayoutObject>
     
@@ -319,7 +319,7 @@ public func PSPositionNewObject(lobject : LayoutObject, scriptData : PSScriptDat
     }
 }
 
-public func PSPositionNewObjectWithParent(lobject : LayoutObject, parentObject : LayoutObject) {
+public func PSPositionNewObjectWithParent(_ lobject : LayoutObject, parentObject : LayoutObject) {
     var yPos : Int = Int(parentObject.yPos) + PSPreferences.cleanUpYSpacing.integerValue
     if yPos < 0 { yPos = 0 }
     var xPos = Int(parentObject.xPos)
@@ -336,7 +336,7 @@ public func PSPositionNewObjectWithParent(lobject : LayoutObject, parentObject :
     lobject.xPos = xPos
 }
 
-public func PSPutInFreeSpot(lobject : LayoutObject, scriptData : PSScriptData) {
+public func PSPutInFreeSpot(_ lobject : LayoutObject, scriptData : PSScriptData) {
     //todo check screen coordinate
     //for now, pile at 50,50 going left
     let all_lobjects = scriptData.getLayoutObjects()

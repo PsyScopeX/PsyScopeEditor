@@ -30,12 +30,12 @@ class PSScriptViewDelegate : NSObject, NSTextViewDelegate, NSTextStorageDelegate
     var readingOperationIndex : Int = 0
     
     override func awakeFromNib() {
-        scriptBoard.automaticQuoteSubstitutionEnabled = false
+        scriptBoard.isAutomaticQuoteSubstitutionEnabled = false
         scriptBoard.enabledTextCheckingTypes = 0
         scriptBoard.textStorage!.delegate = self
         
-        buildScriptButton.enabled = false
-        updateScriptButton.enabled = true
+        buildScriptButton.isEnabled = false
+        updateScriptButton.isEnabled = true
         //scriptBoard.string = ""
         setDefaultFont()
     }
@@ -45,11 +45,11 @@ class PSScriptViewDelegate : NSObject, NSTextViewDelegate, NSTextStorageDelegate
         scriptBoard.font = PSConstants.Fonts.scriptFont
     }
     
-    func setup(scriptData : PSScriptData) {
+    func setup(_ scriptData : PSScriptData) {
         scriptWriter = PSScriptWriter(scriptData: scriptData)
     }
     
-    func importScript(script : String) {
+    func importScript(_ script : String) {
         //cancel anything in progress
         for operation in readingOperations.values {
             operation.cancel()
@@ -72,8 +72,8 @@ class PSScriptViewDelegate : NSObject, NSTextViewDelegate, NSTextStorageDelegate
             let alert = NSAlert()
             alert.messageText = question
             alert.informativeText = info
-            alert.addButtonWithTitle(overrideButton)
-            alert.addButtonWithTitle(cancelButton)
+            alert.addButton(withTitle: overrideButton)
+            alert.addButton(withTitle: cancelButton)
             
             let answer = alert.runModal()
             if answer == NSAlertFirstButtonReturn {
@@ -89,7 +89,7 @@ class PSScriptViewDelegate : NSObject, NSTextViewDelegate, NSTextStorageDelegate
     }
     
     
-    func replaceCurlyQuotes(string : String) -> String {
+    func replaceCurlyQuotes(_ string : String) -> String {
         //replace pesky curly quotes
         // \u2018 (curly right single quote) -> '
         // \u2019 (curly left single quote) -> '
@@ -112,7 +112,7 @@ class PSScriptViewDelegate : NSObject, NSTextViewDelegate, NSTextStorageDelegate
             }))
     }
     
-    func build(script : String) {
+    func build(_ script : String) {
         
         
         let script = replaceCurlyQuotes(script)
@@ -131,8 +131,8 @@ class PSScriptViewDelegate : NSObject, NSTextViewDelegate, NSTextStorageDelegate
         if (success) {
             userHasMadeTextEdits = false //reset flag
             userHasMadeGraphicsEdits = false
-            buildScriptButton.enabled = false
-            updateScriptButton.enabled = false
+            buildScriptButton.isEnabled = false
+            updateScriptButton.isEnabled = false
             updateScriptView()
         } else {
             userHasMadeTextEdits = true
@@ -154,8 +154,8 @@ class PSScriptViewDelegate : NSObject, NSTextViewDelegate, NSTextStorageDelegate
             let alert = NSAlert()
             alert.messageText = question
             alert.informativeText = info
-            alert.addButtonWithTitle(overrideButton)
-            alert.addButtonWithTitle(cancelButton)
+            alert.addButton(withTitle: overrideButton)
+            alert.addButton(withTitle: cancelButton)
             
             let answer = alert.runModal()
             if answer == NSAlertFirstButtonReturn {
@@ -170,8 +170,8 @@ class PSScriptViewDelegate : NSObject, NSTextViewDelegate, NSTextStorageDelegate
             self.errorHandler.reset()
             userHasMadeTextEdits = false //reset flag
             userHasMadeGraphicsEdits = false
-            buildScriptButton.enabled = false
-            updateScriptButton.enabled = false
+            buildScriptButton.isEnabled = false
+            updateScriptButton.isEnabled = false
             updateScriptView()
             
         }
@@ -183,7 +183,7 @@ class PSScriptViewDelegate : NSObject, NSTextViewDelegate, NSTextStorageDelegate
         if (!userHasMadeTextEdits) {
             updateScriptView() // auto update
         } else {
-            updateScriptButton.enabled = true
+            updateScriptButton.isEnabled = true
             scrollToSelectedEntry()
         }
     }
@@ -201,33 +201,33 @@ class PSScriptViewDelegate : NSObject, NSTextViewDelegate, NSTextStorageDelegate
         let index = readingOperationIndex
         readingOperations[index] = readingOperation
         readingOperation.completionBlock = {
-            if (readingOperation.cancelled) { return }
-            dispatch_async(dispatch_get_main_queue(), {
+            if (readingOperation.isCancelled) { return }
+            DispatchQueue.main.async(execute: {
                 self.nextEditIsUser = false
                 self.scriptBoard.textStorage!.setAttributedString(readingOperation.attributedString);
                 self.errorHandler.presentErrors()
                 self.userHasMadeGraphicsEdits = false
                 self.userHasMadeTextEdits = false
-                self.buildScriptButton.enabled = false
-                self.updateScriptButton.enabled = false
+                self.buildScriptButton.isEnabled = false
+                self.updateScriptButton.isEnabled = false
                 self.readingOperations[index] = nil
                 self.scrollToSelectedEntry()
             })
         }
         
-        NSOperationQueue.mainQueue().addOperation(readingOperation)
+        OperationQueue.main.addOperation(readingOperation)
         //parsingQueue.addOperation(readingOperation)
     }
     
     var selectedEntry : Entry?
     
-    func selectEntry(entry : Entry?) {
+    func selectEntry(_ entry : Entry?) {
         selectedEntry = entry
     }
     
     func scrollToSelectedEntry() {
         if let str = scriptBoard.string, e = selectedEntry, name = e.name {
-            var range = (str as NSString).rangeOfString("\n" + name + "::")
+            var range = (str as NSString).range(of: "\n" + name + "::")
             
             if range.location != NSNotFound && range.length > 0 {
                 range.length--
@@ -241,11 +241,11 @@ class PSScriptViewDelegate : NSObject, NSTextViewDelegate, NSTextStorageDelegate
     
     
     //called either by user updates or updateScriptView
-    override func textStorageDidProcessEditing(notification: NSNotification) {
+    override func textStorageDidProcessEditing(_ notification: Notification) {
         if (nextEditIsUser) {
             userHasMadeTextEdits = true
-            buildScriptButton.enabled = true
-            updateScriptButton.enabled = true
+            buildScriptButton.isEnabled = true
+            updateScriptButton.isEnabled = true
             
             //start a formatting only update
             let script = replaceCurlyQuotes(scriptBoard.string!)
@@ -254,8 +254,8 @@ class PSScriptViewDelegate : NSObject, NSTextViewDelegate, NSTextStorageDelegate
             let index = readingOperationIndex
             readingOperations[index] = readingOperation
             readingOperation.completionBlock = {
-                if (readingOperation.cancelled) { return }
-                dispatch_async(dispatch_get_main_queue(), {
+                if (readingOperation.isCancelled) { return }
+                DispatchQueue.main.async(execute: {
                     self.nextEditIsUser = false
                     self.scriptBoard.textStorage!.beginEditing()
                     let minLength = min(readingOperation.attributedString.length, self.scriptBoard.textStorage!.length)
@@ -271,7 +271,7 @@ class PSScriptViewDelegate : NSObject, NSTextViewDelegate, NSTextStorageDelegate
                     self.errorHandler.presentErrors()
                  
 
-                    readingOperation.attributedString.enumerateAttributesInRange(fullRange, options: NSAttributedStringEnumerationOptions(rawValue: 0), usingBlock: {
+                    readingOperation.attributedString.enumerateAttributes(in: fullRange, options: NSAttributedString.EnumerationOptions(rawValue: 0), using: {
                         ( dic :[String : AnyObject], range : NSRange, stop : UnsafeMutablePointer<ObjCBool>) -> Void in
                             self.scriptBoard.textStorage!.setAttributes(dic, range: range)
                         })
@@ -281,7 +281,7 @@ class PSScriptViewDelegate : NSObject, NSTextViewDelegate, NSTextStorageDelegate
                 })
             }
             //parsingQueue.addOperation(readingOperation)
-            NSOperationQueue.mainQueue().addOperation(readingOperation)
+            OperationQueue.main.addOperation(readingOperation)
         }
 
         

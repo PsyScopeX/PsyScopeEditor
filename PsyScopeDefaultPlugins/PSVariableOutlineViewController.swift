@@ -28,7 +28,7 @@ class PSVariableOutlineViewController : NSObject, NSOutlineViewDataSource, NSOut
     
     //MARK: Refresh
     
-    func refreshWithEntry(entry : Entry, editInitialValues : Bool) {
+    func refreshWithEntry(_ entry : Entry, editInitialValues : Bool) {
         self.editInitialValues = editInitialValues
         let scriptData = controller.scriptData
         selectedEntry = entry
@@ -70,7 +70,7 @@ class PSVariableOutlineViewController : NSObject, NSOutlineViewDataSource, NSOut
     
     //MARK: OutlineView Data source
     
-    func outlineView(outlineView: NSOutlineView, numberOfChildrenOfItem item: AnyObject?) -> Int {
+    func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int {
         if item == nil && type != nil {
             return editInitialValues ? 2 : 1 //Current Value + Initial Value
         } else if let values = item as? PSVariableValues {
@@ -80,7 +80,7 @@ class PSVariableOutlineViewController : NSObject, NSOutlineViewDataSource, NSOut
         }
     }
     
-    func outlineView(outlineView: NSOutlineView, child index: Int, ofItem item: AnyObject?) -> AnyObject {
+    func outlineView(_ outlineView: NSOutlineView, child index: Int, ofItem item: Any?) -> Any {
         if item == nil {
             if index == 0 {
                 return currentValues
@@ -94,11 +94,11 @@ class PSVariableOutlineViewController : NSObject, NSOutlineViewDataSource, NSOut
         }
     }
     
-    func outlineView(outlineView: NSOutlineView, isItemExpandable item: AnyObject) -> Bool {
+    func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: Any) -> Bool {
         return (self.outlineView(outlineView, numberOfChildrenOfItem: item) > 0)
     }
     
-    func outlineView(outlineView: NSOutlineView, objectValueForTableColumn tableColumn: NSTableColumn?, byItem item: AnyObject?) -> AnyObject? {
+    func outlineView(_ outlineView: NSOutlineView, objectValueFor tableColumn: NSTableColumn?, byItem item: Any?) -> Any? {
         if tableColumn == nameColumn {
             
             if let values = item as? PSVariableValues {
@@ -111,7 +111,7 @@ class PSVariableOutlineViewController : NSObject, NSOutlineViewDataSource, NSOut
             
             if let values = item as? PSVariableValues {
                 switch values.type {
-                case .SingleValue:
+                case .singleValue:
                     return values.currentValue
                 default:
                     return ""
@@ -127,12 +127,12 @@ class PSVariableOutlineViewController : NSObject, NSOutlineViewDataSource, NSOut
     }
     
     
-    func outlineView(outlineView: NSOutlineView, shouldExpandItem item: AnyObject) -> Bool {
+    func outlineView(_ outlineView: NSOutlineView, shouldExpandItem item: Any) -> Bool {
         expandedItems.append(item)
         return true
     }
     
-    func outlineView(outlineView: NSOutlineView, shouldCollapseItem item: AnyObject) -> Bool {
+    func outlineView(_ outlineView: NSOutlineView, shouldCollapseItem item: Any) -> Bool {
         var newExpandedItems : [AnyObject] = []
         for obj in expandedItems {
             if obj !== item {
@@ -145,11 +145,11 @@ class PSVariableOutlineViewController : NSObject, NSOutlineViewDataSource, NSOut
     
     //MARK: Outlineview delegate
     
-    func outlineView(outlineView: NSOutlineView, viewForTableColumn tableColumn: NSTableColumn?, item: AnyObject) -> NSView? {
+    func outlineView(_ outlineView: NSOutlineView, viewFor tableColumn: NSTableColumn?, item: Any) -> NSView? {
         if tableColumn!.identifier == nameColumn.identifier {
-            return outlineView.makeViewWithIdentifier(tableColumn!.identifier, owner: nil)
+            return outlineView.make(withIdentifier: tableColumn!.identifier, owner: nil)
         } else if tableColumn!.identifier == valueColumn.identifier {
-            let view = outlineView.makeViewWithIdentifier(tableColumn!.identifier, owner: nil) as! PSVariableOutlineViewCellView
+            let view = outlineView.make(withIdentifier: tableColumn!.identifier, owner: nil) as! PSVariableOutlineViewCellView
             
             
             view.updateScriptBlock = self.updateScriptWithVariableValues
@@ -157,10 +157,10 @@ class PSVariableOutlineViewController : NSObject, NSOutlineViewDataSource, NSOut
                 view.variableValue = values
                 
                 switch values.type {
-                case .SingleValue:
-                    view.textField!.editable = true
+                case .singleValue:
+                    view.textField!.isEditable = true
                 default:
-                    view.textField!.editable = false
+                    view.textField!.isEditable = false
                 }
                 return view
             }

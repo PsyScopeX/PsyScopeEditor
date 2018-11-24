@@ -24,55 +24,55 @@ class PSPluginLoader : NSObject {
     var pluginsLoaded : [String] = []
     override init() {
         super.init()
-        guard let builtInPlugInsPath = NSBundle.mainBundle().builtInPlugInsPath else {
+        guard let builtInPlugInsPath = Bundle.main.builtInPlugInsPath else {
             fatalError("Could not get built in plugins path")
         }
         
         //search in inbuilt plugins
-        for resourcePath in NSBundle.pathsForResourcesOfType("psyplugin", inDirectory: builtInPlugInsPath) {
+        for resourcePath in Bundle.paths(forResourcesOfType: "psyplugin", inDirectory: builtInPlugInsPath) {
             loadPluginsInPath(resourcePath)
             pluginsLoaded.append(resourcePath)
         }
     
         //also search custom path
         let customPath = PSPreferences.pluginPath.stringValue
-        for resourcePath in NSBundle.pathsForResourcesOfType("psyplugin", inDirectory: customPath) {
+        for resourcePath in Bundle.paths(forResourcesOfType: "psyplugin", inDirectory: customPath) {
             loadPluginsInPath(resourcePath)
             pluginsLoaded.append(resourcePath)
         }
         
     }
         
-    func loadPluginsInPath(resourcePath : String) {
-        guard let pluginBundle = NSBundle(path: resourcePath),
+    func loadPluginsInPath(_ resourcePath : String) {
+        guard let pluginBundle = Bundle(path: resourcePath),
             pluginClass = pluginBundle.principalClass,
             pluginInterface = pluginClass as? PSPluginInterface.Type else {
                 print("Incorrect setup for plugin at \(resourcePath) - bundle principal class must be PSPluginInterface")
                 return
         }
         
-        let toolPlugins = setupPluginsFor(PSPluginType.Tool, pluginInterface: pluginInterface, resourcePath: resourcePath)
+        let toolPlugins = setupPluginsFor(PSPluginType.tool, pluginInterface: pluginInterface, resourcePath: resourcePath)
         tools += toolPlugins.map({ $0 as! PSToolInterface })
         
-        let eventPlugins = setupPluginsFor(PSPluginType.Event, pluginInterface: pluginInterface, resourcePath: resourcePath)
+        let eventPlugins = setupPluginsFor(PSPluginType.event, pluginInterface: pluginInterface, resourcePath: resourcePath)
         events += eventPlugins.map({ $0 as! PSEventInterface })
         
-        let attributePlugins = setupPluginsFor(PSPluginType.Attribute, pluginInterface: pluginInterface, resourcePath: resourcePath)
+        let attributePlugins = setupPluginsFor(PSPluginType.attribute, pluginInterface: pluginInterface, resourcePath: resourcePath)
         attributes += attributePlugins.map({ $0 as! PSAttributeInterface })
         
-        let wvPlugins = setupPluginsFor(PSPluginType.WindowView, pluginInterface: pluginInterface, resourcePath: resourcePath)
+        let wvPlugins = setupPluginsFor(PSPluginType.windowView, pluginInterface: pluginInterface, resourcePath: resourcePath)
         windowViews += wvPlugins.map({ $0 as! PSWindowViewInterface })
         
-        let actionPlugins = setupPluginsFor(PSPluginType.Action, pluginInterface: pluginInterface, resourcePath: resourcePath)
+        let actionPlugins = setupPluginsFor(PSPluginType.action, pluginInterface: pluginInterface, resourcePath: resourcePath)
         actions += actionPlugins.map({ $0 as! PSActionInterface })
         
-        let conditionPlugins = setupPluginsFor(PSPluginType.Condition, pluginInterface: pluginInterface, resourcePath: resourcePath)
+        let conditionPlugins = setupPluginsFor(PSPluginType.condition, pluginInterface: pluginInterface, resourcePath: resourcePath)
         conditions += conditionPlugins.map({ $0 as! PSConditionInterface })
         
     }
         
     
-    func setupPluginsFor(type : PSPluginType, pluginInterface : PSPluginInterface.Type, resourcePath : String) -> [NSObject] {
+    func setupPluginsFor(_ type : PSPluginType, pluginInterface : PSPluginInterface.Type, resourcePath : String) -> [NSObject] {
         let classes = pluginInterface.pluginsFor(type)
         var pluginInstances : [NSObject] = []
         for pluginClass in classes {

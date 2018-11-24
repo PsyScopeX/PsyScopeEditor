@@ -10,14 +10,14 @@ import Foundation
 
 class PSPortBuilderOutlineView : NSOutlineView {
     var portController : PSPortBuilderController!
-    override func rightMouseDown(theEvent: NSEvent) {
-        let localLocation = self.convertPoint(theEvent.locationInWindow, fromView: nil)
-        let clickedRow = self.rowAtPoint(localLocation)
-        let clickedCol = self.columnAtPoint(localLocation)
-        self.selectRowIndexes(NSIndexSet(index: clickedRow), byExtendingSelection: false)
-        if let view = self.viewAtColumn(clickedCol, row: clickedRow, makeIfNecessary: false) {
+    override func rightMouseDown(with theEvent: NSEvent) {
+        let localLocation = self.convert(theEvent.locationInWindow, from: nil)
+        let clickedRow = self.row(at: localLocation)
+        let clickedCol = self.column(at: localLocation)
+        self.selectRowIndexes(IndexSet(integer: clickedRow), byExtendingSelection: false)
+        if let view = self.view(atColumn: clickedCol, row: clickedRow, makeIfNecessary: false) {
             
-            let item: AnyObject! = self.itemAtRow(clickedRow)
+            let item: AnyObject! = self.item(atRow: clickedRow)
             
             if let _ = item as? PSPort {
                 portController.rightClickedPort(view)
@@ -27,11 +27,11 @@ class PSPortBuilderOutlineView : NSOutlineView {
         }
     }
     
-    override func keyDown(theEvent: NSEvent) {
+    override func keyDown(with theEvent: NSEvent) {
         if theEvent.charactersIgnoringModifiers == String(Character(UnicodeScalar(NSDeleteCharacter))) {
             portController.deleteCurrentlySelectedItem()
             return
         }
-        super.keyDown(theEvent)
+        super.keyDown(with: theEvent)
     }
 }

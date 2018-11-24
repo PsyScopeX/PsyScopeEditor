@@ -22,16 +22,16 @@ enum PSPositionAlignment : String {
     case Bottom = "BOTTOM"
     case Right = "RIGHT"
     
-    static func fromString(string : String) -> PSPositionAlignment {
-        if string.caseInsensitiveCompare("Top") == NSComparisonResult.OrderedSame {
+    static func fromString(_ string : String) -> PSPositionAlignment {
+        if string.caseInsensitiveCompare("Top") == ComparisonResult.orderedSame {
             return .Top
-        } else if string.caseInsensitiveCompare("Left") == NSComparisonResult.OrderedSame {
+        } else if string.caseInsensitiveCompare("Left") == ComparisonResult.orderedSame {
             return .Left
-        } else if string.caseInsensitiveCompare("Center") == NSComparisonResult.OrderedSame {
+        } else if string.caseInsensitiveCompare("Center") == ComparisonResult.orderedSame {
             return .Center
-        } else if string.caseInsensitiveCompare("Bottom") == NSComparisonResult.OrderedSame {
+        } else if string.caseInsensitiveCompare("Bottom") == ComparisonResult.orderedSame {
             return .Bottom
-        } else if string.caseInsensitiveCompare("Right") == NSComparisonResult.OrderedSame {
+        } else if string.caseInsensitiveCompare("Right") == ComparisonResult.orderedSame {
             return .Right
         } else {
             return .Center
@@ -40,62 +40,62 @@ enum PSPositionAlignment : String {
 }
 
 enum PSAlignmentPoint {
-    case Auto
-    case Center
-    case Specified(Int,Int)
+    case auto
+    case center
+    case specified(Int,Int)
 }
 
 enum PSValidMeasurements {
-    case LeftRight
-    case TopBottom
-    case PixelsPercentOnly
+    case leftRight
+    case topBottom
+    case pixelsPercentOnly
 }
 
 enum PSPortMeasurement {
     case Pixels(Int)
-    case Percentage(Int)
-    case Centre
-    case Top
-    case Left
-    case Right
-    case Bottom
+    case percentage(Int)
+    case centre
+    case top
+    case left
+    case right
+    case bottom
     
-    func percent(res : Int) -> Int {
+    func percent(_ res : Int) -> Int {
         switch(self) {
         case let .Pixels(val):
             let x = 100 * val / res
             return x
-        case let .Percentage(val):
+        case let .percentage(val):
             return val
-        case Centre:
+        case centre:
             return 50
-        case Top:
+        case top:
             return 0
-        case Left:
+        case left:
             return 0
-        case Right:
+        case right:
             return 100
-        case Bottom:
+        case bottom:
             return 100
         }
     }
     
-    func pixels(res : Int) -> Int {
+    func pixels(_ res : Int) -> Int {
         switch(self) {
         case let .Pixels(val):
             return val
-        case let .Percentage(val):
+        case let .percentage(val):
             let x = res * val / 100
             return x
-        case Centre:
+        case centre:
             return res / 2
-        case Top:
+        case top:
             return 0
-        case Left:
+        case left:
             return 0
-        case Right:
+        case right:
             return res
-        case Bottom:
+        case bottom:
             return res
         }
         
@@ -105,84 +105,84 @@ enum PSPortMeasurement {
         switch(self) {
         case let .Pixels(val):
             return "\(val)"
-        case let .Percentage(val):
+        case let .percentage(val):
             return "\(val)%"
-        case Centre:
+        case centre:
             return "Center"
-        case Top:
+        case top:
             return "Top"
-        case Left:
+        case left:
             return "Left"
-        case Right:
+        case right:
             return "Right"
-        case Bottom:
+        case bottom:
             return "Bottom"
         }
     }
     
-    func transposeByPixels(pixels : Int, res : Int) -> PSPortMeasurement {
+    func transposeByPixels(_ pixels : Int, res : Int) -> PSPortMeasurement {
         
         let newPixels = self.pixels(res) + pixels
         let newValue = PSPortMeasurement.Pixels(newPixels)
         
         switch(self) {
-        case .Percentage(_):
-            return PSPortMeasurement.Percentage(newValue.percent(res))
+        case .percentage(_):
+            return PSPortMeasurement.percentage(newValue.percent(res))
         default:
             return newValue
         }
     }
     
-    func sameWithNewValue(integerValue : Int) -> PSPortMeasurement {
+    func sameWithNewValue(_ integerValue : Int) -> PSPortMeasurement {
         switch(self) {
         case .Pixels(_):
             return PSPortMeasurement.Pixels(integerValue)
-        case .Percentage(_):
-            return PSPortMeasurement.Percentage(integerValue)
+        case .percentage(_):
+            return PSPortMeasurement.percentage(integerValue)
         default:
             return self
         }
     }
     
-    static func fromString(string : String, type : PSValidMeasurements) -> PSPortMeasurement {
-        if let percent = string.rangeOfString("%") {
-            let val = string.stringByReplacingCharactersInRange(percent, withString: "")
+    static func fromString(_ string : String, type : PSValidMeasurements) -> PSPortMeasurement {
+        if let percent = string.range(of: "%") {
+            let val = string.replacingCharacters(in: percent, with: "")
             if let _ = Int(val) {
-                return PSPortMeasurement.Percentage(Int(val)!)
+                return PSPortMeasurement.percentage(Int(val)!)
             } else {
-                return PSPortMeasurement.Percentage(0)
+                return PSPortMeasurement.percentage(0)
             }
-        } else if string.caseInsensitiveCompare("Center") == .OrderedSame {
-            if type == .LeftRight || type == .TopBottom {
-                return PSPortMeasurement.Centre
+        } else if string.caseInsensitiveCompare("Center") == .orderedSame {
+            if type == .leftRight || type == .topBottom {
+                return PSPortMeasurement.centre
             }
-        } else if string.caseInsensitiveCompare("Left") == .OrderedSame {
-            if type == .LeftRight {
-                return PSPortMeasurement.Left
+        } else if string.caseInsensitiveCompare("Left") == .orderedSame {
+            if type == .leftRight {
+                return PSPortMeasurement.left
             }
-        } else if string.caseInsensitiveCompare("Right") == .OrderedSame {
-            if type == .LeftRight {
-                return PSPortMeasurement.Right
+        } else if string.caseInsensitiveCompare("Right") == .orderedSame {
+            if type == .leftRight {
+                return PSPortMeasurement.right
             }
-        } else if string.caseInsensitiveCompare("Top") == .OrderedSame {
-            if type == .TopBottom {
-                return PSPortMeasurement.Top
+        } else if string.caseInsensitiveCompare("Top") == .orderedSame {
+            if type == .topBottom {
+                return PSPortMeasurement.top
             }
-        } else if string.caseInsensitiveCompare("Bottom") == .OrderedSame {
-            if type == .TopBottom {
-                return PSPortMeasurement.Bottom
+        } else if string.caseInsensitiveCompare("Bottom") == .orderedSame {
+            if type == .topBottom {
+                return PSPortMeasurement.bottom
             }
         } else if let i = Int(string) {
             return PSPortMeasurement.Pixels(i)
         } else {
-            return PSPortMeasurement.Centre
+            return PSPortMeasurement.centre
         }
         
         
-        return PSPortMeasurement.Centre
+        return PSPortMeasurement.centre
     }
     
-    static func measurementForItemTitle(button : NSPopUpButton, textField : NSTextField) -> PSPortMeasurement {
+    static func measurementForItemTitle(_ button : NSPopUpButton, textField : NSTextField) -> PSPortMeasurement {
         
         var title = ""
         var val = 0
@@ -197,23 +197,23 @@ enum PSPortMeasurement {
         case "Pixels":
             return PSPortMeasurement.Pixels(val)
         case "Percent":
-            return PSPortMeasurement.Percentage(val)
+            return PSPortMeasurement.percentage(val)
         case "Center":
-            return PSPortMeasurement.Centre
+            return PSPortMeasurement.centre
         case "Left":
-            return PSPortMeasurement.Left
+            return PSPortMeasurement.left
         case "Right":
-            return PSPortMeasurement.Right
+            return PSPortMeasurement.right
         case "Top":
-            return PSPortMeasurement.Top
+            return PSPortMeasurement.top
         case "Bottom":
-            return PSPortMeasurement.Bottom
+            return PSPortMeasurement.bottom
         case "Left":
-            return PSPortMeasurement.Left
+            return PSPortMeasurement.left
         case "Right":
-            return PSPortMeasurement.Right
+            return PSPortMeasurement.right
         default:
-            return PSPortMeasurement.Centre
+            return PSPortMeasurement.centre
         }
     }
     

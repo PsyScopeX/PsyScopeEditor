@@ -29,8 +29,8 @@ class PSConvertAttributesController : NSObject, NSTableViewDataSource, NSTableVi
     //MARK: Startup
     
     override func awakeFromNib() {
-        removeButton.enabled = false
-        addButton.enabled = false
+        removeButton.isEnabled = false
+        addButton.isEnabled = false
     }
     
     
@@ -49,7 +49,7 @@ class PSConvertAttributesController : NSObject, NSTableViewDataSource, NSTableVi
     
     @IBAction func deleteButtonClicked(_:AnyObject) {
         let selectedRow = renameTableView.selectedRow
-        let orderedConversions = Array(conversions).sort({$0.0 < $1.0})
+        let orderedConversions = Array(conversions).sorted(by: {$0.0 < $1.0})
         if selectedRow > -1 && selectedRow < orderedConversions.count {
             let key = orderedConversions[selectedRow].0
             conversions[key] = nil
@@ -59,30 +59,30 @@ class PSConvertAttributesController : NSObject, NSTableViewDataSource, NSTableVi
     
     //MARK: Datasource
     
-    func numberOfRowsInTableView(tableView: NSTableView) -> Int {
+    func numberOfRows(in tableView: NSTableView) -> Int {
         return conversions.count
     }
     
-    func tableView(tableView: NSTableView, objectValueForTableColumn tableColumn: NSTableColumn?, row: Int) -> AnyObject? {
-        let conversion = Array(conversions).sort({$0.0 < $1.0})[row]
+    func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
+        let conversion = Array(conversions).sorted(by: {$0.0 < $1.0})[row]
         return conversion.0 + " >> " + conversion.1
     }
     
     //MARK: Delegate
     
-    func tableView(tableView: NSTableView, selectionIndexesForProposedSelection proposedSelectionIndexes: NSIndexSet) -> NSIndexSet {
-        let index = proposedSelectionIndexes.firstIndex
+    func tableView(_ tableView: NSTableView, selectionIndexesForProposedSelection proposedSelectionIndexes: IndexSet) -> IndexSet {
+        let index = proposedSelectionIndexes.first
         let indexInRange = index > -1 && index < conversions.count
-        removeButton.enabled = indexInRange
+        removeButton.isEnabled = indexInRange
         return proposedSelectionIndexes
     }
     
     
     //MARK: Textfield
     
-    override func controlTextDidChange(obj: NSNotification) {
+    override func controlTextDidChange(_ obj: Notification) {
         let oneTextIsEmpty = (fromTextField.stringValue == "") || (toTextField.stringValue == "")
-        addButton.enabled = !oneTextIsEmpty
+        addButton.isEnabled = !oneTextIsEmpty
     }
     
 }

@@ -16,12 +16,12 @@ class SplitViewDelegate: NSObject, NSSplitViewDelegate {
     let rightPanelThickness : CGFloat = CGFloat(PSConstants.LayoutConstants.rightPanelSize)
     let leftPanelThickness : CGFloat = CGFloat(PSConstants.LayoutConstants.leftPanelSize)
 
-    func splitView(splitView: NSSplitView, canCollapseSubview subview: NSView) -> Bool {
+    func splitView(_ splitView: NSSplitView, canCollapseSubview subview: NSView) -> Bool {
         //only left and right panels can be collapse
         return (subview == leftPanel || subview == rightPanel)
     }
     
-    func splitView(splitView: NSSplitView, constrainMinCoordinate proposedMinimumPosition: CGFloat, ofSubviewAt dividerIndex: Int) -> CGFloat {
+    func splitView(_ splitView: NSSplitView, constrainMinCoordinate proposedMinimumPosition: CGFloat, ofSubviewAt dividerIndex: Int) -> CGFloat {
         if dividerIndex == 0 {
             //first divider
             return leftPanelThickness
@@ -32,7 +32,7 @@ class SplitViewDelegate: NSObject, NSSplitViewDelegate {
         return proposedMinimumPosition;
     }
     
-    func splitView(splitView: NSSplitView, constrainMaxCoordinate proposedMaximumPosition: CGFloat, ofSubviewAt dividerIndex: Int) -> CGFloat {
+    func splitView(_ splitView: NSSplitView, constrainMaxCoordinate proposedMaximumPosition: CGFloat, ofSubviewAt dividerIndex: Int) -> CGFloat {
         if dividerIndex == 0 {
             //first divider
             return leftPanelThickness
@@ -42,7 +42,7 @@ class SplitViewDelegate: NSObject, NSSplitViewDelegate {
         return proposedMaximumPosition
     }
     
-    func splitView(splitView: NSSplitView, resizeSubviewsWithOldSize oldSize: NSSize) {
+    func splitView(_ splitView: NSSplitView, resizeSubviewsWithOldSize oldSize: NSSize) {
         //var horizontalDiff : CGFloat = splitView.bounds.width - oldSize.width
         //var verticalDiff : CGFloat = splitView.bounds.width - oldSize.height
         
@@ -58,11 +58,11 @@ class SplitViewDelegate: NSObject, NSSplitViewDelegate {
         oRightFrame.size.height = nFrame.size.height
         oMiddleFrame.size.height = nFrame.size.height
         
-        oLeftFrame.origin = CGPointZero
+        oLeftFrame.origin = CGPoint.zero
         oLeftFrame.size.width = leftPanelThickness
-        let new_x : CGFloat = dThickness + (leftPanel.hidden ? 0 : leftPanelThickness)
+        let new_x : CGFloat = dThickness + (leftPanel.isHidden ? 0 : leftPanelThickness)
         oMiddleFrame.origin = CGPoint(x: new_x, y: 0)
-        let new_width = nFrame.size.width - (leftPanel.hidden ? 0 : leftPanelThickness) - (rightPanel.hidden ? 0 : rightPanelThickness) - dThickness - dThickness
+        let new_width = nFrame.size.width - (leftPanel.isHidden ? 0 : leftPanelThickness) - (rightPanel.isHidden ? 0 : rightPanelThickness) - dThickness - dThickness
         oMiddleFrame.size.width = new_width
         oRightFrame.origin = CGPoint(x: oMiddleFrame.origin.x + oMiddleFrame.size.width + dThickness, y: 0)
         oRightFrame.size.width = rightPanelThickness

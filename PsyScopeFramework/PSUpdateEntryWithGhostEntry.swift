@@ -8,7 +8,7 @@
 
 import Foundation
 
-public func PSUpdateEntryWithGhostEntry(realEntry: Entry!, ghostEntry: PSGhostEntry!, scriptData: PSScriptData!) {
+public func PSUpdateEntryWithGhostEntry(_ realEntry: Entry!, ghostEntry: PSGhostEntry!, scriptData: PSScriptData!) {
     //use ghost entry to populate real entry stuff
     realEntry.name = ghostEntry.name
     realEntry.userFriendlyName = ghostEntry.name

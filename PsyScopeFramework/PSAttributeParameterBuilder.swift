@@ -9,7 +9,7 @@
 import Foundation
 
 //Builds an attribute parameter's controls on various view types
-public class PSAttributeParameterBuilder {
+open class PSAttributeParameterBuilder {
     
     let defaultYLocation = CGFloat(4)
     let parameter : PSAttributeParameter
@@ -25,12 +25,12 @@ public class PSAttributeParameterBuilder {
         self.setupComplete = false
     }
     
-    private func assertNotSetup() {
+    fileprivate func assertNotSetup() {
         if setupComplete { fatalError("Incorrect use of PSAttributeParameterBuilder (already setup)") }
         setupComplete = true
     }
     
-    public func setupEntryCell(cell: PSAttributeEntryCellView) {
+    open func setupEntryCell(_ cell: PSAttributeEntryCellView) {
         assertNotSetup()
         self.parameter.attributeType = PSAttributeType(fullType: cell.entry.type)
         self.parameter.name = cell.entry.name
@@ -42,7 +42,7 @@ public class PSAttributeParameterBuilder {
         self.parameter.updateAttributeControl(NSRect(x: PSDefaultConstants.ActionsBuilder.controlsLeftMargin, y: defaultYLocation, width: width, height: 22))
     }
     
-    public func setupSingleCell(name : String, cell: PSCellView, currentValue : PSEntryElement, type : PSAttributeType?) {
+    open func setupSingleCell(_ name : String, cell: PSCellView, currentValue : PSEntryElement, type : PSAttributeType?) {
         assertNotSetup()
         self.parameter.attributeType = type
         self.parameter.name = name
@@ -55,7 +55,7 @@ public class PSAttributeParameterBuilder {
         self.parameter.updateAttributeControl(NSRect(x: PSDefaultConstants.ActionsBuilder.controlsLeftMargin, y: defaultYLocation, width: width, height: 22))
     }
     
-    public func setupMultiCell(name : String, y : CGFloat, cell: PSCellView, currentValue : PSEntryElement, type : PSAttributeType?) {
+    open func setupMultiCell(_ name : String, y : CGFloat, cell: PSCellView, currentValue : PSEntryElement, type : PSAttributeType?) {
         assertNotSetup()
         self.parameter.attributeType = type
         self.parameter.name = name
@@ -67,7 +67,7 @@ public class PSAttributeParameterBuilder {
         self.parameter.updateAttributeControl(NSRect(x: PSDefaultConstants.ActionsBuilder.controlsLeftMargin, y: y, width: width, height: 22))
     }
     
-    public func setupTableCell(cell: PSCellView, currentValue : String, type : PSAttributeType?) {
+    open func setupTableCell(_ cell: PSCellView, currentValue : String, type : PSAttributeType?) {
         assertNotSetup()
         self.parameter.attributeType = type
         self.parameter.name = ""
@@ -78,7 +78,7 @@ public class PSAttributeParameterBuilder {
         self.parameter.hideBorders()
     }
     
-    public func setupElementViewer(cell: PSAttributeEntryCellView, gotoEntryBlock : () -> ()) {
+    open func setupElementViewer(_ cell: PSAttributeEntryCellView, gotoEntryBlock : () -> ()) {
         assertNotSetup()
         self.parameter.attributeType = PSAttributeType(fullType: cell.entry.type)
         self.parameter.name = cell.entry.name
@@ -91,27 +91,27 @@ public class PSAttributeParameterBuilder {
         self.setElementViewerControls(gotoEntryBlock)
     }
 
-    func setPermanentControls(y : CGFloat) {
+    func setPermanentControls(_ y : CGFloat) {
         let x = parameter.cell.frame.width - 17 - 5
         let varybybutton = PSVaryByButton(frame:NSRect(x: x, y: y, width: 22, height: 22))
-        varybybutton.autoresizingMask = [NSAutoresizingMaskOptions.ViewMinXMargin, NSAutoresizingMaskOptions.ViewMinYMargin]
+        varybybutton.autoresizingMask = [NSAutoresizingMaskOptions.viewMinXMargin, NSAutoresizingMaskOptions.viewMinYMargin]
         parameter.cell.addSubview(varybybutton)
 
         
         varybybutton.menu = parameter.scriptData.getVaryByMenu(parameter, action: "clickMenuItem:")
         
         let title_label = NSTextField(frame: NSMakeRect(PSDefaultConstants.ActionsBuilder.labelsLeftMargin, y+3, PSDefaultConstants.ActionsBuilder.controlsLeftMargin - PSDefaultConstants.ActionsBuilder.labelsLeftMargin, 17))
-        title_label.autoresizingMask = [NSAutoresizingMaskOptions.ViewMaxXMargin, NSAutoresizingMaskOptions.ViewMinYMargin]
+        title_label.autoresizingMask = [NSAutoresizingMaskOptions.viewMaxXMargin, NSAutoresizingMaskOptions.viewMinYMargin]
         title_label.stringValue = parameter.name
-        title_label.bezeled = false
+        title_label.isBezeled = false
         title_label.drawsBackground = false
-        title_label.editable = false
-        title_label.selectable = false
-        title_label.font = NSFont.systemFontOfSize(11)
+        title_label.isEditable = false
+        title_label.isSelectable = false
+        title_label.font = NSFont.systemFont(ofSize: 11)
         parameter.cell.addSubview(title_label)
     }
     
-    func setElementViewerControls(gotoEntryBlock : () -> ()) {
+    func setElementViewerControls(_ gotoEntryBlock : () -> ()) {
         //vary by button
         
         let x = parameter.cell.frame.width - 80
@@ -124,18 +124,18 @@ public class PSAttributeParameterBuilder {
         let title_label = NSTextField(frame: NSMakeRect(PSDefaultConstants.ActionsBuilder.labelsLeftMargin, defaultYLocation + 26, 140, 17))
         //title_label.autoresizingMask = NSAutoresizingMaskOptions.ViewMinXMargin | NSAutoresizingMaskOptions.ViewMinYMargin
         title_label.stringValue = parameter.name
-        title_label.bezeled = false
+        title_label.isBezeled = false
         title_label.drawsBackground = false
-        title_label.editable = false
-        title_label.selectable = false
-        title_label.font = NSFont.systemFontOfSize(12)
+        title_label.isEditable = false
+        title_label.isSelectable = false
+        title_label.font = NSFont.systemFont(ofSize: 12)
         parameter.cell.addSubview(title_label)
         
         //go to button
         if parameter.varyByEntryName != nil {
             let gotoEntryButton = PSBlockButton(frame: NSMakeRect(150, defaultYLocation + 22, 180, 22), block: gotoEntryBlock)
             gotoEntryButton.title = "Goto referenced entry..."
-            gotoEntryButton.bezelStyle = NSBezelStyle.RoundedBezelStyle
+            gotoEntryButton.bezelStyle = NSBezelStyle.rounded
             parameter.cell.addSubview(gotoEntryButton)
         }
     }

@@ -27,7 +27,7 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
     var convertEventsController : PSConvertEvents!
     
     //general method for selecting an object
-    func selectEntry(entry : Entry?) {
+    func selectEntry(_ entry : Entry?) {
         if let e = entry, lobject = e.layoutObject, layoutItem = objectsTolayoutItems[lobject] {
             selectedObject = lobject
             layoutBoard.highlightLayoutItem(layoutItem)
@@ -50,8 +50,8 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
         refresh()
 
         //show or hide events and lists depending on setting
-        eventsHidden = !NSUserDefaults.standardUserDefaults().boolForKey(PSPreferences.showEvents.key)
-        listsHidden = !NSUserDefaults.standardUserDefaults().boolForKey(PSPreferences.showLists.key)
+        eventsHidden = !UserDefaults.standard.bool(forKey: PSPreferences.showEvents.key)
+        listsHidden = !UserDefaults.standard.bool(forKey: PSPreferences.showLists.key)
         hideShowEvents()
         hideShowLists()
     }
@@ -86,7 +86,7 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
     
     @IBOutlet var showHideEventsButton : NSButton!
     var eventsHidden : Bool = false
-    @IBAction func hideEvents(sender : AnyObject) {
+    @IBAction func hideEvents(_ sender : AnyObject) {
         //tooggle
         eventsHidden = !eventsHidden
         hideShowEvents()
@@ -94,7 +94,7 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
     
     @IBOutlet var showHideListsButton : NSButton!
     var listsHidden : Bool = false
-    @IBAction func hideLists(sender : AnyObject) {
+    @IBAction func hideLists(_ sender : AnyObject) {
         listsHidden = !listsHidden
         hideShowLists()
     }
@@ -109,7 +109,7 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
             showHideListsButton.state = 0
         }
         
-        NSUserDefaults.standardUserDefaults().setBool(!listsHidden, forKey: PSPreferences.showLists.key)
+        UserDefaults.standard.set(!listsHidden, forKey: PSPreferences.showLists.key)
        
         
         for object in objectsTolayoutItems.keys {
@@ -129,7 +129,7 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
             showHideEventsButton.state = 0
         }
         
-        NSUserDefaults.standardUserDefaults().setBool(!eventsHidden, forKey: PSPreferences.showEvents.key)
+        UserDefaults.standard.set(!eventsHidden, forKey: PSPreferences.showEvents.key)
         
         for object in objectsTolayoutItems.keys {
             if PSPluginSingleton.sharedInstance.typeIsEvent(object.mainEntry.type) {
@@ -141,7 +141,7 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
     
 //methods which update the PSLayoutBoard and Attributes Browser
 
-    func deleteObject(lobject : LayoutObject) {
+    func deleteObject(_ lobject : LayoutObject) {
         //println("Object has been deleted - removing sublayoutItem")
         //object has been deleted, so update layoutboard and pointers
         let sublayoutItem = objectsTolayoutItems[lobject]
@@ -154,7 +154,7 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
     }
     
     //given an object, update the view for it (or create view if not present
-    func updateViewForObject(object : LayoutObject) {
+    func updateViewForObject(_ object : LayoutObject) {
         
         var sublayoutItem : PSLayoutItem? = objectsTolayoutItems[object]
     
@@ -171,7 +171,7 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
         }
             
         if object.mainEntry != nil {
-            layoutBoard.updateObjectLayoutItem(sublayoutItem!, x: object.xPos.integerValue, y: object.yPos.integerValue, name: object.mainEntry.name)
+            layoutBoard.updateObjectLayoutItem(sublayoutItem!, x: object.xPos.intValue, y: object.yPos.intValue, name: object.mainEntry.name)
         } else {
             //this has been deleted!
             deleteObject(object)
@@ -179,7 +179,7 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
         
     }
     
-    func updateViewsForLinks(object : LayoutObject) {
+    func updateViewsForLinks(_ object : LayoutObject) {
  
         let sublayoutItem = objectsTolayoutItems[object]
 
@@ -209,7 +209,7 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
     }
 
     
-    func updateViewForLink(startObject : LayoutObject, destObject : LayoutObject)
+    func updateViewForLink(_ startObject : LayoutObject, destObject : LayoutObject)
     {
         if let startlayoutItem = objectsTolayoutItems[startObject] as PSLayoutItem? {
             if let destlayoutItem = objectsTolayoutItems[destObject] as PSLayoutItem? {
@@ -220,7 +220,7 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
     
     //called when: a layoutItem is selected by mouse in layoutboard
     //action: gets the object the layoutItem is associated with and selects it
-    func selectObjectForLayoutItem(selectedlayoutItem : PSLayoutItem) {
+    func selectObjectForLayoutItem(_ selectedlayoutItem : PSLayoutItem) {
         if let obj = layoutItemsToObjects[selectedlayoutItem] {
             selectionController.selectEntry(obj.mainEntry)
         }
@@ -232,14 +232,14 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
         selectionController.selectEntry(nil)
     }
     
-    func doubleClickObjectForLayoutItem(selectedLayoutItem : PSLayoutItem) {
+    func doubleClickObjectForLayoutItem(_ selectedLayoutItem : PSLayoutItem) {
         if let obj = layoutItemsToObjects[selectedLayoutItem] {
             selectionController.doubleClickEntry(obj.mainEntry)
         }
     }
     
     //checks whether a given layoutItem is an object or not
-    func layoutItemIsObject(layoutItem : PSLayoutItem) -> Bool {
+    func layoutItemIsObject(_ layoutItem : PSLayoutItem) -> Bool {
         let object = layoutItemsToObjects[layoutItem]
         if object != nil {
             return true
@@ -252,7 +252,7 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
     
     //called when: a tool is dragged from left toolbar onto board
     //action: updates core-data with new tool
-    func draggedNewTool(toolName : String, location: NSPoint) {
+    func draggedNewTool(_ toolName : String, location: NSPoint) {
         scriptData.beginUndoGrouping("Add New Object")
         var success = false
         if let new_entry = scriptData.createNewObjectFromTool(PSType.FromName(toolName)) {
@@ -273,7 +273,7 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
     
     //called when: an existing layoutItem representing a layoutobject is dragged to a new location
     //action: updates core-data
-    func layoutItemMoved(objectlayoutItem : PSLayoutItem) {
+    func layoutItemMoved(_ objectlayoutItem : PSLayoutItem) {
         let the_object = layoutItemsToObjects[objectlayoutItem] as LayoutObject?
         if let safe_object = the_object {
             scriptData.beginUndoGrouping("Move Object")
@@ -283,7 +283,7 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
         }
     }
     
-    func layoutItemsMoved(objectlayoutItems : [PSLayoutItem]) {
+    func layoutItemsMoved(_ objectlayoutItems : [PSLayoutItem]) {
         scriptData.beginUndoGrouping("Move Objects")
         for layoutItem in objectlayoutItems {
             let the_object = layoutItemsToObjects[layoutItem] as LayoutObject?
@@ -299,7 +299,7 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
     
     //called when: layoutItems are chosen to be linked
     //action: updates core-data with new link
-    func linkObjects(targetLayoutItem : PSLayoutItem, destLayoutItem : PSLayoutItem){
+    func linkObjects(_ targetLayoutItem : PSLayoutItem, destLayoutItem : PSLayoutItem){
         if let startObject = layoutItemsToObjects[targetLayoutItem] as LayoutObject? {
             if let destObject = layoutItemsToObjects[destLayoutItem] as LayoutObject? {
                 //check if link is allowed
@@ -332,7 +332,7 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
     
     //called when: layoutItems are chosen to be unlinked
     //action: deletes link from core-data
-    func unLinkObjects(targetLayoutItem : PSLayoutItem, destLayoutItem : PSLayoutItem) {
+    func unLinkObjects(_ targetLayoutItem : PSLayoutItem, destLayoutItem : PSLayoutItem) {
         if let startObject = layoutItemsToObjects[targetLayoutItem] as LayoutObject? {
             if let destObject = layoutItemsToObjects[destLayoutItem] as LayoutObject? {
                 if let pstool = PSPluginSingleton.sharedInstance.getPlugin(startObject.mainEntry.type) {
@@ -346,7 +346,7 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
     
     //called when: a layoutItem is selected to be deleted
     //action: deletes assocaited layoutobject, entry and links from core-data
-    func deleteLayoutItems(layoutItems : [PSLayoutItem]) {
+    func deleteLayoutItems(_ layoutItems : [PSLayoutItem]) {
         scriptData.beginUndoGrouping("Delete Object(s)")
         for layoutItem in layoutItems {
             if let o = layoutItemsToObjects[layoutItem] {
@@ -356,7 +356,7 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
         scriptData.endUndoGrouping(true)
     }
     
-    func cleanUpChildren(layoutItem : PSLayoutItem) {
+    func cleanUpChildren(_ layoutItem : PSLayoutItem) {
         if let o = layoutItemsToObjects[layoutItem] {
             PSSortSubTree(o,scriptData: scriptData)
         }
@@ -366,16 +366,16 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
     func pasteEntry() {
         if let se = selectionController.selectedEntry {
             scriptData.beginUndoGrouping("Paste Object")
-            let pasteboard = NSPasteboard.generalPasteboard()
-            let items = pasteboard.readObjectsForClasses([NSPasteboardItem.self], options: [:]) as! [NSPasteboardItem]
+            let pasteboard = NSPasteboard.general()
+            let items = pasteboard.readObjects(forClasses: [NSPasteboardItem.self], options: [:]) as! [NSPasteboardItem]
             for item in items {
-                if let data = item.dataForType(PSPasteboardTypeLayoutObject) {
+                if let data = item.data(forType: PSPasteboardTypeLayoutObject) {
                     if let new_entry = scriptData.unarchiveBaseEntry(data) {
                         let new_name = scriptData.getNextFreeBaseEntryName(new_entry.name)
                         new_entry.name = new_name
                     }
-                } else if let data = item.dataForType(PSPasteboardTypeAttribute as String) {
-                    let dict = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! NSDictionary
+                } else if let data = item.data(forType: PSPasteboardTypeAttribute as String) {
+                    let dict = NSKeyedUnarchiver.unarchiveObject(with: data) as! NSDictionary
                     let new_entry = PSCreateEntryFromDictionary(scriptData.docMoc, dict: dict)
                     se.addSubEntriesObject(new_entry)
                 }
@@ -390,7 +390,7 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
             let types = [NSPasteboardTypeString, PSPasteboardTypeLayoutObject]
             var ok = pasteboardItem.setDataProvider(self, forTypes: types)
             if ok {
-                let pasteboard = NSPasteboard.generalPasteboard()
+                let pasteboard = NSPasteboard.general()
                 pasteboard.clearContents()
                 ok = pasteboard.writeObjects([pasteboardItem])
             }
@@ -401,7 +401,7 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
             }
         }
     }
-    func pasteboard(pasteboard: NSPasteboard?, item: NSPasteboardItem, provideDataForType type: String) {
+    func pasteboard(_ pasteboard: NSPasteboard?, item: NSPasteboardItem, provideDataForType type: String) {
         if let ce = PSCopiedEntry {
             switch (type) {
             case NSPasteboardTypeString:
@@ -422,8 +422,8 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
         }
     }
     
-    func toolTypesForPath(path : String) -> [PSToolInterface]? {
-        let exten = path.pathExtension.lowercaseString
+    func toolTypesForPath(_ path : String) -> [PSToolInterface]? {
+        let exten = path.pathExtension.lowercased()
         
         for (ext , tools) in scriptData.pluginProvider.fileImportPlugins {
             if ext == exten {
@@ -433,7 +433,7 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
         return nil
     }
     
-    func draggedFiles(filesToImport : [String:[PSToolInterface]], location : NSPoint) -> Bool {
+    func draggedFiles(_ filesToImport : [String:[PSToolInterface]], location : NSPoint) -> Bool {
         
         if !scriptData.alertIfNoValidDocumentDirectory() {
             return false
@@ -453,17 +453,17 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
         return true
     }
     
-    func layoutItemsAreConvertible(layoutItems : [PSLayoutItem]) -> Bool {
+    func layoutItemsAreConvertible(_ layoutItems : [PSLayoutItem]) -> Bool {
         let types = layoutItems.flatMap({ return self.layoutItemsToObjects[$0] }).map({ $0.mainEntry.type})
         
         if let type = types.first {
-            return scriptData.typeIsEvent(type) && !types.contains({ $0 != type })
+            return scriptData.typeIsEvent(type) && !types.contains(where: { $0 != type })
         }
         
         return false
     }
     
-    func convertLayoutItems(layoutItems : [PSLayoutItem]) {
+    func convertLayoutItems(_ layoutItems : [PSLayoutItem]) {
         if !layoutItemsAreConvertible(layoutItems) { return }
         let events : [Entry] = layoutItems.flatMap({ return self.layoutItemsToObjects[$0] }).map({ $0.mainEntry })
         

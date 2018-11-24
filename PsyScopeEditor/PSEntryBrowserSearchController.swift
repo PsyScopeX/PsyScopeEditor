@@ -22,14 +22,14 @@ class PSEntryBrowserSearchController : NSObject, NSTextFieldDelegate, NCRAutocom
     
     //MARK: Setup
     
-    func setup(scriptData : PSScriptData) {
+    func setup(_ scriptData : PSScriptData) {
         self.scriptData = scriptData
         self.selectionInterface = scriptData.selectionInterface
     }
     
     //MARK: Update
     
-    func update( iconsForNames : [String : NSImage] ) {
+    func update( _ iconsForNames : [String : NSImage] ) {
         self.iconsForNames = iconsForNames
         self.entryNames = Array(iconsForNames.keys)
     }
@@ -39,16 +39,16 @@ class PSEntryBrowserSearchController : NSObject, NSTextFieldDelegate, NCRAutocom
     
     //MARK: Autocomplete TextView Delegate
     
-    func textView(textView: NSTextView!, completions words: [AnyObject]!, forPartialWordRange charRange: NSRange, indexOfSelectedItem index: UnsafeMutablePointer<Int>) -> [AnyObject]! {
+    func textView(_ textView: NSTextView!, completions words: [AnyObject]!, forPartialWordRange charRange: NSRange, indexOfSelectedItem index: UnsafeMutablePointer<Int>) -> [AnyObject]! {
 
             
-        let toMatch : String = (textView.string! as NSString).substringWithRange(charRange).lowercaseString
-        let completions : [String] = entryNames.filter { $0.lowercaseString.rangeOfString(toMatch) != nil }
+        let toMatch : String = (textView.string! as NSString).substringWithRange(charRange).lowercased()
+        let completions : [String] = entryNames.filter { $0.lowercased().range(of: toMatch) != nil }
     
         return completions
     }
     
-    func textView(textView: NSTextView!, imageForCompletion word: String!) -> NSImage! {
+    func textView(_ textView: NSTextView!, imageForCompletion word: String!) -> NSImage! {
         if let icon = iconsForNames[word] {
             return icon
         } else {
@@ -56,7 +56,7 @@ class PSEntryBrowserSearchController : NSObject, NSTextFieldDelegate, NCRAutocom
         }
     }
     
-    func textViewDidEnterPress(textView : NSTextView) {
+    func textViewDidEnterPress(_ textView : NSTextView) {
         if let entry = scriptData.getBaseEntry(textView.string!) {
             selectionInterface.selectEntry(entry)
         }
@@ -88,7 +88,7 @@ class PSAutoCompleteTextFieldCell : NSTextFieldCell {
     @IBOutlet var autoCompleteTextView : NCRAutocompleteTextView!
     @IBOutlet var controller : PSEntryBrowserSearchController!
     
-    override func fieldEditorForView(aControlView: NSView) -> NSTextView? {
+    override func fieldEditor(for aControlView: NSView) -> NSTextView? {
         autoCompleteTextView.delegate = controller
         return autoCompleteTextView
     }

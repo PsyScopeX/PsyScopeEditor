@@ -15,7 +15,7 @@ class PSDocumentEvent : PSEventTool {
         toolType = PSType.Document
         helpfulDescriptionString = "displays text loaded from a file in a port.  You can change the colour, font and size of the text"
         iconName = "DocumentIcon"
-        iconColor = NSColor.redColor()
+        iconColor = NSColor.red
         classNameString = "PSDocumentEvent"
         properties = [Properties.StartRef, Properties.Duration, Properties.EventType]
     }
@@ -26,7 +26,7 @@ class PSDocumentEvent : PSEventTool {
         static let EventType = PSProperty(name: "EventType", defaultValue: "Document", essential: true)
     }
     
-    override func createObject(scriptData: PSScriptData) -> Entry? {
+    override func createObject(_ scriptData: PSScriptData) -> Entry? {
         guard let mainEntry = super.createObject(scriptData) else { return nil }
         if scriptData.getSubEntry("Stimulus", entry: mainEntry) == nil {
             let entry = scriptData.getOrCreateSubEntry("Stimulus", entry: mainEntry, isProperty: false, type: PSAttributeType(name: "Stimulus", parentType: toolType))

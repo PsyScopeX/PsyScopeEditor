@@ -7,9 +7,9 @@
 
 import Foundation
 
-public class PSAttributeParameter_Float : PSAttributeParameter_String {
+open class PSAttributeParameter_Float : PSAttributeParameter_String {
     
-    override public func setCustomControl(visible: Bool) {
+    override open func setCustomControl(_ visible: Bool) {
         if textField != nil && textField!.formatter == nil {
             textField!.formatter = PSFloatOnlyNumberFormatter()
         }

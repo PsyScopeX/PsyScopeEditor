@@ -85,10 +85,10 @@ class PSDocumentTabDelegate: NSObject, NSTabViewDelegate {
         self.selectionInterface = mainWindowController.selectionController
         
         //create notification listeners for left panel windows
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "showErrors", name: "PSShowErrorsNotification", object: mainWindowController.document)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "showProperties", name: "PSShowPropertiesNotification", object: mainWindowController.document)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "showAttributes", name: "PSShowAttributesNotification", object: mainWindowController.document)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "showActions", name: "PSShowActionsNotification", object: mainWindowController.document)
+        NotificationCenter.default.addObserver(self, selector: "showErrors", name: "PSShowErrorsNotification", object: mainWindowController.document)
+        NotificationCenter.default.addObserver(self, selector: "showProperties", name: "PSShowPropertiesNotification", object: mainWindowController.document)
+        NotificationCenter.default.addObserver(self, selector: "showAttributes", name: "PSShowAttributesNotification", object: mainWindowController.document)
+        NotificationCenter.default.addObserver(self, selector: "showActions", name: "PSShowActionsNotification", object: mainWindowController.document)
         
         //setup initial state
         currentToolsTabViewItem = leftPanelTabView.selectedTabViewItem
@@ -142,8 +142,8 @@ class PSDocumentTabDelegate: NSObject, NSTabViewDelegate {
             
             let segmentIndex = tag
             toolbarSegmentedControl.setImage(icon, forSegment: segmentIndex)
-            toolbarSegmentedControl.setImageScaling(toolbarSegmentedControl.imageScalingForSegment(0), forSegment: segmentIndex)
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: "showWindowNotification:", name: "PSShowWindowNotificationFor\(identifier)", object: mainWindowController.document)
+            toolbarSegmentedControl.setImageScaling(toolbarSegmentedControl.imageScaling(forSegment: 0), forSegment: segmentIndex)
+            NotificationCenter.default.addObserver(self, selector: "showWindowNotification:", name: "PSShowWindowNotificationFor\(identifier)", object: mainWindowController.document)
             totalTags++
         }
 
@@ -157,7 +157,7 @@ class PSDocumentTabDelegate: NSObject, NSTabViewDelegate {
         }
     }
     
-    @IBAction func segmentedControlClick(controller : NSSegmentedControl) {
+    @IBAction func segmentedControlClick(_ controller : NSSegmentedControl) {
         experimentSetupButton.state = 0
         let selected = controller.selectedSegment
         
@@ -179,13 +179,13 @@ class PSDocumentTabDelegate: NSObject, NSTabViewDelegate {
         
     }
     
-    func showWindowNotification(notification : NSNotification) {
+    func showWindowNotification(_ notification : Notification) {
         //get window name from notification
-        let windowName = notification.name.stringByReplacingOccurrencesOfString("PSShowWindowNotificationFor", withString: "")
+        let windowName = notification.name.replacingOccurrences(of: "PSShowWindowNotificationFor", with: "")
         showWindow(windowName)
     }
     
-    func showWindow(windowName : String) {
+    func showWindow(_ windowName : String) {
         if let tag = identifiers[windowName], item = items[tag] {
             show(item)
         } else {
@@ -201,7 +201,7 @@ class PSDocumentTabDelegate: NSObject, NSTabViewDelegate {
     var toolsShowing : Bool = false
     
     //left panel buttons
-    @IBAction func leftPanelButtonClicked(button : NSButton) {
+    @IBAction func leftPanelButtonClicked(_ button : NSButton) {
         switch(button) {
         case entriesButton:
             toolsShowing = false
@@ -240,7 +240,7 @@ class PSDocumentTabDelegate: NSObject, NSTabViewDelegate {
         self.showActions()
     }
     
-    func show(element : PSWindowViewElement) {
+    func show(_ element : PSWindowViewElement) {
         
         if let windowController = element.windowController {
             //element is currently in it's own window
@@ -250,7 +250,7 @@ class PSDocumentTabDelegate: NSObject, NSTabViewDelegate {
             currentlySelectedTag = element.tag
             midPanelTabView.selectTabViewItem(element.midPanelTabViewItem)
             currentToolsTabViewItem = element.leftPanelTabViewItem
-            toolsButton.enabled = currentToolsTabViewItem != nil
+            toolsButton.isEnabled = currentToolsTabViewItem != nil
             if let currentToolsTabViewItem = currentToolsTabViewItem where toolsShowing {
                 leftPanelTabView.selectTabViewItem(currentToolsTabViewItem)
             } else if toolsShowing {
@@ -263,7 +263,7 @@ class PSDocumentTabDelegate: NSObject, NSTabViewDelegate {
     }
     
     //handles selecting objects
-    func selectEntry(entry : Entry?) {
+    func selectEntry(_ entry : Entry?) {
         
         self.currentSelectedEntry = entry
         
@@ -310,7 +310,7 @@ class PSDocumentTabDelegate: NSObject, NSTabViewDelegate {
         windowController.showWindow(self)
     }
     
-    func reattachWindow(windowController : PSWindowViewWindowController) {
+    func reattachWindow(_ windowController : PSWindowViewWindowController) {
         guard let element = Array(items.values).filter({ $0.windowController == windowController }).first else {
             //big error but lets at least let them save
             PSModalAlert("An error has occurred with the windows - please save and restart!")

@@ -4,11 +4,11 @@ typealias PSRule = (()->(Bool))
 typealias PSMemoization = [Int:Int]
 
 
-public class PSEntryValueParser {
-    private let tokens : [PSToken]
-    private var p : Int
-    private var parsedList : PSStringListElement!
-    public var foundErrors : Bool
+open class PSEntryValueParser {
+    fileprivate let tokens : [PSToken]
+    fileprivate var p : Int
+    fileprivate var parsedList : PSStringListElement!
+    open var foundErrors : Bool
     
     public init(stringValue : String) {
         let tokeniser = PSTokenizer(string: stringValue)
@@ -26,7 +26,7 @@ public class PSEntryValueParser {
         }
     }
     
-    func match(tokenType : PSTokenType) -> PSToken? {
+    func match(_ tokenType : PSTokenType) -> PSToken? {
         //end of file
         if (p == tokens.count) { return nil }
         
@@ -40,10 +40,10 @@ public class PSEntryValueParser {
     }
     
     var listElement : PSEntryElement {
-        return PSEntryElement.List(stringListElement: parsedList)
+        return PSEntryElement.list(stringListElement: parsedList)
     }
     
-    public var values : [PSEntryElement] {
+    open var values : [PSEntryElement] {
         get {
             return parsedList.values
         }
@@ -51,7 +51,7 @@ public class PSEntryValueParser {
     
     //looks for previously created object - and moves p to it's parsed location if found
     //returns true or false, if already parsed, nil if not
-    func recall(inout stack : [Int], inout endPosDic : [Int : Int]) -> Bool? {
+    func recall(_ stack : inout [Int], endPosDic : inout [Int : Int]) -> Bool? {
         if let previousP = endPosDic[p] {
             if previousP == -1 {
                 return false
@@ -65,7 +65,7 @@ public class PSEntryValueParser {
     }
     
     //stores the object (if created) or stores -1 and resets p if not created
-    func store<T>(inout stack : [Int], inout objDic: [Int : T], inout endPosDic : [Int : Int], obj : T?, startP : Int ) -> Bool {
+    func store<T>(_ stack : inout [Int], objDic: inout [Int : T], endPosDic : inout [Int : Int], obj : T?, startP : Int ) -> Bool {
         if let realObj = obj {
             objDic[startP] = realObj
             endPosDic[startP] = p
@@ -78,7 +78,7 @@ public class PSEntryValueParser {
         }
     }
     
-    func getLast<T>(inout objDic: [Int : T], inout stack : [Int]) -> T {
+    func getLast<T>(_ objDic: inout [Int : T], stack : inout [Int]) -> T {
         let pos = stack.last!
         stack.removeLast()
         return objDic[pos]!
@@ -111,7 +111,7 @@ public class PSEntryValueParser {
         
         var element : PSEntryElement?
         if operationRule() {
-            element = PSEntryElement.Function(functionElement: getLast(&operationObjDic, stack: &operationStack))
+            element = PSEntryElement.function(functionElement: getLast(&operationObjDic, stack: &operationStack))
         } else if nonOperationValueRule() {
             element = getLast(&nonOperationValueObjDic, stack: &nonOperationValueStack)
         }
@@ -128,22 +128,22 @@ public class PSEntryValueParser {
         
         var element : PSEntryElement?
         if functionRule() {
-            element = PSEntryElement.Function(functionElement: getLast(&functionObjDic, stack: &functionStack))
+            element = PSEntryElement.function(functionElement: getLast(&functionObjDic, stack: &functionStack))
         } else if plainValueRule() {
             //musn't be an inline entry
-            if let _ = match(.InlineAttributeSymbol) {
+            if let _ = match(.inlineAttributeSymbol) {
                 //inline entry so no good
             } else {
-                element = PSEntryElement.StringToken(stringElement: getLast(&plainValueObjDic, stack: &plainValueStack))
+                element = PSEntryElement.stringToken(stringElement: getLast(&plainValueObjDic, stack: &plainValueStack))
             }
         } else if unaryOperatorThenExpressionRule() {
             
             let function = PSFunctionElement()
-            function.bracketType = .Expression
+            function.bracketType = .expression
             let unop = getLast(&unaryOperatorThenExpressionObjDic, stack: &unaryOperatorThenExpressionStack)
             function.values.append(unop.op)
             function.values.append(unop.val)
-            element = PSEntryElement.Function(functionElement: function)
+            element = PSEntryElement.function(functionElement: function)
         }
 
         return store(&nonOperationValueStack, objDic: &nonOperationValueObjDic, endPosDic: &nonOperationValueEndPosDic, obj: element, startP: startP)
@@ -169,7 +169,7 @@ public class PSEntryValueParser {
  
             if binaryOperatorThenExpressionRule() {
                 function = PSFunctionElement()
-                function!.bracketType = .Expression
+                function!.bracketType = .expression
                 function!.values.append(firstVal)
                 let binop = getLast(&binaryOperatorThenExpressionObjDic, stack: &binaryOperatorThenExpressionStack)
                 function!.values.append(binop.op)
@@ -222,7 +222,7 @@ public class PSEntryValueParser {
             
             //all unary operators operate on plain values....
             if plainValueRule() {
-                obj = (op, PSEntryElement.StringToken(stringElement: getLast(&plainValueObjDic, stack: &plainValueStack)))
+                obj = (op, PSEntryElement.stringToken(stringElement: getLast(&plainValueObjDic, stack: &plainValueStack)))
             }
         }
         
@@ -237,8 +237,8 @@ public class PSEntryValueParser {
         let startP = p
         
         var element : PSEntryElement?
-        if let binoperator = match(.BinaryOperator) {
-            element = PSEntryElement.StringToken(stringElement: PSStringElement(value: binoperator.value!, quotes: .None))
+        if let binoperator = match(.binaryOperator) {
+            element = PSEntryElement.stringToken(stringElement: PSStringElement(value: binoperator.value!, quotes: .none))
         }
         
         return store(&binaryOperatorStack, objDic: &binaryOperatorObjDic, endPosDic: &binaryOperatorEndPosDic, obj: element, startP: startP)
@@ -252,8 +252,8 @@ public class PSEntryValueParser {
         let startP = p
         
         var element : PSEntryElement?
-        if let binoperator = match(.UnaryOperator) {
-            element = PSEntryElement.StringToken(stringElement: PSStringElement(value: binoperator.value!, quotes: .None))
+        if let binoperator = match(.unaryOperator) {
+            element = PSEntryElement.stringToken(stringElement: PSStringElement(value: binoperator.value!, quotes: .none))
         }
         
         return store(&unaryOperatorStack, objDic: &unaryOperatorObjDic, endPosDic: &unaryOperatorEndPosDic, obj: element, startP: startP)
@@ -272,10 +272,10 @@ public class PSEntryValueParser {
             
             let functionName = getLast(&plainValueObjDic, stack: &plainValueStack).quotedValue
             
-            if let _ = match(.InlineAttributeSymbol) {
+            if let _ = match(.inlineAttributeSymbol) {
                 newInlineEntry = PSFunctionElement()
                 newInlineEntry!.functionName = functionName
-                newInlineEntry!.bracketType = .InlineEntry
+                newInlineEntry!.bracketType = .inlineEntry
                 whiteSpaceRule()
                 if listRule() {
                     let list = getLast(&listObjDic, stack: &listStack)
@@ -303,19 +303,19 @@ public class PSEntryValueParser {
             functionName = getLast(&plainValueObjDic, stack: &plainValueStack).value
         }
         
-        match(.FunctionEvaluationSymbol) //eat these for now
+        match(.functionEvaluationSymbol) //eat these for now
         
-        if let _ = match(.OpenRoundBracket) {
+        if let _ = match(.openRoundBracket) {
             whiteSpaceRule()
             listRule()
             let list = getLast(&listObjDic, stack: &listStack)
-            if let _ = match(.CloseRoundBracket) {
+            if let _ = match(.closeRoundBracket) {
                 newFunction = PSFunctionElement()
                 newFunction!.functionName = functionName
-                newFunction!.bracketType = .Round
+                newFunction!.bracketType = .round
                 newFunction!.values = list.values
             }
-        } else if let _ = match(.OpenSquareBracket) {
+        } else if let _ = match(.openSquareBracket) {
             whiteSpaceRule()
             listRule()
             let list = getLast(&listObjDic, stack: &listStack)
@@ -324,14 +324,14 @@ public class PSEntryValueParser {
             var inlineEntries : [PSEntryElement] = []
             //now do inline sub entries
             while (inlineEntryRule()) {
-                inlineEntries.append(PSEntryElement.Function(functionElement: getLast(&inlineEntryObjDic, stack: &inlineEntryStack)))
+                inlineEntries.append(PSEntryElement.function(functionElement: getLast(&inlineEntryObjDic, stack: &inlineEntryStack)))
                 whiteSpaceRule()
             }
             
-            if let _ = match(.CloseSquareBracket) {
+            if let _ = match(.closeSquareBracket) {
                 newFunction = PSFunctionElement()
                 newFunction!.functionName = functionName
-                newFunction!.bracketType = .Square
+                newFunction!.bracketType = .square
                 newFunction!.values = list.values + inlineEntries
             }
         }
@@ -347,16 +347,16 @@ public class PSEntryValueParser {
         let startP = p
         
         var element : PSStringElement?
-        if let curlyBracketString = match(.CurlyBracketString) {
-            element = PSStringElement(value: curlyBracketString.value!, quotes: PSStringElement.Quotes.CurlyBrackets)
+        if let curlyBracketString = match(.curlyBracketString) {
+            element = PSStringElement(value: curlyBracketString.value!, quotes: PSStringElement.Quotes.curlyBrackets)
     
-        } else if let quoteString = match(.QuoteString) {
-            element = PSStringElement(value: quoteString.value!, quotes: PSStringElement.Quotes.Doubles)
+        } else if let quoteString = match(.quoteString) {
+            element = PSStringElement(value: quoteString.value!, quotes: PSStringElement.Quotes.doubles)
  
-        } else if let quoteString = match(.SingleQuoteString) {
-            element = PSStringElement(value: quoteString.value!, quotes: PSStringElement.Quotes.Singles)
+        } else if let quoteString = match(.singleQuoteString) {
+            element = PSStringElement(value: quoteString.value!, quotes: PSStringElement.Quotes.singles)
        
-        }else if let val = match(.Value) {
+        }else if let val = match(.value) {
             element = PSStringElement(strippedValue: val.value!)
         }
         
@@ -374,7 +374,7 @@ public class PSEntryValueParser {
         }
         
         let startP = p
-        if let _ = match(.WhiteSpace) {
+        if let _ = match(.whiteSpace) {
             while whiteSpaceRule() {
                 
             }

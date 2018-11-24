@@ -25,7 +25,7 @@ class PSActionPickerGroup : NSObject {
 
 var PSActionPickerGroupsCache : [PSActionPickerGroup]?
 
-func PSActionPickerGroups(scriptData : PSScriptData) -> [PSActionPickerGroup] {
+func PSActionPickerGroups(_ scriptData : PSScriptData) -> [PSActionPickerGroup] {
     
     if let cachedGroups = PSActionPickerGroupsCache {
         return cachedGroups
@@ -58,11 +58,11 @@ func PSActionPickerGroups(scriptData : PSScriptData) -> [PSActionPickerGroup] {
     }
     
     //sort alphabetically
-    groups = groups.sort({ (s1: PSActionPickerGroup, s2: PSActionPickerGroup) -> Bool in
+    groups = groups.sorted(by: { (s1: PSActionPickerGroup, s2: PSActionPickerGroup) -> Bool in
         return s1.name < s2.name })
     
     for act in groups {
-        act.actions = act.actions.sort({ (s1: PSActionPickerAction, s2: PSActionPickerAction) -> Bool in
+        act.actions = act.actions.sorted(by: { (s1: PSActionPickerAction, s2: PSActionPickerAction) -> Bool in
             return s1.userFriendlyName < s2.userFriendlyName })
     }
 

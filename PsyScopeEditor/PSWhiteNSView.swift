@@ -16,11 +16,11 @@ class PSWhiteNSView : NSView {
     CGContextFillRect(context, NSRectToCGRect(dirtyRect));
     }*/
     
-    override func drawRect(dirtyRect: NSRect) {
+    override func draw(_ dirtyRect: NSRect) {
         //bg colour
-        if let context = NSGraphicsContext.currentContext() {
-            CGContextSetRGBFillColor(context.CGContext, 1.0,1.0,1.0,0.8);
-            CGContextFillRect(context.CGContext, NSRectToCGRect(dirtyRect));
+        if let context = NSGraphicsContext.current() {
+            context.cgContext.setFillColor(red: 1.0,green: 1.0,blue: 1.0,alpha: 0.8);
+            context.cgContext.fill(NSRectToCGRect(dirtyRect));
         }
         
     }

@@ -9,16 +9,7 @@ import Cocoa
 
 class PSPluginSingleton: NSObject {
     
-    //thread safe singleton pattern
-    class var sharedInstance: PSPluginSingleton {
-        
-        struct Static {
-            
-            static var instance: PSPluginSingleton?
-            static var token: dispatch_once_t = 0
-            }
-        
-        dispatch_once(&Static.token) {
+    private static var __once: () = {
             Static.instance = PSPluginSingleton()
             
             var pstools : [String : PSToolInterface] = Static.instance!.toolObjects
@@ -89,7 +80,18 @@ class PSPluginSingleton: NSObject {
                         
             }
                     
-        }
+        }()
+    
+    //thread safe singleton pattern
+    class var sharedInstance: PSPluginSingleton {
+        
+        struct Static {
+            
+            static var instance: PSPluginSingleton?
+            static var token: Int = 0
+            }
+        
+        _ = PSPluginSingleton.__once
                 
         
             
@@ -102,7 +104,7 @@ class PSPluginSingleton: NSObject {
     var eventTools : [PSExtension]!
     var attributes : [PSAttribute]!
 
-    func typeIsEvent(type : String) -> Bool {
+    func typeIsEvent(_ type : String) -> Bool {
         for anObject in eventTools {
             if anObject.type == type {
                 return true
@@ -111,7 +113,7 @@ class PSPluginSingleton: NSObject {
         return false
     }
 
-    func getIconForType(type : String) -> NSImage? {
+    func getIconForType(_ type : String) -> NSImage? {
         for anObject in tools {
             if anObject.type == type {
                 return anObject.icon
@@ -126,7 +128,7 @@ class PSPluginSingleton: NSObject {
         return nil
     }
     
-    func getPlugin(name : String) -> PSToolInterface? {
+    func getPlugin(_ name : String) -> PSToolInterface? {
         var r = toolObjects[name]
         
         if (r == nil) {
@@ -236,7 +238,7 @@ class PSPluginSingleton: NSObject {
     }
     
     
-    func getViewControllerFor(entry : Entry, document : Document) -> PSPluginViewController? {
+    func getViewControllerFor(_ entry : Entry, document : Document) -> PSPluginViewController? {
         
         if let plugin = toolObjects[entry.type] {
             return plugin.getPropertiesViewController(entry, withScript: document.scriptData)
@@ -246,7 +248,7 @@ class PSPluginSingleton: NSObject {
         return nil
     }
     
-    func getExtension(type : String) -> PSExtension? {
+    func getExtension(_ type : String) -> PSExtension? {
         for obj in tools {
             if obj.type == type {
                 return obj

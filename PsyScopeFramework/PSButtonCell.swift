@@ -8,9 +8,9 @@
 
 import Foundation
 
-public class PSButtonCell : NSView {
-    public var action : ((sender : NSButton) -> ())?
-    @IBAction public func buttonPress(sender : NSButton) {
+open class PSButtonCell : NSView {
+    open var action : ((sender : NSButton) -> ())?
+    @IBAction open func buttonPress(_ sender : NSButton) {
         if let a = action {
             a(sender: sender as NSButton)
         }

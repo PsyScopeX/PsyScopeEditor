@@ -8,41 +8,41 @@
 import Foundation
 
 //displays a cell with a button - abstract to be overriden
-public class PSAttributeParameter_Button : PSAttributeParameter {
+open class PSAttributeParameter_Button : PSAttributeParameter {
     
-    public var editButton : NSButton!
-    public var displayValueTransformer : ((PSEntryElement) -> (String))? //can transform the display to make it prettier
+    open var editButton : NSButton!
+    open var displayValueTransformer : ((PSEntryElement) -> (String))? //can transform the display to make it prettier
     
-    override public func setCustomControl(visible: Bool) {
+    override open func setCustomControl(_ visible: Bool) {
         if visible {
             if editButton == nil {
                 //add editButton
                 editButton = NSButton(frame: attributeValueControlFrame)
                 cell?.activateViewBlock = { self.editButton.performClick(self) }
-                editButton.bezelStyle = NSBezelStyle.RoundRectBezelStyle
+                editButton.bezelStyle = NSBezelStyle.roundRect
                 let bcell = editButton.cell!
-                bcell.lineBreakMode = NSLineBreakMode.ByTruncatingTail
-                bcell.backgroundStyle = NSBackgroundStyle.Dark
+                bcell.lineBreakMode = NSLineBreakMode.byTruncatingTail
+                bcell.backgroundStyle = NSBackgroundStyle.dark
                 
-                editButton.autoresizingMask = NSAutoresizingMaskOptions.ViewWidthSizable
+                editButton.autoresizingMask = NSAutoresizingMaskOptions.viewWidthSizable
                 editButton.target = self
                 editButton.action = "clickButton:"
                 setButtonTitle()
                 cell.addSubview(editButton)
             } else {
-                editButton.hidden = false
+                editButton.isHidden = false
             }
             
             setButtonTitle()
         } else {
             if editButton != nil {
-                editButton.hidden = true
+                editButton.isHidden = true
             }
         }
     }
     
     func setButtonTitle() {
-        if currentValue == PSEntryElement.Null {
+        if currentValue == PSEntryElement.null {
             editButton.title = ""
         } else if let displayValueTransformer = displayValueTransformer {
             editButton.title = displayValueTransformer(currentValue)
@@ -51,7 +51,7 @@ public class PSAttributeParameter_Button : PSAttributeParameter {
         }
     }
     
-    func clickButton(sender : NSButton) {
+    func clickButton(_ sender : NSButton) {
         fatalError("use of abstract class PSAttributeParameter_Button")
     }
 }

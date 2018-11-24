@@ -17,12 +17,12 @@ class PSCondition_Movie : PSCondition {
     }
     
     override func nib() -> NSNib {
-        return NSNib(nibNamed: "Condition_MovieCell", bundle: NSBundle(forClass:self.dynamicType))!
+        return NSNib(nibNamed: "Condition_MovieCell", bundle: Bundle(for:self.dynamicType))!
     }
 
     
     override func icon() -> NSImage {
-        let image : NSImage = NSImage(contentsOfFile: NSBundle(forClass:self.dynamicType).pathForImageResource("MouseClick")!)!
+        let image : NSImage = NSImage(contentsOfFile: Bundle(for:self.dynamicType).pathForImageResource("MouseClick")!)!
         return image
     }
 }
@@ -42,31 +42,31 @@ class PSCondition_MovieCell : PSConditionCell, NSTextFieldDelegate {
     func parse() {
 
         let inputValue = entryFunction.getStringValues()
-        timePointRadio.selectCellWithTag(1) //done
+        timePointRadio.selectCell(withTag: 1) //done
         hourText.stringValue = "0"
         minText.stringValue = "0"
         secText.stringValue = "0"
         msText.stringValue = "0"
         
         for v in inputValue {
-            let lcv = v.lowercaseString
+            let lcv = v.lowercased()
             if lcv == "done" {
-                timePointRadio.selectCellWithTag(1) //done
-                hourText.enabled = false
-                minText.enabled = false
-                secText.enabled = false
-                msText.enabled = false
+                timePointRadio.selectCell(withTag: 1) //done
+                hourText.isEnabled = false
+                minText.isEnabled = false
+                secText.isEnabled = false
+                msText.isEnabled = false
             } else if lcv == "at" {
-                timePointRadio.selectCellWithTag(2) //at
-                hourText.enabled = true
-                minText.enabled = true
-                secText.enabled = true
-                msText.enabled = true
-            } else if lcv.rangeOfString(",") != nil {
+                timePointRadio.selectCell(withTag: 2) //at
+                hourText.isEnabled = true
+                minText.isEnabled = true
+                secText.isEnabled = true
+                msText.isEnabled = true
+            } else if lcv.range(of: ",") != nil {
                 //"h:0,m:0,s:0,ms:0"
                 
-                for time in v.lowercaseString.componentsSeparatedByString(",") {
-                    var points = time.componentsSeparatedByString(":")
+                for time in v.lowercased().components(separatedBy: ",") {
+                    var points = time.components(separatedBy: ":")
                     if points.count != 2 { break }
                     switch (points[0]) {
                     case "h":
@@ -92,7 +92,7 @@ class PSCondition_MovieCell : PSConditionCell, NSTextFieldDelegate {
 
     }
     
-    @IBAction func generate(sender : AnyObject) {
+    @IBAction func generate(_ sender : AnyObject) {
         var outputString = ""
         let tag = timePointRadio.selectedTag()
         if tag == 2 {
@@ -100,30 +100,30 @@ class PSCondition_MovieCell : PSConditionCell, NSTextFieldDelegate {
             outputString += "At "
             outputString += movieTagText.stringValue
             outputString += " \"h:\(hourText.stringValue),m:\(minText.stringValue),s:\(secText.stringValue),ms:\(msText.stringValue)\""
-            hourText.enabled = true
-            minText.enabled = true
-            secText.enabled = true
-            msText.enabled = true
+            hourText.isEnabled = true
+            minText.isEnabled = true
+            secText.isEnabled = true
+            msText.isEnabled = true
         } else {
             //done
             outputString += "Done "
             outputString += movieTagText.stringValue
-            hourText.enabled = false
-            minText.enabled = false
-            secText.enabled = false
-            msText.enabled = false
+            hourText.isEnabled = false
+            minText.isEnabled = false
+            secText.isEnabled = false
+            msText.isEnabled = false
         }
         
         entryFunction.setStringValues([outputString])
         self.updateScript()
     }
     
-    func control(control: NSControl, textShouldEndEditing fieldEditor: NSText) -> Bool {
+    func control(_ control: NSControl, textShouldEndEditing fieldEditor: NSText) -> Bool {
         generate(control)
         return true
     }
     
-    override func setup(conditionInterface: PSConditionInterface, function entryFunction: PSFunctionElement, scriptData: PSScriptData, expandedHeight: CGFloat) {
+    override func setup(_ conditionInterface: PSConditionInterface, function entryFunction: PSFunctionElement, scriptData: PSScriptData, expandedHeight: CGFloat) {
         super.setup(conditionInterface,function: entryFunction,scriptData: scriptData, expandedHeight: expandedHeight)
         parse()
     }

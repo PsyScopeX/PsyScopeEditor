@@ -8,18 +8,18 @@
 
 import Foundation
 
-public class PSAttributePopup : NSObject {
+open class PSAttributePopup : NSObject {
 
-    public var currentValue : PSEntryElement
-    public var displayName : String
-    public var nibName : String
-    public var bundle : NSBundle
-    @IBOutlet public var attributeSheet : NSWindow!
-    public var topLevelObjects : NSArray?
-    public var parentWindow : NSWindow!
-    public var setCurrentValueBlock : ((PSEntryElement) -> ())?
+    open var currentValue : PSEntryElement
+    open var displayName : String
+    open var nibName : String
+    open var bundle : Bundle
+    @IBOutlet open var attributeSheet : NSWindow!
+    open var topLevelObjects : NSArray?
+    open var parentWindow : NSWindow!
+    open var setCurrentValueBlock : ((PSEntryElement) -> ())?
     
-    public init(nibName: String, bundle: NSBundle, currentValue : PSEntryElement, displayName : String, setCurrentValueBlock : ((PSEntryElement) -> ())?) {
+    public init(nibName: String, bundle: Bundle, currentValue : PSEntryElement, displayName : String, setCurrentValueBlock : ((PSEntryElement) -> ())?) {
         self.currentValue = currentValue
         self.nibName = nibName
         self.bundle = bundle
@@ -28,7 +28,7 @@ public class PSAttributePopup : NSObject {
         super.init()
     }
 
-    public func showAttributeModalForWindow(window : NSWindow) {
+    open func showAttributeModalForWindow(_ window : NSWindow) {
         if (attributeSheet == nil) {
             bundle.loadNibNamed(nibName, owner: self, topLevelObjects: &topLevelObjects)
         }
@@ -37,14 +37,14 @@ public class PSAttributePopup : NSObject {
         
         parentWindow.beginSheet(attributeSheet, completionHandler: {
             (response : NSModalResponse) -> () in
-            NSApp.stopModalWithCode(response)
+            NSApp.stopModal(withCode: response)
             
             
         })
-        NSApp.runModalForWindow(attributeSheet)
+        NSApp.runModal(for: attributeSheet)
     }
 
-    @IBAction public func closeMyCustomSheet(_: AnyObject) {
+    @IBAction open func closeMyCustomSheet(_: AnyObject) {
         parentWindow.endSheet(attributeSheet)
         if let setCurrentValueBlock = setCurrentValueBlock {
             setCurrentValueBlock(self.currentValue)

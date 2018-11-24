@@ -8,16 +8,16 @@
 
 import Foundation
 
-public class PSClickableTableView : NSTableView {
-    public override func mouseDown(theEvent: NSEvent) {
+open class PSClickableTableView : NSTableView {
+    open override func mouseDown(with theEvent: NSEvent) {
         let globalLocation:NSPoint  = theEvent.locationInWindow
-        let localLocation:NSPoint  = self.convertPoint(globalLocation, fromView: nil)
-        let clickedRow:Int = self.rowAtPoint(localLocation)
+        let localLocation:NSPoint  = self.convert(globalLocation, from: nil)
+        let clickedRow:Int = self.row(at: localLocation)
         
-        super.mouseDown(theEvent)
+        super.mouseDown(with: theEvent)
 
         if (clickedRow != -1) {
-            if let delegate = self.delegate() as? PSClickableTableViewDelegate {
+            if let delegate = self.delegate as? PSClickableTableViewDelegate {
                 delegate.tableView(self, didClickTableRow: clickedRow)
             }
         }
@@ -25,6 +25,6 @@ public class PSClickableTableView : NSTableView {
 }
 
 public protocol PSClickableTableViewDelegate {
-    func tableView(tableView : PSClickableTableView, didClickTableRow row: Int)
+    func tableView(_ tableView : PSClickableTableView, didClickTableRow row: Int)
 }
 

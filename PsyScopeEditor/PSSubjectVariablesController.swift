@@ -50,7 +50,7 @@ class PSSubjectVariablesController : NSObject, NSTextFieldDelegate, NSTableViewD
         self.logFileNameController.reload()
     }
     
-    @IBAction func subjectVariablesSegmentedControlClick(segmentedControl : NSSegmentedControl) {
+    @IBAction func subjectVariablesSegmentedControlClick(_ segmentedControl : NSSegmentedControl) {
         switch(segmentedControl.selectedSegment) {
         case 0: // add
             scriptData.beginUndoGrouping("Add New Variable")
@@ -82,7 +82,7 @@ class PSSubjectVariablesController : NSObject, NSTextFieldDelegate, NSTableViewD
         }
     }
     
-    func getSubjectVariableForEntry(entry : Entry) -> PSSubjectVariable? {
+    func getSubjectVariableForEntry(_ entry : Entry) -> PSSubjectVariable? {
         for subjectVariable in subjectInformation.allVariables {
             if entry === subjectVariable.entry {
                 return subjectVariable
@@ -99,9 +99,9 @@ class PSSubjectVariablesController : NSObject, NSTextFieldDelegate, NSTableViewD
         
         for groupingVariable in subjectInformation.groupVariables {
             switch (groupingVariable.dialogType) {
-            case .CheckBoxes(_):
+            case .checkBoxes(_):
                 break
-            case .RadioButtons(_):
+            case .radioButtons(_):
                 break
             default:
                 allValidGroupingTypes = false

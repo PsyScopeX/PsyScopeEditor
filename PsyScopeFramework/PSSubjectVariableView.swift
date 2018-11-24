@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class PSSubjectVariableView : NSView {
+open class PSSubjectVariableView : NSView {
     
     let subjectVariable : PSSubjectVariable
     
@@ -29,28 +29,28 @@ public class PSSubjectVariableView : NSView {
         self.addSubview(label)
         
         switch(subjectVariable.dialogType) {
-        case .StringType:
+        case .stringType:
             constructInputOnlySubView()
-        case .Integer:
+        case .integer:
             constructInputOnlySubView()
-        case .Rational:
+        case .rational:
             constructInputOnlySubView()
-        case .Number:
+        case .number:
             constructInputOnlySubView()
-        case let .CheckBoxes(values):
+        case let .checkBoxes(values):
             constructCheckBoxesSubView(values)
-        case let .RadioButtons(values):
+        case let .radioButtons(values):
             constructRadioButtonsSubView(values)
         }
     }
     
-    func newLabel(frame : NSRect, value : String) -> NSTextField {
+    func newLabel(_ frame : NSRect, value : String) -> NSTextField {
         let textField = NSTextField(frame: frame)
         textField.stringValue = value
-        textField.bezeled = false
+        textField.isBezeled = false
         textField.drawsBackground = false
-        textField.editable = false
-        textField.selectable = false
+        textField.isEditable = false
+        textField.isSelectable = false
         return textField
     }
     
@@ -59,21 +59,21 @@ public class PSSubjectVariableView : NSView {
         self.addSubview(textField)
     }
     
-    func constructCheckBoxesSubView(values : [String]) {
+    func constructCheckBoxesSubView(_ values : [String]) {
         /*for val in values {
             var checkBox = NSButton(frame: NSMakeRect(5,self.frame.height - 39, self.frame.width - 10, 22))
         }*/
     }
     
-    func constructRadioButtonsSubView(values : [String]) {
+    func constructRadioButtonsSubView(_ values : [String]) {
         
     }
     
-    class func heightOfViewForDialogType(dialogType : PSSubjectVariableType) -> CGFloat {
+    class func heightOfViewForDialogType(_ dialogType : PSSubjectVariableType) -> CGFloat {
         switch(dialogType) {
-        case let .CheckBoxes(values):
+        case let .checkBoxes(values):
             return CGFloat(22 + (values.count * 17))
-        case let .RadioButtons(values):
+        case let .radioButtons(values):
             return CGFloat(22 + (values.count * 17))
         default:
             return CGFloat(22 + 17)

@@ -26,7 +26,7 @@ class PSDialogVariableTool: PSTool, PSToolInterface {
         toolType = PSType.SubjectInfo
         helpfulDescriptionString = "Named run-time variables that can open an input dialog at various points during the experiment lifecycle."
         iconName = "Variable-icon-small"
-        iconColor = NSColor.blueColor()
+        iconColor = NSColor.blue
         classNameString = "PSDialogVariableTool"
         section = PSSection.SubjectInfo // changing from SubjectVariables as this is not recognised by psyscope
         properties = [Properties.VariableType, Properties.Dialog]
@@ -52,7 +52,7 @@ class PSDialogVariableTool: PSTool, PSToolInterface {
         return false
     }
     
-    override func createObjectWithGhostEntries(entries: [PSGhostEntry], withScript scriptData: PSScriptData) -> [LayoutObject]? {
+    override func createObjectWithGhostEntries(_ entries: [PSGhostEntry], withScript scriptData: PSScriptData) -> [LayoutObject]? {
         var return_array : [LayoutObject] = []
         for ent in entries {
 
@@ -67,7 +67,7 @@ class PSDialogVariableTool: PSTool, PSToolInterface {
         return return_array
     }
     
-    func createMainVariableEntry(scriptData : PSScriptData) -> Entry {
+    func createMainVariableEntry(_ scriptData : PSScriptData) -> Entry {
      let sect = scriptData.getOrCreateSection(section)
         
         //create main block entry
@@ -85,11 +85,11 @@ class PSDialogVariableTool: PSTool, PSToolInterface {
     }
     
     //variables dont have a layout object any more
-    override func createObject(scriptData: PSScriptData) -> Entry? {
+    override func createObject(_ scriptData: PSScriptData) -> Entry? {
         return createMainVariableEntry(scriptData)
     }
     
-    override func identifyEntries(ghostScript: PSGhostScript) -> [PSScriptError] {
+    override func identifyEntries(_ ghostScript: PSGhostScript) -> [PSScriptError] {
         var errors : [PSScriptError] = []
         errors += (PSTool.identifyEntriesByKeyAttribute(ghostScript, keyAttribute: "Dialog", type: toolType) as [PSScriptError])
         
@@ -106,14 +106,14 @@ class PSDialogVariableTool: PSTool, PSToolInterface {
         return errors
     }
     
-    func PSIllegalScheduleEntry(nameOfIllegalEntry: String) -> PSScriptError {
+    func PSIllegalScheduleEntry(_ nameOfIllegalEntry: String) -> PSScriptError {
         let description = "The name for base entry: \(nameOfIllegalEntry):: is illegal."
         let solution = "Delete the entry named: \(nameOfIllegalEntry): and move the functionality elsewhere - you can schedule dialogs before running the experiment and after - but not other times."
         return PSScriptError(errorDescription: "Illegal Schedule Entry", detailedDescription: description, solution: solution, entryName: nameOfIllegalEntry)
     }
     
     
-    override func getPropertiesViewController(entry: Entry, withScript scriptData: PSScriptData) -> PSPluginViewController? {
+    override func getPropertiesViewController(_ entry: Entry, withScript scriptData: PSScriptData) -> PSPluginViewController? {
         return PSDialogVariablePropertiesController(entry: entry, scriptData: scriptData)
     }
     

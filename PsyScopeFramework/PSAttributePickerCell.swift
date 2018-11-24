@@ -12,7 +12,7 @@ class PSAttributePickerCell: NSView {
     var clickCallback : ((Int,Bool)->())? = nil
     var row : Int = -1
     
-    func setup(labelValue : String, row : Int, clickCallback : ((Int,Bool)->())) {
+    func setup(_ labelValue : String, row : Int, clickCallback : ((Int,Bool)->())) {
         button.title = labelValue
         self.row = row
         self.clickCallback = clickCallback

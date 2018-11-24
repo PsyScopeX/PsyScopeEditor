@@ -8,7 +8,7 @@
 import Foundation
 
 class PSTimeLineTableView : NSTableView {
-    override func validateProposedFirstResponder(responder: NSResponder, forEvent event: NSEvent?) -> Bool {
+    override func validateProposedFirstResponder(_ responder: NSResponder, for event: NSEvent?) -> Bool {
         return true
     }
 }
@@ -48,28 +48,28 @@ class PSTemplateEventTimeLineView : NSView {
         self.boxLayer = CALayer()
         self.layer!.addSublayer(self.boxLayer)
         
-        let font = NSFont.systemFontOfSize(10)
+        let font = NSFont.systemFont(ofSize: 10)
         
         //layer for feedback during dragging
         draggingTextLayer.font = font
         draggingTextLayer.fontSize = 10
         draggingTextLayer.alignmentMode = kCAAlignmentRight
-        draggingTextLayer.foregroundColor = NSColor.blackColor().CGColor
+        draggingTextLayer.foregroundColor = NSColor.black.cgColor
         draggingTextLayer.anchorPoint = CGPoint(x: 1, y: 0.5)
-        draggingTextLayer.frame = CGRect(origin: CGPointZero, size: CGSizeMake(50,20))
+        draggingTextLayer.frame = CGRect(origin: CGPoint.zero, size: CGSize(width: 50,height: 20))
         
         //box (timeline) layer
         boxLayer.backgroundColor = PSDefaultConstants.TemplateLayoutBoard.fixedTimeColor // luca changed from blue
         boxLayer.borderWidth = 2.0
-        boxLayer.borderColor = NSColor.clearColor().CGColor
+        boxLayer.borderColor = NSColor.clear.cgColor
             
             //luca changed from NSColor.blackColor().CGColor
-        boxLayer.shadowOffset = CGSizeMake(0, 0);
+        boxLayer.shadowOffset = CGSize(width: 0, height: 0);
         boxLayer.shadowRadius = 0.0;
-        boxLayer.shadowColor = NSColor.lightGrayColor().CGColor;/// luca changed from black
+        boxLayer.shadowColor = NSColor.lightGray.cgColor;/// luca changed from black
         boxLayer.shadowOpacity = 0.5; // luca changed from 0.8
         boxLayer.anchorPoint = CGPoint(x: 0.0, y: 0.5)
-        boxLayer.frame = CGRect(origin: NSZeroPoint, size: CGSizeMake(100,PSDefaultConstants.Spacing.TLBtimeBarWidth))
+        boxLayer.frame = CGRect(origin: NSZeroPoint, size: CGSize(width: 100,height: PSDefaultConstants.Spacing.TLBtimeBarWidth))
         boxLayer.cornerRadius = 0//adding square radius as a default
     }
     
@@ -103,10 +103,10 @@ class PSTemplateEventTimeLineView : NSView {
     var selected : Bool = false {
         didSet {
             if (selected) {
-                boxLayer.borderColor = NSColor.redColor().CGColor
+                boxLayer.borderColor = NSColor.red.cgColor
                 boxLayer.borderWidth = 2.0
             } else {
-                boxLayer.borderColor = NSColor.blackColor().CGColor// originally darkGrayColor
+                boxLayer.borderColor = NSColor.black.cgColor// originally darkGrayColor
                 boxLayer.borderWidth = 0.0
             }
         }
@@ -135,7 +135,7 @@ class PSTemplateEventTimeLineView : NSView {
             if let starting_event = sc.event {
                 let (previousStart, previousDuration) = starting_event.getMS()
             
-                minimumStartTime = sc.position == EventStartEventRelatedPosition.End ? previousStart + previousDuration : previousStart
+                minimumStartTime = sc.position == EventStartEventRelatedPosition.end ? previousStart + previousDuration : previousStart
             } else {
                 minimumStartTime = 0
             }
@@ -163,7 +163,7 @@ class PSTemplateEventTimeLineView : NSView {
         
 
         //update box layer
-        let frame : CGRect = CGRect(origin: CGPoint(x: startTime, y: y_pos), size: CGSizeMake(durationTime, PSDefaultConstants.Spacing.TLBtimeBarWidth))
+        let frame : CGRect = CGRect(origin: CGPoint(x: startTime, y: y_pos), size: CGSize(width: durationTime, height: PSDefaultConstants.Spacing.TLBtimeBarWidth))
         self.boxLayer.frame = frame
         self.boxLayer.cornerRadius = 0//HERE
         
@@ -171,7 +171,7 @@ class PSTemplateEventTimeLineView : NSView {
             
             // Luca taking care of the case of trial_end events, which must appear differently from the others
             
-            boxLayer.backgroundColor = NSColor.purpleColor().CGColor
+            boxLayer.backgroundColor = NSColor.purple.cgColor
             
             boxLayer.cornerRadius = 15 //ideally only the right corners should be rounded (luca)
 
@@ -184,8 +184,8 @@ class PSTemplateEventTimeLineView : NSView {
         }
         
         if canDragStartTime || canDragUnscheduledPosition {
-            let leftPart : CGRect = CGRect(origin: CGPoint(x: startTime-5, y: y_pos), size: CGSizeMake(10,PSDefaultConstants.Spacing.TLBtimeBarWidth))
-            startTrackingArea = NSTrackingArea(rect: leftPart, options: [NSTrackingAreaOptions.ActiveInActiveApp, NSTrackingAreaOptions.MouseEnteredAndExited], owner: self, userInfo: [:])
+            let leftPart : CGRect = CGRect(origin: CGPoint(x: startTime-5, y: y_pos), size: CGSize(width: 10,height: PSDefaultConstants.Spacing.TLBtimeBarWidth))
+            startTrackingArea = NSTrackingArea(rect: leftPart, options: [NSTrackingAreaOptions.activeInActiveApp, NSTrackingAreaOptions.mouseEnteredAndExited], owner: self, userInfo: [:])
             self.addTrackingArea(startTrackingArea)
         }
         
@@ -196,8 +196,8 @@ class PSTemplateEventTimeLineView : NSView {
         }
         
         if canDragDurationTime {
-            let rightPart : CGRect = CGRect(origin: CGPoint(x: startTime + durationTime - 5, y: y_pos), size: CGSizeMake(10,PSDefaultConstants.Spacing.TLBtimeBarWidth))
-            durationTrackingArea = NSTrackingArea(rect: rightPart, options: [NSTrackingAreaOptions.ActiveInActiveApp, NSTrackingAreaOptions.MouseEnteredAndExited], owner: self, userInfo: [:])
+            let rightPart : CGRect = CGRect(origin: CGPoint(x: startTime + durationTime - 5, y: y_pos), size: CGSize(width: 10,height: PSDefaultConstants.Spacing.TLBtimeBarWidth))
+            durationTrackingArea = NSTrackingArea(rect: rightPart, options: [NSTrackingAreaOptions.activeInActiveApp, NSTrackingAreaOptions.mouseEnteredAndExited], owner: self, userInfo: [:])
             self.addTrackingArea(durationTrackingArea)
         }
         
@@ -211,13 +211,13 @@ class PSTemplateEventTimeLineView : NSView {
         var icons : Int = 0
         for icon in event.durationCondition.getIcons() {
             let new_icon = CALayer()
-            new_icon.shadowOffset = CGSizeMake(0, 0)
+            new_icon.shadowOffset = CGSize(width: 0, height: 0)
             new_icon.shadowRadius = 0.0
             new_icon.contents = icon
-            new_icon.borderColor = NSColor.clearColor().CGColor//LucaL changed from white
+            new_icon.borderColor = NSColor.clear.cgColor//LucaL changed from white
             new_icon.borderWidth = 0.0;
             new_icon.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-            new_icon.bounds = CGRect(origin: NSZeroPoint, size: CGSizeMake(15,15))
+            new_icon.bounds = CGRect(origin: NSZeroPoint, size: CGSize(width: 15,height: 15))
             let offset : CGFloat = CGFloat(10 + (icons * 20))
             new_icon.position = CGPoint(x: startTime + durationTime - offset, y: icon_y_pos)
             self.layer!.addSublayer(new_icon)
@@ -229,13 +229,13 @@ class PSTemplateEventTimeLineView : NSView {
         let text = event.durationCondition.getTimelineText()
         if text != "" {
             let text_layer = CATextLayer()
-            let font = NSFont.systemFontOfSize(10)
+            let font = NSFont.systemFont(ofSize: 10)
             text_layer.font = font
             text_layer.fontSize = 10
             text_layer.string = text
             text_layer.alignmentMode = kCAAlignmentRight
             text_layer.frame = frame
-            text_layer.foregroundColor = NSColor.blackColor().CGColor
+            text_layer.foregroundColor = NSColor.black.cgColor
             text_layer.anchorPoint = CGPoint(x: 1, y: 0.5)
             
             let offset : CGFloat = CGFloat(3 + (icons * 20))
@@ -249,13 +249,13 @@ class PSTemplateEventTimeLineView : NSView {
         if let _ = event.startCondition as? EventStartConditionUnscheduled {
             unscheduled = true
             let text_layer = CATextLayer()
-            let font = NSFont.systemFontOfSize(10)
+            let font = NSFont.systemFont(ofSize: 10)
             text_layer.font = font
             text_layer.fontSize = 18
             text_layer.string = "U"
             text_layer.alignmentMode = kCAAlignmentLeft
             text_layer.frame = frame
-            text_layer.foregroundColor = NSColor.redColor().CGColor
+            text_layer.foregroundColor = NSColor.red.cgColor
             text_layer.anchorPoint = CGPoint(x: 0, y: 0.5)
             
             
@@ -264,13 +264,13 @@ class PSTemplateEventTimeLineView : NSView {
             durationIconLayers.append(text_layer)
         } else if event.repeats > 1 {
             let text_layer = CATextLayer()
-            let font = NSFont.systemFontOfSize(10)
+            let font = NSFont.systemFont(ofSize: 10)
             text_layer.font = font
             text_layer.fontSize = 18
             text_layer.string = String(event.repeats)
             text_layer.alignmentMode = kCAAlignmentLeft
             text_layer.frame = frame
-            text_layer.foregroundColor = NSColor.redColor().CGColor
+            text_layer.foregroundColor = NSColor.red.cgColor
             text_layer.anchorPoint = CGPoint(x: 0, y: 0.5)
             
             
@@ -283,13 +283,13 @@ class PSTemplateEventTimeLineView : NSView {
         let currentValue = self.event.getMainStimulusAttributeValue()
         if currentValue != "" {
             let text_layer = CATextLayer()
-            let font = NSFont.systemFontOfSize(10)
+            let font = NSFont.systemFont(ofSize: 10)
             text_layer.font = font
             text_layer.fontSize = 12
             text_layer.string = currentValue
             text_layer.alignmentMode = kCAAlignmentLeft
             text_layer.truncationMode = kCATruncationEnd
-            text_layer.foregroundColor = NSColor.darkGrayColor().CGColor
+            text_layer.foregroundColor = NSColor.darkGray.cgColor
             text_layer.anchorPoint = CGPoint(x: 0, y: 0.5)
             //text_layer.borderColor = NSColor.lightGrayColor().CGColor
             //text_layer.borderWidth = 1
@@ -297,7 +297,7 @@ class PSTemplateEventTimeLineView : NSView {
             let xPos : CGFloat = (unscheduled || event.repeats > 1) ? 18 : 3
             let width = durationTime - xPos - offset
             text_layer.frame = CGRect(origin: CGPoint(x: startTime + xPos, y: currentValue_y_pos),
-                size: CGSizeMake(width, 16))
+                size: CGSize(width: width, height: 16))
             //text_layer.position = CGPoint(x: xPos, y: 26)
             self.layer!.addSublayer(text_layer)
             durationIconLayers.append(text_layer)
@@ -306,7 +306,7 @@ class PSTemplateEventTimeLineView : NSView {
         CATransaction.commit()
     }
     
-    override func mouseDown(theEvent: NSEvent) {
+    override func mouseDown(with theEvent: NSEvent) {
         
         if ((inStartArea || inDurationArea) && theEvent.clickCount == 1) {
             
@@ -314,12 +314,12 @@ class PSTemplateEventTimeLineView : NSView {
             CATransaction.setDisableActions(true)
             if inStartArea { startDragging = true } else if inDurationArea { durationDragging = true}
             dragLocation = theEvent.locationInWindow
-            self.boxLayer.borderColor = NSColor.whiteColor().CGColor
+            self.boxLayer.borderColor = NSColor.white.cgColor
             self.boxLayer.borderWidth = 2.0
             
             for l in durationIconLayers {
                 Swift.print("hiding")
-                l.hidden = true
+                l.isHidden = true
             }
             self.layer!.addSublayer(draggingTextLayer)
             
@@ -332,9 +332,9 @@ class PSTemplateEventTimeLineView : NSView {
             }
             CATransaction.commit()
         } else {
-            let row = tableView.rowForView(self)
-            let index = NSIndexSet(index: row)
-            if let d = tableView.delegate() {
+            let row = tableView.row(for: self)
+            let index = IndexSet(integer: row)
+            if let d = tableView.delegate {
                 d.tableView!(tableView, shouldSelectRow: row)
             }
             tableView.selectRowIndexes(index, byExtendingSelection: false)
@@ -348,7 +348,7 @@ class PSTemplateEventTimeLineView : NSView {
     
     
     
-    override func mouseDragged(theEvent: NSEvent) {
+    override func mouseDragged(with theEvent: NSEvent) {
         if startDragging || durationDragging  {
             //displacement
             
@@ -361,13 +361,13 @@ class PSTemplateEventTimeLineView : NSView {
             //update icon
             if startDragging {
                 draggedStartTime = max(minimumStartTime, startTime + displacement_x)
-                let frame : CGRect = CGRect(origin: CGPoint(x: draggedStartTime, y: y_pos), size: CGSizeMake(durationTime,PSDefaultConstants.Spacing.TLBtimeBarWidth))
+                let frame : CGRect = CGRect(origin: CGPoint(x: draggedStartTime, y: y_pos), size: CGSize(width: durationTime,height: PSDefaultConstants.Spacing.TLBtimeBarWidth))
                 self.boxLayer.frame = frame
                 draggingTextLayer.string = Int(draggedStartTime - minimumStartTime).description + " ms"
                 draggingTextLayer.position = CGPoint(x: draggedStartTime - 3, y: 21)
             } else if durationDragging {
                 draggedStartTime = max(0, durationTime + displacement_x)
-                let frame : CGRect = CGRect(origin: CGPoint(x: startTime, y: y_pos), size: CGSizeMake(draggedStartTime,PSDefaultConstants.Spacing.TLBtimeBarWidth))
+                let frame : CGRect = CGRect(origin: CGPoint(x: startTime, y: y_pos), size: CGSize(width: draggedStartTime,height: PSDefaultConstants.Spacing.TLBtimeBarWidth))
                 self.boxLayer.frame = frame
                 draggingTextLayer.string = Int(draggedStartTime).description + " ms"
                 draggingTextLayer.position = CGPoint(x: startTime + draggedStartTime - 3, y: 21)
@@ -377,7 +377,7 @@ class PSTemplateEventTimeLineView : NSView {
         }
     }
     
-    override func mouseUp(theEvent: NSEvent) {
+    override func mouseUp(with theEvent: NSEvent) {
         if startDragging {
             let displacement_x = theEvent.locationInWindow.x - dragLocation.x
             
@@ -386,7 +386,7 @@ class PSTemplateEventTimeLineView : NSView {
             
             if canDragStartTime {
                 let eventStartCondition = event.startCondition
-                eventStartCondition.event_time = EventTime.FixedTime(draggedStartTime - minimumStartTime)
+                eventStartCondition.event_time = EventTime.fixedTime(draggedStartTime - minimumStartTime)
                 event.startCondition = eventStartCondition //triggers set method
             } else {
                 //set meta data for event
@@ -395,12 +395,12 @@ class PSTemplateEventTimeLineView : NSView {
             
             
             for l in durationIconLayers {
-                l.hidden = false
+                l.isHidden = false
             }
             
             startDragging = false
             dragLocation = nil
-            self.boxLayer.borderColor = NSColor.blackColor().CGColor
+            self.boxLayer.borderColor = NSColor.black.cgColor
             self.boxLayer.borderWidth = 0.5
             draggingTextLayer.removeFromSuperlayer()
         } else if durationDragging {
@@ -411,41 +411,41 @@ class PSTemplateEventTimeLineView : NSView {
             event.durationCondition = EventDurationConditionFixedTime(time: Int(draggedStartTime))
             for l in durationIconLayers {
                 Swift.print("showing")
-                l.hidden = false
+                l.isHidden = false
             }
             
             durationDragging = false
             dragLocation = nil
-            self.boxLayer.borderColor = NSColor.blackColor().CGColor
+            self.boxLayer.borderColor = NSColor.black.cgColor
             self.boxLayer.borderWidth = 0.5
             draggingTextLayer.removeFromSuperlayer()
         }
         
     }
     
-    override func mouseEntered(theEvent: NSEvent) {
+    override func mouseEntered(with theEvent: NSEvent) {
         if theEvent.trackingArea == startTrackingArea  && (canDragStartTime || canDragUnscheduledPosition) && !inDurationArea {
             inStartArea = true
             inDurationArea = false
-            NSCursor.resizeLeftRightCursor().set()
+            NSCursor.resizeLeftRight().set()
         } else if theEvent.trackingArea == durationTrackingArea && canDragDurationTime && !inStartArea {
             inDurationArea = true
             inStartArea = false
-            NSCursor.resizeLeftRightCursor().set()
+            NSCursor.resizeLeftRight().set()
         }
     }
     
-    override func mouseExited(theEvent: NSEvent) {
+    override func mouseExited(with theEvent: NSEvent) {
         if theEvent.trackingArea == startTrackingArea && inStartArea {
             inStartArea = false
-            NSCursor.arrowCursor().set()
+            NSCursor.arrow().set()
         }
         
         if theEvent.trackingArea == durationTrackingArea && inDurationArea {
             inDurationArea = false
-            NSCursor.arrowCursor().set()
+            NSCursor.arrow().set()
         }
     }
     
-    override func acceptsFirstMouse(theEvent: NSEvent?) -> Bool { return true }
+    override func acceptsFirstMouse(for theEvent: NSEvent?) -> Bool { return true }
 }

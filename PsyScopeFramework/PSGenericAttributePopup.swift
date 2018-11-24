@@ -9,17 +9,17 @@
 
 import Cocoa
 
-public class PSGenericAttributePopup : PSAttributePopup {
+open class PSGenericAttributePopup : PSAttributePopup {
     
     public init(currentValue: PSEntryElement, displayName : String, setCurrentValueBlock : ((PSEntryElement) -> ())?) {
-        super.init(nibName: "GenericAttribute",bundle: NSBundle(forClass:self.dynamicType),currentValue: currentValue, displayName: displayName, setCurrentValueBlock: setCurrentValueBlock)
+        super.init(nibName: "GenericAttribute",bundle: Bundle(for:self.dynamicType),currentValue: currentValue, displayName: displayName, setCurrentValueBlock: setCurrentValueBlock)
     }
 
     @IBOutlet var label : NSTextField!
     @IBOutlet var field : NSTextField!
     @IBOutlet var view : NSView!
     
-    override public func awakeFromNib() {
+    override open func awakeFromNib() {
         label.stringValue = "Please enter the value for the attribute named: " + displayName
         field.stringValue = currentValue.stringValue()
         if custFormatter != nil {
@@ -27,9 +27,9 @@ public class PSGenericAttributePopup : PSAttributePopup {
         }
     }
     
-    var custFormatter : NSFormatter? = nil
+    var custFormatter : Formatter? = nil
     
-    func setCustomFormatter(formatter : NSFormatter) {
+    func setCustomFormatter(_ formatter : Formatter) {
         custFormatter = formatter
         if field != nil {
             field.formatter = formatter
@@ -37,7 +37,7 @@ public class PSGenericAttributePopup : PSAttributePopup {
     }
     
     @IBAction func enteredDone(_: AnyObject) {
-        currentValue = PSGetFirstEntryElementForStringOrNull(field.stringValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()))
+        currentValue = PSGetFirstEntryElementForStringOrNull(field.stringValue.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines))
         closeMyCustomSheet(self)
     }
 

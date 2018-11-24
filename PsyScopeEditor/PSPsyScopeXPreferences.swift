@@ -27,13 +27,13 @@ class PSPsyScopeXPreferences : NSViewController, MASPreferencesViewController {
         openPanel.canCreateDirectories = true
         openPanel.allowsMultipleSelection = false
         //openPanel.allowedFileTypes = [fileType]
-        openPanel.beginSheetModalForWindow(self.windowController.window!, completionHandler: {
+        openPanel.beginSheetModal(for: self.windowController.window!, completionHandler: {
         (int_code : Int) -> () in
             if int_code == NSFileHandlingPanelOKButton {
                 //relative to files location
-                let path : NSString = openPanel.URL!.path!
+                let path : NSString = openPanel.url!.path!
                 self.psyScopeXPathText.stringValue = path as String
-                NSUserDefaults.standardUserDefaults().setObject(path, forKey: "psyScopeXPath")
+                UserDefaults.standard.set(path, forKey: "psyScopeXPath")
             }
             return
         })

@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class PSVariableNamedType {
+open class PSVariableNamedType {
     
     init(name: String, type: PSVariableType) {
         self.name = name

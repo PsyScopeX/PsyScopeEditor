@@ -29,20 +29,20 @@ class PSDataFileNameController : NSObject, NSTokenFieldDelegate, NSTextFieldDele
     
     //MARK: Constants
     
-    let bannedCharacters : NSCharacterSet
+    let bannedCharacters : CharacterSet
     
     //MARK: Setup
     
     override init() {
-        let toBeBanned = NSMutableCharacterSet.alphanumericCharacterSet()
-        toBeBanned.addCharactersInString("-_")
-        bannedCharacters = toBeBanned.invertedSet
+        let toBeBanned = NSMutableCharacterSet.alphanumeric()
+        toBeBanned.addCharacters(in: "-_")
+        bannedCharacters = toBeBanned.inverted
         super.init()
     }
     
     //MARK: Refresh
     
-    func reloadData(variables : [PSSubjectVariable]) { // called by PSSubjectVariablesController's refresh
+    func reloadData(_ variables : [PSSubjectVariable]) { // called by PSSubjectVariablesController's refresh
         
         //update list of tokens
         subjectVariableNames = variables.map { $0.name }
@@ -68,18 +68,18 @@ class PSDataFileNameController : NSObject, NSTokenFieldDelegate, NSTextFieldDele
     // substring is the partial string that is being completed.  tokenIndex is the index of the token being completed.
     // selectedIndex allows you to return by reference an index specifying which of the completions should be selected initially.
     // The default behavior is not to have any completions.
-    func tokenField(tokenField: NSTokenField, completionsForSubstring substring: String, indexOfToken tokenIndex: Int, indexOfSelectedItem selectedIndex: UnsafeMutablePointer<Int>) -> [AnyObject]? {
-        let completions = subjectVariableNames.filter({ name in name.lowercaseString.hasPrefix(substring.lowercaseString) })
+    func tokenField(_ tokenField: NSTokenField, completionsForSubstring substring: String, indexOfToken tokenIndex: Int, indexOfSelectedItem selectedIndex: UnsafeMutablePointer<UnsafeMutablePointer<Int>>?) -> [Any]? {
+        let completions = subjectVariableNames.filter({ name in name.lowercased().hasPrefix(substring.lowercased()) })
         return completions
     }
     
     // return an array of represented objects you want to add.
     // If you want to reject the add, return an empty array.
     // returning nil will cause an error.
-    func tokenField(tokenField: NSTokenField, shouldAddObjects tokens: [AnyObject], atIndex index: Int) -> [AnyObject] {
+    func tokenField(_ tokenField: NSTokenField, shouldAdd tokens: [Any], at index: Int) -> [Any] {
         for token in tokens {
             if let stringToken = token as? String {
-                if stringToken.rangeOfCharacterFromSet(bannedCharacters) != nil {
+                if stringToken.rangeOfCharacter(from: bannedCharacters) != nil {
                     return []
                 }
             }
@@ -88,7 +88,7 @@ class PSDataFileNameController : NSObject, NSTokenFieldDelegate, NSTextFieldDele
     }
     
     
-    func tokenField(tokenField: NSTokenField, displayStringForRepresentedObject representedObject: AnyObject) -> String? {
+    func tokenField(_ tokenField: NSTokenField, displayStringForRepresentedObject representedObject: Any) -> String? {
         let token = representedObject as! String
         
         if subjectVariableNames.contains(token) {
@@ -98,43 +98,43 @@ class PSDataFileNameController : NSObject, NSTokenFieldDelegate, NSTextFieldDele
         }
     }
     
-    func tokenField(tokenField: NSTokenField, editingStringForRepresentedObject representedObject: AnyObject) -> String? {
+    func tokenField(_ tokenField: NSTokenField, editingStringForRepresentedObject representedObject: Any) -> String? {
         return representedObject as? String
     }
     
-    func tokenField(tokenField: NSTokenField, representedObjectForEditingString editingString: String) -> AnyObject {
-        let cleanEditingString = editingString.componentsSeparatedByCharactersInSet(bannedCharacters).joinWithSeparator("")
+    func tokenField(_ tokenField: NSTokenField, representedObjectForEditing editingString: String) -> Any {
+        let cleanEditingString = editingString.components(separatedBy: bannedCharacters).joined(separator: "")
         return cleanEditingString
     }
     
     
 
-    func tokenField(tokenField: NSTokenField, styleForRepresentedObject representedObject: AnyObject) -> NSTokenStyle {
+    func tokenField(_ tokenField: NSTokenField, styleForRepresentedObject representedObject: Any) -> NSTokenStyle {
         if autoGenerateCheckButton.state == 1 {
-            return NSTokenStyle.Rounded
+            return NSTokenStyle.rounded
         } else {
-            return NSTokenStyle.None
+            return NSTokenStyle.none
         }
     }
     
     //MARK: NSTextFieldDelegate
     
-    override func controlTextDidChange(obj: NSNotification) {
+    override func controlTextDidChange(_ obj: Notification) {
         updatePreviewTextView()
     }
     
-    override func controlTextDidEndEditing(obj: NSNotification) {
+    override func controlTextDidEndEditing(_ obj: Notification) {
         updatePreviewTextView()
         updateAutoDataFileScriptEntry()
     }
     
-    func control(control: NSControl, textShouldBeginEditing fieldEditor: NSText) -> Bool {
+    func control(_ control: NSControl, textShouldBeginEditing fieldEditor: NSText) -> Bool {
         scriptData.beginUndoGrouping("Edit DataFile Name")
         self.layoutManager = (fieldEditor as! NSTextView).layoutManager
         return true
     }
     
-    func control(control: NSControl, textShouldEndEditing fieldEditor: NSText) -> Bool {
+    func control(_ control: NSControl, textShouldEndEditing fieldEditor: NSText) -> Bool {
         scriptData.endUndoGrouping()
         return true
     }
@@ -159,7 +159,7 @@ class PSDataFileNameController : NSObject, NSTokenFieldDelegate, NSTextFieldDele
     
     //MARK: Auto generate check box
     
-    @IBAction func autoGenerateCheckButtonClicked(sender : AnyObject) {
+    @IBAction func autoGenerateCheckButtonClicked(_ sender : AnyObject) {
         updateAutoDataFileScriptEntry()
     }
 }

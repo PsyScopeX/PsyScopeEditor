@@ -8,9 +8,9 @@
 
 import Foundation
 
-public class PSAttributeParameter_Int255 : PSAttributeParameter_String {
+open class PSAttributeParameter_Int255 : PSAttributeParameter_String {
     
-    override public func setCustomControl(visible: Bool) {
+    override open func setCustomControl(_ visible: Bool) {
         super.setCustomControl(visible)
         if textField != nil && textField!.formatter == nil {
             let formatter = PSIntegerOnlyNumberFormatter()

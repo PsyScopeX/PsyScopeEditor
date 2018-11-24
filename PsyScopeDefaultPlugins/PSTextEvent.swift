@@ -15,7 +15,7 @@ class PSTextEvent : PSEventTool {
         toolType = PSType.Text
         helpfulDescriptionString = "displays text in a port.  You can change the colour, font, size and position of the text"
         iconName = "TextEvent-icon-128" //icon changed by Luca
-        iconColor = NSColor.redColor()
+        iconColor = NSColor.red
         classNameString = "PSTextEvent"
         properties = [Properties.StartRef, Properties.Duration, Properties.EventType]
         
@@ -29,7 +29,7 @@ class PSTextEvent : PSEventTool {
         static let EventType = PSProperty(name: "EventType", defaultValue: "Text", essential: true)
     }
     
-    override func createObject(scriptData: PSScriptData) -> Entry? {
+    override func createObject(_ scriptData: PSScriptData) -> Entry? {
         guard let mainEntry = super.createObject(scriptData) else { return nil }
         if scriptData.getSubEntry("Stimulus", entry: mainEntry) == nil {
             let entry = scriptData.getOrCreateSubEntry("Stimulus", entry: mainEntry, isProperty: false, type: PSAttributeType(name: "Stimulus", parentType: toolType))

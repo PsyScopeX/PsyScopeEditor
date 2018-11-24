@@ -7,9 +7,9 @@
 
 import Foundation
 
-public func PSIntegerOnlyNumberFormatter() -> NSNumberFormatter {
+public func PSIntegerOnlyNumberFormatter() -> NumberFormatter {
     
-    let intOnlyFormatter = NSNumberFormatter()
+    let intOnlyFormatter = NumberFormatter()
     intOnlyFormatter.maximumFractionDigits = 0
     intOnlyFormatter.minimumIntegerDigits = 1
         

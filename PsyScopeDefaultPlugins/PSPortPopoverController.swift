@@ -48,120 +48,120 @@ class PSPortPopoverController : NSObject {
         portPopover.close()
     }
     
-    func show(view : NSView) {
+    func show(_ view : NSView) {
         self.view = view
-        portPopover.showRelativeToRect(view.bounds, ofView: view, preferredEdge: NSRectEdge.MinY)
+        portPopover.show(relativeTo: view.bounds, of: view, preferredEdge: NSRectEdge.minY)
     }
     
     var shown : Bool {
-        return portPopover.shown
+        return portPopover.isShown
     }
     
-    func updatePopoverControls(port : PSPort) {
+    func updatePopoverControls(_ port : PSPort) {
         portNameText.stringValue = port.name as String
         
         switch (port.height) {
-        case let .Percentage(perc):
+        case let .percentage(perc):
             heightText.stringValue = "\(perc)"
-            heightPopup.selectItemWithTitle("Percent")
+            heightPopup.selectItem(withTitle: "Percent")
             heightInc.integerValue = perc
             break
         case let .Pixels(pix):
             heightText.stringValue = "\(pix)"
-            heightPopup.selectItemWithTitle("Pixels")
+            heightPopup.selectItem(withTitle: "Pixels")
             heightInc.integerValue = pix
             break
-        case .Bottom:
-            heightPopup.selectItemWithTitle("Bottom")
-        case .Top:
-            heightPopup.selectItemWithTitle("Top")
-        case .Left:
-            heightPopup.selectItemWithTitle("Left")
-        case .Right:
-            heightPopup.selectItemWithTitle("Right")
-        case .Centre:
-            heightPopup.selectItemWithTitle("Center")
+        case .bottom:
+            heightPopup.selectItem(withTitle: "Bottom")
+        case .top:
+            heightPopup.selectItem(withTitle: "Top")
+        case .left:
+            heightPopup.selectItem(withTitle: "Left")
+        case .right:
+            heightPopup.selectItem(withTitle: "Right")
+        case .centre:
+            heightPopup.selectItem(withTitle: "Center")
             break
         }
         
         
         
         switch (port.width) {
-        case let .Percentage(perc):
+        case let .percentage(perc):
             widthText.stringValue = "\(perc)"
-            widthPopup.selectItemWithTitle("Percent")
+            widthPopup.selectItem(withTitle: "Percent")
             widthInc.integerValue = perc
             break
         case let .Pixels(pix):
             widthText.stringValue = "\(pix)"
-            widthPopup.selectItemWithTitle("Pixels")
+            widthPopup.selectItem(withTitle: "Pixels")
             widthInc.integerValue = pix
             break
-        case .Bottom:
-            widthPopup.selectItemWithTitle("Bottom")
-        case .Top:
-            widthPopup.selectItemWithTitle("Top")
-        case .Left:
-            widthPopup.selectItemWithTitle("Left")
-        case .Right:
-            widthPopup.selectItemWithTitle("Right")
-        case .Centre:
-            widthPopup.selectItemWithTitle("Center")
+        case .bottom:
+            widthPopup.selectItem(withTitle: "Bottom")
+        case .top:
+            widthPopup.selectItem(withTitle: "Top")
+        case .left:
+            widthPopup.selectItem(withTitle: "Left")
+        case .right:
+            widthPopup.selectItem(withTitle: "Right")
+        case .centre:
+            widthPopup.selectItem(withTitle: "Center")
         }
         
         switch (port.x) {
-        case let .Percentage(perc):
+        case let .percentage(perc):
             xText.stringValue = "\(perc)"
-            xPopup.selectItemWithTitle("Percent")
+            xPopup.selectItem(withTitle: "Percent")
             xInc.integerValue = perc
             break
         case let .Pixels(pix):
             xText.stringValue = "\(pix)"
-            xPopup.selectItemWithTitle("Pixels")
+            xPopup.selectItem(withTitle: "Pixels")
             xInc.integerValue = pix
             break
-        case .Bottom:
-            xPopup.selectItemWithTitle("Bottom")
-        case .Top:
-            xPopup.selectItemWithTitle("Top")
-        case .Left:
-            xPopup.selectItemWithTitle("Left")
-        case .Right:
-            xPopup.selectItemWithTitle("Right")
-        case .Centre:
-            xPopup.selectItemWithTitle("Center")
+        case .bottom:
+            xPopup.selectItem(withTitle: "Bottom")
+        case .top:
+            xPopup.selectItem(withTitle: "Top")
+        case .left:
+            xPopup.selectItem(withTitle: "Left")
+        case .right:
+            xPopup.selectItem(withTitle: "Right")
+        case .centre:
+            xPopup.selectItem(withTitle: "Center")
         }
         
         switch (port.y) {
-        case let .Percentage(perc):
+        case let .percentage(perc):
             yText.stringValue = "\(perc)"
-            yPopup.selectItemWithTitle("Percent")
+            yPopup.selectItem(withTitle: "Percent")
             yInc.integerValue = perc
             break
         case let .Pixels(pix):
             yText.stringValue = "\(pix)"
-            yPopup.selectItemWithTitle("Pixels")
+            yPopup.selectItem(withTitle: "Pixels")
             yInc.integerValue = pix
             break
-        case .Bottom:
-            yPopup.selectItemWithTitle("Bottom")
-        case .Top:
-            yPopup.selectItemWithTitle("Top")
-        case .Left:
-            yPopup.selectItemWithTitle("Left")
-        case .Right:
-            yPopup.selectItemWithTitle("Right")
-        case .Centre:
-            yPopup.selectItemWithTitle("Center")
+        case .bottom:
+            yPopup.selectItem(withTitle: "Bottom")
+        case .top:
+            yPopup.selectItem(withTitle: "Top")
+        case .left:
+            yPopup.selectItem(withTitle: "Left")
+        case .right:
+            yPopup.selectItem(withTitle: "Right")
+        case .centre:
+            yPopup.selectItem(withTitle: "Center")
         }
         
         switch (port.shape) {
         case .Rectangle:
-            shapePopup.selectItemWithTitle("Rectangle")
+            shapePopup.selectItem(withTitle: "Rectangle")
         case .Oval:
-            shapePopup.selectItemWithTitle("Oval")
+            shapePopup.selectItem(withTitle: "Oval")
         case .Rounded:
-            shapePopup.selectItemWithTitle("Rounded Corners")
+            shapePopup.selectItem(withTitle: "Rounded Corners")
         }
         
         borderText.stringValue = "\(port.border)"
@@ -169,7 +169,7 @@ class PSPortPopoverController : NSObject {
         
         switch (port.alignmentPoint) {
             
-        case .Specified(let x, let y):
+        case .specified(let x, let y):
             hotspotXText.stringValue = "\(x)"
             hotspotYText.stringValue = "\(y)"
         default:
@@ -184,7 +184,7 @@ class PSPortPopoverController : NSObject {
         hideControls(heightPopup, controls: [heightInc, heightText])
     }
     
-    func hideControls(button : NSPopUpButton, controls : [NSView]) {
+    func hideControls(_ button : NSPopUpButton, controls : [NSView]) {
         var title = ""
         if let si = button.selectedItem {
             title = si.title
@@ -204,11 +204,11 @@ class PSPortPopoverController : NSObject {
         }
         
         for c in controls {
-            c.hidden = hidden
+            c.isHidden = hidden
         }
     }
     
-    @IBAction func shapePopOver(menuItem : NSMenuItem) {
+    @IBAction func shapePopOver(_ menuItem : NSMenuItem) {
         let selected = menuItem.title
         
         var shape : PSPortShape
@@ -226,7 +226,7 @@ class PSPortPopoverController : NSObject {
         selectedPort.shape = shape
     }
     
-    @IBAction func measurePopOver(button : NSPopUpButton) {
+    @IBAction func measurePopOver(_ button : NSPopUpButton) {
         _ = button.selectedItem!.title
         
         switch (button) {
@@ -252,15 +252,15 @@ class PSPortPopoverController : NSObject {
             
             switch (title) {
             case "Auto":
-                selectedPort.alignmentPoint = PSAlignmentPoint.Auto
+                selectedPort.alignmentPoint = PSAlignmentPoint.auto
             case "Center":
-                selectedPort.alignmentPoint = PSAlignmentPoint.Center
+                selectedPort.alignmentPoint = PSAlignmentPoint.center
             case "Specify":
                 let x = hotspotXText.integerValue
                 let y = hotspotYText.integerValue
-                selectedPort.alignmentPoint = PSAlignmentPoint.Specified(x, y)
+                selectedPort.alignmentPoint = PSAlignmentPoint.specified(x, y)
             default:
-                selectedPort.alignmentPoint = PSAlignmentPoint.Auto
+                selectedPort.alignmentPoint = PSAlignmentPoint.auto
             }
             
             
@@ -269,7 +269,7 @@ class PSPortPopoverController : NSObject {
         }
     }
     
-    @IBAction func stepperDidChange(stepper : NSStepper) {
+    @IBAction func stepperDidChange(_ stepper : NSStepper) {
         switch (stepper) {
         case heightInc:
             selectedPort.height = selectedPort.height.sameWithNewValue(heightInc.integerValue)
@@ -289,7 +289,7 @@ class PSPortPopoverController : NSObject {
         }
     }
     
-    func control(control: NSControl, textShouldEndEditing fieldEditor: NSText) -> Bool {
+    func control(_ control: NSControl, textShouldEndEditing fieldEditor: NSText) -> Bool {
         switch (control) {
         case heightText:
             selectedPort.height = selectedPort.height.sameWithNewValue(Int(heightText.stringValue)!)
@@ -306,11 +306,11 @@ class PSPortPopoverController : NSObject {
         case hotspotYText:
             let y = hotspotYText.integerValue
             let x = hotspotXText.integerValue
-            selectedPort.alignmentPoint = PSAlignmentPoint.Specified(x, y)
+            selectedPort.alignmentPoint = PSAlignmentPoint.specified(x, y)
         case hotspotXText:
             let y = hotspotYText.integerValue
             let x = hotspotXText.integerValue
-            selectedPort.alignmentPoint = PSAlignmentPoint.Specified(x, y)
+            selectedPort.alignmentPoint = PSAlignmentPoint.specified(x, y)
         case portNameText:
             selectedPort.name = portNameText.stringValue
         default:

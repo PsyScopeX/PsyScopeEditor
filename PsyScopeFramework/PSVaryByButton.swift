@@ -8,18 +8,18 @@
 
 import Foundation
 
-public let PSVaryByButtonImage = NSImage(contentsOfFile: NSBundle(forClass:PSVaryByButton.self).pathForResource("search-icon", ofType: "png")!)
+public let PSVaryByButtonImage = NSImage(contentsOfFile: Bundle(for:PSVaryByButton.self).path(forResource: "search-icon", ofType: "png")!)
 
-public class PSVaryByButton : NSButton {
+open class PSVaryByButton : NSButton {
     
     override init(frame : NSRect) {
         var newFrame = frame
-        newFrame.size = CGSizeMake(22, 22)
+        newFrame.size = CGSize(width: 22, height: 22)
         super.init(frame: newFrame)
-        self.bordered = true
-        self.bezelStyle = .TexturedSquareBezelStyle
+        self.isBordered = true
+        self.bezelStyle = .texturedSquare
         self.needsDisplay = true
-        self.setButtonType(NSButtonType.MomentaryChangeButton)
+        self.setButtonType(NSButtonType.momentaryChange)
         self.image = PSVaryByButtonImage!.copy() as? NSImage
         self.image!.size = NSMakeSize(17, 17)
         self.title = ""
@@ -29,32 +29,32 @@ public class PSVaryByButton : NSButton {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public override func mouseDown(theEvent: NSEvent) {
+    open override func mouseDown(with theEvent: NSEvent) {
         if let m = self.menu {
             let cell = self.cell as? PSVaryByButtonCell
-            if theEvent.type == .LeftMouseDown {
+            if theEvent.type == .leftMouseDown {
                 cell?.menu = m
             } else {
                 cell?.menu = nil
             }
         }
         
-        super.mouseDown(theEvent)
+        super.mouseDown(with: theEvent)
     }
     
-    public override class func cellClass() -> AnyClass {
+    open override class func cellClass() -> AnyClass {
         return PSVaryByButtonCell.self
     }
     
 }
 
-public class PSVaryByButtonCell : NSButtonCell {
-    public override func trackMouse(theEvent: NSEvent, inRect cellFrame: NSRect, ofView controlView: NSView, untilMouseUp: Bool) -> Bool {
-        if (theEvent.type == .LeftMouseDown && self.menu != nil) {
+open class PSVaryByButtonCell : NSButtonCell {
+    open override func trackMouse(with theEvent: NSEvent, in cellFrame: NSRect, of controlView: NSView, untilMouseUp: Bool) -> Bool {
+        if (theEvent.type == .leftMouseDown && self.menu != nil) {
             
             let point = NSMakePoint(NSMidX(cellFrame), NSMidY(cellFrame))
-            let result = controlView.convertPoint(point, toView: nil)
-            let newEvent = NSEvent.mouseEventWithType(theEvent.type,
+            let result = controlView.convert(point, to: nil)
+            let newEvent = NSEvent.mouseEvent(with: theEvent.type,
                 location: result,
                 modifierFlags: theEvent.modifierFlags,
                 timestamp: theEvent.timestamp,
@@ -63,9 +63,9 @@ public class PSVaryByButtonCell : NSButtonCell {
                 eventNumber: theEvent.eventNumber,
                 clickCount: theEvent.clickCount,
                 pressure: theEvent.pressure)
-            NSMenu.popUpContextMenu(self.menu!,withEvent: newEvent!,forView: controlView)
+            NSMenu.popUpContextMenu(self.menu!,with: newEvent!,for: controlView)
             return true
         }
-        return super.trackMouse(theEvent,inRect: cellFrame,ofView: controlView,untilMouseUp: untilMouseUp)
+        return super.trackMouse(with: theEvent,in: cellFrame,of: controlView,untilMouseUp: untilMouseUp)
     }
 }

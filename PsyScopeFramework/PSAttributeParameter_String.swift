@@ -7,19 +7,19 @@
 
 import Foundation
 
-public class PSAttributeParameter_String : PSAttributeParameter, NSTextFieldDelegate {
+open class PSAttributeParameter_String : PSAttributeParameter, NSTextFieldDelegate {
     
-    public var textField : PSCustomMenuNSTextField!
+    open var textField : PSCustomMenuNSTextField!
     
-    override public func setCustomControl(visible: Bool) {
+    override open func setCustomControl(_ visible: Bool) {
         if visible {
             if textField == nil {
                 //add textField
                 textField = PSCustomMenuNSTextField(frame: attributeValueControlFrame)
-                textField.bordered = true
-                textField.bezeled  = true
+                textField.isBordered = true
+                textField.isBezeled  = true
                 textField.drawsBackground = true
-                textField.alignment = NSTextAlignment.Center
+                textField.alignment = NSTextAlignment.center
                 
                 
                 if let cell = self.cell as? PSListCellView {
@@ -31,13 +31,13 @@ public class PSAttributeParameter_String : PSAttributeParameter, NSTextFieldDele
                 }
                 cell?.activateViewBlock = { self.textField.becomeFirstResponder() }// luca following the xcode suggestion
                 let bcell = textField.cell!
-                bcell.lineBreakMode = NSLineBreakMode.ByTruncatingTail
+                bcell.lineBreakMode = NSLineBreakMode.byTruncatingTail
                 textField.setupContextMenu(self, action: "clickMenuItem:", scriptData: scriptData)
-                textField.autoresizingMask = NSAutoresizingMaskOptions.ViewWidthSizable
+                textField.autoresizingMask = NSAutoresizingMaskOptions.viewWidthSizable
                 textField.delegate = self
                 cell.addSubview(textField)
             } else {
-                textField.hidden = false
+                textField.isHidden = false
             }
             
             if currentValue.stringValue() == "NULL" {
@@ -48,19 +48,19 @@ public class PSAttributeParameter_String : PSAttributeParameter, NSTextFieldDele
             }
         } else {
             if textField != nil {
-                textField.hidden = true
+                textField.isHidden = true
             }
         }
     }
     
     //override this to hide any borders if they appear ugly in table views etc
-    public override func hideBorders() {
-        textField.bordered = false
-        textField.bezeled  = false
+    open override func hideBorders() {
+        textField.isBordered = false
+        textField.isBezeled  = false
         textField.drawsBackground = false
     }
     
-    override public func controlTextDidEndEditing(obj: NSNotification) {
+    override open func controlTextDidEndEditing(_ obj: Notification) {
         //parse and take first value
         currentValue = PSConvertListElementToStringElement(PSGetListElementForString(textField.stringValue))
         self.cell.updateScript()
@@ -68,20 +68,20 @@ public class PSAttributeParameter_String : PSAttributeParameter, NSTextFieldDele
 }
 
 
-public class PSCustomMenuNSTextField : NSTextField, NSTextViewDelegate {
+open class PSCustomMenuNSTextField : NSTextField, NSTextViewDelegate {
 
     var firstResponderAction : (()->())?
     var scriptData : PSScriptData!
     var menuTarget : AnyObject!
     var menuAction : Selector!
     
-    func setupContextMenu(target: AnyObject, action: Selector, scriptData: PSScriptData) {
+    func setupContextMenu(_ target: AnyObject, action: Selector, scriptData: PSScriptData) {
         self.scriptData = scriptData
         menuTarget = target
         menuAction = action
     }
     
-    override public var menu : NSMenu? {
+    override open var menu : NSMenu? {
         get {
             return scriptData.getVaryByMenu(menuTarget, action: menuAction)
         }
@@ -89,14 +89,14 @@ public class PSCustomMenuNSTextField : NSTextField, NSTextViewDelegate {
         }
     }
     
-    override public func becomeFirstResponder() -> Bool {
+    override open func becomeFirstResponder() -> Bool {
         if let fra = firstResponderAction {
             fra()
         }
         return super.becomeFirstResponder()
     }
     
-    public func textView(view: NSTextView, menu: NSMenu, forEvent event: NSEvent, atIndex charIndex: Int) -> NSMenu? {
+    open func textView(_ view: NSTextView, menu: NSMenu, for event: NSEvent, at charIndex: Int) -> NSMenu? {
         return self.menu
     }
 }

@@ -34,7 +34,7 @@ class PSExperimentSetup: NSObject {
         self.scriptData = mainWindowController.scriptData
         self.selectionInterface = self.scriptData.selectionInterface
         //load nib and gain access to views
-        NSBundle(forClass:self.dynamicType).loadNibNamed("ExperimentSetup", owner: self, topLevelObjects: &topLevelObjects)
+        Bundle(for:self.dynamicType).loadNibNamed("ExperimentSetup", owner: self, topLevelObjects: &topLevelObjects)
         self.groupTableViewController.setup(mainWindowController.scriptData)
     }
     
@@ -59,7 +59,7 @@ class PSExperimentSetup: NSObject {
         self.groupTableViewController.refreshView()
     }
     
-    func selectEntry(entry : Entry?) {
+    func selectEntry(_ entry : Entry?) {
         selectionInterface.selectEntry(entry)
     }
     

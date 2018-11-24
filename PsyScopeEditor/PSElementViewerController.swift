@@ -16,7 +16,7 @@ class PSElementViewerController : NSObject {
     
     let genericInterface = PSAttributeGeneric()
     
-    func showForView(view: NSView, attributeEntry: Entry) {
+    func showForView(_ view: NSView, attributeEntry: Entry) {
         //remove existing elements
         elementViewerView.subviews = []
         
@@ -40,6 +40,6 @@ class PSElementViewerController : NSObject {
         elementViewerView.addSubview(cell)
         
         //show popover
-        elementViewerPopover.showRelativeToRect(view.frame, ofView: view, preferredEdge: NSRectEdge.MinY)
+        elementViewerPopover.show(relativeTo: view.frame, of: view, preferredEdge: NSRectEdge.minY)
     }
 }

@@ -58,16 +58,16 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
         
         if (!initialized) {
             initialized = true
-            let nib = NSNib(nibNamed: "TemplateEventIconCell", bundle: NSBundle(forClass:self.dynamicType))
-            eventIconTableView.registerNib(nib!, forIdentifier: eventIconCellViewIdentifier)
-            let nib2 = NSNib(nibNamed: "TemplateTimeLineCell", bundle: NSBundle(forClass:self.dynamicType))
-            timeLineTableView.registerNib(nib2!, forIdentifier: timeLineCellViewIdentifier)
+            let nib = NSNib(nibNamed: "TemplateEventIconCell", bundle: Bundle(for:self.dynamicType))
+            eventIconTableView.register(nib!, forIdentifier: eventIconCellViewIdentifier)
+            let nib2 = NSNib(nibNamed: "TemplateTimeLineCell", bundle: Bundle(for:self.dynamicType))
+            timeLineTableView.register(nib2!, forIdentifier: timeLineCellViewIdentifier)
             
-            eventIconTableView.registerForDraggedTypes([PSConstants.PSEventBrowserView.dragType, PSConstants.PSEventBrowserView.pasteboardType,"psyscope.pstemplateevent"])
-            timeLineTableView.registerForDraggedTypes([PSConstants.PSEventBrowserView.dragType, PSConstants.PSEventBrowserView.pasteboardType,"psyscope.pstemplateevent"])
+            eventIconTableView.register(forDraggedTypes: [PSConstants.PSEventBrowserView.dragType, PSConstants.PSEventBrowserView.pasteboardType,"psyscope.pstemplateevent"])
+            timeLineTableView.register(forDraggedTypes: [PSConstants.PSEventBrowserView.dragType, PSConstants.PSEventBrowserView.pasteboardType,"psyscope.pstemplateevent"])
             
             overlayView = NSFlippedView(frame: timeLineTableView.frame)
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: "tableFrameSizeChange:", name: NSViewFrameDidChangeNotification, object: timeLineTableView)
+            NotificationCenter.default.addObserver(self, selector: "tableFrameSizeChange:", name: NSNotification.Name.NSViewFrameDidChange, object: timeLineTableView)
             overlayView.layer = CALayer()
             overlayView.wantsLayer = true
             
@@ -86,7 +86,7 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
     
     //MARK: Selected event / template
     
-    func isTemplateEntry(entry : Entry) -> Bool {
+    func isTemplateEntry(_ entry : Entry) -> Bool {
         if let _ = scriptData.getSubEntry("Events", entry: entry) {
             return true
         }
@@ -169,7 +169,7 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
     
     
     
-    func addError(stringReason: String) {
+    func addError(_ stringReason: String) {
         errorsPresent = true
         errorList.append(stringReason)
         print(stringReason)
@@ -193,9 +193,9 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
             //add errorlabel
             let newErrorLabel = NSTextField()
             overlayView.addSubview(newErrorLabel)
-            newErrorLabel.stringValue = errorList.joinWithSeparator("\n")
+            newErrorLabel.stringValue = errorList.joined(separator: "\n")
             newErrorLabel.frame = overlayView.bounds
-            newErrorLabel.bezeled = false
+            newErrorLabel.isBezeled = false
             errorLabel = newErrorLabel
             return
         }
@@ -219,7 +219,7 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
         
         //store eventTimes for later use, whilst getting longest one
         var eventTimes : [PSTemplateEvent : (start: EventMSecs, duration : EventMSecs)] = [:]
-        for (_,event) in events.enumerate() {
+        for (_,event) in events.enumerated() {
             let (start, duration) = event.getMS()
             eventTimes[event] = (start,duration)
             let width = start + duration
@@ -248,8 +248,8 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
         
         //get y locations for each cell (to calculate connecting lines well)
         var cellYLocations : [PSTemplateEvent : CGFloat] = [:]
-        for (index,event) in events.enumerate() {
-            let cellFrame = timeLineTableView.frameOfCellAtColumn(0, row: index)
+        for (index,event) in events.enumerated() {
+            let cellFrame = timeLineTableView.frameOfCell(atColumn: 0, row: index)
             cellYLocations[event] = cellFrame.origin.y + (cellFrame.height / 2)
         }
         
@@ -266,7 +266,7 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
                 if let starting_event = sc.event {
                     let (start, duration) = eventTimes[starting_event]!
                     
-                    var start_x = sc.position == EventStartEventRelatedPosition.End ? start + duration : start
+                    var start_x = sc.position == EventStartEventRelatedPosition.end ? start + duration : start
                     
                     start_x++ //seems to be offset of one required
                     let start_point = CGPoint(x: start_x * zoomMultiplier, y: cellYLocations[starting_event]!)
@@ -299,7 +299,7 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
         
         
         //update nsrulerview
-        NSRulerView.registerUnitWithName("Milliseconds", abbreviation: "ms", unitToPointsConversionFactor: zoomMultiplier, stepUpCycle: [10], stepDownCycle: [0.5])
+        NSRulerView.registerUnit(withName: "Milliseconds", abbreviation: "ms", unitToPointsConversionFactor: zoomMultiplier, stepUpCycle: [10], stepDownCycle: [0.5])
         rulerView.measurementUnits = "Milliseconds"
         CATransaction.commit()
         refreshVisualSelection()
@@ -309,10 +309,10 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
     func refreshVisualSelection() {
         if selectedEvent != nil && selectedEvent.mainEntry != nil {
             //select the correct row
-            for (index,event) in events.enumerate() {
+            for (index,event) in events.enumerated() {
                 if event.entry == selectedEvent.mainEntry {
-                    timeLineTableView.selectRowIndexes(NSIndexSet(index: index), byExtendingSelection: false)
-                    eventIconTableView.selectRowIndexes(NSIndexSet(index: index), byExtendingSelection: false)
+                    timeLineTableView.selectRowIndexes(IndexSet(integer: index), byExtendingSelection: false)
+                    eventIconTableView.selectRowIndexes(IndexSet(integer: index), byExtendingSelection: false)
                     break
                 }
             }
@@ -322,14 +322,14 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
     //MARK: Adding events
     
     //adds to event list, if not already in the list, and is a member of the template
-    func addEventToListIfValid(event : PSEntryElement) {
+    func addEventToListIfValid(_ event : PSEntryElement) {
         
         switch (event) {
-        case .Null:
+        case .null:
             addError("You cannot have NULL events in Events: attribute.")
             return
-        case .Function(let functionElement):
-            if functionElement.bracketType != .Expression ||
+        case .function(let functionElement):
+            if functionElement.bracketType != .expression ||
                 functionElement.values.count != 3 ||
                 functionElement.values[1].stringValue() != "~" {
                 addError("The template editor cannot parse templates with expressions / functions beyond the ~ operator")
@@ -357,10 +357,10 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
             }
             
             break
-        case .List:
+        case .list:
             addError("You cannot have sub lists in Events: attribute.")
             return
-        case .StringToken(let stringElement):
+        case .stringToken(let stringElement):
             
             let entryName = stringElement.value
             if let entry = scriptData.getBaseEntry(entryName) {
@@ -376,18 +376,18 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
     
     //MARK: Table view methods
     
-    func numberOfRowsInTableView(tableView: NSTableView) -> Int {
+    func numberOfRows(in tableView: NSTableView) -> Int {
         return events.count
     }
     
-    func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
+    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         if events.count == 0 {
             return NSView()
         }
         
         switch (tableView) {
         case eventIconTableView:
-            let view = eventIconTableView.makeViewWithIdentifier(eventIconCellViewIdentifier, owner: self) as! PSEventTableCellView
+            let view = eventIconTableView.make(withIdentifier: eventIconCellViewIdentifier, owner: self) as! PSEventTableCellView
             view.deleteAction = {(event : PSTemplateEvent) -> () in
                 let objToDelete = event.entry.layoutObject
                 //select another object from this template
@@ -407,7 +407,7 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
             }
             return view
         case timeLineTableView:
-            let view = timeLineTableView.makeViewWithIdentifier(timeLineCellViewIdentifier, owner: self) as! PSTemplateEventTimeLineView
+            let view = timeLineTableView.make(withIdentifier: timeLineCellViewIdentifier, owner: self) as! PSTemplateEventTimeLineView
             view.zoomMultiplier = zoomMultiplier
             view.tableView = timeLineTableView
             return view
@@ -416,23 +416,23 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
         }
     }
     
-    func tableView(tableView: NSTableView, objectValueForTableColumn tableColumn: NSTableColumn?, row: Int) -> AnyObject? {
+    func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
         return events[row]
     }
     
-    func tableView(tableView: NSTableView, heightOfRow row: Int) -> CGFloat { return PSDefaultConstants.Spacing.TLBtimeBarViewHeight }
+    func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat { return PSDefaultConstants.Spacing.TLBtimeBarViewHeight }
     
-    func tableView(tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
+    func tableView(_ tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
         //tableViewSelectionIsChanging?
         if row >= 0 && row < events.count {
             selectionInterface.selectEntry(events[row].entry)
         
             switch (tableView) {
             case eventIconTableView:
-                timeLineTableView.selectRowIndexes(NSIndexSet(index: row), byExtendingSelection: false)
+                timeLineTableView.selectRowIndexes(IndexSet(integer: row), byExtendingSelection: false)
                 break
             case timeLineTableView:
-                eventIconTableView.selectRowIndexes(NSIndexSet(index: row), byExtendingSelection: false)
+                eventIconTableView.selectRowIndexes(IndexSet(integer: row), byExtendingSelection: false)
                 break
             default:
                 break
@@ -447,16 +447,16 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
         return true
     }
     
-    func tableView(tableView: NSTableView, rowViewForRow row: Int) -> NSTableRowView? {
+    func tableView(_ tableView: NSTableView, rowViewForRow row: Int) -> NSTableRowView? {
         let rowView = PSTemplateTableRowView()
         return rowView
     }
     
-    func tableViewSelectionDidChange(notification: NSNotification) {
-        timeLineTableView.enumerateAvailableRowViewsUsingBlock({
+    func tableViewSelectionDidChange(_ notification: Notification) {
+        timeLineTableView.enumerateAvailableRowViews({
             (rowView : NSTableRowView!, row : Int) -> () in
-            _ = rowView.viewAtColumn(0) as! NSView
-            if (rowView.selected) {
+            _ = rowView.view(atColumn: 0) as! NSView
+            if (rowView.isSelected) {
                 //do custom emphasis here (
             } else {
                 //go to normal
@@ -466,18 +466,18 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
     
     //MARK: Table view dragging
     
-    func tableView(tableView: NSTableView, draggingSession session: NSDraggingSession, willBeginAtPoint screenPoint: NSPoint, forRowIndexes rowIndexes: NSIndexSet) {
-        tableView.draggingDestinationFeedbackStyle = NSTableViewDraggingDestinationFeedbackStyle.Gap
+    func tableView(_ tableView: NSTableView, draggingSession session: NSDraggingSession, willBeginAt screenPoint: NSPoint, forRowIndexes rowIndexes: IndexSet) {
+        tableView.draggingDestinationFeedbackStyle = NSTableViewDraggingDestinationFeedbackStyle.gap
     }
     
-    func tableView(tableView: NSTableView, draggingSession session: NSDraggingSession, endedAtPoint screenPoint: NSPoint, operation: NSDragOperation) {
+    func tableView(_ tableView: NSTableView, draggingSession session: NSDraggingSession, endedAt screenPoint: NSPoint, operation: NSDragOperation) {
         writingRow = nil
     }
    
-    func tableView(tableView: NSTableView, acceptDrop info: NSDraggingInfo, row: Int, dropOperation: NSTableViewDropOperation) -> Bool {
+    func tableView(_ tableView: NSTableView, acceptDrop info: NSDraggingInfo, row: Int, dropOperation: NSTableViewDropOperation) -> Bool {
         
         //only allow in between
-        if dropOperation == NSTableViewDropOperation.On {
+        if dropOperation == NSTableViewDropOperation.on {
             return false
         }
         
@@ -491,7 +491,7 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
                 if q == PSConstants.PSEventBrowserView.pasteboardType {
                     scriptData.beginUndoGrouping("Add New Object")
                     var success = false
-                    let type = pasteboard.stringForType(PSConstants.PSEventBrowserView.pasteboardType)!
+                    let type = pasteboard.string(forType: PSConstants.PSEventBrowserView.pasteboardType)!
                     if let new_entry = scriptData.createNewEventFromTool(type, templateObject: templateObject,order: row) {
                         success = true
                         selectionInterface.selectEntry(new_entry)
@@ -513,7 +513,7 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
                         
                         
                         //instantiate new event
-                        let new_events = pasteboard.readObjectsForClasses([PSTemplateEvent.self], options: [:]) as! [PSTemplateEvent]
+                        let new_events = pasteboard.readObjects(forClasses: [PSTemplateEvent.self], options: [:]) as! [PSTemplateEvent]
                         for e in new_events {
                             e.unarchiveData(scriptData)
                             events.append(e)
@@ -543,7 +543,7 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
     
     
     
-    func tableView(tableView: NSTableView, pasteboardWriterForRow row: Int) -> NSPasteboardWriting? {
+    func tableView(_ tableView: NSTableView, pasteboardWriterForRow row: Int) -> NSPasteboardWriting? {
         //return nil of no dragging allowed
         if tableView == eventIconTableView {
             writingRow = row
@@ -553,12 +553,12 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
         }
     }
     
-    func tableView(tableView: NSTableView, validateDrop info: NSDraggingInfo, proposedRow row: Int, proposedDropOperation dropOperation: NSTableViewDropOperation) -> NSDragOperation {
+    func tableView(_ tableView: NSTableView, validateDrop info: NSDraggingInfo, proposedRow row: Int, proposedDropOperation dropOperation: NSTableViewDropOperation) -> NSDragOperation {
         info.animatesToDestination = true
         
-        var operation = NSDragOperation.None
+        var operation = NSDragOperation()
         //only allow in between
-        if dropOperation == NSTableViewDropOperation.On || tableView == timeLineTableView {
+        if dropOperation == NSTableViewDropOperation.on || tableView == timeLineTableView {
             return operation
         }
         
@@ -567,9 +567,9 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
             let pasteboard = info.draggingPasteboard()
             for q in pasteboard.types! {
                 if q == PSConstants.PSEventBrowserView.pasteboardType {
-                    operation = NSDragOperation.Link
+                    operation = NSDragOperation.link
                 } else if q == "psyscope.pstemplateevent" {
-                    operation = NSDragOperation.Move
+                    operation = NSDragOperation.move
                 }
             }
         }
@@ -580,28 +580,28 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
     //MARK: Overlay view
     // Transparent view on which connecting lines are drawn
     // automatically resize overlayView when timeLineTableView size is changed
-    func tableFrameSizeChange(sender : AnyObject) {
+    func tableFrameSizeChange(_ sender : AnyObject) {
         overlayView.frame = timeLineTableView.frame
     }
     
     //MARK: Overlay view drawing
     
-    func makeLineLayer(lineFrom: CGPoint, to: CGPoint) -> CAShapeLayer {
+    func makeLineLayer(_ lineFrom: CGPoint, to: CGPoint) -> CAShapeLayer {
         let line = CAShapeLayer()
-        let linePath = CGPathCreateMutable()
+        let linePath = CGMutablePath()
         CGPathMoveToPoint(linePath, nil, lineFrom.x, lineFrom.y)
         CGPathAddLineToPoint(linePath, nil, to.x, to.y)
-        CGPathCloseSubpath(linePath)
+        linePath.closeSubpath()
         
         line.path = linePath
-        line.fillColor = NSColor.redColor().CGColor
+        line.fillColor = NSColor.red.cgColor
         line.opacity = 0.5
-        line.strokeColor = NSColor.redColor().CGColor
+        line.strokeColor = NSColor.red.cgColor
         line.lineCap = kCALineCapRound
         return line
     }
     
-    func makeLineLinkLayer(lineFrom: CGPoint, to: CGPoint) -> [CAShapeLayer] {
+    func makeLineLinkLayer(_ lineFrom: CGPoint, to: CGPoint) -> [CAShapeLayer] {
         //makes a CAShapeLayer containing an L
         var lines : [CAShapeLayer] = []
         
@@ -623,7 +623,7 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
 
     //MARK: Zooming
     
-    @IBAction func zoomButtonSelect(sender : AnyObject) {
+    @IBAction func zoomButtonSelect(_ sender : AnyObject) {
         switch (zoomButtons.selectedSegment) {
         case 0:
             self.zoomMultiplier *= 2

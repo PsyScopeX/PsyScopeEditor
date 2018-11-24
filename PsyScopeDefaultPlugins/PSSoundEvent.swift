@@ -15,7 +15,7 @@ class PSSoundEvent : PSEventTool {
         toolType = PSType.SoundLabel
         helpfulDescriptionString = "plays a sound loaded from a file."
         iconName = "SoundIcon"
-        iconColor = NSColor.redColor()
+        iconColor = NSColor.red
         classNameString = "PSSoundEvent"
         properties = [Properties.StartRef, Properties.Duration, Properties.EventType]
     }
@@ -26,7 +26,7 @@ class PSSoundEvent : PSEventTool {
         static let EventType = PSProperty(name: "EventType", defaultValue: "SoundLabel", essential: true)
     }
     
-    override func createObject(scriptData: PSScriptData) -> Entry? {
+    override func createObject(_ scriptData: PSScriptData) -> Entry? {
         guard let mainEntry = super.createObject(scriptData) else { return nil }
         if scriptData.getSubEntry("SoundFile", entry: mainEntry) == nil {
             let entry = scriptData.getOrCreateSubEntry("SoundFile", entry: mainEntry, isProperty: false, type: PSAttributeType(name: "SoundFile", parentType: toolType))

@@ -8,14 +8,14 @@
 
 import Foundation
 
-public class PSFieldEditor : NSTextView {
+open class PSFieldEditor : NSTextView {
     var scriptData : PSScriptData!
     
-    override public func menuForEvent(event: NSEvent) -> NSMenu? {
+    override open func menu(for event: NSEvent) -> NSMenu? {
         return self.menu
     }
     
-    override public var menu : NSMenu? {
+    override open var menu : NSMenu? {
         get {
             if let entryValueTextField = self.delegate as? PSEntryValueTextField {
                 return scriptData.getVaryByMenu(entryValueTextField, action: "menuItemClicked:")
@@ -29,11 +29,11 @@ public class PSFieldEditor : NSTextView {
         }
     }
     
-    public func setup(scriptData : PSScriptData) {
+    open func setup(_ scriptData : PSScriptData) {
         self.scriptData = scriptData
     }
     
-    func optionPressed(menuItem : NSMenuItem) {
+    func optionPressed(_ menuItem : NSMenuItem) {
         Swift.print(menuItem.title)
     }
 }

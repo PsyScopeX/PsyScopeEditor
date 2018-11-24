@@ -16,7 +16,7 @@ struct PSAttributePickerCategory  {
 
 var PSAttributePickerCategoriesCache : [PSAttributePickerCategory]?
 
-func PSAttributePickerCategories(scriptData : PSScriptData) -> [PSAttributePickerCategory] {
+func PSAttributePickerCategories(_ scriptData : PSScriptData) -> [PSAttributePickerCategory] {
     
     if let cachedCategories = PSAttributePickerCategoriesCache {
         return cachedCategories
@@ -57,7 +57,7 @@ func PSAttributePickerCategories(scriptData : PSScriptData) -> [PSAttributePicke
     }
     
     //sort alphabetically
-    _categories = _categories.sort({ (s1: PSAttributePickerCategory, s2: PSAttributePickerCategory) -> Bool in
+    _categories = _categories.sorted(by: { (s1: PSAttributePickerCategory, s2: PSAttributePickerCategory) -> Bool in
         return s1.name < s2.name })
     
     PSAttributePickerCategoriesCache = _categories

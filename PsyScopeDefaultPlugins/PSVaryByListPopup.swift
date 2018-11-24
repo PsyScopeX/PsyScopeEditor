@@ -23,7 +23,7 @@ class PSVaryByListPopup: PSAttributePopup, NSOutlineViewDataSource, NSOutlineVie
     init(baseEntry : Entry, scriptData : PSScriptData, setCurrentValueBlock : ((PSEntryElement)->())?) {
         self.scriptData = scriptData
         self.entry = baseEntry
-        super.init(nibName: "VaryByListPopup", bundle: NSBundle(forClass:self.dynamicType), currentValue: .Null, displayName: "", setCurrentValueBlock: setCurrentValueBlock)
+        super.init(nibName: "VaryByListPopup", bundle: Bundle(for:self.dynamicType), currentValue: .null, displayName: "", setCurrentValueBlock: setCurrentValueBlock)
         
         //get all lists
         let all_lists = scriptData.getBaseEntriesOfType(PSType.List)
@@ -36,35 +36,35 @@ class PSVaryByListPopup: PSAttributePopup, NSOutlineViewDataSource, NSOutlineVie
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        selectButton.enabled = false
+        selectButton.isEnabled = false
     }
     
-    func outlineViewSelectionDidChange(notification: NSNotification) {
-        let selected_item : AnyObject? = outlineView.itemAtRow(outlineView.selectedRow)
+    func outlineViewSelectionDidChange(_ notification: Notification) {
+        let selected_item : AnyObject? = outlineView.item(atRow: outlineView.selectedRow)
         
         //check if item is attribute (rather than a block)
         if let i = selected_item as? PSList {
-            selectButton.enabled = false
+            selectButton.isEnabled = false
             selectedList = i
             selectedField = nil
         } else if let i = selected_item as? PSField {
-            selectButton.enabled = true
+            selectButton.isEnabled = true
             selectedList = i.list
             selectedField = i
         } else {
-            selectButton.enabled = false
+            selectButton.isEnabled = false
             selectedList = nil
             selectedField = nil
         }
     }
     
-    @IBAction func select(sender : AnyObject) {
+    @IBAction func select(_ sender : AnyObject) {
         self.currentValue = PSGetFirstEntryElementForStringOrNull("FactorAttrib(\(selectedList!.name),\(selectedField!.entry.name))")
         self.closeMyCustomSheet(self)
     }
     
     
-    func outlineView(outlineView: NSOutlineView, numberOfChildrenOfItem item: AnyObject?) -> Int {
+    func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int {
         if (item == nil) {
             //return number of attributes
             return lists.count
@@ -79,7 +79,7 @@ class PSVaryByListPopup: PSAttributePopup, NSOutlineViewDataSource, NSOutlineVie
         return 0
     }
     
-    func outlineView(outlineView: NSOutlineView, child index: Int, ofItem item: AnyObject?) -> AnyObject {
+    func outlineView(_ outlineView: NSOutlineView, child index: Int, ofItem item: Any?) -> Any {
         if (item == nil) {
             //return attribute
             return lists[index]
@@ -93,7 +93,7 @@ class PSVaryByListPopup: PSAttributePopup, NSOutlineViewDataSource, NSOutlineVie
         return emptyNSString
     }
     
-    func outlineView(outlineView: NSOutlineView, isItemExpandable item: AnyObject) -> Bool {
+    func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: Any) -> Bool {
         //return true if item is attribute with unrepresented entries
         if let i = item as? PSList {
             if i.fields.count > 0 {
@@ -104,7 +104,7 @@ class PSVaryByListPopup: PSAttributePopup, NSOutlineViewDataSource, NSOutlineVie
         return false
     }
     
-    func outlineView(outlineView: NSOutlineView, objectValueForTableColumn tableColumn: NSTableColumn?, byItem item: AnyObject?) -> AnyObject? {
+    func outlineView(_ outlineView: NSOutlineView, objectValueFor tableColumn: NSTableColumn?, byItem item: Any?) -> Any? {
         
         //if item is block return block name
         if let i = item as? PSList {

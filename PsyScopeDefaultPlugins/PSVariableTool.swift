@@ -14,7 +14,7 @@ class PSVariableTool: PSTool, PSToolInterface {
         toolType = PSType.Variable
         helpfulDescriptionString = "Named run-time variables that can be used to vary an event based on user inputs and/or previous trials in the experiment."
         iconName = "Variable-icon-small"
-        iconColor = NSColor.blueColor()
+        iconColor = NSColor.blue
         classNameString = "PSVariableTool"
         section = PSSection.VariableDefinitions
         properties = [Properties.VariableType]
@@ -27,7 +27,7 @@ class PSVariableTool: PSTool, PSToolInterface {
         static let VariableType = PSProperty(name: "Type", defaultValue: "Integer", essential: true)
     }
     
-    override func updateEntry(realEntry: Entry, withGhostEntry ghostEntry: PSGhostEntry, scriptData: PSScriptData) {
+    override func updateEntry(_ realEntry: Entry, withGhostEntry ghostEntry: PSGhostEntry, scriptData: PSScriptData) {
         super.updateEntry(realEntry, withGhostEntry: ghostEntry, scriptData: scriptData)
     }
     
@@ -39,7 +39,7 @@ class PSVariableTool: PSTool, PSToolInterface {
         return false
     }
     
-    override func createObjectWithGhostEntries(entries: [PSGhostEntry], withScript scriptData: PSScriptData) -> [LayoutObject]? {
+    override func createObjectWithGhostEntries(_ entries: [PSGhostEntry], withScript scriptData: PSScriptData) -> [LayoutObject]? {
         var return_array : [LayoutObject] = []
         for ent in entries {
 
@@ -54,7 +54,7 @@ class PSVariableTool: PSTool, PSToolInterface {
         return return_array
     }
     
-    func createMainVariableEntry(scriptData : PSScriptData) -> Entry {
+    func createMainVariableEntry(_ scriptData : PSScriptData) -> Entry {
         let sect = scriptData.getOrCreateSection(section)
         
         //create main block entry
@@ -72,7 +72,7 @@ class PSVariableTool: PSTool, PSToolInterface {
     }
     
     //variables dont have a layout object any more
-    override func createObject(scriptData: PSScriptData) -> Entry? {
+    override func createObject(_ scriptData: PSScriptData) -> Entry? {
         let new_entry = createMainVariableEntry(scriptData)
         
         //now have to update ExpVariables entry on main Experiment entry (if experiment entry is not there
@@ -84,7 +84,7 @@ class PSVariableTool: PSTool, PSToolInterface {
         return new_entry
     }
     
-    override func identifyEntries(ghostScript: PSGhostScript) -> [PSScriptError]{
+    override func identifyEntries(_ ghostScript: PSGhostScript) -> [PSScriptError]{
         var errors : [PSScriptError] = []
         errors += PSTool.identifyEntriesByPropertyInOtherEntry(ghostScript, property: Properties.ExpVariables, type: toolType) as [PSScriptError]
         
@@ -105,7 +105,7 @@ class PSVariableTool: PSTool, PSToolInterface {
                                 //found a variable now check its type sub entry
                                 
                                 for variableSubEntry in ghostEntry.subEntries {
-                                    if variableSubEntry.name.lowercaseString == "type" && !PSVariableTypesAllowedInDataFile.contains(variableSubEntry.currentValue) {
+                                    if variableSubEntry.name.lowercased() == "type" && !PSVariableTypesAllowedInDataFile.contains(variableSubEntry.currentValue) {
                                         //error
                                         errors.append(PSErrorVariableDataFile(ghostEntry.name, type: variableSubEntry.currentValue))
                                     }
@@ -121,13 +121,13 @@ class PSVariableTool: PSTool, PSToolInterface {
     }    
     
     
-    override func getPropertiesViewController(entry: Entry, withScript scriptData: PSScriptData) -> PSPluginViewController? {
+    override func getPropertiesViewController(_ entry: Entry, withScript scriptData: PSScriptData) -> PSPluginViewController? {
         return PSVariablePropertiesController(entry: entry, scriptData: scriptData)
     }
     
 }
 
-public func PSErrorVariableDataFile(nameOfVariable: String, type : String) -> PSScriptError {
+public func PSErrorVariableDataFile(_ nameOfVariable: String, type : String) -> PSScriptError {
     let description = "The variable: " + nameOfVariable + " has a type " + type + " which is not allowed in the DataFile"
     let solution = "Remove the variable's name from the DataVariables entry"
     return PSScriptError(errorDescription: "DataVariables Error", detailedDescription: description, solution: solution, entryName: nameOfVariable)

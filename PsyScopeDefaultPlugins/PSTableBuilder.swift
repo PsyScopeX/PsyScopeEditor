@@ -28,10 +28,10 @@ class PSTableBuilder: NSObject {
             if newValue != registeredForChanges {
                 if newValue {
                     print("table registered")
-                    NSNotificationCenter.defaultCenter().addObserver(self, selector: "docMocChanged:", name: NSManagedObjectContextObjectsDidChangeNotification, object: scriptData.docMoc)
+                    NotificationCenter.default.addObserver(self, selector: "docMocChanged:", name: NSNotification.Name.NSManagedObjectContextObjectsDidChange, object: scriptData.docMoc)
                 } else {
                     print("table unregistered")
-                    NSNotificationCenter.defaultCenter().removeObserver(self)
+                    NotificationCenter.default.removeObserver(self)
                 }
             }
         }
@@ -40,9 +40,9 @@ class PSTableBuilder: NSObject {
 
     
     func showWindow() {
-        NSBundle(forClass:self.dynamicType).loadNibNamed("TableBuilder", owner: self, topLevelObjects: &objects)
+        Bundle(for:self.dynamicType).loadNibNamed("TableBuilder", owner: self, topLevelObjects: &objects)
         window.title = "Edit Table: \(tableEntry.name)"
-        window.releasedWhenClosed = true
+        window.isReleasedWhenClosed = true
         registeredForChanges = true
         window.makeKeyAndOrderFront(self)
         
@@ -83,7 +83,7 @@ class PSFactorTable {
             _selectedFactor = newValue
         }
     }
-    private var _selectedFactor : PSFactor!
+    fileprivate var _selectedFactor : PSFactor!
     
     var selectedLevel : PSFactorLevel? {
         get {
@@ -96,7 +96,7 @@ class PSFactorTable {
             }
         }
     }
-    private var _selectedLevel : PSFactorLevel?
+    fileprivate var _selectedLevel : PSFactorLevel?
     
     var leftConstraint : NSLayoutConstraint!
     var widthConstraint : NSLayoutConstraint!
@@ -135,12 +135,12 @@ class PSFactorTable {
 
         
         scrollView.documentView = tableView
-        scrollView.borderType = NSBorderType.NoBorder
-        scrollView.horizontalScrollElasticity = NSScrollElasticity.None
-        scrollView.verticalScrollElasticity = NSScrollElasticity.None
+        scrollView.borderType = NSBorderType.noBorder
+        scrollView.horizontalScrollElasticity = NSScrollElasticity.none
+        scrollView.verticalScrollElasticity = NSScrollElasticity.none
         
         tableView.addTableColumn(column)
-        tableView.columnAutoresizingStyle = NSTableViewColumnAutoresizingStyle.UniformColumnAutoresizingStyle
+        tableView.columnAutoresizingStyle = NSTableViewColumnAutoresizingStyle.uniformColumnAutoresizingStyle
         
         view.addSubview(scrollView)
         
@@ -149,34 +149,34 @@ class PSFactorTable {
         
         leftConstraint = NSLayoutConstraint(
             item: scrollView,
-            attribute: NSLayoutAttribute.Left,
-            relatedBy: NSLayoutRelation.Equal,
+            attribute: NSLayoutAttribute.left,
+            relatedBy: NSLayoutRelation.equal,
             toItem: view,
-            attribute: NSLayoutAttribute.Left,
+            attribute: NSLayoutAttribute.left,
             multiplier: 1.0, constant: 20.0)
         
         widthConstraint = NSLayoutConstraint(
             item: scrollView,
-            attribute: NSLayoutAttribute.Right,
-            relatedBy: NSLayoutRelation.Equal,
+            attribute: NSLayoutAttribute.right,
+            relatedBy: NSLayoutRelation.equal,
             toItem: scrollView,
-            attribute: NSLayoutAttribute.Left,
+            attribute: NSLayoutAttribute.left,
             multiplier: 1.0, constant: 300.0)
         
         topConstraint = NSLayoutConstraint(
             item: scrollView,
-            attribute: NSLayoutAttribute.Top,
-            relatedBy: NSLayoutRelation.Equal,
+            attribute: NSLayoutAttribute.top,
+            relatedBy: NSLayoutRelation.equal,
             toItem: view,
-            attribute: NSLayoutAttribute.Top,
+            attribute: NSLayoutAttribute.top,
             multiplier: 1.0, constant: 60.0)
         
         heightConstraint = NSLayoutConstraint(
             item: scrollView,
-            attribute: NSLayoutAttribute.Bottom,
-            relatedBy: NSLayoutRelation.Equal,
+            attribute: NSLayoutAttribute.bottom,
+            relatedBy: NSLayoutRelation.equal,
             toItem: scrollView,
-            attribute: NSLayoutAttribute.Top,
+            attribute: NSLayoutAttribute.top,
             multiplier: 1.0, constant: 200.0)
         
         view.addConstraint(leftConstraint)
@@ -186,11 +186,11 @@ class PSFactorTable {
         
         
         //Constraints to keep table view same size as scrollview
-        let tleftConstraint = NSLayoutConstraint(item: tableView, attribute: NSLayoutAttribute.Left, relatedBy: NSLayoutRelation.Equal, toItem: scrollView, attribute: NSLayoutAttribute.Left, multiplier: 1.0, constant: 0.0)
-        let trightConstraint = NSLayoutConstraint(item: tableView, attribute: NSLayoutAttribute.Right, relatedBy: NSLayoutRelation.Equal, toItem: scrollView, attribute: NSLayoutAttribute.Right, multiplier: 1.0, constant: 0.0)
+        let tleftConstraint = NSLayoutConstraint(item: tableView, attribute: NSLayoutAttribute.left, relatedBy: NSLayoutRelation.equal, toItem: scrollView, attribute: NSLayoutAttribute.left, multiplier: 1.0, constant: 0.0)
+        let trightConstraint = NSLayoutConstraint(item: tableView, attribute: NSLayoutAttribute.right, relatedBy: NSLayoutRelation.equal, toItem: scrollView, attribute: NSLayoutAttribute.right, multiplier: 1.0, constant: 0.0)
         
-        let ttopConstraint = NSLayoutConstraint(item: tableView, attribute: NSLayoutAttribute.Top, relatedBy: NSLayoutRelation.Equal, toItem: scrollView, attribute: NSLayoutAttribute.Top, multiplier: 1.0, constant: 0.0)
-        let tbottomConstraint = NSLayoutConstraint(item: tableView, attribute: NSLayoutAttribute.Bottom, relatedBy: NSLayoutRelation.Equal, toItem: scrollView, attribute: NSLayoutAttribute.Bottom, multiplier: 1.0, constant: -2.0)
+        let ttopConstraint = NSLayoutConstraint(item: tableView, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: scrollView, attribute: NSLayoutAttribute.top, multiplier: 1.0, constant: 0.0)
+        let tbottomConstraint = NSLayoutConstraint(item: tableView, attribute: NSLayoutAttribute.bottom, relatedBy: NSLayoutRelation.equal, toItem: scrollView, attribute: NSLayoutAttribute.bottom, multiplier: 1.0, constant: -2.0)
         view.addConstraint(tleftConstraint)
         view.addConstraint(trightConstraint)
         view.addConstraint(ttopConstraint)
@@ -232,11 +232,11 @@ class PSFactorTable {
         
         var rowsSpanned = rows()
         
-        for (_,factor) in factors.enumerate() {
+        for (_,factor) in factors.enumerated() {
             switch (factor.displayLevel) {
-            case .Top:
+            case .top:
                 factor.updateButtons(nil, numberRowsSpanned: 0)
-            case let .Side(index):
+            case let .side(index):
                 if index>1 {
                     factor.updateButtons(factors[index-1],numberRowsSpanned: rowsSpanned)
                 } else {
@@ -250,19 +250,19 @@ class PSFactorTable {
 }
 
 enum PSFactorDisplayLevel {
-    case Top
-    case Side(Int)
+    case top
+    case side(Int)
     
-    static func displayLevelForIndex(index : Int) -> PSFactorDisplayLevel {
+    static func displayLevelForIndex(_ index : Int) -> PSFactorDisplayLevel {
         if index == 0 {
-            return PSFactorDisplayLevel.Top
+            return PSFactorDisplayLevel.top
         } else {
-            return PSFactorDisplayLevel.Side(index)
+            return PSFactorDisplayLevel.side(index)
         }
     }
 }
 
-func PSFormatFactorButton(superView : NSView, name : String) -> NSButton {
+func PSFormatFactorButton(_ superView : NSView, name : String) -> NSButton {
     let button = NSButton()
     button.translatesAutoresizingMaskIntoConstraints = false
     button.title = name
@@ -282,7 +282,7 @@ class PSFactor : NSObject {
         }
     }
     
-    private var _name : String = "New factor"
+    fileprivate var _name : String = "New factor"
     
     var button : NSButton
     var levels : [PSFactorLevel] = []
@@ -302,74 +302,74 @@ class PSFactor : NSObject {
         self.button.target = self
         
         switch (displayLevel) {
-        case .Top:
+        case .top:
         //top row above factors
         superView.addConstraint(NSLayoutConstraint(
             item: button,
-            attribute: NSLayoutAttribute.Top,
-            relatedBy: NSLayoutRelation.Equal,
+            attribute: NSLayoutAttribute.top,
+            relatedBy: NSLayoutRelation.equal,
             toItem: superView,
-            attribute: NSLayoutAttribute.Top,
+            attribute: NSLayoutAttribute.top,
             multiplier: 1.0, constant: 20.0))
         //left align with table
         superView.addConstraint(NSLayoutConstraint(
             item: button,
-            attribute: NSLayoutAttribute.Left,
-            relatedBy: NSLayoutRelation.Equal,
+            attribute: NSLayoutAttribute.left,
+            relatedBy: NSLayoutRelation.equal,
             toItem: tableView,
-            attribute: NSLayoutAttribute.Left,
+            attribute: NSLayoutAttribute.left,
             multiplier: 1.0, constant: 0.0))
         //label is as wide as table view
         superView.addConstraint(NSLayoutConstraint(
             item: button,
-            attribute: NSLayoutAttribute.Width,
-            relatedBy: NSLayoutRelation.Equal,
+            attribute: NSLayoutAttribute.width,
+            relatedBy: NSLayoutRelation.equal,
             toItem: tableView,
-            attribute: NSLayoutAttribute.Width,
+            attribute: NSLayoutAttribute.width,
             multiplier: 1.0, constant: 0.0))
         //always a fixed height here
         superView.addConstraint(NSLayoutConstraint(
             item: button,
-            attribute: NSLayoutAttribute.Bottom,
-            relatedBy: NSLayoutRelation.Equal,
+            attribute: NSLayoutAttribute.bottom,
+            relatedBy: NSLayoutRelation.equal,
             toItem: button,
-            attribute: NSLayoutAttribute.Top,
+            attribute: NSLayoutAttribute.top,
             multiplier: 1.0, constant: PSDefaultConstants.TableBuilder.rowHeight))
             
-        case let .Side(index):
+        case let .side(index):
             //left button
             //top align with table view
             superView.addConstraint(NSLayoutConstraint(
                 item: button,
-                attribute: NSLayoutAttribute.Top,
-                relatedBy: NSLayoutRelation.Equal,
+                attribute: NSLayoutAttribute.top,
+                relatedBy: NSLayoutRelation.equal,
                 toItem: tableView,
-                attribute: NSLayoutAttribute.Top,
+                attribute: NSLayoutAttribute.top,
                 multiplier: 1.0, constant: CGFloat(0) - PSDefaultConstants.TableBuilder.rowHeight))
             //left align with table
             let constant : CGFloat = (PSDefaultConstants.TableBuilder.levelWidth * CGFloat(index))
             superView.addConstraint(NSLayoutConstraint(
                 item: button,
-                attribute: NSLayoutAttribute.Left,
-                relatedBy: NSLayoutRelation.Equal,
+                attribute: NSLayoutAttribute.left,
+                relatedBy: NSLayoutRelation.equal,
                 toItem: superView,
-                attribute: NSLayoutAttribute.Left,
+                attribute: NSLayoutAttribute.left,
                 multiplier: 1.0, constant: constant))
             //label is as wide as level
             superView.addConstraint(NSLayoutConstraint(
                 item: button,
-                attribute: NSLayoutAttribute.Right,
-                relatedBy: NSLayoutRelation.Equal,
+                attribute: NSLayoutAttribute.right,
+                relatedBy: NSLayoutRelation.equal,
                 toItem: button,
-                attribute: NSLayoutAttribute.Left,
+                attribute: NSLayoutAttribute.left,
                 multiplier: 1.0, constant: PSDefaultConstants.TableBuilder.levelWidth))
             //always as tall as row height
             superView.addConstraint(NSLayoutConstraint(
                 item: button,
-                attribute: NSLayoutAttribute.Bottom,
-                relatedBy: NSLayoutRelation.Equal,
+                attribute: NSLayoutAttribute.bottom,
+                relatedBy: NSLayoutRelation.equal,
                 toItem: button,
-                attribute: NSLayoutAttribute.Top,
+                attribute: NSLayoutAttribute.top,
                 multiplier: 1.0, constant: PSDefaultConstants.TableBuilder.rowHeight))
             break
         }
@@ -379,7 +379,7 @@ class PSFactor : NSObject {
         addLevel()
     }
     
-    func selected(button : AnyObject) {
+    func selected(_ button : AnyObject) {
         factorTable.selectedFactor = self
         print("Factor selected: \(name)")
     }
@@ -390,7 +390,7 @@ class PSFactor : NSObject {
         new_level.name = "Level \(levels.count)"
     }
     
-    func updateButtons(previousFactor : PSFactor?, numberRowsSpanned : Int) {
+    func updateButtons(_ previousFactor : PSFactor?, numberRowsSpanned : Int) {
         //clear all buttons
         for level in levels {
             for button in level.buttons {
@@ -400,52 +400,52 @@ class PSFactor : NSObject {
         }
         
         switch (displayLevel) {
-        case .Top:
-            for (index, level) in levels.enumerate() {
+        case .top:
+            for (index, level) in levels.enumerated() {
                 let new_button = PSFormatFactorButton(superView, name: level.name)
                 level.buttons.append(new_button)
                 new_button.action = "selected:"
                 new_button.target = level
                 superView.addConstraint(NSLayoutConstraint(
                     item: new_button,
-                    attribute: NSLayoutAttribute.Top,
-                    relatedBy: NSLayoutRelation.Equal,
+                    attribute: NSLayoutAttribute.top,
+                    relatedBy: NSLayoutRelation.equal,
                     toItem: button,
-                    attribute: NSLayoutAttribute.Top,
+                    attribute: NSLayoutAttribute.top,
                     multiplier: 1.0, constant: PSDefaultConstants.TableBuilder.rowHeight))
                 //left align with table button
                 let left : CGFloat = CGFloat(index) * PSDefaultConstants.TableBuilder.levelWidth
                 superView.addConstraint(NSLayoutConstraint(
                     item: new_button,
-                    attribute: NSLayoutAttribute.Left,
-                    relatedBy: NSLayoutRelation.Equal,
+                    attribute: NSLayoutAttribute.left,
+                    relatedBy: NSLayoutRelation.equal,
                     toItem: button,
-                    attribute: NSLayoutAttribute.Left,
+                    attribute: NSLayoutAttribute.left,
                     multiplier: 1.0, constant: left))
                 //label is standard width
                 superView.addConstraint(NSLayoutConstraint(
                     item: new_button,
-                    attribute: NSLayoutAttribute.Right,
-                    relatedBy: NSLayoutRelation.Equal,
+                    attribute: NSLayoutAttribute.right,
+                    relatedBy: NSLayoutRelation.equal,
                     toItem: new_button,
-                    attribute: NSLayoutAttribute.Left,
+                    attribute: NSLayoutAttribute.left,
                     multiplier: 1.0, constant: PSDefaultConstants.TableBuilder.levelWidth))
                 //on top, always as tall as rowheight
                 superView.addConstraint(NSLayoutConstraint(
                     item: button,
-                    attribute: NSLayoutAttribute.Bottom,
-                    relatedBy: NSLayoutRelation.Equal,
+                    attribute: NSLayoutAttribute.bottom,
+                    relatedBy: NSLayoutRelation.equal,
                     toItem: button,
-                    attribute: NSLayoutAttribute.Top,
+                    attribute: NSLayoutAttribute.top,
                     multiplier: 1.0, constant: PSDefaultConstants.TableBuilder.rowHeight))
             }
             break
-        case .Side:
+        case .side:
             let buttonHeight = PSDefaultConstants.TableBuilder.rowHeight * CGFloat(numberRowsSpanned) / CGFloat(levels.count)
             if let pf = previousFactor {
                 for previousLevel in pf.levels {
                     for previousButton in previousLevel.buttons {
-                        for (index, level) in levels.enumerate() {
+                        for (index, level) in levels.enumerated() {
                             let new_button = PSFormatFactorButton(superView, name: level.name)
                             level.buttons.append(new_button)
                             new_button.action = "selected:"
@@ -453,39 +453,39 @@ class PSFactor : NSObject {
                             let pos : CGFloat = (CGFloat(index) / CGFloat(levels.count)) * PSDefaultConstants.TableBuilder.rowHeight * CGFloat(numberRowsSpanned)
                             superView.addConstraint(NSLayoutConstraint(
                                 item: new_button,
-                                attribute: NSLayoutAttribute.Top,
-                                relatedBy: NSLayoutRelation.Equal,
+                                attribute: NSLayoutAttribute.top,
+                                relatedBy: NSLayoutRelation.equal,
                                 toItem: previousButton,
-                                attribute: NSLayoutAttribute.Top,
+                                attribute: NSLayoutAttribute.top,
                                 multiplier: 1.0, constant: pos))
                             superView.addConstraint(NSLayoutConstraint(
                                 item: new_button,
-                                attribute: NSLayoutAttribute.Left,
-                                relatedBy: NSLayoutRelation.Equal,
+                                attribute: NSLayoutAttribute.left,
+                                relatedBy: NSLayoutRelation.equal,
                                 toItem: self.button,
-                                attribute: NSLayoutAttribute.Left,
+                                attribute: NSLayoutAttribute.left,
                                 multiplier: 1.0, constant: 0.0))
                             //label is standard width
                             superView.addConstraint(NSLayoutConstraint(
                                 item: new_button,
-                                attribute: NSLayoutAttribute.Right,
-                                relatedBy: NSLayoutRelation.Equal,
+                                attribute: NSLayoutAttribute.right,
+                                relatedBy: NSLayoutRelation.equal,
                                 toItem: new_button,
-                                attribute: NSLayoutAttribute.Left,
+                                attribute: NSLayoutAttribute.left,
                                 multiplier: 1.0, constant: PSDefaultConstants.TableBuilder.levelWidth))
                             superView.addConstraint(NSLayoutConstraint(
                                 item: new_button,
-                                attribute: NSLayoutAttribute.Bottom,
-                                relatedBy: NSLayoutRelation.Equal,
+                                attribute: NSLayoutAttribute.bottom,
+                                relatedBy: NSLayoutRelation.equal,
                                 toItem: new_button,
-                                attribute: NSLayoutAttribute.Top,
+                                attribute: NSLayoutAttribute.top,
                                 multiplier: 1.0, constant: buttonHeight))
                         }
                     }
                 }
             } else {
                 //this is for the base factor on the left, that should span entire tableview
-                for (index, level) in levels.enumerate() {
+                for (index, level) in levels.enumerated() {
                     let new_button = PSFormatFactorButton(superView, name: level.name)
                     level.buttons.append(new_button)
                     let pos : CGFloat = CGFloat((CGFloat(index) / CGFloat(levels.count))) * PSDefaultConstants.TableBuilder.rowHeight * CGFloat(numberRowsSpanned)
@@ -496,33 +496,33 @@ class PSFactor : NSObject {
                     print("Adding button at \(pos)")
                     superView.addConstraint(NSLayoutConstraint(
                         item: new_button,
-                        attribute: NSLayoutAttribute.Top,
-                        relatedBy: NSLayoutRelation.Equal,
+                        attribute: NSLayoutAttribute.top,
+                        relatedBy: NSLayoutRelation.equal,
                         toItem: tableView,
-                        attribute: NSLayoutAttribute.Top,
+                        attribute: NSLayoutAttribute.top,
                         multiplier: 1.0, constant: pos))
                     superView.addConstraint(NSLayoutConstraint(
                         item: new_button,
-                        attribute: NSLayoutAttribute.Left,
-                        relatedBy: NSLayoutRelation.Equal,
+                        attribute: NSLayoutAttribute.left,
+                        relatedBy: NSLayoutRelation.equal,
                         toItem: self.button,
-                        attribute: NSLayoutAttribute.Left,
+                        attribute: NSLayoutAttribute.left,
                         multiplier: 1.0, constant: 0.0))
                     //label is standard width
                     superView.addConstraint(NSLayoutConstraint(
                         item: new_button,
-                        attribute: NSLayoutAttribute.Right,
-                        relatedBy: NSLayoutRelation.Equal,
+                        attribute: NSLayoutAttribute.right,
+                        relatedBy: NSLayoutRelation.equal,
                         toItem: new_button,
-                        attribute: NSLayoutAttribute.Left,
+                        attribute: NSLayoutAttribute.left,
                         multiplier: 1.0, constant: PSDefaultConstants.TableBuilder.levelWidth))
                     //as tall as number of rows spanned
                     superView.addConstraint(NSLayoutConstraint(
                         item: new_button,
-                        attribute: NSLayoutAttribute.Bottom,
-                        relatedBy: NSLayoutRelation.Equal,
+                        attribute: NSLayoutAttribute.bottom,
+                        relatedBy: NSLayoutRelation.equal,
                         toItem: new_button,
-                        attribute: NSLayoutAttribute.Top,
+                        attribute: NSLayoutAttribute.top,
                         multiplier: 1.0, constant: buttonHeight))
                 }
             }
@@ -543,7 +543,7 @@ class PSFactorLevel : NSObject {
         }
     }
     
-    private var _name : String = "Level 1"
+    fileprivate var _name : String = "Level 1"
 
     var factor : PSFactor
     var buttons : [NSButton] = []
@@ -556,7 +556,7 @@ class PSFactorLevel : NSObject {
     }
     
 
-    func selected(button : AnyObject) {
+    func selected(_ button : AnyObject) {
         print("Selected \(name)")
         factor.factorTable.selectedLevel = self
     }

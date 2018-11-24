@@ -17,19 +17,19 @@ class PSEventBrowserViewDelegate : NSObject, NSTableViewDelegate {
     var content : [PSExtension] = []
     var pluginProvider : PSPluginProvider!
     
-    func setup(pluginProvider : PSPluginProvider) {
+    func setup(_ pluginProvider : PSPluginProvider) {
         self.pluginProvider = pluginProvider
-        let nib = NSNib(nibNamed: "ToolBrowserViewItem", bundle: NSBundle(forClass:self.dynamicType))
-        objectTableView.registerNib(nib!, forIdentifier: tableCellViewIdentifier)
+        let nib = NSNib(nibNamed: "ToolBrowserViewItem", bundle: Bundle(for:self.dynamicType))
+        objectTableView.register(nib!, forIdentifier: tableCellViewIdentifier)
         refresh()
     }
     
-    func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        let new_view  = objectTableView.makeViewWithIdentifier(tableCellViewIdentifier, owner: self) as! PSToolBrowserViewItem
+    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+        let new_view  = objectTableView.make(withIdentifier: tableCellViewIdentifier, owner: self) as! PSToolBrowserViewItem
         return new_view
     }
     
-    func tableView(tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
+    func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
         return PSConstants.Spacing.objectTableViewRowHeight
     }
     

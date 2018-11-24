@@ -41,7 +41,7 @@ class PSBlocksTableController : PSChildTypeViewController {
         var selected_index = 0
         if let te = scriptData.getSubEntry("Blocks", entry: entry) {
             if let ae = scriptData.getSubEntry("AccessType", entry: te) {
-                for (value, item) in orderComboBoxItems.enumerate() {
+                for (value, item) in orderComboBoxItems.enumerated() {
                     if ae.currentValue == item.1 {
                         selected_index = value
                     }
@@ -54,10 +54,10 @@ class PSBlocksTableController : PSChildTypeViewController {
         for k in orderComboBoxItems.keys {
             items.append(k)
         }
-        orderPopUpButton.addItemsWithTitles(items)
+        orderPopUpButton.addItems(withTitles: items)
         
         if orderPopUpButton.indexOfSelectedItem != selected_index {
-            orderPopUpButton.selectItemAtIndex(selected_index)
+            orderPopUpButton.selectItem(at: selected_index)
         }
         
         
@@ -65,15 +65,15 @@ class PSBlocksTableController : PSChildTypeViewController {
         if let bd_entry = scriptData.getSubEntry("Cycles", entry: entry) {
             scalableButton.state = 1
             cyclesTextField.stringValue = bd_entry.currentValue
-            scaleTextField.enabled = true
+            scaleTextField.isEnabled = true
         } else if let bd_entry = scriptData.getSubEntry("FixedCycles", entry: entry) {
             scalableButton.state = 0
             cyclesTextField.stringValue = bd_entry.currentValue
-            scaleTextField.enabled = false
+            scaleTextField.isEnabled = false
         } else {
             scalableButton.state = 1
             cyclesTextField.stringValue = "1"
-            scaleTextField.enabled = true
+            scaleTextField.isEnabled = true
         }
         
         if let bd_entry = scriptData.getSubEntry("ScaleBlocks", entry: entry) {
@@ -87,7 +87,7 @@ class PSBlocksTableController : PSChildTypeViewController {
     
     
     
-    func control(control: NSControl, textShouldEndEditing fieldEditor: NSText) -> Bool {
+    func control(_ control: NSControl, textShouldEndEditing fieldEditor: NSText) -> Bool {
         processButtonChange()
         return true
     }

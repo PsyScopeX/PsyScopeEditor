@@ -8,14 +8,14 @@
 import Foundation
 
 //a view which represents an action
-public class PSActionCell : PSCellView {
+open class PSActionCell : PSCellView {
     
     //MARK: Publics
     
-    public var entryFunction : PSEventActionFunction!
-    public var actionInterface : PSActionInterface!
-    public var actionParameters : [PSAttributeParameter] = []
-    public var expandAction : (Bool -> ())? //used to tie events when cell is expanded (e.g. recording that)
+    open var entryFunction : PSEventActionFunction!
+    open var actionInterface : PSActionInterface!
+    open var actionParameters : [PSAttributeParameter] = []
+    open var expandAction : ((Bool) -> ())? //used to tie events when cell is expanded (e.g. recording that)
     
     
     //MARK: Privates
@@ -28,7 +28,7 @@ public class PSActionCell : PSCellView {
     var activeUntilParameter : PSAttributeParameter_ActiveUntil?
     
     
-    override public func updateScript() {
+    override open func updateScript() {
         
         //add parameters for action's function
         var values : [PSEntryElement] = []
@@ -41,7 +41,7 @@ public class PSActionCell : PSCellView {
         let nElements = values.count
         var indexOfLastValue = 0
         for indexOfLastValue = (nElements - 1); indexOfLastValue > 0; --indexOfLastValue {
-            if values[indexOfLastValue] != PSEntryElement.Null {
+            if values[indexOfLastValue] != PSEntryElement.null {
                 break
             }
         }
@@ -56,7 +56,7 @@ public class PSActionCell : PSCellView {
         super.updateScript()
     }
     
-    func expandButtonClicked(button : NSButton) {
+    func expandButtonClicked(_ button : NSButton) {
         if disclosureButton.state == NSOnState {
             setExpanded(true)
             expandAction?(true)
@@ -66,16 +66,16 @@ public class PSActionCell : PSCellView {
         }
     }
     
-    public func setExpanded(expanded : Bool) {
+    open func setExpanded(_ expanded : Bool) {
         if expanded {
             disclosureButton.state = NSOnState
             var new_frame = self.frame
             new_frame.size.height = expandedHeight
             self.frame = new_frame
             for view in self.subviews as [NSView] {
-                view.hidden = false
+                view.isHidden = false
             }
-            summaryLabel.hidden = true
+            summaryLabel.isHidden = true
         } else {
             disclosureButton.state == NSOffState
             var new_frame = self.frame
@@ -89,13 +89,13 @@ public class PSActionCell : PSCellView {
                         break
                     }
                 }
-                view.hidden = hidden
+                view.isHidden = hidden
             }
-            summaryLabel.hidden = false
+            summaryLabel.isHidden = false
         }
     }
     
-    public func setup(actionInterface : PSActionInterface, entryFunction : PSEventActionFunction, scriptData : PSScriptData, parameters : [NSObject.Type], names: [String], expandedHeight : CGFloat) {
+    open func setup(_ actionInterface : PSActionInterface, entryFunction : PSEventActionFunction, scriptData : PSScriptData, parameters : [NSObject.Type], names: [String], expandedHeight : CGFloat) {
         
         //setup dependencies
         self.actionInterface = actionInterface
@@ -110,9 +110,9 @@ public class PSActionCell : PSCellView {
         Swift.print(topYPosition.description)
         //add disclosure button
         disclosureButton = NSButton(frame: NSMakeRect(0, topYPosition, 20, 20))
-        disclosureButton.autoresizingMask = [NSAutoresizingMaskOptions.ViewMaxXMargin, NSAutoresizingMaskOptions.ViewMinYMargin]
-        disclosureButton.bezelStyle = NSBezelStyle.DisclosureBezelStyle
-        disclosureButton.setButtonType(.PushOnPushOffButton)
+        disclosureButton.autoresizingMask = [NSAutoresizingMaskOptions.viewMaxXMargin, NSAutoresizingMaskOptions.viewMinYMargin]
+        disclosureButton.bezelStyle = NSBezelStyle.disclosure
+        disclosureButton.setButtonType(.pushOnPushOff)
         disclosureButton.title = ""
         disclosureButton.state = NSOffState
         disclosureButton.target = self
@@ -123,13 +123,13 @@ public class PSActionCell : PSCellView {
         
         //add title
         let title_label = NSTextField(frame: NSMakeRect(PSDefaultConstants.ActionsBuilder.headerLeftMargin, topYPosition, 100, 17))
-        title_label.autoresizingMask = [NSAutoresizingMaskOptions.ViewMaxXMargin, NSAutoresizingMaskOptions.ViewMinYMargin]
+        title_label.autoresizingMask = [NSAutoresizingMaskOptions.viewMaxXMargin, NSAutoresizingMaskOptions.viewMinYMargin]
         title_label.stringValue = actionInterface.userFriendlyName()
-        title_label.bezeled = false
+        title_label.isBezeled = false
         title_label.drawsBackground = false
-        title_label.editable = false
-        title_label.selectable = false
-        title_label.font = NSFont.boldSystemFontOfSize(12)
+        title_label.isEditable = false
+        title_label.isSelectable = false
+        title_label.font = NSFont.boldSystemFont(ofSize: 12)
         self.addSubview(title_label)
         viewsToNotHide.append(title_label)
         
@@ -137,14 +137,14 @@ public class PSActionCell : PSCellView {
         //add summary label
         let width = self.frame.width - PSDefaultConstants.ActionsBuilder.summaryLabelLeftMargin - PSDefaultConstants.ActionsBuilder.controlsRightMargin
         summaryLabel = NSTextField(frame: NSMakeRect(PSDefaultConstants.ActionsBuilder.summaryLabelLeftMargin, topYPosition, width, 17))
-        summaryLabel.autoresizingMask = [NSAutoresizingMaskOptions.ViewMinYMargin, NSAutoresizingMaskOptions.ViewWidthSizable]
-        summaryLabel.alignment = NSTextAlignment.Left
-        summaryLabel.bezeled = false
+        summaryLabel.autoresizingMask = [NSAutoresizingMaskOptions.viewMinYMargin, NSAutoresizingMaskOptions.viewWidthSizable]
+        summaryLabel.alignment = NSTextAlignment.left
+        summaryLabel.isBezeled = false
         summaryLabel.drawsBackground = false
-        summaryLabel.editable = false
-        summaryLabel.selectable = false
-        summaryLabel.font = NSFont.systemFontOfSize(12)
-        summaryLabel.cell!.lineBreakMode = NSLineBreakMode.ByTruncatingTail
+        summaryLabel.isEditable = false
+        summaryLabel.isSelectable = false
+        summaryLabel.font = NSFont.systemFont(ofSize: 12)
+        summaryLabel.cell!.lineBreakMode = NSLineBreakMode.byTruncatingTail
         self.addSubview(summaryLabel)
         
         
@@ -152,7 +152,7 @@ public class PSActionCell : PSCellView {
         summaryLabel.stringValue = entryFunction.getParametersStringValue()
         
         //add parameters
-        for (index,actionParameter) in parameters.enumerate() {
+        for (index,actionParameter) in parameters.enumerated() {
             if let ap = actionParameter.init() as? PSAttributeParameter {
                 topYPosition -= PSAttributeParameter.defaultHeight
                 
@@ -162,7 +162,7 @@ public class PSActionCell : PSCellView {
                 if index < entryFunction.values.count {
                     currentValue = entryFunction.values[index]
                 } else {
-                    currentValue = .Null
+                    currentValue = .null
                 }
                 builder.setupMultiCell(names[index], y: topYPosition, cell: self, currentValue: currentValue, type: nil)
                 self.actionParameters.append(ap)

@@ -42,7 +42,7 @@ class PSTemplateTableController : PSChildTypeViewController {
         var selected_index = 0
         if let te = scriptData.getSubEntry("Templates", entry: entry) {
             if let ae = scriptData.getSubEntry("AccessType", entry: te) {
-                for (value, item) in orderComboBoxItems.enumerate() {
+                for (value, item) in orderComboBoxItems.enumerated() {
                     if ae.currentValue == item.1 {
                         selected_index = value
                     }
@@ -55,37 +55,37 @@ class PSTemplateTableController : PSChildTypeViewController {
         for k in orderComboBoxItems.keys {
             items.append(k)
         }
-        templateOrderPopUpButton.addItemsWithTitles(items)
+        templateOrderPopUpButton.addItems(withTitles: items)
         
         if templateOrderPopUpButton.indexOfSelectedItem != selected_index {
-            templateOrderPopUpButton.selectItemAtIndex(selected_index)
+            templateOrderPopUpButton.selectItem(at: selected_index)
         }
         
         
         
         if let bd_entry = scriptData.getSubEntry("BlockDuration", entry: entry) {
-            modeMatrix.selectCellWithTag(1)
-            blockDurationTextField.enabled = true
+            modeMatrix.selectCell(withTag: 1)
+            blockDurationTextField.isEnabled = true
             blockDurationTextField.stringValue = bd_entry.currentValue
-            trialsInBlockTextField.enabled = false
+            trialsInBlockTextField.isEnabled = false
             trialsInBlockTextField.stringValue = ""
         } else if let cycle_entry = scriptData.getSubEntry("Cycles", entry: entry) {
-            modeMatrix.selectCellWithTag(3)
-            blockDurationTextField.enabled = false
+            modeMatrix.selectCell(withTag: 3)
+            blockDurationTextField.isEnabled = false
             blockDurationTextField.stringValue = ""
-            trialsInBlockTextField.enabled = true
+            trialsInBlockTextField.isEnabled = true
             trialsInBlockTextField.stringValue = cycle_entry.currentValue
         } else if let fixedcycle_entry = scriptData.getSubEntry("FixedCycles", entry: entry) {
-            modeMatrix.selectCellWithTag(2)
-            blockDurationTextField.enabled = false
+            modeMatrix.selectCell(withTag: 2)
+            blockDurationTextField.isEnabled = false
             blockDurationTextField.stringValue = ""
-            trialsInBlockTextField.enabled = true
+            trialsInBlockTextField.isEnabled = true
             trialsInBlockTextField.stringValue = fixedcycle_entry.currentValue
         } else {
-            modeMatrix.selectCellWithTag(3)
-            blockDurationTextField.enabled = false
+            modeMatrix.selectCell(withTag: 3)
+            blockDurationTextField.isEnabled = false
             blockDurationTextField.stringValue = ""
-            trialsInBlockTextField.enabled = true
+            trialsInBlockTextField.isEnabled = true
             trialsInBlockTextField.stringValue = "1"
         }
     }
@@ -93,7 +93,7 @@ class PSTemplateTableController : PSChildTypeViewController {
     
     
     
-    func control(control: NSControl, textShouldEndEditing fieldEditor: NSText) -> Bool {
+    func control(_ control: NSControl, textShouldEndEditing fieldEditor: NSText) -> Bool {
         processButtonChange()
         return true
     }

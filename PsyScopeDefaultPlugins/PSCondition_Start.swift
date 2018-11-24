@@ -20,11 +20,11 @@ class PSCondition_Start : PSCondition {
     
     
     override func nib() -> NSNib {
-        return NSNib(nibNamed: "Condition_StartCell", bundle: NSBundle(forClass:self.dynamicType))!
+        return NSNib(nibNamed: "Condition_StartCell", bundle: Bundle(for:self.dynamicType))!
     }
     
     override func icon() -> NSImage {
-        let image : NSImage = NSImage(contentsOfFile: NSBundle(forClass:self.dynamicType).pathForImageResource("MouseClick")!)!
+        let image : NSImage = NSImage(contentsOfFile: Bundle(for:self.dynamicType).pathForImageResource("MouseClick")!)!
         return image
     }
 }
@@ -41,25 +41,25 @@ class PSCondition_StartCell : PSConditionCell, NSTextFieldDelegate {
         
         for v in inputValue {
             
-            startText.stringValue = v.stringByTrimmingCharactersInSet(NSCharacterSet(charactersInString: "\""))
+            startText.stringValue = v.trimmingCharacters(in: CharacterSet(charactersIn: "\""))
             
         }
     }
     
     
-    @IBAction func generate(sstarter : AnyObject) {
+    @IBAction func generate(_ sstarter : AnyObject) {
         let outputString = startText.stringValue
         
         entryFunction.setStringValues([outputString])
         self.updateScript()
     }
     
-    func control(control: NSControl, textShouldEndEditing fieldEditor: NSText) -> Bool {
+    func control(_ control: NSControl, textShouldEndEditing fieldEditor: NSText) -> Bool {
         generate(control)
         return true
     }
     
-    override func setup(conditionInterface: PSConditionInterface, function entryFunction: PSFunctionElement, scriptData: PSScriptData, expandedHeight: CGFloat) {
+    override func setup(_ conditionInterface: PSConditionInterface, function entryFunction: PSFunctionElement, scriptData: PSScriptData, expandedHeight: CGFloat) {
         super.setup(conditionInterface,function: entryFunction,scriptData: scriptData, expandedHeight: expandedHeight)
         parse()
     }

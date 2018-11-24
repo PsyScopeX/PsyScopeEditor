@@ -28,13 +28,13 @@ class PSVariableTypeOutlineViewDelegate : NSObject, NSOutlineViewDataSource, NSO
         super.awakeFromNib()
         if (!initialSetupComplete) {
             initialSetupComplete = true
-            outlineView.registerForDraggedTypes([draggedType])
+            outlineView.register(forDraggedTypes: [draggedType])
             outlineView.reloadData()
         }
     }
 
     
-    func refreshWithVariableTypes(types : PSVariableTypes, selectItem: AnyObject? = nil) {
+    func refreshWithVariableTypes(_ types : PSVariableTypes, selectItem: AnyObject? = nil) {
         self.variableTypes = types
         outlineView.reloadData()
         
@@ -49,21 +49,21 @@ class PSVariableTypeOutlineViewDelegate : NSObject, NSOutlineViewDataSource, NSO
         }
         
         if let selectItem: AnyObject = selectItem {
-            let rowForItem = self.outlineView.rowForItem(selectItem)
+            let rowForItem = self.outlineView.row(forItem: selectItem)
             if rowForItem != -1 {
-                self.outlineView.selectRowIndexes(NSIndexSet(index: rowForItem), byExtendingSelection: false)
+                self.outlineView.selectRowIndexes(IndexSet(integer: rowForItem), byExtendingSelection: false)
             }
         }
     }
     
     //MARK: OutlineView Data source
     
-    func outlineView(outlineView: NSOutlineView, numberOfChildrenOfItem item: AnyObject?) -> Int {
+    func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int {
         if item == nil {
             return variableTypes.types.count
         }
         
-        var typeEnum : PSVariableTypeEnum = .StringType
+        var typeEnum : PSVariableTypeEnum = .stringType
         
         if let variableNamedType = item as? PSVariableNamedType {
             typeEnum = variableNamedType.type.type
@@ -74,21 +74,21 @@ class PSVariableTypeOutlineViewDelegate : NSObject, NSOutlineViewDataSource, NSO
         }
         
         switch(typeEnum) {
-        case .Array:
+        case .array:
             return 1
-        case let .Record(variableRecord):
+        case let .record(variableRecord):
             return variableRecord.fields.count
         default:
             return 0
         }
     }
     
-    func outlineView(outlineView: NSOutlineView, child index: Int, ofItem item: AnyObject?) -> AnyObject {
+    func outlineView(_ outlineView: NSOutlineView, child index: Int, ofItem item: Any?) -> Any {
         if item == nil {
             return variableTypes.types[index]
         }
         
-        var typeEnum : PSVariableTypeEnum = .StringType
+        var typeEnum : PSVariableTypeEnum = .stringType
         
         if let variableNamedType = item as? PSVariableNamedType {
             typeEnum = variableNamedType.type.type
@@ -99,9 +99,9 @@ class PSVariableTypeOutlineViewDelegate : NSObject, NSOutlineViewDataSource, NSO
         }
         
         switch(typeEnum) {
-        case let .Array(variableArray):
+        case let .array(variableArray):
             return variableArray.type
-        case let .Record(variableRecord):
+        case let .record(variableRecord):
             return variableRecord.fields[index]
         default:
             fatalError("Children should only appear for arrays and records")
@@ -111,11 +111,11 @@ class PSVariableTypeOutlineViewDelegate : NSObject, NSOutlineViewDataSource, NSO
     
     }
     
-    func outlineView(outlineView: NSOutlineView, isItemExpandable item: AnyObject) -> Bool {
+    func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: Any) -> Bool {
         return (self.outlineView(outlineView, numberOfChildrenOfItem: item) > 0)
     }
     
-    func outlineView(outlineView: NSOutlineView, objectValueForTableColumn tableColumn: NSTableColumn?, byItem item: AnyObject?) -> AnyObject? {
+    func outlineView(_ outlineView: NSOutlineView, objectValueFor tableColumn: NSTableColumn?, byItem item: Any?) -> Any? {
         if tableColumn == nameColumn {
 
             if let variableNamedType = item as? PSVariableNamedType {
@@ -128,7 +128,7 @@ class PSVariableTypeOutlineViewDelegate : NSObject, NSOutlineViewDataSource, NSO
             
         } else if tableColumn == valueColumn {
         
-            var typeEnum : PSVariableTypeEnum = .StringType
+            var typeEnum : PSVariableTypeEnum = .stringType
             
             if let variableNamedType = item as? PSVariableNamedType {
                 typeEnum = variableNamedType.type.type
@@ -139,21 +139,21 @@ class PSVariableTypeOutlineViewDelegate : NSObject, NSOutlineViewDataSource, NSO
             }
             
             switch(typeEnum) {
-            case .IntegerType:
+            case .integerType:
                 return "Integer"
-            case .LongIntegerType:
+            case .longIntegerType:
                 return "Long_Integer"
-            case .FloatType:
+            case .floatType:
                 return "Float"
-            case .DoubleType:
+            case .doubleType:
                 return "Double"
-            case .StringType:
+            case .stringType:
                 return "String"
-            case let .Defined(defined):
+            case let .defined(defined):
                 return defined
-            case let .Array(variableArray):
+            case let .array(variableArray):
                 return "Array[\(variableArray.count)]"
-            case .Record:
+            case .record:
                 return "Record"
             }
             
@@ -164,12 +164,12 @@ class PSVariableTypeOutlineViewDelegate : NSObject, NSOutlineViewDataSource, NSO
     }
     
     
-    func outlineView(outlineView: NSOutlineView, shouldExpandItem item: AnyObject) -> Bool {
+    func outlineView(_ outlineView: NSOutlineView, shouldExpandItem item: Any) -> Bool {
         expandedItems.append(item)
         return true
     }
     
-    func outlineView(outlineView: NSOutlineView, shouldCollapseItem item: AnyObject) -> Bool {
+    func outlineView(_ outlineView: NSOutlineView, shouldCollapseItem item: Any) -> Bool {
         var newExpandedItems : [AnyObject] = []
         for obj in expandedItems {
             if obj !== item {
@@ -185,25 +185,25 @@ class PSVariableTypeOutlineViewDelegate : NSObject, NSOutlineViewDataSource, NSO
     
     //MARK: OutlineViewDelegate
     
-    func outlineView(outlineView: NSOutlineView, viewForTableColumn tableColumn: NSTableColumn?, item: AnyObject) -> NSView? {
+    func outlineView(_ outlineView: NSOutlineView, viewFor tableColumn: NSTableColumn?, item: Any) -> NSView? {
         if tableColumn == nameColumn {
-            let view = outlineView.makeViewWithIdentifier(tableColumn!.identifier, owner: nil) as! PSVariableTypeTextFieldCellView
+            let view = outlineView.make(withIdentifier: tableColumn!.identifier, owner: nil) as! PSVariableTypeTextFieldCellView
             if let variableNamedType = item as? PSVariableNamedType {
                 view.item = variableNamedType
-                view.textField!.editable = true
-                view.textField!.font = NSFont.boldSystemFontOfSize(12)
+                view.textField!.isEditable = true
+                view.textField!.font = NSFont.boldSystemFont(ofSize: 12)
             } else {
                 view.item = nil
-                view.textField!.editable = false
-                view.textField!.font = NSFont.systemFontOfSize(11)
+                view.textField!.isEditable = false
+                view.textField!.font = NSFont.systemFont(ofSize: 11)
             }
             
             return view
         } else if tableColumn == valueColumn {
-            let view = outlineView.makeViewWithIdentifier(tableColumn!.identifier, owner: nil) as! PSVariableTypeComboBoxTableCellView
+            let view = outlineView.make(withIdentifier: tableColumn!.identifier, owner: nil) as! PSVariableTypeComboBoxTableCellView
             view.item = item
             view.comboBox.dataSource = comboBoxDataSource
-            view.comboBox.setDelegate(comboBoxDataSource)
+            view.comboBox.delegate = comboBoxDataSource
             view.comboBox.reloadData()
             
             return view

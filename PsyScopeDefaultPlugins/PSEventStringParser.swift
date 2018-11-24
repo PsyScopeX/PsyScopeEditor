@@ -10,7 +10,7 @@ import Cocoa
 class PSEventStringParser: NSObject {
     
     //given a PSTemplateEvent, as well as the other events in the template, this will parse and set the startCondition and durationCondition based on the attributes StartRef and Duration
-    class func parseForTemplateLayoutBoardEvent(event : PSTemplateEvent, events : [PSTemplateEvent]) {
+    class func parseForTemplateLayoutBoardEvent(_ event : PSTemplateEvent, events : [PSTemplateEvent]) {
         let scriptData = event.scriptData
         
         if let startref = scriptData.getSubEntry("StartRef", entry: event.entry),
@@ -18,8 +18,8 @@ class PSEventStringParser: NSObject {
                 event.initStartCondition(sc)
         } else {
             //get index of previous event
-            if let index = events.indexOf(event) where index.predecessor() > -1 {
-                event.initStartCondition(EventStartConditionDefault(ev: events[index.predecessor()]))
+            if let index = events.index(of: event) where (index - 1) > -1 {
+                event.initStartCondition(EventStartConditionDefault(ev: events[(index - 1)]))
             } else {
                 event.initStartCondition(EventStartConditionDefault())
             }
@@ -35,7 +35,7 @@ class PSEventStringParser: NSObject {
         }
     }
     
-    class func startConditionForStartRefEntry(entry : Entry, events : [PSTemplateEvent]) -> EventStartCondition? {
+    class func startConditionForStartRefEntry(_ entry : Entry, events : [PSTemplateEvent]) -> EventStartCondition? {
         let string = entry.currentValue
         if string == "NONE" {
             if let positionTime = Int(entry.metaData) {
@@ -45,16 +45,16 @@ class PSEventStringParser: NSObject {
             }
         }
         
-        let quoted_string = string.stringByTrimmingCharactersInSet(NSCharacterSet(charactersInString: "\""))
+        let quoted_string = string.trimmingCharacters(in: CharacterSet(charactersIn: "\""))
         if string == "" {
             print("Error: empty string")
         }else if quoted_string == string {
             //TODO error
             print("Error: string not in quotes")
         } else {
-            var components = quoted_string.componentsSeparatedByCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+            var components = quoted_string.components(separatedBy: CharacterSet.whitespaces)
             if components.count == 5 {
-                let number = EventTime.FixedTime(CGFloat(NSString(string:components[0]).floatValue))
+                let number = EventTime.fixedTime(CGFloat(NSString(string:components[0]).floatValue))
                 switch components[4] {
                     case "START":
                         let event_start = EventStartConditionTrialStart()
@@ -101,7 +101,7 @@ class PSEventStringParser: NSObject {
         return nil
     }
     
-    class func durationConditionForEntry(entry : Entry, scriptData : PSScriptData) -> EventDurationCondition? {
+    class func durationConditionForEntry(_ entry : Entry, scriptData : PSScriptData) -> EventDurationCondition? {
         let string = entry.currentValue
         if string == "Self_Terminate" {
             return EventDurationConditionSelfTerminate()

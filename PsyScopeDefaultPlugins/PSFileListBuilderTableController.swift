@@ -23,7 +23,7 @@ class PSFileListBuilderTableController : NSObject, NSTableViewDataSource, NSTabl
     
 
     
-    func refresh(latestPreviewData : [[String]], columnNames : [String], weightsColumn : Bool) {
+    func refresh(_ latestPreviewData : [[String]], columnNames : [String], weightsColumn : Bool) {
         self.weightsColumn = weightsColumn
         
         while(previewTableView.tableColumns.count > 0) {
@@ -40,20 +40,20 @@ class PSFileListBuilderTableController : NSObject, NSTableViewDataSource, NSTabl
         previewTableView.reloadData()
     }
     
-    func addNewColumn(name : String) {
+    func addNewColumn(_ name : String) {
         let identifier = "\(previewTableView.tableColumns.count + 1)"
         let new_column = NSTableColumn(identifier: identifier)
         let new_header = PSFieldHeaderCell()
-        new_header.editable = true
+        new_header.isEditable = true
         new_header.usesSingleLineMode = true
-        new_header.scrollable = false
-        new_header.lineBreakMode = NSLineBreakMode.ByTruncatingTail
+        new_header.isScrollable = false
+        new_header.lineBreakMode = NSLineBreakMode.byTruncatingTail
         new_column.headerCell = new_header
         
         //make weights bold so they seem editable
         if weightsColumn && identifier == "1" {
             let cell = new_column.dataCell as! NSCell
-            cell.font = NSFont.boldSystemFontOfSize(12)
+            cell.font = NSFont.boldSystemFont(ofSize: 12)
         }
         
         
@@ -65,11 +65,11 @@ class PSFileListBuilderTableController : NSObject, NSTableViewDataSource, NSTabl
     }
     
     //MARK: Preview Tableview
-    func numberOfRowsInTableView(tableView: NSTableView) -> Int {
+    func numberOfRows(in tableView: NSTableView) -> Int {
         return previewData.count
     }
     
-    func tableView(tableView: NSTableView, objectValueForTableColumn tableColumn: NSTableColumn?, row: Int) -> AnyObject? {
+    func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
         let index = Int(tableColumn!.identifier)! - 1
         
         if row < previewData.count {
@@ -81,7 +81,7 @@ class PSFileListBuilderTableController : NSObject, NSTableViewDataSource, NSTabl
         return "NULL"
     }
     
-    func tableView(tableView: NSTableView, shouldEditTableColumn tableColumn: NSTableColumn?, row: Int) -> Bool {
+    func tableView(_ tableView: NSTableView, shouldEdit tableColumn: NSTableColumn?, row: Int) -> Bool {
         if weightsColumn && tableColumn?.identifier == "1" {
             return true
         } else {
@@ -89,7 +89,7 @@ class PSFileListBuilderTableController : NSObject, NSTableViewDataSource, NSTabl
         }
     }
     
-    func tableView(tableView: NSTableView, setObjectValue object: AnyObject?, forTableColumn tableColumn: NSTableColumn?, row: Int) {
+    func tableView(_ tableView: NSTableView, setObjectValue object: Any?, for tableColumn: NSTableColumn?, row: Int) {
         controller.setWeightsValue(object as! String, row: row)
     }
     
@@ -97,14 +97,14 @@ class PSFileListBuilderTableController : NSObject, NSTableViewDataSource, NSTabl
         let validRow = previewTableView.clickedRow < previewData.count && previewTableView.clickedRow > -1
         
         if validRow && weightsColumn && previewTableView.clickedColumn == 0 {
-            previewTableView.editColumn(previewTableView.clickedColumn, row: previewTableView.clickedRow, withEvent: nil, select: true)
+            previewTableView.editColumn(previewTableView.clickedColumn, row: previewTableView.clickedRow, with: nil, select: true)
         }
 
     }
     
     //MARK: Header editing
     
-    func doubleClickInTableView(sender : AnyObject) {
+    func doubleClickInTableView(_ sender : AnyObject) {
         let row = previewTableView.clickedRow
         let col = previewTableView.clickedColumn
         
@@ -114,10 +114,10 @@ class PSFileListBuilderTableController : NSObject, NSTableViewDataSource, NSTabl
             let tc = previewTableView.tableColumns[col] as NSTableColumn
             let hv = previewTableView.headerView!;
             let hc = tc.headerCell as! PSFieldHeaderCell
-            let editor = previewTableView.window!.fieldEditor(true, forObject: previewTableView)
-            hc.highlighted = true
-            hc.selectWithFrame(hv.headerRectOfColumn(col), inView: hv, editor: editor!, delegate: self, start: 0, length: hc.stringValue.characters.count)
-            editor?.backgroundColor = NSColor.whiteColor()
+            let editor = previewTableView.window!.fieldEditor(true, for: previewTableView)
+            hc.isHighlighted = true
+            hc.select(withFrame: hv.headerRect(ofColumn: col), in: hv, editor: editor!, delegate: self, start: 0, length: hc.stringValue.characters.count)
+            editor?.backgroundColor = NSColor.white
             editor?.drawsBackground = true
             editingHeader = col
         }
@@ -128,13 +128,13 @@ class PSFileListBuilderTableController : NSObject, NSTableViewDataSource, NSTabl
         if let eh = editingHeader {
             let tc = previewTableView.tableColumns[eh] as NSTableColumn
             let hc = tc.headerCell as! PSFieldHeaderCell
-            hc.highlighted = false
-            let editor = previewTableView.window!.fieldEditor(true, forObject: previewTableView)
+            hc.isHighlighted = false
+            let editor = previewTableView.window!.fieldEditor(true, for: previewTableView)
             hc.endEditing(editor!)
         }
     }
     
-    func textDidEndEditing(notification: NSNotification) {
+    func textDidEndEditing(_ notification: Notification) {
         let editor = notification.object as! NSTextView
         let name = editor.string!
         
@@ -146,7 +146,7 @@ class PSFileListBuilderTableController : NSObject, NSTableViewDataSource, NSTabl
             let hc = tc.headerCell as! PSFieldHeaderCell
             hc.title = name
             
-            hc.highlighted = false
+            hc.isHighlighted = false
             hc.endEditing(editor)
             editingHeader = nil
         }

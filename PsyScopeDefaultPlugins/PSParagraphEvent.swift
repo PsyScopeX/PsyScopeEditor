@@ -15,7 +15,7 @@ class PSParagraphEvent : PSEventTool {
         toolType = PSType.Paragraph
         helpfulDescriptionString = "displays a paragraph of text in a port.  You can change the colour, font, size and position of the text"
         iconName = "ParagraphIcon" 
-        iconColor = NSColor.redColor()
+        iconColor = NSColor.red
         classNameString = "PSParagraphEvent"
         properties = [Properties.StartRef, Properties.Duration, Properties.EventType]
     }
@@ -26,7 +26,7 @@ class PSParagraphEvent : PSEventTool {
         static let EventType = PSProperty(name: "EventType", defaultValue: "Paragraph", essential: true)
     }
     
-    override func createObject(scriptData: PSScriptData) -> Entry? {
+    override func createObject(_ scriptData: PSScriptData) -> Entry? {
         guard let mainEntry = super.createObject(scriptData) else { return nil }
         if scriptData.getSubEntry("Stimulus", entry: mainEntry) == nil {
             let entry = scriptData.getOrCreateSubEntry("Stimulus", entry: mainEntry, isProperty: false, type: PSAttributeType(name: "Stimulus", parentType: toolType))

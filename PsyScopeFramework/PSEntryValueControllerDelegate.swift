@@ -10,6 +10,6 @@ import Foundation
 
 @objc public protocol PSEntryValueControllerDelegate {
     //optional func control(controlShouldBeginEditing: PSEntryValueControl) -> Bool
-    func control(controlShouldEndEditing: PSEntryValueController) -> Bool
+    func control(_ controlShouldEndEditing: PSEntryValueController) -> Bool
     func getScriptData() -> PSScriptData
 }

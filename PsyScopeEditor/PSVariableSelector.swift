@@ -29,22 +29,22 @@ class PSVariableSelector : NSObject {
     func update() {  // Triggered by PSSelectionController
         
         for variableName in variableNames {
-            popupButton.removeItemWithTitle(variableName)
+            popupButton.removeItem(withTitle: variableName)
         }
         
         variableNames = mainWindowController.scriptData.getBaseEntriesOfType(PSType.Variable).map({ $0.name })
         
         if variableNames.count > 0 {
-            popupButton.enabled = true
-            popupButton.addItemsWithTitles(variableNames)
+            popupButton.isEnabled = true
+            popupButton.addItems(withTitles: variableNames)
         } else {
-            popupButton.enabled = false
+            popupButton.isEnabled = false
         }
     }
     
     //MARK: Actions
     
-    @IBAction func itemSelected(button : NSPopUpButton) {
+    @IBAction func itemSelected(_ button : NSPopUpButton) {
         mainWindowController.selectionController.selectObjectForEntryNamed(popupButton.selectedItem!.title)
     }
 }

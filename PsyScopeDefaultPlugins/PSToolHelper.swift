@@ -12,7 +12,7 @@ import Cocoa
 
 class PSToolHelper: NSObject {
     
-    class func createLinkFromToolToList(parent: Entry!, to list: Entry!, withScript scriptData: PSScriptData!) -> Bool {
+    class func createLinkFromToolToList(_ parent: Entry!, to list: Entry!, withScript scriptData: PSScriptData!) -> Bool {
         let allowableParentTypes = ["Experiment","Group","Block","Template"]
     
         if !allowableParentTypes.contains(parent.type) || list.type != "List" {
@@ -40,7 +40,7 @@ class PSToolHelper: NSObject {
     }
     
     //this will populate the 'type' of ghost entries if their name matches a given list
-    class func identifyEntriesByName(ghostScript: PSGhostScript!, names: [String], type : PSType) -> [PSScriptError] {
+    class func identifyEntriesByName(_ ghostScript: PSGhostScript!, names: [String], type : PSType) -> [PSScriptError] {
         var errors : [PSScriptError] = []
         for ge in ghostScript.entries {
             if names.contains(ge.name) {
@@ -55,7 +55,7 @@ class PSToolHelper: NSObject {
     }
     
     //this will populate the 'type' of ghost entries indentified by OWN keyAttribute as type
-    class func identifyEntriesByKeyAttribute(ghostScript: PSGhostScript!, keyAttribute: String, type : PSType) -> [PSScriptError] {
+    class func identifyEntriesByKeyAttribute(_ ghostScript: PSGhostScript!, keyAttribute: String, type : PSType) -> [PSScriptError] {
         var errors : [PSScriptError] = []
         
         for ge in ghostScript.entries as [PSGhostEntry] {
@@ -73,7 +73,7 @@ class PSToolHelper: NSObject {
         return errors
     }
     //this will populate the 'type' of ghost entries identified in OTHER entries keyAttribute, to type - throwing errors if already defined...
-    class func identifyEntriesByPropertyInOtherEntry(ghostScript: PSGhostScript!, property: PSProperty, type : PSType) -> [PSScriptError] {
+    class func identifyEntriesByPropertyInOtherEntry(_ ghostScript: PSGhostScript!, property: PSProperty, type : PSType) -> [PSScriptError] {
         var errors : [PSScriptError] = []
         
             
@@ -91,7 +91,7 @@ class PSToolHelper: NSObject {
                         for entry_name in entry_names {
                             
                             switch(entry_name) {
-                            case .StringToken(let stringElement):
+                            case .stringToken(let stringElement):
                                 var found_entry_name = false
                                 for ge2 in ghostScript.entries as [PSGhostEntry] {
                                     if ge2.name == stringElement.value {
@@ -132,11 +132,11 @@ class PSToolHelper: NSObject {
     
     
     
-    class func ImageNamed(image_name : String) -> NSImage {
-        return NSImage(contentsOfFile: NSBundle(forClass:self).pathForImageResource(image_name)!)!
+    class func ImageNamed(_ image_name : String) -> NSImage {
+        return NSImage(contentsOfFile: Bundle(for:self).pathForImageResource(image_name)!)!
     }
     
-    class func attributedStringForAttributeFunction(functionName : String, icon : NSImage, currentValue : String) -> [AnyObject] {
+    class func attributedStringForAttributeFunction(_ functionName : String, icon : NSImage, currentValue : String) -> [AnyObject] {
         let function = PSFunctionElement()
         function.stringValue = currentValue
         
@@ -148,11 +148,11 @@ class PSToolHelper: NSObject {
             
             let size = PSDefaultConstants.Spacing.VaryByIconSize
             //resize image
-            let img = NSImage(size: CGSizeMake(size, size))
+            let img = NSImage(size: CGSize(width: size, height: size))
             img.lockFocus()
-            let ctx = NSGraphicsContext.currentContext()
-            ctx?.imageInterpolation = .High
-            icon.drawInRect(NSMakeRect(0, 0, size, size), fromRect: NSMakeRect(0, 0, icon.size.width, icon.size.height), operation: .CompositeCopy, fraction: 1)
+            let ctx = NSGraphicsContext.current()
+            ctx?.imageInterpolation = .high
+            icon.draw(in: NSMakeRect(0, 0, size, size), from: NSMakeRect(0, 0, icon.size.width, icon.size.height), operation: .copy, fraction: 1)
             img.unlockFocus()
             
             
@@ -165,14 +165,14 @@ class PSToolHelper: NSObject {
             
             //create string part
             let values = function.getStrippedStringValues()
-            let valueString = values.joinWithSeparator(" \u{21d2} ")
+            let valueString = values.joined(separator: " \u{21d2} ")
             
             let stringPart = NSAttributedString(string: "  " + valueString, attributes: [NSBaselineOffsetAttributeName : PSDefaultConstants.Spacing.VaryByTextYOffset])
             
             //put together attributed string
             let attributedString = NSMutableAttributedString()
-            attributedString.appendAttributedString(iconString)
-            attributedString.appendAttributedString(stringPart)
+            attributedString.append(iconString)
+            attributedString.append(stringPart)
             
             //now put together array
             let returnArray : [AnyObject] = [attributedString, nameOfEntry!]

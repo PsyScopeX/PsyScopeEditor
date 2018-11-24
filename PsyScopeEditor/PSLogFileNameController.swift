@@ -16,24 +16,24 @@ class PSLogFileNameController : NSObject {
         logFileTextField.stringValue = PSGetLogFileName(scriptData)
     }
     
-    override func controlTextDidBeginEditing(obj: NSNotification) {
+    override func controlTextDidBeginEditing(_ obj: Notification) {
         scriptData.beginUndoGrouping("Edit Log File Name")
     }
     
-    override func controlTextDidChange(obj: NSNotification) {
+    override func controlTextDidChange(_ obj: Notification) {
         let logfile = scriptData.getOrCreateBaseEntry("Log File", type: PSType.Logging)
         
         logfile.currentValue = "\"\(logFileTextField.stringValue)\""
     }
     
-    override func controlTextDidEndEditing(obj: NSNotification) {
+    override func controlTextDidEndEditing(_ obj: Notification) {
         scriptData.endUndoGrouping()
     }
 }
 
-func PSGetLogFileName(scriptData : PSScriptData) -> String {
+func PSGetLogFileName(_ scriptData : PSScriptData) -> String {
     if let logFile = scriptData.getBaseEntry("Log File") {
-        return logFile.currentValue.stringByTrimmingCharactersInSet(NSCharacterSet(charactersInString: "\" "))
+        return logFile.currentValue.trimmingCharacters(in: CharacterSet(charactersIn: "\" "))
     } else {
         return "PsyScope.psylog"
     }

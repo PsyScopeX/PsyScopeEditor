@@ -9,23 +9,23 @@
 
 import Cocoa
 
-public class PSIntAttributePopup: PSAttributePopup {
+open class PSIntAttributePopup: PSAttributePopup {
     
     public init(currentValue: PSEntryElement, displayName : String, setCurrentValueBlock : ((PSEntryElement) -> ())?) {
-        super.init(nibName: "IntAttribute",bundle: NSBundle(forClass:self.dynamicType),currentValue: currentValue, displayName: displayName, setCurrentValueBlock: setCurrentValueBlock)
+        super.init(nibName: "IntAttribute",bundle: Bundle(for:self.dynamicType),currentValue: currentValue, displayName: displayName, setCurrentValueBlock: setCurrentValueBlock)
     }
 
     @IBOutlet var label : NSTextField!
     @IBOutlet var field : NSTextField!
     @IBOutlet var view : NSView!
     
-    override public  func awakeFromNib() {
+    override open  func awakeFromNib() {
         label.stringValue = "Please enter the integer value for the attribute named: " + displayName
         field.stringValue = currentValue.stringValue()
     }
     
     @IBAction func enteredDone(_: AnyObject) {
-        currentValue = PSGetFirstEntryElementForStringOrNull(field.stringValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()))
+        currentValue = PSGetFirstEntryElementForStringOrNull(field.stringValue.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines))
         closeMyCustomSheet(self)
     }
 }

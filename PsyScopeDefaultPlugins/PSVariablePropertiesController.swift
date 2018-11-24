@@ -16,7 +16,7 @@ class PSVariablePropertiesController : PSToolPropertyController {
     }
     
     init(entry : Entry, scriptData : PSScriptData) {
-        let bundle = NSBundle(forClass:self.dynamicType)
+        let bundle = Bundle(for:self.dynamicType)
         super.init(nibName: "VariableView", bundle: bundle, entry: entry, scriptData: scriptData)
         self.entry = entry
     }
@@ -46,18 +46,18 @@ class PSVariablePropertiesController : PSToolPropertyController {
     func updateUI() {
         //Update variable types
         typePopup.removeAllItems()
-        typePopup.addItemsWithTitles(GetVariableTypeNames(scriptData))
+        typePopup.addItems(withTitles: GetVariableTypeNames(scriptData))
         
         //Parse entry type
         var type = "Integer"
         if let typeEntry = scriptData.getSubEntry("Type", entry: entry) {
             type = typeEntry.currentValue
         }
-        typePopup.selectItemWithTitle(type)
+        typePopup.selectItem(withTitle: type)
         
         //Update composite type action button
         let enableCompositeTypeButton = (type == "Array" || type == "Record")
-        compositeTypeActionButton.enabled = enableCompositeTypeButton
+        compositeTypeActionButton.isEnabled = enableCompositeTypeButton
 
         
         //Parse update check
@@ -77,7 +77,7 @@ class PSVariablePropertiesController : PSToolPropertyController {
         //check if variable is allowed in datafile
         if PSVariableTypesAllowedInDataFile.contains(type) {
             //Parse datafile check
-            dataFileCheck.enabled = true
+            dataFileCheck.isEnabled = true
             dataFileCheck.state = 0
             let experimentEntry = scriptData.getMainExperimentEntry()
             if let dataVariables = scriptData.getSubEntry("DataVariables", entry: experimentEntry) {
@@ -87,7 +87,7 @@ class PSVariablePropertiesController : PSToolPropertyController {
                 }
             }
         } else {
-            dataFileCheck.enabled = false
+            dataFileCheck.isEnabled = false
             dataFileCheck.state = 0
         }
         
@@ -106,7 +106,7 @@ class PSVariablePropertiesController : PSToolPropertyController {
     }
     
     
-    @IBAction func updateEntry(sender : AnyObject) {
+    @IBAction func updateEntry(_ sender : AnyObject) {
         scriptData.beginUndoGrouping("Update Variable")
         
         let typeEntry = scriptData.getOrCreateSubEntry("Type", entry: entry, isProperty: true)
@@ -116,7 +116,7 @@ class PSVariablePropertiesController : PSToolPropertyController {
             //type was changed - remove from datafile if not allowed
             if !PSVariableTypesAllowedInDataFile.contains(typeName) {
                 dataFileCheck.state = 0
-                dataFileCheck.enabled = false
+                dataFileCheck.isEnabled = false
             }
             
             typeEntry.currentValue = typeName

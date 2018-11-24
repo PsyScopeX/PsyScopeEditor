@@ -13,7 +13,7 @@ public extension NSPoint {
         return "\(self)"
     }
     
-    public static func fromScalar(scalar : Int) -> NSPoint {
+    public static func fromScalar(_ scalar : Int) -> NSPoint {
         return NSPoint(x: scalar, y: scalar)
     }
 }

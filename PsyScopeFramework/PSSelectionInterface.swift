@@ -11,16 +11,16 @@ import Foundation
 public protocol PSSelectionInterface {
     
     //main way to notify of selected entry
-    func selectEntry(entry: Entry?)
+    func selectEntry(_ entry: Entry?)
     
     //for double click action
-    func doubleClickEntry(entry: Entry)
+    func doubleClickEntry(_ entry: Entry)
     
     //main way to delete an object and alert everyone of that fact
-    func deleteObject(layoutObject: LayoutObject)
+    func deleteObject(_ layoutObject: LayoutObject)
     
     //main way to delete an object and suggest an alternative selection
-    func deleteObject(layoutObject: LayoutObject, andSelect newSelection: Entry?)
+    func deleteObject(_ layoutObject: LayoutObject, andSelect newSelection: Entry?)
     
     //returns the currently selected entry
     func getSelectedEntry() -> Entry?

@@ -18,17 +18,17 @@ class PSActionsBuilder : PSWindowView {
         toolbarItemIdentifier = "ActionsBuilder"
     }
     
-    override func setup(scriptData: PSScriptData, selectionInterface: PSSelectionInterface) {
+    override func setup(_ scriptData: PSScriptData, selectionInterface: PSSelectionInterface) {
         super.setup(scriptData, selectionInterface: selectionInterface)
-        NSBundle(forClass:self.dynamicType).loadNibNamed("ActionsBuilder", owner: self, topLevelObjects: &topLevelObjects)
+        Bundle(for:self.dynamicType).loadNibNamed("ActionsBuilder", owner: self, topLevelObjects: &topLevelObjects)
         layoutController.selectionInterface = selectionInterface
     }
     
-    override func docMocChanged(notification : NSNotification) {
+    override func docMocChanged(_ notification : Notification) {
         layoutController.docMocChanged(notification)
     }
     
-    override func entryDeleted(entry: Entry) {
+    override func entryDeleted(_ entry: Entry) {
         layoutController.entryDeleted(entry)
     }
     
@@ -53,17 +53,17 @@ class PSWindowView: NSObject, PSWindowViewInterface {
     
     var topLevelObjects : NSArray?
     
-    func setup(scriptData: PSScriptData, selectionInterface: PSSelectionInterface) {
+    func setup(_ scriptData: PSScriptData, selectionInterface: PSSelectionInterface) {
         self.scriptData = scriptData
         //load nib and gain access to views
     }
     
-    func docMocChanged(notification : NSNotification) {
+    func docMocChanged(_ notification : Notification) {
         
     }
     
     func icon() -> NSImage {
-        return NSImage(contentsOfFile: NSBundle(forClass:self.dynamicType).pathForImageResource("hand225")!)! as NSImage
+        return NSImage(contentsOfFile: Bundle(for:self.dynamicType).pathForImageResource("hand225")!)! as NSImage
     }
     
     func identifier() -> String {
@@ -85,7 +85,7 @@ class PSWindowView: NSObject, PSWindowViewInterface {
         fatalError("Not supposed to use this super class")
     }
     
-    func entryDeleted(entry: Entry) {
+    func entryDeleted(_ entry: Entry) {
         
     }
     

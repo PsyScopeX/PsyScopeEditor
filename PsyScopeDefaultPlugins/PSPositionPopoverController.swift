@@ -36,27 +36,27 @@ class PSPositionPopoverController : NSObject {
         positionPopover.close()
     }
     
-    func show(view : NSView) {
+    func show(_ view : NSView) {
         self.view = view
-        positionPopover.showRelativeToRect(view.bounds, ofView: view, preferredEdge: NSRectEdge.MinY)
+        positionPopover.show(relativeTo: view.bounds, of: view, preferredEdge: NSRectEdge.minY)
     }
     
     var shown : Bool {
-        return positionPopover.shown
+        return positionPopover.isShown
     }
     
-    func updatePopoverControls(position : PSPosition) {
+    func updatePopoverControls(_ position : PSPosition) {
         positionNameText.stringValue = position.name as String
         
         switch (position.x) {
-        case let .Percentage(perc):
+        case let .percentage(perc):
             posxText.stringValue = "\(perc)"
-            posxPopup.selectItemWithTitle("Percent")
+            posxPopup.selectItem(withTitle: "Percent")
             posxInc.integerValue = perc
             break
         case let .Pixels(pix):
             posxText.stringValue = "\(pix)"
-            posxPopup.selectItemWithTitle("Pixels")
+            posxPopup.selectItem(withTitle: "Pixels")
             posxInc.integerValue = pix
             break
         default:
@@ -64,14 +64,14 @@ class PSPositionPopoverController : NSObject {
         }
         
         switch (position.y) {
-        case let .Percentage(perc):
+        case let .percentage(perc):
             posyText.stringValue = "\(perc)"
-            posyPopup.selectItemWithTitle("Percent")
+            posyPopup.selectItem(withTitle: "Percent")
             posyInc.integerValue = perc
             break
         case let .Pixels(pix):
             posyText.stringValue = "\(pix)"
-            posyPopup.selectItemWithTitle("Pixels")
+            posyPopup.selectItem(withTitle: "Pixels")
             posyInc.integerValue = pix
             break
         default:
@@ -79,7 +79,7 @@ class PSPositionPopoverController : NSObject {
         }
     }
     
-    @IBAction func measurePopOver(button : NSPopUpButton) {
+    @IBAction func measurePopOver(_ button : NSPopUpButton) {
         switch (button) {
         case self.posxPopup:
             let new_x = PSPortMeasurement.measurementForItemTitle(posxPopup,textField: posxText)
@@ -92,7 +92,7 @@ class PSPositionPopoverController : NSObject {
         }
     }
     
-    @IBAction func stepperDidChange(stepper : NSStepper) {
+    @IBAction func stepperDidChange(_ stepper : NSStepper) {
         switch (stepper) {
         case posyInc :
             selectedPosition.y = selectedPosition.y.sameWithNewValue(posyInc.integerValue)
@@ -106,7 +106,7 @@ class PSPositionPopoverController : NSObject {
         }
     }
     
-    func control(control: NSControl, textShouldEndEditing fieldEditor: NSText) -> Bool {
+    func control(_ control: NSControl, textShouldEndEditing fieldEditor: NSText) -> Bool {
         switch (control) {
         case posyText :
             selectedPosition.y = selectedPosition.y.sameWithNewValue(Int(posyText.stringValue)!)

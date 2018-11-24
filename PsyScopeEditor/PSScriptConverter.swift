@@ -30,7 +30,7 @@ class PSScriptConverter: NSObject {
     
     
     //the script is parsed into a 'ghost script' which just contains the values and names of all the entries and attributes etc.  This function builds the real thing from the ghost - trying its best to use objects which already exist
-    func buildFromGhostScript(newGhostScript : PSGhostScript) -> Bool {
+    func buildFromGhostScript(_ newGhostScript : PSGhostScript) -> Bool {
         if (ghostScript.errors) {
             //println("Errors detected in script - no building")
             return false
@@ -84,17 +84,17 @@ class PSScriptConverter: NSObject {
         for ge in ghostScript.entries {
             if ge.name == "BuilderData" {
                 entriesToRemove.append(ge) //builder data is no longer needed in this version
-            } else if ge.name == "Experiment" && ge.currentValue.rangeOfString("@StandardPsyScopeMenuItems") != nil {
+            } else if ge.name == "Experiment" && ge.currentValue.range(of: "@StandardPsyScopeMenuItems") != nil {
                 entriesToRemove.append(ge) //old scripts include this entry which is no longer needed... (perhaps should be documented)
                 errorHandler.newWarning(PSScriptError(errorDescription: "PsyScopeX Import Warning", detailedDescription: "An entry named 'Experiment' with the value @StandardPsyScopeMenuItems was detected - this is normally from importing an old PsyScopeX script.", solution: "This entry has been deleted, but be aware that you may need to add it again, if you wanted to use the old PsyScopeX GUI with the script."))
             
                 for ge2 in ghostScript.entries {
                     if ge2.name == "Menus" {
                         //remove a reference to Experiment in menu
-                        if let rangeOfExperiment = ge2.currentValue.rangeOfString("Experiment") {
-                            ge2.currentValue.removeRange(rangeOfExperiment)
+                        if let rangeOfExperiment = ge2.currentValue.range(of: "Experiment") {
+                            ge2.currentValue.removeSubrange(rangeOfExperiment)
                         }
-                        if ge2.currentValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()) == "" {
+                        if ge2.currentValue.trimmingCharacters(in: CharacterSet.whitespaces) == "" {
                             entriesToRemove.append(ge2)
                         }
                     }
@@ -117,7 +117,7 @@ class PSScriptConverter: NSObject {
     }
     
     //returns true if no duplicate
-    func checkForDuplicates(ghostEntriesArray : [PSGhostEntry]) -> Bool {
+    func checkForDuplicates(_ ghostEntriesArray : [PSGhostEntry]) -> Bool {
         var noduplicates = true
         let endIndex = ghostEntriesArray.count - 1
         if endIndex == -1 { return true }
@@ -181,7 +181,7 @@ class PSScriptConverter: NSObject {
         return errors.count == 0
     }
     
-    func addPluginErrors(errorArray : [PSScriptError]) {
+    func addPluginErrors(_ errorArray : [PSScriptError]) {
         errorArray.forEach({errorHandler.newError($0)})
         errorHandler.presentErrors()
     }
@@ -220,7 +220,7 @@ class PSScriptConverter: NSObject {
                         if let plugin = PSPluginSingleton.sharedInstance.getPlugin(ge.type) {
                             plugin.updateEntry(real_entry, withGhostEntry: ge, scriptData: scriptData)
                         } else if let attribute = PSPluginSingleton.sharedInstance.attributeObjects[ge.type] {
-                            attribute.updateEntry(real_entry, withGhostEntry: ge, scriptData: scriptData)
+                            attribute.update(real_entry, with: ge, scriptData: scriptData)
                         } else {
                             //error?
                         }
@@ -262,7 +262,7 @@ class PSScriptConverter: NSObject {
             }
             
             if new_entries.count > 0 {
-                let new_lobjects = attribute.createBaseEntriesWithGhostEntries(new_entries, withScript: scriptData)
+                let new_lobjects = attribute.createBaseEntries(withGhostEntries: new_entries, withScript: scriptData)
                 
                 //if nil, then the creation failed
                 if (new_lobjects == nil) {
@@ -340,14 +340,14 @@ class PSScriptConverter: NSObject {
         
         if namesOfEntriesThatWereNotIdentifiedButRetainType.count > 0 {
         
-            let warningText = "Warning: The following entry(s) were not correctly identified in the script, but have retained their former identity:\n\n \(namesOfEntriesThatWereNotIdentifiedButRetainType.joinWithSeparator(" ") ) \n\n\nThis normally arises if you have an object such as a Template, which is not referenced in any 'Templates:' sub entry.  This warning can be safely ignored, unless you recently deleted an entry of one type and created a new entry with the same name.   To avoid this warning, link the entry to it's parent."
+            let warningText = "Warning: The following entry(s) were not correctly identified in the script, but have retained their former identity:\n\n \(namesOfEntriesThatWereNotIdentifiedButRetainType.joined(separator: " ") ) \n\n\nThis normally arises if you have an object such as a Template, which is not referenced in any 'Templates:' sub entry.  This warning can be safely ignored, unless you recently deleted an entry of one type and created a new entry with the same name.   To avoid this warning, link the entry to it's parent."
         
             PSModalAlert(warningText)
         }
         return true
     }
     
-    func positionNewLayoutObjects(new_lobjects : [LayoutObject], all_lobjects : [LayoutObject]) {
+    func positionNewLayoutObjects(_ new_lobjects : [LayoutObject], all_lobjects : [LayoutObject]) {
         
         let scriptData = mainWindowController.scriptData
         
@@ -358,7 +358,7 @@ class PSScriptConverter: NSObject {
         }
         
         //sort by number of children
-        let lobjects = new_lobjects.sort({ (s1: LayoutObject, s2: LayoutObject) -> Bool in
+        let lobjects = new_lobjects.sorted(by: { (s1: LayoutObject, s2: LayoutObject) -> Bool in
             return s1.childLink.count > s2.childLink.count })
         
         for new_lobject in lobjects {
@@ -390,7 +390,7 @@ class PSScriptConverter: NSObject {
     
     
     
-    func findFreeSpot(lobject : LayoutObject, all_lobjects : [LayoutObject]) {
+    func findFreeSpot(_ lobject : LayoutObject, all_lobjects : [LayoutObject]) {
         //todo check screen coordinate
         //for now, pile at 50,50 going up
         let x : Float = 50
@@ -407,8 +407,8 @@ class PSScriptConverter: NSObject {
                 }
             }
         } while (tooClose)
-        lobject.xPos = NSNumber(float: x)
-        lobject.yPos = NSNumber(float: y)
+        lobject.xPos = NSNumber(value: x as Float)
+        lobject.yPos = NSNumber(value: y as Float)
     }
     
 }

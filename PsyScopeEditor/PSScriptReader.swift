@@ -9,7 +9,7 @@
 import Foundation
 
 //parses script on construction
-public class PSScriptReader {
+open class PSScriptReader {
     
     
     let debugMode : Bool = false
@@ -34,29 +34,29 @@ public class PSScriptReader {
     
     
     //constsnts
-    private let justCheck = true
-    private let fullScan = false
+    fileprivate let justCheck = true
+    fileprivate let fullScan = false
     
-    private let hashtag = NSCharacterSet(charactersInString: "#")
-    private let newline = NSCharacterSet(charactersInString: "\n\r")
-    private let allCharactersButNewline = NSCharacterSet(charactersInString: "\n\r").invertedSet
-    private let allCharactersButColonHashtag = NSCharacterSet(charactersInString: ":#").invertedSet
-    private let allCharactersButColonHashtagNewline = NSCharacterSet(charactersInString: ":#\n\r").invertedSet
-    private let allCharactersButColonHashtagNewlineGt = NSCharacterSet(charactersInString: ":>#\n\r").invertedSet
-    private let allCharactersButHashtagNewline = NSCharacterSet(charactersInString: "#\n\r").invertedSet
-    private let entryDefiningCharacters = NSCharacterSet(charactersInString: ":>")
-    private let gt = NSCharacterSet(charactersInString: ">")
-    private let colon = NSCharacterSet(charactersInString: ":")
-    private let quote = NSCharacterSet(charactersInString: "\"")
-    private let space = NSCharacterSet.whitespaceCharacterSet()
-    private let whiteSpace = NSCharacterSet.whitespaceAndNewlineCharacterSet()
-    private let openBracket = NSCharacterSet(charactersInString: "[")
-    private let closeBracket = NSCharacterSet(charactersInString: "[")
+    fileprivate let hashtag = CharacterSet(charactersIn: "#")
+    fileprivate let newline = CharacterSet(charactersIn: "\n\r")
+    fileprivate let allCharactersButNewline = CharacterSet(charactersIn: "\n\r").inverted
+    fileprivate let allCharactersButColonHashtag = CharacterSet(charactersIn: ":#").inverted
+    fileprivate let allCharactersButColonHashtagNewline = CharacterSet(charactersIn: ":#\n\r").inverted
+    fileprivate let allCharactersButColonHashtagNewlineGt = CharacterSet(charactersIn: ":>#\n\r").inverted
+    fileprivate let allCharactersButHashtagNewline = CharacterSet(charactersIn: "#\n\r").inverted
+    fileprivate let entryDefiningCharacters = CharacterSet(charactersIn: ":>")
+    fileprivate let gt = CharacterSet(charactersIn: ">")
+    fileprivate let colon = CharacterSet(charactersIn: ":")
+    fileprivate let quote = CharacterSet(charactersIn: "\"")
+    fileprivate let space = CharacterSet.whitespaces
+    fileprivate let whiteSpace = CharacterSet.whitespacesAndNewlines
+    fileprivate let openBracket = CharacterSet(charactersIn: "[")
+    fileprivate let closeBracket = CharacterSet(charactersIn: "[")
     
-    lazy var entryNameCharacterSet : NSCharacterSet = {
-        () -> NSCharacterSet in
-        var allowed_characters = NSMutableCharacterSet(charactersInString: " _\"")
-        allowed_characters.formUnionWithCharacterSet(NSCharacterSet.alphanumericCharacterSet())
+    lazy var entryNameCharacterSet : CharacterSet = {
+        () -> CharacterSet in
+        var allowed_characters = NSMutableCharacterSet(charactersIn: " _\"")
+        allowed_characters.formUnion(with: CharacterSet.alphanumerics)
         return allowed_characters
         }()
     
@@ -68,9 +68,9 @@ public class PSScriptReader {
     func readScript() {
         
         let fixedString = "\(script)\n"
-        let scanner = NSScanner(string: fixedString)
+        let scanner = Scanner(string: fixedString)
         attributedString = NSMutableAttributedString(string: fixedString)
-        scanner.charactersToBeSkipped = NSCharacterSet(charactersInString: "")
+        scanner.charactersToBeSkipped = CharacterSet(charactersIn: "")
         
         //new ghost script
         ghostScript = PSGhostScript()
@@ -78,7 +78,7 @@ public class PSScriptReader {
         previousGhostEntry = PSGhostEntry()
         
         //parse string (which populates entries and attributesForEntry
-        while(!scanner.atEnd) {
+        while(!scanner.isAtEnd) {
             var success = false
             success = success || scanNextComment(scanner, justACheck: fullScan, addToEntry: false)
             success = success || scanNextEntry(scanner, justACheck: fullScan)
@@ -100,7 +100,7 @@ public class PSScriptReader {
         if (debugMode) { dumpGhostScript() }
     }
     
-    func formatRange(start : Int, end : Int, color : NSColor){
+    func formatRange(_ start : Int, end : Int, color : NSColor){
         let range : NSRange = NSMakeRange(start, end - start)
         attributedString.addAttribute(NSForegroundColorAttributeName, value: color, range: range)
     }
@@ -128,23 +128,23 @@ public class PSScriptReader {
     
     
     //if a hashtag, eats all text up to newline then puts you at the next nonwhitespace character
-    func scanNextComment(scanner : NSScanner, justACheck : Bool, addToEntry : Bool) -> Bool {
+    func scanNextComment(_ scanner : Scanner, justACheck : Bool, addToEntry : Bool) -> Bool {
         
         let scanLocation = scanner.scanLocation
         var dump : NSString?
         
-        if scanner.scanCharactersFromSet(hashtag, intoString: &dump) {
+        if scanner.scanCharacters(from: hashtag, into: &dump) {
             
             //found a comment scan to newline
             var comments : NSString?
-            if scanner.scanCharactersFromSet(allCharactersButNewline, intoString: &comments) {
+            if scanner.scanCharacters(from: allCharactersButNewline, into: &comments) {
                 if (!justACheck && addToEntry) {
                     newGhostEntry.comments = comments! as String
                 }
             }
             
             //eat the whitespace until next line
-            scanner.scanCharactersFromSet(whiteSpace, intoString: &dump)
+            scanner.scanCharacters(from: whiteSpace, into: &dump)
             
             if (justACheck) {
                 scanner.scanLocation = scanLocation //reset to previous position
@@ -159,7 +159,7 @@ public class PSScriptReader {
     }
     
     //if an entry is present, eats it into a ghost entry
-    func scanNextEntry(scanner : NSScanner, justACheck : Bool) -> Bool {
+    func scanNextEntry(_ scanner : Scanner, justACheck : Bool) -> Bool {
         
         let startScanLocation = scanner.scanLocation
         
@@ -168,17 +168,17 @@ public class PSScriptReader {
         //var entryToken : NSString?
         
         //scans everything up to colon/hashtag/newline/gt into name
-        success = scanner.scanCharactersFromSet(entryNameCharacterSet, intoString: &name)
+        success = scanner.scanCharacters(from: entryNameCharacterSet, into: &name)
         
         
         if success {
             //trim spaces
-            name = name!.stringByTrimmingCharactersInSet(space)
+            name = name!.trimmingCharacters(in: space)
             
             //check for valid name i.e. matched quotes on outside or no quotes.
-            if name!.containsString("\"") {
-                let trimmedName : NSString = name!.stringByTrimmingCharactersInSet(quote)
-                if (trimmedName.length == name!.length - 2) && !trimmedName.containsString("\"") {
+            if name!.contains("\"") {
+                let trimmedName : NSString = name!.trimmingCharacters(in: quote)
+                if (trimmedName.length == name!.length - 2) && !trimmedName.contains("\"") {
                     success = true
                 } else {
                     success = false // either too many quotes or quotes actually in name...
@@ -262,11 +262,11 @@ public class PSScriptReader {
     }
     
     // gets the level of given token, or nil if it is not valid
-    func scanNextEntryToken(scanner : NSScanner, justACheck : Bool) -> Bool {
+    func scanNextEntryToken(_ scanner : Scanner, justACheck : Bool) -> Bool {
         let startScanLocation = scanner.scanLocation
         var entryToken : NSString?
         var level : Int
-        var success = scanner.scanCharactersFromSet(entryDefiningCharacters, intoString: &entryToken)
+        var success = scanner.scanCharacters(from: entryDefiningCharacters, into: &entryToken)
         
         if (!success) { return false }
         
@@ -279,11 +279,11 @@ public class PSScriptReader {
         } else {
             
             //need to check it consists of a : followed by x amount of >s
-            if success && token[token.startIndex.advancedBy(0)] != ":" {
+            if success && token[token.characters.index(token.startIndex, offsetBy: 0)] != ":" {
                 success = false
             }
-            let gts = token.stringByTrimmingCharactersInSet(colon)
-            let cls = gts.stringByTrimmingCharactersInSet(gt)
+            let gts = token.trimmingCharacters(in: colon)
+            let cls = gts.trimmingCharacters(in: gt)
             if success &&  (gts.characters.count + 1 != token.characters.count || cls.characters.count != 0) {
                 success  = false
             }
@@ -306,13 +306,13 @@ public class PSScriptReader {
     }
     
     //scans everything up to a new entry definition, alongside comments
-    func scanEntryValue(scanner : NSScanner, justACheck : Bool) -> Bool {
+    func scanEntryValue(_ scanner : Scanner, justACheck : Bool) -> Bool {
         let startScanLocation = scanner.scanLocation
         //each new line check for new entry
         
         var metNextEntryOrEnd = false
         var fvalue : String = ""
-        var whiteSpaceTemp : NSString? = NSString(UTF8String: "")
+        var whiteSpaceTemp : NSString? = NSString(utf8String: "")
         var valueTemp : NSString?
         var inQuotes : Bool = false
         var inBrackets : Int = 0
@@ -321,7 +321,7 @@ public class PSScriptReader {
         
         while (!metNextEntryOrEnd) {
             
-            if !inQuotes && inBrackets == 0 && inCurlyQuotes == 0 && scanNextEntry(scanner, justACheck: justCheck) || scanner.atEnd {
+            if !inQuotes && inBrackets == 0 && inCurlyQuotes == 0 && scanNextEntry(scanner, justACheck: justCheck) || scanner.isAtEnd {
                 //found an entry or at end, return
                 if inQuotes || inBrackets != 0 || inCurlyQuotes != 0 {
                     return false
@@ -334,7 +334,7 @@ public class PSScriptReader {
                     fvalue = fvalue + (ws as String)
                 }
                 //add following stuff to the value
-                if scanner.scanCharactersFromSet(allCharactersButHashtagNewline, intoString: &valueTemp) {
+                if scanner.scanCharacters(from: allCharactersButHashtagNewline, into: &valueTemp) {
                     fvalue = fvalue  + (valueTemp! as String)
                     
                     
@@ -374,7 +374,7 @@ public class PSScriptReader {
                 //comments don't count inside quotes or curly quotes
                 if (!inQuotes && inCurlyQuotes == 0) {
                     var newLines : NSString?
-                    if startingNewLine || scanner.scanCharactersFromSet(newline, intoString: &newLines) {
+                    if startingNewLine || scanner.scanCharacters(from: newline, into: &newLines) {
                         scanNextComment(scanner, justACheck: justACheck, addToEntry: false)
                         startingNewLine = true
                     } else {
@@ -382,18 +382,18 @@ public class PSScriptReader {
                         startingNewLine = true
                     }
                 } else {
-                    if scanner.scanCharactersFromSet(hashtag, intoString: &valueTemp) {
+                    if scanner.scanCharacters(from: hashtag, into: &valueTemp) {
                         fvalue = fvalue  + (valueTemp! as String)
                     }
                 }
-                scanner.scanCharactersFromSet(whiteSpace, intoString: &whiteSpaceTemp) //collect following whitespace
+                scanner.scanCharacters(from: whiteSpace, into: &whiteSpaceTemp) //collect following whitespace
                 //this whitespace is only added, if there is more value coming...
             }
         }
         
         if (!justACheck) {
             if (debugMode) { print("VALUE: \(fvalue)") }
-            newGhostEntry.currentValue = fvalue.stringByTrimmingCharactersInSet(whiteSpace)
+            newGhostEntry.currentValue = fvalue.trimmingCharacters(in: whiteSpace)
         } else {
             scanner.scanLocation = startScanLocation
         }

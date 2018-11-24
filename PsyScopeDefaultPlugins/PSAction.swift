@@ -39,7 +39,7 @@ class PSAction : NSObject, PSActionInterface {
         return nil
     }
     
-    func createCellView(entryFunction: PSEventActionFunction!, scriptData: PSScriptData!, expandedHeight: CGFloat) -> PSActionCell! {
+    func createCellView(_ entryFunction: PSEventActionFunction!, scriptData: PSScriptData!, expandedHeight: CGFloat) -> PSActionCell! {
         let new_view = PSActionCell(frame:NSRect(x: 0, y: 0, width: 200, height: expandedHeight))
         new_view.setup(self, entryFunction: entryFunction, scriptData: scriptData, parameters: actionParameters, names: actionParameterNames, expandedHeight: expandedHeight)
         return new_view

@@ -36,13 +36,13 @@ class PSEventPropertiesController : PSToolPropertyController {
     }
     
     init(entry : Entry, scriptData : PSScriptData) {
-        let bundle = NSBundle(forClass:self.dynamicType)
+        let bundle = Bundle(for:self.dynamicType)
         super.init(nibName: "EventProperties", bundle: bundle, entry: entry, scriptData: scriptData)
         self.entry = entry
         
         //Double clicking brings up actions builder
         storedDoubleClickAction = { () in
-            NSNotificationCenter.defaultCenter().postNotificationName("PSShowWindowNotificationForActionsBuilder", object: self.scriptData.document) }
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "PSShowWindowNotificationForActionsBuilder"), object: self.scriptData.document) }
         durationEntry = scriptData.getOrCreateSubEntry("Duration", entry: entry, isProperty: true)
     }
     
@@ -96,7 +96,7 @@ class PSEventPropertiesController : PSToolPropertyController {
                     for event in relatedEvents {
                         let new_sm_item = NSMenuItem(title: event.entry.name, action: "popOverStartConditionMenuItemSelected:", keyEquivalent: "")
                         new_sm_item.target = self
-                        new_sm_item.enabled = true
+                        new_sm_item.isEnabled = true
                         new_sm_item.tag = current_tag
                         popOverStartConditionEvents[current_tag] = (eventClass, event.entry)
                         current_tag++
@@ -104,9 +104,9 @@ class PSEventPropertiesController : PSToolPropertyController {
                     }
                     
                     new_item.submenu = new_submenu
-                    new_item.enabled = true
+                    new_item.isEnabled = true
                 } else {
-                    new_item.enabled = false
+                    new_item.isEnabled = false
                 }
             } else {
                 new_item.target = self
@@ -123,14 +123,14 @@ class PSEventPropertiesController : PSToolPropertyController {
         
         //reset all controls to default state
         labelStartEvent.stringValue = ""
-        textFieldStartTime.enabled = false
+        textFieldStartTime.isEnabled = false
         textFieldStartTime.stringValue = ""
-        popOverStartCondition.enabled = true
-        popOverStartCondition.selectItemWithTitle(event.startCondition.menuName())
+        popOverStartCondition.isEnabled = true
+        popOverStartCondition.selectItem(withTitle: event.startCondition.menuName())
         
         //does the event have a time associated with it?
         if let startTimeString = event.startCondition.textFieldStartTime {
-            textFieldStartTime.enabled = true
+            textFieldStartTime.isEnabled = true
             textFieldStartTime.stringValue = startTimeString
             
             //does the event have an event associated with it
@@ -143,19 +143,19 @@ class PSEventPropertiesController : PSToolPropertyController {
         
         //parse the duration
         durationTimeTextField.stringValue = ""
-        durationTimeTextField.enabled = false
+        durationTimeTextField.isEnabled = false
         durationConditionsController.disable()
         if let fixed_time = event.durationCondition as? EventDurationConditionFixedTime {
-            durationTimeTextField.enabled = true
+            durationTimeTextField.isEnabled = true
             let int : Int = Int(fixed_time.getDurationMS())
             durationTimeTextField.stringValue = "\(int)"
-            durationMatrix.selectCellWithTag(2)
+            durationMatrix.selectCell(withTag: 2)
         } else if let _ = event.durationCondition as? EventDurationConditionSelfTerminate {
-            durationMatrix.selectCellWithTag(1)
+            durationMatrix.selectCell(withTag: 1)
         } else if let _ = event.durationCondition as? EventDurationConditionTrialEnd {
-            durationMatrix.selectCellWithTag(0)
+            durationMatrix.selectCell(withTag: 0)
         } else if let _ = event.durationCondition as? EventDurationConditionOther {
-            durationMatrix.selectCellWithTag(3)
+            durationMatrix.selectCell(withTag: 3)
             durationConditionsController.enable(durationEntry, scriptData: scriptData)
         }
 
@@ -164,19 +164,19 @@ class PSEventPropertiesController : PSToolPropertyController {
         
     }
     
-    @IBAction func updateDurationCondition(sender : AnyObject) {
+    @IBAction func updateDurationCondition(_ sender : AnyObject) {
         scriptData.beginUndoGrouping("Update Event Duration")
         switch (durationMatrix.selectedRow) {
         case 0:
             event.durationCondition = EventDurationConditionTrialEnd()
             durationConditionsController.disable()
-            durationTimeTextField.enabled = false
+            durationTimeTextField.isEnabled = false
         case 1:
             event.durationCondition = EventDurationConditionSelfTerminate()
             durationConditionsController.disable()
-            durationTimeTextField.enabled = false
+            durationTimeTextField.isEnabled = false
         case 2:
-            durationTimeTextField.enabled = true
+            durationTimeTextField.isEnabled = true
             event.durationCondition = EventDurationConditionFixedTime(time: 500)
             
             if durationTimeTextField.stringValue == "" {
@@ -188,7 +188,7 @@ class PSEventPropertiesController : PSToolPropertyController {
             
             durationConditionsController.disable()
         case 3:
-            durationTimeTextField.enabled = false
+            durationTimeTextField.isEnabled = false
             let durationsEntry = scriptData.getOrCreateSubEntry("Duration", entry: event.entry, isProperty: true)
             event.durationCondition = EventDurationConditionOther(conditionsEntry: durationsEntry, scriptData: scriptData)
             (event.durationCondition as! EventDurationConditionOther).setToNever()
@@ -200,7 +200,7 @@ class PSEventPropertiesController : PSToolPropertyController {
     }
     
     //change event startCondition when menu item is selected
-    func popOverStartConditionMenuItemSelected(item : NSMenuItem) {
+    func popOverStartConditionMenuItemSelected(_ item : NSMenuItem) {
         if let (startCondition, lobject) = popOverStartConditionEvents[item.tag] {
             let new_start_condition = startCondition()
             if let (lobj) = lobject {
@@ -210,9 +210,9 @@ class PSEventPropertiesController : PSToolPropertyController {
                 labelStartEvent.stringValue = lobj.name
             }
             let double_val = NSString(string: textFieldStartTime.stringValue).doubleValue
-            new_start_condition.event_time = EventTime.FixedTime(CGFloat(double_val))
+            new_start_condition.event_time = EventTime.fixedTime(CGFloat(double_val))
             event.startCondition = new_start_condition //entry automatically updated
-            popOverStartCondition.selectItemWithTitle(event.startCondition.menuName())
+            popOverStartCondition.selectItem(withTitle: event.startCondition.menuName())
         }
     }
     
@@ -226,11 +226,11 @@ class PSEventPropertiesController : PSToolPropertyController {
         }
     }
     
-    override func control(control: NSControl, textShouldEndEditing fieldEditor: NSText) -> Bool {
+    override func control(_ control: NSControl, textShouldEndEditing fieldEditor: NSText) -> Bool {
         if control == textFieldStartTime {
             let selected_start = event.startCondition
             let double_val = NSString(string: textFieldStartTime.stringValue).doubleValue
-            selected_start.event_time = EventTime.FixedTime(CGFloat(double_val))
+            selected_start.event_time = EventTime.fixedTime(CGFloat(double_val))
             event.startCondition = selected_start //entry automatically updated
             return true
         } else if control == durationTimeTextField {

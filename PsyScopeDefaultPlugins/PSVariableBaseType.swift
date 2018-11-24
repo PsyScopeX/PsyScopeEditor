@@ -9,9 +9,9 @@
 import Foundation
 
 //wrapper for enum to pass by ref
-public class PSVariableType {
+open class PSVariableType {
     init() {
-        self.type = .StringType //default
+        self.type = .stringType //default
     }
     
     init(type : PSVariableTypeEnum) {
@@ -20,54 +20,54 @@ public class PSVariableType {
     
     var type : PSVariableTypeEnum
     
-    class func Array(variableArray : PSVariableArray) -> PSVariableType {
-        return PSVariableType(type: PSVariableTypeEnum.Array(variableArray))
+    class func Array(_ variableArray : PSVariableArray) -> PSVariableType {
+        return PSVariableType(type: PSVariableTypeEnum.array(variableArray))
     }
     
-    class func Record(variableRecord : PSVariableRecord) -> PSVariableType {
-        return PSVariableType(type: PSVariableTypeEnum.Record(variableRecord))
+    class func Record(_ variableRecord : PSVariableRecord) -> PSVariableType {
+        return PSVariableType(type: PSVariableTypeEnum.record(variableRecord))
     }
     
     class func IntegerType() -> PSVariableType {
-        return PSVariableType(type: .IntegerType)
+        return PSVariableType(type: .integerType)
     }
     class func LongIntegerType() -> PSVariableType {
-        return PSVariableType(type: .LongIntegerType)
+        return PSVariableType(type: .longIntegerType)
     }
 
     class func FloatType() -> PSVariableType {
-        return PSVariableType(type: .FloatType)
+        return PSVariableType(type: .floatType)
     }
     
     class func DoubleType() -> PSVariableType {
-        return PSVariableType(type: .DoubleType)
+        return PSVariableType(type: .doubleType)
     }
 
     class func StringType() -> PSVariableType {
-        return PSVariableType(type: .StringType)
+        return PSVariableType(type: .stringType)
     }
 
-    class func Defined(string : String) -> PSVariableType {
-        return PSVariableType(type: .Defined(string))
+    class func Defined(_ string : String) -> PSVariableType {
+        return PSVariableType(type: .defined(string))
     }
 
     
 }
 
 public enum PSVariableTypeEnum {
-    case IntegerType
-    case LongIntegerType
-    case FloatType
-    case DoubleType
-    case StringType
-    case Defined(String)
-    case Array(PSVariableArray)
-    case Record(PSVariableRecord)
+    case integerType
+    case longIntegerType
+    case floatType
+    case doubleType
+    case stringType
+    case defined(String)
+    case array(PSVariableArray)
+    case record(PSVariableRecord)
 }
 
 
 
-public class PSVariableArray {
+open class PSVariableArray {
     
     init() {
         self.count = 1
@@ -83,7 +83,7 @@ public class PSVariableArray {
     var type : PSVariableType
 }
 
-public class PSVariableRecord {
+open class PSVariableRecord {
     init(fields : [PSVariableNamedType]) {
         self.fields = fields
     }

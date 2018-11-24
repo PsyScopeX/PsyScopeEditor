@@ -15,7 +15,7 @@ class PSPictureEvent : PSEventTool {
         toolType = PSType.Pict
         helpfulDescriptionString = "displays an image in a port.  You can change the way the orientation of the picture and other attributes."
         iconName = "PictureEvent-icon-128" // Modified by Luca on Nov 24 014
-        iconColor = NSColor.redColor()
+        iconColor = NSColor.red
         classNameString = "PSPictureEvent"
         properties = [Properties.StartRef, Properties.Duration, Properties.EventType]
     }
@@ -31,13 +31,13 @@ class PSPictureEvent : PSEventTool {
         return ["png","bmp","jpg","jpeg","tif","tiff"]
     }
     
-    override func createFromDraggedFile(fileName : String, scriptData: PSScriptData) -> Entry? {
+    override func createFromDraggedFile(_ fileName : String, scriptData: PSScriptData) -> Entry? {
         guard let mainEntry = self.createObject(scriptData) else { return nil }
-        var new_name = ((fileName as NSString).lastPathComponent as NSString).stringByDeletingPathExtension
+        var new_name = ((fileName as NSString).lastPathComponent as NSString).deletingPathExtension
         
         //delete non alphanumerics
-        let deleteCharacters = NSCharacterSet.alphanumericCharacterSet().invertedSet
-        new_name = (new_name.componentsSeparatedByCharactersInSet(deleteCharacters) as NSArray).componentsJoinedByString("")
+        let deleteCharacters = CharacterSet.alphanumerics.inverted
+        new_name = (new_name.components(separatedBy: deleteCharacters) as NSArray).componentsJoined(by: "")
         
         new_name = scriptData.getNextFreeBaseEntryName(new_name)
         mainEntry.name = new_name
@@ -49,7 +49,7 @@ class PSPictureEvent : PSEventTool {
         return mainEntry
     }
     
-    override func createObject(scriptData: PSScriptData) -> Entry? {
+    override func createObject(_ scriptData: PSScriptData) -> Entry? {
         guard let mainEntry = super.createObject(scriptData) else { return nil }
         if scriptData.getSubEntry("Stimulus", entry: mainEntry) == nil {
             let entry = scriptData.getOrCreateSubEntry("Stimulus", entry: mainEntry, isProperty: false, type: PSAttributeType(name: "Stimulus", parentType: toolType))

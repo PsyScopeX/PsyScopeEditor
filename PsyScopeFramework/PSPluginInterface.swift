@@ -9,7 +9,7 @@
 import Foundation
 
 @objc public enum PSPluginType : Int {
-    case Tool, Event, Attribute, WindowView, Action, Condition
+    case tool, event, attribute, windowView, action, condition
 }
 
 
@@ -18,6 +18,6 @@ import Foundation
     //each plugin can have multiple extensions (so you dont need a new bundle each time you develop an extension
 
     //pluginsFor: returns strings of plugin types (must be nsobject with zero argument constructors)
-    static func pluginsFor(pluginTypeName : PSPluginType) -> [NSObject.Type]
+    static func pluginsFor(_ pluginTypeName : PSPluginType) -> [NSObject.Type]
     
 }

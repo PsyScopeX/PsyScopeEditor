@@ -14,7 +14,7 @@ class PSExperimentTool: PSTool, PSToolInterface {
         toolType = PSType.Experiment
         helpfulDescriptionString = "Node for defining an experiment"
         iconName = "Experiment-Icon-128"
-        iconColor = NSColor.greenColor()
+        iconColor = NSColor.green
         classNameString = "PSExperimentTool"
         section = PSSection.ExperimentDefinitions
         identityProperty = ExperimentsProperties.Experiments
@@ -38,7 +38,7 @@ class PSExperimentTool: PSTool, PSToolInterface {
     }
     
     //also perform some overall checks in here
-    override func identifyEntries(ghostScript: PSGhostScript) -> [PSScriptError] {
+    override func identifyEntries(_ ghostScript: PSGhostScript) -> [PSScriptError] {
         var errors : [PSScriptError] = []
         var foundExperimentsEntry = false
         var foundMainEntry = false
@@ -48,7 +48,7 @@ class PSExperimentTool: PSTool, PSToolInterface {
                 ge.type = type() //found experiments entry, update type
                 
                 //now search for the entry corresponding to the value
-                let mainEntryName = ge.currentValue.stringByTrimmingCharactersInSet(NSCharacterSet(charactersInString: "\""))
+                let mainEntryName = ge.currentValue.trimmingCharacters(in: CharacterSet(charactersIn: "\""))
                 for ge2 in ghostScript.entries as [PSGhostEntry] {
                     if ge2.name == mainEntryName {
                         foundMainEntry = true
@@ -105,7 +105,7 @@ class PSExperimentTool: PSTool, PSToolInterface {
     }
     
     
-    override func validateBeforeRun(scriptData: PSScriptData) -> [PSScriptError] {
+    override func validateBeforeRun(_ scriptData: PSScriptData) -> [PSScriptError] {
         //check for data file parameter
         var errors : [PSScriptError] = []
         let entries = scriptData.getBaseEntriesOfType(toolType)
@@ -126,7 +126,7 @@ class PSExperimentTool: PSTool, PSToolInterface {
     
 
     
-    override func createObjectWithGhostEntries(entries: [PSGhostEntry], withScript scriptData: PSScriptData) -> [LayoutObject]? {
+    override func createObjectWithGhostEntries(_ entries: [PSGhostEntry], withScript scriptData: PSScriptData) -> [LayoutObject]? {
         
         //sometimes the Experiments entry will be the only new object and sometimes just the Experiment entry.
         
@@ -163,7 +163,7 @@ class PSExperimentTool: PSTool, PSToolInterface {
         } else {
             // need to use old one, find in script - there shoudl definitely be one after identify entries
             for entry in scriptData.getBaseEntries() {
-                let mainEntryName = ghost_experiments_entry.currentValue.stringByTrimmingCharactersInSet(NSCharacterSet(charactersInString: "\""))
+                let mainEntryName = ghost_experiments_entry.currentValue.trimmingCharacters(in: CharacterSet(charactersIn: "\""))
                 if entry.name == mainEntryName {
                     mainEntry = entry
                     break
@@ -196,7 +196,7 @@ class PSExperimentTool: PSTool, PSToolInterface {
             experimentsEntry = scriptData.insertNewBaseEntry("Experiments", type: toolType)
             
             //if newName has spaces then add quotes
-            if newName.componentsSeparatedByCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()).count > 1 {
+            if newName.components(separatedBy: CharacterSet.whitespacesAndNewlines).count > 1 {
                 newName = "\"\(newName)\""
             }
             experimentsEntry.currentValue = newName
@@ -214,7 +214,7 @@ class PSExperimentTool: PSTool, PSToolInterface {
         return [mainEntry.layoutObject]
     }
     
-    override func createLinkFrom(parent: Entry, to child: Entry, withScript scriptData: PSScriptData) -> Bool {
+    override func createLinkFrom(_ parent: Entry, to child: Entry, withScript scriptData: PSScriptData) -> Bool {
         
         if PSTool.createLinkFromToolToList(parent, to: child, withScript: scriptData) {
             return true
@@ -319,7 +319,7 @@ class PSExperimentTool: PSTool, PSToolInterface {
         return false
     }
     
-    override func deleteLinkFrom(parent: Entry, to child: Entry, withScript scriptData: PSScriptData) -> Bool {
+    override func deleteLinkFrom(_ parent: Entry, to child: Entry, withScript scriptData: PSScriptData) -> Bool {
         var childAttributeName : String = ""
         
         if scriptData.typeIsEvent(child.type) {
@@ -338,7 +338,7 @@ class PSExperimentTool: PSTool, PSToolInterface {
     }
    
     //returns nil if cannot create object e.g. is unique
-    override func createObject(scriptData: PSScriptData) -> Entry? {
+    override func createObject(_ scriptData: PSScriptData) -> Entry? {
         //check if key entry names are already in script
         let free = scriptData.baseEntriesAreFree(["Experiments"])
         
@@ -373,7 +373,7 @@ class PSExperimentTool: PSTool, PSToolInterface {
         return experiment_main_entry
     }
     
-    override func updateEntry(realEntry: Entry, withGhostEntry ghostEntry: PSGhostEntry, scriptData: PSScriptData) {
+    override func updateEntry(_ realEntry: Entry, withGhostEntry ghostEntry: PSGhostEntry, scriptData: PSScriptData) {
         
         
         if realEntry.name == "Experiments" {
@@ -387,14 +387,14 @@ class PSExperimentTool: PSTool, PSToolInterface {
     }
     
     //cannot delete experiment tool
-    override func deleteObject(lobject: Entry, withScript scriptData: PSScriptData) -> Bool {
+    override func deleteObject(_ lobject: Entry, withScript scriptData: PSScriptData) -> Bool {
         return false
     }
     
     //cannot add new experiment tools
     override func appearsInToolMenu() -> Bool { return false }
     
-    override func getPropertiesViewController(entry: Entry, withScript scriptData: PSScriptData) -> PSPluginViewController? {
+    override func getPropertiesViewController(_ entry: Entry, withScript scriptData: PSScriptData) -> PSPluginViewController? {
         
         return PSExperimentViewController(entry: entry, scriptData: scriptData)
     }
@@ -409,7 +409,7 @@ func PSErrorDataFileEntry() -> PSScriptError {
     
 }
 
-func PSTooManyStructuralAttributesType(name : String) -> PSScriptError {
+func PSTooManyStructuralAttributesType(_ name : String) -> PSScriptError {
     let d = "Two or more mutually exclusive structural attributes in entry"
     let s = "Structural attributes (Experiments, Groups, Blocks, Templates, Events) are mutually exclusive - make sure each entry has only one type of these"
     return PSScriptError(errorDescription: "Too Many Structural Attributes Error",detailedDescription: d,solution: s, entryName: name)

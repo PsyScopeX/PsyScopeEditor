@@ -8,9 +8,9 @@
 import Foundation
 
 //displays a cell with a file save dialog attached to button
-public class PSAttributeParameter_FileSave : PSAttributeParameter_Button {
+open class PSAttributeParameter_FileSave : PSAttributeParameter_Button {
     
-    override func clickButton(sender : NSButton) {
+    override func clickButton(_ sender : NSButton) {
         if !scriptData.alertIfNoValidDocumentDirectory() {
             return
         }
@@ -22,12 +22,12 @@ public class PSAttributeParameter_FileSave : PSAttributeParameter_Button {
         savePanel.showsHiddenFiles = false
         savePanel.canCreateDirectories = true
         //savePanel.allowedFileTypes = [fileType]
-        savePanel.beginSheetModalForWindow(cell.window!, completionHandler: {
+        savePanel.beginSheetModal(for: cell.window!, completionHandler: {
             (int_code : Int) -> () in
             if int_code == NSFileHandlingPanelOKButton {
                 //relative to files location
-                if let url = savePanel.URL, path = url.path {
-                    dispatch_async(dispatch_get_main_queue(), {
+                if let url = savePanel.url, path = url.path {
+                    DispatchQueue.main.async(execute: {
                         self.setFileName(path)
                     })
                 }
@@ -36,12 +36,12 @@ public class PSAttributeParameter_FileSave : PSAttributeParameter_Button {
     
     }
     
-    func setFileName(path : String) {
+    func setFileName(_ path : String) {
         let docPath = self.scriptData.documentDirectory()!
         let pspath = PSPath(path, basePath: docPath)
         
         if pspath == "" {
-            self.currentValue = .Null
+            self.currentValue = .null
         } else {
             self.currentValue = PSGetFirstEntryElementForStringOrNull("\"\(pspath)\"")
         }

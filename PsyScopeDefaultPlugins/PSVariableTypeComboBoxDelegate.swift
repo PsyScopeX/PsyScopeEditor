@@ -20,21 +20,21 @@ class PSVariableTypeComboBoxDelegate : NSObject, NSComboBoxDataSource, NSComboBo
     //MARK: Refresh
     
     var refreshController : ((selectItem: AnyObject?)->())?
-    func refreshWithVariableTypeNames(names : [String]) {
+    func refreshWithVariableTypeNames(_ names : [String]) {
         items = names
     }
     
     //MARK: Combobox Datasource
     
-    func numberOfItemsInComboBox(aComboBox: NSComboBox) -> Int {
+    func numberOfItems(in aComboBox: NSComboBox) -> Int {
         return items.count
     }
-    func comboBox(aComboBox: NSComboBox, objectValueForItemAtIndex index: Int) -> AnyObject {
+    func comboBox(_ aComboBox: NSComboBox, objectValueForItemAt index: Int) -> Any? {
         return items[index]
     }
     
-    func comboBox(aComboBox: NSComboBox, indexOfItemWithStringValue string: String) -> Int {
-        if let index = items.indexOf(string) {
+    func comboBox(_ aComboBox: NSComboBox, indexOfItemWithStringValue string: String) -> Int {
+        if let index = items.index(of: string) {
             return index
         } else {
             return -1
@@ -45,7 +45,7 @@ class PSVariableTypeComboBoxDelegate : NSObject, NSComboBoxDataSource, NSComboBo
     
     //MARK: Combobox Delegate
     
-    func comboBoxWillDismiss(notification: NSNotification) {
+    func comboBoxWillDismiss(_ notification: Notification) {
 
         /*if let comboBox = notification.object as? NSComboBox,
             superView = comboBox.superview,
@@ -55,7 +55,7 @@ class PSVariableTypeComboBoxDelegate : NSObject, NSComboBoxDataSource, NSComboBo
         }*/
     }
     
-    func comboBoxSelectionDidChange(notification: NSNotification) {
+    func comboBoxSelectionDidChange(_ notification: Notification) {
         if let comboBox = notification.object as? NSComboBox,
             superView = comboBox.superview,
             tableCellView = superView as? PSVariableTypeComboBoxTableCellView,
@@ -64,7 +64,7 @@ class PSVariableTypeComboBoxDelegate : NSObject, NSComboBoxDataSource, NSComboBo
         }
     }
     
-    override func controlTextDidEndEditing(obj: NSNotification) {
+    override func controlTextDidEndEditing(_ obj: Notification) {
         if let comboBox = obj.object as? NSComboBox,
             superView = comboBox.superview,
             tableCellView = superView as? PSVariableTypeComboBoxTableCellView,
@@ -74,43 +74,43 @@ class PSVariableTypeComboBoxDelegate : NSObject, NSComboBoxDataSource, NSComboBo
     }
     
 
-    func setNewType(typeString : String, variableTypeItem : AnyObject, comboBox : NSComboBox) {
+    func setNewType(_ typeString : String, variableTypeItem : AnyObject, comboBox : NSComboBox) {
 
             
-        var newTypeEnum : PSVariableTypeEnum = .StringType
+        var newTypeEnum : PSVariableTypeEnum = .stringType
         
         
-        switch(typeString.lowercaseString) {
+        switch(typeString.lowercased()) {
         case "integer":
-            newTypeEnum = .IntegerType
+            newTypeEnum = .integerType
         case "long_integer":
-            newTypeEnum = .LongIntegerType
+            newTypeEnum = .longIntegerType
         case "float":
-            newTypeEnum = .FloatType
+            newTypeEnum = .floatType
         case "string":
-            newTypeEnum = .StringType
+            newTypeEnum = .stringType
         case "array":
             arraySizeTextField.integerValue = 10
             currentPopoverVariableTypeItem = variableTypeItem
-            arraySizePopover.showRelativeToRect(comboBox.bounds, ofView: comboBox, preferredEdge: NSRectEdge.MaxY)
+            arraySizePopover.show(relativeTo: comboBox.bounds, of: comboBox, preferredEdge: NSRectEdge.maxY)
             arraySizeTextField.becomeFirstResponder()
             return
         case "record":
-            newTypeEnum = .Record(PSVariableRecord(fields: []))
+            newTypeEnum = .record(PSVariableRecord(fields: []))
         default:
             
             //check validity of type
             if !items.contains(typeString) {
                 
                 //probably trying to create an array
-                let stripped = typeString.stringByTrimmingCharactersInSet(NSCharacterSet.decimalDigitCharacterSet().invertedSet)
+                let stripped = typeString.trimmingCharacters(in: CharacterSet.decimalDigits.inverted)
                 
                 if let arraySize = Int(stripped) where arraySize > 0 {
-                    newTypeEnum = .Array(PSVariableArray(count: arraySize, type: PSVariableType()))
+                    newTypeEnum = .array(PSVariableArray(count: arraySize, type: PSVariableType()))
                 }
                 
             } else {
-                newTypeEnum = .Defined(typeString)
+                newTypeEnum = .defined(typeString)
             }
         }
         
@@ -132,14 +132,14 @@ class PSVariableTypeComboBoxDelegate : NSObject, NSComboBoxDataSource, NSComboBo
     
     //MARK: Array popover delegate
     
-    func popoverWillClose(notification: NSNotification) {
+    func popoverWillClose(_ notification: Notification) {
         let arraySize = arraySizeTextField.integerValue
         var selectItem: AnyObject? = nil
         if let variableNamedType = currentPopoverVariableTypeItem as? PSVariableNamedType {
-            variableNamedType.type.type = .Array(PSVariableArray(count: arraySize, type: PSVariableType()))
+            variableNamedType.type.type = .array(PSVariableArray(count: arraySize, type: PSVariableType()))
             selectItem = variableNamedType
         } else if let variableType = currentPopoverVariableTypeItem as? PSVariableType {
-            variableType.type = .Array(PSVariableArray(count: arraySize, type: PSVariableType()))
+            variableType.type = .array(PSVariableArray(count: arraySize, type: PSVariableType()))
             selectItem = variableType
         } else {
             fatalError("Items with values should be PSVariableNamedType or PSVariableType")

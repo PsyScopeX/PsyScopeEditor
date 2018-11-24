@@ -10,15 +10,15 @@ import Foundation
 
 //taken care of in storage options (as it is intertwined with the logging)
 public enum PSSubjectVariableSchedule {
-    case RunStart, RunEnd, Never
+    case runStart, runEnd, never
     
     public func description() -> String {
         switch self {
-        case .RunStart:
+        case .runStart:
             return "Start"
-        case .RunEnd:
+        case .runEnd:
             return "End"
-        case .Never:
+        case .never:
             return "Never"
         }
     }

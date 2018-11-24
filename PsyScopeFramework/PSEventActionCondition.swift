@@ -6,18 +6,18 @@
 
 import Foundation
 
-public class PSEventActionCondition : PSFunctionElement {
-    public var expanded : Bool = false
+open class PSEventActionCondition : PSFunctionElement {
+    open var expanded : Bool = false
 }
 
-public class PSEventActionFunction : PSEventActionCondition {
-    public var action : PSActionInterface
+open class PSEventActionFunction : PSEventActionCondition {
+    open var action : PSActionInterface
     
-    public var instancesValue : Int?
-    public var activeUntilValue : String?
+    open var instancesValue : Int?
+    open var activeUntilValue : String?
     
     
-    public var hasInstancesOrActiveUntilValueAttributes : Bool {
+    open var hasInstancesOrActiveUntilValueAttributes : Bool {
         return instancesValue != nil || activeUntilValue != nil
     }
     
@@ -34,13 +34,13 @@ public class PSEventActionFunction : PSEventActionCondition {
         //get current values
         for value in values {
             switch(value) {
-            case let .Function(functionElement):
-                if functionElement.functionName.lowercaseString == "instances" {
+            case let .function(functionElement):
+                if functionElement.functionName.lowercased() == "instances" {
                     if let first = functionElement.getStrippedStringValues().first,
                         integerValue = Int(first) {
                             instancesValue = integerValue
                     }
-                } else if functionElement.functionName.lowercaseString == "activeuntil" {
+                } else if functionElement.functionName.lowercased() == "activeuntil" {
                     if let first = functionElement.getStrippedStringValues().first {
                         activeUntilValue = first
                     }
@@ -54,21 +54,21 @@ public class PSEventActionFunction : PSEventActionCondition {
         
     }
     
-    override public var stringValue : String {
+    override open var stringValue : String {
         get {
             let elements = getStringValues()
             
             let seperator : String = " "
-            let values = elements.joinWithSeparator(seperator)
+            let values = elements.joined(separator: seperator)
             
             switch(bracketType) {
-            case .Square:
+            case .square:
                 return functionName + "[" + values + "]"
-            case .Round:
+            case .round:
                 return functionName + "(" + values + ")"
-            case .Expression:
+            case .expression:
                 return values
-            case .InlineEntry:
+            case .inlineEntry:
                 return functionName + ":" + values
             }
         }
@@ -77,12 +77,12 @@ public class PSEventActionFunction : PSEventActionCondition {
         }
     }
     
-    public override func setStringValues(stringList : [String]) {
+    open override func setStringValues(_ stringList : [String]) {
         fatalError("Cannot setStringValues of PSEventActionFunction subclass")
         
     }
     
-    public func setInstancesActiveUntilOn(on : Bool) {
+    open func setInstancesActiveUntilOn(_ on : Bool) {
         if on {
             setActionParameterValues(values, instances: "1", activeUntil: "NONE")
         } else {
@@ -90,7 +90,7 @@ public class PSEventActionFunction : PSEventActionCondition {
         }
     }
     
-    public func setActionParameterValues(values : [PSEntryElement], instances : String?, activeUntil : String?) {
+    open func setActionParameterValues(_ values : [PSEntryElement], instances : String?, activeUntil : String?) {
         self.values = values
         
         if let instances = instances {
@@ -107,8 +107,8 @@ public class PSEventActionFunction : PSEventActionCondition {
     
 }
 
-public class PSEventConditionFunction : PSEventActionCondition {
-    public var condition : PSConditionInterface
+open class PSEventConditionFunction : PSEventActionCondition {
+    open var condition : PSConditionInterface
 
     public init(condition : PSConditionInterface, values: [PSEntryElement]) {
         self.condition = condition

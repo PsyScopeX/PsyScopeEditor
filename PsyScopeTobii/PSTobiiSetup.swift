@@ -18,16 +18,16 @@ class PSTobiiSetup: NSObject, PSWindowViewInterface {
     
     var topLevelObjects : NSArray?
     
-    func setup(scriptData: PSScriptData, selectionInterface: PSSelectionInterface) {
+    func setup(_ scriptData: PSScriptData, selectionInterface: PSSelectionInterface) {
         self.scriptData = scriptData
         //load nib and gain access to views
-        NSBundle(forClass:self.dynamicType).loadNibNamed("PSTobiiSetup", owner: self, topLevelObjects: &topLevelObjects)
+        Bundle(for:self.dynamicType).loadNibNamed("PSTobiiSetup", owner: self, topLevelObjects: &topLevelObjects)
         
     }
     
     //return a tool bar item for the item
     func icon() -> NSImage {
-        return NSImage(contentsOfFile: NSBundle(forClass:self.dynamicType).pathForImageResource("eye_watch")!)!
+        return NSImage(contentsOfFile: Bundle(for:self.dynamicType).pathForImageResource("eye_watch")!)!
     }
     
     //return a tool bar item for the item
@@ -46,7 +46,7 @@ class PSTobiiSetup: NSObject, PSWindowViewInterface {
     }
     
     //called when an object is deleted
-    func entryDeleted(entry : Entry) {
+    func entryDeleted(_ entry : Entry) {
         
     }
     

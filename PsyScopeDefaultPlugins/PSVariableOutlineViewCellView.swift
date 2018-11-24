@@ -13,7 +13,7 @@ class PSVariableOutlineViewCellView : NSTableCellView {
     var updateScriptBlock : (()->()) = { }
     var variableValue : PSVariableValues!
     
-    override func controlTextDidEndEditing(obj: NSNotification) {
+    override func controlTextDidEndEditing(_ obj: Notification) {
         variableValue.currentValue = self.textField!.stringValue
         updateScriptBlock()
     }

@@ -20,7 +20,7 @@ public struct PSAttributeType : Equatable {
     }
     
     public init(fullType : String) {
-        var comps = fullType.componentsSeparatedByString(".")
+        var comps = fullType.components(separatedBy: ".")
         if comps.count == 2 {
             self.name = comps[0]
             self.parentType = PSType.FromName(comps[1])

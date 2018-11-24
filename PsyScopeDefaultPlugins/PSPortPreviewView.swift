@@ -35,7 +35,7 @@ struct PSPortClickedLayer {
         self.layer = CALayer()
         self.mainLayer = CALayer()
         self.wantsLayer = true
-        self.layer?.backgroundColor = NSColor.lightGrayColor().CGColor
+        self.layer?.backgroundColor = NSColor.lightGray.cgColor
         self.layer?.addSublayer(mainLayer!)
         
         resetDisplayToScreensOnly()
@@ -69,7 +69,7 @@ struct PSPortClickedLayer {
         guard let mainLayer = mainLayer else { fatalError("No layer detected") }
         
         //format the main bg layer
-        mainLayer.backgroundColor = NSColor.lightGrayColor().CGColor
+        mainLayer.backgroundColor = NSColor.lightGray.cgColor
         
         //get the effective size of the screens and their origin
         let effectiveResolution = PSScreen.getEffectiveResolution()
@@ -85,7 +85,7 @@ struct PSPortClickedLayer {
         let ratio1 = viewWidth / (effectiveResolution.width)
         let ratio2 = viewHeight / (effectiveResolution.height)
         let ratio = min(ratio1, ratio2)
-        var centreOffset : CGPoint = CGPointZero
+        var centreOffset : CGPoint = CGPoint.zero
         
         if ratio == ratio1 {
             //width used to create ratio, so can centre height
@@ -108,8 +108,8 @@ struct PSPortClickedLayer {
         transform = CATransform3DScale(transform, ratio, 0 - ratio, 1.0)
         mainLayer.bounds = self.bounds
         mainLayer.transform = transform
-        mainLayer.anchorPoint = CGPointZero
-        mainLayer.position = CGPointZero
+        mainLayer.anchorPoint = CGPoint.zero
+        mainLayer.position = CGPoint.zero
         
         //remove existing screen layers
         for screen in screenLayers {
@@ -144,7 +144,7 @@ struct PSPortClickedLayer {
     
     //MARK: Key events
     
-    override func keyDown(theEvent: NSEvent) {
+    override func keyDown(with theEvent: NSEvent) {
         if theEvent.charactersIgnoringModifiers == String(Character(UnicodeScalar(NSDeleteCharacter))) {
             if !controller.deleteCurrentlySelectedItem() {
                 if (fullScreen) { leaveFullScreen() }
@@ -156,7 +156,7 @@ struct PSPortClickedLayer {
     
     //MARK: Mouse events
     
-    override func mouseDown(theEvent: NSEvent) {
+    override func mouseDown(with theEvent: NSEvent) {
         dragged = false
         clickedLayer = nil
         
@@ -187,7 +187,7 @@ struct PSPortClickedLayer {
         
     }
     
-    override func mouseDragged(theEvent: NSEvent) {
+    override func mouseDragged(with theEvent: NSEvent) {
 
         dragged = true
         
@@ -204,7 +204,7 @@ struct PSPortClickedLayer {
         }
     }
     
-    override func mouseUp(theEvent: NSEvent) {
+    override func mouseUp(with theEvent: NSEvent) {
         if !dragged {
             
             //layer has not been dragged, so potentialy, change selection
@@ -257,14 +257,14 @@ struct PSPortClickedLayer {
         dragged = false
     }
     
-    func convertMousePoint(point : CGPoint) -> CGPoint {
+    func convertMousePoint(_ point : CGPoint) -> CGPoint {
         guard let mainLayer = mainLayer else { fatalError("No layer detected") }
-        let clickPoint = self.convertPoint(point, fromView: nil)
-        let convertedPoint = mainLayer.convertPoint(clickPoint, fromLayer: nil)
+        let clickPoint = self.convert(point, from: nil)
+        let convertedPoint = mainLayer.convert(clickPoint, from: nil)
         return convertedPoint
     }
     
-    func hitLayers(point : CGPoint) -> [CALayer] {
+    func hitLayers(_ point : CGPoint) -> [CALayer] {
         var hitLayers : [CALayer] = []
         guard let mainLayer = mainLayer, sublayers = mainLayer.sublayers else { fatalError("No layer detected") }
         
@@ -274,9 +274,9 @@ struct PSPortClickedLayer {
             if layer !== self.entireScreenPortLayer && !screenLayers.contains(layer) {
                 
                 
-                let convertedPoint = layer.convertPoint(point, fromLayer: mainLayer)
+                let convertedPoint = layer.convert(point, from: mainLayer)
                 
-                if layer.containsPoint(convertedPoint) {
+                if layer.contains(convertedPoint) {
                     Swift.print("Then converted \(point) to \(convertedPoint)")
                     Swift.print(layer.position)
                     Swift.print(layer.bounds)
@@ -297,7 +297,7 @@ struct PSPortClickedLayer {
             //get the effective size of the screens and their origin
             let effectiveResolution = PSScreen.getEffectiveResolution()
             
-            let options : [String : AnyObject] = [NSFullScreenModeAllScreens : NSNumber(bool: true)]
+            let options : [String : AnyObject] = [NSFullScreenModeAllScreens : NSNumber(value: true as Bool)]
             enterFullScreenMode(self.window!.screen!, withOptions: options)
             
             
@@ -312,7 +312,7 @@ struct PSPortClickedLayer {
     
     func leaveFullScreen() {
         if (fullScreen) {
-            exitFullScreenModeWithOptions([:])
+            exitFullScreenMode(options: [:])
             Swift.print(self.window)
             updateScreenLayers()
             fullScreen = false
@@ -325,7 +325,7 @@ struct PSPortClickedLayer {
     
     override var acceptsFirstResponder: Bool { get { return true } }
     
-    override func acceptsFirstMouse(theEvent: NSEvent?) -> Bool {
+    override func acceptsFirstMouse(for theEvent: NSEvent?) -> Bool {
         Swift.print("Accepts first mouse")
         return true
     }
@@ -334,30 +334,30 @@ struct PSPortClickedLayer {
     
     
     //MARK: For Adding new port layers
-    func addNewPort(port : PSPort) {
+    func addNewPort(_ port : PSPort) {
         addLayerAtTop(port.layer)
     }
     
-    func addNewPosition(position : PSPosition) {
+    func addNewPosition(_ position : PSPosition) {
         addLayerAtTop(position.layer)
     }
     
-    func addLayerAtTop(layer : CALayer) {
+    func addLayerAtTop(_ layer : CALayer) {
         guard let mainLayer = mainLayer, sublayers = mainLayer.sublayers else { fatalError("No layer detected") }
         layer.removeFromSuperlayer()
-        mainLayer.insertSublayer(layer, atIndex: UInt32(sublayers.count))
+        mainLayer.insertSublayer(layer, at: UInt32(sublayers.count))
         if !contentsLayers.contains(layer) {
             contentsLayers.append(layer)
         }
     }
     
     //MARK: For removing
-    func removePort(port : PSPort) {
+    func removePort(_ port : PSPort) {
         contentsLayers = contentsLayers.filter({ $0 != port.layer})
         port.layer.removeFromSuperlayer()
     }
     
-    func removePosition(position : PSPosition) {
+    func removePosition(_ position : PSPosition) {
         contentsLayers = contentsLayers.filter({ $0 != position.layer})
         position.layer.removeFromSuperlayer()
     }
@@ -365,7 +365,7 @@ struct PSPortClickedLayer {
     
     //MARK: To set a layer as being the entire screen port (immovable etc)
     
-    func setEntireScreenPort(port : PSPort?) {
+    func setEntireScreenPort(_ port : PSPort?) {
         entireScreenPortLayer = port?.layer
     }
 }

@@ -46,28 +46,28 @@ class PSConstants {
     }
     
     struct Fonts {
-        static let toolMenuHeader = NSFont.boldSystemFontOfSize(11)
-        static let toolMenuBody = NSFont.systemFontOfSize(10)
-        static let layoutBoardIcons = NSFont.systemFontOfSize(10)
+        static let toolMenuHeader = NSFont.boldSystemFont(ofSize: 11)
+        static let toolMenuBody = NSFont.systemFont(ofSize: 10)
+        static let layoutBoardIcons = NSFont.systemFont(ofSize: 10)
         static let scriptFont : NSFont = NSFont(name: "Menlo", size: 11.0)!
         //static let scriptFontBold : NSFont = NSFont(name: "Menlo Bold", size: 11.0)!
         static let scriptCommentColor = NSColor(calibratedRed: 0.1, green: 0.8, blue: 0.1, alpha: 1.0)
         static let scriptEntryColor = NSColor(calibratedRed: 0.8, green: 0.0, blue: 0.8, alpha: 1.0)
         static let scriptAttributeColor = NSColor(calibratedRed: 0.0, green: 0.0, blue: 0.8, alpha: 1.0)
-        static let scriptErrorColor = NSColor.redColor()
-        static let scriptValueColor = NSColor.blackColor()
+        static let scriptErrorColor = NSColor.red
+        static let scriptValueColor = NSColor.black
 
     }
 
     // LucaL: defining two major background/foreground colors
     struct BasicDefaultColors {
         
-        static let foregroundColor = NSColor(calibratedRed: 0.40, green: 0.67, blue: 0.82, alpha: 1).CGColor // slightly darker blue for internal color
-        static let backgroundColor =  NSColor(calibratedRed: 0.73, green: 0.84, blue: 0.89, alpha: 1).CGColor // light blue color
+        static let foregroundColor = NSColor(calibratedRed: 0.40, green: 0.67, blue: 0.82, alpha: 1).cgColor // slightly darker blue for internal color
+        static let backgroundColor =  NSColor(calibratedRed: 0.73, green: 0.84, blue: 0.89, alpha: 1).cgColor // light blue color
         
-        static let backgroundColorLowAlpha =  NSColor(calibratedRed: 0.73, green: 0.84, blue: 0.89, alpha: 0.5).CGColor // light blue color
+        static let backgroundColorLowAlpha =  NSColor(calibratedRed: 0.73, green: 0.84, blue: 0.89, alpha: 0.5).cgColor // light blue color
         
-        static let foregroundColorLowAlpha = NSColor(calibratedRed: 0.40, green: 0.67, blue: 0.82, alpha: 0.5).CGColor // slightly darker blue for internal color
+        static let foregroundColorLowAlpha = NSColor(calibratedRed: 0.40, green: 0.67, blue: 0.82, alpha: 0.5).cgColor // slightly darker blue for internal color
     }
     
 }

@@ -12,7 +12,7 @@ public typealias PSConditionPickerCallback = ((PSConditionInterface,Bool) -> ())
 
 //MARK: PSConditionPicker
 
-public class PSConditionPicker: NSObject, NSTableViewDataSource, NSTableViewDelegate {
+open class PSConditionPicker: NSObject, NSTableViewDataSource, NSTableViewDelegate {
     
     public init(scriptData : PSScriptData, existingConditionTypes : [String], selectConditionCallback : PSConditionPickerCallback) {
         self.scriptData = scriptData
@@ -20,7 +20,7 @@ public class PSConditionPicker: NSObject, NSTableViewDataSource, NSTableViewDele
         self.existingConditionTypes = existingConditionTypes
         self.selectConditionCallback = selectConditionCallback
         super.init()
-        NSBundle(forClass:self.dynamicType).loadNibNamed("ConditionPicker", owner: self, topLevelObjects: &topLevelObjects)
+        Bundle(for:self.dynamicType).loadNibNamed("ConditionPicker", owner: self, topLevelObjects: &topLevelObjects)
     }
     
     // MARK: Variables / Constants
@@ -39,9 +39,9 @@ public class PSConditionPicker: NSObject, NSTableViewDataSource, NSTableViewDele
     
     // MARK: Setup and start
     
-    override public func awakeFromNib() {
-        let nib = NSNib(nibNamed: "ConditionPickerCell", bundle: NSBundle(forClass:self.dynamicType))
-        conditionTableView.registerNib(nib!, forIdentifier: tableCellViewIdentifier)
+    override open func awakeFromNib() {
+        let nib = NSNib(nibNamed: "ConditionPickerCell", bundle: Bundle(for:self.dynamicType))
+        conditionTableView.register(nib!, forIdentifier: tableCellViewIdentifier)
         tableViewConditions = []
         
         for (_, a_plugin) in scriptData.pluginProvider.conditionPlugins {
@@ -54,28 +54,28 @@ public class PSConditionPicker: NSObject, NSTableViewDataSource, NSTableViewDele
             
         }
         
-        tableViewConditions = tableViewConditions.sort({ (s1: PSConditionPickerCondition, s2: PSConditionPickerCondition) -> Bool in
+        tableViewConditions = tableViewConditions.sorted(by: { (s1: PSConditionPickerCondition, s2: PSConditionPickerCondition) -> Bool in
             return s1.userFriendlyName < s2.userFriendlyName })
     }
     
-    public func showConditionWindow(view : NSView) {
-        popover.showRelativeToRect(view.bounds, ofView: view, preferredEdge: NSRectEdge.MinX)
+    open func showConditionWindow(_ view : NSView) {
+        popover.show(relativeTo: view.bounds, of: view, preferredEdge: NSRectEdge.minX)
         conditionTableView.reloadData()
     }
     
     // MARK: User interaction
     
-    @IBAction func doneButtonClicked(sender : AnyObject) {
+    @IBAction func doneButtonClicked(_ sender : AnyObject) {
         popover.close()
     }
     
-    func conditionButtonClicked(row : Int, clickedOn : Bool) {
+    func conditionButtonClicked(_ row : Int, clickedOn : Bool) {
         let type = tableViewConditions[row].type
         if (clickedOn) {
             self.existingConditionTypes.append(type)
         } else {
-            if let index = self.existingConditionTypes.indexOf(type) {
-                self.existingConditionTypes.removeAtIndex(index)
+            if let index = self.existingConditionTypes.index(of: type) {
+                self.existingConditionTypes.remove(at: index)
             }
         }
         selectConditionCallback(tableViewConditions[row].condition,clickedOn)
@@ -83,12 +83,12 @@ public class PSConditionPicker: NSObject, NSTableViewDataSource, NSTableViewDele
     
     // MARK: Tableview
     
-    public func numberOfRowsInTableView(tableView: NSTableView) -> Int {
+    open func numberOfRows(in tableView: NSTableView) -> Int {
         return tableViewConditions.count
     }
     
-    public func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        let view = tableView.makeViewWithIdentifier(tableCellViewIdentifier, owner: nil) as! PSConditionPickerCell
+    open func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+        let view = tableView.make(withIdentifier: tableCellViewIdentifier, owner: nil) as! PSConditionPickerCell
         
         view.setup(tableViewConditions[row].userFriendlyName, image: NSImage(), row: row, clickCallback: conditionButtonClicked)
         
@@ -98,7 +98,7 @@ public class PSConditionPicker: NSObject, NSTableViewDataSource, NSTableViewDele
         return view
     }
     
-    public func tableView(tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
+    open func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
         return CGFloat(25)
     }
     

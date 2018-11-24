@@ -10,12 +10,12 @@ import Foundation
 
 //cleans up selecting items...
 class PSActionConditionTableView : NSTableView {
-    override func menuForEvent(event: NSEvent) -> NSMenu? {
+    override func menu(for event: NSEvent) -> NSMenu? {
         // what row are we at?
-        let row = self.rowAtPoint(self.convertPoint(event.locationInWindow, fromView: nil))
+        let row = self.row(at: self.convert(event.locationInWindow, from: nil))
         if (row != -1) {
-            self.selectRowIndexes(NSIndexSet(index: row), byExtendingSelection: false)
-            return super.menuForEvent(event)
+            self.selectRowIndexes(IndexSet(integer: row), byExtendingSelection: false)
+            return super.menu(for: event)
         }
         return nil
     }

@@ -31,7 +31,7 @@ class PSPsyScopeXRunner : NSObject {
     
     //MARK: Variables
     
-    var currentlyRunningPsyScopeTask : NSTask?
+    var currentlyRunningPsyScopeTask : Process?
     var currentlyRunningDocument : Document?
     var currentlyRunningScriptFileName : String?
     
@@ -45,7 +45,7 @@ class PSPsyScopeXRunner : NSObject {
             
             let executablePathFinal = appBundlePath.stringByAppendingPathComponent("Contents").stringByAppendingPathComponent("MacOS").stringByAppendingPathComponent(appBundleName)
             
-            guard NSFileManager.defaultManager().fileExistsAtPath(executablePathFinal) else {
+            guard FileManager.default.fileExists(atPath: executablePathFinal) else {
                 print("App at \(executablePathFinal) doesnt exist")
                 return nil
             }
@@ -56,7 +56,7 @@ class PSPsyScopeXRunner : NSObject {
     
     //MARK: Running / terminating a script
     
-    func runThisScript(document : Document) {
+    func runThisScript(_ document : Document) {
         
         //check for running task and close it
         terminate()
@@ -88,7 +88,7 @@ class PSPsyScopeXRunner : NSObject {
         
         //write the script file
         do {
-            try script.writeToFile(psyXScriptFileName, atomically: true, encoding: NSMacOSRomanStringEncoding)
+            try script.write(toFile: psyXScriptFileName, atomically: true, encoding: String.Encoding.macOSRoman)
             HFSFileTypeHelper.setTextFileAttribs(psyXScriptFileName)
         }
         catch {
@@ -106,10 +106,10 @@ class PSPsyScopeXRunner : NSObject {
             return
         }
         
-        if !NSFileManager.defaultManager().fileExistsAtPath(logFilePath) {
+        if !FileManager.default.fileExists(atPath: logFilePath) {
             //need to create
             do {
-                try "#LogFile".writeToFile(logFilePath, atomically: true, encoding: NSMacOSRomanStringEncoding)
+                try "#LogFile".write(toFile: logFilePath, atomically: true, encoding: String.Encoding.macOSRoman)
                 HFSFileTypeHelper.setTextFileAttribs(logFilePath)
             }
             catch {
@@ -122,10 +122,10 @@ class PSPsyScopeXRunner : NSObject {
         
         
         //construct running command with NSTask
-        let task = NSTask()
+        let task = Process()
         task.launchPath = launchPath
         task.arguments = [openFlag,psyXScriptFileName,runOnOpen,foregroundFlag,quitOnEndFlag,saveOnExit,"y"]
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "terminated:", name: NSTaskDidTerminateNotification, object: task)
+        NotificationCenter.default.addObserver(self, selector: "terminated:", name: Process.didTerminateNotification, object: task)
         
         //launch the task
         task.launch()
@@ -166,7 +166,7 @@ class PSPsyScopeXRunner : NSObject {
         }
         
         do {
-            let changedScript = try String(contentsOfFile: currentlyRunningScriptFileName, encoding: NSUTF8StringEncoding)
+            let changedScript = try String(contentsOfFile: currentlyRunningScriptFileName, encoding: String.Encoding.utf8)
             
             //check for changes
             let scriptReader = PSScriptReader(script: changedScript)
@@ -219,7 +219,7 @@ class PSPsyScopeXRunner : NSObject {
     }
     
     //updates real entries with ghost entries
-    func updateGhostScriptSubEntries(realEntry : Entry, ghostEntry : PSGhostEntry) {
+    func updateGhostScriptSubEntries(_ realEntry : Entry, ghostEntry : PSGhostEntry) {
         for subGhostEntry in ghostEntry.subEntries {
             for subRealEntry in realEntry.subEntries.array as! [Entry] {
                 if subGhostEntry.name == subRealEntry.name {
@@ -236,7 +236,7 @@ class PSPsyScopeXRunner : NSObject {
     }
     
     //checks for differences between real entries and ghost entries
-    func areThereDifferencesBetween(realEntry : Entry, ghostEntry : PSGhostEntry) -> Bool {
+    func areThereDifferencesBetween(_ realEntry : Entry, ghostEntry : PSGhostEntry) -> Bool {
         for subGhostEntry in ghostEntry.subEntries {
             for subRealEntry in realEntry.subEntries.array as! [Entry] {
                 if subGhostEntry.name == subRealEntry.name {
@@ -263,8 +263,8 @@ class PSPsyScopeXRunner : NSObject {
         let alert = NSAlert()
         alert.messageText = question
         alert.informativeText = info
-        alert.addButtonWithTitle(overrideButton)
-        alert.addButtonWithTitle(cancelButton)
+        alert.addButton(withTitle: overrideButton)
+        alert.addButton(withTitle: cancelButton)
         
         let answer = alert.runModal()
         if answer == NSAlertFirstButtonReturn {

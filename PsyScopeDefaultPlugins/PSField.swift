@@ -19,7 +19,7 @@ class PSField : PSStringList {
         super.init(entry: entry, scriptData: scriptData)
     }
     
-    func changeType(newType: PSAttributeType) {
+    func changeType(_ newType: PSAttributeType) {
         self.type = newType
         self.entry.type = newType.fullType
     }

@@ -7,20 +7,20 @@
 
 import Foundation
 
-public class PSAttributeGeneric : NSObject, PSAttributeInterface {
-    public var userFriendlyNameString : String
-    public var helpfulDescriptionString : String
-    public var codeNameString : String
-    public var attributeClass : NSObject.Type
-    public var classNameString : String
-    public var defaultValueString : String
-    public var toolsArray : [String]
-    public var keyValuesArray : [String]
-    public var customAttributeParameterAction : ((PSEntryElement,PSScriptData,NSWindow,((PSEntryElement) -> ())?) -> ())?
-    public var displayValueTransformer : (PSEntryElement -> String)?
-    public var section : PSSection
-    public var reservedEntryNames : [String]
-    public var illegalEntryNames : [String]
+open class PSAttributeGeneric : NSObject, PSAttributeInterface {
+    open var userFriendlyNameString : String
+    open var helpfulDescriptionString : String
+    open var codeNameString : String
+    open var attributeClass : NSObject.Type
+    open var classNameString : String
+    open var defaultValueString : String
+    open var toolsArray : [String]
+    open var keyValuesArray : [String]
+    open var customAttributeParameterAction : ((PSEntryElement,PSScriptData,NSWindow,((PSEntryElement) -> ())?) -> ())?
+    open var displayValueTransformer : ((PSEntryElement) -> String)?
+    open var section : PSSection
+    open var reservedEntryNames : [String]
+    open var illegalEntryNames : [String]
     override public init() {
         userFriendlyNameString = ""
         helpfulDescriptionString = ""
@@ -36,35 +36,35 @@ public class PSAttributeGeneric : NSObject, PSAttributeInterface {
         super.init()
     }
     
-    public func userFriendlyName() -> String! {
+    open func userFriendlyName() -> String! {
         return userFriendlyNameString
     }
     
-    public func helpfulDescription() -> String! {
+    open func helpfulDescription() -> String! {
         return helpfulDescriptionString
     }
     
-    public func codeName() -> String! {
+    open func codeName() -> String! {
         return codeNameString
     }
     
-    public func psclassName() -> String! {
+    open func psclassName() -> String! {
         return classNameString
     }
     
-    public func keyValues() -> [AnyObject]! {
+    open func keyValues() -> [AnyObject]! {
         return keyValuesArray
     }
     
-    public func tools() -> [AnyObject]! {
+    open func tools() -> [AnyObject]! {
         return toolsArray
     }
     
-    public func defaultValue() -> String! {
+    open func defaultValue() -> String! {
         return defaultValueString
     }
     
-    public func attributeParameter() -> AnyObject! {
+    open func attributeParameter() -> AnyObject! {
         let newAP = attributeClass.init() as! PSAttributeParameter
         if let customAP = newAP as? PSAttributeParameter_Custom {
             customAP.customButtonAction = customAttributeParameterAction!
@@ -76,7 +76,7 @@ public class PSAttributeGeneric : NSObject, PSAttributeInterface {
         
     }
     
-    public func identifyEntries(ghostScript: PSGhostScript!) -> [AnyObject]! {
+    open func identifyEntries(_ ghostScript: PSGhostScript!) -> [AnyObject]! {
         //find all sub entries named codeNameString, in entries of valid type
         for ge in ghostScript.entries as [PSGhostEntry] {
             for type in toolsArray {
@@ -94,25 +94,25 @@ public class PSAttributeGeneric : NSObject, PSAttributeInterface {
         return []
     }
     
-    public func createBaseEntriesWithGhostEntries(entries: [AnyObject]!, withScript scriptData: PSScriptData!) -> [AnyObject]! {
+    open func createBaseEntries(withGhostEntries entries: [AnyObject]!, withScript scriptData: PSScriptData!) -> [AnyObject]! {
         for ent in entries {
             if let e = ent as? PSGhostEntry {
                 let new_blank_obj = scriptData.getOrCreateBaseEntry(e.name, type: PSType.FromName(e.type), section: section)
-                updateEntry(new_blank_obj, withGhostEntry: e, scriptData: scriptData)
+                update(new_blank_obj, with: e, scriptData: scriptData)
             }
         }
         //normally attributes wont create any layoutobjects
         return []
     }
     
-    public func updateEntry(realEntry: Entry!, withGhostEntry ghostEntry: PSGhostEntry!, scriptData: PSScriptData!) {
+    open func update(_ realEntry: Entry!, with ghostEntry: PSGhostEntry!, scriptData: PSScriptData!) {
         PSUpdateEntryWithGhostEntry(realEntry, ghostEntry: ghostEntry, scriptData: scriptData)
     }
     
-    public func getReservedEntryNames() -> [AnyObject]! {
+    open func getReservedEntryNames() -> [AnyObject]! {
         return reservedEntryNames
     }
-    public func getIllegalEntryNames() -> [AnyObject]! {
+    open func getIllegalEntryNames() -> [AnyObject]! {
         return illegalEntryNames
     }
 }

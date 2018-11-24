@@ -17,7 +17,7 @@ class PSEventTool: PSTool, PSToolInterface, PSEventInterface {
         toolType = PSType.NullEvent
         helpfulDescriptionString = "Node for defining an event"
         iconName = "Timer-icon-128"//luca changed the icon
-        iconColor = NSColor.redColor()
+        iconColor = NSColor.red
         classNameString = "PSEventTool"
         section = PSSection.EventDefinitions
         identityProperty = Properties.Events
@@ -31,7 +31,7 @@ class PSEventTool: PSTool, PSToolInterface, PSEventInterface {
         static let Events = PSProperty(name: "Events", defaultValue: "")
     }
     
-    override func identifyEntries(ghostScript: PSGhostScript) -> [PSScriptError] {
+    override func identifyEntries(_ ghostScript: PSGhostScript) -> [PSScriptError] {
         
         let type = self.type()
         
@@ -42,7 +42,7 @@ class PSEventTool: PSTool, PSToolInterface, PSEventInterface {
             for a in ge.subEntries as [PSGhostEntry] {
                 
                 let hasEventAttribute = (a.name == "EventType" || a.name == "StimType")
-                let eventAttributeIsType = (a.currentValue.lowercaseString == type.lowercaseString)
+                let eventAttributeIsType = (a.currentValue.lowercased() == type.lowercased())
                 
                 if (hasEventAttribute && eventAttributeIsType) {
                     //ensure ghost value is capitalised
@@ -71,7 +71,7 @@ class PSEventTool: PSTool, PSToolInterface, PSEventInterface {
     
     }
         
-    func parseEventsAttribute(currentValue : String, ge : PSGhostEntry, ghostScript: PSGhostScript) -> [PSScriptError] {
+    func parseEventsAttribute(_ currentValue : String, ge : PSGhostEntry, ghostScript: PSGhostScript) -> [PSScriptError] {
         
         var errors : [PSScriptError] = []
         let parser = PSEntryValueParser(stringValue: currentValue)
@@ -85,10 +85,10 @@ class PSEventTool: PSTool, PSToolInterface, PSEventInterface {
             for value in parser.values {
                 print(value.stringValue())
                 switch (value) {
-                case .Null:
+                case .null:
                     break
-                case .Function(let functionElement):
-                    if functionElement.bracketType != .Expression ||
+                case .function(let functionElement):
+                    if functionElement.bracketType != .expression ||
                         functionElement.values.count != 3 ||
                         functionElement.values[1].stringValue() != "~" {
                             break
@@ -111,9 +111,9 @@ class PSEventTool: PSTool, PSToolInterface, PSEventInterface {
                     
                     
                     break
-                case .List:
+                case .list:
                     break
-                case .StringToken(let stringElement):
+                case .stringToken(let stringElement):
                     
                     let eventName = stringElement.value
                     var found_block_name = false
@@ -136,7 +136,7 @@ class PSEventTool: PSTool, PSToolInterface, PSEventInterface {
         return errors
     }
     
-    override func getPropertiesViewController(entry: Entry, withScript scriptData: PSScriptData) -> PSPluginViewController? {
+    override func getPropertiesViewController(_ entry: Entry, withScript scriptData: PSScriptData) -> PSPluginViewController? {
         //default show nil
         return PSEventPropertiesController(entry: entry, scriptData: scriptData)
         

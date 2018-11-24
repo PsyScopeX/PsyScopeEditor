@@ -14,13 +14,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         super.init()
         // Register the preference defaults early.
         let appDefaults = PSPreferences.getDefaults()
-        NSUserDefaults.standardUserDefaults().registerDefaults(appDefaults)
+        UserDefaults.standard.register(defaults: appDefaults)
     }
 
     @IBOutlet var menu : NSMenu!
     
     
-    @IBAction func openPreferences(sender : AnyObject) {
+    @IBAction func openPreferences(_ sender : AnyObject) {
         preferencesWindowController.showWindow(nil)
     }
     
@@ -43,18 +43,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     
     
-    func applicationShouldOpenUntitledFile(sender: NSApplication) -> Bool {
+    func applicationShouldOpenUntitledFile(_ sender: NSApplication) -> Bool {
         return true
     }
     
-    func applicationWillFinishLaunching(notification: NSNotification) {
+    func applicationWillFinishLaunching(_ notification: Notification) {
         print("Will finish launching")
     }
     
     
-    func applicationShouldTerminate(sender: NSApplication) -> NSApplicationTerminateReply {
+    func applicationShouldTerminate(_ sender: NSApplication) -> NSApplicationTerminateReply {
 
-        return .TerminateNow
+        return .terminateNow
     }
 
 }

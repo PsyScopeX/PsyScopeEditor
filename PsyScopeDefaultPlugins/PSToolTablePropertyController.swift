@@ -20,18 +20,18 @@ class PSToolTablePropertyController: NSObject, NSTableViewDataSource, NSTableVie
     let dragReorderType = "PSToolTablePropertyControllerType"
     
     
-    func docMocChanged(notification: NSNotification!) {
+    func docMocChanged(_ notification: Notification!) {
         refreshView()
     }
     
     override func awakeFromNib() {
         scriptData = childTypeViewController.scriptData
         super.awakeFromNib()
-        tableView.registerForDraggedTypes([dragReorderType])
+        tableView.register(forDraggedTypes: [dragReorderType])
         refreshView()
     }
     
-    func numberOfRowsInTableView(tableView: NSTableView) -> Int {
+    func numberOfRows(in tableView: NSTableView) -> Int {
         if stringList != nil {
             return stringList.count
         } else {
@@ -39,7 +39,7 @@ class PSToolTablePropertyController: NSObject, NSTableViewDataSource, NSTableVie
         }
     }
     
-    func tableView(tableView: NSTableView, objectValueForTableColumn tableColumn: NSTableColumn?, row: Int) -> AnyObject? {
+    func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
         if stringList != nil && tableColumn!.identifier == itemsColumn.identifier && row < stringList.stringListRawUnstripped.count {
             return stringList.stringListRawUnstripped[row]
         } else {
@@ -47,34 +47,34 @@ class PSToolTablePropertyController: NSObject, NSTableViewDataSource, NSTableVie
         }
     }
     
-    func tableView(tableView: NSTableView, acceptDrop info: NSDraggingInfo, row: Int, dropOperation: NSTableViewDropOperation) -> Bool {
+    func tableView(_ tableView: NSTableView, acceptDrop info: NSDraggingInfo, row: Int, dropOperation: NSTableViewDropOperation) -> Bool {
         let pboard = info.draggingPasteboard()
-        if let data = pboard.dataForType(dragReorderType),
-            rowIndexes : NSIndexSet = NSKeyedUnarchiver.unarchiveObjectWithData(data) as? NSIndexSet {
-            stringList.move(rowIndexes.firstIndex, to: row)
+        if let data = pboard.data(forType: dragReorderType),
+            rowIndexes : IndexSet = NSKeyedUnarchiver.unarchiveObject(with: data) as? IndexSet {
+            stringList.move(rowIndexes.first, to: row)
             return true
         }
         return false
     }
     
-    func tableView(tableView: NSTableView, writeRowsWithIndexes rowIndexes: NSIndexSet, toPasteboard pboard: NSPasteboard) -> Bool {
+    func tableView(_ tableView: NSTableView, writeRowsWith rowIndexes: IndexSet, to pboard: NSPasteboard) -> Bool {
         // Copy the row numbers to the pasteboard.
-        let data = NSKeyedArchiver.archivedDataWithRootObject(rowIndexes)
+        let data = NSKeyedArchiver.archivedData(withRootObject: rowIndexes)
         pboard.declareTypes([dragReorderType], owner: self)
         pboard.setData(data, forType: dragReorderType)
         return true
     }
     
-    func tableView(tableView: NSTableView, validateDrop info: NSDraggingInfo, proposedRow row: Int, proposedDropOperation dropOperation: NSTableViewDropOperation) -> NSDragOperation {
+    func tableView(_ tableView: NSTableView, validateDrop info: NSDraggingInfo, proposedRow row: Int, proposedDropOperation dropOperation: NSTableViewDropOperation) -> NSDragOperation {
         print("\(row) - \(dropOperation.rawValue)")
-        if dropOperation == .Above {
-            return NSDragOperation.Move
+        if dropOperation == .above {
+            return NSDragOperation.move
         } else {
-            return NSDragOperation.None
+            return NSDragOperation()
         }
     }
     
-    func tableView(tableView: NSTableView, shouldEditTableColumn tableColumn: NSTableColumn?, row: Int) -> Bool {
+    func tableView(_ tableView: NSTableView, shouldEdit tableColumn: NSTableColumn?, row: Int) -> Bool {
         if tableColumn!.identifier == itemsColumn.identifier {
             return false
         }
@@ -92,7 +92,7 @@ class PSToolTablePropertyController: NSObject, NSTableViewDataSource, NSTableVie
     }
     
     
-    @IBAction func elementButtons(sender : AnyObject) {
+    @IBAction func elementButtons(_ sender : AnyObject) {
         switch (tableViewButtons.selectedSegment) {
         case 0:
             addElement()

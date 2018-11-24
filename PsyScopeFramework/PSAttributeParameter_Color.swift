@@ -7,9 +7,9 @@
 
 import Foundation
 
-public class PSAttributeParameter_Color : PSAttributeParameter_Button {
+open class PSAttributeParameter_Color : PSAttributeParameter_Button {
     
-    override func clickButton(sender : NSButton) {
+    override func clickButton(_ sender : NSButton) {
         let colorpopup = PSColorAttributePopup(currentValue: currentValue, displayName: "Choose Color", setCurrentValueBlock: {
             (cValue : PSEntryElement) -> () in
             self.currentValue = cValue

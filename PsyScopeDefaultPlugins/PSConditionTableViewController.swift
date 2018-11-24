@@ -18,22 +18,22 @@ class PSConditionTableViewController: NSObject, NSTableViewDelegate, NSTableView
     var conditionPicker : PSConditionPicker? //to prevent conditoin picker becoming zombie
     
     override func awakeFromNib() {
-        let accnib = NSNib(nibNamed: "AddConditionCell", bundle: NSBundle(forClass:self.dynamicType))
-        conditionsTableView.registerNib(accnib!, forIdentifier: addConditionCellViewIdentifier)
+        let accnib = NSNib(nibNamed: "AddConditionCell", bundle: Bundle(for:self.dynamicType))
+        conditionsTableView.register(accnib!, forIdentifier: addConditionCellViewIdentifier)
         
     }
     
-    func enable(entry : Entry, scriptData : PSScriptData) {
+    func enable(_ entry : Entry, scriptData : PSScriptData) {
         self.entry = entry
         self.scriptData = scriptData
         self.conditionAttribute = PSConditionAttribute(condition_entry: entry, scriptData: scriptData)
         self.conditionAttribute.parseFromEntry()
-        conditionsTableView.enabled = true
+        conditionsTableView.isEnabled = true
         refresh()
     }
     
     func disable() {
-        conditionsTableView.enabled = false
+        conditionsTableView.isEnabled = false
         conditionAttribute = nil
         conditionsTableView.reloadData()
     }
@@ -41,18 +41,18 @@ class PSConditionTableViewController: NSObject, NSTableViewDelegate, NSTableView
     func refresh() {
         //register nibs
         for condition in conditionAttribute.conditions {
-            self.conditionsTableView.registerNib(condition.condition.nib(), forIdentifier: "PSCustomAction\(condition.condition.type())")
+            self.conditionsTableView.register(condition.condition.nib(), forIdentifier: "PSCustomAction\(condition.condition.type())")
         }
         conditionsTableView.reloadData()
     }
     
     //returns the height of the view - is a class func as PSActionsBuilder uses it too
-    class func heightOfViewFor(conditionAttribute : PSConditionAttribute) -> CGFloat {
+    class func heightOfViewFor(_ conditionAttribute : PSConditionAttribute) -> CGFloat {
 
         //either actions or conditions tallest
         var conditionsHeight : CGFloat = PSConditionsButtonHeight
       
-        for (index,c) in conditionAttribute.conditions.enumerate() {
+        for (index,c) in conditionAttribute.conditions.enumerated() {
             conditionsHeight += conditionAttribute.itemIsExpanded(index) ? CGFloat(c.condition.expandedCellHeight()) : CGFloat(22)
         }
         
@@ -66,7 +66,7 @@ class PSConditionTableViewController: NSObject, NSTableViewDelegate, NSTableView
     
     // MARK: Tableview
     
-    func numberOfRowsInTableView(tableView: NSTableView) -> Int {
+    func numberOfRows(in tableView: NSTableView) -> Int {
         if conditionAttribute != nil {
             return conditionAttribute.conditions.count + 1
         } else {
@@ -74,11 +74,11 @@ class PSConditionTableViewController: NSObject, NSTableViewDelegate, NSTableView
         }
     }
     
-    func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
+    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         //determine wether it is action or condition
             if row < conditionAttribute.conditions.count {
                 let identifier = "PSCustomAction\(conditionAttribute.conditions[row].condition.type())"
-                let view = tableView.makeViewWithIdentifier(identifier, owner: self) as! PSConditionCell
+                let view = tableView.make(withIdentifier: identifier, owner: self) as! PSConditionCell
                 view.setup(conditionAttribute.conditions[row].condition,function: conditionAttribute.conditions[row],scriptData: scriptData, expandedHeight: conditionAttribute.conditions[row].condition.expandedCellHeight())
                 view.updateScriptBlock = { () -> () in self.conditionAttribute.updateEntry() }
                 
@@ -91,7 +91,7 @@ class PSConditionTableViewController: NSObject, NSTableViewDelegate, NSTableView
                 return view
             } else {
                 //is add condition button
-                let view = tableView.makeViewWithIdentifier(addConditionCellViewIdentifier, owner: self) as! PSButtonCell
+                let view = tableView.make(withIdentifier: addConditionCellViewIdentifier, owner: self) as! PSButtonCell
                 view.action = { (sender : NSButton) -> () in
                     self.addCondition(sender)
                 }
@@ -99,7 +99,7 @@ class PSConditionTableViewController: NSObject, NSTableViewDelegate, NSTableView
         }
     }
     
-    func tableView(tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
+    func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
         //get the height of the row
             if row < conditionAttribute.conditions.count {
                 return conditionAttribute.itemIsExpanded(row) ? CGFloat(conditionAttribute.conditions[row].condition.expandedCellHeight()) : CGFloat(22)
@@ -113,7 +113,7 @@ class PSConditionTableViewController: NSObject, NSTableViewDelegate, NSTableView
     
     // MARK: Adding Conditions
     
-    func addCondition(button : NSButton) {
+    func addCondition(_ button : NSButton) {
         //existing conditions
         let existingConditionTypes = conditionAttribute.conditions.map({
             (condition : PSEventConditionFunction) -> String in
@@ -125,7 +125,7 @@ class PSConditionTableViewController: NSObject, NSTableViewDelegate, NSTableView
             (conditionInterface : PSConditionInterface, selected : Bool) -> () in
             if (selected) {
                 //append
-                self.conditionsTableView.registerNib(conditionInterface.nib(), forIdentifier: "PSCustomAction\(conditionInterface.type())")
+                self.conditionsTableView.register(conditionInterface.nib(), forIdentifier: "PSCustomAction\(conditionInterface.type())")
                 self.conditionAttribute.appendCondition(conditionInterface)
             } else {
                 //remove
@@ -139,7 +139,7 @@ class PSConditionTableViewController: NSObject, NSTableViewDelegate, NSTableView
     }
     
     // MARK: Deleteing conditions
-    @IBAction func deleteMenuClicked(menuItem : NSMenuItem) {
+    @IBAction func deleteMenuClicked(_ menuItem : NSMenuItem) {
         //get selected item
         let selectedIndex = conditionsTableView.selectedRow
         

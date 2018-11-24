@@ -36,7 +36,7 @@ class PSVaryByAttributePopup: PSAttributePopup, NSOutlineViewDataSource, NSOutli
         self.scriptData = scriptData
         self.type = type
         self.entry = baseEntry
-        super.init(nibName: "VaryByAttributePopup", bundle: NSBundle(forClass:self.dynamicType), currentValue: .Null, displayName: "", setCurrentValueBlock: setCurrentValueBlock)
+        super.init(nibName: "VaryByAttributePopup", bundle: Bundle(for:self.dynamicType), currentValue: .null, displayName: "", setCurrentValueBlock: setCurrentValueBlock)
         
         //get all blocks, that this attribute is linked to, and list attributes
         let parentLinks = scriptData.getLinkedParentEntriesOfType(type, entry: entry)
@@ -65,27 +65,27 @@ class PSVaryByAttributePopup: PSAttributePopup, NSOutlineViewDataSource, NSOutli
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        selectButton.enabled = false
+        selectButton.isEnabled = false
     }
     
-    func outlineViewSelectionDidChange(notification: NSNotification) {
-        let selected_item : AnyObject? = outlineView.itemAtRow(outlineView.selectedRow)
+    func outlineViewSelectionDidChange(_ notification: Notification) {
+        let selected_item : AnyObject? = outlineView.item(atRow: outlineView.selectedRow)
         
         //check if item is attribute (rather than a block)
         if let i = selected_item as? PSVaryByAttribute {
-            selectButton.enabled = true
+            selectButton.isEnabled = true
             selectedAttribute = i
         } else {
-            selectButton.enabled = false
+            selectButton.isEnabled = false
         }
     }
     
-    @IBAction func select(sender : AnyObject) {
+    @IBAction func select(_ sender : AnyObject) {
         self.currentValue = PSGetFirstEntryElementForStringOrNull(selectedAttribute!.name)
         self.closeMyCustomSheet(self)
     }
     
-    func outlineView(outlineView: NSOutlineView, numberOfChildrenOfItem item: AnyObject?) -> Int {
+    func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int {
         if (item == nil) {
             //return number of attributes
             return attributes.count
@@ -100,7 +100,7 @@ class PSVaryByAttributePopup: PSAttributePopup, NSOutlineViewDataSource, NSOutli
         return 0
     }
     
-    func outlineView(outlineView: NSOutlineView, child index: Int, ofItem item: AnyObject?) -> AnyObject {
+    func outlineView(_ outlineView: NSOutlineView, child index: Int, ofItem item: Any?) -> Any {
         if (item == nil) {
             //return attribute
             return attributes[index]
@@ -114,7 +114,7 @@ class PSVaryByAttributePopup: PSAttributePopup, NSOutlineViewDataSource, NSOutli
         return emptyNSString
     }
     
-    func outlineView(outlineView: NSOutlineView, isItemExpandable item: AnyObject) -> Bool {
+    func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: Any) -> Bool {
         //return true if item is attribute with unrepresented entries
         if let i = item as? PSVaryByAttribute {
             if i.unrepresentedEntries.count > 0 {
@@ -125,7 +125,7 @@ class PSVaryByAttributePopup: PSAttributePopup, NSOutlineViewDataSource, NSOutli
         return false
     }
     
-    func outlineView(outlineView: NSOutlineView, objectValueForTableColumn tableColumn: NSTableColumn?, byItem item: AnyObject?) -> AnyObject? {
+    func outlineView(_ outlineView: NSOutlineView, objectValueFor tableColumn: NSTableColumn?, byItem item: Any?) -> Any? {
         
         //if item is block return block name
         if let i = item as? PSVaryByAttribute {

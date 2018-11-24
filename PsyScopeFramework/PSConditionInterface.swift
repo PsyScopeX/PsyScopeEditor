@@ -31,7 +31,7 @@ public protocol PSConditionInterface {
     func isInputDevice() -> Bool
 
     //allows the input device to change the script when it's turned on (despite being added to list of input devices)
-    func turnInputDeviceOn(on : Bool, scriptData : PSScriptData)
+    func turnInputDeviceOn(_ on : Bool, scriptData : PSScriptData)
     
 }
 

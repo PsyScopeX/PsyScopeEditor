@@ -15,7 +15,7 @@ class PSInputEvent : PSEventTool {
         toolType = PSType.Input
         helpfulDescriptionString = "used to demark a period of time to wait for input."
         iconName = "InputIcon"
-        iconColor = NSColor.redColor()
+        iconColor = NSColor.red
         classNameString = "PSInputEvent"
         properties = [Properties.StartRef, Properties.Duration, Properties.EventType]
     }

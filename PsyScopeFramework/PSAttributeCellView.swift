@@ -8,9 +8,9 @@
 import Foundation
 
 //holds a single attribute parameter
-public class PSAttributeCellView : PSCellView {
-    public var attributeParameter : PSAttributeParameter
-    public var interface : PSAttributeInterface
+open class PSAttributeCellView : PSCellView {
+    open var attributeParameter : PSAttributeParameter
+    open var interface : PSAttributeInterface
     public init(attributeParameter : PSAttributeParameter, interface : PSAttributeInterface, scriptData : PSScriptData) {
         self.attributeParameter = attributeParameter
         self.interface = interface

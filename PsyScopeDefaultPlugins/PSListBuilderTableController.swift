@@ -57,10 +57,10 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
 
         if list.hasWeights {
             weightsCheckButton.state = 1
-            weightsColumn.hidden = false
+            weightsColumn.isHidden = false
         } else {
             weightsCheckButton.state = 0
-            weightsColumn.hidden = true
+            weightsColumn.isHidden = true
         }
         
         //add columns for each field
@@ -78,14 +78,14 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
     }
     
     
-    func addNewColumn(field : PSField) {
+    func addNewColumn(_ field : PSField) {
         
         let new_column = PSListBuilderColumn(identifier: "\(listColumns.count + 1)", column_field: field)
         let new_header = PSFieldHeaderCell()
-        new_header.editable = true
+        new_header.isEditable = true
         new_header.usesSingleLineMode = true
-        new_header.scrollable = false
-        new_header.lineBreakMode = NSLineBreakMode.ByTruncatingTail
+        new_header.isScrollable = false
+        new_header.lineBreakMode = NSLineBreakMode.byTruncatingTail
         new_column.headerCell = new_header
         listColumns.append(new_column)
         self.listTableView.addTableColumn(new_column)
@@ -97,7 +97,7 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
     
     //MARK: Editable headers
     
-    func doubleClickInTableView(sender : AnyObject) {
+    func doubleClickInTableView(_ sender : AnyObject) {
         let row = listTableView.clickedRow
         let col = listTableView.clickedColumn
         
@@ -112,16 +112,16 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
             let hc = tc.headerCell as! PSFieldHeaderCell
             //hc.controller = self
             //hc.col = col
-            let editor = listTableView.window!.fieldEditor(true, forObject: listTableView)
-            hc.highlighted = true
-            hc.selectWithFrame(hv.headerRectOfColumn(col), inView: hv, editor: editor!, delegate: self, start: 0, length: hc.stringValue.characters.count)
-            editor?.backgroundColor = NSColor.whiteColor()
+            let editor = listTableView.window!.fieldEditor(true, for: listTableView)
+            hc.isHighlighted = true
+            hc.select(withFrame: hv.headerRect(ofColumn: col), in: hv, editor: editor!, delegate: self, start: 0, length: hc.stringValue.characters.count)
+            editor?.backgroundColor = NSColor.white
             editor?.drawsBackground = true
             editingHeader = true
         }
     }
     
-    func textDidEndEditing(notification: NSNotification) {
+    func textDidEndEditing(_ notification: Notification) {
         let editor = notification.object as! NSTextView
         let name = editor.string!
         
@@ -135,7 +135,7 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
             let hc = tc.headerCell as! PSFieldHeaderCell
             hc.title = fieldEntry.name
             
-            hc.highlighted = false
+            hc.isHighlighted = false
             hc.endEditing(editor)
             editingHeader = false
             
@@ -149,15 +149,15 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
             let tc = listTableView.tableColumns[lastDoubleClickCoords.col] as NSTableColumn
             _ = listTableView.headerView!;
             let hc = tc.headerCell as! PSFieldHeaderCell
-            hc.highlighted = false
-            let editor = listTableView.window!.fieldEditor(true, forObject: listTableView)
+            hc.isHighlighted = false
+            let editor = listTableView.window!.fieldEditor(true, for: listTableView)
             hc.endEditing(editor!)
         }
     }
     
     //MARK: Item / Weights text field edit delegate
     
-    func control(control: NSControl, textShouldEndEditing fieldEditor: NSText) -> Bool {
+    func control(_ control: NSControl, textShouldEndEditing fieldEditor: NSText) -> Bool {
         if let tf = control as? NSTextField {
             if let row = itemTextFields[tf] {
                 list.setItemName(tf.stringValue, forRow: row)
@@ -170,7 +170,7 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
     
     //MARK: Item menu
     
-    func clickMenuItem(sender : NSMenuItem) {
+    func clickMenuItem(_ sender : NSMenuItem) {
         let field = list.fields[listTableView.columnForMenu - 1]
         let item = field[listTableView.rowForMenu]
         if let s = scriptData.valueForMenuItem(sender, original: item, originalFullType : field.type) {
@@ -180,15 +180,15 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
         }
     }
     
-    func validateMenu(menu: NSMenu, tableColumn: NSTableColumn, col : Int) {
-        for item in menu.itemArray as [NSMenuItem] {
+    func validateMenu(_ menu: NSMenu, tableColumn: NSTableColumn, col : Int) {
+        for item in menu.items as [NSMenuItem] {
             item.tag = col
         }
     }
     
     //MARK: Item menu actions
     
-    @IBAction func setTypeMenuAction(sender : NSMenuItem) {
+    @IBAction func setTypeMenuAction(_ sender : NSMenuItem) {
         //open attribute picker to set the type
             attributePicker = PSAttributePickerType(attributePickedCallback: {
                 (type : PSAttributeType, selected : Bool) -> () in
@@ -204,37 +204,37 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
             attributePicker!.showAttributeWindow(view)
     }
     
-    @IBAction func removeFieldMenuAction(sender : NSMenuItem) {
+    @IBAction func removeFieldMenuAction(_ sender : NSMenuItem) {
         list.removeField(sender.tag - 2)
     }
     
-    @IBAction func removeRowMenuAction(sender : NSMenuItem) {
+    @IBAction func removeRowMenuAction(_ sender : NSMenuItem) {
         list.removeRow(sender.tag)
     }
     
 
     //MARK: TableView
     
-    func numberOfRowsInTableView(tableView: NSTableView) -> Int {
+    func numberOfRows(in tableView: NSTableView) -> Int {
         return list != nil ? list.count : 0
     }
     
-    func tableView(tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
+    func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
         return PSAttributeParameter.defaultHeight
     }
     
-    func tableView(tableView: NSTableView, mouseDownInHeaderOfTableColumn tableColumn: NSTableColumn) {
+    func tableView(_ tableView: NSTableView, mouseDownInHeaderOf tableColumn: NSTableColumn) {
         resetHeaders()
     }
     
-    func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
+    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         
         guard let listBuilderColumn = tableColumn as? PSListBuilderColumn else {
             
             //column is for item names or weights
             
             let identifier = tableColumn!.identifier
-            let view = tableView.makeViewWithIdentifier(identifier, owner: self) as! NSTableCellView
+            let view = tableView.make(withIdentifier: identifier, owner: self) as! NSTableCellView
             view.textField!.delegate = self
 
             if identifier == weightsColumn.identifier {
@@ -264,7 +264,7 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
         
         
         cell.row = row
-        if let col = listColumns.indexOf(listBuilderColumn) {
+        if let col = listColumns.index(of: listBuilderColumn) {
             cell.col = col + 1
         } else {
             fatalError("Could not find column in the controller's array")
@@ -278,8 +278,8 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
         return cell
     }
     
-    func tableView(tableView: NSTableView, selectionIndexesForProposedSelection proposedSelectionIndexes: NSIndexSet) -> NSIndexSet {
-        return NSIndexSet(index: -1)
+    func tableView(_ tableView: NSTableView, selectionIndexesForProposedSelection proposedSelectionIndexes: IndexSet) -> IndexSet {
+        return IndexSet(integer: -1)
     }
 
     //MARK: New Item/Field/Weights Buttons
@@ -291,7 +291,7 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
     
     
     
-    @IBAction func addNewFieldButton(sender : AnyObject) {
+    @IBAction func addNewFieldButton(_ sender : AnyObject) {
         
         var testName = "Field"
         let baseName = testName
@@ -319,7 +319,7 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
     @IBAction func weightsCheckButtonClicked(_:AnyObject) {
         if weightsCheckButton.state == 1 {
             let numberOfRows = list != nil ? list.count : 0
-            list.weightsColumn = [Int](count:numberOfRows, repeatedValue: 1)
+            list.weightsColumn = [Int](repeating: 1, count: numberOfRows)
         } else {
             list.weightsColumn = nil
         }
@@ -331,7 +331,7 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
     var lastCellEdited : PSListCellView? {
         get {
             if lastCellEditedCoords.col > -1 && lastCellEditedCoords.row > -1 {
-                let view: AnyObject? = listTableView.viewAtColumn(lastCellEditedCoords.col + 1, row: lastCellEditedCoords.row, makeIfNecessary: true)
+                let view: AnyObject? = listTableView.view(atColumn: lastCellEditedCoords.col + 1, row: lastCellEditedCoords.row, makeIfNecessary: true)
                 if let listCellView = view as? PSListCellView {
                     return listCellView
                 }
@@ -357,7 +357,7 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
     
     //MARK: Keyboard shortcuts
     
-    func keyDownMessage(theEvent: NSEvent) {
+    func keyDownMessage(_ theEvent: NSEvent) {
         let keyPressed = theEvent.keyCode
         //println(keyPressed.description)
         if let lastCell = lastCellEdited {
@@ -403,7 +403,7 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
             }
             
             if (switchView || tabbedView) && col >= 1 && row >= 0 && col < listTableView.numberOfColumns && row < listTableView.numberOfRows {
-                if let nc = listTableView.viewAtColumn(col, row: row, makeIfNecessary: true) as? PSListCellView {
+                if let nc = listTableView.view(atColumn: col, row: row, makeIfNecessary: true) as? PSListCellView {
                     lastCellEdited = nc
                     if (tabbedView) {
                         nc.activate()
@@ -412,7 +412,7 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
             }
         } else {
             if listTableView.numberOfColumns > 1 && listTableView.numberOfRows > 0 {
-                if let newCell = listTableView.viewAtColumn(1, row: 0, makeIfNecessary: true) as?PSListCellView {
+                if let newCell = listTableView.view(atColumn: 1, row: 0, makeIfNecessary: true) as?PSListCellView {
                     lastCellEdited = newCell
                 }
             }

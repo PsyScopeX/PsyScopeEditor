@@ -8,7 +8,7 @@
 import Foundation
 
 //stores an entry and updates entry when updateScript is called
-public class PSAttributeEntryCellView : PSAttributeCellView {
+open class PSAttributeEntryCellView : PSAttributeCellView {
     var entry : Entry
 
     public init(entry: Entry, attributeParameter: PSAttributeParameter, interface: PSAttributeInterface, scriptData: PSScriptData) {
@@ -21,7 +21,7 @@ public class PSAttributeEntryCellView : PSAttributeCellView {
     }
 
         
-    public override func updateScript() {
+    open override func updateScript() {
         super.updateScript()
         self.entry.currentValue = self.attributeParameter.currentValue.stringValue()
     }

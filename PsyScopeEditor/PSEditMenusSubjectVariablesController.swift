@@ -42,24 +42,24 @@ class PSEditMenusSubjectVariablesController : NSObject, NSTableViewDataSource, N
     }
     
     //MARK: Datasource
-    func numberOfRowsInTableView(tableView: NSTableView) -> Int {
+    func numberOfRows(in tableView: NSTableView) -> Int {
         return subjectVariables.count
     }
     
-    func tableView(tableView: NSTableView, objectValueForTableColumn tableColumn: NSTableColumn?, row: Int) -> AnyObject? {
+    func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
         return subjectVariables[row].name
     }
     
-    func tableView(tableView: NSTableView, setObjectValue object: AnyObject?, forTableColumn tableColumn: NSTableColumn?, row: Int) {
+    func tableView(_ tableView: NSTableView, setObjectValue object: Any?, for tableColumn: NSTableColumn?, row: Int) {
         subjectVariables[row].name = object as! String
     }
     
     //MARK: Delegate
     
-    func tableView(tableView: NSTableView, writeRowsWithIndexes rowIndexes: NSIndexSet, toPasteboard pboard: NSPasteboard) -> Bool {
+    func tableView(_ tableView: NSTableView, writeRowsWith rowIndexes: IndexSet, to pboard: NSPasteboard) -> Bool {
         // Copy the subjectVariableNames
-        let subjectVariableNames : [String] = rowIndexes.enumerate().map({ subjectVariables[$0.index].name })
-        let data = NSKeyedArchiver.archivedDataWithRootObject(subjectVariableNames)
+        let subjectVariableNames : [String] = rowIndexes.enumerated().map({ subjectVariables[$0.index].name })
+        let data = NSKeyedArchiver.archivedData(withRootObject: subjectVariableNames)
         pboard.declareTypes([PSEditMenusSubjectVariablesController.subjectVariableType], owner: self)
         pboard.setData(data, forType: PSEditMenusSubjectVariablesController.subjectVariableType)
         return true

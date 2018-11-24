@@ -40,11 +40,11 @@ class PSTemplateEvent : NSObject, NSPasteboardWriting, NSPasteboardReading {
     
     
     //these methods allow the setting of the condition without triggering script changes
-    func initStartCondition(startCondition : EventStartCondition) {
+    func initStartCondition(_ startCondition : EventStartCondition) {
         _startCondition = startCondition
     }
     
-    func initDurationCondition(durationCondition : EventDurationCondition) {
+    func initDurationCondition(_ durationCondition : EventDurationCondition) {
         _durationCondition = durationCondition
     }
     
@@ -98,7 +98,8 @@ class PSTemplateEvent : NSObject, NSPasteboardWriting, NSPasteboardReading {
     }
     var loopLockedItem : Bool = false
     
-    func getMSRecursively(var base_event : PSTemplateEvent?) -> (start: EventMSecs, duration : EventMSecs) {
+    func getMSRecursively(_ base_event : PSTemplateEvent?) -> (start: EventMSecs, duration : EventMSecs) {
+        var base_event = base_event
         if base_event != self {
             if loopLockedItem {
                 return loopLockedTimes()
@@ -119,34 +120,34 @@ class PSTemplateEvent : NSObject, NSPasteboardWriting, NSPasteboardReading {
     
     //Pasteboard stuff
     
-    func writableTypesForPasteboard(pasteboard: NSPasteboard) -> [String] {
+    func writableTypes(for pasteboard: NSPasteboard) -> [String] {
         return ["psyscope.pstemplateevent"]
     }
     
-    func pasteboardPropertyListForType(type: String) -> AnyObject? {
+    func pasteboardPropertyList(forType type: String) -> Any? {
         //must return nsdata object
         let data = scriptData.archiveBaseEntry(entry)
         return data
     }
     
     //unarchive data must be called directly after this init, to associate with script
-    required init!(pasteboardPropertyList propertyList: AnyObject,
+    required init!(pasteboardPropertyList propertyList: Any,
         ofType type: String) {
         _startCondition = EventStartConditionTrialStart()
         _durationCondition = EventDurationConditionFixedTime(time: 500)
-        data = propertyList as! NSData
+        data = propertyList as! Data
         self.repeats = 1
         super.init()
     }
     
-    var data : NSData!
+    var data : Data!
     
-    func unarchiveData(scriptData : PSScriptData) {
+    func unarchiveData(_ scriptData : PSScriptData) {
         self.scriptData = scriptData
         self.entry = scriptData.unarchiveBaseEntry(data)
     }
     
-    class func readableTypesForPasteboard(pasteboard: NSPasteboard) -> [String] {
+    class func readableTypes(for pasteboard: NSPasteboard) -> [String] {
         return ["psyscope.pstemplateevent"]
     }
     

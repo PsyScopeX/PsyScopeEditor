@@ -42,7 +42,7 @@ class PSCondition : NSObject, PSConditionInterface {
         return false
     }
     
-    func turnInputDeviceOn(on : Bool, scriptData : PSScriptData) {
+    func turnInputDeviceOn(_ on : Bool, scriptData : PSScriptData) {
         //do nothing
     }
 }

@@ -42,12 +42,12 @@ class PSDefaultConstants {
     
     struct TemplateLayoutBoard {
         static let fixedTimeColor =
-         NSColor(calibratedRed: 0.40, green: 0.67, blue: 0.82, alpha: 1).CGColor
+         NSColor(calibratedRed: 0.40, green: 0.67, blue: 0.82, alpha: 1).cgColor
          //NSColor(calibratedRed: 0.73, green: 0.84, blue: 0.89, alpha: 1).CGColor
 //lucaL changed to experiment for a more uniform interface. I remove the change in color for the moment
         //NSColor(calibratedRed: 0.40, green: 0.67, blue: 0.82, alpha: 1).CGColor
         static let unknownTimeColor =
-        NSColor(calibratedRed: 0.40, green: 0.67, blue: 0.82, alpha: 1).CGColor
+        NSColor(calibratedRed: 0.40, green: 0.67, blue: 0.82, alpha: 1).cgColor
         //NSColor(calibratedRed: 0.73, green: 0.84, blue: 0.89, alpha: 1).CGColor
         
         //lucaL changed to experiment for a more uniform interface

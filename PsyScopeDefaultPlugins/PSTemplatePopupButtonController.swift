@@ -26,19 +26,19 @@ class PSTemplatePopupButtonController : NSObject {
         }
         
         templatesPopup.removeAllItems()
-        templatesPopup.addItemsWithTitles(menu_items)
+        templatesPopup.addItems(withTitles: menu_items)
         if controller.templateObject == nil {
-            templatesPopup.addItemWithTitle("<No Template Selected>")
+            templatesPopup.addItem(withTitle: "<No Template Selected>")
         }
         
         if let cs = current_selection {
-            templatesPopup.selectItemWithTitle(cs)
+            templatesPopup.selectItem(withTitle: cs)
         } else {
-            templatesPopup.selectItemWithTitle("<No Template Selected>")
+            templatesPopup.selectItem(withTitle: "<No Template Selected>")
         }
     }
     
-    func isTemplateEntry(entry : Entry) -> Bool {
+    func isTemplateEntry(_ entry : Entry) -> Bool {
         if controller.scriptData.getSubEntry("Events", entry: entry) != nil {
             return true
         }
@@ -52,13 +52,13 @@ class PSTemplatePopupButtonController : NSObject {
     
     func updateSelection() {
         if controller.templateObject != nil && controller.templateObject.mainEntry != nil {
-            templatesPopup.selectItemWithTitle(controller.templateObject.mainEntry.name)
+            templatesPopup.selectItem(withTitle: controller.templateObject.mainEntry.name)
         } else {
-            templatesPopup.selectItemWithTitle("<No Template Selected>")
+            templatesPopup.selectItem(withTitle: "<No Template Selected>")
         }
     }
     
-    @IBAction func templatesPopUpSelectionMade(sender : AnyObject) {
+    @IBAction func templatesPopUpSelectionMade(_ sender : AnyObject) {
         let template_name = templatesPopup.selectedItem?.title
         print(template_name)
         //check if it exists

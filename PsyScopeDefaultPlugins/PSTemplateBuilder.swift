@@ -21,10 +21,10 @@ class PSTemplateBuilder: NSObject, PSWindowViewInterface {
     
     var topLevelObjects : NSArray?
     
-    func setup(scriptData: PSScriptData, selectionInterface: PSSelectionInterface) {
+    func setup(_ scriptData: PSScriptData, selectionInterface: PSSelectionInterface) {
         self.scriptData = scriptData
         //load nib and gain access to views
-        NSBundle(forClass:self.dynamicType).loadNibNamed("TemplateBuilder", owner: self, topLevelObjects: &topLevelObjects)
+        Bundle(for:self.dynamicType).loadNibNamed("TemplateBuilder", owner: self, topLevelObjects: &topLevelObjects)
         //allow the layout controller to change currently selected object
         layoutController.scriptData = scriptData
         layoutController.selectionInterface = selectionInterface
@@ -37,7 +37,7 @@ class PSTemplateBuilder: NSObject, PSWindowViewInterface {
     
     
     func icon() -> NSImage {
-        return NSImage(contentsOfFile: NSBundle(forClass:self.dynamicType).pathForImageResource("flag86")!)!
+        return NSImage(contentsOfFile: Bundle(for:self.dynamicType).pathForImageResource("flag86")!)!
     }
         
     func identifier() -> String {
@@ -62,6 +62,6 @@ class PSTemplateBuilder: NSObject, PSWindowViewInterface {
         popupButtonController.updateSelection()
     }
     
-    func entryDeleted(entry: Entry) { }
+    func entryDeleted(_ entry: Entry) { }
 
 }

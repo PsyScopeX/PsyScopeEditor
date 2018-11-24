@@ -12,10 +12,10 @@ import Foundation
 class PSTextField : NSTextField {
     
     enum Type {
-        case Int, Float, String, List, Path
+        case int, float, string, list, path
     }
     
-    override func textDidEndEditing(notification: NSNotification) {
+    override func textDidEndEditing(_ notification: Notification) {
         //parse the string
         
         //if not a function, check it is one of the valid types

@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class PSPosition : Hashable, Equatable {
+open class PSPosition : Hashable, Equatable {
     
     init(parent_port: PSPort, entry : Entry, scriptData : PSScriptData) {
         self.port = parent_port
@@ -16,8 +16,8 @@ public class PSPosition : Hashable, Equatable {
         self.scriptData = scriptData
         
         //defaults
-        x = PSPortMeasurement.Percentage(50)
-        y = PSPortMeasurement.Percentage(50)
+        x = PSPortMeasurement.percentage(50)
+        y = PSPortMeasurement.percentage(50)
         xRelative = true
         yRelative = true
         xAlign = .Center // changed from centre
@@ -34,7 +34,7 @@ public class PSPosition : Hashable, Equatable {
     let entry : Entry
     let scriptData : PSScriptData
     
-    private var currentValue : String {
+    fileprivate var currentValue : String {
         get { return entry.currentValue }
         set { entry.currentValue = newValue }
     }
@@ -61,7 +61,7 @@ public class PSPosition : Hashable, Equatable {
     }
     
     //MARK: Hashable / Equatable
-    public var hashValue: Int { return entry.hashValue }
+    open var hashValue: Int { return entry.hashValue }
     
     var parsing = false
     
@@ -69,14 +69,14 @@ public class PSPosition : Hashable, Equatable {
         parsing = true
         //x relative align y relative align  //TODO parsing checks and defaults for errors
         let value = currentValue
-        var components = value.componentsSeparatedByString(" ") as [String]
+        var components = value.components(separatedBy: " ") as [String]
         
         if components.count >= 1 {
-            x = PSPortMeasurement.fromString(components[0], type: .LeftRight)
+            x = PSPortMeasurement.fromString(components[0], type: .leftRight)
         }
         
         if components.count >= 2 {
-            xRelative = components[1].caseInsensitiveCompare("Screen") != NSComparisonResult.OrderedSame
+            xRelative = components[1].caseInsensitiveCompare("Screen") != ComparisonResult.orderedSame
         }
         
         if components.count >= 3 {
@@ -84,11 +84,11 @@ public class PSPosition : Hashable, Equatable {
         }
         
         if components.count >= 4 {
-            y = PSPortMeasurement.fromString(components[3], type: .TopBottom)
+            y = PSPortMeasurement.fromString(components[3], type: .topBottom)
         }
         
         if components.count >= 5 {
-            yRelative = components[4].caseInsensitiveCompare("Screen") != NSComparisonResult.OrderedSame
+            yRelative = components[4].caseInsensitiveCompare("Screen") != ComparisonResult.orderedSame
         }
         
         if components.count >= 6 {
@@ -118,10 +118,10 @@ public class PSPosition : Hashable, Equatable {
         currentValue = new_value
     }
     
-    func setHighlight(on : Bool) {
+    func setHighlight(_ on : Bool) {
         highlighted = on
         if (on) {
-            layer.strokeColor = NSColor.yellowColor().CGColor // luca commented because this value has to come from the border property of the port
+            layer.strokeColor = NSColor.yellow.cgColor // luca commented because this value has to come from the border property of the port
             
             let super_layer : CALayer = layer.superlayer!
             
@@ -129,18 +129,18 @@ public class PSPosition : Hashable, Equatable {
                 //bring to front
                 layer.removeFromSuperlayer()
                 let index : UInt32 = UInt32(sl.count)
-                super_layer.insertSublayer(layer, atIndex: index)
+                super_layer.insertSublayer(layer, at: index)
             }
         } else {
-            layer.strokeColor = NSColor.redColor().CGColor // this is the default color
+            layer.strokeColor = NSColor.red.cgColor // this is the default color
         }
         
         layer.borderWidth = 0
-        layer.fillColor = NSColor.clearColor().CGColor
+        layer.fillColor = NSColor.clear.cgColor
     }
     
     func updateLayer() {
-        layer.borderColor = NSColor.blackColor().CGColor
+        layer.borderColor = NSColor.black.cgColor
         layer.borderWidth = CGFloat(3)
         
         layer.anchorPoint = CGPoint(x: 0.5, y: 0.5)
@@ -158,7 +158,7 @@ public class PSPosition : Hashable, Equatable {
             loc_x = CGFloat(x.pixels(Int(res.width)))
             loc_y = res.height - CGFloat(y.pixels(Int(res.height)))
         }
-        layer.bounds = CGRect(origin: NSZeroPoint, size: CGSizeMake(CGFloat(10), CGFloat(10)))
+        layer.bounds = CGRect(origin: NSZeroPoint, size: CGSize(width: CGFloat(10), height: CGFloat(10)))
         layer.position = CGPoint(x: loc_x, y: loc_y)
     }
     

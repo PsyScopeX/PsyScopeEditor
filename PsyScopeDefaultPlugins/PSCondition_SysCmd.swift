@@ -18,11 +18,11 @@ class PSCondition_SysCmd : PSCondition {
     }
     
     override func nib() -> NSNib {
-        return NSNib(nibNamed: "Condition_SysCmdCell", bundle: NSBundle(forClass:self.dynamicType))!
+        return NSNib(nibNamed: "Condition_SysCmdCell", bundle: Bundle(for:self.dynamicType))!
     }
     
     override func icon() -> NSImage {
-        let image : NSImage = NSImage(contentsOfFile: NSBundle(forClass:self.dynamicType).pathForImageResource("MouseClick")!)!
+        let image : NSImage = NSImage(contentsOfFile: Bundle(for:self.dynamicType).pathForImageResource("MouseClick")!)!
         return image
     }
     
@@ -42,25 +42,25 @@ class PSCondition_SysCmdCell : PSConditionCell, NSTextFieldDelegate {
         
         for v in inputValue {
             
-            SysCmdTagText.stringValue = v.stringByTrimmingCharactersInSet(NSCharacterSet(charactersInString: "\""))
+            SysCmdTagText.stringValue = v.trimmingCharacters(in: CharacterSet(charactersIn: "\""))
         
         }
     }
     
     
-    @IBAction func generate(sender : AnyObject) {
+    @IBAction func generate(_ sender : AnyObject) {
         let outputString = SysCmdTagText.stringValue
         
         entryFunction.setStringValues([outputString])
         self.updateScript()
     }
     
-    func control(control: NSControl, textShouldEndEditing fieldEditor: NSText) -> Bool {
+    func control(_ control: NSControl, textShouldEndEditing fieldEditor: NSText) -> Bool {
         generate(control)
         return true
     }
     
-    override func setup(conditionInterface: PSConditionInterface, function entryFunction: PSFunctionElement, scriptData: PSScriptData, expandedHeight: CGFloat) {
+    override func setup(_ conditionInterface: PSConditionInterface, function entryFunction: PSFunctionElement, scriptData: PSScriptData, expandedHeight: CGFloat) {
         super.setup(conditionInterface,function: entryFunction,scriptData: scriptData, expandedHeight: expandedHeight)
         parse()
     }

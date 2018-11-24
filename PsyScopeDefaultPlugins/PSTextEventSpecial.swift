@@ -26,24 +26,24 @@ class PSTextEventSpecial : PSAttributePopup {
         super.awakeFromNib()
         //set up options
         let options : [String] = Array(optionsArray.keys)
-        positionOptions.addItemsWithTitles(options)
+        positionOptions.addItems(withTitles: options)
         
         //parse current value
         let list : PSStringListCachedContainer = PSStringListCachedContainer()
         list.stringValue = currentValue.stringValue()
         if list.contains("Follow") {
-            positionOptions.selectItemWithTitle("Follow previous text")
+            positionOptions.selectItem(withTitle: "Follow previous text")
         } else if list.contains("Stay_Put") {
-            positionOptions.selectItemWithTitle("Same place as previous text")
+            positionOptions.selectItem(withTitle: "Same place as previous text")
         } else {
-            positionOptions.selectItemWithTitle("Normal position")
+            positionOptions.selectItem(withTitle: "Normal position")
         }
         
         drawMaskedCheck.state = list.contains("Draw_Masked") ? 1 : 0
         clearMaskedCheck.state = list.contains("Clear_Masked") ? 1 : 0
     }
     
-    @IBAction func doneButton(sender : AnyObject) {
+    @IBAction func doneButton(_ sender : AnyObject) {
         print("Done")
         let new_list = PSStringListCachedContainer()
         let pos_option : String = optionsArray[positionOptions.selectedItem!.title]!

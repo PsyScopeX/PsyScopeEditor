@@ -36,7 +36,7 @@ class PSMainWindowController : NSWindowController, NSWindowDelegate {
     
     //MARK: Initialization
     
-    func initializeMainWindow(scriptData : PSScriptData, document : Document, selectionController : PSSelectionController) {
+    func initializeMainWindow(_ scriptData : PSScriptData, document : Document, selectionController : PSSelectionController) {
         
         if initialized { fatalError("Trying to initialise main window twice") }
         
@@ -77,14 +77,14 @@ class PSMainWindowController : NSWindowController, NSWindowDelegate {
         scriptDelegate.scriptHasHadObjectUpdates()
     }
     
-    func selectEntry(entry : Entry?) {
+    func selectEntry(_ entry : Entry?) {
         layoutController.selectEntry(entry)
         scriptDelegate.selectEntry(entry)
         experimentSetup.entrySelected()
     }
     
     //for double click action
-    func doubleClickEntry(entry : Entry) {
+    func doubleClickEntry(_ entry : Entry) {
         tabController.showProperties()
         tabController.doubleClickProperties()
     }
@@ -100,12 +100,12 @@ class PSMainWindowController : NSWindowController, NSWindowDelegate {
     
     //MARK: Menu methods
     
-    func showScript(sender : AnyObject) {
+    func showScript(_ sender : AnyObject) {
         print("SHOWSCIRPT")
         tabController.showScript()
     }
     
-    func runExperiment(sender : AnyObject){
+    func runExperiment(_ sender : AnyObject){
         
         if errorHandler.errors.count != 0 {
             PSModalAlert("Must fix parsing errors (or update script) before running script!")
@@ -137,11 +137,11 @@ class PSMainWindowController : NSWindowController, NSWindowDelegate {
         }
     }
     
-    func cleanUpLayout(sender : AnyObject) {
+    func cleanUpLayout(_ sender : AnyObject) {
         PSCleanUpTree(scriptData)
     }
     
-    func developerMenuItem(sender : NSMenuItem) {
+    func developerMenuItem(_ sender : NSMenuItem) {
         switch (sender.tag) {
         case 0:
             //restart application engine
@@ -156,7 +156,7 @@ class PSMainWindowController : NSWindowController, NSWindowDelegate {
         }
     }
     
-    func inputDevicesMenuItem(sender : NSMenuItem) {
+    func inputDevicesMenuItem(_ sender : NSMenuItem) {
         let types : [String] = scriptData.pluginProvider.conditionPlugins.values.filter( {
             return $0.isInputDevice()
         }).map({
@@ -171,7 +171,7 @@ class PSMainWindowController : NSWindowController, NSWindowDelegate {
         let experimentEntry = scriptData.getMainExperimentEntry()
         let inputDevices = scriptData.getSubEntry("InputDevices", entry: experimentEntry)
         
-        let currentValue = inputDevices == nil ? .Null : PSGetListElementForString(inputDevices!.currentValue)
+        let currentValue = inputDevices == nil ? .null : PSGetListElementForString(inputDevices!.currentValue)
         let popup = PSCheckBoxListAttributePopup(currentValue: currentValue, displayName: "InputDevices", checkBoxStrings: checkBoxStrings, setCurrentValueBlock: {(newValue : PSEntryElement) in
             
             self.scriptData.beginUndoGrouping("Edit Input Devices")
@@ -191,7 +191,7 @@ class PSMainWindowController : NSWindowController, NSWindowDelegate {
         popup.showAttributeModalForWindow(scriptData.window)
     }
     
-    func detachCurrentWindow(sender : NSMenuItem) {
+    func detachCurrentWindow(_ sender : NSMenuItem) {
         tabController.detachCurrentWindow()
     }
     
@@ -199,12 +199,12 @@ class PSMainWindowController : NSWindowController, NSWindowDelegate {
     
     lazy var customFieldEditor : PSFieldEditor = {
        let fieldEditor = PSFieldEditor(frame: NSZeroRect)
-        fieldEditor.fieldEditor = true
+        fieldEditor.isFieldEditor = true
         fieldEditor.setup(self.scriptData)
         return fieldEditor
     }()
     
-    func windowWillReturnFieldEditor(sender: NSWindow, toObject client: AnyObject?) -> AnyObject? {
+    func windowWillReturnFieldEditor(_ sender: NSWindow, to client: Any?) -> Any? {
         if let client = client as? PSEntryValueTextField {
             return customFieldEditor
         } else {

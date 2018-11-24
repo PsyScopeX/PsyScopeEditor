@@ -8,11 +8,11 @@
 import Foundation
 
 //displays a cell with a button that runs code in customButtonAction (e.g. launch a popup)
-public class PSAttributeParameter_Custom : PSAttributeParameter_Button {
+open class PSAttributeParameter_Custom : PSAttributeParameter_Button {
 
-    public var customButtonAction : ((PSEntryElement,PSScriptData,NSWindow,((PSEntryElement) -> ())?) -> ())!
+    open var customButtonAction : ((PSEntryElement,PSScriptData,NSWindow,((PSEntryElement) -> ())?) -> ())!
     
-    override func clickButton(sender : NSButton) {
+    override func clickButton(_ sender : NSButton) {
         //open the popup
         customButtonAction(currentValue,scriptData,sender.window!,{
             (cValue : PSEntryElement) -> () in

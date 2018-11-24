@@ -33,22 +33,22 @@ class Document: NSPersistentDocument {
     
     //MARK: NSDocument Overrides
     
-    override func revertToContentsOfURL(inAbsoluteURL: NSURL, ofType inTypeName: String) throws {
+    override func revert(toContentsOf inAbsoluteURL: URL, ofType inTypeName: String) throws {
         selectionController.preventRefresh = true
-        try super.revertToContentsOfURL(inAbsoluteURL, ofType: inTypeName)
+        try super.revert(toContentsOf: inAbsoluteURL, ofType: inTypeName)
         selectionController.preventRefresh = false
         //self.mainWindowController.layoutController.refresh()
         selectionController.refresh()
     }
     
-    override func readFromURL(absoluteURL: NSURL, ofType typeName: String) throws {
+    override func read(from absoluteURL: URL, ofType typeName: String) throws {
         if typeName == "DocumentType" {
-            try super.readFromURL(absoluteURL, ofType: typeName)
+            try super.read(from: absoluteURL, ofType: typeName)
         } else {
             do {
-                scriptToImport = try String(contentsOfURL: absoluteURL, encoding: NSUTF8StringEncoding)
+                scriptToImport = try String(contentsOf: absoluteURL, encoding: String.Encoding.utf8)
             } catch {
-                scriptToImport = try String(contentsOfURL: absoluteURL, encoding: NSMacOSRomanStringEncoding)
+                scriptToImport = try String(contentsOf: absoluteURL, encoding: String.Encoding.macOSRoman)
             }
         }
     }
@@ -83,7 +83,7 @@ class Document: NSPersistentDocument {
             //setup view options for window
             //mainWindow.titleVisibility = NSWindowTitleVisibility.Hidden
             mainWindow.titlebarAppearsTransparent = false
-            mainWindow.movableByWindowBackground  = true
+            mainWindow.isMovableByWindowBackground  = true
             //window.styleMask = window.styleMask | NSFullSizeContentViewWindowMask
             self.scriptData.window = mainWindow
         } else {
@@ -118,14 +118,14 @@ class Document: NSPersistentDocument {
             return mom
         }
         
-        let modelURL = NSBundle(forClass:Entry.self).URLForResource("Script", withExtension: "momd")
+        let modelURL = Bundle(for:Entry.self).url(forResource: "Script", withExtension: "momd")
         
-        _managedObjectModel = NSManagedObjectModel(contentsOfURL: modelURL!)
+        _managedObjectModel = NSManagedObjectModel(contentsOf: modelURL!)
         _managedObjectModel!.kc_generateOrderedSetAccessors();
         return _managedObjectModel!
     }
     
-    override func configurePersistentStoreCoordinatorForURL(url: NSURL, ofType fileType: String, modelConfiguration configuration: String?, storeOptions: [String : AnyObject]!) throws {
+    override func configurePersistentStoreCoordinator(for url: URL, ofType fileType: String, modelConfiguration configuration: String?, storeOptions: [String : Any]!) throws {
         var error: NSError! = NSError(domain: "Migrator", code: 0, userInfo: nil)
         //http://stackoverflow.com/questions/10001026/lightweight-migration-of-a-nspersistentdocument
         //options provide automatic data migration - for simple cases
@@ -138,7 +138,7 @@ class Document: NSPersistentDocument {
         newStoreOptions[NSInferMappingModelAutomaticallyOption] = true
         var result : Bool
         do {
-            try super.configurePersistentStoreCoordinatorForURL(url, ofType: fileType, modelConfiguration: configuration, storeOptions: newStoreOptions)
+            try super.configurePersistentStoreCoordinator(for: url, ofType: fileType, modelConfiguration: configuration, storeOptions: newStoreOptions)
             result = true
         } catch let error1 as NSError {
             error = error1

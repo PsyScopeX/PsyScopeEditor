@@ -26,13 +26,13 @@ class PSToolBrowserController : NSObject, NSOutlineViewDelegate, NSOutlineViewDa
     var pluginProvider : PSPluginProvider!
     var toolGroups : [PSToolBrowserControllerGroup] = [PSToolBrowserControllerGroup(name: "TOOLS" , extensions: []), PSToolBrowserControllerGroup(name: "EVENTS" , extensions: [])]
     
-    func setup(pluginProvider : PSPluginProvider) {
+    func setup(_ pluginProvider : PSPluginProvider) {
         self.pluginProvider = pluginProvider
         refresh()
         toolBrowserView.expandItem(nil, expandChildren: true)
     }
     
-    func outlineView(outlineView: NSOutlineView, numberOfChildrenOfItem item: AnyObject?) -> Int {
+    func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int {
         if item == nil {
             return toolGroups.count
         } else if let toolGroup = item as? PSToolBrowserControllerGroup {
@@ -42,15 +42,15 @@ class PSToolBrowserController : NSObject, NSOutlineViewDelegate, NSOutlineViewDa
         }
     }
     
-    func outlineView(outlineView: NSOutlineView, isItemExpandable item: AnyObject) -> Bool {
+    func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: Any) -> Bool {
         return item is PSToolBrowserControllerGroup
     }
     
-    func outlineView(outlineView: NSOutlineView, isGroupItem item: AnyObject) -> Bool {
+    func outlineView(_ outlineView: NSOutlineView, isGroupItem item: Any) -> Bool {
         return item is PSToolBrowserControllerGroup
     }
     
-    func outlineView(outlineView: NSOutlineView, child index: Int, ofItem item: AnyObject?) -> AnyObject {
+    func outlineView(_ outlineView: NSOutlineView, child index: Int, ofItem item: Any?) -> Any {
         if item == nil {
             return toolGroups[index]
         } else if let toolGroup = item as? PSToolBrowserControllerGroup {
@@ -60,21 +60,21 @@ class PSToolBrowserController : NSObject, NSOutlineViewDelegate, NSOutlineViewDa
         }
     }
     
-    func outlineView(outlineView: NSOutlineView, viewForTableColumn tableColumn: NSTableColumn?, item: AnyObject) -> NSView? {
+    func outlineView(_ outlineView: NSOutlineView, viewFor tableColumn: NSTableColumn?, item: Any) -> NSView? {
         
         if let toolGroup = item as? PSToolBrowserControllerGroup {
-            let view = outlineView.makeViewWithIdentifier("HeaderCell", owner: nil) as! NSTableCellView
+            let view = outlineView.make(withIdentifier: "HeaderCell", owner: nil) as! NSTableCellView
             view.textField?.stringValue = toolGroup.name
             return view
         } else {
-            let view = outlineView.makeViewWithIdentifier("DataCell", owner: nil) as! NSTableCellView
+            let view = outlineView.make(withIdentifier: "DataCell", owner: nil) as! NSTableCellView
             view.objectValue = item
             return view
         }
         
     }
     
-    func outlineView(outlineView: NSOutlineView, heightOfRowByItem item: AnyObject) -> CGFloat {
+    func outlineView(_ outlineView: NSOutlineView, heightOfRowByItem item: Any) -> CGFloat {
         if item is PSExtension {
             return PSConstants.Spacing.objectTableViewRowHeight
         } else {
@@ -93,7 +93,7 @@ class PSToolBrowserController : NSObject, NSOutlineViewDelegate, NSOutlineViewDa
         
         let tools = pluginProvider.extensions.filter({
             (tool : PSExtension) -> Bool in
-            return tool.appearsInToolMenu.boolValue
+            return tool.appearsInToolMenu
         })
         
         let events = pluginProvider.eventExtensions

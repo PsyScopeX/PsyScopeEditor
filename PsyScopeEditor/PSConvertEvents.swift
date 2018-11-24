@@ -44,7 +44,7 @@ class PSConvertEvents : NSObject, NSTableViewDataSource, NSTableViewDelegate {
     
     
     override func awakeFromNib() {
-        okButton.enabled = false
+        okButton.isEnabled = false
         if let type = events.first?.type {
             convertEventFromLabel.stringValue = "Convert event(s) of type: \(type)"
         } else {
@@ -55,9 +55,9 @@ class PSConvertEvents : NSObject, NSTableViewDataSource, NSTableViewDelegate {
     
     //MARK: Window Control
     
-    func showAttributeModalForWindow(window : NSWindow) {
+    func showAttributeModalForWindow(_ window : NSWindow) {
         if (attributeSheet == nil) {
-            NSBundle(forClass: self.dynamicType).loadNibNamed("ConvertEvents", owner: self, topLevelObjects: &topLevelObjects)
+            Bundle(for: self.dynamicType).loadNibNamed("ConvertEvents", owner: self, topLevelObjects: &topLevelObjects)
         }
         
         parentWindow = window
@@ -75,23 +75,23 @@ class PSConvertEvents : NSObject, NSTableViewDataSource, NSTableViewDelegate {
     
     //MARK: Datasource
     
-    func numberOfRowsInTableView(tableView: NSTableView) -> Int {
+    func numberOfRows(in tableView: NSTableView) -> Int {
         return eventTypes.count
     }
     
-    func tableView(tableView: NSTableView, objectValueForTableColumn tableColumn: NSTableColumn?, row: Int) -> AnyObject? {
+    func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
         return eventTypes[row]
     }
     
     //MARK: Delegate
     
-    func tableView(tableView: NSTableView, selectionIndexesForProposedSelection proposedSelectionIndexes: NSIndexSet) -> NSIndexSet {
-        let index = proposedSelectionIndexes.firstIndex
+    func tableView(_ tableView: NSTableView, selectionIndexesForProposedSelection proposedSelectionIndexes: IndexSet) -> IndexSet {
+        let index = proposedSelectionIndexes.first
         let indexInRange = index > -1 && index < eventTypes.count
         if indexInRange {
             selectedType = eventTypes[index]
             convertEventToLabel.stringValue = "... to type:  \(selectedType)"
-            okButton.enabled = true
+            okButton.isEnabled = true
         }
         return proposedSelectionIndexes
     }

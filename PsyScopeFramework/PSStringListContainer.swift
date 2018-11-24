@@ -8,9 +8,9 @@
 
 import Foundation
 //this class allows you to treat a string array and the value of an entry (containing a list) as one
-public class PSStringListContainer : PSStringListElement {
+open class PSStringListContainer : PSStringListElement {
     
-    public subscript(index: Int) -> String {
+    open subscript(index: Int) -> String {
         get {
             return elementToString(values[index], stripped: false)
         }
@@ -22,18 +22,18 @@ public class PSStringListContainer : PSStringListElement {
         }
     }
     
-    public func updateEntry() {
+    open func updateEntry() {
         //override to detect changes
     }
     
-    public func removeAtIndex(index : Int) {
+    open func removeAtIndex(_ index : Int) {
         if index < values.count {
-            values.removeAtIndex(index)
+            values.remove(at: index)
             updateEntry()
         }
     }
     
-    public func setValueForIndex(index : Int, value : String) -> Bool {
+    open func setValueForIndex(_ index : Int, value : String) -> Bool {
         if let v = valueForString(value) {
             values[index] = v
             updateEntry()
@@ -42,7 +42,7 @@ public class PSStringListContainer : PSStringListElement {
         return false
     }
     
-    public func valueForString(stringValue : String) -> PSEntryElement? {
+    open func valueForString(_ stringValue : String) -> PSEntryElement? {
         let parse = PSEntryValueParser(stringValue: stringValue)
         
         if parse.foundErrors {
@@ -54,26 +54,26 @@ public class PSStringListContainer : PSStringListElement {
         if new_values.count == 1 {
             return new_values.last!
         } else if new_values.count == 0 {
-            return PSEntryElement.Null
+            return PSEntryElement.null
         } else {
             let new_func = PSFunctionElement()
-            new_func.bracketType = .Square
+            new_func.bracketType = .square
             new_func.values = new_values
-            return PSEntryElement.Function(functionElement: new_func)
+            return PSEntryElement.function(functionElement: new_func)
         }
     }
     
     
     
     
-    public var count : Int {
+    open var count : Int {
         get {
             return values.count
         }
     }
     
-    public func insert(element : PSEntryElement , index : Int) {
-        values.insert(element, atIndex: index)
+    open func insert(_ element : PSEntryElement , index : Int) {
+        values.insert(element, at: index)
         updateEntry()
     }
 }

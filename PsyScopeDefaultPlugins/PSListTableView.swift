@@ -9,8 +9,8 @@
 import Foundation
 
 @objc protocol PSListTableViewDelegate : class {
-    optional func tableView(tableView : NSTableView, clickedRow : NSInteger, clickedCol : NSInteger)
-    func keyDownMessage(theEvent : NSEvent)
+    optional func tableView(_ tableView : NSTableView, clickedRow : NSInteger, clickedCol : NSInteger)
+    func keyDownMessage(_ theEvent : NSEvent)
 }
 
 class PSListTableView : NSTableView {
@@ -18,37 +18,37 @@ class PSListTableView : NSTableView {
     @IBOutlet var extendedDelegate : PSListTableViewDelegate! = nil
     var columnForMenu : Int = -1
     var rowForMenu : Int = -1
-    override func menuForEvent(event: NSEvent) -> NSMenu? {
-        let point = self.convertPoint(event.locationInWindow, fromView: nil)
-        columnForMenu = self.columnAtPoint(point)
-        rowForMenu = self.rowAtPoint(point)
+    override func menu(for event: NSEvent) -> NSMenu? {
+        let point = self.convert(event.locationInWindow, from: nil)
+        columnForMenu = self.column(at: point)
+        rowForMenu = self.row(at: point)
         if columnForMenu == 0 {
-            for item in self.menu!.itemArray {
+            for item in self.menu!.items {
                 item.tag = rowForMenu
             }
             return self.menu
         } else {
-            let theDelegate = self.delegate() as! PSListBuilderTableController
+            let theDelegate = self.delegate as! PSListBuilderTableController
             return theDelegate.scriptData.getVaryByMenu(theDelegate, action: "clickMenuItem:")
         }
     }
     
-    override func mouseDown(theEvent: NSEvent) {
-        let location = self.convertPoint(theEvent.locationInWindow, fromView: nil)
-        let clickedRow = self.rowAtPoint(location)
-        let clickedCol = self.columnAtPoint(location)
-        super.mouseDown(theEvent)
+    override func mouseDown(with theEvent: NSEvent) {
+        let location = self.convert(theEvent.locationInWindow, from: nil)
+        let clickedRow = self.row(at: location)
+        let clickedCol = self.column(at: location)
+        super.mouseDown(with: theEvent)
         if clickedRow != -1 && clickedCol != -1 {
             self.extendedDelegate.tableView?(self, clickedRow: clickedRow, clickedCol: clickedCol)
         }
     }
     
 
-    override func validateProposedFirstResponder(responder: NSResponder, forEvent event: NSEvent?) -> Bool {
+    override func validateProposedFirstResponder(_ responder: NSResponder, for event: NSEvent?) -> Bool {
         return true
     }
     
-    override func keyDown(theEvent: NSEvent) {
+    override func keyDown(with theEvent: NSEvent) {
         self.extendedDelegate.keyDownMessage(theEvent)
     }
     

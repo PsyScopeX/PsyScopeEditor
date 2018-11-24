@@ -27,10 +27,10 @@ class PSSubjectVariablesTableViewController : NSObject, NSTableViewDataSource, N
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        tableView.registerForDraggedTypes([dragReorderType])
+        tableView.register(forDraggedTypes: [dragReorderType])
     }
     
-    func reloadData(subjectInformation : PSSubjectInformation) {
+    func reloadData(_ subjectInformation : PSSubjectInformation) {
         reloading = true
         self.subjectInformation = subjectInformation
         self.runStartVariables = subjectInformation.runStartVariables
@@ -44,12 +44,12 @@ class PSSubjectVariablesTableViewController : NSObject, NSTableViewDataSource, N
     }
     
     //get row for variable taking into account headers, and previous schedule categories of variable
-    func rowForVariable(variable : PSSubjectVariable) -> Int? {
-        if let index = runStartVariables.indexOf(variable) {
+    func rowForVariable(_ variable : PSSubjectVariable) -> Int? {
+        if let index = runStartVariables.index(of: variable) {
             return index + 1
-        } else if let index = runEndVariables.indexOf(variable) {
+        } else if let index = runEndVariables.index(of: variable) {
             return index + 2 + runStartVariables.count
-        } else if let index = neverRunVariables.indexOf(variable) {
+        } else if let index = neverRunVariables.index(of: variable) {
             return index + 3 + runStartVariables.count + runEndVariables.count
         } else {
 
@@ -57,7 +57,7 @@ class PSSubjectVariablesTableViewController : NSObject, NSTableViewDataSource, N
         }
     }
     
-    func variableForRow(row : Int) -> PSSubjectVariable? {
+    func variableForRow(_ row : Int) -> PSSubjectVariable? {
         if row <= 0 { return nil }
         let runStartIndex = row - 1
         if runStartVariables.count > runStartIndex {
@@ -74,43 +74,43 @@ class PSSubjectVariablesTableViewController : NSObject, NSTableViewDataSource, N
         return nil
     }
     
-    func groupForRow(row : Int) -> PSSubjectVariableSchedule? {
+    func groupForRow(_ row : Int) -> PSSubjectVariableSchedule? {
         if row == 0 {
-            return .RunStart
+            return .runStart
         } else if row == runStartVariables.count + 1 {
-            return .RunEnd
+            return .runEnd
         } else if row == runEndVariables.count + runStartVariables.count + 2 {
-            return .Never
+            return .never
         }
         return nil
     }
     
-    func selectItem(subjectVariable : PSSubjectVariable?) {
+    func selectItem(_ subjectVariable : PSSubjectVariable?) {
         selectedVariable = subjectVariable
         if let selectedVariable = selectedVariable, row = rowForVariable(selectedVariable) {
-            tableView.selectRowIndexes(NSIndexSet(index: row), byExtendingSelection: false)
+            tableView.selectRowIndexes(IndexSet(integer: row), byExtendingSelection: false)
         } else {
             tableView.deselectAll(nil)
         }
     }
     
-    func tableView(tableView: NSTableView, isGroupRow row: Int) -> Bool {
+    func tableView(_ tableView: NSTableView, isGroupRow row: Int) -> Bool {
         return groupForRow(row) != nil
     }
     
-    func numberOfRowsInTableView(tableView: NSTableView) -> Int {
+    func numberOfRows(in tableView: NSTableView) -> Int {
         return 3 + runStartVariables.count + runEndVariables.count + neverRunVariables.count
     }
     
-    func tableView(tableView: NSTableView, selectionIndexesForProposedSelection proposedSelectionIndexes: NSIndexSet) -> NSIndexSet {
-        if proposedSelectionIndexes.count <= 1 && variableForRow(proposedSelectionIndexes.firstIndex) != nil {
+    func tableView(_ tableView: NSTableView, selectionIndexesForProposedSelection proposedSelectionIndexes: IndexSet) -> IndexSet {
+        if proposedSelectionIndexes.count <= 1 && variableForRow(proposedSelectionIndexes.first) != nil {
             return proposedSelectionIndexes
         } else {
-            return NSIndexSet(index: -1)
+            return IndexSet(integer: -1)
         }
     }
     
-    func tableViewSelectionDidChange(notification: NSNotification) {
+    func tableViewSelectionDidChange(_ notification: Notification) {
         
         let selectedRow = selectedVariable == nil ? nil : rowForVariable(selectedVariable!)
         if !reloading && selectedRow != tableView.selectedRow && tableView.selectedRow != -1 {
@@ -120,24 +120,24 @@ class PSSubjectVariablesTableViewController : NSObject, NSTableViewDataSource, N
         }
     }
     
-    func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
+    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         let identifier = tableColumn == nil ? "NameColumn" : tableColumn!.identifier
         
-        guard let view = tableView.makeViewWithIdentifier(identifier, owner: nil) else {
+        guard let view = tableView.make(withIdentifier: identifier, owner: nil) else {
             return nil
         }
         
         //first determine if a variable or a group
         if let group = groupForRow(row) {
             if let buttonView = view as? PSButtonTableViewCell {
-                buttonView.button.hidden = true
+                buttonView.button.isHidden = true
                 buttonView.textField?.stringValue = ""
             } else  if let tableCellView = view as? NSTableCellView {
                 tableCellView.textField?.stringValue = group.description()
             }
         } else if let subjectVariable = variableForRow(row) {
             if let buttonView = view as? PSButtonTableViewCell {
-                buttonView.button.hidden = false
+                buttonView.button.isHidden = false
                 buttonView.row = row
                 
                 if identifier == "ValueColumn" {
@@ -188,22 +188,22 @@ class PSSubjectVariablesTableViewController : NSObject, NSTableViewDataSource, N
     //MARK: Drag reordering
     
     
-    func tableView(tableView: NSTableView, acceptDrop info: NSDraggingInfo, row: Int, dropOperation: NSTableViewDropOperation) -> Bool {
+    func tableView(_ tableView: NSTableView, acceptDrop info: NSDraggingInfo, row: Int, dropOperation: NSTableViewDropOperation) -> Bool {
         print("Row: \(row)")
         let pboard = info.draggingPasteboard()
-        if let data = pboard.dataForType(dragReorderType),
-            rowIndexes : NSIndexSet = NSKeyedUnarchiver.unarchiveObjectWithData(data) as? NSIndexSet {
+        if let data = pboard.data(forType: dragReorderType),
+            rowIndexes : IndexSet = NSKeyedUnarchiver.unarchiveObject(with: data) as? IndexSet {
                 
-                guard let subjectVariableToMove = variableForRow(rowIndexes.firstIndex),
+                guard let subjectVariableToMove = variableForRow(rowIndexes.first),
                     subjectInformation = subjectInformation else { return false }
                 if let variablePositionToMoveTo = variableForRow(row) {
                     //this is a row with a subject variable so need to get index of where it is
                     var indexToMoveTo : Int = 0
-                    if let index = runStartVariables.indexOf(variablePositionToMoveTo) {
+                    if let index = runStartVariables.index(of: variablePositionToMoveTo) {
                         indexToMoveTo = index
-                    } else if let index = runEndVariables.indexOf(variablePositionToMoveTo) {
+                    } else if let index = runEndVariables.index(of: variablePositionToMoveTo) {
                         indexToMoveTo = index
-                    } else if let index = neverRunVariables.indexOf(variablePositionToMoveTo) {
+                    } else if let index = neverRunVariables.index(of: variablePositionToMoveTo) {
                         indexToMoveTo = index
                     }
                     subjectInformation.moveVariable(subjectVariableToMove, schedule: variablePositionToMoveTo.storageOptions.schedule, position: indexToMoveTo)
@@ -212,22 +212,22 @@ class PSSubjectVariablesTableViewController : NSObject, NSTableViewDataSource, N
                     var groupPositionToMoveTo : PSSubjectVariableSchedule
                     var positionToMoveTo : Int
                     switch groupHeader {
-                    case .RunStart:
-                        groupPositionToMoveTo = .RunStart // should not be possible this is at zero index....
+                    case .runStart:
+                        groupPositionToMoveTo = .runStart // should not be possible this is at zero index....
                         positionToMoveTo = 0
-                    case .RunEnd:
-                        groupPositionToMoveTo = .RunStart
+                    case .runEnd:
+                        groupPositionToMoveTo = .runStart
                         positionToMoveTo = runStartVariables.count
-                    case .Never:
-                        groupPositionToMoveTo = .RunEnd
+                    case .never:
+                        groupPositionToMoveTo = .runEnd
                         positionToMoveTo = runEndVariables.count
                     }
                     
                     subjectInformation.moveVariable(subjectVariableToMove, schedule: groupPositionToMoveTo, position: positionToMoveTo)
                 } else {
                     //must have moved to the end
-                    if row >= numberOfRowsInTableView(tableView) {
-                        subjectInformation.moveVariable(subjectVariableToMove, schedule: .Never, position: neverRunVariables.count)
+                    if row >= numberOfRows(in: tableView) {
+                        subjectInformation.moveVariable(subjectVariableToMove, schedule: .never, position: neverRunVariables.count)
                     }
                 }
 
@@ -236,21 +236,21 @@ class PSSubjectVariablesTableViewController : NSObject, NSTableViewDataSource, N
         return false
     }
     
-    func tableView(tableView: NSTableView, writeRowsWithIndexes rowIndexes: NSIndexSet, toPasteboard pboard: NSPasteboard) -> Bool {
+    func tableView(_ tableView: NSTableView, writeRowsWith rowIndexes: IndexSet, to pboard: NSPasteboard) -> Bool {
         // Copy the row numbers to the pasteboard.
-        let data = NSKeyedArchiver.archivedDataWithRootObject(rowIndexes)
+        let data = NSKeyedArchiver.archivedData(withRootObject: rowIndexes)
         pboard.declareTypes([dragReorderType], owner: self)
         pboard.setData(data, forType: dragReorderType)
         return true
     }
     
-    func tableView(tableView: NSTableView, validateDrop info: NSDraggingInfo, proposedRow row: Int, proposedDropOperation dropOperation: NSTableViewDropOperation) -> NSDragOperation {
+    func tableView(_ tableView: NSTableView, validateDrop info: NSDraggingInfo, proposedRow row: Int, proposedDropOperation dropOperation: NSTableViewDropOperation) -> NSDragOperation {
         
         //cannot move to row 0 as that is always a group row
-        if row > 0 && dropOperation == .Above {
-            return NSDragOperation.Move
+        if row > 0 && dropOperation == .above {
+            return NSDragOperation.move
         } else {
-            return NSDragOperation.None
+            return NSDragOperation()
         }
     }
 

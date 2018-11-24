@@ -9,12 +9,12 @@
 import Foundation
 
 
-public class PSScriptError : NSObject {
-    public var errorDescription : String = ""
-    public var detailedDescription : String = ""
-    public var solution : String = ""
-    public var entryName : String?
-    public var searchString : String? //the string to search for and highlight within entry
+open class PSScriptError : NSObject {
+    open var errorDescription : String = ""
+    open var detailedDescription : String = ""
+    open var solution : String = ""
+    open var entryName : String?
+    open var searchString : String? //the string to search for and highlight within entry
     public init(errorDescription : String, detailedDescription : String, solution : String, entryName : String? = nil, searchString : String? = nil) {
         self.searchString = entryName
         self.searchString = searchString
@@ -28,7 +28,7 @@ public class PSScriptError : NSObject {
 
 //Parse errors
 
-public func PSErrorEntryName(nameOfIllegalEntry: String) -> PSScriptError {
+public func PSErrorEntryName(_ nameOfIllegalEntry: String) -> PSScriptError {
     let description = "The name for entry: " + nameOfIllegalEntry + " : must consist of just one word"
     let solution = "Rename the entries named: " + nameOfIllegalEntry + " :to something that is just one word"
     return PSScriptError(errorDescription: "Entry Name Error", detailedDescription: description, solution: solution, entryName: nameOfIllegalEntry)
@@ -37,7 +37,7 @@ public func PSErrorEntryName(nameOfIllegalEntry: String) -> PSScriptError {
 
 //Structure errors
 
-public func PSErrorDoubleEntry(nameOfDoubledEntry: String) -> PSScriptError  {
+public func PSErrorDoubleEntry(_ nameOfDoubledEntry: String) -> PSScriptError  {
         let description = "There are two entries named: " + nameOfDoubledEntry
         let solution = "Rename one of the entries named " + nameOfDoubledEntry + " to something different, or delete it"
     return PSScriptError(errorDescription: "Double Entry Error", detailedDescription: description, solution: solution, entryName: nameOfDoubledEntry)
@@ -52,21 +52,21 @@ public func PSErrorNoEntries() -> PSScriptError  {
 
 
 
-public func PSErrorUnknownSyntax(searchString : String) -> PSScriptError  {
+public func PSErrorUnknownSyntax(_ searchString : String) -> PSScriptError  {
         let d = "There is unknown syntax at beginning of script."
         let s = "Check syntax"
         return PSScriptError(errorDescription: "Unknown syntax error", detailedDescription: d, solution: s, searchString: searchString)
     }
 
 
-public func PSErrorInvalidEntryToken(name : String, searchString : String?)  -> PSScriptError {
+public func PSErrorInvalidEntryToken(_ name : String, searchString : String?)  -> PSScriptError {
         let d = "The entry " + name + " has an invalid token type"
         let s = "Check syntax"
     return PSScriptError(errorDescription: "Invalid Entry Token Error", detailedDescription: d, solution: s, entryName: name, searchString: searchString)
     }
 
 
-public func PSErrorDeepEntryToken(entryName : String, subEntryName : String) -> PSScriptError {
+public func PSErrorDeepEntryToken(_ entryName : String, subEntryName : String) -> PSScriptError {
         let d = "The sub entry " + subEntryName + " cannot be a sub entry of any preceeding entries, as it's token suggests it is a level deeper than expected."
         let s = "Check syntax"
     return PSScriptError(errorDescription: "Deep Entry Error", detailedDescription: d, solution: s, entryName: entryName, searchString: subEntryName)
@@ -74,21 +74,21 @@ public func PSErrorDeepEntryToken(entryName : String, subEntryName : String) -> 
 
 
 
-public func PSErrorAlreadyDefinedType(entryName : String, type1 : String) -> PSScriptError {
+public func PSErrorAlreadyDefinedType(_ entryName : String, type1 : String) -> PSScriptError {
         let d = "The entry " + entryName + " has already been defined as a " + type1 + " double definition is illegal"
         let s = "Check syntax"
         return PSScriptError(errorDescription: "Double Definition Error", detailedDescription: d, solution: s, entryName: entryName)
     }
 
 
-public func PSErrorAmbiguousType(entryName : String, type1 : String, type2 : String) -> PSScriptError {
+public func PSErrorAmbiguousType(_ entryName : String, type1 : String, type2 : String) -> PSScriptError {
         let d = "The entry " + entryName + " can be defined as either a " + type1 + " or a " + type2
         let s = "Check syntax"
         return PSScriptError(errorDescription: "Ambiguous Type Error", detailedDescription: d, solution: s, entryName: entryName)
     }
 
 
-public func PSErrorEntryNotFound(entryName : String, parentEntry : String, subEntry : String) -> PSScriptError {
+public func PSErrorEntryNotFound(_ entryName : String, parentEntry : String, subEntry : String) -> PSScriptError {
     var entryLocation = parentEntry
     if subEntry != "" {
         entryLocation = entryLocation + "->" + subEntry
@@ -101,7 +101,7 @@ public func PSErrorEntryNotFound(entryName : String, parentEntry : String, subEn
 
 //Name Error
 
-public func PSErrorIllegalEntryName(nameOfEntry: String) -> PSScriptError  {
+public func PSErrorIllegalEntryName(_ nameOfEntry: String) -> PSScriptError  {
     let description = "The name: \(nameOfEntry) is illegal for entries in this version of PsyScope"
     let solution = "Please rename all references to this entry to a new name"
     return PSScriptError(errorDescription: "Illegal Name Error", detailedDescription: description, solution: solution, entryName: nameOfEntry)

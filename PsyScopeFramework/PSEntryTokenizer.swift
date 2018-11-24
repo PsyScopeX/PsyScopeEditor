@@ -12,19 +12,19 @@ import Foundation
 
 
 enum PSTokenType : Int {
-    case OpenRoundBracket = 1
-    case CloseRoundBracket
-    case OpenSquareBracket
-    case CloseSquareBracket
-    case QuoteString
-    case SingleQuoteString
-    case CurlyBracketString
-    case Value
-    case BinaryOperator
-    case UnaryOperator
-    case WhiteSpace
-    case InlineAttributeSymbol
-    case FunctionEvaluationSymbol
+    case openRoundBracket = 1
+    case closeRoundBracket
+    case openSquareBracket
+    case closeSquareBracket
+    case quoteString
+    case singleQuoteString
+    case curlyBracketString
+    case value
+    case binaryOperator
+    case unaryOperator
+    case whiteSpace
+    case inlineAttributeSymbol
+    case functionEvaluationSymbol
 }
 
 struct PSToken{
@@ -35,20 +35,20 @@ struct PSToken{
 class PSTokenizer {
     
     init(string : String) {
-        scanner = NSScanner(string: string)
+        scanner = Scanner(string: string)
         scanner.charactersToBeSkipped = nil
         tokens = []
         tokenize()
     }
     
     var tokens : [PSToken]
-    let scanner : NSScanner
+    let scanner : Scanner
     var error = false
     
     func tokenize() {
         
         
-        while (scanner.atEnd == false) {
+        while (scanner.isAtEnd == false) {
             var not_found = true
             not_found = !tokenizeDoubleSymbol()
             not_found = not_found && !tokenizeSingleSymbol()
@@ -74,20 +74,20 @@ class PSTokenizer {
                 return ""
             }})
         
-        return tokensAsStrings.joinWithSeparator(" / ")
+        return tokensAsStrings.joined(separator: " / ")
     }
     
-    let whiteSpaceNewLine = NSCharacterSet.whitespaceAndNewlineCharacterSet()
-    lazy var validValueCharacters : NSCharacterSet = {
-        var set : NSMutableCharacterSet = NSMutableCharacterSet.alphanumericCharacterSet()
-        set.addCharactersInString("_")
-        set.addCharactersInString("%")
+    let whiteSpaceNewLine = CharacterSet.whitespacesAndNewlines
+    lazy var validValueCharacters : CharacterSet = {
+        var set : NSMutableCharacterSet = NSMutableCharacterSet.alphanumeric()
+        set.addCharacters(in: "_")
+        set.addCharacters(in: "%")
         return set
         }()
     
-    func tokenizeStringArray(array : [String], type: PSTokenType) -> Bool {
+    func tokenizeStringArray(_ array : [String], type: PSTokenType) -> Bool {
         for str in array {
-            if scanner.scanString(str, intoString: nil) {
+            if scanner.scanString(str, into: nil) {
                 tokens.append(PSToken(type: type, value: str))
                 return true
             }
@@ -97,8 +97,8 @@ class PSTokenizer {
     
     func tokenizeValue() -> Bool {
         var value : NSString?
-        if scanner.scanCharactersFromSet(validValueCharacters, intoString: &value) {
-            tokens.append(PSToken(type: .Value, value : value as? String))
+        if scanner.scanCharacters(from: validValueCharacters, into: &value) {
+            tokens.append(PSToken(type: .value, value : value as? String))
             return true
         }
         return false
@@ -106,22 +106,22 @@ class PSTokenizer {
     
     func tokenizeWhitespace() -> Bool {
         var value : NSString?
-        if scanner.scanCharactersFromSet(whiteSpaceNewLine, intoString: &value) {
-            tokens.append(PSToken(type: .WhiteSpace, value : value as? String))
+        if scanner.scanCharacters(from: whiteSpaceNewLine, into: &value) {
+            tokens.append(PSToken(type: .whiteSpace, value : value as? String))
             return true
-        } else if scanner.scanString(commaToken, intoString: &value) {
-            tokens.append(PSToken(type: .WhiteSpace, value : value as? String))
+        } else if scanner.scanString(commaToken, into: &value) {
+            tokens.append(PSToken(type: .whiteSpace, value : value as? String))
             return true
         }
         return false
     }
     
     func tokenizeDoubleSymbol() -> Bool {
-        if tokenizeStringArray(doubleSymbolBinaryTokens, type: .BinaryOperator) {
+        if tokenizeStringArray(doubleSymbolBinaryTokens, type: .binaryOperator) {
             return true
-        } else if tokenizeStringArray(doubleSymbolUnaryTokens, type: .UnaryOperator) {
+        } else if tokenizeStringArray(doubleSymbolUnaryTokens, type: .unaryOperator) {
             return true
-        } else if tokenizeStringArray(functionEvaluationTokens, type: .FunctionEvaluationSymbol) {
+        } else if tokenizeStringArray(functionEvaluationTokens, type: .functionEvaluationSymbol) {
             return true
         } /*else if tokenizeStringArray(symbolValueTokens, type: .Value) {
             return true
@@ -130,12 +130,12 @@ class PSTokenizer {
     }
     
     func tokenizeSingleSymbol() -> Bool {
-        if tokenizeStringArray(singleSymbolBinaryTokens, type: .BinaryOperator) {
+        if tokenizeStringArray(singleSymbolBinaryTokens, type: .binaryOperator) {
             return true
-        } else if tokenizeStringArray(singleSymbolUnaryTokens, type: .UnaryOperator) {
+        } else if tokenizeStringArray(singleSymbolUnaryTokens, type: .unaryOperator) {
             return true
-        } else if scanner.scanString(inlineAttributeToken, intoString: nil) {
-            tokens.append(PSToken(type: .InlineAttributeSymbol, value: inlineAttributeToken))
+        } else if scanner.scanString(inlineAttributeToken, into: nil) {
+            tokens.append(PSToken(type: .inlineAttributeSymbol, value: inlineAttributeToken))
             return true
         }
         return false
@@ -143,7 +143,7 @@ class PSTokenizer {
     
     func tokenizeCurlyBracketString() -> Bool {
         
-        if scanner.scanString("{", intoString: nil) {
+        if scanner.scanString("{", into: nil) {
             var nestedLevel = 1
             var fullValue : String = ""
             
@@ -152,15 +152,15 @@ class PSTokenizer {
             while (!scannedAll) {
             
                 var value : NSString?
-                scanner.scanUpToCharactersFromSet(NSCharacterSet(charactersInString: "{}"), intoString: &value)
+                scanner.scanUpToCharacters(from: CharacterSet(charactersIn: "{}"), into: &value)
                 if let v = value {
                     fullValue += v as String
                 }
             
-                if scanner.scanString("{", intoString: nil) {
+                if scanner.scanString("{", into: nil) {
                     fullValue += "{"
                     nestedLevel++
-                } else if scanner.scanString("}", intoString: nil) {
+                } else if scanner.scanString("}", into: nil) {
                     if nestedLevel > 1 {
                         fullValue += "}"
                     }
@@ -171,7 +171,7 @@ class PSTokenizer {
         
                 if nestedLevel == 0 {
                     scannedAll = true
-                } else if scanner.atEnd {
+                } else if scanner.isAtEnd {
                     AddError("No matching close bracket for curly bracket string before end of file")
                     return true
                 }
@@ -180,38 +180,38 @@ class PSTokenizer {
             }
             
             
-            tokens.append(PSToken(type: .CurlyBracketString, value: fullValue))
+            tokens.append(PSToken(type: .curlyBracketString, value: fullValue))
             return true
         }
         return false
     }
     
     func tokenizeQuoteString() -> Bool {
-        if scanner.scanString("\"", intoString: nil) {
+        if scanner.scanString("\"", into: nil) {
             var value : NSString?
-            scanner.scanUpToString("\"", intoString: &value)
+            scanner.scanUpTo("\"", into: &value)
             
             if value == nil {
                 value = ""
             }
             
-            if scanner.scanString("\"", intoString: nil) {
-                tokens.append(PSToken(type: .QuoteString, value: value as? String))
+            if scanner.scanString("\"", into: nil) {
+                tokens.append(PSToken(type: .quoteString, value: value as? String))
                 return true
             } else {
                 AddError("No matching close quote for double quote string")
                 return true
             }
-        } else  if scanner.scanString("'", intoString: nil) {
+        } else  if scanner.scanString("'", into: nil) {
                 var value : NSString?
-                scanner.scanUpToString("'", intoString: &value)
+                scanner.scanUpTo("'", into: &value)
                 
                 if value == nil {
                     value = ""
                 }
                 
-                if scanner.scanString("'", intoString: nil) {
-                    tokens.append(PSToken(type: .SingleQuoteString, value: value as? String))
+                if scanner.scanString("'", into: nil) {
+                    tokens.append(PSToken(type: .singleQuoteString, value: value as? String))
                     return true
                 } else {
                     AddError("No matching close quote for single quote string")
@@ -222,17 +222,17 @@ class PSTokenizer {
     }
     
     func tokenizeBrackets() -> Bool {
-        if scanner.scanString("(", intoString: nil) {
-            tokens.append(PSToken(type: .OpenRoundBracket, value: "("))
+        if scanner.scanString("(", into: nil) {
+            tokens.append(PSToken(type: .openRoundBracket, value: "("))
             return true
-        } else if scanner.scanString(")", intoString: nil) {
-            tokens.append(PSToken(type: .CloseRoundBracket, value: ")"))
+        } else if scanner.scanString(")", into: nil) {
+            tokens.append(PSToken(type: .closeRoundBracket, value: ")"))
             return true
-        } else if scanner.scanString("[", intoString: nil) {
-            tokens.append(PSToken(type: .OpenSquareBracket, value: "["))
+        } else if scanner.scanString("[", into: nil) {
+            tokens.append(PSToken(type: .openSquareBracket, value: "["))
             return true
-        } else if scanner.scanString("]", intoString: nil) {
-            tokens.append(PSToken(type: .CloseSquareBracket, value: "]"))
+        } else if scanner.scanString("]", into: nil) {
+            tokens.append(PSToken(type: .closeSquareBracket, value: "]"))
             return true
         }
         return false
@@ -240,7 +240,7 @@ class PSTokenizer {
     
     
     
-    func AddError(description : String) {
+    func AddError(_ description : String) {
         error = true
         print("ERROR: " + description)
     }

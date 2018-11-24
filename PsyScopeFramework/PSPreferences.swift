@@ -18,7 +18,7 @@ public struct PSPreference {
     public let defaultValue : AnyObject
     public var value : AnyObject {
         get {
-            if let val = NSUserDefaults.standardUserDefaults().objectForKey(key) {
+            if let val = UserDefaults.standard.object(forKey: key) {
                 return val
             } else {
                 return defaultValue
@@ -27,7 +27,7 @@ public struct PSPreference {
     }
     
     public  var stringValue : String {
-        if let val =  NSUserDefaults.standardUserDefaults().stringForKey(key) {
+        if let val =  UserDefaults.standard.string(forKey: key) {
             return val
         } else if let val = value as? String {
             return val
@@ -37,33 +37,33 @@ public struct PSPreference {
     }
     
     public var integerValue : Int {
-        return NSUserDefaults.standardUserDefaults().integerForKey(key)
+        return UserDefaults.standard.integer(forKey: key)
     }
     
     public var boolValue : Bool {
-        return NSUserDefaults.standardUserDefaults().boolForKey(key)
+        return UserDefaults.standard.bool(forKey: key)
     }
     
     public func resetToDefault() {
-        NSUserDefaults.standardUserDefaults().setObject(self.defaultValue, forKey: key)
+        UserDefaults.standard.set(self.defaultValue, forKey: key)
     }
 }
 
 public let PSPluginPathKey = "pluginPath"
 
-public class PSPreferences {
+open class PSPreferences {
     
     //warning: do not change these string values as they will mess up bindings!
-    public static let cleanUpXSpacing : PSPreference = PSPreference(key: "CleanUpXSpacing", defaultValue: Int(50))
-    public static let cleanUpYSpacing : PSPreference = PSPreference(key: "CleanUpYSpacing", defaultValue: Int(75))
+    open static let cleanUpXSpacing : PSPreference = PSPreference(key: "CleanUpXSpacing", defaultValue: Int(50))
+    open static let cleanUpYSpacing : PSPreference = PSPreference(key: "CleanUpYSpacing", defaultValue: Int(75))
     
-    public static let showEvents : PSPreference = PSPreference(key: "showingEvents", defaultValue: true)
-    public static let showLists : PSPreference = PSPreference(key: "showingLists", defaultValue: true)
+    open static let showEvents : PSPreference = PSPreference(key: "showingEvents", defaultValue: true)
+    open static let showLists : PSPreference = PSPreference(key: "showingLists", defaultValue: true)
     
-    public static let psyScopeXPath : PSPreference = PSPreference(key: "psyScopeXPath", defaultValue: ((NSBundle.mainBundle().resourcePath! as NSString).stringByAppendingPathComponent("PsyScopeXCurrentVersion") as NSString).stringByAppendingPathComponent("PsyScope X B77.app"))
-    public static let pluginPath : PSPreference = PSPreference(key: PSPluginPathKey, defaultValue: "")
-    public static let automaticallyUpdateScript : PSPreference = PSPreference(key: "automaticallyUpdateScript", defaultValue: false)
-    public class func getDefaults() -> [String : AnyObject] {
+    open static let psyScopeXPath : PSPreference = PSPreference(key: "psyScopeXPath", defaultValue: ((Bundle.main.resourcePath! as NSString).appendingPathComponent("PsyScopeXCurrentVersion") as NSString).appendingPathComponent("PsyScope X B77.app"))
+    open static let pluginPath : PSPreference = PSPreference(key: PSPluginPathKey, defaultValue: "")
+    open static let automaticallyUpdateScript : PSPreference = PSPreference(key: "automaticallyUpdateScript", defaultValue: false)
+    open class func getDefaults() -> [String : AnyObject] {
         let defaults : [PSPreference] = [cleanUpXSpacing, cleanUpYSpacing, showEvents, showLists, psyScopeXPath]
         var dic : [String : AnyObject] = [:]
         for d in defaults {

@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class PSFunctionTextField : NSTextField, NSTextViewDelegate {
+open class PSFunctionTextField : NSTextField, NSTextViewDelegate {
     
 
     var controller : PSEntryValueController!
@@ -16,18 +16,18 @@ public class PSFunctionTextField : NSTextField, NSTextViewDelegate {
     var menuTarget : AnyObject!
     var menuAction : Selector!
     
-    func setupContextMenu(target: AnyObject, action: Selector, scriptData: PSScriptData, controller : PSEntryValueController) {
+    func setupContextMenu(_ target: AnyObject, action: Selector, scriptData: PSScriptData, controller : PSEntryValueController) {
         self.scriptData = scriptData
         menuTarget = target
         menuAction = action
         self.controller = controller
     }
     
-    public func update() {
+    open func update() {
         self.stringValue = controller.stringValue
     }
     
-    override public var menu : NSMenu? {
+    override open var menu : NSMenu? {
         get {
             return scriptData.getVaryByMenu(menuTarget, action: menuAction)
         }
@@ -35,7 +35,7 @@ public class PSFunctionTextField : NSTextField, NSTextViewDelegate {
         }
     }
     
-    public func textView(view: NSTextView, menu: NSMenu, forEvent event: NSEvent, atIndex charIndex: Int) -> NSMenu? {
+    open func textView(_ view: NSTextView, menu: NSMenu, for event: NSEvent, at charIndex: Int) -> NSMenu? {
         return self.menu
     }
 }

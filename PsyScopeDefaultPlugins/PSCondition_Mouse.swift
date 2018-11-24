@@ -19,11 +19,11 @@ class PSCondition_Mouse : PSCondition {
 
     
     override func nib() -> NSNib {
-        return NSNib(nibNamed: "Condition_MouseCell", bundle: NSBundle(forClass:self.dynamicType))!
+        return NSNib(nibNamed: "Condition_MouseCell", bundle: Bundle(for:self.dynamicType))!
     }
 
     override func icon() -> NSImage {
-        let image : NSImage = NSImage(contentsOfFile: NSBundle(forClass:self.dynamicType).pathForImageResource("MouseClick")!)!
+        let image : NSImage = NSImage(contentsOfFile: Bundle(for:self.dynamicType).pathForImageResource("MouseClick")!)!
         return image
     }
     
@@ -42,7 +42,7 @@ class PSCondition_Mouse_Cell : PSConditionCell {
     var portName : String = ""
 
     
-    override func setup(conditionInterface: PSConditionInterface, function entryFunction: PSFunctionElement, scriptData: PSScriptData, expandedHeight: CGFloat) {
+    override func setup(_ conditionInterface: PSConditionInterface, function entryFunction: PSFunctionElement, scriptData: PSScriptData, expandedHeight: CGFloat) {
         super.setup(conditionInterface,function: entryFunction,scriptData: scriptData, expandedHeight: expandedHeight)
 
         clickButton.state = 0
@@ -53,21 +53,21 @@ class PSCondition_Mouse_Cell : PSConditionCell {
         for v in entryFunction.values {
             
             switch(v) {
-            case .Function(let functionElement):
-                if functionElement.functionName.lowercaseString == "portname" {
-                    portName = functionElement.getStrippedStringValues().joinWithSeparator(" ")
+            case .function(let functionElement):
+                if functionElement.functionName.lowercased() == "portname" {
+                    portName = functionElement.getStrippedStringValues().joined(separator: " ")
                     portButton.state = 1
                 }
                 break
-            case .List:
+            case .list:
                 break
-            case .Null:
+            case .null:
                 break
-            case .StringToken(let stringElement):
+            case .stringToken(let stringElement):
                 let string = stringElement.value
-                if string.lowercaseString == "click" {
+                if string.lowercased() == "click" {
                     clickButton.state = 1
-                }else if string.lowercaseString == "move" {
+                }else if string.lowercased() == "move" {
                     moveButton.state = 1
                 }
                 break
@@ -80,7 +80,7 @@ class PSCondition_Mouse_Cell : PSConditionCell {
 
     }
     
-    @IBAction func parameterChange(sender : AnyObject) {
+    @IBAction func parameterChange(_ sender : AnyObject) {
         var outputString = ""
         
         if clickButton.state == 1 {
@@ -100,12 +100,12 @@ class PSCondition_Mouse_Cell : PSConditionCell {
     }
     
  
-    @IBAction func choosePortButton(sender : AnyObject) {
+    @IBAction func choosePortButton(_ sender : AnyObject) {
         
         let popup = PSPortBuilderController(currentValue: PSGetFirstEntryElementForStringOrNull("PortName(\"\(self.portName)\")"), scriptData: scriptData, positionMode: false, setCurrentValueBlock : { (cValue: PSEntryElement) -> () in
             
             let functionElement = PSFunctionElement.FromStringValue(cValue.stringValue())
-            self.portName = functionElement.getStrippedStringValues().joinWithSeparator(" ")
+            self.portName = functionElement.getStrippedStringValues().joined(separator: " ")
             self.portChangeButton.title = self.portName
             self.portButton.state = 1
             self.parameterChange(self)

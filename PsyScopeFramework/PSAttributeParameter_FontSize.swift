@@ -7,10 +7,10 @@
 
 import Foundation
 
-public class PSAttributeParameter_FontSize : PSAttributeParameter_Button {
+open class PSAttributeParameter_FontSize : PSAttributeParameter_Button {
     
-    override func clickButton(sender : NSButton) {
-        let fontpopup = PSFontAttributePopup(currentValue: currentValue, displayName: "Choose Font Size", type: PSFontAttributePopupType.SizeOnly, setCurrentValueBlock: {
+    override func clickButton(_ sender : NSButton) {
+        let fontpopup = PSFontAttributePopup(currentValue: currentValue, displayName: "Choose Font Size", type: PSFontAttributePopupType.sizeOnly, setCurrentValueBlock: {
             
             (cValue : PSEntryElement) -> () in
             self.currentValue = cValue

@@ -17,7 +17,7 @@ class PSVariableTypePopup: NSObject {
         super.init()
 
         
-        NSBundle(forClass:self.dynamicType).loadNibNamed("VariableTypeBuilder", owner: self, topLevelObjects: &topLevelObjects)
+        Bundle(for:self.dynamicType).loadNibNamed("VariableTypeBuilder", owner: self, topLevelObjects: &topLevelObjects)
     }
     
     //MARK: Variables / Constants
@@ -41,10 +41,10 @@ class PSVariableTypePopup: NSObject {
             (response : NSModalResponse) -> () in
             //[sheet orderOut:self];
             //[NSApp stopModalWithCode:returnCode];
-            NSApp.stopModalWithCode(response)
+            NSApp.stopModal(withCode: response)
         })
         
-        NSApp.runModalForWindow(popupWindow)
+        NSApp.runModal(for: popupWindow)
     
     }
     

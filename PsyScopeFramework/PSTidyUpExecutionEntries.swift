@@ -9,7 +9,7 @@
 import Foundation
 
 //ensure the exectuion entries are ordered correctly
-public func PSTidyUpExecutionEntries(scriptData : PSScriptData) {
+public func PSTidyUpExecutionEntries(_ scriptData : PSScriptData) {
     for (promptEntryName,logEntryName) in [("RunStart","LogRunStart"),("RunEnd","LogRunEnd")] {
         
         //for the log entry, determine if it is present

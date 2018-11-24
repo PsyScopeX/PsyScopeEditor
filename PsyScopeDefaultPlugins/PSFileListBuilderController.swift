@@ -39,15 +39,15 @@ class PSFileListBuilderController : NSObject {
         
         if let weightsColumn = fileList.weightsColumn {
             weightsCheckButton.state = 1
-            columnNames.insert("Weights", atIndex: 0)
+            columnNames.insert("Weights", at: 0)
             
             if previewData.count > 0 {
                 for index in 0...(previewData.count - 1) {
                     var row : [String] = previewData[index]
                     if index < weightsColumn.count {
-                        row.insert(String(weightsColumn[index]), atIndex: 0)
+                        row.insert(String(weightsColumn[index]), at: 0)
                     } else {
-                        row.insert("1", atIndex: 0)
+                        row.insert("1", at: 0)
                     }
                     previewData[index] = row
                 }
@@ -59,7 +59,7 @@ class PSFileListBuilderController : NSObject {
         }
     }
     
-    func setWeightsValue(value : String, row: Int) {
+    func setWeightsValue(_ value : String, row: Int) {
         
         guard let intValue = Int(value) else { return }
         
@@ -90,7 +90,7 @@ class PSFileListBuilderController : NSObject {
     
     //MARK: Adjust number of columns
     
-    override func controlTextDidEndEditing(obj: NSNotification) {
+    override func controlTextDidEndEditing(_ obj: Notification) {
         if obj.object === numberOfColumnsTextField {
             fileList.numberOfColumns = numberOfColumnsTextField.integerValue
         } else if obj.object === filePathTextField {
@@ -105,7 +105,7 @@ class PSFileListBuilderController : NSObject {
     @IBAction func weightsCheckButtonClicked(_:AnyObject) {
         if weightsCheckButton.state == 1 {
             let numberOfRows = fileList.previewOfContents.count
-            fileList.weightsColumn = [Int](count:numberOfRows, repeatedValue: 1)
+            fileList.weightsColumn = [Int](repeating: 1, count: numberOfRows)
         } else {
             fileList.weightsColumn = nil
         }

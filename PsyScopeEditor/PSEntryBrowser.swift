@@ -35,10 +35,10 @@ class PSEntryBrowser : NSObject, NSOutlineViewDataSource, NSOutlineViewDelegate 
     var scriptData : PSScriptData!
     var categories : [PSEntryBrowserCategory] = []
     
-    func setup(scriptData : PSScriptData) {
+    func setup(_ scriptData : PSScriptData) {
         self.scriptData = scriptData
-        let nib = NSNib(nibNamed: "PSEntryBrowserCell", bundle: NSBundle(forClass:self.dynamicType))!
-        outlineView.registerNib(nib, forIdentifier: "PSEntryBrowserCell")
+        let nib = NSNib(nibNamed: "PSEntryBrowserCell", bundle: Bundle(for:self.dynamicType))!
+        outlineView.register(nib, forIdentifier: "PSEntryBrowserCell")
     }
     
     func update() {
@@ -59,13 +59,13 @@ class PSEntryBrowser : NSObject, NSOutlineViewDataSource, NSOutlineViewDelegate 
         }
         
         for cat in current_categories {
-            cat.entries = cat.entries.sort({ (s1: Entry, s2: Entry) -> Bool in
+            cat.entries = cat.entries.sorted(by: { (s1: Entry, s2: Entry) -> Bool in
                 return s1.name < s2.name })
         }
         
         categories = Array(current_categories)
         
-        categories = categories.sort({ (s1: PSEntryBrowserCategory, s2: PSEntryBrowserCategory) -> Bool in
+        categories = categories.sorted(by: { (s1: PSEntryBrowserCategory, s2: PSEntryBrowserCategory) -> Bool in
             return s1.name < s2.name })
         
         var iconForName : [String : NSImage] = [:]
@@ -86,7 +86,7 @@ class PSEntryBrowser : NSObject, NSOutlineViewDataSource, NSOutlineViewDelegate 
     var categoryDictionary : [String : PSEntryBrowserCategory] = [:]
     var typeToCategoryName : [String : String] = [:]
     
-    func categoryForType(type : String) -> PSEntryBrowserCategory {
+    func categoryForType(_ type : String) -> PSEntryBrowserCategory {
         //search for pre stored
         if let categoryName = typeToCategoryName[type], category = categoryDictionary[categoryName] {
             return category
@@ -108,7 +108,7 @@ class PSEntryBrowser : NSObject, NSOutlineViewDataSource, NSOutlineViewDelegate 
         return categoryForCategoryName("Other", associateType: type, icon: icons[type]!)
     }
     
-    func categoryForCategoryName(name : String, associateType : String?, icon: NSImage) -> PSEntryBrowserCategory {
+    func categoryForCategoryName(_ name : String, associateType : String?, icon: NSImage) -> PSEntryBrowserCategory {
         if let type = associateType {
             typeToCategoryName[type] = name
             
@@ -122,7 +122,7 @@ class PSEntryBrowser : NSObject, NSOutlineViewDataSource, NSOutlineViewDelegate 
         }
     }
     
-    func outlineView(outlineView: NSOutlineView, child index: Int, ofItem item: AnyObject?) -> AnyObject {
+    func outlineView(_ outlineView: NSOutlineView, child index: Int, ofItem item: Any?) -> Any {
         if item == nil {
             return categories[index]
         } else if let category = item as? PSEntryBrowserCategory {
@@ -131,7 +131,7 @@ class PSEntryBrowser : NSObject, NSOutlineViewDataSource, NSOutlineViewDelegate 
         return 0
     }
     
-    func outlineView(outlineView: NSOutlineView, isGroupItem item: AnyObject) -> Bool {
+    func outlineView(_ outlineView: NSOutlineView, isGroupItem item: Any) -> Bool {
         if item is PSEntryBrowserCategory {
             return true
         }
@@ -139,7 +139,7 @@ class PSEntryBrowser : NSObject, NSOutlineViewDataSource, NSOutlineViewDelegate 
         return false
     }
     
-    func outlineView(outlineView: NSOutlineView, isItemExpandable item: AnyObject) -> Bool {
+    func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: Any) -> Bool {
         if let category = item as? PSEntryBrowserCategory {
             if category.entries.count > 0 {
                 return true
@@ -148,7 +148,7 @@ class PSEntryBrowser : NSObject, NSOutlineViewDataSource, NSOutlineViewDelegate 
         return false
     }
     
-    func outlineView(outlineView: NSOutlineView, numberOfChildrenOfItem item: AnyObject?) -> Int {
+    func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int {
         if item == nil {
             return categories.count
         } else if let category = item as? PSEntryBrowserCategory {
@@ -157,8 +157,8 @@ class PSEntryBrowser : NSObject, NSOutlineViewDataSource, NSOutlineViewDelegate 
         return 0
     }
     
-    func outlineView(outlineView: NSOutlineView, viewForTableColumn tableColumn: NSTableColumn?, item: AnyObject) -> NSView? {
-        let view = outlineView.makeViewWithIdentifier("PSEntryBrowserCell", owner: nil) as! NSTableCellView
+    func outlineView(_ outlineView: NSOutlineView, viewFor tableColumn: NSTableColumn?, item: Any) -> NSView? {
+        let view = outlineView.make(withIdentifier: "PSEntryBrowserCell", owner: nil) as! NSTableCellView
         if let category = item as? PSEntryBrowserCategory {
             view.textField?.stringValue = category.name
             view.imageView!.image = category.icon
@@ -170,7 +170,7 @@ class PSEntryBrowser : NSObject, NSOutlineViewDataSource, NSOutlineViewDelegate 
         return view
     }
     
-    func outlineView(outlineView: NSOutlineView, shouldSelectItem item: AnyObject) -> Bool {
+    func outlineView(_ outlineView: NSOutlineView, shouldSelectItem item: Any) -> Bool {
         if let entry = item as? Entry {
             scriptData.selectionInterface.selectEntry(entry)
             

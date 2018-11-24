@@ -36,7 +36,7 @@ class PSListTool: PSTool, PSToolInterface {
         toolType = PSType.List
         helpfulDescriptionString = "Node for defining a list"
         iconName = "List-icon"
-        iconColor = NSColor.blueColor()
+        iconColor = NSColor.blue
         classNameString = "PSListTool"
         section = PSSection.ListDefinitions
         identityProperty = Properties.Factors
@@ -53,7 +53,7 @@ class PSListTool: PSTool, PSToolInterface {
         
     }
     
-    override func identifyEntries(ghostScript: PSGhostScript) -> [PSScriptError] {
+    override func identifyEntries(_ ghostScript: PSGhostScript) -> [PSScriptError] {
         
         var errors : [PSScriptError] = PSTool.identifyEntriesByKeyAttribute(ghostScript, keyAttribute: "IsList", type: toolType)
         
@@ -62,7 +62,7 @@ class PSListTool: PSTool, PSToolInterface {
         return errors
     }
     
-    override func updateEntry(realEntry: Entry, withGhostEntry ghostEntry: PSGhostEntry, scriptData: PSScriptData) {
+    override func updateEntry(_ realEntry: Entry, withGhostEntry ghostEntry: PSGhostEntry, scriptData: PSScriptData) {
         super.updateEntry(realEntry, withGhostEntry: ghostEntry, scriptData: scriptData)
         
         //all sub entries are properties
@@ -80,7 +80,7 @@ class PSListTool: PSTool, PSToolInterface {
     }
     
     
-    override func deleteObject(lobject: Entry, withScript scriptData: PSScriptData) -> Bool {
+    override func deleteObject(_ lobject: Entry, withScript scriptData: PSScriptData) -> Bool {
         //remove all links
         for parent in lobject.layoutObject.parentLink as! Set<LayoutObject> {
             deleteLinkFrom(parent.mainEntry, to: lobject, withScript: scriptData)
@@ -89,7 +89,7 @@ class PSListTool: PSTool, PSToolInterface {
         return true
     }
     
-    override func deleteLinkFrom(parent: Entry, to child: Entry, withScript scriptData: PSScriptData) -> Bool {
+    override func deleteLinkFrom(_ parent: Entry, to child: Entry, withScript scriptData: PSScriptData) -> Bool {
         parent.layoutObject.removeChildLinkObject(child.layoutObject)
         let factors_entry = scriptData.getOrCreateSubEntry("Factors", entry: parent, isProperty: true)
         let sets_entry = scriptData.getOrCreateSubEntry("Sets", entry: factors_entry, isProperty: true)
@@ -112,11 +112,11 @@ class PSListTool: PSTool, PSToolInterface {
         return true
     }
     
-    override func identifyAsAttributeSourceAndReturnRepresentiveString(currentValue: String) -> [AnyObject] {
+    override func identifyAsAttributeSourceAndReturnRepresentiveString(_ currentValue: String) -> [AnyObject] {
         return PSToolHelper.attributedStringForAttributeFunction("FactorAttrib", icon: self.icon(), currentValue: currentValue)
     }
     
-    override func menuItemSelectedForAttributeSource(itemTitle: String, tag: Int, entry: Entry?, originalValue: String, originalFullType : PSAttributeType?, scriptData: PSScriptData) -> String {
+    override func menuItemSelectedForAttributeSource(_ itemTitle: String, tag: Int, entry: Entry?, originalValue: String, originalFullType : PSAttributeType?, scriptData: PSScriptData) -> String {
 
         
         if let entry = entry {
@@ -147,9 +147,9 @@ class PSListTool: PSTool, PSToolInterface {
                         let alert = NSAlert()
                         alert.messageText = question
                         alert.informativeText = info
-                        alert.addButtonWithTitle(yesButton)
-                        alert.addButtonWithTitle(noButton)
-                        alert.addButtonWithTitle(cancelButton)
+                        alert.addButton(withTitle: yesButton)
+                        alert.addButton(withTitle: noButton)
+                        alert.addButton(withTitle: cancelButton)
                         
                         let answer = alert.runModal()
                         if answer == NSAlertFirstButtonReturn {
@@ -191,7 +191,7 @@ class PSListTool: PSTool, PSToolInterface {
     // set the menuItem representedObject to an entry, for with entry, and again tag to whatever
     
     
-    override func constructAttributeSourceSubMenu(scriptData: PSScriptData) -> NSMenuItem {
+    override func constructAttributeSourceSubMenu(_ scriptData: PSScriptData) -> NSMenuItem {
         
         let subMenuItem = NSMenuItem(title: "List", action: "", keyEquivalent: "l")
         subMenuItem.representedObject = self
@@ -245,7 +245,7 @@ class PSListTool: PSTool, PSToolInterface {
     
 
     
-    override func getPropertiesViewController(entry: Entry, withScript scriptData: PSScriptData) -> PSPluginViewController? {
+    override func getPropertiesViewController(_ entry: Entry, withScript scriptData: PSScriptData) -> PSPluginViewController? {
         
         return PSListViewController(entry: entry, scriptData: scriptData)
     }

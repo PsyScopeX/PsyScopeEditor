@@ -8,7 +8,7 @@
 import Cocoa
 
 //runs PSScriptReader as an operation and allows access to token string and errors
-class PSScriptReaderOperation: NSOperation {
+class PSScriptReaderOperation: Operation {
     
     //mode with scriptWriter
     init(scriptWriter : PSScriptWriter) {
@@ -31,12 +31,12 @@ class PSScriptReaderOperation: NSOperation {
     var valueRefersToEntry : Bool = false
     
     override func main() {
-        if self.cancelled { return }
+        if self.isCancelled { return }
         
         if let sw = scriptWriter {
             self.script = sw.generateScript()
         }
-        if self.cancelled { return }
+        if self.isCancelled { return }
         scriptReader = PSScriptReader(script: self.script)
     }
     

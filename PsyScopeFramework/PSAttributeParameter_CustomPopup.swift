@@ -9,43 +9,43 @@
 import Foundation
 
 //override values to tailor this to specific attributes
-public class PSAttributeParameter_CustomPopup : PSAttributeParameter {
+open class PSAttributeParameter_CustomPopup : PSAttributeParameter {
     var popUpButton : NSPopUpButton!
     
-    override public func setCustomControl(visible: Bool) {
+    override open func setCustomControl(_ visible: Bool) {
         
         if visible {
             if popUpButton == nil {
                 //add popupbutton
                 popUpButton = NSPopUpButton(frame: attributeValueControlFrame, pullsDown: false)
-                popUpButton.autoresizingMask = NSAutoresizingMaskOptions.ViewWidthSizable
+                popUpButton.autoresizingMask = NSAutoresizingMaskOptions.viewWidthSizable
                 popUpButton.target = self
                 popUpButton.action = "selected:"
                 cell.addSubview(popUpButton)
             } else {
-                popUpButton.hidden = false
+                popUpButton.isHidden = false
             }
             
             updatePopUpMenuContent()
             
             for value in values {
-                if currentValue.stringValue().lowercaseString == value.lowercaseString {
-                    popUpButton.selectItemWithTitle(value)
+                if currentValue.stringValue().lowercased() == value.lowercased() {
+                    popUpButton.selectItem(withTitle: value)
                 }
             }
         } else {
             if popUpButton != nil {
-                popUpButton.hidden = true
+                popUpButton.isHidden = true
             }
         }
     }
     
-    func selected(item : NSMenuItem) {
-        currentValue = PSGetFirstEntryElementForStringOrNull(item.title.uppercaseString)
+    func selected(_ item : NSMenuItem) {
+        currentValue = PSGetFirstEntryElementForStringOrNull(item.title.uppercased())
         self.cell.updateScript()
     }
     
-    public var values : [String] = []
+    open var values : [String] = []
     
     func updatePopUpMenuContent() {
         

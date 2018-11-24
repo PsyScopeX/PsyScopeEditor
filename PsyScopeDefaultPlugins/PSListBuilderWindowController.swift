@@ -12,7 +12,7 @@ class PSListBuilderWindowController: PSEntryWindowController {
     
     @IBOutlet var controller : PSListBuilderTableController!
     
-    override func docMocChanged(notification : NSNotification) {
+    override func docMocChanged(_ notification : Notification) {
         super.docMocChanged(notification)
         controller.update()
     }

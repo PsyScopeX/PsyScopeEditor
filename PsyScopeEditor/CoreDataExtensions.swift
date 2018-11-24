@@ -19,7 +19,7 @@ extension Entry {
         return attributes
     }
     
-    func attributeNamed(name : String) -> Entry? {
+    func attributeNamed(_ name : String) -> Entry? {
         let attributes = self.getAttributes()
         for a in attributes {
             if a.name == name {

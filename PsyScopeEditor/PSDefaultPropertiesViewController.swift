@@ -13,7 +13,7 @@ class PSDefaultPropertiesViewController : PSToolPropertyController {
     @IBOutlet var valueText : NSTextField!
     
     init(entry : Entry, scriptData : PSScriptData) {
-        var bundle = NSBundle(forClass:self.dynamicType)
+        var bundle = Bundle(for:self.dynamicType)
         super.init(nibName: "DefaultPropertiesView", bundle: bundle, entry: entry, scriptData: scriptData)
     }
     
@@ -35,7 +35,7 @@ class PSDefaultPropertiesViewController : PSToolPropertyController {
         valueText.stringValue = entry.currentValue
     }
     
-    override func control(control: NSControl, textShouldEndEditing fieldEditor: NSText) -> Bool {
+    override func control(_ control: NSControl, textShouldEndEditing fieldEditor: NSText) -> Bool {
         updateEntry()
         return super.control(control, textShouldEndEditing: fieldEditor)
     }

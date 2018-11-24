@@ -29,10 +29,10 @@ class PSActionsBrowser : NSObject, NSTableViewDataSource, NSTableViewDelegate {
     let tableCellViewIdentifier : String = "PSActionConditionView"
     
     
-    func setup(scriptData : PSScriptData) {
+    func setup(_ scriptData : PSScriptData) {
         //setup actions table view
-        let nib = NSNib(nibNamed: "ActionConditionView", bundle: NSBundle(forClass:self.dynamicType))
-        actionsTableView.registerNib(nib!, forIdentifier: tableCellViewIdentifier)
+        let nib = NSNib(nibNamed: "ActionConditionView", bundle: Bundle(for:self.dynamicType))
+        actionsTableView.register(nib!, forIdentifier: tableCellViewIdentifier)
         
         
         //Set menu for actions button in segmented control
@@ -57,7 +57,7 @@ class PSActionsBrowser : NSObject, NSTableViewDataSource, NSTableViewDelegate {
     func loadEvent() {
         
         if selectedEntry == nil {
-            actionsSegmentedControl.enabled = false
+            actionsSegmentedControl.isEnabled = false
             return
         }
         
@@ -73,11 +73,11 @@ class PSActionsBrowser : NSObject, NSTableViewDataSource, NSTableViewDelegate {
         self.actionsAttribute = actionsAttribute
         self.displayViewMetaData = displayViewMetaData
         actionsSegmentedControl.setLabel(actionsAttribute.attributeName, forSegment: 3)
-        actionsSegmentedControl.enabled = true
+        actionsSegmentedControl.isEnabled = true
     }
     
     //called from tableview objects containing actions/conditions
-    func selectedActionCondition(actionCondition : PSEventActionCondition?, fromView : PSActionConditionView?) {
+    func selectedActionCondition(_ actionCondition : PSEventActionCondition?, fromView : PSActionConditionView?) {
         
         selectedActionCondition = actionCondition
         
@@ -87,14 +87,14 @@ class PSActionsBrowser : NSObject, NSTableViewDataSource, NSTableViewDelegate {
         
         if let selectedActionCondition = selectedActionCondition,
             actionFunction = selectedActionCondition as? PSEventActionFunction {
-                instancesActiveUntilMenuItem.hidden = false
+                instancesActiveUntilMenuItem.isHidden = false
                 if actionFunction.hasInstancesOrActiveUntilValueAttributes {
                     instancesActiveUntilMenuItem.state = NSOnState
                 } else {
                     instancesActiveUntilMenuItem.state = NSOffState
                 }
         } else {
-            instancesActiveUntilMenuItem.hidden = true
+            instancesActiveUntilMenuItem.isHidden = true
         }
         
         
@@ -109,7 +109,7 @@ class PSActionsBrowser : NSObject, NSTableViewDataSource, NSTableViewDelegate {
         }
     }
     
-    func numberOfRowsInTableView(tableView: NSTableView) -> Int {
+    func numberOfRows(in tableView: NSTableView) -> Int {
         if let aa = actionsAttribute {
             return aa.actionConditionSets.count
         } else {
@@ -117,8 +117,8 @@ class PSActionsBrowser : NSObject, NSTableViewDataSource, NSTableViewDelegate {
         }
     }
     
-    func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        let view = tableView.makeViewWithIdentifier(tableCellViewIdentifier, owner: nil) as! PSActionConditionView
+    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+        let view = tableView.make(withIdentifier: tableCellViewIdentifier, owner: nil) as! PSActionConditionView
         
         view.actionsAttribute = self.actionsAttribute
         view.rowIndex = row
@@ -134,7 +134,7 @@ class PSActionsBrowser : NSObject, NSTableViewDataSource, NSTableViewDelegate {
         return view
     }
     
-    func tableView(tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
+    func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
         //get the height of the row
         var heightData : PSActionBuilderViewMetaDataSet
         
@@ -147,7 +147,7 @@ class PSActionsBrowser : NSObject, NSTableViewDataSource, NSTableViewDelegate {
         return CGFloat(20) + heightData.actionsHeight + heightData.conditionsHeight
     }
     
-    func tableView(tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
+    func tableView(_ tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
         //tableViewSelectionIsChanging?
         selectedActionCondition(nil, fromView: nil)
         if row == -1 {
@@ -167,7 +167,7 @@ class PSActionsBrowser : NSObject, NSTableViewDataSource, NSTableViewDelegate {
         actionsTableView.reloadData()
     }
     
-    @IBAction func actionsSegmentedControlClicked(sender : AnyObject) {
+    @IBAction func actionsSegmentedControlClicked(_ sender : AnyObject) {
         switch(actionsSegmentedControl.selectedSegment) {
         case 0:
             //add
@@ -184,7 +184,7 @@ class PSActionsBrowser : NSObject, NSTableViewDataSource, NSTableViewDelegate {
         
     }
     
-    func deleteActionCondition(actionCondition : PSEventActionCondition) {
+    func deleteActionCondition(_ actionCondition : PSEventActionCondition) {
         if let aa = actionsAttribute, _ = aa.removeActionCondition(actionCondition) {
             updateEventActions()
             actionsSegmentedControl.setEnabled(false, forSegment: 1) //nothing selected when deleted
@@ -194,7 +194,7 @@ class PSActionsBrowser : NSObject, NSTableViewDataSource, NSTableViewDelegate {
     
     //MARK: Actions from action menu
     
-    @IBAction func toggleInstancesActiveUntil(sender : AnyObject) {
+    @IBAction func toggleInstancesActiveUntil(_ sender : AnyObject) {
         if let selectedActionCondition = selectedActionCondition,
             actionFunction = selectedActionCondition as? PSEventActionFunction {
                 actionFunction.setInstancesActiveUntilOn(!actionFunction.hasInstancesOrActiveUntilValueAttributes)
@@ -203,7 +203,7 @@ class PSActionsBrowser : NSObject, NSTableViewDataSource, NSTableViewDelegate {
         
     }
     
-    @IBAction func deleteActionMenuClicked(sender : AnyObject) {
+    @IBAction func deleteActionMenuClicked(_ sender : AnyObject) {
         if let selectedActionCondition = selectedActionCondition {
             deleteActionCondition(selectedActionCondition)
         }

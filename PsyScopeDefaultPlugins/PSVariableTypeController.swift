@@ -33,7 +33,7 @@ class PSVariableTypeController : NSObject {
         refresh()
     }
     
-    func refresh(selectItem : AnyObject? = nil) {
+    func refresh(_ selectItem : AnyObject? = nil) {
         
         comboBoxDelegate.refreshWithVariableTypeNames(GetVariableTypeNames(variableTypes))
         outlineViewDelegate.refreshWithVariableTypes(variableTypes, selectItem: selectItem)
@@ -103,9 +103,9 @@ class PSVariableTypeController : NSObject {
         
         //if it's a record then add as a child...
         if outlineViewDelegate.outlineView.selectedRow > -1 {
-            let item : AnyObject? = outlineViewDelegate.outlineView.itemAtRow(outlineViewDelegate.outlineView.selectedRow)
+            let item : AnyObject? = outlineViewDelegate.outlineView.item(atRow: outlineViewDelegate.outlineView.selectedRow)
             
-            var typeOfRow : PSVariableTypeEnum = .StringType //temp value
+            var typeOfRow : PSVariableTypeEnum = .stringType //temp value
             
             if let namedType = item as? PSVariableNamedType {
                 typeOfRow = namedType.type.type
@@ -114,7 +114,7 @@ class PSVariableTypeController : NSObject {
             }
             
             switch(typeOfRow) {
-            case .Record(let recordVariable):
+            case .record(let recordVariable):
                 let newField = PSVariableNamedType(name: "NewField", type: PSVariableType())
                 recordVariable.fields.append(newField)
                 refresh(item)
@@ -133,15 +133,15 @@ class PSVariableTypeController : NSObject {
     
     func deleteVariableType() {
         if outlineViewDelegate.outlineView.selectedRow > -1 {
-            let item : AnyObject? = outlineViewDelegate.outlineView.itemAtRow(outlineViewDelegate.outlineView.selectedRow)
-            let parent : AnyObject? = outlineViewDelegate.outlineView.parentForItem(item)
+            let item : AnyObject? = outlineViewDelegate.outlineView.item(atRow: outlineViewDelegate.outlineView.selectedRow)
+            let parent : AnyObject? = outlineViewDelegate.outlineView.parent(forItem: item)
             
             if let namedType = item as? PSVariableNamedType {
                 if parent == nil {
                     variableTypes.types = variableTypes.types.filter({ $0 !== namedType })
                 } else {
                     //should be a field
-                    var typeOfRow : PSVariableTypeEnum = .StringType //temp value
+                    var typeOfRow : PSVariableTypeEnum = .stringType //temp value
                     if let variableNamedType = parent as? PSVariableNamedType {
                         typeOfRow = variableNamedType.type.type
                     } else if let variableType = parent as? PSVariableType {
@@ -149,7 +149,7 @@ class PSVariableTypeController : NSObject {
                     }
                     
                     switch(typeOfRow) {
-                    case .Record(let recordVariable):
+                    case .record(let recordVariable):
                         _ = PSVariableNamedType(name: "NewField", type: PSVariableType())
                         recordVariable.fields = recordVariable.fields.filter({ $0 !== namedType })
                         

@@ -12,13 +12,13 @@ import Foundation
 //This contains various public functions for the script core-data manipulations.  In general, nothing should be added or taken away from the documents MOC, by anything other than this class, and this class should be used to access the objects.
 
 extension NSManagedObjectContext {
-    public func getAllObjectsOfEntity(name : String) -> [NSManagedObject] {
+    public func getAllObjectsOfEntity(_ name : String) -> [NSManagedObject] {
         
         let fetch = NSFetchRequest()
-        fetch.entity = NSEntityDescription.entityForName(name, inManagedObjectContext: self)
+        fetch.entity = NSEntityDescription.entity(forEntityName: name, in: self)
         
         do {
-            let return_value = try self.executeFetchRequest(fetch) as! [NSManagedObject]
+            let return_value = try self.fetch(fetch) as! [NSManagedObject]
             return return_value
         } catch {
             print(error)
@@ -27,17 +27,17 @@ extension NSManagedObjectContext {
         return []
     }
     
-    public func insertNewObjectOfEntity(name : String) -> NSManagedObject {
-        return NSEntityDescription.insertNewObjectForEntityForName(name, inManagedObjectContext: self) as NSManagedObject
+    public func insertNewObjectOfEntity(_ name : String) -> NSManagedObject {
+        return NSEntityDescription.insertNewObject(forEntityName: name, into: self) as NSManagedObject
     }
     
 }
 
 
 extension NSMenu {
-    public func setAllTargetsAndActions(target : AnyObject, action : Selector) {
+    public func setAllTargetsAndActions(_ target : AnyObject, action : Selector) {
         
-        for subItem in self.itemArray as [NSMenuItem] {
+        for subItem in self.items as [NSMenuItem] {
             if subItem.tag != 0 || subItem.hasSubmenu {
                 subItem.target = target
                 subItem.action = action
@@ -50,7 +50,7 @@ extension NSMenu {
 }
 
 
-public class PSScriptData : NSObject {
+open class PSScriptData : NSObject {
     
     public init(docMoc: NSManagedObjectContext, pluginProvider: PSPluginProvider, document: NSDocument, selectionInterface: PSSelectionInterface) {
         self.docMoc = docMoc
@@ -59,36 +59,36 @@ public class PSScriptData : NSObject {
         self.inUndoGrouping = false
         self.undoGrouping = ""
         self.selectionInterface = selectionInterface
-        let toBeBanned = NSMutableCharacterSet.alphanumericCharacterSet()
-        toBeBanned.addCharactersInString("-_")
-        bannedNameCharacters = toBeBanned.invertedSet
+        let toBeBanned = NSMutableCharacterSet.alphanumeric()
+        toBeBanned.addCharacters(in: "-_")
+        bannedNameCharacters = toBeBanned.inverted
         super.init()
     }
     
     //MARK: Dependencies / Variables
     
-    public let pluginProvider : PSPluginProvider
-    public let docMoc : NSManagedObjectContext
-    public let document : NSDocument
-    public var window : NSWindow!
+    open let pluginProvider : PSPluginProvider
+    open let docMoc : NSManagedObjectContext
+    open let document : NSDocument
+    open var window : NSWindow!
     var inUndoGrouping : Bool
     var undoGrouping : String
-    public let selectionInterface : PSSelectionInterface
-    private var _scriptObject : Script?
-    public let bannedNameCharacters : NSCharacterSet
+    open let selectionInterface : PSSelectionInterface
+    fileprivate var _scriptObject : Script?
+    open let bannedNameCharacters : CharacterSet
 
     
     //MARK: Windows
     
-    public func addWindowController(windowController : NSWindowController) {
+    open func addWindowController(_ windowController : NSWindowController) {
         self.document.addWindowController(windowController)
     }
     
-    public func removeWindowController(windowController : NSWindowController) {
+    open func removeWindowController(_ windowController : NSWindowController) {
         self.document.addWindowController(windowController)
     }
     
-    public func getWindowControllersAssociatedWithEntry(entry : Entry) -> [PSEntryWindowController] {
+    open func getWindowControllersAssociatedWithEntry(_ entry : Entry) -> [PSEntryWindowController] {
         var windowControllers : [PSEntryWindowController] = []
         for windowController in self.document.windowControllers {
             if let entryWindowController = windowController as? PSEntryWindowController
@@ -101,14 +101,14 @@ public class PSScriptData : NSObject {
     
     //MARK: Directory
     
-    public func documentDirectory() -> String? {
+    open func documentDirectory() -> String? {
         if let url = document.fileURL, abs = url.path {
-            return (abs as NSString).stringByDeletingLastPathComponent
+            return (abs as NSString).deletingLastPathComponent
         }
         return nil
     }
     
-    public func alertIfNoValidDocumentDirectory() -> Bool {
+    open func alertIfNoValidDocumentDirectory() -> Bool {
         if let _ = documentDirectory() {
             return true
         } else {
@@ -124,7 +124,7 @@ public class PSScriptData : NSObject {
     
     //MARK: Attribute Source Menu
 
-    public func identifyAsAttributeSourceAndReturnRepresentiveString(string : String) -> (NSAttributedString, String)? {
+    open func identifyAsAttributeSourceAndReturnRepresentiveString(_ string : String) -> (NSAttributedString, String)? {
         //cycle through attributeTools and ask them to identify themselves
         for (_, tool) in pluginProvider.attributeSourceTools {
             let t = tool as PSToolInterface
@@ -139,14 +139,14 @@ public class PSScriptData : NSObject {
     }
     
     
-    public func getVaryByMenu(target : AnyObject, action : Selector) -> NSMenu {
+    open func getVaryByMenu(_ target : AnyObject, action : Selector) -> NSMenu {
         let menu = self.selectionInterface.varyByMenu()
         menu.setAllTargetsAndActions(target, action: action)
         
         return menu
     }
     
-    public func valueForMenuItem(menuItem : NSMenuItem, original : String, originalFullType : PSAttributeType?) -> String? {
+    open func valueForMenuItem(_ menuItem : NSMenuItem, original : String, originalFullType : PSAttributeType?) -> String? {
         if menuItem.title == "Define Value" {
             return nil
         } else if menuItem.title == "Enter Formula" {
@@ -187,7 +187,7 @@ public class PSScriptData : NSObject {
         }
     }
     
-    public func setUpInitialScriptState() {
+    open func setUpInitialScriptState() {
         docMoc.undoManager!.disableUndoRegistration()
         
         //create experiment icon
@@ -231,11 +231,11 @@ public class PSScriptData : NSObject {
     
     //MARK: Attribute Interface
     
-    public func getAttributeInterfaceForAttributeEntry(entry : Entry) -> PSAttributeInterface? {
+    open func getAttributeInterfaceForAttributeEntry(_ entry : Entry) -> PSAttributeInterface? {
         return getAttributeInterfaceForFullType(entry.type)
     }
     
-    public func getAttributeInterfaceForFullType(fullType : String) -> PSAttributeInterface? {
+    open func getAttributeInterfaceForFullType(_ fullType : String) -> PSAttributeInterface? {
         
         for att in pluginProvider.attributes {
             if att.fullType == fullType {
@@ -250,7 +250,7 @@ public class PSScriptData : NSObject {
     //MARK: Sorting
     
     //sorts an array of layout objects via their names - not a safe public function, no checks performed...
-    public func sortLayoutObjects(lobjects : [LayoutObject], order : [String]) -> [LayoutObject] {
+    open func sortLayoutObjects(_ lobjects : [LayoutObject], order : [String]) -> [LayoutObject] {
         var return_array : [LayoutObject] = []
         for name in order {
             for obj in lobjects {
@@ -267,7 +267,7 @@ public class PSScriptData : NSObject {
     //MARK: Get entries
     
     //to be used when building objects during script creation etc
-    public func getMainExperimentEntryIfItExists() -> Entry? {
+    open func getMainExperimentEntryIfItExists() -> Entry? {
         if let exps = getBaseEntry("Experiments"),
             expEntry = getBaseEntry(exps.currentValue) {
                 return expEntry
@@ -275,14 +275,14 @@ public class PSScriptData : NSObject {
         return nil
     }
     
-    public func getMainExperimentEntry() -> Entry {
+    open func getMainExperimentEntry() -> Entry {
         if let expEntry = getMainExperimentEntryIfItExists() {
                 return expEntry
         }
         fatalError("No experiments entry found!!")
     }
     
-    public func getBaseEntriesOfType(type : PSType) -> [Entry] {
+    open func getBaseEntriesOfType(_ type : PSType) -> [Entry] {
         let entries = self.getBaseEntries()
         return entries.filter({
             (entry : Entry) -> (Bool) in
@@ -290,7 +290,7 @@ public class PSScriptData : NSObject {
         })
     }
     
-    public func getLinkedParentEntriesOfType(type : String, entry : Entry) -> [Entry] {
+    open func getLinkedParentEntriesOfType(_ type : String, entry : Entry) -> [Entry] {
         var parents : [Entry] = []
         let linkObjects = entry.layoutObject.parentLink as! Set<LayoutObject>
         for linkObject in linkObjects {
@@ -305,24 +305,24 @@ public class PSScriptData : NSObject {
         return parents
     }
     
-    public func getBaseEntryOfSubEntry(entry : Entry) -> Entry {
-        if let e = entry.parentEntry {
+    open func getBaseEntryOfSubEntry(_ entry : Entry) -> Entry {
+        if let e = entry.parent {
             return getBaseEntryOfSubEntry(e)
         } else {
             return entry
         }
     }
     
-    public func getBaseEntry(base_entry_name : String) -> Entry? {
+    open func getBaseEntry(_ base_entry_name : String) -> Entry? {
         let base_entries = self.getBaseEntries()
-        let quotes = NSCharacterSet(charactersInString: "\"")
-        let strippedName = base_entry_name.stringByTrimmingCharactersInSet(quotes)
+        let quotes = CharacterSet(charactersIn: "\"")
+        let strippedName = base_entry_name.trimmingCharacters(in: quotes)
         //println("striped: " + strippedName)
         for a in base_entries {
             
             //println("compagin: " + a.name.stringByTrimmingCharactersInSet(quotes))
             
-            if (a.name.stringByTrimmingCharactersInSet(quotes) == strippedName ) {
+            if (a.name.trimmingCharacters(in: quotes) == strippedName ) {
                 return a
             }
         }
@@ -330,7 +330,7 @@ public class PSScriptData : NSObject {
     }
     
     
-    public func getSubEntry(sub_entry_name : String, entry : Entry) -> Entry? {
+    open func getSubEntry(_ sub_entry_name : String, entry : Entry) -> Entry? {
         let sub_entries = entry.subEntries.array as! [Entry]
         for a in sub_entries {
             if (a.name == sub_entry_name) {
@@ -340,7 +340,7 @@ public class PSScriptData : NSObject {
         return nil
     }
     
-    public func getOrCreateBaseEntry(name: String, type : PSType, section : PSSection? = nil) -> Entry {
+    open func getOrCreateBaseEntry(_ name: String, type : PSType, section : PSSection? = nil) -> Entry {
         
         let psSection = section != nil ? section! : type.defaultSection
         
@@ -359,11 +359,11 @@ public class PSScriptData : NSObject {
         return new_base_entry
     }
     
-    public func getLayoutObjects() -> [LayoutObject] {
+    open func getLayoutObjects() -> [LayoutObject] {
         return docMoc.getAllObjectsOfEntity("LayoutObject") as! [LayoutObject]
     }
     
-    public func getBaseEntriesWithLayoutObjects() -> [Entry] {
+    open func getBaseEntriesWithLayoutObjects() -> [Entry] {
         let layoutObjects = docMoc.getAllObjectsOfEntity("LayoutObject") as! [LayoutObject]
         var entries : [Entry] = []
         for lobj in layoutObjects {
@@ -374,15 +374,15 @@ public class PSScriptData : NSObject {
         return entries
     }
     
-    public func getBaseEntries() -> [Entry] {
+    open func getBaseEntries() -> [Entry] {
         return scriptObject.entries.array as! [Entry]
     }
     
-    public func getSections() -> [Section] {
+    open func getSections() -> [Section] {
         return scriptObject.sections.array as! [Section]
     }
     
-    public func getChildEntries(entry : Entry) -> [Entry] {
+    open func getChildEntries(_ entry : Entry) -> [Entry] {
         let lobjects = Array(entry.layoutObject.childLink.array as! [LayoutObject])
         return lobjects.map({
             (lobj : LayoutObject) -> Entry in
@@ -390,7 +390,7 @@ public class PSScriptData : NSObject {
         })
     }
     
-    public func getParentEntries(entry : Entry) -> [Entry] {
+    open func getParentEntries(_ entry : Entry) -> [Entry] {
         let lobjects = Array(entry.layoutObject.parentLink as! Set<LayoutObject>)
         return lobjects.map({
             (lobj : LayoutObject) -> Entry in
@@ -401,18 +401,18 @@ public class PSScriptData : NSObject {
     
     //MARK: Get names
     
-    public func getNamesOfEntries(entries : [Entry]) -> [String] {
+    open func getNamesOfEntries(_ entries : [Entry]) -> [String] {
         return entries.map({
             (entry : AnyObject) -> String in
             return entry.name
         })
     }
     
-    public func getBaseEntryNames() -> [String] {
+    open func getBaseEntryNames() -> [String] {
         return getNamesOfEntries(scriptObject.entries.array as! [Entry])
     }
     
-    public func getAllEntryNames() -> [String] {
+    open func getAllEntryNames() -> [String] {
         //TODO probably can replace with more efficient MOC fetch
         let entries = docMoc.getAllObjectsOfEntity("Entry") as! [Entry]
         let names : [String] = entries.map({
@@ -425,7 +425,7 @@ public class PSScriptData : NSObject {
         return names
     }
     
-    public func getSubEntryNames(entry : Entry) -> [String] {
+    open func getSubEntryNames(_ entry : Entry) -> [String] {
         var names : [String] = []
         for subEntry in entry.subEntries.array as! [Entry] {
             names.append(subEntry.name)
@@ -438,7 +438,7 @@ public class PSScriptData : NSObject {
     
     //returns true if no entries with names in given array.  Returns false if
     //so, plus name of first one detected as taken
-    public func baseEntriesAreFree(new_entries : [String]) -> (isFree : Bool, notFreeString : String?) {
+    open func baseEntriesAreFree(_ new_entries : [String]) -> (isFree : Bool, notFreeString : String?) {
         let current_entries : [String] = getBaseEntryNames()
         for e in new_entries {
             if current_entries.contains(e) {
@@ -449,19 +449,19 @@ public class PSScriptData : NSObject {
     }
     
     //give it a name e.g. Experiment and will return the next available by adding a number on the end if needed
-    public func getNextFreeBaseEntryName(entryName : String) -> String {
+    open func getNextFreeBaseEntryName(_ entryName : String) -> String {
         let entryNames = getBaseEntryNames()
         return getNextFreeEntryNameFromExistingNamesArray(entryName, existingNames: entryNames)
     }
     
-    public func getNextFreeSubEntryName(entryName : String, parentEntry : Entry) -> String {
+    open func getNextFreeSubEntryName(_ entryName : String, parentEntry : Entry) -> String {
         let subEntryNames = (parentEntry.subEntries.array as! [Entry]).map { $0.name! }
         return getNextFreeEntryNameFromExistingNamesArray(entryName, existingNames: subEntryNames)
     }
     
-    func getNextFreeEntryNameFromExistingNamesArray(entryName : String, existingNames : [String]) -> String {
+    func getNextFreeEntryNameFromExistingNamesArray(_ entryName : String, existingNames : [String]) -> String {
         //strip existing number at end
-        var entry_base = entryName.stringByTrimmingCharactersInSet(NSCharacterSet(charactersInString: " 1234567890"))
+        var entry_base = entryName.trimmingCharacters(in: CharacterSet(charactersIn: " 1234567890"))
         if entry_base == "" { entry_base = "Entry" }
         
         var isFree = false
@@ -477,13 +477,13 @@ public class PSScriptData : NSObject {
         return testName
     }
     
-    public func renameEntry(entry : Entry, nameSuggestion : String) -> Bool {
+    open func renameEntry(_ entry : Entry, nameSuggestion : String) -> Bool {
         if nameSuggestion.characters.count < 3 { return false }
-        if nameSuggestion.rangeOfCharacterFromSet(bannedNameCharacters) != nil { return false }
+        if nameSuggestion.rangeOfCharacter(from: bannedNameCharacters) != nil { return false }
         
         var siblingEntries : [Entry]
         //check siblings for same name
-        if let parentEntry = entry.parentEntry,
+        if let parentEntry = entry.parent,
             siblings = parentEntry.subEntries {
             
                 for sibling in siblings {
@@ -502,7 +502,7 @@ public class PSScriptData : NSObject {
         }
         
         //check for valid characters
-        if nameSuggestion.stringByTrimmingCharactersInSet(entryNameCharacterSet) == "" {
+        if nameSuggestion.trimmingCharacters(in: entryNameCharacterSet) == "" {
             //SUCCESS
             let oldName = entry.name
             
@@ -510,8 +510,8 @@ public class PSScriptData : NSObject {
             let baseEntrNames = getBaseEntryNames()
             var baseEntryNamesToChange : [(oldName: String, newName : String)] = []
             for baseEntryName in baseEntrNames {
-                if (baseEntryName.rangeOfString(oldName) != nil) && (baseEntryName != oldName) {
-                    baseEntryNamesToChange.append((baseEntryName,baseEntryName.stringByReplacingOccurrencesOfString(oldName, withString: nameSuggestion)))
+                if (baseEntryName.range(of: oldName) != nil) && (baseEntryName != oldName) {
+                    baseEntryNamesToChange.append((baseEntryName,baseEntryName.replacingOccurrences(of: oldName, with: nameSuggestion)))
                 }
             }
             
@@ -519,10 +519,10 @@ public class PSScriptData : NSObject {
                 let new_alert = NSAlert()
                 let inputView = NSView(frame: NSMakeRect(0, 0, 400, CGFloat(24 * baseEntryNamesToChange.count)))
                 var checkBoxes : [NSButton] = []
-                for (index,val) in baseEntryNamesToChange.enumerate() {
+                for (index,val) in baseEntryNamesToChange.enumerated() {
                     let newCheckBox = NSButton(frame: NSMakeRect(0, CGFloat(index * 24), 400, 24))
                     newCheckBox.state = 1
-                    newCheckBox.setButtonType(NSButtonType.SwitchButton)
+                    newCheckBox.setButtonType(NSButtonType.switch)
                     newCheckBox.title = "\(val.oldName) -> \(val.newName)"
                     inputView.addSubview(newCheckBox)
                     checkBoxes.append(newCheckBox)
@@ -532,7 +532,7 @@ public class PSScriptData : NSObject {
                 new_alert.messageText = "Some similar named entries have been found do you want to rename these entries too? (Recommended to do so if you are unsure)"
                 new_alert.runModal()
                 
-                for (index,cb) in checkBoxes.enumerate() {
+                for (index,cb) in checkBoxes.enumerated() {
                     let baseEntryNameToChange = baseEntryNamesToChange[index]
                     if cb.state == 1 {
                         if let entry = getBaseEntry(baseEntryNameToChange.oldName) {
@@ -552,22 +552,22 @@ public class PSScriptData : NSObject {
             
             return true
         } else {
-            let splitByBadChars = nameSuggestion.componentsSeparatedByCharactersInSet(entryNameCharacterSet.invertedSet)
-            return renameEntry(entry, nameSuggestion: splitByBadChars.joinWithSeparator("_"))
+            let splitByBadChars = nameSuggestion.components(separatedBy: entryNameCharacterSet.inverted)
+            return renameEntry(entry, nameSuggestion: splitByBadChars.joined(separator: "_"))
         }
     }
     
-    lazy var entryNameCharacterSet : NSCharacterSet = {
-        () -> NSCharacterSet in
-        var allowed_characters = NSMutableCharacterSet(charactersInString: " _\"")
-        allowed_characters.formUnionWithCharacterSet(NSCharacterSet.alphanumericCharacterSet())
+    lazy var entryNameCharacterSet : CharacterSet = {
+        () -> CharacterSet in
+        var allowed_characters = NSMutableCharacterSet(charactersIn: " _\"")
+        allowed_characters.formUnion(with: CharacterSet.alphanumerics)
         return allowed_characters
         }()
     
     //MARK: Entry inserting
 
     //main point to insert an entry
-    private func insertNewEntry(name : String, typeName : String) -> Entry {
+    fileprivate func insertNewEntry(_ name : String, typeName : String) -> Entry {
         let new_entry = docMoc.insertNewObjectOfEntity("Entry") as! Entry
         new_entry.currentValue = ""
         new_entry.comments = ""
@@ -580,7 +580,7 @@ public class PSScriptData : NSObject {
         return new_entry
     }
     
-    public func insertNewBaseEntry(name : String, type : PSType) -> Entry {
+    open func insertNewBaseEntry(_ name : String, type : PSType) -> Entry {
         assert(!getBaseEntryNames().contains(name), "Name has to be valid and not already a base entry")
         
         let new_entry = insertNewEntry(name, typeName : type.name)
@@ -588,7 +588,7 @@ public class PSScriptData : NSObject {
         return new_entry
     }
     
-    public func insertNewSubEntryForEntry(name : String, entry : Entry, type : PSAttributeType) -> Entry {
+    open func insertNewSubEntryForEntry(_ name : String, entry : Entry, type : PSAttributeType) -> Entry {
         assert(!(entry.subEntries.array as! [Entry]).map { $0.name! }.contains(name), "Name has to be valid and not already a sub Entry")
         
         let new_sub_entry = self.insertNewEntry(name, typeName: type.fullType)
@@ -596,7 +596,7 @@ public class PSScriptData : NSObject {
         return new_sub_entry
     }
     
-    public func insertNewLayoutObject(mainEntry : Entry, otherEntries : [Entry] = []) -> LayoutObject {
+    open func insertNewLayoutObject(_ mainEntry : Entry, otherEntries : [Entry] = []) -> LayoutObject {
         let new_lobject = docMoc.insertNewObjectOfEntity("LayoutObject") as! LayoutObject
         new_lobject.addEntriesObject(mainEntry)
         for other_entry in otherEntries {
@@ -610,7 +610,7 @@ public class PSScriptData : NSObject {
 
     //MARK: Attribute List
     
-    public func addItemToAttributeList(attribute_name : String, entry : Entry, item : String) {
+    open func addItemToAttributeList(_ attribute_name : String, entry : Entry, item : String) {
         let sub_entry = getOrCreateSubEntry(attribute_name, entry: entry, isProperty: true)
         
         let string_list = PSStringList(entry: sub_entry, scriptData: self)
@@ -625,7 +625,7 @@ public class PSScriptData : NSObject {
     }
     
     //removes from list, doesn't remove object
-    public func removeItemFromAttributeList(attribute_name : String, entry : Entry, item : String) {
+    open func removeItemFromAttributeList(_ attribute_name : String, entry : Entry, item : String) {
         if let sub_entry = getSubEntry(attribute_name, entry: entry) {
             let string_list = PSStringList(entry: sub_entry, scriptData: self)
             string_list.remove(item)
@@ -633,13 +633,13 @@ public class PSScriptData : NSObject {
   
     }
     
-    public func addItemToBaseList(name: String, type : PSType, section: PSSection, itemToAdd : String) {
+    open func addItemToBaseList(_ name: String, type : PSType, section: PSSection, itemToAdd : String) {
         let entry = getOrCreateBaseEntry(name, type: type, section: section)
         let list = PSStringList(entry: entry, scriptData: self)
         list.appendAsString(itemToAdd)
     }
 
-    public func removeItemFromBaseList(entryName : String, item : String) {
+    open func removeItemFromBaseList(_ entryName : String, item : String) {
         if let entry = getBaseEntry(entryName) {
             let list = PSStringList(entry: entry, scriptData: self)
             list.remove(item)
@@ -652,7 +652,7 @@ public class PSScriptData : NSObject {
     //MARK: Get or create
     
     //default sub_entry should set up all values
-    public func getOrCreateSubEntry(name : String, entry : Entry, isProperty : Bool, type : PSAttributeType! = nil) -> Entry {
+    open func getOrCreateSubEntry(_ name : String, entry : Entry, isProperty : Bool, type : PSAttributeType! = nil) -> Entry {
         
         
         if let existing_entry = getSubEntry(name, entry: entry) {
@@ -685,7 +685,7 @@ public class PSScriptData : NSObject {
     }
     
     
-    public func getOrCreateSection(section : PSSection) -> Section {
+    open func getOrCreateSection(_ section : PSSection) -> Section {
         let exisiting_sections = docMoc.getAllObjectsOfEntity("Section") as! [Section]
         for s in exisiting_sections {
             if s.sectionName == section.name {
@@ -700,7 +700,7 @@ public class PSScriptData : NSObject {
         return new_section
     }
     
-    public func createBaseEntryAndLayoutObjectPair(section : PSSection, entryName : String, type : PSType) -> LayoutObject {
+    open func createBaseEntryAndLayoutObjectPair(_ section : PSSection, entryName : String, type : PSType) -> LayoutObject {
         //get sections
         let section = self.getOrCreateSection(section)
         
@@ -719,7 +719,7 @@ public class PSScriptData : NSObject {
         return layout_object
     }
     
-    public func createNewObjectFromTool(type : PSType) -> Entry? {
+    open func createNewObjectFromTool(_ type : PSType) -> Entry? {
         if let pstool = self.pluginProvider.getInterfaceForType(type) {
             return pstool.createObject(self)
         }
@@ -729,7 +729,7 @@ public class PSScriptData : NSObject {
     
     //MARK: Delete
     
-    public func deleteMainEntry(entry : Entry) {
+    open func deleteMainEntry(_ entry : Entry) {
         //get all parent Links
         if let lobject = entry.layoutObject {
             for parent in lobject.parentLink as! Set<LayoutObject> {
@@ -742,33 +742,33 @@ public class PSScriptData : NSObject {
         deleteEntry(entry) //should cascade to all entries associated
     }
     
-    public func deleteNamedSubEntryFromParentEntry(baseEntry : Entry, name : String) {
+    open func deleteNamedSubEntryFromParentEntry(_ baseEntry : Entry, name : String) {
         if let subEntry = getSubEntry(name, entry: baseEntry) {
             deleteSubEntryFromBaseEntry(baseEntry, subEntry: subEntry)
         }
     }
     
-    public func deleteSubEntryFromBaseEntry(baseEntry : Entry, subEntry: Entry) {
+    open func deleteSubEntryFromBaseEntry(_ baseEntry : Entry, subEntry: Entry) {
         baseEntry.removeSubEntriesObject(subEntry)
         deleteEntry(subEntry)
     }
     
-    public func deleteBaseEntry(entry : Entry) {
+    open func deleteBaseEntry(_ entry : Entry) {
         scriptObject.removeEntriesObject(entry)
         deleteEntry(entry)
     }
     
-    public func deleteBaseEntryByName(entryName : String) {
+    open func deleteBaseEntryByName(_ entryName : String) {
         if let entry = getBaseEntry(entryName) {
             self.deleteBaseEntry(entry)
         }
     }
     
-    private func deleteEntry(entry : Entry) {
-        docMoc.deleteObject(entry)
+    fileprivate func deleteEntry(_ entry : Entry) {
+        docMoc.delete(entry)
     }
     
-    public func deleteSubEntries(entry : Entry) {
+    open func deleteSubEntries(_ entry : Entry) {
         for subEntry in entry.subEntries.array as! [Entry] {
             entry.removeSubEntriesObject(subEntry)
             deleteEntry(subEntry)
@@ -781,7 +781,7 @@ public class PSScriptData : NSObject {
     
     var undoLevel : Int = 0
     
-    public func beginUndoGrouping(name : String) {
+    open func beginUndoGrouping(_ name : String) {
         
         if undoLevel == 0 {
             docMoc.undoManager!.beginUndoGrouping()
@@ -791,7 +791,7 @@ public class PSScriptData : NSObject {
         print("Begin undo grouping: \(name) - level: \(undoLevel)")
     }
     
-    public func endUndoGrouping(success : Bool = true) {
+    open func endUndoGrouping(_ success : Bool = true) {
         if undoLevel > 0 {
 
             undoLevel--
@@ -805,23 +805,23 @@ public class PSScriptData : NSObject {
         }
     }
     
-    public var inUndoGroup : Bool {
+    open var inUndoGroup : Bool {
         return undoLevel > 0
     }
     
     //MARK: Linking
     
-    public func createLinkFrom(parent:Entry, to child:Entry, withAttribute attribute_name:String){
+    open func createLinkFrom(_ parent:Entry, to child:Entry, withAttribute attribute_name:String){
         addItemToAttributeList(attribute_name, entry: parent, item: child.name)
         parent.layoutObject.addChildLinkObject(child.layoutObject)
     }
     
-    public func removeLinkFrom(parent:Entry, to child:Entry, withAttribute attribute_name:String){
+    open func removeLinkFrom(_ parent:Entry, to child:Entry, withAttribute attribute_name:String){
         removeItemFromAttributeList(attribute_name, entry: parent, item: child.name)
         parent.layoutObject.removeChildLinkObject(child.layoutObject)
     }
     
-    public func moveParentLinks(oldParent : Entry, newParent: Entry, withAttribute attribute_name:String) {
+    open func moveParentLinks(_ oldParent : Entry, newParent: Entry, withAttribute attribute_name:String) {
         
         if let oldParentSubEntry = getSubEntry(attribute_name, entry: oldParent) {
             let oldParentSubEntryList = PSStringList(entry: oldParentSubEntry, scriptData: self)
@@ -855,7 +855,7 @@ public class PSScriptData : NSObject {
     //MARK: Searching
 
     
-    public func searchAndReplaceValues(oldName : String, newName : String, entries : [Entry]) {
+    open func searchAndReplaceValues(_ oldName : String, newName : String, entries : [Entry]) {
         for entry in entries {
             let stringList = PSStringList(entry: entry, scriptData: self)
             
@@ -867,7 +867,7 @@ public class PSScriptData : NSObject {
         }
     }
     
-    public func searchForEntriesWithReference(reference : String, entries : [Entry]) -> [Entry] {
+    open func searchForEntriesWithReference(_ reference : String, entries : [Entry]) -> [Entry] {
         var returnEntries : [Entry] = []
         for entry in entries {
             let stringList = PSStringList(entry: entry, scriptData: self)
@@ -884,15 +884,15 @@ public class PSScriptData : NSObject {
     //MARK: Properties
 
     
-    public func propertyValue(property : PSProperty, entry : Entry) -> String {
+    open func propertyValue(_ property : PSProperty, entry : Entry) -> String {
         return propertyValue(property.name, entry: entry, defaultValue: property.defaultValue)
     }
     
-    public func propertyUpdate(property : PSProperty, entry : Entry, currentValue : String) {
+    open func propertyUpdate(_ property : PSProperty, entry : Entry, currentValue : String) {
         propertyUpdate(property.name, entry: entry, currentValue: currentValue, defaultValue: property.defaultValue, essential: property.essential)
     }
     
-    public func propertyValue(name : String, entry : Entry, defaultValue : String) -> String {
+    open func propertyValue(_ name : String, entry : Entry, defaultValue : String) -> String {
         if let existing_entry = getSubEntry(name, entry: entry) {
             return existing_entry.currentValue
         } else {
@@ -900,7 +900,7 @@ public class PSScriptData : NSObject {
         }
     }
     
-    public func assertPropertyIsPresent(property : PSProperty, entry : Entry) {
+    open func assertPropertyIsPresent(_ property : PSProperty, entry : Entry) {
         //ensure property is present with current value
         if let existing_entry = getSubEntry(property.name, entry: entry) {
             existing_entry.isProperty = true
@@ -916,7 +916,7 @@ public class PSScriptData : NSObject {
         }
     }
     
-    public func addDefaultProperty(property : PSProperty, entry : Entry) {
+    open func addDefaultProperty(_ property : PSProperty, entry : Entry) {
         //ensure property is present with current value
         if let existing_entry = getSubEntry(property.name, entry: entry) {
             existing_entry.isProperty = true
@@ -932,7 +932,7 @@ public class PSScriptData : NSObject {
     }
     
     
-    public func propertyUpdate(name : String, entry : Entry, currentValue : String, defaultValue : String, essential : Bool) {
+    open func propertyUpdate(_ name : String, entry : Entry, currentValue : String, defaultValue : String, essential : Bool) {
         //if currentValue = defaultValue, will delete the attribute entry
         if currentValue == defaultValue {
             if !essential {
@@ -958,13 +958,13 @@ public class PSScriptData : NSObject {
     
     //MARK: Archiving
     
-    public func archiveBaseEntry(entry : Entry) -> NSData {
-        var dict : [NSObject : AnyObject] = [:]
+    open func archiveBaseEntry(_ entry : Entry) -> Data {
+        var dict : [AnyHashable: Any] = [:]
         
         //archive attributes
         let attributes : [NSString] = Array(entry.entity.attributesByName.keys)
         for at in attributes {
-            let val = entry.valueForKey(at as NSString as String) as! NSObject?
+            let val = entry.value(forKey: at as NSString as String) as! NSObject?
             if let v = val {
                 dict[at] = v
             }
@@ -980,7 +980,7 @@ public class PSScriptData : NSObject {
         dict["subEntries"] = subEntries
         
         //now all child links have to be copied too
-        var linkedObjects : [NSData] = []
+        var linkedObjects : [Data] = []
         for linkedObject in entry.layoutObject.childLink.array as! [LayoutObject]{
             let data = archiveBaseEntry(linkedObject.mainEntry)
             linkedObjects.append(data)
@@ -992,14 +992,14 @@ public class PSScriptData : NSObject {
         dict["layoutObjectXPos"] = entry.layoutObject.xPos
         dict["layoutObjectYPos"] = entry.layoutObject.yPos
         
-        return NSKeyedArchiver.archivedDataWithRootObject(dict)
+        return NSKeyedArchiver.archivedData(withRootObject: dict)
     }
     
     
     
     //creates copy of entry from nsdata, remember to rename the base entry that is returned
-    public func unarchiveBaseEntry(data : NSData) -> Entry? {
-        let data_dict = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! NSDictionary
+    open func unarchiveBaseEntry(_ data : Data) -> Entry? {
+        let data_dict = NSKeyedUnarchiver.unarchiveObject(with: data) as! NSDictionary
         let type = data_dict["type"] as! String
         //create brand new object of type, and replace attributes
         var new_entry : Entry
@@ -1027,17 +1027,17 @@ public class PSScriptData : NSObject {
             switch(key) {
             case "subEntries":
                 if let subSet = kvp.value as? [AnyObject] {
-                    let relatedObjects = new_entry.mutableOrderedSetValueForKey("subEntries")
+                    let relatedObjects = new_entry.mutableOrderedSetValue(forKey: "subEntries")
                     for subDict in subSet {
                         //create a new object
                         if let sd = subDict as? NSDictionary {
                             let new_subentry = PSCreateEntryFromDictionary(self.docMoc, dict: sd)
-                            relatedObjects.addObject(new_subentry)
+                            relatedObjects.add(new_subentry)
                         }
                     }
                 }
             case "linkedObjects":
-                if let child_objects = kvp.value as? [NSData] {
+                if let child_objects = kvp.value as? [Data] {
                     for co in child_objects {
                         if let new_child_entry = unarchiveBaseEntry(co) {
                             new_entry.layoutObject.addChildLinkObject(new_child_entry.layoutObject)
@@ -1057,7 +1057,7 @@ public class PSScriptData : NSObject {
                 
             case "layoutObjectXPos":
                 let xval : NSNumber = kvp.value as! NSNumber
-                new_entry.layoutObject.xPos = xval.integerValue + 100
+                new_entry.layoutObject.xPos = xval.intValue + 100
             case "layoutObjectYPos":
                 new_entry.layoutObject.yPos = kvp.value as! NSNumber
             default:
@@ -1077,11 +1077,11 @@ public class PSScriptData : NSObject {
     //MARK: Event related
     
     //check if the layout object supplied is an event in this template
-    public func isEventAndOnThisTemplate(eventObject : LayoutObject, templateObject : LayoutObject) -> Bool {
+    open func isEventAndOnThisTemplate(_ eventObject : LayoutObject, templateObject : LayoutObject) -> Bool {
         return ((templateObject.childLink.array as! [LayoutObject]).contains(eventObject) && eventObject.mainEntry != nil && typeIsEvent(eventObject.mainEntry.type))
     }
     
-    public func createNewEventFromTool(type : String, templateObject : LayoutObject) -> Entry? {
+    open func createNewEventFromTool(_ type : String, templateObject : LayoutObject) -> Entry? {
         //println("Creating event type: " + type)
         let index = templateObject.childLink.count
         return createNewEventFromTool(type, templateObject: templateObject, order: index)
@@ -1090,7 +1090,7 @@ public class PSScriptData : NSObject {
     
     
     
-    public func moveEvent(eventEntry : Entry, inTemplate templateEntry : Entry, toIndex index : Int) {
+    open func moveEvent(_ eventEntry : Entry, inTemplate templateEntry : Entry, toIndex index : Int) {
         
         if let sub_entry = getSubEntry("Events", entry: templateEntry) {
             let string_list = PSStringList(entry: sub_entry, scriptData: self)
@@ -1105,14 +1105,14 @@ public class PSScriptData : NSObject {
         }
     }
     
-    public func moveEvent(templateEntry : Entry, fromIndex : Int, toIndex : Int) {
+    open func moveEvent(_ templateEntry : Entry, fromIndex : Int, toIndex : Int) {
         if let sub_entry = getSubEntry("Events", entry: templateEntry) {
             let string_list = PSStringList(entry: sub_entry, scriptData: self)
             string_list.move(fromIndex, to: toIndex)
         }
     }
     
-    public func createNewEventFromTool(type : String, templateObject : LayoutObject, order : Int) -> Entry? {
+    open func createNewEventFromTool(_ type : String, templateObject : LayoutObject, order : Int) -> Entry? {
         //println("Creating event type: " + type)
         if let psevent = self.pluginProvider.eventPlugins[type],
             new_entry = psevent.createObject(self) {
@@ -1133,7 +1133,7 @@ public class PSScriptData : NSObject {
         return nil
     }
     
-    public func getIconForType(type : String) -> NSImage! {
+    open func getIconForType(_ type : String) -> NSImage! {
         
         
         for anObject in pluginProvider.eventExtensions {
@@ -1144,7 +1144,7 @@ public class PSScriptData : NSObject {
         return nil
     }
     
-    public func typeIsEvent(type : String) -> Bool {
+    open func typeIsEvent(_ type : String) -> Bool {
         if eventTypes == nil {
             eventTypes = []
             for anObject in pluginProvider.eventExtensions {
@@ -1159,7 +1159,7 @@ public class PSScriptData : NSObject {
     }
     var eventTypes : [String]! = nil
     
-    public func getAllEvents() -> [Entry] {
+    open func getAllEvents() -> [Entry] {
         var eventEntries : [Entry] = []
         let baseEntries = self.getBaseEntries()
         for entry in baseEntries {
@@ -1175,24 +1175,24 @@ public class PSScriptData : NSObject {
 //MARK: Archiving functions
 
 //warning only use this to copy attributes, and things which dont have a layout object / section
-public func PSAttributeEntryToNSDictionary(object : NSManagedObject) -> NSDictionary {
+public func PSAttributeEntryToNSDictionary(_ object : NSManagedObject) -> NSDictionary {
     let attributes = Array(object.entity.attributesByName.keys)
     let relationships = Array(object.entity.relationshipsByName.keys)
     let dict : NSMutableDictionary = [:]
     for at in attributes as [NSString] {
-        let val = object.valueForKey(at as String) as! NSObject?
+        let val = object.value(forKey: at as String) as! NSObject?
         if let v = val {
             dict.setValue(v, forKey: at as String)
         }
     }
     
     for rel in relationships as [NSString] {
-        let val = object.valueForKey(rel as String) as! NSObject?
+        let val = object.value(forKey: rel as String) as! NSObject?
         //this will be the subentries
         if let set = val as? NSSet {
             let dictSet = NSMutableSet(capacity: set.count)
             for subObject in set as! Set<NSManagedObject> {
-                dictSet.addObject(PSAttributeEntryToNSDictionary(subObject))
+                dictSet.add(PSAttributeEntryToNSDictionary(subObject))
             }
             dict.setValue(dictSet, forKey: rel as String)
         } else {
@@ -1204,15 +1204,15 @@ public func PSAttributeEntryToNSDictionary(object : NSManagedObject) -> NSDictio
     return dict as NSDictionary
 }
 
-public func NSDictionaryToPSAttributeEntry(object : NSManagedObject, dict : NSDictionary) {
+public func NSDictionaryToPSAttributeEntry(_ object : NSManagedObject, dict : NSDictionary) {
     let moc = object.managedObjectContext
     for kvp in dict {
         if let subSet = kvp.value as? NSSet {
-            let relatedObjects = object.mutableSetValueForKey(kvp.key as! NSString as String)
+            let relatedObjects = object.mutableSetValue(forKey: kvp.key as! NSString as String)
             for subDict in subSet.allObjects as! [NSDictionary] {
                 //create a new object
                 let newEntry = PSCreateEntryFromDictionary(moc!, dict: subDict)
-                relatedObjects.addObject(newEntry)
+                relatedObjects.add(newEntry)
             }
         } else {
             object.setValue(kvp.value, forKey: kvp.key as! String)
@@ -1220,8 +1220,8 @@ public func NSDictionaryToPSAttributeEntry(object : NSManagedObject, dict : NSDi
     }
 }
 
-public func PSCreateEntryFromDictionary(moc : NSManagedObjectContext, dict : NSDictionary) -> Entry {
-    let newObject = NSEntityDescription.insertNewObjectForEntityForName("Entry", inManagedObjectContext: moc) as NSManagedObject
+public func PSCreateEntryFromDictionary(_ moc : NSManagedObjectContext, dict : NSDictionary) -> Entry {
+    let newObject = NSEntityDescription.insertNewObject(forEntityName: "Entry", into: moc) as NSManagedObject
     NSDictionaryToPSAttributeEntry(newObject, dict: dict)
     return newObject as! Entry
 }

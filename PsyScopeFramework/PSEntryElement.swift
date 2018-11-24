@@ -10,25 +10,25 @@ import Foundation
 
 
 public enum PSEntryElement : Equatable {
-    case Null
-    case StringToken(stringElement: PSStringElement)
-    case List(stringListElement: PSStringListElement)
-    case Function(functionElement: PSFunctionElement)
+    case null
+    case stringToken(stringElement: PSStringElement)
+    case list(stringListElement: PSStringListElement)
+    case function(functionElement: PSFunctionElement)
     
-    func dumpElement(level : Int) -> String {
-        var string = String(count: level * 4, repeatedValue: Character(" ")) + "-"
+    func dumpElement(_ level : Int) -> String {
+        var string = String(repeating: " ", count: level * 4) + "-"
         switch (self) {
-        case .StringToken(let stringElement):
+        case .stringToken(let stringElement):
             string = string + stringElement.value + "\n"
-        case .Function(let functionElement):
+        case .function(let functionElement):
             string = string + "Func: " + functionElement.functionName + "\n"
             for v in functionElement.values {
                 string = string + v.dumpElement(level + 1)
             }
             
-        case .Null:
+        case .null:
             string = string + "NULL\n"
-        case .List(let listElement):
+        case .list(let listElement):
             string = string + "List: \n"
             for v in listElement.values {
                 string = string + v.dumpElement(level + 1)
@@ -43,13 +43,13 @@ public enum PSEntryElement : Equatable {
     
     public func stringValue() -> String {
         switch (self) {
-        case .StringToken(let stringElement):
+        case .stringToken(let stringElement):
             return stringElement.quotedValue
-        case .Function(let functionElement):
+        case .function(let functionElement):
             return functionElement.stringValue
-        case .Null:
+        case .null:
             return "NULL"
-        case .List(let listElement):
+        case .list(let listElement):
             return listElement.stringValue
         }
     }
@@ -57,32 +57,32 @@ public enum PSEntryElement : Equatable {
 
 public func ==(a: PSEntryElement, b: PSEntryElement) -> Bool {
     switch (a, b) {
-    case (.Null, .Null):
+    case (.null, .null):
         return true
-    case (.StringToken(let a),   .StringToken(let b))   where a.value == b.value: return true
+    case (.stringToken(let a),   .stringToken(let b))   where a.value == b.value: return true
     default: return false
     }
 }
 
-public class PSStringElement {
+open class PSStringElement {
     public enum Quotes {
-        case None
-        case Doubles
-        case Singles
-        case CurlyBrackets
+        case none
+        case doubles
+        case singles
+        case curlyBrackets
     }
-    public var value : String
-    public var quotes : Quotes
-    public var quotedValue : String {
+    open var value : String
+    open var quotes : Quotes
+    open var quotedValue : String {
         get {
             switch (quotes) {
-            case .None:
+            case .none:
                 return value
-            case .Doubles:
+            case .doubles:
                 return "\"" + value + "\""
-            case .CurlyBrackets:
+            case .curlyBrackets:
                 return "{" + value + "}"
-            case .Singles:
+            case .singles:
                 return "'" + value + "'"
             }
         }
@@ -93,22 +93,22 @@ public class PSStringElement {
         //use logic to decide what type
         
         
-        if strippedValue.rangeOfCharacterFromSet(NSCharacterSet(charactersInString: "{}")) != nil {
+        if strippedValue.rangeOfCharacter(from: CharacterSet(charactersIn: "{}")) != nil {
             value = ""
-            quotes = .None
+            quotes = .none
             return nil
         }
         
         value = strippedValue
-        let whiteSpaceRange = strippedValue.rangeOfCharacterFromSet(NSCharacterSet.whitespaceCharacterSet())
-        let quoteRange = strippedValue.rangeOfString("\"")
+        let whiteSpaceRange = strippedValue.rangeOfCharacter(from: CharacterSet.whitespaces)
+        let quoteRange = strippedValue.range(of: "\"")
         
         if quoteRange != nil {
-            quotes = .CurlyBrackets
+            quotes = .curlyBrackets
         } else if (whiteSpaceRange != nil) {
-            quotes = .Doubles
+            quotes = .doubles
         } else {
-            quotes = .None
+            quotes = .none
         }
     }
     
@@ -118,9 +118,9 @@ public class PSStringElement {
     }
 }
 
-public class PSCompoundEntryElement : NSObject {
+open class PSCompoundEntryElement : NSObject {
     
-    public var stringValue : String {
+    open var stringValue : String {
         get {
             fatalError("Cannot get string this abstract class PSCompoundEntryElement")
         }
@@ -130,68 +130,68 @@ public class PSCompoundEntryElement : NSObject {
         }
     }
     
-    public func getStringValues() -> [String] {
+    open func getStringValues() -> [String] {
         return values.map({
             self.elementToString($0, stripped: false)
         })
     }
     
-    public func getStrippedStringValues() -> [String] {
+    open func getStrippedStringValues() -> [String] {
         return values.map({
             self.elementToString($0, stripped: true)
         })
     }
     
-    public func setStringValues(stringList : [String]) {
-        let value = stringList.joinWithSeparator(" ")
+    open func setStringValues(_ stringList : [String]) {
+        let value = stringList.joined(separator: " ")
         let parse = PSEntryValueParser(stringValue: value)
         self.values = parse.values
         self.foundErrors = parse.foundErrors
     }
     
-    public func elementToString(element : PSEntryElement, stripped : Bool) -> String {
+    open func elementToString(_ element : PSEntryElement, stripped : Bool) -> String {
         switch (element) {
-        case .StringToken(let string):
+        case .stringToken(let string):
             // put in quotes if necessary
             if stripped {
                 return string.value
             } else {
                 return string.quotedValue
             }
-        case .List(let stringList):
+        case .list(let stringList):
             // put in square brackets
             if stripped {
                 return stringList.stringValue
             } else {
                 return "[" + stringList.stringValue + "]"
             }
-        case .Function(let function):
+        case .function(let function):
             //takes care of itself
             if stripped {
-                return function.getStringValues().joinWithSeparator(" ")
+                return function.getStringValues().joined(separator: " ")
             } else {
                 return function.stringValue
             }
-        case .Null:
+        case .null:
             return "NULL"
         }
     }
     
     //searches for stringTokens in tree return true if found
-    public func searchForStringToken(token : String) -> Bool {
+    open func searchForStringToken(_ token : String) -> Bool {
         for val in values {
             switch(val) {
-            case .Null:
+            case .null:
                 break
-            case let .StringToken(stringElement):
+            case let .stringToken(stringElement):
                 if stringElement.value == token {
                     return true
                 }
-            case let .List(stringListElement):
+            case let .list(stringListElement):
                 if stringListElement.searchForStringToken(token) {
                     return true
                 }
-            case let .Function(functionElement):
+            case let .function(functionElement):
                 if functionElement.searchForStringToken(token) {
                     return true
                 }
@@ -201,26 +201,26 @@ public class PSCompoundEntryElement : NSObject {
     }
     
     //renames stringElements, and function names...
-    public func renameAllStringTokens(oldName : String, newName : String) {
-        for (index,val) in values.enumerate() {
+    open func renameAllStringTokens(_ oldName : String, newName : String) {
+        for (index,val) in values.enumerated() {
             switch(val) {
-            case .Null:
+            case .null:
                 break
-            case let .StringToken(stringElement):
+            case let .stringToken(stringElement):
                 if stringElement.value == oldName {
                     if let newElement = PSStringElement(strippedValue: newName) {
-                        if stringElement.quotes != .None {
+                        if stringElement.quotes != .none {
                             newElement.quotes = stringElement.quotes
                         }
-                        values[index] = PSEntryElement.StringToken(stringElement: newElement)
+                        values[index] = PSEntryElement.stringToken(stringElement: newElement)
                     } else {
                         PSModalAlert("Fatal Error due to funny name...")
                         fatalError("Funny name error")
                     }
                 }
-            case let .List(stringListElement):
+            case let .list(stringListElement):
                 stringListElement.renameAllStringTokens(oldName, newName: newName)
-            case let .Function(functionElement):
+            case let .function(functionElement):
                 if functionElement.functionName == oldName {
                     functionElement.functionName = newName
                 }
@@ -229,24 +229,24 @@ public class PSCompoundEntryElement : NSObject {
         }
     }
     
-    public var values : [PSEntryElement] = []
-    public var foundErrors : Bool = false
+    open var values : [PSEntryElement] = []
+    open var foundErrors : Bool = false
 }
 
-let whiteSpaceCharacterSet = NSCharacterSet.whitespaceCharacterSet()
-let quoteCharacterSet = NSCharacterSet(charactersInString: "\"")
-let whiteSpaceAndQuoteCharacterSet = NSMutableCharacterSet(charactersInString: " \t\"")
+let whiteSpaceCharacterSet = CharacterSet.whitespaces
+let quoteCharacterSet = CharacterSet(charactersIn: "\"")
+let whiteSpaceAndQuoteCharacterSet = NSMutableCharacterSet(charactersIn: " \t\"")
 //trims whitespace
-public func PSTrimWhiteSpace(string : String) -> String {
-    return string.stringByTrimmingCharactersInSet(whiteSpaceCharacterSet)
+public func PSTrimWhiteSpace(_ string : String) -> String {
+    return string.trimmingCharacters(in: whiteSpaceCharacterSet)
 }
 
 //returns the string in quotes ONLY if it needs to be
-public func PSQuotedString(string : String) -> String {
+public func PSQuotedString(_ string : String) -> String {
     let trimmed_string = PSTrimWhiteSpace(string)
     
     //detect internal whitespace (Try nsscanner??)
-    let whiteSpaceRange = trimmed_string.rangeOfCharacterFromSet(whiteSpaceCharacterSet)
+    let whiteSpaceRange = trimmed_string.rangeOfCharacter(from: whiteSpaceCharacterSet)
     
     if (whiteSpaceRange != nil) {
         return "\"" + trimmed_string + "\"" //return in quotes
@@ -256,16 +256,16 @@ public func PSQuotedString(string : String) -> String {
 }
 
 //returns the string without surrounding quotes / brackets (but leaves them in if they are nested)
-public func PSUnquotedString(string : String) -> String {
-    return string.stringByTrimmingCharactersInSet(whiteSpaceAndQuoteCharacterSet)
+public func PSUnquotedString(_ string : String) -> String {
+    return string.trimmingCharacters(in: whiteSpaceAndQuoteCharacterSet)
 }
 
-public class PSStringListElement : PSCompoundEntryElement {
+open class PSStringListElement : PSCompoundEntryElement {
     
-    override public var stringValue : String {
+    override open var stringValue : String {
         get {
             let elements = getStringValues()
-            return elements.joinWithSeparator(" ")
+            return elements.joined(separator: " ")
         }
         
         set {
@@ -280,57 +280,57 @@ public class PSStringListElement : PSCompoundEntryElement {
 }
 
 
-public class PSFunctionElement : PSCompoundEntryElement {
+open class PSFunctionElement : PSCompoundEntryElement {
     
-    public class func InlineEntryNamed(name : String, values : [String]) -> PSEntryElement {
+    open class func InlineEntryNamed(_ name : String, values : [String]) -> PSEntryElement {
         let function = PSFunctionElement()
         function.functionName = name
-        function.bracketType = .InlineEntry
+        function.bracketType = .inlineEntry
         function.setStringValues(values)
-        return PSEntryElement.Function(functionElement: function)
+        return PSEntryElement.function(functionElement: function)
     }
     
-    public class func FromStringValue(stringValue : String) -> PSFunctionElement {
+    open class func FromStringValue(_ stringValue : String) -> PSFunctionElement {
         let function = PSFunctionElement()
         function.stringValue = stringValue
         return function
     }
     
-    public var functionName : String = ""
+    open var functionName : String = ""
     public enum Type {
-        case Square
-        case Round
-        case Expression
-        case InlineEntry
+        case square
+        case round
+        case expression
+        case inlineEntry
     }
     
-    public var bracketType : Type = .Square
+    open var bracketType : Type = .square
     
-    public func getParametersStringValue() -> String {
+    open func getParametersStringValue() -> String {
         let elements = getStringValues()
         let seperator : String = " "
-        var stringValue = elements.joinWithSeparator(seperator)
+        var stringValue = elements.joined(separator: seperator)
         
         //@ should be attached directly to front (no seperator) .
-        stringValue = stringValue.stringByReplacingOccurrencesOfString("@ ", withString: "@")
+        stringValue = stringValue.replacingOccurrences(of: "@ ", with: "@")
         
         //~ should be attached directly to front and back.
-        stringValue = stringValue.stringByReplacingOccurrencesOfString(" ~ ", withString: "~")
+        stringValue = stringValue.replacingOccurrences(of: " ~ ", with: "~")
         return stringValue
     }
     
-    override public var stringValue : String {
+    override open var stringValue : String {
         get {
             let joinedElements = getParametersStringValue()
             
             switch(bracketType) {
-            case .Square:
+            case .square:
                 return functionName + "[" + joinedElements + "]"
-            case .Round:
+            case .round:
                 return functionName + "(" + joinedElements + ")"
-            case .Expression:
+            case .expression:
                 return joinedElements
-            case .InlineEntry:
+            case .inlineEntry:
                 return functionName + ":" + joinedElements
             }
         }
@@ -340,7 +340,7 @@ public class PSFunctionElement : PSCompoundEntryElement {
             
             if parse.values.count == 1 {
                 switch(parse.values.first!) {
-                case .Function(let functionElement):
+                case .function(let functionElement):
                     self.bracketType = functionElement.bracketType
                     self.values = functionElement.values
                     self.functionName = functionElement.functionName
@@ -350,7 +350,7 @@ public class PSFunctionElement : PSCompoundEntryElement {
                     break
                 }
             }
-            self.bracketType = .Square
+            self.bracketType = .square
             self.values = []
             self.functionName = ""
             self.foundErrors = true

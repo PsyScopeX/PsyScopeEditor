@@ -7,7 +7,7 @@
 
 import Cocoa
 
-public func PSModalAlert(text : String) {
+public func PSModalAlert(_ text : String) {
     let new_alert = NSAlert()
     new_alert.messageText = text
     new_alert.runModal()

@@ -10,13 +10,13 @@ import Foundation
 //This enum stores a time in ms (or an unknown time) and has a function to convert it into a number of ms
 enum EventTime {
     
-    case FixedTime(EventMSecs)
-    case Unknown(UnknownTime)
+    case fixedTime(EventMSecs)
+    case unknown(UnknownTime)
     func ToEventMSecs() -> EventMSecs {
         switch (self) {
-        case let .FixedTime(ms_after):
+        case let .fixedTime(ms_after):
             return ms_after
-        case let .Unknown(effectiveVisualTime):
+        case let .unknown(effectiveVisualTime):
             if let effectiveVisualTime = effectiveVisualTime {
                 return effectiveVisualTime
             } else {
@@ -32,18 +32,18 @@ enum EventTime {
 // also provides the name for it's selection in a menu, and a value for the Duration: entry
 
 class EventDurationCondition {
-    private var event_time : EventTime
+    fileprivate var event_time : EventTime
     init() {
-        event_time = EventTime.FixedTime(500)
+        event_time = EventTime.fixedTime(500)
     }
     
     var textFieldDurationTime : String? {
         get {
             switch (event_time) {
-            case let .FixedTime(ms_after):
+            case let .fixedTime(ms_after):
                 let int : Int = Int(ms_after)
                 return "\(int)"
-            case .Unknown(_):
+            case .unknown(_):
                 return nil
             }
         }
@@ -78,7 +78,7 @@ class EventDurationConditionFixedTime : EventDurationCondition {
     
     init(time: Int) {
         super.init()
-        event_time = EventTime.FixedTime(CGFloat(time))
+        event_time = EventTime.fixedTime(CGFloat(time))
     }
     
     override func getDurationMS() -> EventMSecs {
@@ -87,7 +87,7 @@ class EventDurationConditionFixedTime : EventDurationCondition {
     
     override func getValue() -> String {
         switch event_time {
-        case let .FixedTime(time_ms):
+        case let .fixedTime(time_ms):
             let int : Int = Int(time_ms)
             return "\(int)"
         default:
@@ -116,7 +116,7 @@ class EventDurationConditionFixedTime : EventDurationCondition {
 class EventDurationConditionSelfTerminate : EventDurationCondition {
     override init() {
         super.init()
-        event_time = EventTime.Unknown(nil)
+        event_time = EventTime.unknown(nil)
     }
     
     override func getValue() -> String {
@@ -132,7 +132,7 @@ class EventDurationConditionSelfTerminate : EventDurationCondition {
     }
     
     override func getIcons() -> [NSImage] {
-        let image : NSImage = NSImage(contentsOfFile: NSBundle(forClass:self.dynamicType).pathForImageResource("SelfTerminate")!)!
+        let image : NSImage = NSImage(contentsOfFile: Bundle(for:self.dynamicType).pathForImageResource("SelfTerminate")!)!
         return [image]
     }
 }
@@ -140,7 +140,7 @@ class EventDurationConditionSelfTerminate : EventDurationCondition {
 class EventDurationConditionTrialEnd : EventDurationCondition {
     override init() {
         super.init()
-        event_time = EventTime.Unknown(nil)
+        event_time = EventTime.unknown(nil)
     }
     
     override func getValue() -> String {
@@ -156,7 +156,7 @@ class EventDurationConditionTrialEnd : EventDurationCondition {
     }
     
     override func getIcons() -> [NSImage] {
-        let image : NSImage = NSImage(contentsOfFile: NSBundle(forClass:self.dynamicType).pathForImageResource("Line")!)!
+        let image : NSImage = NSImage(contentsOfFile: Bundle(for:self.dynamicType).pathForImageResource("Line")!)!
         return [image]
     }
 }
@@ -168,7 +168,7 @@ class EventDurationConditionOther : EventDurationCondition {
         entry = conditionsEntry
         conditionsAttribute = PSConditionAttribute(condition_entry: entry, scriptData: scriptData)
         super.init()
-        event_time = EventTime.Unknown(nil)
+        event_time = EventTime.unknown(nil)
     }
     
     func setToNever() {
@@ -196,7 +196,7 @@ class EventDurationConditionOther : EventDurationCondition {
         
         if icons.count < 1 {
             //then do unknwon
-            let image : NSImage = NSImage(contentsOfFile: NSBundle(forClass:self.dynamicType).pathForImageResource("Question-icon")!)!
+            let image : NSImage = NSImage(contentsOfFile: Bundle(for:self.dynamicType).pathForImageResource("Question-icon")!)!
             icons.append(image)
         }
         
@@ -217,21 +217,21 @@ class EventStartCondition {
     
     var event_time : EventTime
     init() {
-        event_time = EventTime.FixedTime(0)
+        event_time = EventTime.fixedTime(0)
     }
     
     
-    func getStartMS(base_event : PSTemplateEvent) -> EventMSecs {
+    func getStartMS(_ base_event : PSTemplateEvent) -> EventMSecs {
         return event_time.ToEventMSecs()
     }
     
     var textFieldStartTime : String? {
         get {
             switch (event_time) {
-            case let .FixedTime(ms_after):
+            case let .fixedTime(ms_after):
                 let int : Int = Int(ms_after)
                 return "\(int)"
-            case .Unknown:
+            case .unknown:
                 return nil
             }
         }
@@ -254,8 +254,8 @@ class EventStartCondition {
 //These event's start times are those related to another event (either start or end)
 
 enum EventStartEventRelatedPosition {
-    case Start
-    case End
+    case start
+    case end
 }
 
 class EventStartEventRelated : EventStartCondition {
@@ -273,10 +273,10 @@ class EventStartEventRelated : EventStartCondition {
 class EventStartConditionDefault : EventStartEventRelated {
     override init() {
         super.init()
-        position = EventStartEventRelatedPosition.End
+        position = EventStartEventRelatedPosition.end
     }
     
-    override func getStartMS(base_event : PSTemplateEvent) -> EventMSecs {
+    override func getStartMS(_ base_event : PSTemplateEvent) -> EventMSecs {
         if let event = event {
             let (start, duration) = event.getMSRecursively(base_event)
             return start + duration + event_time.ToEventMSecs()
@@ -299,12 +299,12 @@ class EventStartConditionDefault : EventStartEventRelated {
 class EventStartConditionUnscheduled : EventStartCondition {
     override init() {
         super.init()
-        event_time = EventTime.Unknown(nil)
+        event_time = EventTime.unknown(nil)
     }
     
     init(fakePositionTime : EventMSecs) {
         super.init()
-        event_time = EventTime.Unknown(fakePositionTime)
+        event_time = EventTime.unknown(fakePositionTime)
     }
     
     override func menuName() -> String {
@@ -317,7 +317,7 @@ class EventStartConditionUnscheduled : EventStartCondition {
     
     override func getMetaData() -> String {
         switch (event_time) {
-        case let .Unknown(time):
+        case let .unknown(time):
             if let time = time {
                 let intValue = Int(time)
                 return "\(intValue)"
@@ -337,7 +337,7 @@ class EventStartConditionTrialStart : EventStartCondition {
     override func getValue() -> String {
         var time_string : String = ""
         switch event_time {
-        case let .FixedTime(time_ms):
+        case let .fixedTime(time_ms):
             let int : Int = Int(time_ms)
             time_string = "\(int)"
         default:
@@ -352,9 +352,9 @@ class EventStartConditionEventStart : EventStartEventRelated {
     
     override init() {
         super.init()
-        position = EventStartEventRelatedPosition.Start
+        position = EventStartEventRelatedPosition.start
     }
-    override func getStartMS(base_event : PSTemplateEvent) -> EventMSecs {
+    override func getStartMS(_ base_event : PSTemplateEvent) -> EventMSecs {
         let (start, _) = event!.getMSRecursively(base_event)
         return start + event_time.ToEventMSecs()
     }
@@ -366,7 +366,7 @@ class EventStartConditionEventStart : EventStartEventRelated {
     override func getValue() -> String {
         var time_string : String = ""
         switch event_time {
-        case let .FixedTime(time_ms):
+        case let .fixedTime(time_ms):
             let int : Int = Int(time_ms)
             time_string = "\(int)"
         default:
@@ -382,10 +382,10 @@ class EventStartConditionEventEnd : EventStartEventRelated {
     
     override init() {
         super.init()
-        position = EventStartEventRelatedPosition.End
+        position = EventStartEventRelatedPosition.end
     }
     
-    override func getStartMS(base_event : PSTemplateEvent) -> EventMSecs {
+    override func getStartMS(_ base_event : PSTemplateEvent) -> EventMSecs {
         let (start, duration) = event!.getMSRecursively(base_event)
         return start + duration + event_time.ToEventMSecs()
     }
@@ -396,7 +396,7 @@ class EventStartConditionEventEnd : EventStartEventRelated {
     override func getValue() -> String {
         var time_string : String = ""
         switch event_time {
-        case let .FixedTime(time_ms):
+        case let .fixedTime(time_ms):
             let int : Int = Int(time_ms)
             time_string = "\(int)"
         default:

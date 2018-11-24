@@ -23,7 +23,7 @@ class PSPluginPreferences : NSViewController, MASPreferencesViewController {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        let paths = PSPluginSingleton.sharedInstance.pluginLoader.pluginsLoaded.joinWithSeparator("\n\n")
+        let paths = PSPluginSingleton.sharedInstance.pluginLoader.pluginsLoaded.joined(separator: "\n\n")
         pluginListTextView.string = paths
     }
     
@@ -36,33 +36,33 @@ class PSPluginPreferences : NSViewController, MASPreferencesViewController {
         openPanel.canCreateDirectories = true
         openPanel.allowsMultipleSelection = false
         //openPanel.allowedFileTypes = [fileType]
-        openPanel.beginSheetModalForWindow(self.windowController.window!, completionHandler: {
+        openPanel.beginSheetModal(for: self.windowController.window!, completionHandler: {
             (int_code : Int) -> () in
             if int_code == NSFileHandlingPanelOKButton {
                 //relative to files location
-                let path : NSString = openPanel.URL!.path!
+                let path : NSString = openPanel.url!.path!
                 self.pluginPathText.stringValue = path as String
-                NSUserDefaults.standardUserDefaults().setObject(path, forKey: PSPluginPathKey)
+                UserDefaults.standard.set(path, forKey: PSPluginPathKey)
             }
             return
         })
     }
     
     @IBAction func resetToDefaultButtonClicked(_:NSButton) {
-        NSUserDefaults.standardUserDefaults().setObject(PSPreferences.psyScopeXPath.defaultValue as! String, forKey: PSPluginPathKey)
+        UserDefaults.standard.set(PSPreferences.psyScopeXPath.defaultValue as! String, forKey: PSPluginPathKey)
     }
     
-    @IBAction func restartPsyScope(sender : AnyObject) {
-        let task = NSTask()
+    @IBAction func restartPsyScope(_ sender : AnyObject) {
+        let task = Process()
         
         var args: [String] = []
         args.append("-c")
-        args.append("sleep 0.2; open \"\(NSBundle.mainBundle().bundlePath)\"")
+        args.append("sleep 0.2; open \"\(Bundle.main.bundlePath)\"")
         
         task.launchPath = "/bin/sh"
         task.arguments = args
         task.launch()
-        NSApplication.sharedApplication().terminate(nil)
+        NSApplication.shared().terminate(nil)
     }
     
 }

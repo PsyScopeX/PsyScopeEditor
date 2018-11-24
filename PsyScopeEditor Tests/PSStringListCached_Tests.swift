@@ -149,7 +149,7 @@ class PSStringListCached_Tests: XCTestCase {
         
         XCTAssert(stringListRawUnstripped.count == 3, "StringList should have three elements, found \(stringListRawUnstripped.count)")
         
-        let selfReconstructed = stringListRawUnstripped.joinWithSeparator(" ")
+        let selfReconstructed = stringListRawUnstripped.joined(separator: " ")
         let stringValueReconstred = stringList.stringValue
         XCTAssert(selfReconstructed == originalValue, "Original value was \(originalValue), self reconstructed was \(selfReconstructed)")
         XCTAssert(selfReconstructed == originalValue, "Original value was \(originalValue), stringValue reconstructed was \(stringValueReconstred)")
@@ -165,7 +165,7 @@ class PSStringListCached_Tests: XCTestCase {
         
         XCTAssert(stringListRawUnstripped.count == 3, "StringList should have three elements, found \(stringListRawUnstripped.count)")
         
-        let selfReconstructed = stringListRawUnstripped.joinWithSeparator(" ")
+        let selfReconstructed = stringListRawUnstripped.joined(separator: " ")
         let stringValueReconstred = stringList.stringValue
         XCTAssert(selfReconstructed == originalValue, "Original value was \(originalValue), self reconstructed was \(selfReconstructed)")
         XCTAssert(selfReconstructed == originalValue, "Original value was \(originalValue), stringValue reconstructed was \(stringValueReconstred)")
@@ -182,7 +182,7 @@ class PSStringListCached_Tests: XCTestCase {
         
         XCTAssert(stringListRawStripped.count == 3, "StringList should have three elements, found \(stringListRawStripped.count)")
         
-        let selfReconstructed = stringListRawStripped.joinWithSeparator(" ")
+        let selfReconstructed = stringListRawStripped.joined(separator: " ")
 
         XCTAssert(selfReconstructed == expectedValue, "Original value was \(originalValue), self reconstructed was \(selfReconstructed), expected \(expectedValue)")
  
@@ -200,33 +200,33 @@ class PSStringListCached_Tests: XCTestCase {
         
         for value in stringList.values {
             switch (value) {
-            case let .Function(functionElement):
+            case let .function(functionElement):
                 
                 
                 switch functionElement.bracketType {
-                case .InlineEntry:
+                case .inlineEntry:
                     success = false
                     errorList += "Expected Square function, got inline "
                     break
-                case .Round:
+                case .round:
                     success = false
                     errorList += "Expected Square function, got round "
-                case .Square:
+                case .square:
                     for functionValue in functionElement.values {
                         
                         
                         switch (functionValue) {
-                        case let .Function(inlineFunctionElement):
+                        case let .function(inlineFunctionElement):
                             switch inlineFunctionElement.bracketType {
-                            case .InlineEntry:
+                            case .inlineEntry:
                                 break
-                            case .Round:
+                            case .round:
                                 success = false
                                 errorList += "Expected InlineEntry function, got round "
-                            case .Square:
+                            case .square:
                                 success = false
                                 errorList += "Expected InlineEntry function, got square "
-                            case .Expression:
+                            case .expression:
                                 success = false
                                 errorList += "Expected InlineEntry function, got expression "
                             }
@@ -237,7 +237,7 @@ class PSStringListCached_Tests: XCTestCase {
                             break
                         }
                     }
-                case .Expression:
+                case .expression:
                     success = false
                     errorList += "Expected Square function, got expression "
                 }
@@ -265,13 +265,13 @@ class PSStringListCached_Tests: XCTestCase {
         
         for value in stringList.values {
             switch (value) {
-            case let .Function(functionElement):
-                if functionElement.bracketType == .Square {
+            case let .function(functionElement):
+                if functionElement.bracketType == .square {
                     XCTAssert(functionElement.values.count == 2,"Square Function should have two value, found \(functionElement.values.count)")
     
                     switch (functionElement.values.first!) {
-                    case let .Function(inlineFunctionElement):
-                        if inlineFunctionElement.bracketType == .InlineEntry &&
+                    case let .function(inlineFunctionElement):
+                        if inlineFunctionElement.bracketType == .inlineEntry &&
                         inlineFunctionElement.functionName == "A" {
                             
                             success = true
@@ -298,9 +298,9 @@ class PSStringListCached_Tests: XCTestCase {
         
         XCTAssert(stringList.values.count == 4,"StringList should have 4 values, found \(stringList.values.count)")
         
-        for (index,value) in stringList.values.enumerate() {
+        for (index,value) in stringList.values.enumerated() {
             switch (value) {
-            case let .StringToken(stringElement):
+            case let .stringToken(stringElement):
                 
                 XCTAssert(index == 0 || index == 2,"String value should be in first or third position")
                 
@@ -309,21 +309,21 @@ class PSStringListCached_Tests: XCTestCase {
                 } else if index == 2  {
                     XCTAssertEqual(stringElement.value, "JamesVariable", "String Value should be JamesVariable")
                 }
-            case let .Function(functionElement):
-                if functionElement.bracketType == .Expression {
+            case let .function(functionElement):
+                if functionElement.bracketType == .expression {
                     XCTAssert(functionElement.values.count == 2,"Unary Expression should have two values, found \(functionElement.values.count)")
                     
                     XCTAssert(index == 1 || index == 3,"Unary Expression should be in second or fourth position")
                     
                     switch (functionElement.values[0]) {
-                    case let .StringToken(stringElement):
+                    case let .stringToken(stringElement):
                         XCTAssertEqual(stringElement.value,"@","Wrong value")
                     default:
                         XCTAssert(false,"Wrong value")
                     }
                     
                     switch (functionElement.values[1]) {
-                    case let .StringToken(stringElement):
+                    case let .stringToken(stringElement):
                         if index == 1 {
                             XCTAssertEqual(stringElement.value,"JamesGroup","Wrong value")
                         } else if index == 3 {

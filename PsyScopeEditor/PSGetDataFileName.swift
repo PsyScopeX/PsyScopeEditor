@@ -8,13 +8,13 @@
 
 import Foundation
 
-func PSGetDataFileName(scriptData : PSScriptData) -> String {
+func PSGetDataFileName(_ scriptData : PSScriptData) -> String {
     guard let experimentsEntry = scriptData.getMainExperimentEntryIfItExists(),
         dataFileEntry = scriptData.getSubEntry("DataFile", entry: experimentsEntry) else {
             return ""
     }
     
-    if dataFileEntry.currentValue.lowercaseString == "@autodatafile" {
+    if dataFileEntry.currentValue.lowercased() == "@autodatafile" {
         if let adf = scriptData.getBaseEntry("AutoDataFile") {
             return adf.currentValue
         }

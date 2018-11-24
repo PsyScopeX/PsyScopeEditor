@@ -9,19 +9,19 @@ import Foundation
 
 //a custom view which can be activated with a custom block,
 //and holds scriptData, and updates script with custom block
-public class PSCellView : NSView {
-    public var scriptData : PSScriptData!
-    public var activateViewBlock : (() -> ())?
-    public var updateScriptBlock : (() -> ())!
+open class PSCellView : NSView {
+    open var scriptData : PSScriptData!
+    open var activateViewBlock : (() -> ())?
+    open var updateScriptBlock : (() -> ())!
     
     
-    public func activate() {
+    open func activate() {
         if let activateViewBlock = activateViewBlock {
             activateViewBlock()
         }
     }
     
-    public func updateScript() {
+    open func updateScript() {
         if let updateScriptBlock = updateScriptBlock {
             updateScriptBlock()
         }

@@ -12,7 +12,7 @@ public protocol PSWindowViewInterface {
 
 //before accessing any of the items, make sure to set up by passing scriptData
 //and allow to pass messages to selection controller with interface
-    func setup(scriptData : PSScriptData, selectionInterface : PSSelectionInterface)
+    func setup(_ scriptData : PSScriptData, selectionInterface : PSSelectionInterface)
 
 //return a tool bar item for the item
     func icon() -> NSImage
@@ -27,7 +27,7 @@ public protocol PSWindowViewInterface {
     func leftPanelTab() -> NSView?
 
 //called when an object is deleted
-    func entryDeleted(entry : Entry)
+    func entryDeleted(_ entry : Entry)
 
 //called to refresh with selected object
     func refresh()

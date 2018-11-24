@@ -8,12 +8,12 @@
 
 import Foundation
 
-public func PSSubjectVariableDialog(variable : PSSubjectVariable, currentValue : String) -> String {
+public func PSSubjectVariableDialog(_ variable : PSSubjectVariable, currentValue : String) -> String {
     let new_alert = NSAlert()
     var returnValue : String
     
     switch(variable.dialogType) {
-    case let .CheckBoxes(values):
+    case let .checkBoxes(values):
         
         if values.count == 0 {
             PSModalAlert("There are no items set for th check box dialog '\(variable.name)'.")
@@ -22,9 +22,9 @@ public func PSSubjectVariableDialog(variable : PSSubjectVariable, currentValue :
         
         let inputView = NSView(frame: NSMakeRect(0, 0, 200, CGFloat(24 * values.count)))
         var checkBoxes : [NSButton] = []
-        for (index,val) in values.enumerate() {
+        for (index,val) in values.enumerated() {
             let newCheckBox = NSButton(frame: NSMakeRect(0, CGFloat(index * 24), 200, 24))
-            newCheckBox.setButtonType(NSButtonType.SwitchButton)
+            newCheckBox.setButtonType(NSButtonType.switch)
             newCheckBox.title = val
             inputView.addSubview(newCheckBox)
             checkBoxes.append(newCheckBox)
@@ -35,14 +35,14 @@ public func PSSubjectVariableDialog(variable : PSSubjectVariable, currentValue :
         new_alert.runModal()
         
         var stringValues : [String] = []
-        for (index,cb) in checkBoxes.enumerate() {
+        for (index,cb) in checkBoxes.enumerated() {
             if cb.state == 1 {
                 stringValues.append(values[index])
             }
         }
         
-        returnValue = stringValues.joinWithSeparator(" ")
-    case let .RadioButtons(values):
+        returnValue = stringValues.joined(separator: " ")
+    case let .radioButtons(values):
         
         if values.count == 0 {
             PSModalAlert("There are no items set for the radio button dialog box '\(variable.name)'.")
@@ -51,13 +51,13 @@ public func PSSubjectVariableDialog(variable : PSSubjectVariable, currentValue :
         
         let proto = NSButtonCell()
         proto.title = "Button"
-        proto.setButtonType(NSButtonType.RadioButton)
+        proto.setButtonType(NSButtonType.radio)
         
         let matrixRect = NSMakeRect(0, 0, 200, CGFloat(values.count * 24))
-        let matrix = NSMatrix(frame: matrixRect, mode: NSMatrixMode.RadioModeMatrix, prototype: proto, numberOfRows: values.count, numberOfColumns: 1)
+        let matrix = NSMatrix(frame: matrixRect, mode: NSMatrixMode.radioModeMatrix, prototype: proto, numberOfRows: values.count, numberOfColumns: 1)
         new_alert.accessoryView = matrix
         var cells = matrix.cells as! [NSButtonCell]
-        for (index, val) in values.enumerate() {
+        for (index, val) in values.enumerated() {
             cells[index].title = val
         }
         

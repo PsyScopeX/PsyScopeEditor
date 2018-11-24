@@ -14,14 +14,14 @@ public typealias PSActionPickerCallback = ((PSActionInterface) -> ())
 
 //MARK: PSActionPicker
 
-public class PSActionPicker: NSObject, NSOutlineViewDataSource, NSOutlineViewDelegate {
+open class PSActionPicker: NSObject, NSOutlineViewDataSource, NSOutlineViewDelegate {
     
     public init(scriptData : PSScriptData, selectActionCallback : PSActionPickerCallback) {
         self.scriptData = scriptData
         self.selectActionCallback = selectActionCallback
         self.groups = PSActionPickerGroups(scriptData)
         super.init()
-        NSBundle(forClass:self.dynamicType).loadNibNamed("ActionPicker", owner: self, topLevelObjects: &topLevelObjects)
+        Bundle(for:self.dynamicType).loadNibNamed("ActionPicker", owner: self, topLevelObjects: &topLevelObjects)
     }
     
     //MARK: Variables / Constants
@@ -40,14 +40,14 @@ public class PSActionPicker: NSObject, NSOutlineViewDataSource, NSOutlineViewDel
     
     //MARK: Setup and start
 
-    override public func awakeFromNib() {
-        let nib = NSNib(nibNamed: "ActionPickerCell", bundle: NSBundle(forClass:self.dynamicType))
-        actionOutlineView.registerNib(nib!, forIdentifier: tableCellViewIdentifier)
+    override open func awakeFromNib() {
+        let nib = NSNib(nibNamed: "ActionPickerCell", bundle: Bundle(for:self.dynamicType))
+        actionOutlineView.register(nib!, forIdentifier: tableCellViewIdentifier)
     }
     
-    public func showActionWindow(view : NSView) {
+    open func showActionWindow(_ view : NSView) {
 
-        popover.showRelativeToRect(view.bounds, ofView: view, preferredEdge: NSRectEdge.MinX)
+        popover.show(relativeTo: view.bounds, of: view, preferredEdge: NSRectEdge.minX)
         actionOutlineView.reloadData()
         
         //always start expanded
@@ -59,18 +59,18 @@ public class PSActionPicker: NSObject, NSOutlineViewDataSource, NSOutlineViewDel
 
     //MARK: User interaction
     
-    @IBAction func doneButtonClicked(sender : AnyObject) {
+    @IBAction func doneButtonClicked(_ sender : AnyObject) {
         popover.close()
     }
     
-    func actionButtonClicked(action : PSActionPickerAction) {
+    func actionButtonClicked(_ action : PSActionPickerAction) {
         let tool = action.action
         selectActionCallback(tool)
     }
 
     //MARK: Outlineview
 
-    public func outlineView(outlineView: NSOutlineView, numberOfChildrenOfItem item: AnyObject?) -> Int {
+    open func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int {
     
         if (item == nil) {
             return groups.count
@@ -82,7 +82,7 @@ public class PSActionPicker: NSObject, NSOutlineViewDataSource, NSOutlineViewDel
         return 0
     }
 
-    public func outlineView(outlineView: NSOutlineView, child index: Int, ofItem item: AnyObject?) -> AnyObject {
+    open func outlineView(_ outlineView: NSOutlineView, child index: Int, ofItem item: Any?) -> Any {
         if (item == nil) {
             return groups[index]
         }
@@ -92,7 +92,7 @@ public class PSActionPicker: NSObject, NSOutlineViewDataSource, NSOutlineViewDel
         return ""
     }
 
-    public func outlineView(outlineView: NSOutlineView, isItemExpandable item: AnyObject) -> Bool {
+    open func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: Any) -> Bool {
         if let group = item as? PSActionPickerGroup {
             if group.actions.count > 0 {
                 return true
@@ -101,22 +101,22 @@ public class PSActionPicker: NSObject, NSOutlineViewDataSource, NSOutlineViewDel
         return false
     }
 
-    public func outlineView(outlineView: NSOutlineView, viewForTableColumn tableColumn: NSTableColumn?, item: AnyObject) -> NSView? {
+    open func outlineView(_ outlineView: NSOutlineView, viewFor tableColumn: NSTableColumn?, item: Any) -> NSView? {
         if let act = item as? PSActionPickerAction {
-            let view = outlineView.makeViewWithIdentifier(tableCellViewIdentifier, owner: nil) as! PSActionPickerCell
+            let view = outlineView.make(withIdentifier: tableCellViewIdentifier, owner: nil) as! PSActionPickerCell
             
             view.setup(act, clickCallback: actionButtonClicked)
             return view
         }
         if let group = item as? PSActionPickerGroup {
-            let view = (outlineView.makeViewWithIdentifier(tableColumn!.identifier, owner: nil) as! NSTableCellView)
+            let view = (outlineView.make(withIdentifier: tableColumn!.identifier, owner: nil) as! NSTableCellView)
             view.textField?.stringValue = group.name
             return view
         }
         return nil
     }
     
-    public func outlineView(outlineView: NSOutlineView, heightOfRowByItem item: AnyObject) -> CGFloat {
+    open func outlineView(_ outlineView: NSOutlineView, heightOfRowByItem item: Any) -> CGFloat {
         if item is PSActionPickerAction {
             return 25
         } else {

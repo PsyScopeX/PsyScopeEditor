@@ -8,10 +8,10 @@
 
 import Foundation
 
-public class PSMenuStructure : NSObject {
+open class PSMenuStructure : NSObject {
     
     let scriptData : PSScriptData
-    public var menuComponents : [PSMenuComponent]
+    open var menuComponents : [PSMenuComponent]
     var saving : Bool
     
     public init(scriptData : PSScriptData) {
@@ -22,7 +22,7 @@ public class PSMenuStructure : NSObject {
         parseFromScript()
     }
     
-    public func saveToScript() {
+    open func saveToScript() {
         saving = true
         scriptData.beginUndoGrouping("Edit Menus")
         print("Menu structure saving to script with \(menuComponents.count) components")
@@ -44,7 +44,7 @@ public class PSMenuStructure : NSObject {
         
     }
     
-    public func parseFromScript() {
+    open func parseFromScript() {
         if saving { return }
         menuComponents = []
         guard let entry = scriptData.getBaseEntry("Menus") else { return }
@@ -58,24 +58,24 @@ public class PSMenuStructure : NSObject {
     
     
     
-    public func addNewSubMenu() {
+    open func addNewSubMenu() {
         let newName = scriptData.getNextFreeBaseEntryName("Menu")
         let newMenuEntry = scriptData.getOrCreateBaseEntry(newName, type: PSType.Menu, section: PSSection.Menus)
         self.menuComponents.append(PSMenuComponent(entry: newMenuEntry, scriptData: scriptData))
     }
     
-    public func getAllChildMenuDialogVariables() -> [PSSubjectVariable] {
+    open func getAllChildMenuDialogVariables() -> [PSSubjectVariable] {
         var menuDialogVariables : [PSSubjectVariable] = []
         for menuComponent in menuComponents {
             let childMenuDialogVariables = menuComponent.getAllChildMenuDialogVariables()
-            menuDialogVariables.appendContentsOf(childMenuDialogVariables)
+            menuDialogVariables.append(contentsOf: childMenuDialogVariables)
         }
         
         var seen: [String:Bool] = [:]
         return menuDialogVariables.filter({ seen.updateValue(true, forKey: $0.name) == nil })
     }
     
-    public func getParentForComponent(component : PSMenuComponent) -> PSMenuComponent? {
+    open func getParentForComponent(_ component : PSMenuComponent) -> PSMenuComponent? {
         for mc in menuComponents {
             if mc == component {
                 return nil
@@ -87,7 +87,7 @@ public class PSMenuStructure : NSObject {
         return nil
     }
     
-    public func getParentForVariable(variable : PSSubjectVariable) -> PSMenuComponent? {
+    open func getParentForVariable(_ variable : PSSubjectVariable) -> PSMenuComponent? {
         for mc in menuComponents {
             if let parent = mc.returnParentForSubjectVariable(variable) {
                 return parent
@@ -96,7 +96,7 @@ public class PSMenuStructure : NSObject {
         return nil
     }
     
-    public func getMenuNamed(menuName : String) -> PSMenuComponent? {
+    open func getMenuNamed(_ menuName : String) -> PSMenuComponent? {
         for mc in menuComponents {
             if mc.name == menuName {
                 return mc
@@ -108,7 +108,7 @@ public class PSMenuStructure : NSObject {
         return nil
     }
     
-    public func getVariableNamed(variableName : String) -> PSSubjectVariable? {
+    open func getVariableNamed(_ variableName : String) -> PSSubjectVariable? {
         for mc in menuComponents {
             if let s = mc.getVariableNamed(variableName) {
                 return s
@@ -117,111 +117,111 @@ public class PSMenuStructure : NSObject {
         return nil
     }
     
-    public func removeComponent(component : PSMenuComponent) {
-        if let index = menuComponents.indexOf(component) {
-            menuComponents.removeAtIndex(index)
+    open func removeComponent(_ component : PSMenuComponent) {
+        if let index = menuComponents.index(of: component) {
+            menuComponents.remove(at: index)
         }
         for menuComponent in menuComponents {
             menuComponent.removeComponent(component)
         }
     }
     
-    public func removeSubjectVariable(subjectVariable : PSSubjectVariable) {
+    open func removeSubjectVariable(_ subjectVariable : PSSubjectVariable) {
         for menuComponent in menuComponents {
             menuComponent.removeSubjectVariable(subjectVariable)
         }
     }
     
-    public func addSubjectVariables(newSubjectVariables : [String], toMenu menuName: String, atIndex indexToInsert: Int) {
+    open func addSubjectVariables(_ newSubjectVariables : [String], toMenu menuName: String, atIndex indexToInsert: Int) {
         
         guard let menuToMoveTo = getMenuNamed(menuName) else { return }
         for subjectVariableName in newSubjectVariables {
             if let subjectVariableEntry = scriptData.getBaseEntry(subjectVariableName) {
-                menuToMoveTo.dialogVariables.insert(PSSubjectVariable(entry: subjectVariableEntry, scriptData: scriptData), atIndex: indexToInsert)
+                menuToMoveTo.dialogVariables.insert(PSSubjectVariable(entry: subjectVariableEntry, scriptData: scriptData), at: indexToInsert)
             }
         }
     }
     
-    public func moveSubjectVariable(subjectVariableName : String, toMenu menuName: String, atIndex indexToInsert : Int) {
+    open func moveSubjectVariable(_ subjectVariableName : String, toMenu menuName: String, atIndex indexToInsert : Int) {
         
         guard let subjectVariableToMove = getVariableNamed(subjectVariableName),
             menuToMoveTo = getMenuNamed(menuName) else { return }
         
         //are we moving within same menu?
-        if let oldIndex = menuToMoveTo.dialogVariables.indexOf(subjectVariableToMove) {
+        if let oldIndex = menuToMoveTo.dialogVariables.index(of: subjectVariableToMove) {
             // Move the specified row to its new location...
             // if we remove a row then everything moves down by one
             // so do an insert prior to the delete
             // --- depends which way were moving the data!!!
             //print("\(oldIndex) -> \(index)")
             if (oldIndex < indexToInsert) {
-                menuToMoveTo.dialogVariables.insert(subjectVariableToMove, atIndex: indexToInsert)
-                menuToMoveTo.dialogVariables.removeAtIndex(oldIndex)
+                menuToMoveTo.dialogVariables.insert(subjectVariableToMove, at: indexToInsert)
+                menuToMoveTo.dialogVariables.remove(at: oldIndex)
             } else {
-                menuToMoveTo.dialogVariables.removeAtIndex(oldIndex)
-                menuToMoveTo.dialogVariables.insert(subjectVariableToMove, atIndex: indexToInsert)
+                menuToMoveTo.dialogVariables.remove(at: oldIndex)
+                menuToMoveTo.dialogVariables.insert(subjectVariableToMove, at: indexToInsert)
             }
         } else {
             //moving from one menu to another
             if let subjectVariableParent = getParentForVariable(subjectVariableToMove),
-                index = subjectVariableParent.dialogVariables.indexOf(subjectVariableToMove) {
-                    subjectVariableParent.dialogVariables.removeAtIndex(index)
+                index = subjectVariableParent.dialogVariables.index(of: subjectVariableToMove) {
+                    subjectVariableParent.dialogVariables.remove(at: index)
             }
             
-            menuToMoveTo.dialogVariables.insert(subjectVariableToMove, atIndex: indexToInsert)
+            menuToMoveTo.dialogVariables.insert(subjectVariableToMove, at: indexToInsert)
         }
     }
     
-    public func moveMenuToBase(childMenuName : String, atIndex indexToInsert : Int) {
+    open func moveMenuToBase(_ childMenuName : String, atIndex indexToInsert : Int) {
         guard let childMenu = getMenuNamed(childMenuName) else { return }
         
-        if let oldIndex = menuComponents.indexOf(childMenu) {
+        if let oldIndex = menuComponents.index(of: childMenu) {
             if (oldIndex < indexToInsert) {
-                menuComponents.insert(childMenu, atIndex: indexToInsert)
-                menuComponents.removeAtIndex(oldIndex)
+                menuComponents.insert(childMenu, at: indexToInsert)
+                menuComponents.remove(at: oldIndex)
             } else {
-                menuComponents.removeAtIndex(oldIndex)
-                menuComponents.insert(childMenu, atIndex: indexToInsert)
+                menuComponents.remove(at: oldIndex)
+                menuComponents.insert(childMenu, at: indexToInsert)
             }
         } else {
             removeComponent(childMenu)
-            menuComponents.insert(childMenu, atIndex: indexToInsert)
+            menuComponents.insert(childMenu, at: indexToInsert)
         }
     }
     
-    public func moveMenu(childMenuName : String, toMenu newParentMenuName: String, atIndex indexToInsert : Int) {
+    open func moveMenu(_ childMenuName : String, toMenu newParentMenuName: String, atIndex indexToInsert : Int) {
         
         guard let childMenu = getMenuNamed(childMenuName),
             newParentMenu = getMenuNamed(newParentMenuName) else { return }
         
         
         if let oldParentMenu = getParentForComponent(childMenu),
-            oldIndex = oldParentMenu.subComponents.indexOf(childMenu) where oldParentMenu == newParentMenu {
+            oldIndex = oldParentMenu.subComponents.index(of: childMenu) where oldParentMenu == newParentMenu {
                 // Special case as moving within same menu (reordering)
                 if (oldIndex < indexToInsert) {
-                    newParentMenu.subComponents.insert(childMenu, atIndex: indexToInsert)
-                    newParentMenu.subComponents.removeAtIndex(oldIndex)
+                    newParentMenu.subComponents.insert(childMenu, at: indexToInsert)
+                    newParentMenu.subComponents.remove(at: oldIndex)
                 } else {
-                    newParentMenu.subComponents.removeAtIndex(oldIndex)
-                    newParentMenu.subComponents.insert(childMenu, atIndex: indexToInsert)
+                    newParentMenu.subComponents.remove(at: oldIndex)
+                    newParentMenu.subComponents.insert(childMenu, at: indexToInsert)
                 }
                 
         } else {
             //Standard case
             removeComponent(childMenu)
-            newParentMenu.subComponents.insert(childMenu, atIndex: indexToInsert)
+            newParentMenu.subComponents.insert(childMenu, at: indexToInsert)
         }
     }
     
 }
 
-public class PSMenuComponent : Equatable {
+open class PSMenuComponent : Equatable {
     
     let scriptData : PSScriptData
     let entry : Entry
-    public var subComponents : [PSMenuComponent]
-    public var dialogVariables : [PSSubjectVariable]
-    public var subMenus : Bool
+    open var subComponents : [PSMenuComponent]
+    open var dialogVariables : [PSSubjectVariable]
+    open var subMenus : Bool
     var saving : Bool
     
     public init(entry : Entry, scriptData : PSScriptData) {
@@ -239,7 +239,7 @@ public class PSMenuComponent : Equatable {
         self.init(entry: entry, scriptData: scriptData)
     }
     
-    public var name : String {
+    open var name : String {
         get {
             return entry.name
         }
@@ -251,7 +251,7 @@ public class PSMenuComponent : Equatable {
         }
     }
     
-    public func getAllChildMenuDialogVariables() -> [PSSubjectVariable] {
+    open func getAllChildMenuDialogVariables() -> [PSSubjectVariable] {
         
         if self.subMenus {
             var menuDialogVariables : [PSSubjectVariable] = []
@@ -266,7 +266,7 @@ public class PSMenuComponent : Equatable {
         
     }
     
-    public func saveToScript() {
+    open func saveToScript() {
         saving = true
         print("Menu \(self.name) saving to script with \(subComponents.count) components")
         if subComponents.count > 0 {
@@ -304,7 +304,7 @@ public class PSMenuComponent : Equatable {
         saving = false
     }
     
-    public func parseFromScript() {
+    open func parseFromScript() {
         if saving { return }
         subComponents = []
         dialogVariables = []
@@ -330,18 +330,18 @@ public class PSMenuComponent : Equatable {
     }
     
     
-    public func addChildMenu() {
+    open func addChildMenu() {
         let newName = scriptData.getNextFreeBaseEntryName("Menu")
         let newMenuEntry = scriptData.getOrCreateBaseEntry(newName, type: PSType.Menu, section: PSSection.Menus)
         self.subComponents.append(PSMenuComponent(entry: newMenuEntry, scriptData: scriptData))
         self.saveToScript()
     }
     
-    public func remove() {
+    open func remove() {
         removeSubMenus()
     }
     
-    public func removeSubMenus() {
+    open func removeSubMenus() {
         //delete the subMenus
         if let subMenus = scriptData.getSubEntry("SubMenus", entry: entry) {
             let subMenusList = PSStringList(entry: subMenus, scriptData: scriptData)
@@ -356,12 +356,12 @@ public class PSMenuComponent : Equatable {
         }
     }
     
-    public func removeSubMenusEntry() {
+    open func removeSubMenusEntry() {
         scriptData.deleteNamedSubEntryFromParentEntry(entry, name: "SubMenus")
     }
     
     
-    public func returnParentFor(subMenu : PSMenuComponent) -> PSMenuComponent? {
+    open func returnParentFor(_ subMenu : PSMenuComponent) -> PSMenuComponent? {
         for sc in self.subComponents {
             if sc == subMenu {
                 return self
@@ -373,7 +373,7 @@ public class PSMenuComponent : Equatable {
         return nil
     }
     
-    public func returnParentForSubjectVariable(subjectVariable : PSSubjectVariable) -> PSMenuComponent? {
+    open func returnParentForSubjectVariable(_ subjectVariable : PSSubjectVariable) -> PSMenuComponent? {
         for sc in self.dialogVariables {
             if sc == subjectVariable {
                 return self
@@ -388,7 +388,7 @@ public class PSMenuComponent : Equatable {
         return nil
     }
     
-    public func getMenuNamed(menuName : String) -> PSMenuComponent? {
+    open func getMenuNamed(_ menuName : String) -> PSMenuComponent? {
         for mc in subComponents {
             if mc.name == menuName {
                 return mc
@@ -400,7 +400,7 @@ public class PSMenuComponent : Equatable {
         return nil
     }
     
-    public func getVariableNamed(variableName : String) -> PSSubjectVariable? {
+    open func getVariableNamed(_ variableName : String) -> PSSubjectVariable? {
         for variable in dialogVariables {
             if variable.name == variableName {
                 return variable
@@ -415,18 +415,18 @@ public class PSMenuComponent : Equatable {
         return nil
     }
     
-    public func removeComponent(component : PSMenuComponent) {
-        if let index = subComponents.indexOf(component) {
-            subComponents.removeAtIndex(index)
+    open func removeComponent(_ component : PSMenuComponent) {
+        if let index = subComponents.index(of: component) {
+            subComponents.remove(at: index)
         }
         for subComponent in subComponents {
             subComponent.removeComponent(component)
         }
     }
     
-    public func removeSubjectVariable(subjectVariable : PSSubjectVariable) {
-        if let index = dialogVariables.indexOf(subjectVariable) {
-            dialogVariables.removeAtIndex(index)
+    open func removeSubjectVariable(_ subjectVariable : PSSubjectVariable) {
+        if let index = dialogVariables.index(of: subjectVariable) {
+            dialogVariables.remove(at: index)
         }
         for subComponent in subComponents {
             subComponent.removeSubjectVariable(subjectVariable)

@@ -20,15 +20,15 @@ class PSListViewController : PSToolPropertyController, NSWindowDelegate, PSEntry
     @IBOutlet var editListButton : NSButton!
     
     enum PSListType {
-        case FileType
-        case NormalType
+        case fileType
+        case normalType
     }
     
     var firstParse : Bool = false
-    var listType : PSListType = PSListType.NormalType
+    var listType : PSListType = PSListType.normalType
     
     init(entry : Entry, scriptData : PSScriptData) {
-        let bundle = NSBundle(forClass:self.dynamicType)
+        let bundle = Bundle(for:self.dynamicType)
         super.init(nibName: "ListView", bundle: bundle, entry: entry, scriptData: scriptData)
         storedDoubleClickAction = { () in
             self.editObjectsButton(self)
@@ -50,7 +50,7 @@ class PSListViewController : PSToolPropertyController, NSWindowDelegate, PSEntry
         
     }
     
-    func control(controlShouldEndEditing: PSEntryValueController) -> Bool {
+    func control(_ controlShouldEndEditing: PSEntryValueController) -> Bool {
         updateEntry()
         return true
     }
@@ -67,16 +67,16 @@ class PSListViewController : PSToolPropertyController, NSWindowDelegate, PSEntry
     func parseList() {
         //determine type of list
         if let listFile = scriptData.getSubEntry("ListFile", entry: entry) {
-            listType = .FileType
-            typePopup.selectItemWithTitle("File list")
-            fileText.enabled = true
-            fileButton.enabled = true
+            listType = .fileType
+            typePopup.selectItem(withTitle: "File list")
+            fileText.isEnabled = true
+            fileButton.isEnabled = true
             fileText.stringValue = listFile.currentValue
         } else {
-            listType = .NormalType
-            typePopup.selectItemWithTitle("Regular list")
-            fileText.enabled = false
-            fileButton.enabled = false
+            listType = .normalType
+            typePopup.selectItem(withTitle: "Regular list")
+            fileText.isEnabled = false
+            fileButton.isEnabled = false
             fileText.stringValue = ""
         }
         
@@ -87,8 +87,8 @@ class PSListViewController : PSToolPropertyController, NSWindowDelegate, PSEntry
         for exisitingWindowController in exisitingWindowControllers {
             guard let nibName = exisitingWindowController.windowNibName else { continue }
             
-            let validListBuilder = nibName == "ListBuilder" && listType == .NormalType
-            let validFileListBuilder = nibName == "FileListBuilder" && listType == .FileType
+            let validListBuilder = nibName == "ListBuilder" && listType == .normalType
+            let validFileListBuilder = nibName == "FileListBuilder" && listType == .fileType
             
             if !(validListBuilder || validFileListBuilder) {
                 exisitingWindowController.close()
@@ -97,12 +97,12 @@ class PSListViewController : PSToolPropertyController, NSWindowDelegate, PSEntry
         
         //determine rough order
         let order = scriptData.propertyValue("AccessType", entry: entry, defaultValue: "Sequential")
-        if order.lowercaseString == "rrandom" {
-            orderPopup.selectItemWithTitle("Random with replacement")
-        } else if order.lowercaseString == "random" {
-            orderPopup.selectItemWithTitle("Random")
+        if order.lowercased() == "rrandom" {
+            orderPopup.selectItem(withTitle: "Random with replacement")
+        } else if order.lowercased() == "random" {
+            orderPopup.selectItem(withTitle: "Random")
         } else {
-            orderPopup.selectItemWithTitle("Sequential")
+            orderPopup.selectItem(withTitle: "Sequential")
         }
         
         
@@ -123,7 +123,7 @@ class PSListViewController : PSToolPropertyController, NSWindowDelegate, PSEntry
         
     }
     
-    @IBAction func fileButtonClicked(sender : NSButton) {
+    @IBAction func fileButtonClicked(_ sender : NSButton) {
         let openPanel = NSOpenPanel()
         openPanel.title = "Choose any file"
         openPanel.showsResizeIndicator = true
@@ -132,11 +132,11 @@ class PSListViewController : PSToolPropertyController, NSWindowDelegate, PSEntry
         openPanel.canCreateDirectories = true
         openPanel.allowsMultipleSelection = false
         //openPanel.allowedFileTypes = [fileType]
-        openPanel.beginSheetModalForWindow(sender.window!, completionHandler: {
+        openPanel.beginSheetModal(for: sender.window!, completionHandler: {
             (int_code : Int) -> () in
             if int_code == NSFileHandlingPanelOKButton {
                 //relative to files location
-                let path : NSString = openPanel.URL!.path!
+                let path : NSString = openPanel.url!.path!
                 self.scriptData.beginUndoGrouping("Change List File")
                 let fileList = PSFileList(entry: self.entry, scriptData: self.scriptData)
                 fileList.filePath = path as String
@@ -148,11 +148,11 @@ class PSListViewController : PSToolPropertyController, NSWindowDelegate, PSEntry
 
     }
     
-    @IBAction func listControlChanged(sender : AnyObject) {
+    @IBAction func listControlChanged(_ sender : AnyObject) {
         updateEntry()
     }
     
-    override func control(control: NSControl, textShouldEndEditing fieldEditor: NSText) -> Bool {
+    override func control(_ control: NSControl, textShouldEndEditing fieldEditor: NSText) -> Bool {
         updateEntry()
         return super.control(control, textShouldEndEditing: fieldEditor)
     }
@@ -202,7 +202,7 @@ class PSListViewController : PSToolPropertyController, NSWindowDelegate, PSEntry
         
     }
     
-    @IBAction func editObjectsButton(sender : AnyObject) {
+    @IBAction func editObjectsButton(_ sender : AnyObject) {
         
         //first get any existing window controllers associated with entry
         let exisitingWindowControllers = scriptData.getWindowControllersAssociatedWithEntry(self.entry)
@@ -213,8 +213,8 @@ class PSListViewController : PSToolPropertyController, NSWindowDelegate, PSEntry
         for exisitingWindowController in exisitingWindowControllers {
             guard let nibName = exisitingWindowController.windowNibName else { continue }
             
-            let validListBuilder = nibName == "ListBuilder" && listType == .NormalType
-            let validFileListBuilder = nibName == "FileListBuilder" && listType == .FileType
+            let validListBuilder = nibName == "ListBuilder" && listType == .normalType
+            let validFileListBuilder = nibName == "FileListBuilder" && listType == .fileType
             
             if validListBuilder || validFileListBuilder {
                 exisitingWindowController.window!.makeKeyAndOrderFront(sender)
@@ -228,7 +228,7 @@ class PSListViewController : PSToolPropertyController, NSWindowDelegate, PSEntry
         if foundExistingWindowController { return }
         
         //open as correct type
-        if listType == .NormalType {
+        if listType == .normalType {
             let listBuilder = PSListBuilderWindowController(windowNibName: "ListBuilder")
             listBuilder.setupWithEntryAndAddToDocument(self.entry, scriptData: self.scriptData)
             listBuilder.showWindow(self)

@@ -7,14 +7,14 @@ import Cocoa
 
 //MARK: PSAttributePicker
 
-public class PSAttributePicker: NSObject, NSTableViewDataSource, NSTableViewDelegate {
+open class PSAttributePicker: NSObject, NSTableViewDataSource, NSTableViewDelegate {
     
     public init(scriptData : PSScriptData) {
         self.scriptData = scriptData
         self.categories = PSAttributePickerCategories(scriptData)
         self.tableCellViewIdentifier = "PSAttributePickerCell"
         super.init()
-        NSBundle(forClass:self.dynamicType).loadNibNamed("AttributePicker", owner: self, topLevelObjects: &topLevelObjects)
+        Bundle(for:self.dynamicType).loadNibNamed("AttributePicker", owner: self, topLevelObjects: &topLevelObjects)
     }
     
     
@@ -35,9 +35,9 @@ public class PSAttributePicker: NSObject, NSTableViewDataSource, NSTableViewDele
     
     // MARK: Setup and Start
     
-    override public func awakeFromNib() {
-        let nib = NSNib(nibNamed: "AttributePickerCell", bundle: NSBundle(forClass:self.dynamicType))
-        attributeTableView.registerNib(nib!, forIdentifier: tableCellViewIdentifier)
+    override open func awakeFromNib() {
+        let nib = NSNib(nibNamed: "AttributePickerCell", bundle: Bundle(for:self.dynamicType))
+        attributeTableView.register(nib!, forIdentifier: tableCellViewIdentifier)
         
         //put categories into popup menu
         var menu_items : [String] = []
@@ -45,19 +45,19 @@ public class PSAttributePicker: NSObject, NSTableViewDataSource, NSTableViewDele
             menu_items.append(type.userFriendlyName)
         }
         attributePopupButton.removeAllItems()
-        attributePopupButton.addItemsWithTitles(menu_items)
+        attributePopupButton.addItems(withTitles: menu_items)
         self.existingAttributes = []
     }
     
-    public func showAttributeWindow(view : NSView) {
-        popover.showRelativeToRect(view.bounds, ofView: view, preferredEdge: NSRectEdge.MinX)
+    open func showAttributeWindow(_ view : NSView) {
+        popover.show(relativeTo: view.bounds, of: view, preferredEdge: NSRectEdge.minX)
         selectCategory(self)
     }
     
     
     // MARK: User interaction
 
-    @IBAction func selectCategory(sender : AnyObject) {
+    @IBAction func selectCategory(_ sender : AnyObject) {
         
         tableViewAttributes = []
         
@@ -82,36 +82,36 @@ public class PSAttributePicker: NSObject, NSTableViewDataSource, NSTableViewDele
             }
         }
         
-        tableViewAttributes = tableViewAttributes.sort({ (s1: PSAttributePickerAttribute, s2: PSAttributePickerAttribute) -> Bool in
+        tableViewAttributes = tableViewAttributes.sorted(by: { (s1: PSAttributePickerAttribute, s2: PSAttributePickerAttribute) -> Bool in
             return s1.userFriendlyName < s2.userFriendlyName })
         attributeTableView.reloadData()
     }
     
-    @IBAction func doneButtonClicked(sender : AnyObject) {
+    @IBAction func doneButtonClicked(_ sender : AnyObject) {
         popover.close()
     }
     
-    func attributeButtonClicked(row : Int, clickedOn : Bool) {
+    func attributeButtonClicked(_ row : Int, clickedOn : Bool) {
         let type = tableViewAttributes[row].type
         if clickedOn {
             self.existingAttributes.append(type)
         } else {
-            if let index = self.existingAttributes.indexOf(type) {
-                self.existingAttributes.removeAtIndex(index)
+            if let index = self.existingAttributes.index(of: type) {
+                self.existingAttributes.remove(at: index)
             }
         }
     }
     
     // MARK: TableView
     
-    public func numberOfRowsInTableView(tableView: NSTableView) -> Int {
+    open func numberOfRows(in tableView: NSTableView) -> Int {
         return tableViewAttributes.count
     }
     
-    public func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
+    open func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         
         //make view
-        let view = tableView.makeViewWithIdentifier(tableCellViewIdentifier, owner: nil) as! PSAttributePickerCell
+        let view = tableView.make(withIdentifier: tableCellViewIdentifier, owner: nil) as! PSAttributePickerCell
         view.setup(tableViewAttributes[row].userFriendlyName, row: row, clickCallback: attributeButtonClicked)
         
         //preset checkbox state
@@ -120,7 +120,7 @@ public class PSAttributePicker: NSObject, NSTableViewDataSource, NSTableViewDele
         return view
     }
     
-    public func tableView(tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
+    open func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
         return CGFloat(25)
     }
     

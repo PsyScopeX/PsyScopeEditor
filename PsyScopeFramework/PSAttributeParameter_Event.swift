@@ -7,39 +7,39 @@
 
 import Foundation
 
-public class PSAttributeParameter_Event : PSAttributeParameter {
+open class PSAttributeParameter_Event : PSAttributeParameter {
     
     var popUpButton : NSPopUpButton!
     
-    override public func setCustomControl(visible: Bool) {
+    override open func setCustomControl(_ visible: Bool) {
         //add popupbutton
         if visible {
             if popUpButton == nil {
                 popUpButton = NSPopUpButton(frame: attributeValueControlFrame, pullsDown: false)
-                popUpButton.autoresizingMask = NSAutoresizingMaskOptions.ViewWidthSizable
+                popUpButton.autoresizingMask = NSAutoresizingMaskOptions.viewWidthSizable
                 popUpButton.target = self
                 popUpButton.action = "eventSelected:"
                 cell.addSubview(popUpButton)
             } else {
-                popUpButton.hidden = false
+                popUpButton.isHidden = false
             }
                         updatePopUpMenuContent()
-            popUpButton.selectItemWithTitle(currentValue.stringValue())
+            popUpButton.selectItem(withTitle: currentValue.stringValue())
         } else {
             if popUpButton != nil {
-                popUpButton.hidden = true
+                popUpButton.isHidden = true
             }
         }
     }
     
     
-    func eventSelected(item : NSMenuItem) {
+    func eventSelected(_ item : NSMenuItem) {
         currentValue = PSGetFirstEntryElementForStringOrNull(item.title)
         self.cell.updateScript()
     }
     
-    func noneSelected(item : NSMenuItem) {
-        currentValue = .Null
+    func noneSelected(_ item : NSMenuItem) {
+        currentValue = .null
         self.cell.updateScript()
     }
     

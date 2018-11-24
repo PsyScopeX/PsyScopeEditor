@@ -18,9 +18,9 @@ public struct PSSubjectVariableStorageOptions {
         self.inDataFile = all
         self.inLogFile = all
         if all {
-            self.schedule = .RunStart
+            self.schedule = .runStart
         } else {
-            self.schedule = .Never
+            self.schedule = .never
         }
     }
     
@@ -32,7 +32,7 @@ public struct PSSubjectVariableStorageOptions {
     
     
     
-    func saveToScript(entry : Entry, scriptData : PSScriptData) {
+    func saveToScript(_ entry : Entry, scriptData : PSScriptData) {
         let experimentEntry = scriptData.getMainExperimentEntry()
         
         
@@ -96,7 +96,7 @@ public struct PSSubjectVariableStorageOptions {
         var logEntryName : String
         
         switch(schedule) {
-        case .RunStart:
+        case .runStart:
             promptEntryName = "RunStart"
             logEntryName = "LogRunStart"
             
@@ -104,14 +104,14 @@ public struct PSSubjectVariableStorageOptions {
             scriptData.removeItemFromBaseList("LogRunEnd", item: entry.name)
             scriptData.removeItemFromBaseList("RunEnd", item: entry.name)
             
-        case .RunEnd:
+        case .runEnd:
             promptEntryName = "RunEnd"
             logEntryName = "LogRunEnd"
             
             //remove all references in runstart and logrunstart
             scriptData.removeItemFromBaseList("LogRunStart", item: entry.name)
             scriptData.removeItemFromBaseList("RunStart", item: entry.name)
-        case .Never:
+        case .never:
             logEntryName = "LogRunEnd" //if logging is activated, always log at end
             
             //remove all references
@@ -152,7 +152,7 @@ public struct PSSubjectVariableStorageOptions {
 
     
     //parse storage options from various entries in the script
-    static func fromEntry(entry : Entry, scriptData : PSScriptData) -> PSSubjectVariableStorageOptions {
+    static func fromEntry(_ entry : Entry, scriptData : PSScriptData) -> PSSubjectVariableStorageOptions {
         var storageOptions = PSSubjectVariableStorageOptions(all: false)
         
         let experimentEntry = scriptData.getMainExperimentEntry()
@@ -170,7 +170,7 @@ public struct PSSubjectVariableStorageOptions {
         if let runStart = scriptData.getBaseEntry("RunStart") {
             let runStartList = PSStringList(entry: runStart, scriptData: scriptData)
             if runStartList.contains(entry.name) {
-                storageOptions.schedule = .RunStart
+                storageOptions.schedule = .runStart
                 
                 if let logRunStart = scriptData.getBaseEntry("LogRunStart") {
                     let logRunStartList = PSStringList(entry: logRunStart, scriptData: scriptData)
@@ -184,7 +184,7 @@ public struct PSSubjectVariableStorageOptions {
         if let runEnd = scriptData.getBaseEntry("RunEnd") {
             let runEndList = PSStringList(entry: runEnd, scriptData: scriptData)
             if runEndList.contains(entry.name) {
-                storageOptions.schedule = .RunEnd
+                storageOptions.schedule = .runEnd
                 
                 if let logRunEnd = scriptData.getBaseEntry("LogRunEnd") {
                     let logRunEndList = PSStringList(entry: logRunEnd, scriptData: scriptData)
@@ -194,7 +194,7 @@ public struct PSSubjectVariableStorageOptions {
         }
         
         //also allow never variables to be in logRunEnd
-        if let logRunEnd = scriptData.getBaseEntry("LogRunEnd") where storageOptions.schedule == .Never {
+        if let logRunEnd = scriptData.getBaseEntry("LogRunEnd") where storageOptions.schedule == .never {
             let logRunEndList = PSStringList(entry: logRunEnd, scriptData: scriptData)
             storageOptions.inLogFile = logRunEndList.contains(entry.name)
         }

@@ -14,7 +14,7 @@ class PSGroupTool: PSTool , PSToolInterface {
         toolType = PSType.Group
         helpfulDescriptionString = "Node for defining a group"
         iconName = "Group-icon-128" // Luca changed the icon
-        iconColor = NSColor.redColor()
+        iconColor = NSColor.red
         classNameString = "PSGroupTool"
         section = PSSection.GroupDefinitions
         identityProperty = Properties.Groups
@@ -24,7 +24,7 @@ class PSGroupTool: PSTool , PSToolInterface {
         static let Groups = PSProperty(name: "Groups", defaultValue: "")
     }
     
-    override func identifyEntries(ghostScript: PSGhostScript) -> [PSScriptError] {
+    override func identifyEntries(_ ghostScript: PSGhostScript) -> [PSScriptError] {
         return PSTool.identifyEntriesByPropertyInOtherEntry(ghostScript, property: Properties.Groups, type: toolType)
     }
     
@@ -39,7 +39,7 @@ class PSGroupTool: PSTool , PSToolInterface {
         return "GroupAttrib(\"\(attribute_popup.currentValue)\")"
     }*/
     
-    override func menuItemSelectedForAttributeSource(itemTitle: String, tag: Int, entry: Entry?, originalValue: String, originalFullType : PSAttributeType?, scriptData: PSScriptData) -> String {
+    override func menuItemSelectedForAttributeSource(_ itemTitle: String, tag: Int, entry: Entry?, originalValue: String, originalFullType : PSAttributeType?, scriptData: PSScriptData) -> String {
 
         if entry != nil {
             return "GroupAttrib(\"\(itemTitle)\")"
@@ -55,7 +55,7 @@ class PSGroupTool: PSTool , PSToolInterface {
         
     }
     
-    override func constructAttributeSourceSubMenu(scriptData: PSScriptData) -> NSMenuItem {
+    override func constructAttributeSourceSubMenu(_ scriptData: PSScriptData) -> NSMenuItem {
         
         let subMenuItem = NSMenuItem(title: "Group", action: "", keyEquivalent: "g")
         subMenuItem.representedObject = self
@@ -74,7 +74,7 @@ class PSGroupTool: PSTool , PSToolInterface {
         }
         
         if suitableAttributes.count == 0 {
-            subMenuItem.enabled = false
+            subMenuItem.isEnabled = false
             return subMenuItem }
         
         let menu = NSMenu(title: "Group")
@@ -91,16 +91,16 @@ class PSGroupTool: PSTool , PSToolInterface {
         return subMenuItem
     }
     
-    override func identifyAsAttributeSourceAndReturnRepresentiveString(currentValue: String) -> [AnyObject] {
+    override func identifyAsAttributeSourceAndReturnRepresentiveString(_ currentValue: String) -> [AnyObject] {
         return PSToolHelper.attributedStringForAttributeFunction("GroupAttrib", icon: self.icon(), currentValue: currentValue)
         
     }
     
-    override func getPropertiesViewController(entry: Entry, withScript scriptData: PSScriptData) -> PSPluginViewController? {
+    override func getPropertiesViewController(_ entry: Entry, withScript scriptData: PSScriptData) -> PSPluginViewController? {
         return PSGroupsViewController(entry: entry, scriptData: scriptData)
     }
     
-    override func createLinkFrom(parent: Entry, to child: Entry, withScript scriptData: PSScriptData) -> Bool {
+    override func createLinkFrom(_ parent: Entry, to child: Entry, withScript scriptData: PSScriptData) -> Bool {
         
         if PSTool.createLinkFromToolToList(parent, to: child, withScript: scriptData) {
             return true
@@ -182,7 +182,7 @@ class PSGroupTool: PSTool , PSToolInterface {
         return false
     }
     
-    override func deleteLinkFrom(parent: Entry, to child: Entry, withScript scriptData: PSScriptData) -> Bool {
+    override func deleteLinkFrom(_ parent: Entry, to child: Entry, withScript scriptData: PSScriptData) -> Bool {
         var childAttributeName : String = ""
         
         if scriptData.typeIsEvent(child.type) {

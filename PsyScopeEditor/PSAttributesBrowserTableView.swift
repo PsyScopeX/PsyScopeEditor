@@ -8,30 +8,30 @@
 import Foundation
 
 @objc protocol PSEditMenuDelegate {
-    func deleteObject(sender : AnyObject)
-    func copyObject(sender : AnyObject)
-    func pasteObject(sender : AnyObject)
+    func deleteObject(_ sender : AnyObject)
+    func copyObject(_ sender : AnyObject)
+    func pasteObject(_ sender : AnyObject)
 }
 
 class PSTableView : NSTableView {
     
     @IBOutlet var editDelegate : PSAttributesBrowser!
     
-    override func validateProposedFirstResponder(responder: NSResponder, forEvent event: NSEvent?) -> Bool {
+    override func validateProposedFirstResponder(_ responder: NSResponder, for event: NSEvent?) -> Bool {
         return true
     }
     
     override var acceptsFirstResponder: Bool { get { return true } }
     
-    func delete(sender : AnyObject) {
+    func delete(_ sender : AnyObject) {
         editDelegate.deleteObject(sender)
     }
     
-    func copy(sender : AnyObject) {
+    func copy(_ sender : AnyObject) {
         editDelegate.copyObject(sender)
     }
     
-    func paste(sender : AnyObject) {
+    func paste(_ sender : AnyObject) {
         editDelegate.pasteObject(sender)
     }
 }

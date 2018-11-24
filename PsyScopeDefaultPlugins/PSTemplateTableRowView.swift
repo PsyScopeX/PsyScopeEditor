@@ -8,11 +8,11 @@
 import Foundation
 
 class PSTemplateTableRowView : NSTableRowView {
-    override func drawSelectionInRect(dirtyRect: NSRect) {
+    override func drawSelection(in dirtyRect: NSRect) {
         let selectionRect = self.bounds
-        NSColor.redColor().setStroke() //LucaL changed color
+        NSColor.red.setStroke() //LucaL changed color
      
-        NSColor(CGColor: PSConstants.BasicDefaultColors.backgroundColor)!.setFill()//LucaL changed color
+        NSColor(cgColor: PSConstants.BasicDefaultColors.backgroundColor)!.setFill()//LucaL changed color
        // NSColor(calibratedWhite: 0.82, alpha: 1.0).setFill()
         let selectionPath = NSBezierPath(rect: selectionRect)
  
@@ -20,7 +20,7 @@ class PSTemplateTableRowView : NSTableRowView {
         selectionPath.stroke()
     }
     
-    override func drawBackgroundInRect(dirtyRect: NSRect) {
+    override func drawBackground(in dirtyRect: NSRect) {
        
    //NSColor(CGColor: PSConstants.BasicDefaultColors.backgroundColorLowAlpha).set() // this to change the background
         
@@ -32,7 +32,7 @@ class PSTemplateTableRowView : NSTableRowView {
 
            NSColor(calibratedWhite: 0.9, alpha: 1.0).setStroke()
             
-NSColor(CGColor: PSConstants.BasicDefaultColors.backgroundColorLowAlpha)!.setFill()//LucaL changed color
+NSColor(cgColor: PSConstants.BasicDefaultColors.backgroundColorLowAlpha)!.setFill()//LucaL changed color
             
             //NSColor(calibratedWhite: 0.9, alpha: 1.0).setFill()
             let selectionPath = NSBezierPath(rect: selectionRect)
@@ -48,22 +48,22 @@ NSColor(CGColor: PSConstants.BasicDefaultColors.backgroundColorLowAlpha)!.setFil
     override func updateTrackingAreas() {
         super.updateTrackingAreas()
         if _trackingArea == nil {
-            _trackingArea = NSTrackingArea(rect: self.bounds, options: [NSTrackingAreaOptions.MouseEnteredAndExited, NSTrackingAreaOptions.ActiveInActiveApp], owner: self, userInfo: nil)
+            _trackingArea = NSTrackingArea(rect: self.bounds, options: [NSTrackingAreaOptions.mouseEnteredAndExited, NSTrackingAreaOptions.activeInActiveApp], owner: self, userInfo: nil)
             self.addTrackingArea(_trackingArea)
         }
     }
     
-    override func mouseEntered(theEvent: NSEvent) {
+    override func mouseEntered(with theEvent: NSEvent) {
         _mouseInside = true
-        if let view = self.viewAtColumn(0) as? PSHighLightOnMouseHoverProtocol {
+        if let view = self.view(atColumn: 0) as? PSHighLightOnMouseHoverProtocol {
             view.highLight(true)
         }
         self.needsDisplay = true
     }
     
-    override func mouseExited(theEvent: NSEvent) {
+    override func mouseExited(with theEvent: NSEvent) {
         _mouseInside = false
-        if let view = self.viewAtColumn(0) as? PSHighLightOnMouseHoverProtocol {
+        if let view = self.view(atColumn: 0) as? PSHighLightOnMouseHoverProtocol {
             view.highLight(false)
         }
         self.needsDisplay = true

@@ -9,19 +9,19 @@
 import Foundation
 
 class PsyScopeTobii: NSObject, PSPluginInterface {
-    static func pluginsFor(pluginTypeName: PSPluginType) -> [NSObject.Type] {
+    static func pluginsFor(_ pluginTypeName: PSPluginType) -> [NSObject.Type] {
         switch pluginTypeName {
-        case .Tool:
+        case .tool:
             return []
-        case .Attribute:
+        case .attribute:
             return []
-        case .Event:
+        case .event:
             return []
-        case .WindowView:
+        case .windowView:
             return [PSTobiiSetup.self]
-        case .Action:
+        case .action:
             return [PSAction_TobiiPlus.self]
-        case .Condition:
+        case .condition:
             return [PSCondition_TobiiPlus.self]
         }
     }

@@ -9,26 +9,26 @@ import Foundation
 
 //holds a current value and references to controls on a PSCellView which modify that value
 //can have default controls of label and varybyscript button - needs to be set up by PSAttributeParameterBuilder
-public class PSAttributeParameter : NSObject {
+open class PSAttributeParameter : NSObject {
     
-    public static let defaultHeight : CGFloat = CGFloat(25)
+    open static let defaultHeight : CGFloat = CGFloat(25)
     
-    public var attributeSourceLabel : NSTextField?
-    public var currentValue : PSEntryElement = .StringToken(stringElement: PSStringElement(value: "NULL", quotes: .None))
-    public var scriptData : PSScriptData!
-    public var name : String = "Unknown"
-    public var cell : PSCellView!
-    public var attributeValueControlFrame : NSRect  = NSMakeRect(0, 0, 200, 20)
-    public var varyByEntryName : String?  //if attribute is varying by another entry, it can be accessed here
-    public var attributeType : PSAttributeType?
+    open var attributeSourceLabel : NSTextField?
+    open var currentValue : PSEntryElement = .stringToken(stringElement: PSStringElement(value: "NULL", quotes: .none))
+    open var scriptData : PSScriptData!
+    open var name : String = "Unknown"
+    open var cell : PSCellView!
+    open var attributeValueControlFrame : NSRect  = NSMakeRect(0, 0, 200, 20)
+    open var varyByEntryName : String?  //if attribute is varying by another entry, it can be accessed here
+    open var attributeType : PSAttributeType?
     
     //override this to hide any borders if they appear ugly in table views etc
-    public func hideBorders() {
+    open func hideBorders() {
         
     }
     
     //adds / sets up the attribute's control to the cell view
-    public final func updateAttributeControl(attributeValueControlFrame : NSRect) {
+    public final func updateAttributeControl(_ attributeValueControlFrame : NSRect) {
         self.attributeValueControlFrame = attributeValueControlFrame
         if let scriptData = scriptData, attributedStringAndEntry = scriptData.identifyAsAttributeSourceAndReturnRepresentiveString(self.currentValue.stringValue()) {
             varyByEntryName = attributedStringAndEntry.1
@@ -42,41 +42,41 @@ public class PSAttributeParameter : NSObject {
     }
     
     //used to display generic view with icons (if block/attrib used)
-    public final func setupAttributeSourceLabel(attributedString : NSAttributedString?) {
+    public final func setupAttributeSourceLabel(_ attributedString : NSAttributedString?) {
         if let attributedString = attributedString {
             if let attributeSourceLabel = attributeSourceLabel {
-                attributeSourceLabel.hidden = false
+                attributeSourceLabel.isHidden = false
             } else {
 
                 attributeSourceLabel = NSTextField(frame: attributeValueControlFrame)
-                attributeSourceLabel!.autoresizingMask = [NSAutoresizingMaskOptions.ViewWidthSizable, NSAutoresizingMaskOptions.ViewHeightSizable]
+                attributeSourceLabel!.autoresizingMask = [NSAutoresizingMaskOptions.viewWidthSizable, NSAutoresizingMaskOptions.viewHeightSizable]
                 attributeSourceLabel!.drawsBackground = false
-                attributeSourceLabel!.selectable = false
+                attributeSourceLabel!.isSelectable = false
                 cell.addSubview(attributeSourceLabel!)
             }
             
             attributeSourceLabel!.attributedStringValue = attributedString
-            attributeSourceLabel!.editable = false
+            attributeSourceLabel!.isEditable = false
         } else {
             if let attributeSourceLabel = attributeSourceLabel {
-                attributeSourceLabel.hidden = true
+                attributeSourceLabel.isHidden = true
             }
         }
     }
     
     //override this to display/hide a custom control for displaying and setting value
-    public func setCustomControl(visible : Bool) {
+    open func setCustomControl(_ visible : Bool) {
         
     }
     
-    public func clickMenuItem(sender : NSMenuItem) {
+    open func clickMenuItem(_ sender : NSMenuItem) {
         if let scriptData = scriptData, val = scriptData.valueForMenuItem(sender, original: self.currentValue.stringValue(), originalFullType: attributeType) , entryElement = PSGetFirstEntryElementForString(val) {
             self.currentValue = entryElement
             cell.updateScript()
             return
             
         }
-        self.currentValue = .StringToken(stringElement: PSStringElement(value: "NULL", quotes: .None))
+        self.currentValue = .stringToken(stringElement: PSStringElement(value: "NULL", quotes: .none))
         cell.updateScript()
     }
 }

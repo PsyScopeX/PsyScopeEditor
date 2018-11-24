@@ -15,7 +15,7 @@ class PSDialogVariablePropertiesController : PSToolPropertyController {
     }
     
     init(entry : Entry, scriptData : PSScriptData) {
-        let bundle = NSBundle(forClass:self.dynamicType)
+        let bundle = Bundle(for:self.dynamicType)
         self.selectedSubjectVariable = PSSubjectVariable(entry: entry, scriptData: scriptData)
         self.items = []
         super.init(nibName: "SubjectVariableView", bundle: bundle, entry: entry, scriptData: scriptData)
@@ -23,7 +23,7 @@ class PSDialogVariablePropertiesController : PSToolPropertyController {
     }
     
     var selectedSubjectVariable : PSSubjectVariable
-    private var items : [String]
+    fileprivate var items : [String]
     
     
     override func awakeFromNib() {
@@ -48,52 +48,52 @@ class PSDialogVariablePropertiesController : PSToolPropertyController {
         var type : String
         var buttonValues : [String]? = nil
         switch(selectedSubjectVariable.dialogType) {
-        case .StringType:
+        case .stringType:
             type = "String"
-        case .Integer:
+        case .integer:
             type = "Integer"
-        case .Rational:
+        case .rational:
             type = "Rational"
-        case .Number:
+        case .number:
             type = "Real"
-        case let .CheckBoxes(values):
+        case let .checkBoxes(values):
             type = "CheckBoxes"
             buttonValues = values
-        case let .RadioButtons(values):
+        case let .radioButtons(values):
             type = "RadioButtons"
             buttonValues = values
         }
         
         var schedule : String
         switch(selectedSubjectVariable.storageOptions.schedule) {
-        case .RunStart:
+        case .runStart:
             schedule = "Experiment Start"
-        case .RunEnd:
+        case .runEnd:
             schedule = "Experiment End"
-        case .Never:
+        case .never:
             schedule = "Never"
         }
         
-        schedulePopUpButton.enabled = true
-        schedulePopUpButton.selectItemWithTitle(schedule)
+        schedulePopUpButton.isEnabled = true
+        schedulePopUpButton.selectItem(withTitle: schedule)
         
-        typePopUpButton.enabled = true
-        typePopUpButton.selectItemWithTitle(type)
+        typePopUpButton.isEnabled = true
+        typePopUpButton.selectItem(withTitle: type)
         
         if let buttonValues = buttonValues {
             items = buttonValues
-            itemsTableView.enabled = true
-            itemsScrollView.hidden = false
-            itemsSegmentedControl.enabled = true
-            itemsSegmentedControl.hidden = false
-            itemsLabel.hidden = false
+            itemsTableView.isEnabled = true
+            itemsScrollView.isHidden = false
+            itemsSegmentedControl.isEnabled = true
+            itemsSegmentedControl.isHidden = false
+            itemsLabel.isHidden = false
         } else {
             items = []
-            itemsTableView.enabled = false
-            itemsScrollView.hidden = true
-            itemsSegmentedControl.enabled = false
-            itemsSegmentedControl.hidden = true
-            itemsLabel.hidden = true
+            itemsTableView.isEnabled = false
+            itemsScrollView.isHidden = true
+            itemsSegmentedControl.isEnabled = false
+            itemsSegmentedControl.isHidden = true
+            itemsLabel.isHidden = true
             
         }
         
@@ -109,11 +109,11 @@ class PSDialogVariablePropertiesController : PSToolPropertyController {
         var existingOptions = selectedSubjectVariable.storageOptions
         switch(schedulePopUpButton.selectedItem!.title) {
             case "Experiment Start":
-                existingOptions.schedule = .RunStart
+                existingOptions.schedule = .runStart
             case "Experiment End":
-                existingOptions.schedule = .RunEnd
+                existingOptions.schedule = .runEnd
             case "Never":
-                existingOptions.schedule = .Never
+                existingOptions.schedule = .never
         default:
             break
         }
@@ -124,19 +124,19 @@ class PSDialogVariablePropertiesController : PSToolPropertyController {
         var type : PSSubjectVariableType
         switch(typePopUpButton.selectedItem!.title) {
         case "String":
-            type = .StringType
+            type = .stringType
         case "Integer":
-            type = .Integer
+            type = .integer
         case "Rational":
-            type = .Rational
+            type = .rational
         case "Real":
-            type = .Number
+            type = .number
         case "CheckBoxes":
-            type = .CheckBoxes([])
+            type = .checkBoxes([])
         case "RadioButtons":
-            type = .RadioButtons([])
+            type = .radioButtons([])
         default:
-            type = .StringType
+            type = .stringType
         }
         selectedSubjectVariable.dialogType = type
         selectedSubjectVariable.saveToScript()
@@ -149,7 +149,7 @@ class PSDialogVariablePropertiesController : PSToolPropertyController {
             items.append("Item")
         case 1: // remove
             if itemsTableView.selectedRow > -1 {
-                items.removeAtIndex(itemsTableView.selectedRow)
+                items.remove(at: itemsTableView.selectedRow)
             }
         default:
             break
@@ -169,15 +169,15 @@ class PSDialogVariablePropertiesController : PSToolPropertyController {
     
     //MARK: Items tableview delegate
     
-    func numberOfRowsInTableView(tableView: NSTableView) -> Int {
+    func numberOfRowsInTableView(_ tableView: NSTableView) -> Int {
         return items.count
     }
     
-    func tableView(tableView: NSTableView, objectValueForTableColumn tableColumn: NSTableColumn?, row: Int) -> AnyObject? {
+    func tableView(_ tableView: NSTableView, objectValueForTableColumn tableColumn: NSTableColumn?, row: Int) -> AnyObject? {
         return items[row]
     }
     
-    func tableView(tableView: NSTableView, setObjectValue object: AnyObject?, forTableColumn tableColumn: NSTableColumn?, row: Int) {
+    func tableView(_ tableView: NSTableView, setObjectValue object: AnyObject?, forTableColumn tableColumn: NSTableColumn?, row: Int) {
         items[row] = object as! String
         saveType()
     }
@@ -187,10 +187,10 @@ class PSDialogVariablePropertiesController : PSToolPropertyController {
     func saveType() {
 
         switch(selectedSubjectVariable.dialogType) {
-        case  .CheckBoxes(_):
-            selectedSubjectVariable.dialogType = .CheckBoxes(items)
-        case .RadioButtons(_):
-            selectedSubjectVariable.dialogType = .RadioButtons(items)
+        case  .checkBoxes(_):
+            selectedSubjectVariable.dialogType = .checkBoxes(items)
+        case .radioButtons(_):
+            selectedSubjectVariable.dialogType = .radioButtons(items)
         default:
             break
         }

@@ -11,23 +11,23 @@ import Foundation
 class PSFieldHeaderCell : NSTableHeaderCell, NSTextViewDelegate {
     //var controller : PSListBuilderTableController!
     //var col : Int!
-    func textDidEndEditing(notification: NSNotification) {
+    func textDidEndEditing(_ notification: Notification) {
         let editor = notification.object as! NSTextView
         self.title = editor.string!
-        self.highlighted = false
+        self.isHighlighted = false
         self.endEditing(editor)
     }
     
-    override func drawWithFrame(cellFrame: NSRect, inView controlView: NSView) {
-        if (self.highlighted) {
-            self.drawFocusRingMaskWithFrame(cellFrame, inView: controlView.superview!)
+    override func draw(withFrame cellFrame: NSRect, in controlView: NSView) {
+        if (self.isHighlighted) {
+            self.drawFocusRingMask(withFrame: cellFrame, in: controlView.superview!)
         }
-        super.drawWithFrame(cellFrame, inView: controlView)
+        super.draw(withFrame: cellFrame, in: controlView)
     }
     
-    override func drawFocusRingMaskWithFrame(cellFrame: NSRect, inView controlView: NSView) {
+    override func drawFocusRingMask(withFrame cellFrame: NSRect, in controlView: NSView) {
         controlView.lockFocus()
-        NSSetFocusRingStyle(NSFocusRingPlacement.Only)
+        NSSetFocusRingStyle(NSFocusRingPlacement.only)
         NSBezierPath(rect: cellFrame).fill()
         controlView.unlockFocus()
     }

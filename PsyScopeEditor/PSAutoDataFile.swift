@@ -35,7 +35,7 @@ class PSAutoDataFile {
     var auto : Bool {
         get {
             //get current value
-            if let dataFileEntry = self.dataFileSubEntry where dataFileEntry.currentValue.lowercaseString == "@autodatafile" {
+            if let dataFileEntry = self.dataFileSubEntry where dataFileEntry.currentValue.lowercased() == "@autodatafile" {
                 return true
             }
             return false
@@ -131,15 +131,15 @@ class PSAutoDataFile {
             
             for value in strings.values {
                 switch(value) {
-                case let .Function(functionElement):
-                    if functionElement.values.count == 2 && functionElement.bracketType == .Expression {
+                case let .function(functionElement):
+                    if functionElement.values.count == 2 && functionElement.bracketType == .expression {
                         let secondValue = functionElement.values[1]
-                        if case .StringToken(let value) = secondValue {
+                        if case .stringToken(let value) = secondValue {
                             elementsToAdd.append(value.value)
                         }
                     }
                     break
-                case let .StringToken(stringValue):
+                case let .stringToken(stringValue):
                     elementsToAdd.append(stringValue.value)
                     break
                 default:
@@ -152,7 +152,7 @@ class PSAutoDataFile {
         
         set {
             if !self.auto { //handle when data file is not auto generated
-                let dataFileName = newValue.joinWithSeparator(" ")
+                let dataFileName = newValue.joined(separator: " ")
                 let experimentsEntry = scriptData.getMainExperimentEntry()
                 let dataFileEntry = scriptData.getOrCreateSubEntry("DataFile", entry: experimentsEntry, isProperty: true)
                 dataFileEntry.currentValue = "\"\(dataFileName)\""
@@ -174,7 +174,7 @@ class PSAutoDataFile {
                 }
             }
             
-            let newStringsValue = previewString.joinWithSeparator(" ")
+            let newStringsValue = previewString.joined(separator: " ")
             print("Strings: " + newStringsValue)
             
             

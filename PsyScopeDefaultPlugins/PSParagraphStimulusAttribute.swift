@@ -36,7 +36,7 @@ class PSParagraphAttributePopup : PSAttributePopup {
         textView.string = self.currentValue.stringValue()
     }
     
-    @IBAction override func closeMyCustomSheet(sender: AnyObject) {
+    @IBAction override func closeMyCustomSheet(_ sender: AnyObject) {
         self.currentValue = PSGetListElementForString(textView.string!)
         super.closeMyCustomSheet(self)
     }

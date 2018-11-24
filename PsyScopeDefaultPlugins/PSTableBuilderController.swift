@@ -25,9 +25,9 @@ class PSTableBuilderController : NSObject, NSTableViewDataSource, NSTableViewDel
         tableEntry = tableBuilder.tableEntry
     }
     
-    func docMocChanged(notification : NSNotification) {
+    func docMocChanged(_ notification : Notification) {
         //hide window if entry has been deleted
-        if tableEntry.deleted ||
+        if tableEntry.isDeleted ||
             tableEntry.layoutObject == nil {
                 //object has been deleted, so need to close window
                 tableBuilder.closeWindow()
@@ -39,19 +39,19 @@ class PSTableBuilderController : NSObject, NSTableViewDataSource, NSTableViewDel
     var tableView : NSTableView!
     
     
-    @IBAction func addFactor(sender : AnyObject) {
+    @IBAction func addFactor(_ sender : AnyObject) {
         if factorTable == nil {
             factorTable = PSFactorTable(superView: view)
             tableView = factorTable.tableView
-            tableView.setDelegate(self)
-            tableView.setDataSource(self)
+            tableView.delegate = self
+            tableView.dataSource = self
         } else {
             factorTable.addFactor()
         }
         reloadData()
     }
     
-    @IBAction func addLevel(sender : AnyObject) {
+    @IBAction func addLevel(_ sender : AnyObject) {
         factorTable.addLevel()
         reloadData()
     }
@@ -61,22 +61,22 @@ class PSTableBuilderController : NSObject, NSTableViewDataSource, NSTableViewDel
     }
     
     
-    func numberOfRowsInTableView(tableView: NSTableView) -> Int {
+    func numberOfRows(in tableView: NSTableView) -> Int {
         if factorTable != nil {
             return factorTable.rows()
         }
         return 0
     }
     
-    func tableView(tableView: NSTableView, objectValueForTableColumn tableColumn: NSTableColumn?, row: Int) -> AnyObject? {
+    func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
         return ""
     }
     
-    func tableView(tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
+    func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
         return PSDefaultConstants.TableBuilder.rowHeight
     }
     
-    func tableView(tableView: NSTableView, setObjectValue object: AnyObject?, forTableColumn tableColumn: NSTableColumn?, row: Int) {
+    func tableView(_ tableView: NSTableView, setObjectValue object: Any?, for tableColumn: NSTableColumn?, row: Int) {
         
     }
 }

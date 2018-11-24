@@ -66,7 +66,7 @@ class PSPortScript : NSObject {
         get { return portNamesEntry.stringListLiteralsOnly }
     }
     
-    func addPort(name : String) -> PSPort? {
+    func addPort(_ name : String) -> PSPort? {
         //first check if entry name is free
         if scriptData.getBaseEntry(name) == nil && portNamesEntry.appendAsString(name) {
             
@@ -79,7 +79,7 @@ class PSPortScript : NSObject {
         return nil
     }
     
-    func addPosition(name : String, port : PSPort) -> PSPosition? {
+    func addPosition(_ name : String, port : PSPort) -> PSPosition? {
         if let position = port.addPosition(name) {
             positionEntries.insert(position)
             return position
@@ -88,15 +88,15 @@ class PSPortScript : NSObject {
         }
     }
     
-    func deletePosition(position : PSPosition) {
+    func deletePosition(_ position : PSPosition) {
         positionEntries.remove(position)
         position.delete()
     }
     
-    func deletePort(port : PSPort) {
+    func deletePort(_ port : PSPort) {
         portNamesEntry.remove(port.name as String)
-        if let index = portEntries.indexOf(port) {
-            portEntries.removeAtIndex(index)
+        if let index = portEntries.index(of: port) {
+            portEntries.remove(at: index)
         }
         port.delete()
     }

@@ -12,7 +12,7 @@ import Swift
 //are in the Constants.file
 class PSDefaultResources: NSObject {
 
-    func getStringPairs(name : String) -> [(String, String)] {
+    func getStringPairs(_ name : String) -> [(String, String)] {
         let pairs : Dictionary<String,String> = PSPlistCache.sharedInstance.cache[name] as! Dictionary<String,String>
         var return_pairs : [(String, String)] = []
         for (key, val): (String, String) in pairs {
@@ -23,30 +23,31 @@ class PSDefaultResources: NSObject {
 }
 
 class PSJSONCache : NSObject {
+    private static var __once: () = {
+            Static.instance = PSJSONCache()
+            _ = Static.instance?.cache
+        }()
     //thread safe singleton pattern
     class var sharedInstance: PSJSONCache {
         struct Static {
             static var instance: PSJSONCache?
-            static var token: dispatch_once_t = 0
+            static var token: Int = 0
         }
         
-        dispatch_once(&Static.token) {
-            Static.instance = PSJSONCache()
-            _ = Static.instance?.cache
-        }
+        _ = PSJSONCache.__once
         
         return Static.instance!
     }
     
     lazy var cache: NSDictionary = {
-        var theBundle = NSBundle(forClass:self.dynamicType)
-        var jsonPaths = theBundle.pathsForResourcesOfType("json", inDirectory: nil)
+        var theBundle = Bundle(for:self.dynamicType)
+        var jsonPaths = theBundle.paths(forResourcesOfType: "json", inDirectory: nil)
         var resource_dictionary = NSMutableDictionary()
         for jsonPath in jsonPaths as [String] {
-            var resource_data : NSData = NSFileManager.defaultManager().contentsAtPath(jsonPath)!
+            var resource_data : Data = FileManager.default.contents(atPath: jsonPath)!
             
-            var data_dict = try! NSJSONSerialization.JSONObjectWithData(resource_data, options: NSJSONReadingOptions.MutableContainers) as! NSDictionary
-                resource_dictionary.addEntriesFromDictionary(data_dict as [NSObject : AnyObject])
+            var data_dict = try! JSONSerialization.jsonObject(with: resource_data, options: JSONSerialization.ReadingOptions.mutableContainers) as! NSDictionary
+                resource_dictionary.addEntries(from: data_dict as [AnyHashable: Any])
 
         }
         
@@ -58,31 +59,32 @@ class PSJSONCache : NSObject {
 
 
 class PSPlistCache : NSObject {
+    private static var __once1: () = {
+            Static.instance = PSPlistCache()
+            _ = Static.instance?.cache
+        }()
     //thread safe singleton pattern
     class var sharedInstance: PSPlistCache {
     struct Static {
         static var instance: PSPlistCache?
-        static var token: dispatch_once_t = 0
+        static var token: Int = 0
         }
         
-        dispatch_once(&Static.token) {
-            Static.instance = PSPlistCache()
-            _ = Static.instance?.cache
-        }
+        _ = PSPlistCache.__once1
         
         return Static.instance!
     }
     
     lazy var cache: NSDictionary = {
-        var theBundle = NSBundle(forClass:self.dynamicType)
-        var plistPaths = theBundle.pathsForResourcesOfType("plist", inDirectory: nil)
+        var theBundle = Bundle(for:self.dynamicType)
+        var plistPaths = theBundle.paths(forResourcesOfType: "plist", inDirectory: nil)
         var resource_dictionary = NSMutableDictionary()
         for plistPath in plistPaths as [String] {
-            var resource_data : NSData = NSFileManager.defaultManager().contentsAtPath(plistPath)!
+            var resource_data : Data = FileManager.default.contents(atPath: plistPath)!
             var error : NSError? = nil
-            var data_dict = try! NSPropertyListSerialization.propertyListWithData(resource_data, options: NSPropertyListReadOptions(rawValue: 0), format: nil)
+            var data_dict = try! PropertyListSerialization.propertyList(from: resource_data, options: PropertyListSerialization.ReadOptions(rawValue: 0), format: nil)
             
-            resource_dictionary.addEntriesFromDictionary(data_dict as! [NSObject : AnyObject])
+            resource_dictionary.addEntries(from: data_dict as! [AnyHashable: Any])
         }
         
         return resource_dictionary

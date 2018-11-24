@@ -9,11 +9,11 @@
 import Foundation
 
 //window controller associated with an entry (will disapear if entry deleted)
-public class PSEntryWindowController : NSWindowController, NSWindowDelegate {
-    public var entry : Entry!
-    public var scriptData : PSScriptData!
+open class PSEntryWindowController : NSWindowController, NSWindowDelegate {
+    open var entry : Entry!
+    open var scriptData : PSScriptData!
     
-    public func setupWithEntryAndAddToDocument(entry : Entry, scriptData : PSScriptData) {
+    open func setupWithEntryAndAddToDocument(_ entry : Entry, scriptData : PSScriptData) {
         self.entry = entry
         self.scriptData = scriptData
         scriptData.addWindowController(self)
@@ -24,23 +24,23 @@ public class PSEntryWindowController : NSWindowController, NSWindowDelegate {
         willSet {
             if newValue != registeredForChanges {
                 if newValue {
-                    NSNotificationCenter.defaultCenter().addObserver(self, selector: "docMocChanged:", name: NSManagedObjectContextObjectsDidChangeNotification, object: scriptData.docMoc)
+                    NotificationCenter.default.addObserver(self, selector: "docMocChanged:", name: NSNotification.Name.NSManagedObjectContextObjectsDidChange, object: scriptData.docMoc)
                 } else {
-                    NSNotificationCenter.defaultCenter().removeObserver(self)
+                    NotificationCenter.default.removeObserver(self)
                 }
             }
         }
     }
     
-    public func docMocChanged(notification : NSNotification) {
-        if entry.deleted == true || entry.currentValue == nil {
+    open func docMocChanged(_ notification : Notification) {
+        if entry.isDeleted == true || entry.currentValue == nil {
             registeredForChanges = false
             close()
             return
         }
     }
     
-    public func windowWillClose(notification: NSNotification) {
+    open func windowWillClose(_ notification: Notification) {
         registeredForChanges = false
         scriptData.removeWindowController(self)
     }

@@ -12,7 +12,7 @@ public typealias PSAttributePickerTypeCallback = (PSAttributeType,Bool) -> ()
 
 
 //Allows a callback for when attributes are picked
-public class PSAttributePickerType : PSAttributePicker {
+open class PSAttributePickerType : PSAttributePicker {
     
     public init(attributePickedCallback : PSAttributePickerTypeCallback, scriptData : PSScriptData) {
         self.attributePickedCallback = attributePickedCallback
@@ -21,7 +21,7 @@ public class PSAttributePickerType : PSAttributePicker {
     
     let attributePickedCallback : PSAttributePickerTypeCallback
     
-    override func attributeButtonClicked(row : Int, clickedOn : Bool) {
+    override func attributeButtonClicked(_ row : Int, clickedOn : Bool) {
         super.attributeButtonClicked(row, clickedOn: clickedOn)
         let type = tableViewAttributes[row].type
         attributePickedCallback(type, clickedOn)

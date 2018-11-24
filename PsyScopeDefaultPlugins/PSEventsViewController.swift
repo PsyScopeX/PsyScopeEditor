@@ -10,12 +10,12 @@ import Foundation
 class PSEventsViewController : PSToolPropertyController, NSWindowDelegate {
 
     init(entry : Entry, scriptData : PSScriptData) {
-        let bundle = NSBundle(forClass:self.dynamicType)
+        let bundle = Bundle(for:self.dynamicType)
         super.init(nibName: "EventsView", bundle: bundle, entry: entry, scriptData: scriptData)
         storedDoubleClickAction = { () in
             //TODO bring up template builder
             
-            NSNotificationCenter.defaultCenter().postNotificationName("PSShowWindowNotificationForTemplateBuilder", object: self.scriptData.document)
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "PSShowWindowNotificationForTemplateBuilder"), object: self.scriptData.document)
             return
         }
     }

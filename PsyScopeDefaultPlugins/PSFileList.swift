@@ -86,7 +86,7 @@ class PSFileList {
             if let levels = scriptData.getSubEntry("Levels", entry: entry),
                 weights = scriptData.getSubEntry("Weights", entry: levels) {
                     
-                    return weights.currentValue.componentsSeparatedByString(" ").map({
+                    return weights.currentValue.components(separatedBy: " ").map({
                         if let i = Int($0){
                             return i
                         }else {
@@ -109,11 +109,11 @@ class PSFileList {
             }
             
             let weights = scriptData.getOrCreateSubEntry("Weights", entry: levels, isProperty: true)
-            weights.currentValue = newWeights.map({ String($0) }).joinWithSeparator(" ")
+            weights.currentValue = newWeights.map({ String($0) }).joined(separator: " ")
         }
     }
     
-    func nameOfColumn(columnIndex : Int) -> String? {
+    func nameOfColumn(_ columnIndex : Int) -> String? {
         /*Stimulus: @Column(THIS->ListFile THIS->NumberOfColumnsInFile @[OWNER->Column])
         Column:> 1
         Picture: @Column(THIS->ListFile THIS->NumberOfColumnsInFile @[OWNER->Column])
@@ -148,7 +148,7 @@ class PSFileList {
         }
     }
     
-    func setColumn(name : String, columnIndex : Int) {
+    func setColumn(_ name : String, columnIndex : Int) {
         let columnEntry = scriptData.getOrCreateSubEntry(name, entry: entry, isProperty: true)
         columnEntry.currentValue = "@Column(THIS->ListFile THIS->NumberOfColumnsInFile @[OWNER->Column])"
         let columnSubEntry = scriptData.getOrCreateSubEntry("Column", entry: columnEntry, isProperty: true)
@@ -164,7 +164,7 @@ class PSFileList {
         }
     }
     
-    func renameColumnFrom(name : String, toName : String) {
+    func renameColumnFrom(_ name : String, toName : String) {
         if let columnEntry = scriptData.getSubEntry(name, entry: entry) {
             columnEntry.name = toName
         }

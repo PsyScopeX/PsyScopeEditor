@@ -38,7 +38,7 @@ class PSDegradationAttribute : PSAttributePopup {
         }
     }
     
-    @IBAction func doneButton(sender : AnyObject) {
+    @IBAction func doneButton(_ sender : AnyObject) {
         self.currentValue = PSGetListElementForString("\(fgValue) \(bgValue)")
         closeMyCustomSheet(sender)
     }

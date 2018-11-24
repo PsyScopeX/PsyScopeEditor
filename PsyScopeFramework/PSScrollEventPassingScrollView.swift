@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class PSScrollEventPassingScrollView : NSScrollView {
+open class PSScrollEventPassingScrollView : NSScrollView {
     /*- (void)scrollWheel:(NSEvent *)theEvent {
     NSLog(@"%@", theEvent);
     if(theEvent.deltaX !=0)
@@ -18,7 +18,7 @@ public class PSScrollEventPassingScrollView : NSScrollView {
     
     }*/
     
-    public override func scrollWheel(event : NSEvent) {
-        self.nextResponder!.scrollWheel(event)
+    open override func scrollWheel(with event : NSEvent) {
+        self.nextResponder!.scrollWheel(with: event)
     }
 }

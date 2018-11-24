@@ -15,7 +15,7 @@ class PSMovieEvent : PSEventTool {
         toolType = PSType.Movie
         helpfulDescriptionString = "plays a movie loaded from a file."
         iconName = "MovieIcon"
-        iconColor = NSColor.redColor()
+        iconColor = NSColor.red
         classNameString = "PSMovieEvent"
         properties = [Properties.StartRef, Properties.Duration, Properties.EventType]
     }
@@ -26,7 +26,7 @@ class PSMovieEvent : PSEventTool {
         static let EventType = PSProperty(name: "EventType", defaultValue: "Movie", essential: true)
     }
     
-    override func createObject(scriptData: PSScriptData) -> Entry? {
+    override func createObject(_ scriptData: PSScriptData) -> Entry? {
         guard let mainEntry = super.createObject(scriptData) else { return nil }
         if scriptData.getSubEntry("Stimulus", entry: mainEntry) == nil {
             let entry = scriptData.getOrCreateSubEntry("Stimulus", entry: mainEntry, isProperty: false, type: PSAttributeType(name: "Stimulus", parentType: toolType))

@@ -10,7 +10,7 @@ import Foundation
 private var myContext = 0
 
 
-public func PSStringListWithBaseEntryNamed(name : String, scriptData : PSScriptData) -> PSStringList? {
+public func PSStringListWithBaseEntryNamed(_ name : String, scriptData : PSScriptData) -> PSStringList? {
     if let entry = scriptData.getBaseEntry(name) {
         return PSStringList(entry: entry, scriptData: scriptData)
     }
@@ -18,19 +18,19 @@ public func PSStringListWithBaseEntryNamed(name : String, scriptData : PSScriptD
 }
 
 //this class binds a stringlist parser to the entry value
-public class PSStringList : PSStringListCachedContainer {
-    public var entry : Entry!
-    public var scriptData : PSScriptData
+open class PSStringList : PSStringListCachedContainer {
+    open var entry : Entry!
+    open var scriptData : PSScriptData
     public init(entry : Entry, scriptData : PSScriptData) {
         self.entry = entry
         self.scriptData = scriptData
         super.init()
-        entry.addObserver(self, forKeyPath: "currentValue", options: NSKeyValueObservingOptions.New, context: &myContext)
+        entry.addObserver(self, forKeyPath: "currentValue", options: NSKeyValueObservingOptions.new, context: &myContext)
         self.stringValue = entry.currentValue //parses the current values
     }
     
     //purely to fail - need to init all members though...
-    private init?(scriptData : PSScriptData) {
+    fileprivate init?(scriptData : PSScriptData) {
         self.scriptData = scriptData
         super.init()
         return nil
@@ -45,19 +45,19 @@ public class PSStringList : PSStringListCachedContainer {
         }
     }
     
-    public override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+    open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if context == &myContext && keyPath == "currentValue" {
             updateValues()
         }
     }
     
-    private func updateValues() {
+    fileprivate func updateValues() {
         if (self.entry.currentValue != nil && self.stringValueCache != self.entry.currentValue) {
             self.stringValue = entry.currentValue //parse
         }
     }
     
-    override public func updateEntry() {
+    override open func updateEntry() {
         super.updateEntry()
         let currentStringValue = self.stringValueCache //newly created cache from super.updateEntry()
         if (self.entry.currentValue != currentStringValue) {
@@ -72,25 +72,25 @@ public class PSStringList : PSStringListCachedContainer {
     }
 }
 
-public class PSStringListCachedContainer : PSStringListContainer {
+open class PSStringListCachedContainer : PSStringListContainer {
     
-    public override func updateEntry() {
+    open override func updateEntry() {
         self.stringListRawUnstrippedCache = getStringValues()
         self.stringListRawStrippedCache = getStrippedStringValues()
         self.stringValueCache = createStringValue()
     }
     
-    public var stringListRawUnstripped : [String] {
+    open var stringListRawUnstripped : [String] {
         get {
             return stringListRawUnstrippedCache
         }
         
         set {
-            self.stringValue = newValue.joinWithSeparator(" ")
+            self.stringValue = newValue.joined(separator: " ")
         }
     }
     
-    public var stringListRawStripped : [String] {
+    open var stringListRawStripped : [String] {
         get {
             return stringListRawStrippedCache
         }
@@ -98,11 +98,11 @@ public class PSStringListCachedContainer : PSStringListContainer {
     }
     
     //gets only the string listerals, ignoring inline entries and functions
-    public var stringListLiteralsOnly : [String] {
+    open var stringListLiteralsOnly : [String] {
         var literals : [String] = []
         for val in values {
             switch (val) {
-            case .StringToken(let stringElement):
+            case .stringToken(let stringElement):
                 literals.append(stringElement.value)
             
             default:
@@ -113,15 +113,15 @@ public class PSStringListCachedContainer : PSStringListContainer {
         return literals
     }
     
-    private var stringListRawUnstrippedCache : [String] = []
-    private var stringListRawStrippedCache : [String] = []
-    public var stringValueCache : String = ""
+    fileprivate var stringListRawUnstrippedCache : [String] = []
+    fileprivate var stringListRawStrippedCache : [String] = []
+    open var stringValueCache : String = ""
     
     func createStringValue() -> String {
         return super.stringValue
     }
 
-    override public var stringValue : String {
+    override open var stringValue : String {
         get {
             return self.stringValueCache
         }
@@ -131,8 +131,8 @@ public class PSStringListCachedContainer : PSStringListContainer {
         }
     }
     
-    public func indexOfValueWithString(string : String) -> Int? {
-        for (index,val) in stringListRawUnstrippedCache.enumerate() {
+    open func indexOfValueWithString(_ string : String) -> Int? {
+        for (index,val) in stringListRawUnstrippedCache.enumerated() {
             if val == string {
                 return index
             }
@@ -140,10 +140,10 @@ public class PSStringListCachedContainer : PSStringListContainer {
         return nil
     }
     
-    public func remove(string : String) {
-        for (index,val) in stringListRawUnstrippedCache.enumerate() {
+    open func remove(_ string : String) {
+        for (index,val) in stringListRawUnstrippedCache.enumerated() {
             if val == string {
-                values.removeAtIndex(index)
+                values.remove(at: index)
                 updateEntry()
                 return
             }
@@ -151,7 +151,8 @@ public class PSStringListCachedContainer : PSStringListContainer {
     }
     
     //moves a string at index 'from' to new index - edge cases result in first index / last index
-    public func move(var from : Int, var to : Int) {
+    public func move(_ from : Int, to : Int) {
+        var from = from, to = to
         if from < 0 {
             from = 0
         } else if from >= values.count {
@@ -169,42 +170,42 @@ public class PSStringListCachedContainer : PSStringListContainer {
         }
         
         let val1 = values[from]
-        values.removeAtIndex(from)
-        values.insert(val1, atIndex: to)
+        values.remove(at: from)
+        values.insert(val1, at: to)
         updateEntry()
     }
     
-    public func swap(index1: Int, index2: Int) {
+    open func swap(_ index1: Int, index2: Int) {
         let val1 = values[index1]
         values[index1] = values[index2]
         values[index2] = val1
         updateEntry()
     }
     
-    public func contains(string : String) -> Bool {
+    open func contains(_ string : String) -> Bool {
         return indexOfValueWithString(string) != nil
     }
     
-    public func appendAsString(string : String) -> Bool {
+    open func appendAsString(_ string : String) -> Bool {
         if let stringElement = assertValidString(string) {
-            values.append(PSEntryElement.StringToken(stringElement: stringElement))
+            values.append(PSEntryElement.stringToken(stringElement: stringElement))
             updateEntry()
             return true
         }
         return false
     }
     
-    public func insert(string : String, index: Int) {
+    open func insert(_ string : String, index: Int) {
         if let stringElement = assertValidString(string) {
-            super.insert(PSEntryElement.StringToken(stringElement: stringElement), index: index)
+            super.insert(PSEntryElement.stringToken(stringElement: stringElement), index: index)
         }
     }
     
-    public func replace(oldString : String, newString: String) {
+    open func replace(_ oldString : String, newString: String) {
         if let stringElement = assertValidString(newString) {
-            for (index,val) in stringListRawUnstrippedCache.enumerate() {
+            for (index,val) in stringListRawUnstrippedCache.enumerated() {
                 if val == oldString {
-                    values[index] = PSEntryElement.StringToken(stringElement: stringElement)
+                    values[index] = PSEntryElement.stringToken(stringElement: stringElement)
                     updateEntry()
                     return
                 }
@@ -212,7 +213,7 @@ public class PSStringListCachedContainer : PSStringListContainer {
         }
     }
     
-    private func assertValidString(string : String) -> PSStringElement? {
+    fileprivate func assertValidString(_ string : String) -> PSStringElement? {
         if let stringElement = PSStringElement(strippedValue: string) {
             return stringElement
         } else {

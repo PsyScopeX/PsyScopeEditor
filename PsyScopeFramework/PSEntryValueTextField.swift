@@ -8,17 +8,17 @@
 
 import Foundation
 
-public class PSEntryValueTextField : NSTextField, NSTextViewDelegate {
+open class PSEntryValueTextField : NSTextField, NSTextViewDelegate {
     
     var controller : PSEntryValueController!
     
-    public override func awakeFromNib() {
+    open override func awakeFromNib() {
         if let delegate = self.delegate as? PSEntryValueControllerDelegate {
             controller = PSEntryValueController(mainControl: self, delegate: delegate)
         }
     }
     
-    public func textView(view: NSTextView, menu: NSMenu, forEvent event: NSEvent, atIndex charIndex: Int) -> NSMenu? {
+    open func textView(_ view: NSTextView, menu: NSMenu, for event: NSEvent, at charIndex: Int) -> NSMenu? {
         if let view = view as? PSFieldEditor {
             return view.menu
         }
@@ -27,11 +27,11 @@ public class PSEntryValueTextField : NSTextField, NSTextViewDelegate {
     }
     
     
-    public func menuItemClicked(menuItem : NSMenuItem) {
+    open func menuItemClicked(_ menuItem : NSMenuItem) {
         controller.varyByMenuCommandClicked(menuItem)
     }
     
-    public var superStringValue : String {
+    open var superStringValue : String {
         get {
             return super.stringValue
         }

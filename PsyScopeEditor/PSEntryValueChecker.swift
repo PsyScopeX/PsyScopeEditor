@@ -18,14 +18,14 @@ class PSEntryValueChecker {
         self.errors = []
     }
     
-    func checkScriptEntryValuesAsync(errorHandler : PSScriptErrorViewController) {
-        dispatch_async(dispatch_get_main_queue()) {
+    func checkScriptEntryValuesAsync(_ errorHandler : PSScriptErrorViewController) {
+        DispatchQueue.main.async {
             self.checkScriptEntryValues(errorHandler)
         }
     }
     
     
-    func checkScriptEntryValues(errorHandler : PSScriptErrorViewController) {
+    func checkScriptEntryValues(_ errorHandler : PSScriptErrorViewController) {
         
         let baseEntries = scriptData.getBaseEntries()
         for baseEntry in baseEntries {
@@ -38,7 +38,7 @@ class PSEntryValueChecker {
     }
     
     
-    func checkEntryValueSyntax(entry : Entry) {
+    func checkEntryValueSyntax(_ entry : Entry) {
         
         let parser = PSEntryValueParser(stringValue: entry.currentValue)
         if parser.foundErrors {
@@ -51,7 +51,7 @@ class PSEntryValueChecker {
     
 }
 
-func PSEntryValueSyntaxError(entry : Entry) -> PSScriptError {
+func PSEntryValueSyntaxError(_ entry : Entry) -> PSScriptError {
     let description = "A syntax error was detected on the entry named \(entry.name).  The line \"\(entry.currentValue)\" has caused a syntax error."
     let solution = "Check the entire value for correct syntax."
     let new_error = PSScriptError(errorDescription: "Syntax Error", detailedDescription: description, solution: solution, entryName: entry.name)

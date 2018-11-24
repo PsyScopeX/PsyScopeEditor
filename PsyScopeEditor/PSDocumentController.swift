@@ -9,7 +9,7 @@ import Cocoa
 
 class PSDocumentController: NSDocumentController {
     
-    override func openUntitledDocumentAndDisplay(displayDocument: Bool) throws -> NSDocument {
+    override func openUntitledDocumentAndDisplay(_ displayDocument: Bool) throws -> NSDocument {
         print("openUntitledDocumentAndDisplay")
         let document = try super.openUntitledDocumentAndDisplay(displayDocument)
         if let d = document as? Document {
@@ -19,8 +19,8 @@ class PSDocumentController: NSDocumentController {
         
     }
     
-    override func openDocumentWithContentsOfURL(url: NSURL, display displayDocument: Bool, completionHandler: (NSDocument?, Bool, NSError?) -> Void) {
+    override func openDocument(withContentsOf url: URL, display displayDocument: Bool, completionHandler: @escaping (NSDocument?, Bool, Error?) -> Void) {
         print("Open document with contents of url")
-        super.openDocumentWithContentsOfURL(url, display: displayDocument, completionHandler: completionHandler)
+        super.openDocument(withContentsOf: url, display: displayDocument, completionHandler: completionHandler)
     }
 }

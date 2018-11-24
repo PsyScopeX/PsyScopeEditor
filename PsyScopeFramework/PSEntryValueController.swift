@@ -8,27 +8,27 @@
 
 import Foundation
 
-public class PSEntryValueController : NSObject, NSTextFieldDelegate {
+open class PSEntryValueController : NSObject, NSTextFieldDelegate {
     
     
     let mainControl : NSControl
     let delegate : PSEntryValueControllerDelegate
-    public let scriptData : PSScriptData
-    public enum Mode { case MainControl, Function }
-    public var mode : Mode
+    open let scriptData : PSScriptData
+    public enum Mode { case mainControl, function }
+    open var mode : Mode
     
     public init(mainControl : NSControl, delegate : PSEntryValueControllerDelegate) {
         self.mainControl = mainControl
         self.delegate = delegate
         self.scriptData = delegate.getScriptData()
-        self.mode = .MainControl
+        self.mode = .mainControl
         super.init()
     }
     
-    private var _entryElement : PSEntryElement = .Null
-    private lazy var functionTextField : PSFunctionTextField = PSFunctionTextField()
+    fileprivate var _entryElement : PSEntryElement = .null
+    fileprivate lazy var functionTextField : PSFunctionTextField = PSFunctionTextField()
     
-    public var entryElement : PSEntryElement {
+    open var entryElement : PSEntryElement {
         get {
             return _entryElement
         }
@@ -36,23 +36,23 @@ public class PSEntryValueController : NSObject, NSTextFieldDelegate {
         set {
             _entryElement = newValue
             switch (newValue) {
-            case .Function(_):
+            case .function(_):
                 hideMainControlDisplayFunctionTextField()
                 break
-            case .StringToken(_):
+            case .stringToken(_):
                 displayMainControlHideFunctionTextField()
                 break
-            case .List(_):
+            case .list(_):
                 hideMainControlDisplayFunctionTextField()
                 break
-            case .Null:
+            case .null:
                 displayMainControlHideFunctionTextField()
                 break
             }
         }
     }
     
-    public func varyByMenuCommandClicked(menuItem : NSMenuItem) {
+    open func varyByMenuCommandClicked(_ menuItem : NSMenuItem) {
         if let val = scriptData.valueForMenuItem(menuItem, original: self.stringValue, originalFullType:  nil) {
             print(val)
         } else {
@@ -65,39 +65,39 @@ public class PSEntryValueController : NSObject, NSTextFieldDelegate {
         }
     }
 
-    public func displayMainControlHideFunctionTextField() {
-        mainControl.hidden = false
-        mainControl.enabled = true
-        functionTextField.hidden = true
-        functionTextField.enabled = false
-        if mode == .Function {
+    open func displayMainControlHideFunctionTextField() {
+        mainControl.isHidden = false
+        mainControl.isEnabled = true
+        functionTextField.isHidden = true
+        functionTextField.isEnabled = false
+        if mode == .function {
             mainControl.stringValue = self.stringValue
-            mode = .MainControl
+            mode = .mainControl
         }
     }
         
-    public func hideMainControlDisplayFunctionTextField() {
+    open func hideMainControlDisplayFunctionTextField() {
         
         if let superview = mainControl.superview where functionTextField.superview != superview {
             superview.addSubview(functionTextField)
             functionTextField.frame = mainControl.frame
             functionTextField.delegate = self
-            functionTextField.textColor = NSColor.redColor()
+            functionTextField.textColor = NSColor.red
             functionTextField.setupContextMenu(self, action: "varyByMenuCommandClicked:", scriptData: scriptData, controller: self)
         }
         
-        mainControl.hidden = true
-        mainControl.enabled = false
-        functionTextField.hidden = false
-        functionTextField.enabled = true
-        if mode == .MainControl {
+        mainControl.isHidden = true
+        mainControl.isEnabled = false
+        functionTextField.isHidden = false
+        functionTextField.isEnabled = true
+        if mode == .mainControl {
             functionTextField.stringValue = self.stringValue
-            mode = .Function
+            mode = .function
         }
     }
 
 
-    public var stringValue : String {
+    open var stringValue : String {
         get {
             return _entryElement.stringValue()
         }
@@ -114,14 +114,14 @@ public class PSEntryValueController : NSObject, NSTextFieldDelegate {
                     fatalError()
                 }
             } else if parsedList.values.count == 0 {
-                entryElement = .Null
+                entryElement = .null
             } else {
                 entryElement = parsedList.listElement
             }
         }
     }
     
-    public func control(control: NSControl, textShouldEndEditing fieldEditor: NSText) -> Bool {
+    open func control(_ control: NSControl, textShouldEndEditing fieldEditor: NSText) -> Bool {
         if control == functionTextField {
             //try and parse
             let parsedValue = PSEntryValueParser(stringValue: control.stringValue)

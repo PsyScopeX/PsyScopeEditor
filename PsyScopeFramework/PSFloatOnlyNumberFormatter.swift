@@ -7,8 +7,8 @@
 
 import Foundation
 
-public func PSFloatOnlyNumberFormatter() -> NSNumberFormatter {
+public func PSFloatOnlyNumberFormatter() -> NumberFormatter {
         
-        let floatOnlyFormatter = NSNumberFormatter()
+        let floatOnlyFormatter = NumberFormatter()
         return floatOnlyFormatter
 }

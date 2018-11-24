@@ -15,7 +15,7 @@ class PSPasteBoardEvent : PSEventTool {
         toolType = PSType.PasteBoard
         helpfulDescriptionString = "presents a combination of screen sub-stimuli with many event types — Text, PICT, Document, and/or Paragraph — as a single event."
         iconName = "PasteBoardIcon"
-        iconColor = NSColor.redColor()
+        iconColor = NSColor.red
         classNameString = "PSPasteBoardEvent"
         properties = [Properties.StartRef, Properties.Duration, Properties.EventType]
     }
@@ -29,7 +29,7 @@ class PSPasteBoardEvent : PSEventTool {
     var allowedChildTypes : [String] = [PSTextEvent().type(), PSDocumentEvent().type(), PSParagraphEvent().type(), PSPictureEvent().type()]
     
     
-    override func createObject(scriptData: PSScriptData) -> Entry? {
+    override func createObject(_ scriptData: PSScriptData) -> Entry? {
         guard let mainEntry = super.createObject(scriptData) else { return nil }
         if scriptData.getSubEntry("Stimuli", entry: mainEntry) == nil {
             let entry = scriptData.getOrCreateSubEntry("Stimuli", entry: mainEntry, isProperty: true)
@@ -45,7 +45,7 @@ class PSPasteBoardEvent : PSEventTool {
         return mainEntry
     }
     
-    override func createLinkFrom(parent: Entry, to child: Entry, withScript scriptData: PSScriptData) -> Bool {
+    override func createLinkFrom(_ parent: Entry, to child: Entry, withScript scriptData: PSScriptData) -> Bool {
         
         //can link to text, document, paragraph and picture events, but attribute changes
         //from eventtype to stimtype
@@ -71,7 +71,7 @@ class PSPasteBoardEvent : PSEventTool {
         return false
     }
     
-    override func deleteLinkFrom(parent: Entry, to child: Entry, withScript scriptData: PSScriptData) -> Bool {
+    override func deleteLinkFrom(_ parent: Entry, to child: Entry, withScript scriptData: PSScriptData) -> Bool {
         
         scriptData.removeLinkFrom(parent, to: child, withAttribute: "Stimuli")
         if let  eventType = scriptData.getSubEntry("StimType", entry: child) {
@@ -85,7 +85,7 @@ class PSPasteBoardEvent : PSEventTool {
         return true
     }
     
-    override func identifyEntries(ghostScript: PSGhostScript) -> [PSScriptError] {
+    override func identifyEntries(_ ghostScript: PSGhostScript) -> [PSScriptError] {
         
         var errors : [PSScriptError] = super.identifyEntries(ghostScript)
         

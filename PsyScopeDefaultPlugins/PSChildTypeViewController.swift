@@ -20,14 +20,14 @@ class PSChildTypeViewController : NSViewController {
         self.entry = pluginViewController.entry
         self.scriptData = pluginViewController.scriptData
         self.pluginViewController = pluginViewController
-        super.init(nibName: nibName, bundle: NSBundle(forClass:self.dynamicType))
+        super.init(nibName: nibName, bundle: Bundle(for:self.dynamicType))
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    class func createForEntry(entry : Entry, pluginViewController : PSPluginViewController) -> PSChildTypeViewController {
+    class func createForEntry(_ entry : Entry, pluginViewController : PSPluginViewController) -> PSChildTypeViewController {
         let scriptData = pluginViewController.scriptData
         if let _ = scriptData.getSubEntry("Groups", entry: entry) {
             return PSGroupsTableController(pluginViewController: pluginViewController)!

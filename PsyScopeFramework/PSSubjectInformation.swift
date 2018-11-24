@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class PSSubjectInformation : NSObject {
+open class PSSubjectInformation : NSObject {
     public init(scriptData : PSScriptData) {
         self.scriptData = scriptData
         self.runStartVariables = []
@@ -19,21 +19,21 @@ public class PSSubjectInformation : NSObject {
     }
     
     let scriptData : PSScriptData
-    public var runStartVariables : [PSSubjectVariable]
-    public var runEndVariables : [PSSubjectVariable]
-    public var neverRunVariables : [PSSubjectVariable]
+    open var runStartVariables : [PSSubjectVariable]
+    open var runEndVariables : [PSSubjectVariable]
+    open var neverRunVariables : [PSSubjectVariable]
     
-    public var groupVariables : [PSSubjectVariable] {
+    open var groupVariables : [PSSubjectVariable] {
         get {
             return allVariables.filter({ $0.isGroupingVariable})
         }
     }
     
-    public var allVariables : [PSSubjectVariable] {
+    open var allVariables : [PSSubjectVariable] {
         return runStartVariables + runEndVariables + neverRunVariables
     }
     
-    public func updateVariablesFromScript() {
+    open func updateVariablesFromScript() {
         runStartVariables = []
         runEndVariables = []
         neverRunVariables = []
@@ -65,13 +65,13 @@ public class PSSubjectInformation : NSObject {
         for runStartEntryName in runStartStringList {
             guard let runStartVariable = dialogVariables.filter({ $0.name == runStartEntryName }).first else { continue }
             runStartVariables.append(runStartVariable)
-            dialogVariables.removeAtIndex(dialogVariables.indexOf(runStartVariable)!)
+            dialogVariables.remove(at: dialogVariables.index(of: runStartVariable)!)
         }
         
         for runEndEntryName in runEndStringList {
             guard let runEndVariable = dialogVariables.filter({ $0.name == runEndEntryName }).first else { continue }
             runEndVariables.append(runEndVariable)
-            dialogVariables.removeAtIndex(dialogVariables.indexOf(runEndVariable)!)
+            dialogVariables.remove(at: dialogVariables.index(of: runEndVariable)!)
         }
         
         
@@ -79,7 +79,7 @@ public class PSSubjectInformation : NSObject {
         neverRunVariables = dialogVariables
     }
     
-    public func addNewVariable(isGroupingVariable : Bool) {
+    open func addNewVariable(_ isGroupingVariable : Bool) {
         if isGroupingVariable {
             runStartVariables.append(PSSubjectVariable.NewGroupingVariable(scriptData))
         } else {
@@ -88,15 +88,15 @@ public class PSSubjectInformation : NSObject {
         updateScriptFromVariables()
     }
     
-    public func removeVariable(variable : PSSubjectVariable) {
+    open func removeVariable(_ variable : PSSubjectVariable) {
         variable.removeFromScript()
     }
     
-    public func updateScriptFromVariables() {
+    open func updateScriptFromVariables() {
         for subjectVariable in allVariables { subjectVariable.saveToScript() }
     }
     
-    public func moveVariable(variable : PSSubjectVariable, schedule: PSSubjectVariableSchedule, position: Int) {
+    open func moveVariable(_ variable : PSSubjectVariable, schedule: PSSubjectVariableSchedule, position: Int) {
         //print("Moving variable \(variable.name) to list \(schedule) at position \(position)")
         scriptData.beginUndoGrouping("Change variable")
         if variable.storageOptions.schedule != schedule {
@@ -104,25 +104,25 @@ public class PSSubjectInformation : NSObject {
             var storageOptions = variable.storageOptions
             storageOptions.schedule = schedule
             variable.storageOptions = storageOptions
-        } else if schedule == .Never {
+        } else if schedule == .never {
             NSBeep() //alert as there is no point in swapping variables in Never condition 
         }
         
         //move to correct position within list
         switch schedule {
-        case .RunStart:
+        case .runStart:
             if let runStartList = PSStringList(baseEntryName: "RunStart", scriptData: scriptData),
                 index = runStartList.indexOfValueWithString(variable.name) {
                     //print("RunStart move \(index) to \(position)")
                     runStartList.move(index, to: position)
             }
             
-        case.RunEnd:
+        case.runEnd:
             if let runEndList = PSStringList(baseEntryName: "RunEnd", scriptData: scriptData),
                 index = runEndList.indexOfValueWithString(variable.name) {
                     runEndList.move(index, to: position)
             }
-        case .Never:
+        case .never:
             
             //NSBeep() //no reason to swap around dialogs that dont get run
             break

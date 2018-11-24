@@ -7,12 +7,12 @@
 
 import Cocoa
 
-public class PSToolPropertyController: PSPluginViewController, NSTextFieldDelegate {
+open class PSToolPropertyController: PSPluginViewController, NSTextFieldDelegate {
     
     @IBOutlet var nameTextField : NSTextField!
     
     
-    override public init(nibName nibNameOrNil: String, bundle nibBundleOrNil: NSBundle, entry : Entry, scriptData : PSScriptData) {
+    override public init(nibName nibNameOrNil: String, bundle nibBundleOrNil: Bundle, entry : Entry, scriptData : PSScriptData) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil, entry: entry, scriptData: scriptData)
     }
     
@@ -20,12 +20,12 @@ public class PSToolPropertyController: PSPluginViewController, NSTextFieldDelega
         fatalError("init(coder:) has not been implemented")
     }
     
-    override public func awakeFromNib() {
+    override open func awakeFromNib() {
         super.awakeFromNib()
         refreshName()
     }
     
-    public func control(control: NSControl, textShouldEndEditing fieldEditor: NSText) -> Bool {
+    open func control(_ control: NSControl, textShouldEndEditing fieldEditor: NSText) -> Bool {
         if (control == nameTextField) {
             let name = nameTextField.stringValue as String
             setObjectName(name)
@@ -33,11 +33,11 @@ public class PSToolPropertyController: PSPluginViewController, NSTextFieldDelega
         return true
     }
     
-    override public func refresh() {
+    override open func refresh() {
         refreshName()
     }
     
-    public func refreshName() {
+    open func refreshName() {
         if nameTextField != nil {
             nameTextField.stringValue = entry.name
         } else {
@@ -47,7 +47,7 @@ public class PSToolPropertyController: PSPluginViewController, NSTextFieldDelega
     }
     
     
-    public func setObjectName(new_name : String) {
+    open func setObjectName(_ new_name : String) {
         scriptData.beginUndoGrouping("Rename object")
         let success = scriptData.renameEntry(entry, nameSuggestion: new_name)
         scriptData.endUndoGrouping(success)
@@ -57,7 +57,7 @@ public class PSToolPropertyController: PSPluginViewController, NSTextFieldDelega
         nameTextField.stringValue = entry.name
     }
     
-    public func windowWillReturnUndoManager(window: NSWindow) -> NSUndoManager? {
+    open func windowWillReturnUndoManager(_ window: NSWindow) -> UndoManager? {
         return scriptData.docMoc.undoManager
     }
     

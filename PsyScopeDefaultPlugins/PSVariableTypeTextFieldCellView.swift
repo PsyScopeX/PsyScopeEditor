@@ -13,7 +13,7 @@ class PSVariableTypeTextFieldCellView : NSTableCellView, NSTextFieldDelegate {
 
     var item : PSVariableNamedType? //stores the item it's representing
     
-    func control(control: NSControl, textShouldBeginEditing fieldEditor: NSText) -> Bool {
+    func control(_ control: NSControl, textShouldBeginEditing fieldEditor: NSText) -> Bool {
         if item != nil {
             return true
         }
@@ -22,7 +22,7 @@ class PSVariableTypeTextFieldCellView : NSTableCellView, NSTextFieldDelegate {
         return false
     }
     
-    func control(control: NSControl, textShouldEndEditing fieldEditor: NSText) -> Bool {
+    func control(_ control: NSControl, textShouldEndEditing fieldEditor: NSText) -> Bool {
         if let item = item, tf = textField {
             if tf.stringValue == "" {
                 return false

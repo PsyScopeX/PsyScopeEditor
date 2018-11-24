@@ -8,10 +8,10 @@
 
 import Foundation
 
-func DisplayCallback(_ :CGDirectDisplayID, _: CGDisplayChangeSummaryFlags,_: UnsafeMutablePointer<Void>) -> Void {
+func DisplayCallback(_ :CGDirectDisplayID, _: CGDisplayChangeSummaryFlags,_: UnsafeMutableRawPointer) -> Void {
     //reset caches
     PSScreen.cached = false
-    NSNotificationCenter.defaultCenter().postNotificationName(PSScreenChangeNotification, object: nil)
+    NotificationCenter.default.post(name: Notification.Name(rawValue: PSScreenChangeNotification), object: nil)
 }
 
 let PSScreenChangeNotification = "PSScreenChangeNotification"
@@ -82,24 +82,24 @@ class PSScreen {
         return _screens
     }
     
-    class func getScreenAndLocationOfPoint(point : CGPoint) -> (screenIndex : Int, location : CGPoint) {
+    class func getScreenAndLocationOfPoint(_ point : CGPoint) -> (screenIndex : Int, location : CGPoint) {
         
         ensureSetup()
         
-        for (index, screen) in _screens.enumerate() {
+        for (index, screen) in _screens.enumerated() {
             let cgframe = NSRectToCGRect(screen.frame)
             
-            if CGRectContainsPoint(cgframe, point) {
+            if cgframe.contains(point) {
                 let locationInScreen = CGPoint(x: point.x + cgframe.origin.x, y: point.y + cgframe.origin.y)
                 return (index, locationInScreen)
             }
         }
         
-        return (-1, CGPointZero)
+        return (-1, CGPoint.zero)
     }
 }
 
 func PSScreenRes() -> CGRect {
-    return CGRectZero
+    return CGRect.zero
 }
 

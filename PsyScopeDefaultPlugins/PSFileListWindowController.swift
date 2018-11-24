@@ -13,7 +13,7 @@ class PSFileListWindowController: PSEntryWindowController {
     @IBOutlet var controller : PSFileListBuilderController!
     
 
-    override func docMocChanged(notification : NSNotification) {
+    override func docMocChanged(_ notification : Notification) {
         super.docMocChanged(notification)
         controller.refreshControls()
     }

@@ -14,7 +14,7 @@ class PSGroupsViewController : PSToolPropertyController, NSTableViewDelegate, NS
     var subjectVariables : [PSSubjectVariable]
     
     init(entry : Entry, scriptData : PSScriptData) {
-        let bundle = NSBundle(forClass:self.dynamicType)
+        let bundle = Bundle(for:self.dynamicType)
         group = PSGroup(entry: entry, scriptData: scriptData)
         criteria = []
         subjectVariables = []
@@ -50,8 +50,8 @@ class PSGroupsViewController : PSToolPropertyController, NSTableViewDelegate, NS
         self.view.addSubview(childTypeController.view)
         
         var frame = childTypeController.view.frame
-        let yposition = CGRectGetHeight(self.view.frame) - CGRectGetHeight(frame) - yOffSet
-        frame.origin = CGPointMake(0.0, ceil(yposition))
+        let yposition = self.view.frame.height - frame.height - yOffSet
+        frame.origin = CGPoint(x: 0.0, y: ceil(yposition))
         childTypeController.view.frame = frame
     }
     
@@ -74,11 +74,11 @@ class PSGroupsViewController : PSToolPropertyController, NSTableViewDelegate, NS
     @IBOutlet var criteriaValueTableColumn : NSTableColumn!
     @IBOutlet var criteriaActiveTableColumn : NSTableColumn!
     
-    func numberOfRowsInTableView(tableView: NSTableView) -> Int {
+    func numberOfRows(in tableView: NSTableView) -> Int {
         return subjectVariables.count
     }
     
-    func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
+    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         
         var active : Bool = false
         var activeValue : String = ""
@@ -91,30 +91,30 @@ class PSGroupsViewController : PSToolPropertyController, NSTableViewDelegate, NS
         }
         
         if tableColumn!.identifier == criteriaActiveTableColumn.identifier {
-            let view = tableView.makeViewWithIdentifier(tableColumn!.identifier, owner: nil) as! NSButton
+            let view = tableView.make(withIdentifier: tableColumn!.identifier, owner: nil) as! NSButton
             view.state = active ? 1 : 0
             view.tag = row
             view.target = self
             view.action = "activeCheckClicked:"
             return view
         } else if tableColumn!.identifier == criteriaNameColumn.identifier {
-            let view = tableView.makeViewWithIdentifier(tableColumn!.identifier, owner: nil) as! NSTableCellView
+            let view = tableView.make(withIdentifier: tableColumn!.identifier, owner: nil) as! NSTableCellView
             view.textField!.stringValue = subjectVariables[row].name
-            view.textField?.enabled = active
+            view.textField?.isEnabled = active
             return view
         } else if tableColumn!.identifier == criteriaValueTableColumn.identifier {
-            let groupView = tableView.makeViewWithIdentifier(tableColumn!.identifier, owner: nil) as! PSGroupValueCellView
+            let groupView = tableView.make(withIdentifier: tableColumn!.identifier, owner: nil) as! PSGroupValueCellView
             groupView.textField!.stringValue = activeValue
-            groupView.textField?.enabled = active
+            groupView.textField?.isEnabled = active
             groupView.row = row
             groupView.buttonClickedBlock = showDialog
-            groupView.button.enabled = active
+            groupView.button.isEnabled = active
             return groupView
         }
         return nil
     }
     
-    func activeCheckClicked(checkbox : NSButton) {
+    func activeCheckClicked(_ checkbox : NSButton) {
         if checkbox.state == 1 {
             group.addCriteria(subjectVariables[checkbox.tag], value: "")
         } else {
@@ -123,9 +123,9 @@ class PSGroupsViewController : PSToolPropertyController, NSTableViewDelegate, NS
         refreshCriteriaTableView()
     }
     
-    func showDialog(row : Int) {
+    func showDialog(_ row : Int) {
         let subjectVariableName = subjectVariables[row].name
-        for (index,criterium) in criteria.enumerate() {
+        for (index,criterium) in criteria.enumerated() {
             if criterium.variable.name == subjectVariableName {
                 let value = PSSubjectVariableDialog(criterium.variable, currentValue: criterium.value)
                 criteria[index].value = value

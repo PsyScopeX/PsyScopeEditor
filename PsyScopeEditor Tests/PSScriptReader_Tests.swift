@@ -186,9 +186,9 @@ class PSScriptReader_Tests: XCTestCase {
     }
     
     func testScriptReader_TestScript1_HasNoErrors() {
-        let path = NSBundle(forClass: self.dynamicType).pathForResource("TestScript1", ofType: "") as String!
+        let path = Bundle(for: type(of: self)).path(forResource: "TestScript1", ofType: "") as String!
         do {
-            let theFile : String = try String(contentsOfFile:path, encoding: NSUTF8StringEncoding)
+            let theFile : String = try String(contentsOfFile:path, encoding: String.Encoding.utf8)
             let reader = PSScriptReader(script: theFile)
             
             for entry in reader.ghostScript.entries {
@@ -201,7 +201,7 @@ class PSScriptReader_Tests: XCTestCase {
     }
     
     
-    func testghostEntry(ghostEntry : PSGhostEntry) {
+    func testghostEntry(_ ghostEntry : PSGhostEntry) {
         let parser = PSEntryValueParser(stringValue: ghostEntry.currentValue)
         XCTAssert(parser.foundErrors == false, "The script had an error with entry value: \(ghostEntry.currentValue)")
         for entry in ghostEntry.subEntries {

@@ -8,16 +8,16 @@
 
 import Foundation
 //Tries to get a value - much work to do....
-public func PSFunctionEvaluate(entryElement : PSEntryElement, scriptData : PSScriptData) -> String {
+public func PSFunctionEvaluate(_ entryElement : PSEntryElement, scriptData : PSScriptData) -> String {
     switch (entryElement) {
-    case .Null:
+    case .null:
         break
-    case .List(let stringListElement):
+    case .list(let stringListElement):
         if let first = stringListElement.values.first {
             return PSFunctionEvaluate(first, scriptData: scriptData)
         }
-    case .Function(let functionElement):
-        if functionElement.bracketType == .Expression {
+    case .function(let functionElement):
+        if functionElement.bracketType == .expression {
             switch functionElement.values.count {
             case 2:
                 //unary
@@ -35,13 +35,13 @@ public func PSFunctionEvaluate(entryElement : PSEntryElement, scriptData : PSScr
             }
         }
         break
-    case .StringToken(let stringElement):
+    case .stringToken(let stringElement):
         return stringElement.value
     }
     return "NULL"
 }
 
-public func PSCurrentValueEvaluate(currentValue : String, scriptData : PSScriptData) -> String {
+public func PSCurrentValueEvaluate(_ currentValue : String, scriptData : PSScriptData) -> String {
     let parser = PSEntryValueParser(stringValue: currentValue)
     if parser.foundErrors { return "NULL" }
     

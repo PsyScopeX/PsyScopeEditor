@@ -9,7 +9,7 @@
 import Foundation
 
 
-public class PSGhostScript : NSObject {
-    public var entries : [PSGhostEntry] = []
-    public var errors : Bool = false
+open class PSGhostScript : NSObject {
+    open var entries : [PSGhostEntry] = []
+    open var errors : Bool = false
 }

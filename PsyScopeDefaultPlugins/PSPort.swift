@@ -11,7 +11,7 @@ import Foundation
 //parses a port entry as an object - has a layer which updates it's coordinates automatically
 
 
-public class PSPort : Hashable, Equatable {
+open class PSPort : Hashable, Equatable {
     
     //port parameters
     var shape : PSPortShape {
@@ -63,9 +63,9 @@ public class PSPort : Hashable, Equatable {
         self.height = .Pixels(150)
         self.width = .Pixels(150)
         self.border = 1
-        self.alignmentPoint = .Auto
-        self.x = PSPortMeasurement.Centre
-        self.y = PSPortMeasurement.Centre
+        self.alignmentPoint = .auto
+        self.x = PSPortMeasurement.centre
+        self.y = PSPortMeasurement.centre
         parsing = false
         
         if let pointsSubEntry = scriptData.getSubEntry("Points", entry: entry) {
@@ -91,22 +91,22 @@ public class PSPort : Hashable, Equatable {
         let value = self.currentValue
         
         
-        var components = value.componentsSeparatedByString(" ") as [String]
+        var components = value.components(separatedBy: " ") as [String]
         
         if components.count >= 1 {
-            x = PSPortMeasurement.fromString(components[0], type: .LeftRight)
+            x = PSPortMeasurement.fromString(components[0], type: .leftRight)
         }
         
         if components.count >= 2 {
-            width = PSPortMeasurement.fromString(components[1], type: .PixelsPercentOnly)
+            width = PSPortMeasurement.fromString(components[1], type: .pixelsPercentOnly)
         }
         
         if components.count >= 3 {
-            y = PSPortMeasurement.fromString(components[2], type: .TopBottom)
+            y = PSPortMeasurement.fromString(components[2], type: .topBottom)
         }
         
         if components.count >= 4 {
-            height = PSPortMeasurement.fromString(components[3], type: .PixelsPercentOnly)
+            height = PSPortMeasurement.fromString(components[3], type: .pixelsPercentOnly)
         }
         
         if components.count >= 5 {
@@ -117,7 +117,7 @@ public class PSPort : Hashable, Equatable {
         parsing = false
     }
     
-    func addPosition(name : String) -> PSPosition? {
+    func addPosition(_ name : String) -> PSPosition? {
         //first check if entry name is free
         let pointsSubEntry = PSStringList(entry: scriptData.getOrCreateSubEntry("Points", entry: entry, isProperty: true), scriptData: scriptData)
         if scriptData.getBaseEntry(name) == nil && pointsSubEntry.appendAsString(name) {
@@ -139,7 +139,7 @@ public class PSPort : Hashable, Equatable {
     }
     
     //MARK: Hashable / Equatable
-    public var hashValue: Int { return entry.hashValue }
+    open var hashValue: Int { return entry.hashValue }
     
     var currentValue : String {
         get { return entry.currentValue }
@@ -164,22 +164,22 @@ public class PSPort : Hashable, Equatable {
         currentValue = new_value
     }
     
-    func setHighlight(on : Bool) {
+    func setHighlight(_ on : Bool) {
         highlighted = on
         if (on) {
             //format for selected port
             layer.fillColor = PSConstants.BasicDefaultColors.foregroundColorLowAlpha // luca added to fill the color of the selected port darker blue, as in the default interface
-            layer.strokeColor =  NSColor.whiteColor().CGColor // luca trying to use the same convention as in the main interface: selected objects have white border
+            layer.strokeColor =  NSColor.white.cgColor // luca trying to use the same convention as in the main interface: selected objects have white border
             
             //bring to front
             if let superlayer = layer.superlayer, sublayers = superlayer.sublayers {
                 layer.removeFromSuperlayer()
-                superlayer.insertSublayer(layer, atIndex: UInt32(sublayers.count))
+                superlayer.insertSublayer(layer, at: UInt32(sublayers.count))
             }
         } else {
             //format for unselected port
-            layer.strokeColor = NSColor.lightGrayColor().CGColor // this is the default color of the border. Light gray by popular demand
-            layer.fillColor = NSColor.clearColor().CGColor
+            layer.strokeColor = NSColor.lightGray.cgColor // this is the default color of the border. Light gray by popular demand
+            layer.fillColor = NSColor.clear.cgColor
         }
         
         layer.borderWidth = 0
@@ -211,16 +211,16 @@ public class PSPort : Hashable, Equatable {
         var anchorY : CGFloat
         
         switch(alignmentPoint) {
-        case .Center:
+        case .center:
             anchorX = 0.5
             anchorY = 0.5
-        case .Auto:
+        case .auto:
             
             switch(x) {
-            case .Left:
+            case .left:
                 anchorX = 0
                 break
-            case .Right:
+            case .right:
                 anchorX = 1
                 break
             default:
@@ -229,10 +229,10 @@ public class PSPort : Hashable, Equatable {
             }
             
             switch(y) {
-            case .Top:
+            case .top:
                 anchorY = 1
                 break
-            case .Bottom:
+            case .bottom:
                 anchorY = 0
                 break
             default:
@@ -240,7 +240,7 @@ public class PSPort : Hashable, Equatable {
                 break
             }
             
-        case .Specified(let x, let y):
+        case .specified(let x, let y):
             anchorX = CGFloat(x) / cgwidth
             anchorY = 1 - (CGFloat(y) / cgheight)
         }
@@ -258,19 +258,19 @@ public class PSPort : Hashable, Equatable {
         //the final geomtry for the port layer
         let loc_x = CGFloat(x.pixels(Int(res.width))) - anchorOffsetX - borderOffset
         let loc_y = CGFloat(y.pixels(Int(res.height))) - anchorOffsetY - borderOffset
-        layer.bounds = CGRect(origin: NSZeroPoint, size: CGSizeMake(cgwidth + CGFloat(border), cgheight + CGFloat(border)))
+        layer.bounds = CGRect(origin: NSZeroPoint, size: CGSize(width: cgwidth + CGFloat(border), height: cgheight + CGFloat(border)))
         layer.position = CGPoint(x: loc_x, y: loc_y)
         
         //print("Layer bounds: \(layer.bounds) \nLayer positn: \(layer.position)")
         
         
         //create the line for the border
-        let path = CGPathCreateMutable();
+        let path = CGMutablePath();
         CGPathMoveToPoint(path, nil, 0, 0);
         CGPathAddLineToPoint(path, nil, 0, layer.bounds.height);
         CGPathAddLineToPoint(path, nil, layer.bounds.width, layer.bounds.height);
         CGPathAddLineToPoint(path, nil, layer.bounds.width, 0);
-        CGPathCloseSubpath(path);
+        path.closeSubpath();
         layer.path = path;
         
 
