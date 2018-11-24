@@ -25,7 +25,7 @@ class PSVariableTypePopup: NSObject {
     let scriptData : PSScriptData
     let window : NSWindow
     
-    var topLevelObjects : NSArray = []
+    var topLevelObjects : NSArray?
     
     
     //MARK: Outlets

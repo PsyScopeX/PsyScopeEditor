@@ -35,15 +35,8 @@ class PSScreen {
   
         if cached { return }
         
-        
 
-        
-        //get screens, get the layout, compute the effective height and width
-        guard let screens = NSScreen.screens else {
-            fatalError("Could not detect any screens")
-        }
-        
-        _screens = screens;
+        _screens = NSScreen.screens;
         
         var leftMost : CGFloat = 0
         var rightMost : CGFloat = 0
@@ -53,7 +46,7 @@ class PSScreen {
 
         
         
-        for screen in screens {
+        for screen in _screens {
             let frame = screen.frame
             
             leftMost = min(leftMost, frame.origin.x)

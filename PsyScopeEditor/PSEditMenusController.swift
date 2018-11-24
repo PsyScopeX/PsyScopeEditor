@@ -28,7 +28,7 @@ class PSEditMenusController : NSObject, NSOutlineViewDataSource, NSOutlineViewDe
     
     //MARK: Variables 
     
-    var topLevelObjects : NSArray = []
+    var topLevelObjects : NSArray?
     var parentWindow : NSWindow!
     var initialized : Bool
     
@@ -324,18 +324,4 @@ class PSEditMenusController : NSObject, NSOutlineViewDataSource, NSOutlineViewDe
     }
 }
 
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertToNSPasteboardPasteboardTypeArray(_ input: [String]) -> [NSPasteboard.PasteboardType] {
-	return input.map { key in NSPasteboard.PasteboardType(key) }
-}
 
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertToNSPasteboardPasteboardType(_ input: String) -> NSPasteboard.PasteboardType {
-	return NSPasteboard.PasteboardType(rawValue: input)
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertFromOptionalNSPasteboardPasteboardTypeArray(_ input: [NSPasteboard.PasteboardType]?) -> [String]? {
-	guard let input = input else { return nil }
-	return input.map { key in key.rawValue }
-}

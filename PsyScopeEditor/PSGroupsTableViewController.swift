@@ -148,12 +148,3 @@ class PSGroupsTableViewController : NSObject, NSTableViewDataSource, NSTableView
     
 }
 
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertToNSPasteboardPasteboardTypeArray(_ input: [String]) -> [NSPasteboard.PasteboardType] {
-	return input.map { key in NSPasteboard.PasteboardType(key) }
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertToNSPasteboardPasteboardType(_ input: String) -> NSPasteboard.PasteboardType {
-	return NSPasteboard.PasteboardType(rawValue: input)
-}

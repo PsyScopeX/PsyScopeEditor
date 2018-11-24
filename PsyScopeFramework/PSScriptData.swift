@@ -520,7 +520,7 @@ open class PSScriptData : NSObject {
                 var checkBoxes : [NSButton] = []
                 for (index,val) in baseEntryNamesToChange.enumerated() {
                     let newCheckBox = NSButton(frame: NSMakeRect(0, CGFloat(index * 24), 400, 24))
-                    newCheckBox.state = convertToNSControlStateValue(1)
+                    newCheckBox.state = NSControl.StateValue.on
                     newCheckBox.setButtonType(NSButton.ButtonType.switch)
                     newCheckBox.title = "\(val.oldName) -> \(val.newName)"
                     inputView.addSubview(newCheckBox)
@@ -1223,9 +1223,4 @@ public func PSCreateEntryFromDictionary(_ moc : NSManagedObjectContext, dict : N
     let newObject = NSEntityDescription.insertNewObject(forEntityName: "Entry", into: moc) as NSManagedObject
     NSDictionaryToPSAttributeEntry(newObject, dict: dict)
     return newObject as! Entry
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertToNSControlStateValue(_ input: Int) -> NSControl.StateValue {
-	return NSControl.StateValue(rawValue: input)
 }

@@ -23,8 +23,8 @@ open class PSAttributeParameter_FileSave : PSAttributeParameter_Button {
         savePanel.canCreateDirectories = true
         //savePanel.allowedFileTypes = [fileType]
         savePanel.beginSheetModal(for: cell.window!, completionHandler: {
-            (int_code : Int) -> () in
-            if int_code == NSFileHandlingPanelOKButton {
+            (int_code : NSApplication.ModalResponse) -> () in
+            if int_code == .OK {
                 //relative to files location
                 if let url = savePanel.url {
                     DispatchQueue.main.async(execute: {

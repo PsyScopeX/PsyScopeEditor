@@ -168,7 +168,7 @@ class PSCondition_Key_Popup : PSAttributePopup, NSTableViewDelegate, NSTableView
             selectedRow = -1
             reloadTableView()
         } else {
-            NSBeep()
+            NSSound.beep()
         }
     }
     

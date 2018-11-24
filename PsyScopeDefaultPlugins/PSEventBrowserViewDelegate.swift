@@ -13,19 +13,19 @@ class PSEventBrowserViewDelegate : NSObject, NSTableViewDelegate {
     @IBOutlet var objectTableView : PSEventBrowserView!
     @IBOutlet var arrayController : NSArrayController!
     
-    var tableCellViewIdentifier = "PSToolBrowserViewItem"
+    var tableCellViewIdentifier = NSUserInterfaceItemIdentifier(rawValue:"PSToolBrowserViewItem")
     var content : [PSExtension] = []
     var pluginProvider : PSPluginProvider!
     
     func setup(_ pluginProvider : PSPluginProvider) {
         self.pluginProvider = pluginProvider
         let nib = NSNib(nibNamed: "ToolBrowserViewItem", bundle: Bundle(for:type(of: self)))
-        objectTableView.register(nib!, forIdentifier: convertToNSUserInterfaceItemIdentifier(tableCellViewIdentifier))
+        objectTableView.register(nib!, forIdentifier:tableCellViewIdentifier)
         refresh()
     }
     
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        let new_view  = objectTableView.makeView(withIdentifier: convertToNSUserInterfaceItemIdentifier(tableCellViewIdentifier), owner: self) as! PSToolBrowserViewItem
+        let new_view  = objectTableView.makeView(withIdentifier:tableCellViewIdentifier, owner: self) as! PSToolBrowserViewItem
         return new_view
     }
     
@@ -48,7 +48,3 @@ class PSEventBrowserViewDelegate : NSObject, NSTableViewDelegate {
     
 }
 
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertToNSUserInterfaceItemIdentifier(_ input: String) -> NSUserInterfaceItemIdentifier {
-	return NSUserInterfaceItemIdentifier(rawValue: input)
-}

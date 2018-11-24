@@ -45,9 +45,9 @@ class PSCondition_Mouse_Cell : PSConditionCell {
     override func setup(_ conditionInterface: PSConditionInterface, function entryFunction: PSFunctionElement, scriptData: PSScriptData, expandedHeight: CGFloat) {
         super.setup(conditionInterface,function: entryFunction,scriptData: scriptData, expandedHeight: expandedHeight)
 
-        clickButton.state = convertToNSControlStateValue(0)
-        moveButton.state = convertToNSControlStateValue(0)
-        portButton.state = convertToNSControlStateValue(0)
+        clickButton.state = NSControl.StateValue.off
+        moveButton.state = NSControl.StateValue.off
+        portButton.state = NSControl.StateValue.off
         portName = ""
         
         for v in entryFunction.values {
@@ -56,7 +56,7 @@ class PSCondition_Mouse_Cell : PSConditionCell {
             case .function(let functionElement):
                 if functionElement.functionName.lowercased() == "portname" {
                     portName = functionElement.getStrippedStringValues().joined(separator: " ")
-                    portButton.state = convertToNSControlStateValue(1)
+                    portButton.state = NSControl.StateValue.on
                 }
                 break
             case .list:
@@ -66,9 +66,9 @@ class PSCondition_Mouse_Cell : PSConditionCell {
             case .stringToken(let stringElement):
                 let string = stringElement.value
                 if string.lowercased() == "click" {
-                    clickButton.state = convertToNSControlStateValue(1)
+                    clickButton.state = NSControl.StateValue.on
                 }else if string.lowercased() == "move" {
-                    moveButton.state = convertToNSControlStateValue(1)
+                    moveButton.state = NSControl.StateValue.on
                 }
                 break
             }
@@ -107,16 +107,10 @@ class PSCondition_Mouse_Cell : PSConditionCell {
             let functionElement = PSFunctionElement.FromStringValue(cValue.stringValue())
             self.portName = functionElement.getStrippedStringValues().joined(separator: " ")
             self.portChangeButton.title = self.portName
-            self.portButton.state = convertToNSControlStateValue(1)
+            self.portButton.state = NSControl.StateValue.on
             self.parameterChange(self)
         })
         popup.showAttributeModalForWindow(scriptData.window)
     }
     
-}
-
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertToNSControlStateValue(_ input: Int) -> NSControl.StateValue {
-	return NSControl.StateValue(rawValue: input)
 }

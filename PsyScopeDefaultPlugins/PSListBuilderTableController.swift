@@ -56,10 +56,10 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
         
 
         if list.hasWeights {
-            weightsCheckButton.state = convertToNSControlStateValue(1)
+            weightsCheckButton.state = NSControl.StateValue.on
             weightsColumn.isHidden = false
         } else {
-            weightsCheckButton.state = convertToNSControlStateValue(0)
+            weightsCheckButton.state = NSControl.StateValue.off
             weightsColumn.isHidden = true
         }
         
@@ -233,11 +233,11 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
             
             //column is for item names or weights
             
-            let identifier = convertFromNSUserInterfaceItemIdentifier(tableColumn!.identifier)
-            let view = tableView.makeView(withIdentifier: convertToNSUserInterfaceItemIdentifier(identifier), owner: self) as! NSTableCellView
+            let identifier = tableColumn!.identifier
+            let view = tableView.makeView(withIdentifier:identifier, owner: self) as! NSTableCellView
             view.textField!.delegate = self
 
-            if identifier == convertFromNSUserInterfaceItemIdentifier(weightsColumn.identifier) {
+            if identifier == weightsColumn.identifier {
                 view.textField!.stringValue = String(list.weightForRow(row))
                 weightsTextFields[view.textField!] = row
             } else {
@@ -420,19 +420,4 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
     }
     
 
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertToNSControlStateValue(_ input: Int) -> NSControl.StateValue {
-	return NSControl.StateValue(rawValue: input)
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertFromNSUserInterfaceItemIdentifier(_ input: NSUserInterfaceItemIdentifier) -> String {
-	return input.rawValue
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertToNSUserInterfaceItemIdentifier(_ input: String) -> NSUserInterfaceItemIdentifier {
-	return NSUserInterfaceItemIdentifier(rawValue: input)
 }

@@ -16,7 +16,7 @@ class PSTobiiSetup: NSObject, PSWindowViewInterface {
     @IBOutlet var midPanelView : NSView!
     @IBOutlet var tobiiSetupController : PSTobiiSetupController!
     
-    var topLevelObjects : NSArray = []
+    var topLevelObjects : NSArray?
     
     func setup(_ scriptData: PSScriptData, selectionInterface: PSSelectionInterface) {
         self.scriptData = scriptData

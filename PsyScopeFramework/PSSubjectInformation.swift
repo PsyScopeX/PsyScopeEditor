@@ -105,7 +105,7 @@ open class PSSubjectInformation : NSObject {
             storageOptions.schedule = schedule
             variable.storageOptions = storageOptions
         } else if schedule == .never {
-            NSBeep() //alert as there is no point in swapping variables in Never condition 
+            NSSound.beep() //alert as there is no point in swapping variables in Never condition 
         }
         
         //move to correct position within list
@@ -124,7 +124,7 @@ open class PSSubjectInformation : NSObject {
             }
         case .never:
             
-            //NSBeep() //no reason to swap around dialogs that dont get run
+            //NSSound.beep() //no reason to swap around dialogs that dont get run
             break
         }
         

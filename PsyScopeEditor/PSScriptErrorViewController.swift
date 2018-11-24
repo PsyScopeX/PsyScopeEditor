@@ -43,9 +43,8 @@ class PSScriptErrorViewController: NSObject, NSTableViewDataSource, NSTableViewD
     func tableView(_ tableView: PSClickableTableView, didClickTableRow row: Int) {
         let error = row < errors.count ? errors[row] : warnings[row - errors.count]
         
-        if let entryName = error.entryName,
-            let str = textView.string {
-                var range = (str as NSString).range(of: "\n" + entryName + "::")
+        if let entryName = error.entryName {
+                var range = (textView.string as NSString).range(of: "\n" + entryName + "::")
                 
                 if range.location != NSNotFound && range.length > 0 {
                     range.length -= 1
@@ -54,8 +53,8 @@ class PSScriptErrorViewController: NSObject, NSTableViewDataSource, NSTableViewD
                     textView.setSelectedRange(range)
                 }
             
-        } else if let searchString = error.searchString, let str = textView.string {
-            let range = (str as NSString).range(of: searchString)
+        } else if let searchString = error.searchString {
+            let range = (textView.string as NSString).range(of: searchString)
             
             if range.location != NSNotFound && range.length > 0 {
                 //range.length--
@@ -73,9 +72,9 @@ class PSScriptErrorViewController: NSObject, NSTableViewDataSource, NSTableViewD
     
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         if row < errors.count {
-            return tableView.makeView(withIdentifier: convertToNSUserInterfaceItemIdentifier("ErrorView"), owner: nil)
+            return tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue:"ErrorView"), owner: nil)
         } else {
-            return tableView.makeView(withIdentifier: convertToNSUserInterfaceItemIdentifier("WarningView"), owner: nil)
+            return tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue:"WarningView"), owner: nil)
         }
     }
     
@@ -118,7 +117,3 @@ class PSScriptErrorViewController: NSObject, NSTableViewDataSource, NSTableViewD
     }
 }
 
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertToNSUserInterfaceItemIdentifier(_ input: String) -> NSUserInterfaceItemIdentifier {
-	return NSUserInterfaceItemIdentifier(rawValue: input)
-}

@@ -169,8 +169,3 @@ class PSVariableOutlineViewController : NSObject, NSOutlineViewDataSource, NSOut
         fatalError("Column should be name or value column, and items with values should be PSVariableValues")
     }
 }
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertFromNSUserInterfaceItemIdentifier(_ input: NSUserInterfaceItemIdentifier) -> String {
-	return input.rawValue
-}

@@ -151,8 +151,3 @@ class Document: NSPersistentDocument {
     
 }
 
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertToNSPasteboardPasteboardTypeArray(_ input: [String]) -> [NSPasteboard.PasteboardType] {
-	return input.map { key in NSPasteboard.PasteboardType(key) }
-}

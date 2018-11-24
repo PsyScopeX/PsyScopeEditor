@@ -113,8 +113,3 @@ func PSNumberOfTrialsInBlock(_ blockEntry : Entry, scriptData : PSScriptData) ->
     
     return PSTrialCountType.cycles(1)
 }
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertFromNSUserInterfaceItemIdentifier(_ input: NSUserInterfaceItemIdentifier) -> String {
-	return input.rawValue
-}

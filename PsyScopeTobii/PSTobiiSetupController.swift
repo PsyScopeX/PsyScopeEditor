@@ -27,7 +27,7 @@ class PSTobiiSetupController : NSObject {
             let inputDevicesList = PSStringList(entry: inputDevices, scriptData: scriptData)
             useTobiiCheck.state = NSControl.StateValue(rawValue: inputDevicesList.contains("TobiiPlus") ? 1 : 0)
         } else {
-            useTobiiCheck.state = convertToNSControlStateValue(0)
+            useTobiiCheck.state = NSControl.StateValue.off
         }
     }
     
@@ -45,8 +45,4 @@ class PSTobiiSetupController : NSObject {
         
         
     }
-}
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertToNSControlStateValue(_ input: Int) -> NSControl.StateValue {
-	return NSControl.StateValue(rawValue: input)
 }

@@ -40,7 +40,7 @@ class PSTableBuilder: NSObject {
 
     
     func showWindow() {
-        Bundle(for:type(of: self)).loadNibNamed("TableBuilder", owner: self, topLevelObjects: &objects!)
+        Bundle(for:type(of: self)).loadNibNamed("TableBuilder", owner: self, topLevelObjects: &objects)
         window.title = "Edit Table: \(tableEntry.name)"
         window.isReleasedWhenClosed = true
         registeredForChanges = true
@@ -129,7 +129,7 @@ class PSFactorTable {
     
     func createTableView() {
         let scrollView = NSScrollView(frame: NSMakeRect(0, 0, 300, 300))
-        let column = NSTableColumn(identifier: convertToNSUserInterfaceItemIdentifier("id"))
+        let column = NSTableColumn(identifier: NSUserInterfaceItemIdentifier(rawValue:"id"))
 
         tableView.headerView = nil
 
@@ -560,9 +560,4 @@ class PSFactorLevel : NSObject {
         print("Selected \(name)")
         factor.factorTable.selectedLevel = self
     }
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertToNSUserInterfaceItemIdentifier(_ input: String) -> NSUserInterfaceItemIdentifier {
-	return NSUserInterfaceItemIdentifier(rawValue: input)
 }

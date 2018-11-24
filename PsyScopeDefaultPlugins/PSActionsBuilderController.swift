@@ -27,7 +27,7 @@ class PSActionsBuilderController : NSObject, NSTableViewDataSource, NSTableViewD
     var selectionInterface : PSSelectionInterface!
     var scriptData : PSScriptData!
     var actionsAttribute : PSEventActionsAttribute?
-    let tableCellViewIdentifier : String = "PSActionsBuilderCell"
+    let tableCellViewIdentifier = NSUserInterfaceItemIdentifier(rawValue:"PSActionsBuilderCell")
     var actionPicker : PSActionPicker? //to prevent zombie formation of popup
     var conditionPicker : PSConditionPicker? //to prevent zombie formation of popup
     var selectedActionCondition : PSEventActionCondition?
@@ -42,7 +42,7 @@ class PSActionsBuilderController : NSObject, NSTableViewDataSource, NSTableViewD
     override func awakeFromNib() {
         scriptData = actionsBuilder.scriptData
         let nib = NSNib(nibNamed: "ActionsBuilderCell", bundle: Bundle(for:type(of: self)))
-        actionsTableView.register(nib!, forIdentifier: convertToNSUserInterfaceItemIdentifier(tableCellViewIdentifier))
+        actionsTableView.register(nib!, forIdentifier:tableCellViewIdentifier)
         
 
         //if nothing selected don't allow the pressing of action button
@@ -104,7 +104,7 @@ class PSActionsBuilderController : NSObject, NSTableViewDataSource, NSTableViewD
     }
     
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        let view = tableView.makeView(withIdentifier: convertToNSUserInterfaceItemIdentifier(tableCellViewIdentifier), owner: self) as! PSActionsBuilderCell
+        let view = tableView.makeView(withIdentifier:tableCellViewIdentifier, owner: self) as! PSActionsBuilderCell
         view.controller = self
         view.actionsAttribute = self.actionsAttribute
         view.rowIndex = row
@@ -156,9 +156,9 @@ class PSActionsBuilderController : NSObject, NSTableViewDataSource, NSTableViewD
             let actionFunction = selectedActionCondition as? PSEventActionFunction {
                 instancesActiveUntilMenuItem.isHidden = false
                 if actionFunction.hasInstancesOrActiveUntilValueAttributes {
-                    instancesActiveUntilMenuItem.state = NSOnState
+                    instancesActiveUntilMenuItem.state = NSControl.StateValue.on
                 } else {
-                    instancesActiveUntilMenuItem.state = NSOffState
+                    instancesActiveUntilMenuItem.state = NSControl.StateValue.off
                 }
         } else {
             instancesActiveUntilMenuItem.isHidden = true
@@ -234,7 +234,7 @@ class PSActionsBuilderController : NSObject, NSTableViewDataSource, NSTableViewD
         moveDownMenuItem.isEnabled = false
         moveSetUpMenuItem.isEnabled = false
         moveSetDownMenuItem.isEnabled = false
-        instancesActiveUntilMenuItem.state = NSOffState
+        instancesActiveUntilMenuItem.state = NSControl.StateValue.off
         instancesActiveUntilMenuItem.isEnabled = false
         selectedActionCondition = nil
         selectedActionConditionLocation = nil
@@ -343,7 +343,3 @@ class PSActionsBuilderController : NSObject, NSTableViewDataSource, NSTableViewD
 
 }
 
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertToNSUserInterfaceItemIdentifier(_ input: String) -> NSUserInterfaceItemIdentifier {
-	return NSUserInterfaceItemIdentifier(rawValue: input)
-}

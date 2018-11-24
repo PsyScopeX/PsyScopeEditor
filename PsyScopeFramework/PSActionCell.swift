@@ -57,7 +57,7 @@ open class PSActionCell : PSCellView {
     }
     
     @objc func expandButtonClicked(_ button : NSButton) {
-        if disclosureButton.state == NSOnState {
+        if disclosureButton.state == NSControl.StateValue.on {
             setExpanded(true)
             expandAction?(true)
         } else {
@@ -68,7 +68,7 @@ open class PSActionCell : PSCellView {
     
     open func setExpanded(_ expanded : Bool) {
         if expanded {
-            disclosureButton.state = NSOnState
+            disclosureButton.state = NSControl.StateValue.on
             var new_frame = self.frame
             new_frame.size.height = expandedHeight
             self.frame = new_frame
@@ -77,7 +77,7 @@ open class PSActionCell : PSCellView {
             }
             summaryLabel.isHidden = true
         } else {
-            disclosureButton.state == NSOffState
+            disclosureButton.state == NSControl.StateValue.off
             var new_frame = self.frame
             new_frame.size.height = 30
             self.frame = new_frame
@@ -114,7 +114,7 @@ open class PSActionCell : PSCellView {
         disclosureButton.bezelStyle = NSButton.BezelStyle.disclosure
         disclosureButton.setButtonType(.pushOnPushOff)
         disclosureButton.title = ""
-        disclosureButton.state = NSOffState
+        disclosureButton.state = NSControl.StateValue.off
         disclosureButton.target = self
         disclosureButton.action = #selector(PSActionCell.expandButtonClicked(_:))
         self.addSubview(disclosureButton)

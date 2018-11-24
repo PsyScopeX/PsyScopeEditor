@@ -42,8 +42,14 @@ open class PSVaryByButton : NSButton {
         super.mouseDown(with: theEvent)
     }
     
-    open override class var cellClass: AnyClass {
-        return PSVaryByButtonCell.self
+    open override class var cellClass: AnyClass? {
+        
+        get{
+            return PSVaryByButtonCell.self
+        }
+        set {
+            
+        }
     }
     
 }

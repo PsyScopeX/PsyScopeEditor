@@ -27,7 +27,7 @@ class PSConvertEvents : NSObject, NSTableViewDataSource, NSTableViewDelegate {
     
     let scriptData : PSScriptData
     let events : [Entry]
-    var topLevelObjects : NSArray = []
+    var topLevelObjects : NSArray?
     var parentWindow : NSWindow!
     let eventTypes : [String]
     var selectedType : String

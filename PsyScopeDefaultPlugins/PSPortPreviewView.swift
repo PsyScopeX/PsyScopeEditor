@@ -370,10 +370,7 @@ struct PSPortClickedLayer {
     }
 }
 
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertFromNSViewFullScreenModeOptionKey(_ input: NSView.FullScreenModeOptionKey) -> String {
-	return input.rawValue
-}
+
 
 // Helper function inserted by Swift 4.2 migrator.
 fileprivate func convertToOptionalNSViewFullScreenModeOptionKeyDictionary(_ input: [String: Any]?) -> [NSView.FullScreenModeOptionKey: Any]? {

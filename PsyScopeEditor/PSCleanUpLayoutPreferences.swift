@@ -10,7 +10,8 @@ import Foundation
 
 class PSCleanUpLayoutPreferences  : NSViewController, MASPreferencesViewController {
 
-    override var identifier : String? { get { return "LayoutPreferences" } set { } }
+
+    override var identifier : NSUserInterfaceItemIdentifier? { get { return NSUserInterfaceItemIdentifier(rawValue: "LayoutPreferences") } set { } }
     var toolbarItemImage : NSImage { get { return NSImage(named: NSImage.preferencesGeneralName)! } }
     var toolbarItemLabel : String! { get { return "General" } }
 

@@ -49,8 +49,3 @@ class PSEventBrowserView: NSTableView {
     }
     
 }
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertToNSPasteboardPasteboardType(_ input: String) -> NSPasteboard.PasteboardType {
-	return NSPasteboard.PasteboardType(rawValue: input)
-}

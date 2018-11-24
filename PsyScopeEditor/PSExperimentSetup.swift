@@ -24,7 +24,7 @@ class PSExperimentSetup: NSObject {
     //MARK: Variables
     
     var selectionInterface : PSSelectionInterface!
-    var topLevelObjects : NSArray = []
+    var topLevelObjects : NSArray?
     var scriptData : PSScriptData!
     var templateEntry : Entry!
     

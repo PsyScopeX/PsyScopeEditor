@@ -8,7 +8,7 @@ import Cocoa
 import QuartzCore
 
 var PSCopiedEntry : Entry?
-let PSPasteboardTypeLayoutObject = "psyscope.layoutobject"
+let PSPasteboardTypeLayoutObject = NSPasteboard.PasteboardType(rawValue: "psyscope.layoutobject")
 
 class PSLayoutItem : NSObject {
     var icon : CALayer! = nil
@@ -103,10 +103,10 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
         
         if listsHidden {
             showHideListsButton.title = "Show Lists"
-            showHideListsButton.state = convertToNSControlStateValue(1)
+            showHideListsButton.state = NSControl.StateValue.on
         } else {
             showHideListsButton.title = "Hide Lists"
-            showHideListsButton.state = convertToNSControlStateValue(0)
+            showHideListsButton.state = NSControl.StateValue.off
         }
         
         UserDefaults.standard.set(!listsHidden, forKey: PSPreferences.showLists.key)
@@ -123,10 +123,10 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
     
         if eventsHidden {
             showHideEventsButton.title = "Show Events"
-            showHideEventsButton.state = convertToNSControlStateValue(1)
+            showHideEventsButton.state = NSControl.StateValue.on
         } else {
             showHideEventsButton.title = "Hide Events"
-            showHideEventsButton.state = convertToNSControlStateValue(0)
+            showHideEventsButton.state = NSControl.StateValue.off
         }
         
         UserDefaults.standard.set(!eventsHidden, forKey: PSPreferences.showEvents.key)
@@ -387,7 +387,7 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
     func copyEntry() {
         if let se = selectionController.selectedEntry {
             let pasteboardItem = NSPasteboardItem()
-            let types = [convertFromNSPasteboardPasteboardType(NSPasteboard.PasteboardType.string), PSPasteboardTypeLayoutObject]
+            let types = [NSPasteboard.PasteboardType.string, PSPasteboardTypeLayoutObject]
             var ok = pasteboardItem.setDataProvider(self, forTypes: types)
             if ok {
                 let pasteboard = NSPasteboard.general
@@ -492,23 +492,3 @@ let type = convertFromNSPasteboardPasteboardType(type)
     
 }
 
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertFromNSPasteboardPasteboardType(_ input: NSPasteboard.PasteboardType) -> String {
-	return input.rawValue
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertToNSControlStateValue(_ input: Int) -> NSControl.StateValue {
-	return NSControl.StateValue(rawValue: input)
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertToOptionalNSPasteboardReadingOptionKeyDictionary(_ input: [String: Any]?) -> [NSPasteboard.ReadingOptionKey: Any]? {
-	guard let input = input else { return nil }
-	return Dictionary(uniqueKeysWithValues: input.map { key, value in (NSPasteboard.ReadingOptionKey(rawValue: key), value)})
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertToNSPasteboardPasteboardType(_ input: String) -> NSPasteboard.PasteboardType {
-	return NSPasteboard.PasteboardType(rawValue: input)
-}

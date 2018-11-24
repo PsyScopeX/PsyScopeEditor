@@ -30,8 +30,3 @@ class PSWeightsToolTablePropertyController : PSToolTablePropertyController {
         print(object)
     }
 }
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertFromNSUserInterfaceItemIdentifier(_ input: NSUserInterfaceItemIdentifier) -> String {
-	return input.rawValue
-}

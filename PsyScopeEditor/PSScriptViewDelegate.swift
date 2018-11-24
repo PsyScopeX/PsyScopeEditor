@@ -226,8 +226,8 @@ class PSScriptViewDelegate : NSObject, NSTextViewDelegate, NSTextStorageDelegate
     }
     
     func scrollToSelectedEntry() {
-        if let str = scriptBoard.string, let e = selectedEntry, let name = e.name {
-            var range = (str as NSString).range(of: "\n" + name + "::")
+        if scriptBoard.stringlet e = selectedEntry, let name = e.name {
+            var range = (scriptBoard.string as NSString).range(of: "\n" + name + "::")
             
             if range.location != NSNotFound && range.length > 0 {
                 range.length -= 1

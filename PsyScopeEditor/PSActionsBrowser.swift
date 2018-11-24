@@ -26,13 +26,13 @@ class PSActionsBrowser : NSObject, NSTableViewDataSource, NSTableViewDelegate {
     var selectionInterface : PSSelectionInterface!
     var displayViewMetaData : [PSActionBuilderViewMetaDataSet] = []
     
-    let tableCellViewIdentifier : String = "PSActionConditionView"
+    let tableCellViewIdentifier = NSUserInterfaceItemIdentifier(rawValue:"PSActionConditionView")
     
     
     func setup(_ scriptData : PSScriptData) {
         //setup actions table view
         let nib = NSNib(nibNamed: "ActionConditionView", bundle: Bundle(for:type(of: self)))
-        actionsTableView.register(nib!, forIdentifier: convertToNSUserInterfaceItemIdentifier(tableCellViewIdentifier))
+        actionsTableView.register(nib!, forIdentifier:tableCellViewIdentifier)
         
         
         //Set menu for actions button in segmented control
@@ -89,9 +89,9 @@ class PSActionsBrowser : NSObject, NSTableViewDataSource, NSTableViewDelegate {
             let actionFunction = selectedActionCondition as? PSEventActionFunction {
                 instancesActiveUntilMenuItem.isHidden = false
                 if actionFunction.hasInstancesOrActiveUntilValueAttributes {
-                    instancesActiveUntilMenuItem.state = NSOnState
+                    instancesActiveUntilMenuItem.state = NSControl.StateValue.on
                 } else {
-                    instancesActiveUntilMenuItem.state = NSOffState
+                    instancesActiveUntilMenuItem.state = NSControl.StateValue.off
                 }
         } else {
             instancesActiveUntilMenuItem.isHidden = true
@@ -118,7 +118,7 @@ class PSActionsBrowser : NSObject, NSTableViewDataSource, NSTableViewDelegate {
     }
     
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        let view = tableView.makeView(withIdentifier: convertToNSUserInterfaceItemIdentifier(tableCellViewIdentifier), owner: nil) as! PSActionConditionView
+        let view = tableView.makeView(withIdentifier:tableCellViewIdentifier, owner: nil) as! PSActionConditionView
         
         view.actionsAttribute = self.actionsAttribute
         view.rowIndex = row
@@ -225,7 +225,3 @@ class PSActionsBrowser : NSObject, NSTableViewDataSource, NSTableViewDelegate {
     }
 }
 
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertToNSUserInterfaceItemIdentifier(_ input: String) -> NSUserInterfaceItemIdentifier {
-	return NSUserInterfaceItemIdentifier(rawValue: input)
-}

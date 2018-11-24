@@ -19,7 +19,7 @@ class PSTemplateBuilder: NSObject, PSWindowViewInterface {
     @IBOutlet var eventToolbarViewDelegate : PSEventBrowserViewDelegate!
     @IBOutlet var popupButtonController : PSTemplatePopupButtonController!
     
-    var topLevelObjects : NSArray = []
+    var topLevelObjects : NSArray?
     
     func setup(_ scriptData: PSScriptData, selectionInterface: PSSelectionInterface) {
         self.scriptData = scriptData

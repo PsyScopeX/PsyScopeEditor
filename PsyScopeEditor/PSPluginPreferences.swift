@@ -37,8 +37,8 @@ class PSPluginPreferences : NSViewController, MASPreferencesViewController {
         openPanel.allowsMultipleSelection = false
         //openPanel.allowedFileTypes = [fileType]
         openPanel.beginSheetModal(for: self.windowController.window!, completionHandler: {
-            (int_code : Int) -> () in
-            if int_code == NSFileHandlingPanelOKButton {
+            (int_code : NSApplication.ModalResponse) -> () in
+            if int_code == .OK {
                 //relative to files location
                 let path : NSString = openPanel.url!.path as NSString
                 self.pluginPathText.stringValue = path as String

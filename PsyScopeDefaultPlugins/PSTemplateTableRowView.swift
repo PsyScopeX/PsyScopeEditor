@@ -25,7 +25,7 @@ class PSTemplateTableRowView : NSTableRowView {
    //NSColor(CGColor: PSConstants.BasicDefaultColors.backgroundColorLowAlpha).set() // this to change the background
         
         self.backgroundColor.set()
-        NSRectFill(self.bounds)
+        __NSRectFill(self.bounds)
         
         if (_mouseInside) {
             let selectionRect = self.bounds

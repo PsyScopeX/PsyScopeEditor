@@ -27,8 +27,8 @@ open class PSAttributeParameter_FileOpen : PSAttributeParameter_Button {
         openPanel.allowsMultipleSelection = false
         //openPanel.allowedFileTypes = [fileType]
         openPanel.beginSheetModal(for: self.cell.window!, completionHandler: {
-            (int_code : Int) -> () in
-            if int_code == NSFileHandlingPanelOKButton {
+            (int_code : NSApplication.ModalResponse) -> () in
+            if int_code == .OK {
                 //relative to files location
                 if let url = openPanel.url {
                     DispatchQueue.main.async(execute: {

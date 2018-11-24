@@ -18,7 +18,7 @@ class PSVariableTypeTextFieldCellView : NSTableCellView, NSTextFieldDelegate {
             return true
         }
         
-        NSBeep()
+        NSSound.beep()
         return false
     }
     

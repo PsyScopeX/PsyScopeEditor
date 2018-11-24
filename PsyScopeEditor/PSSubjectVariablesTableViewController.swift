@@ -121,9 +121,9 @@ class PSSubjectVariablesTableViewController : NSObject, NSTableViewDataSource, N
     }
     
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        let identifier = tableColumn == nil ? "NameColumn" : convertFromNSUserInterfaceItemIdentifier(tableColumn!.identifier)
+        let identifier = tableColumn == nil ? NSUserInterfaceItemIdentifier(rawValue:"NameColumn") : tableColumn!.identifier
         
-        guard let view = tableView.makeView(withIdentifier: convertToNSUserInterfaceItemIdentifier(identifier), owner: nil) else {
+        guard let view = tableView.makeView(withIdentifier: identifier, owner: nil) else {
             return nil
         }
         
@@ -254,24 +254,4 @@ class PSSubjectVariablesTableViewController : NSObject, NSTableViewDataSource, N
         }
     }
 
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertToNSPasteboardPasteboardTypeArray(_ input: [String]) -> [NSPasteboard.PasteboardType] {
-	return input.map { key in NSPasteboard.PasteboardType(key) }
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertFromNSUserInterfaceItemIdentifier(_ input: NSUserInterfaceItemIdentifier) -> String {
-	return input.rawValue
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertToNSUserInterfaceItemIdentifier(_ input: String) -> NSUserInterfaceItemIdentifier {
-	return NSUserInterfaceItemIdentifier(rawValue: input)
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertToNSPasteboardPasteboardType(_ input: String) -> NSPasteboard.PasteboardType {
-	return NSPasteboard.PasteboardType(rawValue: input)
 }

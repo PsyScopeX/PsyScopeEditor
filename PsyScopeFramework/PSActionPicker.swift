@@ -28,10 +28,10 @@ open class PSActionPicker: NSObject, NSOutlineViewDataSource, NSOutlineViewDeleg
     
     let scriptData : PSScriptData
     let selectActionCallback : PSActionPickerCallback
-    let tableCellViewIdentifier : String = "PSActionPickerCell"
+    let tableCellViewIdentifier = NSUserInterfaceItemIdentifier(rawValue:"PSActionPickerCell")
     let groups : [PSActionPickerGroup]
     
-    var topLevelObjects : NSArray = []
+    var topLevelObjects : NSArray?
     
     //MARK: Outlets
     
@@ -42,7 +42,7 @@ open class PSActionPicker: NSObject, NSOutlineViewDataSource, NSOutlineViewDeleg
 
     override open func awakeFromNib() {
         let nib = NSNib(nibNamed: "ActionPickerCell", bundle: Bundle(for:type(of: self)))
-        actionOutlineView.register(nib!, forIdentifier: convertToNSUserInterfaceItemIdentifier(tableCellViewIdentifier))
+        actionOutlineView.register(nib!, forIdentifier:tableCellViewIdentifier)
     }
     
     open func showActionWindow(_ view : NSView) {
@@ -103,7 +103,7 @@ open class PSActionPicker: NSObject, NSOutlineViewDataSource, NSOutlineViewDeleg
 
     open func outlineView(_ outlineView: NSOutlineView, viewFor tableColumn: NSTableColumn?, item: Any) -> NSView? {
         if let act = item as? PSActionPickerAction {
-            let view = outlineView.makeView(withIdentifier: convertToNSUserInterfaceItemIdentifier(tableCellViewIdentifier), owner: nil) as! PSActionPickerCell
+            let view = outlineView.makeView(withIdentifier:tableCellViewIdentifier, owner: nil) as! PSActionPickerCell
             
             view.setup(act, clickCallback: actionButtonClicked)
             return view
@@ -125,10 +125,4 @@ open class PSActionPicker: NSObject, NSOutlineViewDataSource, NSOutlineViewDeleg
         
     }
     
-}
-
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertToNSUserInterfaceItemIdentifier(_ input: String) -> NSUserInterfaceItemIdentifier {
-	return NSUserInterfaceItemIdentifier(rawValue: input)
 }

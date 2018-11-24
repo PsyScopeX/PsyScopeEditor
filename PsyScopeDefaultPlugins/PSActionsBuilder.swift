@@ -51,7 +51,7 @@ class PSWindowView: NSObject, PSWindowViewInterface {
     @IBOutlet var leftPanelView : NSView!
     @IBOutlet var controller : PSActionsBuilderController!
     
-    var topLevelObjects : NSArray = []
+    var topLevelObjects : NSArray?
     
     func setup(_ scriptData: PSScriptData, selectionInterface: PSSelectionInterface) {
         self.scriptData = scriptData

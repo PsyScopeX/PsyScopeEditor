@@ -133,8 +133,8 @@ class PSListViewController : PSToolPropertyController, NSWindowDelegate, PSEntry
         openPanel.allowsMultipleSelection = false
         //openPanel.allowedFileTypes = [fileType]
         openPanel.beginSheetModal(for: sender.window!, completionHandler: {
-            (int_code : Int) -> () in
-            if int_code == NSFileHandlingPanelOKButton {
+            (int_code : NSApplication.ModalResponse) -> () in
+            if int_code == .OK {
                 //relative to files location
                 let path : NSString = openPanel.url!.path as NSString
                 self.scriptData.beginUndoGrouping("Change List File")

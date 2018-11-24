@@ -126,7 +126,7 @@ open class PSEntryValueController : NSObject, NSTextFieldDelegate {
             //try and parse
             let parsedValue = PSEntryValueParser(stringValue: control.stringValue)
             if parsedValue.foundErrors {
-                NSBeep()
+                NSSound.beep()
                 return false
             } else {
                 

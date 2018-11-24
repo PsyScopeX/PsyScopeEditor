@@ -14,8 +14,8 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
     
     //MARK: Constants
     
-    let timeLineCellViewIdentifier = "TL"
-    let eventIconCellViewIdentifier = "EI"
+    let timeLineCellViewIdentifier = NSUserInterfaceItemIdentifier(rawValue:"TL")
+    let eventIconCellViewIdentifier = NSUserInterfaceItemIdentifier(rawValue:"EI")
     
     //MARK: Outlets
     
@@ -59,9 +59,9 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
         if (!initialized) {
             initialized = true
             let nib = NSNib(nibNamed: "TemplateEventIconCell", bundle: Bundle(for:type(of: self)))
-            eventIconTableView.register(nib!, forIdentifier: convertToNSUserInterfaceItemIdentifier(eventIconCellViewIdentifier))
+            eventIconTableView.register(nib!, forIdentifier:eventIconCellViewIdentifier)
             let nib2 = NSNib(nibNamed: "TemplateTimeLineCell", bundle: Bundle(for:type(of: self)))
-            timeLineTableView.register(nib2!, forIdentifier: convertToNSUserInterfaceItemIdentifier(timeLineCellViewIdentifier))
+            timeLineTableView.register(nib2!, forIdentifier:timeLineCellViewIdentifier)
             
             eventIconTableView.registerForDraggedTypes(convertToNSPasteboardPasteboardTypeArray([PSConstants.PSEventBrowserView.dragType, PSConstants.PSEventBrowserView.pasteboardType,"psyscope.pstemplateevent"]))
             timeLineTableView.registerForDraggedTypes(convertToNSPasteboardPasteboardTypeArray([PSConstants.PSEventBrowserView.dragType, PSConstants.PSEventBrowserView.pasteboardType,"psyscope.pstemplateevent"]))
@@ -387,7 +387,7 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
         
         switch (tableView) {
         case eventIconTableView:
-            let view = eventIconTableView.makeView(withIdentifier: convertToNSUserInterfaceItemIdentifier(eventIconCellViewIdentifier), owner: self) as! PSEventTableCellView
+            let view = eventIconTableView.makeView(withIdentifier:eventIconCellViewIdentifier, owner: self) as! PSEventTableCellView
             view.deleteAction = {(event : PSTemplateEvent) -> () in
                 let objToDelete = event.entry.layoutObject
                 //select another object from this template
@@ -407,7 +407,7 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
             }
             return view
         case timeLineTableView:
-            let view = timeLineTableView.makeView(withIdentifier: convertToNSUserInterfaceItemIdentifier(timeLineCellViewIdentifier), owner: self) as! PSTemplateEventTimeLineView
+            let view = timeLineTableView.makeView(withIdentifier:timeLineCellViewIdentifier, owner: self) as! PSTemplateEventTimeLineView
             view.zoomMultiplier = zoomMultiplier
             view.tableView = timeLineTableView
             return view
@@ -639,36 +639,4 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
         fullRefresh()
     }
     
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertToNSUserInterfaceItemIdentifier(_ input: String) -> NSUserInterfaceItemIdentifier {
-	return NSUserInterfaceItemIdentifier(rawValue: input)
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertToNSPasteboardPasteboardTypeArray(_ input: [String]) -> [NSPasteboard.PasteboardType] {
-	return input.map { key in NSPasteboard.PasteboardType(key) }
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertToNSRulerViewUnitName(_ input: String) -> NSRulerView.UnitName {
-	return NSRulerView.UnitName(rawValue: input)
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertFromOptionalNSPasteboardPasteboardTypeArray(_ input: [NSPasteboard.PasteboardType]?) -> [String]? {
-	guard let input = input else { return nil }
-	return input.map { key in key.rawValue }
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertToNSPasteboardPasteboardType(_ input: String) -> NSPasteboard.PasteboardType {
-	return NSPasteboard.PasteboardType(rawValue: input)
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertToOptionalNSPasteboardReadingOptionKeyDictionary(_ input: [String: Any]?) -> [NSPasteboard.ReadingOptionKey: Any]? {
-	guard let input = input else { return nil }
-	return Dictionary(uniqueKeysWithValues: input.map { key, value in (NSPasteboard.ReadingOptionKey(rawValue: key), value)})
 }

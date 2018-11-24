@@ -15,7 +15,7 @@ open class PSPortBuilderController: NSObject, NSOutlineViewDataSource, NSOutline
     internal var nibName : String
     internal var bundle : Bundle
     @IBOutlet internal var attributeSheet : NSWindow!
-    internal var topLevelObjects : NSArray = []
+    internal var topLevelObjects : NSArray?
     internal var parentWindow : NSWindow!
     internal var setCurrentValueBlock : ((PSEntryElement) -> ())?
     
@@ -512,7 +512,7 @@ open class PSPortBuilderController: NSObject, NSOutlineViewDataSource, NSOutline
     func deleteCurrentlySelectedItem() -> Bool {
         
         if (!itemIsCurrentlySelected()) {
-            NSBeep()
+            NSSound.beep()
             return true
         }
         let selectedRow = outlineView.selectedRow

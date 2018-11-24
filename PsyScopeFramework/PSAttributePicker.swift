@@ -12,7 +12,7 @@ open class PSAttributePicker: NSObject, NSTableViewDataSource, NSTableViewDelega
     public init(scriptData : PSScriptData) {
         self.scriptData = scriptData
         self.categories = PSAttributePickerCategories(scriptData)
-        self.tableCellViewIdentifier = "PSAttributePickerCell"
+        self.tableCellViewIdentifier = NSUserInterfaceItemIdentifier(rawValue:"PSAttributePickerCell")
         super.init()
         Bundle(for:type(of: self)).loadNibNamed("AttributePicker", owner: self, topLevelObjects: &topLevelObjects)
     }
@@ -21,9 +21,9 @@ open class PSAttributePicker: NSObject, NSTableViewDataSource, NSTableViewDelega
     // MARK: Variables / Constants
     let scriptData : PSScriptData
     let categories : [PSAttributePickerCategory]
-    let tableCellViewIdentifier : String
+    let tableCellViewIdentifier : NSUserInterfaceItemIdentifier
     
-    var topLevelObjects : NSArray = []
+    var topLevelObjects : NSArray?
     var tableViewAttributes : [PSAttributePickerAttribute] = []
     var existingAttributes : [PSAttributeType] = []
     
@@ -37,7 +37,7 @@ open class PSAttributePicker: NSObject, NSTableViewDataSource, NSTableViewDelega
     
     override open func awakeFromNib() {
         let nib = NSNib(nibNamed: "AttributePickerCell", bundle: Bundle(for:type(of: self)))
-        attributeTableView.register(nib!, forIdentifier: convertToNSUserInterfaceItemIdentifier(tableCellViewIdentifier))
+        attributeTableView.register(nib!, forIdentifier:tableCellViewIdentifier)
         
         //put categories into popup menu
         var menu_items : [String] = []
@@ -111,7 +111,7 @@ open class PSAttributePicker: NSObject, NSTableViewDataSource, NSTableViewDelega
     open func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         
         //make view
-        let view = tableView.makeView(withIdentifier: convertToNSUserInterfaceItemIdentifier(tableCellViewIdentifier), owner: nil) as! PSAttributePickerCell
+        let view = tableView.makeView(withIdentifier:tableCellViewIdentifier, owner: nil) as! PSAttributePickerCell
         view.setup(tableViewAttributes[row].userFriendlyName, row: row, clickCallback: attributeButtonClicked)
         
         //preset checkbox state
@@ -133,9 +133,4 @@ struct PSAttributePickerAttribute  {
     var helpfulDescription : String = ""
     var type : PSAttributeType = PSAttributeType.init(fullType: "")
     var attribute : PSAttributeInterface! = nil
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertToNSUserInterfaceItemIdentifier(_ input: String) -> NSUserInterfaceItemIdentifier {
-	return NSUserInterfaceItemIdentifier(rawValue: input)
 }

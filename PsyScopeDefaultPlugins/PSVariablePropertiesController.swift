@@ -61,34 +61,34 @@ class PSVariablePropertiesController : PSToolPropertyController {
 
         
         //Parse update check
-        updateCheck.state = convertToNSControlStateValue(0)
+        updateCheck.state = NSControl.StateValue.off
         if let updateEntry = scriptData.getSubEntry("Update", entry: entry) {
             if updateEntry.currentValue == "TRUE" {
-                updateCheck.state = convertToNSControlStateValue(1)
+                updateCheck.state = NSControl.StateValue.on
             }
         }
         
         //Parse init check
-        initCheck.state = convertToNSControlStateValue(0)
+        initCheck.state = NSControl.StateValue.off
         if let _ = scriptData.getSubEntry("Init", entry: entry) {
-            initCheck.state = convertToNSControlStateValue(1)
+            initCheck.state = NSControl.StateValue.on
         }
         
         //check if variable is allowed in datafile
         if PSVariableTypesAllowedInDataFile.contains(type) {
             //Parse datafile check
             dataFileCheck.isEnabled = true
-            dataFileCheck.state = convertToNSControlStateValue(0)
+            dataFileCheck.state = NSControl.StateValue.off
             let experimentEntry = scriptData.getMainExperimentEntry()
             if let dataVariables = scriptData.getSubEntry("DataVariables", entry: experimentEntry) {
                 let dataVariablesList = PSStringList(entry: dataVariables, scriptData: scriptData)
                 if dataVariablesList.contains(entry.name) {
-                    dataFileCheck.state = convertToNSControlStateValue(1)
+                    dataFileCheck.state = NSControl.StateValue.on
                 }
             }
         } else {
             dataFileCheck.isEnabled = false
-            dataFileCheck.state = convertToNSControlStateValue(0)
+            dataFileCheck.state = NSControl.StateValue.off
         }
         
         
@@ -115,7 +115,7 @@ class PSVariablePropertiesController : PSToolPropertyController {
             
             //type was changed - remove from datafile if not allowed
             if !PSVariableTypesAllowedInDataFile.contains(typeName) {
-                dataFileCheck.state = convertToNSControlStateValue(0)
+                dataFileCheck.state = NSControl.StateValue.off
                 dataFileCheck.isEnabled = false
             }
             
@@ -192,9 +192,4 @@ class PSVariablePropertiesController : PSToolPropertyController {
     
 
     
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertToNSControlStateValue(_ input: Int) -> NSControl.StateValue {
-	return NSControl.StateValue(rawValue: input)
 }

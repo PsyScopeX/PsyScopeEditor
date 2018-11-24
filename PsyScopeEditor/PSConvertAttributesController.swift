@@ -39,7 +39,7 @@ class PSConvertAttributesController : NSObject, NSTableViewDataSource, NSTableVi
     @IBAction func addButtonClicked(_:AnyObject) {
         if (fromTextField.stringValue == "") || (toTextField.stringValue == "") {
             //cannot have blank strings on from or to text fields
-            NSBeep()
+            NSSound.beep()
             return
         }
 

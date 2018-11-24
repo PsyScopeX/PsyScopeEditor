@@ -16,7 +16,7 @@ open class PSConditionPicker: NSObject, NSTableViewDataSource, NSTableViewDelega
     
     public init(scriptData : PSScriptData, existingConditionTypes : [String], selectConditionCallback : @escaping PSConditionPickerCallback) {
         self.scriptData = scriptData
-        self.tableCellViewIdentifier = "PSConditionPickerCell"
+        self.tableCellViewIdentifier = NSUserInterfaceItemIdentifier(rawValue:"PSConditionPickerCell")
         self.existingConditionTypes = existingConditionTypes
         self.selectConditionCallback = selectConditionCallback
         super.init()
@@ -25,11 +25,11 @@ open class PSConditionPicker: NSObject, NSTableViewDataSource, NSTableViewDelega
     
     // MARK: Variables / Constants
     let scriptData : PSScriptData
-    let tableCellViewIdentifier : String
+    let tableCellViewIdentifier : NSUserInterfaceItemIdentifier
     let selectConditionCallback : PSConditionPickerCallback
     
     var tableViewConditions : [PSConditionPickerCondition] = []
-    var topLevelObjects : NSArray = []
+    var topLevelObjects : NSArray?
     var existingConditionTypes : [String]
     
     // MARK: Outlets
@@ -41,7 +41,7 @@ open class PSConditionPicker: NSObject, NSTableViewDataSource, NSTableViewDelega
     
     override open func awakeFromNib() {
         let nib = NSNib(nibNamed: "ConditionPickerCell", bundle: Bundle(for:type(of: self)))
-        conditionTableView.register(nib!, forIdentifier: convertToNSUserInterfaceItemIdentifier(tableCellViewIdentifier))
+        conditionTableView.register(nib!, forIdentifier:tableCellViewIdentifier)
         tableViewConditions = []
         
         for (_, a_plugin) in scriptData.pluginProvider.conditionPlugins {
@@ -88,7 +88,7 @@ open class PSConditionPicker: NSObject, NSTableViewDataSource, NSTableViewDelega
     }
     
     open func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        let view = tableView.makeView(withIdentifier: convertToNSUserInterfaceItemIdentifier(tableCellViewIdentifier), owner: nil) as! PSConditionPickerCell
+        let view = tableView.makeView(withIdentifier:tableCellViewIdentifier, owner: nil) as! PSConditionPickerCell
         
         view.setup(tableViewConditions[row].userFriendlyName, image: NSImage(), row: row, clickCallback: conditionButtonClicked)
         
@@ -111,9 +111,4 @@ class PSConditionPickerCondition : NSObject {
     var userFriendlyName : String = ""
     var helpfulDescription : String = ""
     var condition : PSConditionInterface! = nil
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertToNSUserInterfaceItemIdentifier(_ input: String) -> NSUserInterfaceItemIdentifier {
-	return NSUserInterfaceItemIdentifier(rawValue: input)
 }

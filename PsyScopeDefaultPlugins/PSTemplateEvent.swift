@@ -125,9 +125,6 @@ class PSTemplateEvent : NSObject, NSPasteboardWriting, NSPasteboardReading {
     }
     
     func pasteboardPropertyList(forType type: NSPasteboard.PasteboardType) -> Any? {
-// Local variable inserted by Swift 4.2 migrator.
-let type = convertFromNSPasteboardPasteboardType(type)
-
         //must return nsdata object
         let data = scriptData.archiveBaseEntry(entry)
         return data
@@ -136,8 +133,6 @@ let type = convertFromNSPasteboardPasteboardType(type)
     //unarchive data must be called directly after this init, to associate with script
     required init!(pasteboardPropertyList propertyList: Any,
         ofType type: NSPasteboard.PasteboardType) {
-// Local variable inserted by Swift 4.2 migrator.
-let type = convertFromNSPasteboardPasteboardType(type)
 
         _startCondition = EventStartConditionTrialStart()
         _durationCondition = EventDurationConditionFixedTime(time: 500)
@@ -176,7 +171,3 @@ var EventStartConditions : [String:(() -> EventStartCondition,Bool)] = [
     EventStartConditionEventStart().menuName() : ({() -> EventStartCondition in return EventStartConditionEventStart()}, true),
     EventStartConditionEventEnd().menuName()   : ({() -> EventStartCondition in return EventStartConditionEventEnd()}, true)]
 
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertFromNSPasteboardPasteboardType(_ input: NSPasteboard.PasteboardType) -> String {
-	return input.rawValue
-}

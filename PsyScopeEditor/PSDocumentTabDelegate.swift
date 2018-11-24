@@ -152,13 +152,13 @@ class PSDocumentTabDelegate: NSObject, NSTabViewDelegate {
     @IBAction func experimentSetupButtonClick(_: AnyObject) {
         if let item = items[-1] {
             toolbarSegmentedControl.selectedSegment = -1 //deselect
-            experimentSetupButton.state = convertToNSControlStateValue(1)
+            experimentSetupButton.state = NSControl.StateValue.on
             show(item)
         }
     }
     
     @IBAction func segmentedControlClick(_ controller : NSSegmentedControl) {
-        experimentSetupButton.state = convertToNSControlStateValue(0)
+        experimentSetupButton.state = NSControl.StateValue.off
         let selected = controller.selectedSegment
         
         if selected > -1 {
@@ -337,23 +337,23 @@ class PSDocumentTabDelegate: NSObject, NSTabViewDelegate {
     
     @objc func showProperties() {
         rightPanelTabView.selectTabViewItem(propertiesTabViewItem)
-        propertiesButton.state = convertToNSControlStateValue(1)
-        attributesButton.state = convertToNSControlStateValue(0)
-        actionsButton.state = convertToNSControlStateValue(0)
+        propertiesButton.state = NSControl.StateValue.on
+        attributesButton.state = NSControl.StateValue.off
+        actionsButton.state = NSControl.StateValue.off
     }
     
     @objc func showAttributes() {
         rightPanelTabView.selectTabViewItem(attributesTabViewItem)
-        propertiesButton.state = convertToNSControlStateValue(0)
-        attributesButton.state = convertToNSControlStateValue(1)
-        actionsButton.state = convertToNSControlStateValue(0)
+        propertiesButton.state = NSControl.StateValue.off
+        attributesButton.state = NSControl.StateValue.on
+        actionsButton.state = NSControl.StateValue.off
     }
     
     @objc func showActions() {
         rightPanelTabView.selectTabViewItem(actionsTabViewItem)
-        propertiesButton.state = convertToNSControlStateValue(0)
-        attributesButton.state = convertToNSControlStateValue(0)
-        actionsButton.state = convertToNSControlStateValue(1)
+        propertiesButton.state = NSControl.StateValue.off
+        attributesButton.state = NSControl.StateValue.off
+        actionsButton.state = NSControl.StateValue.on
     }
     
     func doubleClickProperties() {
@@ -379,7 +379,3 @@ class PSDocumentTabDelegate: NSObject, NSTabViewDelegate {
 
 
 
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertToNSControlStateValue(_ input: Int) -> NSControl.StateValue {
-	return NSControl.StateValue(rawValue: input)
-}

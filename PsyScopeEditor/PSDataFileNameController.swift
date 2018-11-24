@@ -51,9 +51,9 @@ class PSDataFileNameController : NSObject, NSTokenFieldDelegate, NSTextFieldDele
         autoDataFile = PSAutoDataFile(scriptData: scriptData, subjectVariableNames: subjectVariableNames)
         
         if autoDataFile.auto {
-            autoGenerateCheckButton.state = convertToNSControlStateValue(1)
+            autoGenerateCheckButton.state = NSControl.StateValue.on
         } else {
-            autoGenerateCheckButton.state = convertToNSControlStateValue(0)
+            autoGenerateCheckButton.state = NSControl.StateValue.off
             subjectVariableNames = []  //reset token list for auto completion...
         }
         
@@ -164,8 +164,3 @@ class PSDataFileNameController : NSObject, NSTokenFieldDelegate, NSTextFieldDele
     }
 }
 
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertToNSControlStateValue(_ input: Int) -> NSControl.StateValue {
-	return NSControl.StateValue(rawValue: input)
-}

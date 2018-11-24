@@ -71,22 +71,17 @@ open class PSAttributeParameter_Precompile : PSAttributeParameter {
     func updateContent() {
         let stringValue = currentValue.stringValue()
         if stringValue.lowercased() == "all" {
-            allCheck.state = convertToNSControlStateValue(1)
+            allCheck.state = NSControl.StateValue.on
             numberText.stringValue = ""
             numberText.isEnabled = false
         } else if let _ = Int(stringValue) {
-            allCheck.state = convertToNSControlStateValue(0)
+            allCheck.state = NSControl.StateValue.off
             numberText.stringValue = stringValue
             numberText.isEnabled = true
         } else {
-            allCheck.state = convertToNSControlStateValue(0)
+            allCheck.state = NSControl.StateValue.off
             numberText.stringValue = "0"
             numberText.isEnabled = true
         }
     }
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertToNSControlStateValue(_ input: Int) -> NSControl.StateValue {
-	return NSControl.StateValue(rawValue: input)
 }

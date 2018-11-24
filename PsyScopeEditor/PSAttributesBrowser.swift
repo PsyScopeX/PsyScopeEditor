@@ -7,7 +7,7 @@
 
 import Cocoa
 
-let PSPasteboardTypeAttribute : NSString = "psyscope.attribute"
+let PSPasteboardTypeAttribute = NSPasteboard.PasteboardType(rawValue:"psyscope.attribute")
 
 //Handles the attributes browser, and attached combo box
 class PSAttributesBrowser: NSObject, NSTableViewDelegate, NSTableViewDataSource, PSEditMenuDelegate, NSPasteboardItemDataProvider {
@@ -20,7 +20,7 @@ class PSAttributesBrowser: NSObject, NSTableViewDelegate, NSTableViewDataSource,
     
     //MARK: Variables
     var content : [Entry] = [] //holds currently displayed attributes
-    let addAttributeCellIdentifier = "PSAddAttributeCell"
+    let addAttributeCellIdentifier = NSUserInterfaceItemIdentifier(rawValue:"PSAddAttributeCell")
     let genericInterface = PSAttributeGeneric()
     var attributePicker : PSAttributePicker? //holds a reference to last popup to prevent Zombie object
     var copiedAttribute : Entry? //Holds copied attribute
@@ -31,7 +31,7 @@ class PSAttributesBrowser: NSObject, NSTableViewDelegate, NSTableViewDataSource,
     
     override func awakeFromNib()  {
         let anib = NSNib(nibNamed: "AddAttributeCell", bundle: Bundle(for:type(of: self)))
-        tableView.register(anib!, forIdentifier: convertToNSUserInterfaceItemIdentifier(addAttributeCellIdentifier))
+        tableView.register(anib!, forIdentifier:addAttributeCellIdentifier)
         self.selectionController = mainWindowController.selectionController
     }
     
@@ -91,7 +91,7 @@ class PSAttributesBrowser: NSObject, NSTableViewDelegate, NSTableViewDataSource,
             return cell
         } else {
             //add attribute button
-            let new_view  = tableView.makeView(withIdentifier: convertToNSUserInterfaceItemIdentifier(addAttributeCellIdentifier), owner: self) as! PSButtonCell
+            let new_view  = tableView.makeView(withIdentifier:addAttributeCellIdentifier, owner: self) as! PSButtonCell
             new_view.action = { (sender : NSButton) -> () in
                 self.addAttribute(sender) }
             return new_view
@@ -142,8 +142,8 @@ class PSAttributesBrowser: NSObject, NSTableViewDelegate, NSTableViewDataSource,
         let index = tableView.selectedRowIndexes.first!
         if index > 0 && index < content.count {
             let pasteboardItem = NSPasteboardItem()
-            let types = [convertFromNSPasteboardPasteboardType(NSPasteboard.PasteboardType.string), PSPasteboardTypeAttribute] as [Any]
-            var ok = pasteboardItem.setDataProvider(self, forTypes: types as! [NSPasteboard.PasteboardType])
+            let types = [NSPasteboard.PasteboardType.string, PSPasteboardTypeAttribute]
+            var ok = pasteboardItem.setDataProvider(self, forTypes: types)
             if ok {
                 let pasteboard = NSPasteboard.general
                 pasteboard.clearContents()
@@ -161,7 +161,7 @@ class PSAttributesBrowser: NSObject, NSTableViewDelegate, NSTableViewDataSource,
             let pasteboard = NSPasteboard.general
             let items = pasteboard.readObjects(forClasses: [NSPasteboardItem.self], options: convertToOptionalNSPasteboardReadingOptionKeyDictionary([:])) as! [NSPasteboardItem]
             for item in items {
-                if let data = item.data(forType: convertToNSPasteboardPasteboardType(PSPasteboardTypeAttribute  as String)) {
+                if let data = item.data(forType:PSPasteboardTypeAttribute) {
                     let dict = NSKeyedUnarchiver.unarchiveObject(with: data) as! NSDictionary
                     let new_entry = PSCreateEntryFromDictionary(mainWindowController.mainDocument.managedObjectContext!, dict: dict)
                     se.addSubEntriesObject(new_entry)
@@ -199,24 +199,3 @@ let type = convertFromNSPasteboardPasteboardType(type)
 }
 
 
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertFromNSPasteboardPasteboardType(_ input: NSPasteboard.PasteboardType) -> String {
-	return input.rawValue
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertToNSUserInterfaceItemIdentifier(_ input: String) -> NSUserInterfaceItemIdentifier {
-	return NSUserInterfaceItemIdentifier(rawValue: input)
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertToOptionalNSPasteboardReadingOptionKeyDictionary(_ input: [String: Any]?) -> [NSPasteboard.ReadingOptionKey: Any]? {
-	guard let input = input else { return nil }
-	return Dictionary(uniqueKeysWithValues: input.map { key, value in (NSPasteboard.ReadingOptionKey(rawValue: key), value)})
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertToNSPasteboardPasteboardType(_ input: String) -> NSPasteboard.PasteboardType {
-	return NSPasteboard.PasteboardType(rawValue: input)
-}

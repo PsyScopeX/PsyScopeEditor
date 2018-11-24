@@ -41,8 +41,8 @@ class PSFileListBuilderTableController : NSObject, NSTableViewDataSource, NSTabl
     }
     
     func addNewColumn(_ name : String) {
-        let identifier = "\(previewTableView.tableColumns.count + 1)"
-        let new_column = NSTableColumn(identifier: convertToNSUserInterfaceItemIdentifier(identifier))
+        let identifier = NSUserInterfaceItemIdentifier(rawValue:"\(previewTableView.tableColumns.count + 1)")
+        let new_column = NSTableColumn(identifier: identifier)
         let new_header = PSFieldHeaderCell()
         new_header.isEditable = true
         new_header.usesSingleLineMode = true
@@ -82,7 +82,7 @@ class PSFileListBuilderTableController : NSObject, NSTableViewDataSource, NSTabl
     }
     
     func tableView(_ tableView: NSTableView, shouldEdit tableColumn: NSTableColumn?, row: Int) -> Bool {
-        if weightsColumn && convertFromNSUserInterfaceItemIdentifier(tableColumn?.identifier) == "1" {
+        if weightsColumn && convertFromNSUserInterfaceItemIdentifier((tableColumn?.identifier)!) == "1" {
             return true
         } else {
             return false
@@ -152,14 +152,4 @@ class PSFileListBuilderTableController : NSObject, NSTableViewDataSource, NSTabl
         }
     }
     
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertToNSUserInterfaceItemIdentifier(_ input: String) -> NSUserInterfaceItemIdentifier {
-	return NSUserInterfaceItemIdentifier(rawValue: input)
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertFromNSUserInterfaceItemIdentifier(_ input: NSUserInterfaceItemIdentifier) -> String {
-	return input.rawValue
 }
