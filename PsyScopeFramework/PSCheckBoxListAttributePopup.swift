@@ -44,12 +44,12 @@ open class PSCheckBoxListAttributePopup: PSAttributePopup {
         for checkBoxString in checkBoxStrings {
             let rect = NSMakeRect(10, y, 400, 20)
             let new_check_box : NSButton = NSButton(frame: rect)
-            new_check_box.setButtonType(NSButtonType.switch)
+            new_check_box.setButtonType(NSButton.ButtonType.switch)
             new_check_box.title = checkBoxString.1
             
             view.addSubview(new_check_box)
             
-            checkBoxes.append(button: new_check_box, token: checkBoxString.0)
+            checkBoxes.append((button: new_check_box, token: checkBoxString.0))
             y -= 20
         }
         
@@ -57,7 +57,7 @@ open class PSCheckBoxListAttributePopup: PSAttributePopup {
         okButton = NSButton(frame: NSMakeRect(190,10,50,20))
         okButton.title = "OK"
         okButton.target = self
-        okButton.action = "closeWindow:"
+        okButton.action = #selector(PSCheckBoxListAttributePopup.closeWindow(_:))
         view.addSubview(okButton)
         
         //now set checkBoxes
@@ -71,7 +71,7 @@ open class PSCheckBoxListAttributePopup: PSAttributePopup {
         }
     }
     
-    func closeWindow(_: AnyObject) {
+    @objc func closeWindow(_: AnyObject) {
         // populate entry
         var value = ""
         for checkBox in checkBoxes {

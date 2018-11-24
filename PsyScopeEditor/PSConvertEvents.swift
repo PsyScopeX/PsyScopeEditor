@@ -63,7 +63,7 @@ class PSConvertEvents : NSObject, NSTableViewDataSource, NSTableViewDelegate {
         parentWindow = window
         
         parentWindow.beginSheet(attributeSheet, completionHandler: {
-            (response : NSModalResponse) -> () in
+            (response : NSApplication.ModalResponse) -> () in
             
             //NSApp.stopModalWithCode(response)
         })

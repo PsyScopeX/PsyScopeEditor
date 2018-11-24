@@ -16,9 +16,9 @@ open class PSAttributeParameter_SystemSound : PSAttributeParameter {
             if popUpButton == nil {
                 //add popupbutton
                 popUpButton = NSPopUpButton(frame: attributeValueControlFrame, pullsDown: false)
-                popUpButton.autoresizingMask = NSAutoresizingMaskOptions.viewWidthSizable
+                popUpButton.autoresizingMask = NSView.AutoresizingMask.width
                 popUpButton.target = self
-                popUpButton.action = "soundSelected:"
+                popUpButton.action = #selector(PSAttributeParameter_SystemSound.soundSelected(_:))
                 cell.addSubview(popUpButton)
             } else {
                 popUpButton.isHidden = false
@@ -33,12 +33,12 @@ open class PSAttributeParameter_SystemSound : PSAttributeParameter {
     }
     
     
-    func soundSelected(_ item : NSMenuItem) {
+    @objc func soundSelected(_ item : NSMenuItem) {
         currentValue = PSGetFirstEntryElementForStringOrNull(item.title)
         self.cell.updateScript()
     }
     
-    func noneSelected(_ item : NSMenuItem) {
+    @objc func noneSelected(_ item : NSMenuItem) {
         currentValue = .null
         self.cell.updateScript()
     }
@@ -46,14 +46,14 @@ open class PSAttributeParameter_SystemSound : PSAttributeParameter {
     func updatePopUpMenuContent() {
         
         let new_menu = NSMenu()
-        let new_item = NSMenuItem(title: "Default Sound", action: "noneSelected:", keyEquivalent: "")
+        let new_item = NSMenuItem(title: "Default Sound", action: #selector(PSAttributeParameter_SystemSound.noneSelected(_:)), keyEquivalent: "")
         new_item.target = self
-        new_item.action = "noneSelected:"
+        new_item.action = #selector(PSAttributeParameter_SystemSound.noneSelected(_:))
         new_menu.addItem(new_item)
         for sound in PSSystemSoundStringList {
-            let new_item = NSMenuItem(title: sound, action: "soundSelected:", keyEquivalent: "")
+            let new_item = NSMenuItem(title: sound, action: #selector(PSAttributeParameter_SystemSound.soundSelected(_:)), keyEquivalent: "")
             new_item.target = self
-            new_item.action = "soundSelected:"
+            new_item.action = #selector(PSAttributeParameter_SystemSound.soundSelected(_:))
             new_menu.addItem(new_item)
         }
         

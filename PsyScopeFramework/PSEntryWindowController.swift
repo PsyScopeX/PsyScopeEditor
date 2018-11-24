@@ -24,7 +24,7 @@ open class PSEntryWindowController : NSWindowController, NSWindowDelegate {
         willSet {
             if newValue != registeredForChanges {
                 if newValue {
-                    NotificationCenter.default.addObserver(self, selector: "docMocChanged:", name: NSNotification.Name.NSManagedObjectContextObjectsDidChange, object: scriptData.docMoc)
+                    NotificationCenter.default.addObserver(self, selector: #selector(PSEntryWindowController.docMocChanged(_:)), name: NSNotification.Name.NSManagedObjectContextObjectsDidChange, object: scriptData.docMoc)
                 } else {
                     NotificationCenter.default.removeObserver(self)
                 }
@@ -32,7 +32,7 @@ open class PSEntryWindowController : NSWindowController, NSWindowDelegate {
         }
     }
     
-    open func docMocChanged(_ notification : Notification) {
+    @objc open func docMocChanged(_ notification : Notification) {
         if entry.isDeleted == true || entry.currentValue == nil {
             registeredForChanges = false
             close()

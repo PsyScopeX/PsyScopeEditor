@@ -36,7 +36,7 @@ class PSEventBrowserView: NSTableView {
         let imageBounds = NSRect(origin: localLocation, size: NSSize(width: PSConstants.Spacing.iconSize, height: PSConstants.Spacing.iconSize))
         
         let pbItem = NSPasteboardItem()
-        pbItem.setString(psextension.type, forType: PSConstants.PSEventBrowserView.pasteboardType)
+        pbItem.setString(psextension.type, forType: convertToNSPasteboardPasteboardType(PSConstants.PSEventBrowserView.pasteboardType))
         
         
         let dragItem = NSDraggingItem(pasteboardWriter: pbItem)
@@ -48,4 +48,9 @@ class PSEventBrowserView: NSTableView {
         return NSDragOperation.link
     }
     
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToNSPasteboardPasteboardType(_ input: String) -> NSPasteboard.PasteboardType {
+	return NSPasteboard.PasteboardType(rawValue: input)
 }

@@ -33,7 +33,7 @@ open class PSAttributeParameter_String : PSAttributeParameter, NSTextFieldDelega
                 let bcell = textField.cell!
                 bcell.lineBreakMode = NSLineBreakMode.byTruncatingTail
                 textField.setupContextMenu(self, action: "clickMenuItem:", scriptData: scriptData)
-                textField.autoresizingMask = NSAutoresizingMaskOptions.viewWidthSizable
+                textField.autoresizingMask = NSView.AutoresizingMask.width
                 textField.delegate = self
                 cell.addSubview(textField)
             } else {
@@ -60,7 +60,7 @@ open class PSAttributeParameter_String : PSAttributeParameter, NSTextFieldDelega
         textField.drawsBackground = false
     }
     
-    override open func controlTextDidEndEditing(_ obj: Notification) {
+    open func controlTextDidEndEditing(_ obj: Notification) {
         //parse and take first value
         currentValue = PSConvertListElementToStringElement(PSGetListElementForString(textField.stringValue))
         self.cell.updateScript()

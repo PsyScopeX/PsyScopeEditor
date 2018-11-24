@@ -61,40 +61,40 @@ class PSVariablePropertiesController : PSToolPropertyController {
 
         
         //Parse update check
-        updateCheck.state = 0
+        updateCheck.state = convertToNSControlStateValue(0)
         if let updateEntry = scriptData.getSubEntry("Update", entry: entry) {
             if updateEntry.currentValue == "TRUE" {
-                updateCheck.state = 1
+                updateCheck.state = convertToNSControlStateValue(1)
             }
         }
         
         //Parse init check
-        initCheck.state = 0
+        initCheck.state = convertToNSControlStateValue(0)
         if let _ = scriptData.getSubEntry("Init", entry: entry) {
-            initCheck.state = 1
+            initCheck.state = convertToNSControlStateValue(1)
         }
         
         //check if variable is allowed in datafile
         if PSVariableTypesAllowedInDataFile.contains(type) {
             //Parse datafile check
             dataFileCheck.isEnabled = true
-            dataFileCheck.state = 0
+            dataFileCheck.state = convertToNSControlStateValue(0)
             let experimentEntry = scriptData.getMainExperimentEntry()
             if let dataVariables = scriptData.getSubEntry("DataVariables", entry: experimentEntry) {
                 let dataVariablesList = PSStringList(entry: dataVariables, scriptData: scriptData)
                 if dataVariablesList.contains(entry.name) {
-                    dataFileCheck.state = 1
+                    dataFileCheck.state = convertToNSControlStateValue(1)
                 }
             }
         } else {
             dataFileCheck.isEnabled = false
-            dataFileCheck.state = 0
+            dataFileCheck.state = convertToNSControlStateValue(0)
         }
         
         
         
         //Parse currentValue into outlineView
-        outlineViewController.refreshWithEntry(entry, editInitialValues:initCheck.state == 1 )
+        outlineViewController.refreshWithEntry(entry, editInitialValues:initCheck.state.rawValue == 1 )
         
     }
     
@@ -115,7 +115,7 @@ class PSVariablePropertiesController : PSToolPropertyController {
             
             //type was changed - remove from datafile if not allowed
             if !PSVariableTypesAllowedInDataFile.contains(typeName) {
-                dataFileCheck.state = 0
+                dataFileCheck.state = convertToNSControlStateValue(0)
                 dataFileCheck.isEnabled = false
             }
             
@@ -151,13 +151,13 @@ class PSVariablePropertiesController : PSToolPropertyController {
         }
         
         let updateEntry = scriptData.getOrCreateSubEntry("Update", entry: entry, isProperty: true)
-        if updateCheck.state == 1 {
+        if updateCheck.state.rawValue == 1 {
             updateEntry.currentValue = "TRUE"
         } else {
             updateEntry.currentValue = "FALSE"
         }
         
-        if initCheck.state == 0 {
+        if initCheck.state.rawValue == 0 {
             scriptData.deleteNamedSubEntryFromParentEntry(entry, name: "Init")
         } else {
             scriptData.getOrCreateSubEntry("Init", entry: entry, isProperty: true)
@@ -165,7 +165,7 @@ class PSVariablePropertiesController : PSToolPropertyController {
         
         let experimentEntry = scriptData.getMainExperimentEntry()
         
-        if dataFileCheck.state == 0 {
+        if dataFileCheck.state.rawValue == 0 {
             //ensure it is not there
             
             if let dataVariables = scriptData.getSubEntry("DataVariables", entry: experimentEntry) {
@@ -192,4 +192,9 @@ class PSVariablePropertiesController : PSToolPropertyController {
     
 
     
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToNSControlStateValue(_ input: Int) -> NSControl.StateValue {
+	return NSControl.StateValue(rawValue: input)
 }

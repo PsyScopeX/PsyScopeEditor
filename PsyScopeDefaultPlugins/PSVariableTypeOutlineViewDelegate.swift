@@ -28,7 +28,7 @@ class PSVariableTypeOutlineViewDelegate : NSObject, NSOutlineViewDataSource, NSO
         super.awakeFromNib()
         if (!initialSetupComplete) {
             initialSetupComplete = true
-            outlineView.register(forDraggedTypes: [draggedType])
+            outlineView.registerForDraggedTypes(convertToNSPasteboardPasteboardTypeArray([draggedType]))
             outlineView.reloadData()
         }
     }
@@ -187,7 +187,7 @@ class PSVariableTypeOutlineViewDelegate : NSObject, NSOutlineViewDataSource, NSO
     
     func outlineView(_ outlineView: NSOutlineView, viewFor tableColumn: NSTableColumn?, item: Any) -> NSView? {
         if tableColumn == nameColumn {
-            let view = outlineView.make(withIdentifier: tableColumn!.identifier, owner: nil) as! PSVariableTypeTextFieldCellView
+            let view = outlineView.makeView(withIdentifier: tableColumn!.identifier, owner: nil) as! PSVariableTypeTextFieldCellView
             if let variableNamedType = item as? PSVariableNamedType {
                 view.item = variableNamedType
                 view.textField!.isEditable = true
@@ -200,7 +200,7 @@ class PSVariableTypeOutlineViewDelegate : NSObject, NSOutlineViewDataSource, NSO
             
             return view
         } else if tableColumn == valueColumn {
-            let view = outlineView.make(withIdentifier: tableColumn!.identifier, owner: nil) as! PSVariableTypeComboBoxTableCellView
+            let view = outlineView.makeView(withIdentifier: tableColumn!.identifier, owner: nil) as! PSVariableTypeComboBoxTableCellView
             view.item = item as AnyObject
             view.comboBox.dataSource = comboBoxDataSource
             view.comboBox.delegate = comboBoxDataSource
@@ -214,4 +214,9 @@ class PSVariableTypeOutlineViewDelegate : NSObject, NSOutlineViewDataSource, NSO
     
 
     
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToNSPasteboardPasteboardTypeArray(_ input: [String]) -> [NSPasteboard.PasteboardType] {
+	return input.map { key in NSPasteboard.PasteboardType(key) }
 }

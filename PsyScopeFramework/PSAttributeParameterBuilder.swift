@@ -94,14 +94,14 @@ open class PSAttributeParameterBuilder {
     func setPermanentControls(_ y : CGFloat) {
         let x = parameter.cell.frame.width - 17 - 5
         let varybybutton = PSVaryByButton(frame:NSRect(x: x, y: y, width: 22, height: 22))
-        varybybutton.autoresizingMask = [NSAutoresizingMaskOptions.viewMinXMargin, NSAutoresizingMaskOptions.viewMinYMargin]
+        varybybutton.autoresizingMask = [NSView.AutoresizingMask.minXMargin, NSView.AutoresizingMask.minYMargin]
         parameter.cell.addSubview(varybybutton)
 
         
         varybybutton.menu = parameter.scriptData.getVaryByMenu(parameter, action: "clickMenuItem:")
         
         let title_label = NSTextField(frame: NSMakeRect(PSDefaultConstants.ActionsBuilder.labelsLeftMargin, y+3, PSDefaultConstants.ActionsBuilder.controlsLeftMargin - PSDefaultConstants.ActionsBuilder.labelsLeftMargin, 17))
-        title_label.autoresizingMask = [NSAutoresizingMaskOptions.viewMaxXMargin, NSAutoresizingMaskOptions.viewMinYMargin]
+        title_label.autoresizingMask = [NSView.AutoresizingMask.maxXMargin, NSView.AutoresizingMask.minYMargin]
         title_label.stringValue = parameter.name
         title_label.isBezeled = false
         title_label.drawsBackground = false
@@ -135,7 +135,7 @@ open class PSAttributeParameterBuilder {
         if parameter.varyByEntryName != nil {
             let gotoEntryButton = PSBlockButton(frame: NSMakeRect(150, defaultYLocation + 22, 180, 22), block: gotoEntryBlock)
             gotoEntryButton.title = "Goto referenced entry..."
-            gotoEntryButton.bezelStyle = NSBezelStyle.rounded
+            gotoEntryButton.bezelStyle = NSButton.BezelStyle.rounded
             parameter.cell.addSubview(gotoEntryButton)
         }
     }
@@ -147,10 +147,10 @@ class PSBlockButton : NSButton {
         self.block = block
         super.init(frame: frameRect)
         self.target = self
-        self.action = "clickedMyself:"
+        self.action = #selector(PSBlockButton.clickedMyself(_:))
     }
     
-    func clickedMyself(_: AnyObject) {
+    @objc func clickedMyself(_: AnyObject) {
         block()
     }
 

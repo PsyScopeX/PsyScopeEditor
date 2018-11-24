@@ -27,12 +27,12 @@ class PSCondition_TobiiPlus : NSObject, PSConditionInterface {
     }
     
     func icon() -> NSImage {
-        let image : NSImage = NSImage(contentsOfFile: Bundle(for:type(of: self)).pathForImageResource("MouseClick")!)!
+        let image : NSImage = NSImage(contentsOfFile: Bundle(for:Swift.type(of: self)).pathForImageResource("MouseClick")!)!
         return image
     }
     
     func nib() -> NSNib {
-        return NSNib(nibNamed: "Condition_TobiiPlusCell", bundle: Bundle(for:type(of: self)))!
+        return NSNib(nibNamed: "Condition_TobiiPlusCell", bundle: Bundle(for:Swift.type(of: self)))!
     }
     
     func expandedCellHeight() -> CGFloat {

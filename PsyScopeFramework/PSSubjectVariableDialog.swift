@@ -24,7 +24,7 @@ public func PSSubjectVariableDialog(_ variable : PSSubjectVariable, currentValue
         var checkBoxes : [NSButton] = []
         for (index,val) in values.enumerated() {
             let newCheckBox = NSButton(frame: NSMakeRect(0, CGFloat(index * 24), 200, 24))
-            newCheckBox.setButtonType(NSButtonType.switch)
+            newCheckBox.setButtonType(NSButton.ButtonType.switch)
             newCheckBox.title = val
             inputView.addSubview(newCheckBox)
             checkBoxes.append(newCheckBox)
@@ -36,7 +36,7 @@ public func PSSubjectVariableDialog(_ variable : PSSubjectVariable, currentValue
         
         var stringValues : [String] = []
         for (index,cb) in checkBoxes.enumerated() {
-            if cb.state == 1 {
+            if cb.state.rawValue == 1 {
                 stringValues.append(values[index])
             }
         }
@@ -51,10 +51,10 @@ public func PSSubjectVariableDialog(_ variable : PSSubjectVariable, currentValue
         
         let proto = NSButtonCell()
         proto.title = "Button"
-        proto.setButtonType(NSButtonType.radio)
+        proto.setButtonType(NSButton.ButtonType.radio)
         
         let matrixRect = NSMakeRect(0, 0, 200, CGFloat(values.count * 24))
-        let matrix = NSMatrix(frame: matrixRect, mode: NSMatrixMode.radioModeMatrix, prototype: proto, numberOfRows: values.count, numberOfColumns: 1)
+        let matrix = NSMatrix(frame: matrixRect, mode: NSMatrix.Mode.radioModeMatrix, prototype: proto, numberOfRows: values.count, numberOfColumns: 1)
         new_alert.accessoryView = matrix
         var cells = matrix.cells as! [NSButtonCell]
         for (index, val) in values.enumerated() {

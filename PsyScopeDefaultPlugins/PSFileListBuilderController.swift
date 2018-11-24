@@ -38,7 +38,7 @@ class PSFileListBuilderController : NSObject {
         var columnNames : [String] = fileList.getColumnNames()
         
         if let weightsColumn = fileList.weightsColumn {
-            weightsCheckButton.state = 1
+            weightsCheckButton.state = convertToNSControlStateValue(1)
             columnNames.insert("Weights", at: 0)
             
             if previewData.count > 0 {
@@ -54,7 +54,7 @@ class PSFileListBuilderController : NSObject {
             }
             tableViewController.refresh(previewData, columnNames: columnNames, weightsColumn: true)
         } else {
-            weightsCheckButton.state = 0
+            weightsCheckButton.state = convertToNSControlStateValue(0)
             tableViewController.refresh(previewData, columnNames: columnNames, weightsColumn: false)
         }
     }
@@ -103,7 +103,7 @@ class PSFileListBuilderController : NSObject {
     //MARK: Change weights attribute
     
     @IBAction func weightsCheckButtonClicked(_:AnyObject) {
-        if weightsCheckButton.state == 1 {
+        if weightsCheckButton.state.rawValue == 1 {
             let numberOfRows = fileList.previewOfContents.count
             fileList.weightsColumn = [Int](repeating: 1, count:numberOfRows)
         } else {
@@ -111,4 +111,9 @@ class PSFileListBuilderController : NSObject {
         }
     }
     
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToNSControlStateValue(_ input: Int) -> NSControl.StateValue {
+	return NSControl.StateValue(rawValue: input)
 }

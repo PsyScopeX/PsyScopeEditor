@@ -26,9 +26,9 @@ class PSActionsBuilderCell: NSView, NSTableViewDelegate, NSTableViewDataSource {
     
     override func awakeFromNib() {        
         let aacnib = NSNib(nibNamed: "AddActionCell", bundle: Bundle(for:type(of: self)))
-        actionsTableView.register(aacnib!, forIdentifier: addActionCellViewIdentifier)
+        actionsTableView.register(aacnib!, forIdentifier: convertToNSUserInterfaceItemIdentifier(addActionCellViewIdentifier))
         let accnib = NSNib(nibNamed: "AddConditionCell", bundle: Bundle(for:type(of: self)))
-        conditionsTableView.register(accnib!, forIdentifier: addConditionCellViewIdentifier)
+        conditionsTableView.register(accnib!, forIdentifier: convertToNSUserInterfaceItemIdentifier(addConditionCellViewIdentifier))
     }
     
     func refresh(_ viewMetaData : PSActionBuilderViewMetaDataSet) {
@@ -39,7 +39,7 @@ class PSActionsBuilderCell: NSView, NSTableViewDelegate, NSTableViewDataSource {
         for condition in conditions {
             let identifier = "PSCustomAction\(condition.functionName)"
             if !registeredNibs.contains(identifier) {
-                self.conditionsTableView.register(condition.condition.nib(), forIdentifier: identifier)
+                self.conditionsTableView.register(condition.condition.nib(), forIdentifier: convertToNSUserInterfaceItemIdentifier(identifier))
                 registeredNibs.insert(identifier)
             }
         }
@@ -109,7 +109,7 @@ class PSActionsBuilderCell: NSView, NSTableViewDelegate, NSTableViewDataSource {
                 return view
             } else {
                 //is add action button
-                let view = tableView.make(withIdentifier: addActionCellViewIdentifier, owner: self) as! PSButtonCell
+                let view = tableView.makeView(withIdentifier: convertToNSUserInterfaceItemIdentifier(addActionCellViewIdentifier), owner: self) as! PSButtonCell
                 view.action = { (sender : NSButton) -> () in
                     self.addAction(sender)
                 }
@@ -118,7 +118,7 @@ class PSActionsBuilderCell: NSView, NSTableViewDelegate, NSTableViewDataSource {
         case conditionsTableView:
             if row < conditions.count {
                 let identifier = "PSCustomAction\(conditions[row].functionName)"
-                let view = tableView.make(withIdentifier: identifier, owner: self) as! PSConditionCell
+                let view = tableView.makeView(withIdentifier: convertToNSUserInterfaceItemIdentifier(identifier), owner: self) as! PSConditionCell
                 view.setup(conditions[row].condition,function: conditions[row],scriptData: controller.scriptData, expandedHeight: currentViewMetaData.conditions[row].expandedCellHeight)
                 view.updateScriptBlock = { () -> () in self.actionsAttribute.updateAttributeEntry() }
                 view.expandAction = { (expanded : Bool) -> () in
@@ -129,7 +129,7 @@ class PSActionsBuilderCell: NSView, NSTableViewDelegate, NSTableViewDataSource {
                 return view
             } else {
                 //is add condition button
-                let view = tableView.make(withIdentifier: addConditionCellViewIdentifier, owner: self) as! PSButtonCell
+                let view = tableView.makeView(withIdentifier: convertToNSUserInterfaceItemIdentifier(addConditionCellViewIdentifier), owner: self) as! PSButtonCell
                 view.action = { (sender : NSButton) -> () in
                     self.addCondition(sender)
                 }
@@ -205,7 +205,7 @@ class PSActionsBuilderCell: NSView, NSTableViewDelegate, NSTableViewDataSource {
             (conditionInterface : PSConditionInterface, selected : Bool) -> () in
             if (selected) {
                 //append
-                self.conditionsTableView.register(conditionInterface.nib(), forIdentifier: "PSCustomAction\(conditionInterface.type())")
+                self.conditionsTableView.register(conditionInterface.nib(), forIdentifier: convertToNSUserInterfaceItemIdentifier("PSCustomAction\(conditionInterface.type())"))
                 self.actionsAttribute.appendCondition(self.rowIndex, condition: conditionInterface)
             } else {
                 //remove
@@ -230,4 +230,9 @@ class PSActionsBuilderCell: NSView, NSTableViewDelegate, NSTableViewDataSource {
         controller.actionPicker = PSActionPicker(scriptData: controller.scriptData, selectActionCallback: selectActionFunction)
         controller.actionPicker!.showActionWindow(controller.actionsTableView)
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToNSUserInterfaceItemIdentifier(_ input: String) -> NSUserInterfaceItemIdentifier {
+	return NSUserInterfaceItemIdentifier(rawValue: input)
 }

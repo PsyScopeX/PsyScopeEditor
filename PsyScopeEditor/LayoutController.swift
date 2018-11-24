@@ -103,10 +103,10 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
         
         if listsHidden {
             showHideListsButton.title = "Show Lists"
-            showHideListsButton.state = 1
+            showHideListsButton.state = convertToNSControlStateValue(1)
         } else {
             showHideListsButton.title = "Hide Lists"
-            showHideListsButton.state = 0
+            showHideListsButton.state = convertToNSControlStateValue(0)
         }
         
         UserDefaults.standard.set(!listsHidden, forKey: PSPreferences.showLists.key)
@@ -123,10 +123,10 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
     
         if eventsHidden {
             showHideEventsButton.title = "Show Events"
-            showHideEventsButton.state = 1
+            showHideEventsButton.state = convertToNSControlStateValue(1)
         } else {
             showHideEventsButton.title = "Hide Events"
-            showHideEventsButton.state = 0
+            showHideEventsButton.state = convertToNSControlStateValue(0)
         }
         
         UserDefaults.standard.set(!eventsHidden, forKey: PSPreferences.showEvents.key)
@@ -366,15 +366,15 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
     func pasteEntry() {
         if let se = selectionController.selectedEntry {
             scriptData.beginUndoGrouping("Paste Object")
-            let pasteboard = NSPasteboard.general()
-            let items = pasteboard.readObjects(forClasses: [NSPasteboardItem.self], options: [:]) as! [NSPasteboardItem]
+            let pasteboard = NSPasteboard.general
+            let items = pasteboard.readObjects(forClasses: [NSPasteboardItem.self], options: convertToOptionalNSPasteboardReadingOptionKeyDictionary([:])) as! [NSPasteboardItem]
             for item in items {
-                if let data = item.data(forType: PSPasteboardTypeLayoutObject) {
+                if let data = item.data(forType: convertToNSPasteboardPasteboardType(PSPasteboardTypeLayoutObject)) {
                     if let new_entry = scriptData.unarchiveBaseEntry(data) {
                         let new_name = scriptData.getNextFreeBaseEntryName(new_entry.name)
                         new_entry.name = new_name
                     }
-                } else if let data = item.data(forType: PSPasteboardTypeAttribute as String) {
+                } else if let data = item.data(forType: convertToNSPasteboardPasteboardType(PSPasteboardTypeAttribute as String)) {
                     let dict = NSKeyedUnarchiver.unarchiveObject(with: data) as! NSDictionary
                     let new_entry = PSCreateEntryFromDictionary(scriptData.docMoc, dict: dict)
                     se.addSubEntriesObject(new_entry)
@@ -387,10 +387,10 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
     func copyEntry() {
         if let se = selectionController.selectedEntry {
             let pasteboardItem = NSPasteboardItem()
-            let types = [NSPasteboardTypeString, PSPasteboardTypeLayoutObject]
+            let types = [convertFromNSPasteboardPasteboardType(NSPasteboard.PasteboardType.string), PSPasteboardTypeLayoutObject]
             var ok = pasteboardItem.setDataProvider(self, forTypes: types)
             if ok {
-                let pasteboard = NSPasteboard.general()
+                let pasteboard = NSPasteboard.general
                 pasteboard.clearContents()
                 ok = pasteboard.writeObjects([pasteboardItem])
             }
@@ -401,19 +401,22 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
             }
         }
     }
-    func pasteboard(_ pasteboard: NSPasteboard?, item: NSPasteboardItem, provideDataForType type: String) {
+    func pasteboard(_ pasteboard: NSPasteboard?, item: NSPasteboardItem, provideDataForType type: NSPasteboard.PasteboardType) {
+// Local variable inserted by Swift 4.2 migrator.
+let type = convertFromNSPasteboardPasteboardType(type)
+
         if let ce = PSCopiedEntry {
             switch (type) {
-            case NSPasteboardTypeString:
+            case convertFromNSPasteboardPasteboardType(NSPasteboard.PasteboardType.string):
                 guard let pasteboard = pasteboard else { return }
                 let writer = PSScriptWriter(scriptData: mainWindowController.scriptData)
                 let string = writer.entryToText(ce, level: 0)
-                pasteboard.setString(string, forType: NSPasteboardTypeString)
+                pasteboard.setString(string, forType: NSPasteboard.PasteboardType.string)
             case PSPasteboardTypeLayoutObject:
                 //need to send type of object and all attributes
                 guard let pasteboard = pasteboard else { return }
                 let data = scriptData.archiveBaseEntry(ce)
-                pasteboard.setData(data, forType: PSPasteboardTypeLayoutObject)
+                pasteboard.setData(data, forType: convertToNSPasteboardPasteboardType(PSPasteboardTypeLayoutObject))
             case PSPasteboardTypeAttribute as String as String:
                 print("Cannot provide data for type : \(type)")
             default:
@@ -454,7 +457,7 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
     }
     
     func layoutItemsAreConvertible(_ layoutItems : [PSLayoutItem]) -> Bool {
-        let types = layoutItems.flatMap({ return self.layoutItemsToObjects[$0] }).map({ $0.mainEntry.type})
+        let types = layoutItems.compactMap({ return self.layoutItemsToObjects[$0] }).map({ $0.mainEntry.type})
         
         if let type = types.first {
             return scriptData.typeIsEvent(type!) && !types.contains(where: { $0 != type })
@@ -465,7 +468,7 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
     
     func convertLayoutItems(_ layoutItems : [PSLayoutItem]) {
         if !layoutItemsAreConvertible(layoutItems) { return }
-        let events : [Entry] = layoutItems.flatMap({ return self.layoutItemsToObjects[$0] }).map({ $0.mainEntry })
+        let events : [Entry] = layoutItems.compactMap({ return self.layoutItemsToObjects[$0] }).map({ $0.mainEntry })
         
         //reset the layout items so when next refresh occurs it uses new icons
         resetLayoutItems()
@@ -487,4 +490,25 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
         
     }
     
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromNSPasteboardPasteboardType(_ input: NSPasteboard.PasteboardType) -> String {
+	return input.rawValue
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToNSControlStateValue(_ input: Int) -> NSControl.StateValue {
+	return NSControl.StateValue(rawValue: input)
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToOptionalNSPasteboardReadingOptionKeyDictionary(_ input: [String: Any]?) -> [NSPasteboard.ReadingOptionKey: Any]? {
+	guard let input = input else { return nil }
+	return Dictionary(uniqueKeysWithValues: input.map { key, value in (NSPasteboard.ReadingOptionKey(rawValue: key), value)})
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToNSPasteboardPasteboardType(_ input: String) -> NSPasteboard.PasteboardType {
+	return NSPasteboard.PasteboardType(rawValue: input)
 }

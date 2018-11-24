@@ -22,9 +22,9 @@ open class PSAttributeParameter_ActiveUntil : PSAttributeParameter {
             if popUpButton == nil {
                 //add popupbutton
                 popUpButton = NSPopUpButton(frame: attributeValueControlFrame, pullsDown: false)
-                popUpButton.autoresizingMask = NSAutoresizingMaskOptions.viewWidthSizable
+                popUpButton.autoresizingMask = NSView.AutoresizingMask.width
                 popUpButton.target = self
-                popUpButton.action = "selected:"
+                popUpButton.action = #selector(PSAttributeParameter_ActiveUntil.selected(_:))
                 cell.addSubview(popUpButton)
             } else {
                 popUpButton.isHidden = false
@@ -44,7 +44,7 @@ open class PSAttributeParameter_ActiveUntil : PSAttributeParameter {
         }
     }
     
-    func selected(_ item : NSMenuItem) {
+    @objc func selected(_ item : NSMenuItem) {
         if let defaultValue = defaultValues[item.title] {
             currentValue = PSGetFirstEntryElementForStringOrNull(defaultValue)
         } else {
@@ -59,9 +59,9 @@ open class PSAttributeParameter_ActiveUntil : PSAttributeParameter {
         
         let new_menu = NSMenu()
         for val in values {
-            let new_item = NSMenuItem(title: val, action: "selected:", keyEquivalent: "")
+            let new_item = NSMenuItem(title: val, action: #selector(PSAttributeParameter_ActiveUntil.selected(_:)), keyEquivalent: "")
             new_item.target = self
-            new_item.action = "selected:"
+            new_item.action = #selector(PSAttributeParameter_ActiveUntil.selected(_:))
             new_menu.addItem(new_item)
         }
         popUpButton.menu = new_menu

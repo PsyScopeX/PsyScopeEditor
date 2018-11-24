@@ -18,9 +18,9 @@ open class PSAttributeParameter_CustomPopup : PSAttributeParameter {
             if popUpButton == nil {
                 //add popupbutton
                 popUpButton = NSPopUpButton(frame: attributeValueControlFrame, pullsDown: false)
-                popUpButton.autoresizingMask = NSAutoresizingMaskOptions.viewWidthSizable
+                popUpButton.autoresizingMask = NSView.AutoresizingMask.width
                 popUpButton.target = self
-                popUpButton.action = "selected:"
+                popUpButton.action = #selector(PSAttributeParameter_CustomPopup.selected(_:))
                 cell.addSubview(popUpButton)
             } else {
                 popUpButton.isHidden = false
@@ -40,7 +40,7 @@ open class PSAttributeParameter_CustomPopup : PSAttributeParameter {
         }
     }
     
-    func selected(_ item : NSMenuItem) {
+    @objc func selected(_ item : NSMenuItem) {
         currentValue = PSGetFirstEntryElementForStringOrNull(item.title.uppercased())
         self.cell.updateScript()
     }
@@ -51,9 +51,9 @@ open class PSAttributeParameter_CustomPopup : PSAttributeParameter {
         
         let new_menu = NSMenu()
         for sound in values {
-            let new_item = NSMenuItem(title: sound, action: "selected:", keyEquivalent: "")
+            let new_item = NSMenuItem(title: sound, action: #selector(PSAttributeParameter_CustomPopup.selected(_:)), keyEquivalent: "")
             new_item.target = self
-            new_item.action = "selected:"
+            new_item.action = #selector(PSAttributeParameter_CustomPopup.selected(_:))
             new_menu.addItem(new_item)
         }
         popUpButton.menu = new_menu

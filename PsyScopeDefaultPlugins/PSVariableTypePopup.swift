@@ -38,7 +38,7 @@ class PSVariableTypePopup: NSObject {
     func showPopup() {
         
         window.beginSheet(popupWindow, completionHandler: {
-            (response : NSModalResponse) -> () in
+            (response : NSApplication.ModalResponse) -> () in
             //[sheet orderOut:self];
             //[NSApp stopModalWithCode:returnCode];
             NSApp.stopModal(withCode: response)

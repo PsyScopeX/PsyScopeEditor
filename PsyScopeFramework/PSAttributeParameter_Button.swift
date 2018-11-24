@@ -19,14 +19,14 @@ open class PSAttributeParameter_Button : PSAttributeParameter {
                 //add editButton
                 editButton = NSButton(frame: attributeValueControlFrame)
                 cell?.activateViewBlock = { self.editButton.performClick(self) }
-                editButton.bezelStyle = NSBezelStyle.roundRect
+                editButton.bezelStyle = NSButton.BezelStyle.roundRect
                 let bcell = editButton.cell!
                 bcell.lineBreakMode = NSLineBreakMode.byTruncatingTail
-                bcell.backgroundStyle = NSBackgroundStyle.dark
+                bcell.backgroundStyle = NSView.BackgroundStyle.dark
                 
-                editButton.autoresizingMask = NSAutoresizingMaskOptions.viewWidthSizable
+                editButton.autoresizingMask = NSView.AutoresizingMask.width
                 editButton.target = self
-                editButton.action = "clickButton:"
+                editButton.action = #selector(PSAttributeParameter_Button.clickButton(_:))
                 setButtonTitle()
                 cell.addSubview(editButton)
             } else {
@@ -51,7 +51,7 @@ open class PSAttributeParameter_Button : PSAttributeParameter {
         }
     }
     
-    func clickButton(_ sender : NSButton) {
+    @objc func clickButton(_ sender : NSButton) {
         fatalError("use of abstract class PSAttributeParameter_Button")
     }
 }

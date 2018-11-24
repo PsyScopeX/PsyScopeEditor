@@ -196,7 +196,7 @@ class PSVariableCompositeTypePopoverController : NSObject, NSOutlineViewDelegate
     
     func outlineView(_ outlineView: NSOutlineView, viewFor tableColumn: NSTableColumn?, item: Any) -> NSView? {
         if tableColumn == nameColumn {
-            let view = outlineView.make(withIdentifier: tableColumn!.identifier, owner: nil) as! PSVariableTypeTextFieldCellView
+            let view = outlineView.makeView(withIdentifier: tableColumn!.identifier, owner: nil) as! PSVariableTypeTextFieldCellView
             if let variableNamedType = item as? PSVariableNamedType {
                 view.item = variableNamedType
                 view.textField!.isEditable = true
@@ -209,7 +209,7 @@ class PSVariableCompositeTypePopoverController : NSObject, NSOutlineViewDelegate
             
             return view
         } else if tableColumn == valueColumn {
-            let view = outlineView.make(withIdentifier: tableColumn!.identifier, owner: nil) as! PSVariableTypeComboBoxTableCellView
+            let view = outlineView.makeView(withIdentifier: tableColumn!.identifier, owner: nil) as! PSVariableTypeComboBoxTableCellView
             view.item = item as AnyObject
             view.comboBox.dataSource = comboBoxDataSource
             view.comboBox.delegate = comboBoxDataSource

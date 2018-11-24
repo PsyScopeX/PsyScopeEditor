@@ -39,8 +39,8 @@ class PSTextEventSpecial : PSAttributePopup {
             positionOptions.selectItem(withTitle: "Normal position")
         }
         
-        drawMaskedCheck.state = list.contains("Draw_Masked") ? 1 : 0
-        clearMaskedCheck.state = list.contains("Clear_Masked") ? 1 : 0
+        drawMaskedCheck.state = NSControl.StateValue(rawValue: list.contains("Draw_Masked") ? 1 : 0)
+        clearMaskedCheck.state = NSControl.StateValue(rawValue: list.contains("Clear_Masked") ? 1 : 0)
     }
     
     @IBAction func doneButton(_ sender : AnyObject) {
@@ -48,10 +48,10 @@ class PSTextEventSpecial : PSAttributePopup {
         let new_list = PSStringListCachedContainer()
         let pos_option : String = optionsArray[positionOptions.selectedItem!.title]!
         if pos_option != "" { new_list.appendAsString(pos_option) }
-        if drawMaskedCheck.state == 1 {
+        if drawMaskedCheck.state.rawValue == 1 {
             new_list.appendAsString("Draw_Masked")
         }
-        if clearMaskedCheck.state == 1 {
+        if clearMaskedCheck.state.rawValue == 1 {
             new_list.appendAsString("Clear_Masked")
         }
         self.currentValue = PSGetFirstEntryElementForStringOrNull(new_list.stringValue)

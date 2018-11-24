@@ -27,7 +27,7 @@ class PSSubjectVariablesTableViewController : NSObject, NSTableViewDataSource, N
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        tableView.register(forDraggedTypes: [dragReorderType])
+        tableView.registerForDraggedTypes(convertToNSPasteboardPasteboardTypeArray([dragReorderType]))
     }
     
     func reloadData(_ subjectInformation : PSSubjectInformation) {
@@ -121,9 +121,9 @@ class PSSubjectVariablesTableViewController : NSObject, NSTableViewDataSource, N
     }
     
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        let identifier = tableColumn == nil ? "NameColumn" : tableColumn!.identifier
+        let identifier = tableColumn == nil ? "NameColumn" : convertFromNSUserInterfaceItemIdentifier(tableColumn!.identifier)
         
-        guard let view = tableView.make(withIdentifier: identifier, owner: nil) else {
+        guard let view = tableView.makeView(withIdentifier: convertToNSUserInterfaceItemIdentifier(identifier), owner: nil) else {
             return nil
         }
         
@@ -149,29 +149,29 @@ class PSSubjectVariablesTableViewController : NSObject, NSTableViewDataSource, N
                     }
                 } else if identifier == "LogColumn" {
                     print("variable \(subjectVariable.name) - \(subjectVariable.storageOptions.inLogFile)")
-                    buttonView.button.state = subjectVariable.storageOptions.inLogFile ? 1 : 0
+                    buttonView.button.state = NSControl.StateValue(rawValue: subjectVariable.storageOptions.inLogFile ? 1 : 0)
                     buttonView.buttonClickBlock = { (clickedRow : Int) -> () in
                         let variable = subjectVariable
                         var existingOptions = variable.storageOptions
-                        if existingOptions.inLogFile != (buttonView.button.state == 1) {
-                            existingOptions.inLogFile = (buttonView.button.state == 1)
+                        if existingOptions.inLogFile != (buttonView.button.state.rawValue == 1) {
+                            existingOptions.inLogFile = (buttonView.button.state.rawValue == 1)
                             variable.storageOptions = existingOptions
                         }
                     }
                 } else if identifier == "GroupColumn" {
-                    buttonView.button.state = subjectVariable.isGroupingVariable ? 1 : 0
+                    buttonView.button.state = NSControl.StateValue(rawValue: subjectVariable.isGroupingVariable ? 1 : 0)
                     buttonView.buttonClickBlock = { (clickedRow : Int) -> () in
-                        if subjectVariable.isGroupingVariable != (buttonView.button.state == 1) {
-                            subjectVariable.isGroupingVariable = (buttonView.button.state == 1)
+                        if subjectVariable.isGroupingVariable != (buttonView.button.state.rawValue == 1) {
+                            subjectVariable.isGroupingVariable = (buttonView.button.state.rawValue == 1)
                         }
                     }
                 } else if identifier == "DataColumn" {
-                    buttonView.button.state = subjectVariable.storageOptions.inDataFile ? 1 : 0
+                    buttonView.button.state = NSControl.StateValue(rawValue: subjectVariable.storageOptions.inDataFile ? 1 : 0)
                     buttonView.buttonClickBlock = { (clickedRow : Int) -> () in
                         let variable = subjectVariable
                         var existingOptions = variable.storageOptions
-                        if existingOptions.inDataFile != (buttonView.button.state == 1) {
-                            existingOptions.inDataFile = (buttonView.button.state == 1)
+                        if existingOptions.inDataFile != (buttonView.button.state.rawValue == 1) {
+                            existingOptions.inDataFile = (buttonView.button.state.rawValue == 1)
                             variable.storageOptions = existingOptions
                         }
                     }
@@ -188,10 +188,10 @@ class PSSubjectVariablesTableViewController : NSObject, NSTableViewDataSource, N
     //MARK: Drag reordering
     
     
-    func tableView(_ tableView: NSTableView, acceptDrop info: NSDraggingInfo, row: Int, dropOperation: NSTableViewDropOperation) -> Bool {
+    func tableView(_ tableView: NSTableView, acceptDrop info: NSDraggingInfo, row: Int, dropOperation: NSTableView.DropOperation) -> Bool {
         print("Row: \(row)")
-        let pboard = info.draggingPasteboard()
-        if let data = pboard.data(forType: dragReorderType),
+        let pboard = info.draggingPasteboard
+        if let data = pboard.data(forType: convertToNSPasteboardPasteboardType(dragReorderType)),
             let rowIndexes : IndexSet = NSKeyedUnarchiver.unarchiveObject(with: data) as? IndexSet {
                 
                 guard let subjectVariableToMove = variableForRow(rowIndexes.first!),
@@ -239,12 +239,12 @@ class PSSubjectVariablesTableViewController : NSObject, NSTableViewDataSource, N
     func tableView(_ tableView: NSTableView, writeRowsWith rowIndexes: IndexSet, to pboard: NSPasteboard) -> Bool {
         // Copy the row numbers to the pasteboard.
         let data = NSKeyedArchiver.archivedData(withRootObject: rowIndexes)
-        pboard.declareTypes([dragReorderType], owner: self)
-        pboard.setData(data, forType: dragReorderType)
+        pboard.declareTypes(convertToNSPasteboardPasteboardTypeArray([dragReorderType]), owner: self)
+        pboard.setData(data, forType: convertToNSPasteboardPasteboardType(dragReorderType))
         return true
     }
     
-    func tableView(_ tableView: NSTableView, validateDrop info: NSDraggingInfo, proposedRow row: Int, proposedDropOperation dropOperation: NSTableViewDropOperation) -> NSDragOperation {
+    func tableView(_ tableView: NSTableView, validateDrop info: NSDraggingInfo, proposedRow row: Int, proposedDropOperation dropOperation: NSTableView.DropOperation) -> NSDragOperation {
         
         //cannot move to row 0 as that is always a group row
         if row > 0 && dropOperation == .above {
@@ -254,4 +254,24 @@ class PSSubjectVariablesTableViewController : NSObject, NSTableViewDataSource, N
         }
     }
 
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToNSPasteboardPasteboardTypeArray(_ input: [String]) -> [NSPasteboard.PasteboardType] {
+	return input.map { key in NSPasteboard.PasteboardType(key) }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromNSUserInterfaceItemIdentifier(_ input: NSUserInterfaceItemIdentifier) -> String {
+	return input.rawValue
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToNSUserInterfaceItemIdentifier(_ input: String) -> NSUserInterfaceItemIdentifier {
+	return NSUserInterfaceItemIdentifier(rawValue: input)
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToNSPasteboardPasteboardType(_ input: String) -> NSPasteboard.PasteboardType {
+	return NSPasteboard.PasteboardType(rawValue: input)
 }

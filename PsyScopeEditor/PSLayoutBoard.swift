@@ -70,19 +70,19 @@ class PSLayoutBoard: NSView {
     
     //MARK: Constants
 
-    let draggedTypes : [String] = [PSConstants.PSToolBrowserView.dragType, PSConstants.PSToolBrowserView.pasteboardType,PSConstants.PSEventBrowserView.dragType, PSConstants.PSEventBrowserView.pasteboardType,NSFilenamesPboardType]
+    let draggedTypes : [String] = [PSConstants.PSToolBrowserView.dragType, PSConstants.PSToolBrowserView.pasteboardType,PSConstants.PSEventBrowserView.dragType, PSConstants.PSEventBrowserView.pasteboardType,NSFilenamesPboardType.rawValue]
     
     //MARK: Setup
     
     //Called by LayoutController's awakeFromNib (awakeFromNib order appears random, whence this is the equivalent)
     func prepareMainLayer() {
-        self.register(forDraggedTypes: draggedTypes)
+        self.registerForDraggedTypes(convertToNSPasteboardPasteboardTypeArray(draggedTypes))
         self.layer = CALayer()
         //self.wantsLayer = true
         self.layer!.backgroundColor = PSConstants.BasicDefaultColors.backgroundColor
         self.layer!.zPosition = 0
         self.layer!.contentsScale = self.mainWindow.backingScaleFactor
-        NotificationCenter.default.addObserver(self, selector: "updateContextMenuItems:", name: NSNotification.Name.NSPopUpButtonWillPopUp, object: actionPopup)
+        NotificationCenter.default.addObserver(self, selector: #selector(PSLayoutBoard.updateContextMenuItems(_:)), name: NSPopUpButton.willPopUpNotification, object: actionPopup)
 
         for item in contextMenu.items as [NSMenuItem] {
             actionPopup.menu?.addItem(item.copy() as! NSMenuItem)
@@ -96,7 +96,7 @@ class PSLayoutBoard: NSView {
     //Adjusts appearance of cursor when linking objects
     override func resetCursorRects() {
         if linkingObjects != nil {
-            self.addCursorRect(self.bounds, cursor: NSCursor.crosshair())
+            self.addCursorRect(self.bounds, cursor: NSCursor.crosshair)
         } else {
             super.resetCursorRects()
         }
@@ -107,10 +107,10 @@ class PSLayoutBoard: NSView {
     
     //MARK: Dragging related overrides
     override func draggingEntered(_ sender: NSDraggingInfo) -> NSDragOperation {
-        let pasteboard = sender.draggingPasteboard()
+        let pasteboard = sender.draggingPasteboard
         currentDragOperation = NSDragOperation.link
 
-        if let type = pasteboard.availableType(from: draggedTypes) {
+        if let type = pasteboard.availableType(from: convertToNSPasteboardPasteboardTypeArray(draggedTypes)) {
             if type == NSFilenamesPboardType {
                 currentDragOperation = NSDragOperation.copy
             }
@@ -126,12 +126,12 @@ class PSLayoutBoard: NSView {
     override func prepareForDragOperation(_ sender: NSDraggingInfo) -> Bool {
         //check if file is of a good type
         filesToImport = [:]
-        let pasteboard = sender.draggingPasteboard()
-        if pasteboard.string(forType: PSConstants.PSToolBrowserView.pasteboardType) != nil {
+        let pasteboard = sender.draggingPasteboard
+        if pasteboard.string(forType: convertToNSPasteboardPasteboardType(PSConstants.PSToolBrowserView.pasteboardType)) != nil {
             return true
-        } else if pasteboard.string(forType: PSConstants.PSEventBrowserView.pasteboardType) != nil {
+        } else if pasteboard.string(forType: convertToNSPasteboardPasteboardType(PSConstants.PSEventBrowserView.pasteboardType)) != nil {
             return true
-        } else if let filenames : [AnyObject] = pasteboard.propertyList(forType: NSFilenamesPboardType) as? [AnyObject] {
+        } else if let filenames : [AnyObject] = pasteboard.propertyList(forType: convertToNSPasteboardPasteboardType(NSFilenamesPboardType.rawValue)) as? [AnyObject] {
             var valid_files = true
             for filename in filenames {
                 if let fn = filename as? String {
@@ -153,13 +153,13 @@ class PSLayoutBoard: NSView {
     }
     
     override func performDragOperation(_ sender: NSDraggingInfo) -> Bool {
-        let location = self.convert(sender.draggingLocation(),from: nil)
-        let pasteboard = sender.draggingPasteboard()
+        let location = self.convert(sender.draggingLocation,from: nil)
+        let pasteboard = sender.draggingPasteboard
         window!.makeFirstResponder(self)
-        if let type = pasteboard.string(forType: PSConstants.PSToolBrowserView.pasteboardType) {
+        if let type = pasteboard.string(forType: convertToNSPasteboardPasteboardType(PSConstants.PSToolBrowserView.pasteboardType)) {
             layoutController.draggedNewTool(type, location: location)
             return true
-        } else if let type = pasteboard.string(forType: PSConstants.PSEventBrowserView.pasteboardType) {
+        } else if let type = pasteboard.string(forType: convertToNSPasteboardPasteboardType(PSConstants.PSEventBrowserView.pasteboardType)) {
             layoutController.draggedNewTool(type, location: location)
             return true
         } else if filesToImport.count > 0 {
@@ -227,7 +227,7 @@ class PSLayoutBoard: NSView {
         }
         
         linkingObjects = nil
-        NSCursor.arrow().set()
+        NSCursor.arrow.set()
         window!.invalidateCursorRects(for: self)
     }
     
@@ -299,7 +299,7 @@ class PSLayoutBoard: NSView {
         } else if let info = clickedObject {
             
             //command key is down so add to selection
-            let commandDown = (theEvent.modifierFlags.contains(NSEventModifierFlags.command))
+            let commandDown = (theEvent.modifierFlags.contains(NSEvent.ModifierFlags.command))
             
         
             
@@ -407,7 +407,7 @@ class PSLayoutBoard: NSView {
 
     //MARK: Context menu
     
-    func updateContextMenuItems(_ sender : AnyObject) {
+    @objc func updateContextMenuItems(_ sender : AnyObject) {
         if let cmo = contextMenuObject {
             switch (cmo) {
             case .selectedLink(_):
@@ -447,7 +447,7 @@ class PSLayoutBoard: NSView {
         
         if linkingObjects != nil {
             linkingObjects = nil
-            NSCursor.arrow().set()
+            NSCursor.arrow.set()
             window!.invalidateCursorRects(for: self)
         }
         
@@ -553,7 +553,7 @@ class PSLayoutBoard: NSView {
         }
         
         if linkingObjects!.count > 0 {
-            NSCursor.crosshair().set()
+            NSCursor.crosshair.set()
             window!.invalidateCursorRects(for: self)
         } else {
             linkingObjects = nil
@@ -601,7 +601,7 @@ class PSLayoutBoard: NSView {
         text_layer.font = PSConstants.Fonts.layoutBoardIcons
         text_layer.fontSize = 10
         text_layer.string = name
-        text_layer.alignmentMode = kCAAlignmentCenter
+        text_layer.alignmentMode = CATextLayerAlignmentMode.center
         text_layer.foregroundColor = NSColor.black.cgColor
         text_layer.zPosition = 0
         
@@ -646,7 +646,7 @@ class PSLayoutBoard: NSView {
             subLayoutItem.text.string = n
         }
         
-        let size = (subLayoutItem.text.string! as AnyObject).size(withAttributes: [NSFontAttributeName : PSConstants.Fonts.layoutBoardIcons])
+        let size = (subLayoutItem.text.string! as AnyObject).size(withAttributes: [convertFromNSAttributedStringKey(NSAttributedString.Key.font) : PSConstants.Fonts.layoutBoardIcons])
         subLayoutItem.text.bounds = CGRect(origin: CGPoint.zero, size: size)
         subLayoutItem.text.position = CGPoint(x: x, y: y + PSConstants.Spacing.iconSize)
         
@@ -793,7 +793,7 @@ class PSLayoutBoard: NSView {
         line.fillColor = NSColor.gray.cgColor //darkgray from black Luca
         line.opacity = 1.0
         line.strokeColor = NSColor.gray.cgColor //gray from black Luca
-        line.lineCap = kCALineCapRound
+        line.lineCap = CAShapeLayerLineCap.round
         return line
     }
     
@@ -907,3 +907,18 @@ func ==(lhs: PSLayoutBoard.Link, rhs: PSLayoutBoard.Link) -> Bool {
     return r
 }
     
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToNSPasteboardPasteboardTypeArray(_ input: [String]) -> [NSPasteboard.PasteboardType] {
+	return input.map { key in NSPasteboard.PasteboardType(key) }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToNSPasteboardPasteboardType(_ input: String) -> NSPasteboard.PasteboardType {
+	return NSPasteboard.PasteboardType(rawValue: input)
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromNSAttributedStringKey(_ input: NSAttributedString.Key) -> String {
+	return input.rawValue
+}

@@ -19,7 +19,7 @@ open class PSVaryByButton : NSButton {
         self.isBordered = true
         self.bezelStyle = .texturedSquare
         self.needsDisplay = true
-        self.setButtonType(NSButtonType.momentaryChange)
+        self.setButtonType(NSButton.ButtonType.momentaryChange)
         self.image = PSVaryByButtonImage!.copy() as? NSImage
         self.image!.size = NSMakeSize(17, 17)
         self.title = ""
@@ -42,7 +42,7 @@ open class PSVaryByButton : NSButton {
         super.mouseDown(with: theEvent)
     }
     
-    open override class func cellClass() -> AnyClass {
+    open override class var cellClass: AnyClass {
         return PSVaryByButtonCell.self
     }
     

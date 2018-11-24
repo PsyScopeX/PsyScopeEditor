@@ -13,14 +13,14 @@ class PSTrialsToolTablePropertyController : PSToolTablePropertyController {
     @IBOutlet var trialsColumn : NSTableColumn!
     
     override func tableView(_ tableView: NSTableView, shouldEdit tableColumn: NSTableColumn?, row: Int) -> Bool {
-        if tableColumn!.identifier == trialsColumn.identifier {
+        if convertFromNSUserInterfaceItemIdentifier(tableColumn!.identifier) == convertFromNSUserInterfaceItemIdentifier(trialsColumn.identifier) {
             return false
         }
         return super.tableView(tableView,shouldEdit:tableColumn,row: row)
     }
     
     override func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
-        if tableColumn!.identifier == trialsColumn.identifier {
+        if convertFromNSUserInterfaceItemIdentifier(tableColumn!.identifier) == convertFromNSUserInterfaceItemIdentifier(trialsColumn.identifier) {
             //calculate number of trials   
             //entry name = stringList.stringListRawUnstripped[row]
             let entryName = stringList.stringListRawUnstripped[row]
@@ -112,4 +112,9 @@ func PSNumberOfTrialsInBlock(_ blockEntry : Entry, scriptData : PSScriptData) ->
     }
     
     return PSTrialCountType.cycles(1)
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromNSUserInterfaceItemIdentifier(_ input: NSUserInterfaceItemIdentifier) -> String {
+	return input.rawValue
 }

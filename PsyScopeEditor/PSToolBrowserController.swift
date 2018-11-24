@@ -63,11 +63,11 @@ class PSToolBrowserController : NSObject, NSOutlineViewDelegate, NSOutlineViewDa
     func outlineView(_ outlineView: NSOutlineView, viewFor tableColumn: NSTableColumn?, item: Any) -> NSView? {
         
         if let toolGroup = item as? PSToolBrowserControllerGroup {
-            let view = outlineView.make(withIdentifier: "HeaderCell", owner: nil) as! NSTableCellView
+            let view = outlineView.makeView(withIdentifier: convertToNSUserInterfaceItemIdentifier("HeaderCell"), owner: nil) as! NSTableCellView
             view.textField?.stringValue = toolGroup.name
             return view
         } else {
-            let view = outlineView.make(withIdentifier: "DataCell", owner: nil) as! NSTableCellView
+            let view = outlineView.makeView(withIdentifier: convertToNSUserInterfaceItemIdentifier("DataCell"), owner: nil) as! NSTableCellView
             view.objectValue = item
             return view
         }
@@ -111,4 +111,9 @@ class PSToolBrowserController : NSObject, NSOutlineViewDelegate, NSOutlineViewDa
         
     }
     
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToNSUserInterfaceItemIdentifier(_ input: String) -> NSUserInterfaceItemIdentifier {
+	return NSUserInterfaceItemIdentifier(rawValue: input)
 }

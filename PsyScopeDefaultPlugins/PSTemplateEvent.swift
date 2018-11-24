@@ -120,11 +120,14 @@ class PSTemplateEvent : NSObject, NSPasteboardWriting, NSPasteboardReading {
     
     //Pasteboard stuff
     
-    func writableTypes(for pasteboard: NSPasteboard) -> [String] {
-        return ["psyscope.pstemplateevent"]
+    func writableTypes(for pasteboard: NSPasteboard) -> [NSPasteboard.PasteboardType] {
+        return [NSPasteboard.PasteboardType(rawValue: "psyscope.pstemplateevent")]
     }
     
-    func pasteboardPropertyList(forType type: String) -> Any? {
+    func pasteboardPropertyList(forType type: NSPasteboard.PasteboardType) -> Any? {
+// Local variable inserted by Swift 4.2 migrator.
+let type = convertFromNSPasteboardPasteboardType(type)
+
         //must return nsdata object
         let data = scriptData.archiveBaseEntry(entry)
         return data
@@ -132,7 +135,10 @@ class PSTemplateEvent : NSObject, NSPasteboardWriting, NSPasteboardReading {
     
     //unarchive data must be called directly after this init, to associate with script
     required init!(pasteboardPropertyList propertyList: Any,
-        ofType type: String) {
+        ofType type: NSPasteboard.PasteboardType) {
+// Local variable inserted by Swift 4.2 migrator.
+let type = convertFromNSPasteboardPasteboardType(type)
+
         _startCondition = EventStartConditionTrialStart()
         _durationCondition = EventDurationConditionFixedTime(time: 500)
         data = propertyList as! Data
@@ -147,8 +153,8 @@ class PSTemplateEvent : NSObject, NSPasteboardWriting, NSPasteboardReading {
         self.entry = scriptData.unarchiveBaseEntry(data)
     }
     
-    class func readableTypes(for pasteboard: NSPasteboard) -> [String] {
-        return ["psyscope.pstemplateevent"]
+    class func readableTypes(for pasteboard: NSPasteboard) -> [NSPasteboard.PasteboardType] {
+        return [NSPasteboard.PasteboardType(rawValue: "psyscope.pstemplateevent")]
     }
     
     func delete() {
@@ -169,3 +175,8 @@ var EventStartConditions : [String:(() -> EventStartCondition,Bool)] = [
     EventStartConditionTrialStart().menuName() : ({() -> EventStartCondition in return EventStartConditionTrialStart()}, false),
     EventStartConditionEventStart().menuName() : ({() -> EventStartCondition in return EventStartConditionEventStart()}, true),
     EventStartConditionEventEnd().menuName()   : ({() -> EventStartCondition in return EventStartConditionEventEnd()}, true)]
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromNSPasteboardPasteboardType(_ input: NSPasteboard.PasteboardType) -> String {
+	return input.rawValue
+}

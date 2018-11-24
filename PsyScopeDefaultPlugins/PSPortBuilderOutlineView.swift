@@ -28,7 +28,7 @@ class PSPortBuilderOutlineView : NSOutlineView {
     }
     
     override func keyDown(with theEvent: NSEvent) {
-        if theEvent.charactersIgnoringModifiers! == String(Character(UnicodeScalar(NSDeleteCharacter)!)) {
+        if theEvent.charactersIgnoringModifiers! == String(Character(UnicodeScalar(NSEvent.SpecialKey.delete.rawValue)!)) {
             portController.deleteCurrentlySelectedItem()
             return
         }

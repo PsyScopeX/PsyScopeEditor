@@ -63,15 +63,15 @@ class PSBlocksTableController : PSChildTypeViewController {
         
         
         if let bd_entry = scriptData.getSubEntry("Cycles", entry: entry) {
-            scalableButton.state = 1
+            scalableButton.state = convertToNSControlStateValue(1)
             cyclesTextField.stringValue = bd_entry.currentValue
             scaleTextField.isEnabled = true
         } else if let bd_entry = scriptData.getSubEntry("FixedCycles", entry: entry) {
-            scalableButton.state = 0
+            scalableButton.state = convertToNSControlStateValue(0)
             cyclesTextField.stringValue = bd_entry.currentValue
             scaleTextField.isEnabled = false
         } else {
-            scalableButton.state = 1
+            scalableButton.state = convertToNSControlStateValue(1)
             cyclesTextField.stringValue = "1"
             scaleTextField.isEnabled = true
         }
@@ -108,7 +108,7 @@ class PSBlocksTableController : PSChildTypeViewController {
         
         let intCycle : Int = cyclesTextField.integerValue
     
-        if scalableButton.state == 1 {
+        if scalableButton.state.rawValue == 1 {
             scriptData.deleteNamedSubEntryFromParentEntry(entry, name: "FixedCycles")
             let cyclesEntry = scriptData.getOrCreateSubEntry("Cycles", entry: entry, isProperty: true)
             cyclesEntry.currentValue = "\(intCycle)"
@@ -123,4 +123,9 @@ class PSBlocksTableController : PSChildTypeViewController {
             cyclesEntry.currentValue = "\(intCycle)"
         }
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToNSControlStateValue(_ input: Int) -> NSControl.StateValue {
+	return NSControl.StateValue(rawValue: input)
 }

@@ -17,9 +17,9 @@ open class PSAttributeParameter_Variable : PSAttributeParameter {
         if visible {
             if popUpButton == nil {
                 popUpButton = NSPopUpButton(frame: attributeValueControlFrame, pullsDown: false)
-                popUpButton.autoresizingMask = NSAutoresizingMaskOptions.viewWidthSizable
+                popUpButton.autoresizingMask = NSView.AutoresizingMask.width
                 popUpButton.target = self
-                popUpButton.action = "variableSelected:"
+                popUpButton.action = #selector(PSAttributeParameter_Variable.variableSelected(_:))
                 cell.addSubview(popUpButton)
 
             } else {
@@ -35,12 +35,12 @@ open class PSAttributeParameter_Variable : PSAttributeParameter {
     }
     
     
-    func variableSelected(_ item : NSMenuItem) {
+    @objc func variableSelected(_ item : NSMenuItem) {
         currentValue = PSGetFirstEntryElementForStringOrNull(item.title)
         self.cell.updateScript()
     }
     
-    func noneSelected(_ item : NSMenuItem) {
+    @objc func noneSelected(_ item : NSMenuItem) {
         currentValue = .null
         self.cell.updateScript()
     }
@@ -51,14 +51,14 @@ open class PSAttributeParameter_Variable : PSAttributeParameter {
         let vars = scriptData.getBaseEntriesOfType(PSType.Variable)
         
         let new_menu = NSMenu()
-        let new_item = NSMenuItem(title: "No Specific Variable", action: "noneSelected:", keyEquivalent: "")
+        let new_item = NSMenuItem(title: "No Specific Variable", action: #selector(PSAttributeParameter_Variable.noneSelected(_:)), keyEquivalent: "")
         new_item.target = self
-        new_item.action = "noneSelected:"
+        new_item.action = #selector(PSAttributeParameter_Variable.noneSelected(_:))
         new_menu.addItem(new_item)
         for vari in vars {
-            let new_item = NSMenuItem(title: vari.name, action: "variableSelected:", keyEquivalent: "")
+            let new_item = NSMenuItem(title: vari.name, action: #selector(PSAttributeParameter_Variable.variableSelected(_:)), keyEquivalent: "")
             new_item.target = self
-            new_item.action = "variableSelected:"
+            new_item.action = #selector(PSAttributeParameter_Variable.variableSelected(_:))
             new_menu.addItem(new_item)
         }
         

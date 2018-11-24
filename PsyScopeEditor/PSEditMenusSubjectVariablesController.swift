@@ -60,8 +60,18 @@ class PSEditMenusSubjectVariablesController : NSObject, NSTableViewDataSource, N
         // Copy the subjectVariableNames
         let subjectVariableNames : [String] = rowIndexes.enumerated().map({ subjectVariables[$0.element].name })
         let data = NSKeyedArchiver.archivedData(withRootObject: subjectVariableNames)
-        pboard.declareTypes([PSEditMenusSubjectVariablesController.subjectVariableType], owner: self)
-        pboard.setData(data, forType: PSEditMenusSubjectVariablesController.subjectVariableType)
+        pboard.declareTypes(convertToNSPasteboardPasteboardTypeArray([PSEditMenusSubjectVariablesController.subjectVariableType]), owner: self)
+        pboard.setData(data, forType: convertToNSPasteboardPasteboardType(PSEditMenusSubjectVariablesController.subjectVariableType))
         return true
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToNSPasteboardPasteboardTypeArray(_ input: [String]) -> [NSPasteboard.PasteboardType] {
+	return input.map { key in NSPasteboard.PasteboardType(key) }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToNSPasteboardPasteboardType(_ input: String) -> NSPasteboard.PasteboardType {
+	return NSPasteboard.PasteboardType(rawValue: input)
 }

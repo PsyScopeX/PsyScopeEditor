@@ -36,7 +36,7 @@ class PSVaryByAttributePopup: PSAttributePopup, NSOutlineViewDataSource, NSOutli
         self.scriptData = scriptData
         self.type = type
         self.entry = baseEntry
-        super.init(nibName: "VaryByAttributePopup", bundle: Bundle(for:type(of: self)), currentValue: .null, displayName: "", setCurrentValueBlock: setCurrentValueBlock)
+        super.init(nibName: "VaryByAttributePopup", bundle: Bundle(for:Swift.type(of: self)), currentValue: .null, displayName: "", setCurrentValueBlock: setCurrentValueBlock)
         
         //get all blocks, that this attribute is linked to, and list attributes
         let parentLinks = scriptData.getLinkedParentEntriesOfType(type, entry: entry)

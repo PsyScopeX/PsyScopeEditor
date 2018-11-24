@@ -18,7 +18,7 @@ class PSPortBuilderWindow : NSWindow, NSWindowDelegate {
     
     var controller : PSPortBuilderController!
     
-    func delete(_ sender: AnyObject?) {
+    @objc func delete(_ sender: AnyObject?) {
         controller.deleteCurrentlySelectedItem()
     }
 
@@ -26,7 +26,7 @@ class PSPortBuilderWindow : NSWindow, NSWindowDelegate {
     override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
         let theAction = menuItem.action
         
-        if (theAction == Selector("delete:")) {
+        if (theAction == #selector(PSPortBuilderWindow.delete(_:))) {
             return controller.itemIsCurrentlySelected()
         }
         
@@ -34,7 +34,7 @@ class PSPortBuilderWindow : NSWindow, NSWindowDelegate {
     }
     
     override func keyDown(with theEvent: NSEvent) {
-        if theEvent.charactersIgnoringModifiers! == String(Character(UnicodeScalar(NSDeleteCharacter)!)) {
+        if theEvent.charactersIgnoringModifiers! == String(Character(UnicodeScalar(NSEvent.SpecialKey.delete.rawValue)!)) {
             controller.deleteCurrentlySelectedItem()
             return
         }

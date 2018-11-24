@@ -41,7 +41,7 @@ open class PSConditionPicker: NSObject, NSTableViewDataSource, NSTableViewDelega
     
     override open func awakeFromNib() {
         let nib = NSNib(nibNamed: "ConditionPickerCell", bundle: Bundle(for:type(of: self)))
-        conditionTableView.register(nib!, forIdentifier: tableCellViewIdentifier)
+        conditionTableView.register(nib!, forIdentifier: convertToNSUserInterfaceItemIdentifier(tableCellViewIdentifier))
         tableViewConditions = []
         
         for (_, a_plugin) in scriptData.pluginProvider.conditionPlugins {
@@ -88,12 +88,12 @@ open class PSConditionPicker: NSObject, NSTableViewDataSource, NSTableViewDelega
     }
     
     open func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        let view = tableView.make(withIdentifier: tableCellViewIdentifier, owner: nil) as! PSConditionPickerCell
+        let view = tableView.makeView(withIdentifier: convertToNSUserInterfaceItemIdentifier(tableCellViewIdentifier), owner: nil) as! PSConditionPickerCell
         
         view.setup(tableViewConditions[row].userFriendlyName, image: NSImage(), row: row, clickCallback: conditionButtonClicked)
         
         //preset button state
-        view.button.state = existingConditionTypes.contains(tableViewConditions[row].type) ? 1 : 0
+        view.button.state = NSControl.StateValue(rawValue: existingConditionTypes.contains(tableViewConditions[row].type) ? 1 : 0)
         
         return view
     }
@@ -111,4 +111,9 @@ class PSConditionPickerCondition : NSObject {
     var userFriendlyName : String = ""
     var helpfulDescription : String = ""
     var condition : PSConditionInterface! = nil
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToNSUserInterfaceItemIdentifier(_ input: String) -> NSUserInterfaceItemIdentifier {
+	return NSUserInterfaceItemIdentifier(rawValue: input)
 }

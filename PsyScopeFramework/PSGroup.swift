@@ -30,7 +30,7 @@ open class PSGroup {
                 for subjectVariable in subjectInformation.allVariables {
                     if subEntry.name == subjectVariable.name {
                         //var newExistingCriteria =
-                        existingCriteria.append(variable: subjectVariable, value: subEntry.currentValue as String)
+                        existingCriteria.append((variable: subjectVariable, value: subEntry.currentValue as String))
                     }
                 }
             }

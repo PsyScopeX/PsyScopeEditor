@@ -125,7 +125,7 @@ class PSPsyScopeXRunner : NSObject {
         let task = Process()
         task.launchPath = launchPath
         task.arguments = [openFlag,psyXScriptFileName,runOnOpen,foregroundFlag,quitOnEndFlag,saveOnExit,"y"]
-        NotificationCenter.default.addObserver(self, selector: "terminated:", name: Process.didTerminateNotification, object: task)
+        NotificationCenter.default.addObserver(self, selector: #selector(PSPsyScopeXRunner.terminated(_:)), name: Process.didTerminateNotification, object: task)
         
         //launch the task
         task.launch()
@@ -146,7 +146,7 @@ class PSPsyScopeXRunner : NSObject {
     //MARK: NSTaskDidTerminateNotification
     
     // When PsyscopeX task has finished, make sure data and log file are text files, and check if user wants to update document from any changes made by psyscopeX
-    func terminated(_: AnyObject) {
+    @objc func terminated(_: AnyObject) {
         
         //try to load
         guard let currentlyRunningScriptFileName = currentlyRunningScriptFileName,
@@ -267,7 +267,7 @@ class PSPsyScopeXRunner : NSObject {
         alert.addButton(withTitle: cancelButton)
         
         let answer = alert.runModal()
-        if answer == NSAlertFirstButtonReturn {
+        if answer == NSApplication.ModalResponse.alertFirstButtonReturn {
             return true
         } else {
             return false

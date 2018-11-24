@@ -20,11 +20,11 @@ class PSCondition_Key : PSCondition {
     }
     
     override func nib() -> NSNib {
-        return NSNib(nibNamed: "Condition_KeyCell", bundle: Bundle(for:type(of: self)))!
+        return NSNib(nibNamed: "Condition_KeyCell", bundle: Bundle(for:Swift.type(of: self)))!
     }
     
     override func icon() -> NSImage {
-        let image : NSImage = NSImage(contentsOfFile: Bundle(for:type(of: self)).pathForImageResource("Key")!)!
+        let image : NSImage = NSImage(contentsOfFile: Bundle(for:Swift.type(of: self)).pathForImageResource("Key")!)!
         return image
     }
     
@@ -84,7 +84,7 @@ class PSCondition_Key_Popup : PSAttributePopup, NSTableViewDelegate, NSTableView
     }
     
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        let view = tableView.make(withIdentifier: tableColumn!.identifier, owner: self) as! NSTableCellView
+        let view = tableView.makeView(withIdentifier: tableColumn!.identifier, owner: self) as! NSTableCellView
         view.textField!.isEditable = false
         return view
     }

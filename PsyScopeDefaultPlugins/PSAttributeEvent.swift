@@ -38,7 +38,7 @@ class PSEventPicker : PSAttributePopup {
         eventsPopup.selectItem(withTitle: self.currentValue.stringValue())
     }
     
-    func eventSelected(_ item : NSMenuItem) {
+    @objc func eventSelected(_ item : NSMenuItem) {
         self.currentValue = PSGetFirstEntryElementForStringOrNull(item.title)
     }
     func updatePopUpMenuContent() {
@@ -47,9 +47,9 @@ class PSEventPicker : PSAttributePopup {
         events = scriptData.getAllEvents()
         let new_menu = NSMenu()
         for event in events {
-            let new_item = NSMenuItem(title: event.name, action: "eventSelected:", keyEquivalent: "")
+            let new_item = NSMenuItem(title: event.name, action: #selector(PSEventPicker.eventSelected(_:)), keyEquivalent: "")
             new_item.target = self
-            new_item.action = "eventSelected:"
+            new_item.action = #selector(PSEventPicker.eventSelected(_:))
             new_menu.addItem(new_item)
         }
         eventsPopup.menu = new_menu

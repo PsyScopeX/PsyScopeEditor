@@ -39,7 +39,7 @@ class PSScreen {
 
         
         //get screens, get the layout, compute the effective height and width
-        guard let screens = NSScreen.screens() else {
+        guard let screens = NSScreen.screens else {
             fatalError("Could not detect any screens")
         }
         

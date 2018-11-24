@@ -83,7 +83,7 @@ class PSEventPropertiesController : PSToolPropertyController {
         var current_tag = 1
         let new_menu = NSMenu()
         for (name , (eventClass, usesEvent)) in EventStartConditions {
-            let new_item = NSMenuItem(title: name, action: "popOverStartConditionMenuItemSelected:", keyEquivalent: "")
+            let new_item = NSMenuItem(title: name, action: #selector(PSEventPropertiesController.popOverStartConditionMenuItemSelected(_:)), keyEquivalent: "")
             
             if usesEvent {
                 if relatedEvents.count > 0 {
@@ -94,7 +94,7 @@ class PSEventPropertiesController : PSToolPropertyController {
                     //get events in template
                     
                     for event in relatedEvents {
-                        let new_sm_item = NSMenuItem(title: event.entry.name, action: "popOverStartConditionMenuItemSelected:", keyEquivalent: "")
+                        let new_sm_item = NSMenuItem(title: event.entry.name, action: #selector(PSEventPropertiesController.popOverStartConditionMenuItemSelected(_:)), keyEquivalent: "")
                         new_sm_item.target = self
                         new_sm_item.isEnabled = true
                         new_sm_item.tag = current_tag
@@ -110,7 +110,7 @@ class PSEventPropertiesController : PSToolPropertyController {
                 }
             } else {
                 new_item.target = self
-                new_item.action = "popOverStartConditionMenuItemSelected:"
+                new_item.action = #selector(PSEventPropertiesController.popOverStartConditionMenuItemSelected(_:))
                 new_item.target = self
                 new_item.tag = current_tag
                 popOverStartConditionEvents[current_tag] = (eventClass, nil)
@@ -200,7 +200,7 @@ class PSEventPropertiesController : PSToolPropertyController {
     }
     
     //change event startCondition when menu item is selected
-    func popOverStartConditionMenuItemSelected(_ item : NSMenuItem) {
+    @objc func popOverStartConditionMenuItemSelected(_ item : NSMenuItem) {
         if let (startCondition, lobject) = popOverStartConditionEvents[item.tag] {
             let new_start_condition = startCondition()
             if let (lobj) = lobject {

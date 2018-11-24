@@ -48,7 +48,7 @@ NSColor(cgColor: PSConstants.BasicDefaultColors.backgroundColorLowAlpha)!.setFil
     override func updateTrackingAreas() {
         super.updateTrackingAreas()
         if _trackingArea == nil {
-            _trackingArea = NSTrackingArea(rect: self.bounds, options: [NSTrackingAreaOptions.mouseEnteredAndExited, NSTrackingAreaOptions.activeInActiveApp], owner: self, userInfo: nil)
+            _trackingArea = NSTrackingArea(rect: self.bounds, options: [NSTrackingArea.Options.mouseEnteredAndExited, NSTrackingArea.Options.activeInActiveApp], owner: self, userInfo: nil)
             self.addTrackingArea(_trackingArea)
         }
     }

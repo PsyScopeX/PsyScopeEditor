@@ -59,7 +59,7 @@ open class PSPortBuilderController: NSObject, NSOutlineViewDataSource, NSOutline
         parentWindow = window
         
         parentWindow.beginSheet(attributeSheet, completionHandler: {
-            (response : NSModalResponse) -> () in
+            (response : NSApplication.ModalResponse) -> () in
             //NSApp.stopModalWithCode(response)
             
             
@@ -97,9 +97,9 @@ open class PSPortBuilderController: NSObject, NSOutlineViewDataSource, NSOutline
         willSet {
             if newValue != registeredForChanges {
                 if newValue {
-                    NotificationCenter.default.addObserver(self, selector: "refreshNotification:", name: NSNotification.Name.NSManagedObjectContextObjectsDidChange, object: scriptData.docMoc)
+                    NotificationCenter.default.addObserver(self, selector: #selector(PSPortBuilderController.refreshNotification(_:)), name: NSNotification.Name.NSManagedObjectContextObjectsDidChange, object: scriptData.docMoc)
 
-                    NotificationCenter.default.addObserver(self, selector: "refreshNotification:", name: NSNotification.Name(rawValue: PSScreenChangeNotification), object: nil)
+                    NotificationCenter.default.addObserver(self, selector: #selector(PSPortBuilderController.refreshNotification(_:)), name: NSNotification.Name(rawValue: PSScreenChangeNotification), object: nil)
                 } else {
                     NotificationCenter.default.removeObserver(self)
                 }
@@ -161,7 +161,7 @@ open class PSPortBuilderController: NSObject, NSOutlineViewDataSource, NSOutline
     }
     
     //MARK: RefreshDisplay
-    func refreshNotification(_ notification : Notification) {
+    @objc func refreshNotification(_ notification : Notification) {
         refreshDisplay()
     }
     
@@ -532,8 +532,8 @@ open class PSPortBuilderController: NSObject, NSOutlineViewDataSource, NSOutline
                 alert.addButton(withTitle: "No")
                 alert.informativeText = "If you delete the port, you will have to update these references manually, are you sure you wish to continue?"
 
-                alert.beginSheetModal(for: mainPortWindow, completionHandler: {  (returnCode : NSModalResponse) -> Void in
-                    if returnCode == NSAlertFirstButtonReturn {
+                alert.beginSheetModal(for: mainPortWindow, completionHandler: {  (returnCode : NSApplication.ModalResponse) -> Void in
+                    if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
                         self.deleteItemAtRow(selectedRow)
                     }
                     })
@@ -555,8 +555,8 @@ open class PSPortBuilderController: NSObject, NSOutlineViewDataSource, NSOutline
                 alert.addButton(withTitle: "No")
                 alert.informativeText = "If you delete the position, you will have to update these references manually, are you sure you wish to continue?"
                 
-                alert.beginSheetModal(for: mainPortWindow, completionHandler: {  (returnCode : NSModalResponse) -> Void in
-                    if returnCode == NSAlertFirstButtonReturn {
+                alert.beginSheetModal(for: mainPortWindow, completionHandler: {  (returnCode : NSApplication.ModalResponse) -> Void in
+                    if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
                         self.deleteItemAtRow(selectedRow)
                     }
                 })

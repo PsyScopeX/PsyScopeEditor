@@ -76,7 +76,7 @@ class PSScriptViewDelegate : NSObject, NSTextViewDelegate, NSTextStorageDelegate
             alert.addButton(withTitle: cancelButton)
             
             let answer = alert.runModal()
-            if answer == NSAlertFirstButtonReturn {
+            if answer == NSApplication.ModalResponse.alertFirstButtonReturn {
                 safeToBuild = true
             } else {
                 safeToBuild = false
@@ -84,7 +84,7 @@ class PSScriptViewDelegate : NSObject, NSTextViewDelegate, NSTextStorageDelegate
         }
         
         if (safeToBuild) {
-            build(scriptBoard.string!)
+            build(scriptBoard.string)
         }
     }
     
@@ -158,7 +158,7 @@ class PSScriptViewDelegate : NSObject, NSTextViewDelegate, NSTextStorageDelegate
             alert.addButton(withTitle: cancelButton)
             
             let answer = alert.runModal()
-            if answer == NSAlertFirstButtonReturn {
+            if answer == NSApplication.ModalResponse.alertFirstButtonReturn {
                 safeToUpdate = true
             } else {
                 safeToUpdate = false
@@ -248,7 +248,7 @@ class PSScriptViewDelegate : NSObject, NSTextViewDelegate, NSTextStorageDelegate
             updateScriptButton.isEnabled = true
             
             //start a formatting only update
-            let script = replaceCurlyQuotes(scriptBoard.string!)
+            let script = replaceCurlyQuotes(scriptBoard.string)
             let readingOperation = PSScriptReaderOperation(script: script)
             readingOperationIndex += 1
             let index = readingOperationIndex
@@ -261,7 +261,7 @@ class PSScriptViewDelegate : NSObject, NSTextViewDelegate, NSTextStorageDelegate
                     let minLength = min(readingOperation.attributedString.length, self.scriptBoard.textStorage!.length)
                     
                     let fullRange = NSMakeRange(0, minLength)
-                    self.scriptBoard.textStorage!.setAttributes([:], range: fullRange)//clear
+                    self.scriptBoard.textStorage!.setAttributes(convertToOptionalNSAttributedStringKeyDictionary([:]), range: fullRange)//clear
                     
                     self.errorHandler.reset()
                     for e in readingOperation.errors {
@@ -273,7 +273,7 @@ class PSScriptViewDelegate : NSObject, NSTextViewDelegate, NSTextStorageDelegate
 
                     readingOperation.attributedString.enumerateAttributes(in: fullRange, options: NSAttributedString.EnumerationOptions(rawValue: 0), using: {
                         ( dic :[String : Any], range : NSRange, stop : UnsafeMutablePointer<ObjCBool>) -> Void in
-                            self.scriptBoard.textStorage!.setAttributes(dic, range: range)
+                            self.scriptBoard.textStorage!.setAttributes(convertToOptionalNSAttributedStringKeyDictionary(dic), range: range)
                         })
                     
                     self.scriptBoard.textStorage!.endEditing()
@@ -287,4 +287,10 @@ class PSScriptViewDelegate : NSObject, NSTextViewDelegate, NSTextStorageDelegate
         
         nextEditIsUser = true //this is true unless updateScript is called first
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToOptionalNSAttributedStringKeyDictionary(_ input: [String: Any]?) -> [NSAttributedString.Key: Any]? {
+	guard let input = input else { return nil }
+	return Dictionary(uniqueKeysWithValues: input.map { key, value in (NSAttributedString.Key(rawValue: key), value)})
 }

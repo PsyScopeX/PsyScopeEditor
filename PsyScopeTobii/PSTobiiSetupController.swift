@@ -25,9 +25,9 @@ class PSTobiiSetupController : NSObject {
         
         if let inputDevices = scriptData.getSubEntry("InputDevices", entry: experimentEntry) {
             let inputDevicesList = PSStringList(entry: inputDevices, scriptData: scriptData)
-            useTobiiCheck.state = inputDevicesList.contains("TobiiPlus") ? 1 : 0
+            useTobiiCheck.state = NSControl.StateValue(rawValue: inputDevicesList.contains("TobiiPlus") ? 1 : 0)
         } else {
-            useTobiiCheck.state = 0
+            useTobiiCheck.state = convertToNSControlStateValue(0)
         }
     }
     
@@ -35,7 +35,7 @@ class PSTobiiSetupController : NSObject {
         let experimentEntry = scriptData.getMainExperimentEntry()
         let inputDevices = scriptData.getOrCreateSubEntry("InputDevices", entry: experimentEntry, isProperty: true)
         let inputDevicesList = PSStringList(entry: inputDevices, scriptData: scriptData)
-        if useTobiiCheck.state == 1 {
+        if useTobiiCheck.state.rawValue == 1 {
             if !inputDevicesList.contains("TobiiPlus") {
                 inputDevicesList.appendAsString("TobiiPlus")
             }
@@ -45,4 +45,8 @@ class PSTobiiSetupController : NSObject {
         
         
     }
+}
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToNSControlStateValue(_ input: Int) -> NSControl.StateValue {
+	return NSControl.StateValue(rawValue: input)
 }

@@ -145,7 +145,7 @@ struct PSPortClickedLayer {
     //MARK: Key events
     
     override func keyDown(with theEvent: NSEvent) {
-        if theEvent.charactersIgnoringModifiers! == String(Character(UnicodeScalar(NSDeleteCharacter)!)) {
+        if theEvent.charactersIgnoringModifiers! == String(Character(UnicodeScalar(NSEvent.SpecialKey.delete.rawValue)!)) {
             if !controller.deleteCurrentlySelectedItem() {
                 if (fullScreen) { leaveFullScreen() }
             }
@@ -297,8 +297,8 @@ struct PSPortClickedLayer {
             //get the effective size of the screens and their origin
             let effectiveResolution = PSScreen.getEffectiveResolution()
             
-            let options : [String : AnyObject] = [NSFullScreenModeAllScreens : NSNumber(value: true as Bool)]
-            enterFullScreenMode(self.window!.screen!, withOptions: options)
+            let options : [String : AnyObject] = [convertFromNSViewFullScreenModeOptionKey(NSView.FullScreenModeOptionKey.fullScreenModeAllScreens) : NSNumber(value: true as Bool)]
+            enterFullScreenMode(self.window!.screen!, withOptions: convertToOptionalNSViewFullScreenModeOptionKeyDictionary(options))
             
             
             
@@ -312,7 +312,7 @@ struct PSPortClickedLayer {
     
     func leaveFullScreen() {
         if (fullScreen) {
-            exitFullScreenMode(options: [:])
+            exitFullScreenMode(options: convertToOptionalNSViewFullScreenModeOptionKeyDictionary([:]))
             Swift.print(self.window)
             updateScreenLayers()
             fullScreen = false
@@ -368,4 +368,15 @@ struct PSPortClickedLayer {
     func setEntireScreenPort(_ port : PSPort?) {
         entireScreenPortLayer = port?.layer
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromNSViewFullScreenModeOptionKey(_ input: NSView.FullScreenModeOptionKey) -> String {
+	return input.rawValue
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToOptionalNSViewFullScreenModeOptionKeyDictionary(_ input: [String: Any]?) -> [NSView.FullScreenModeOptionKey: Any]? {
+	guard let input = input else { return nil }
+	return Dictionary(uniqueKeysWithValues: input.map { key, value in (NSView.FullScreenModeOptionKey(rawValue: key), value)})
 }

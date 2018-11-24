@@ -17,7 +17,7 @@ class PSFileListBuilderTableController : NSObject, NSTableViewDataSource, NSTabl
     var previewData : [[String]] = []
     var weightsColumn : Bool = false
     override func awakeFromNib() {
-        previewTableView.doubleAction = "doubleClickInTableView:"
+        previewTableView.doubleAction = #selector(PSFileListBuilderTableController.doubleClickInTableView(_:))
         previewTableView.target = self
     }
     
@@ -42,7 +42,7 @@ class PSFileListBuilderTableController : NSObject, NSTableViewDataSource, NSTabl
     
     func addNewColumn(_ name : String) {
         let identifier = "\(previewTableView.tableColumns.count + 1)"
-        let new_column = NSTableColumn(identifier: identifier)
+        let new_column = NSTableColumn(identifier: convertToNSUserInterfaceItemIdentifier(identifier))
         let new_header = PSFieldHeaderCell()
         new_header.isEditable = true
         new_header.usesSingleLineMode = true
@@ -70,7 +70,7 @@ class PSFileListBuilderTableController : NSObject, NSTableViewDataSource, NSTabl
     }
     
     func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
-        let index = Int(tableColumn!.identifier)! - 1
+        let index = Int(convertFromNSUserInterfaceItemIdentifier(tableColumn!.identifier))! - 1
         
         if row < previewData.count {
             let rowData = previewData[row]
@@ -82,7 +82,7 @@ class PSFileListBuilderTableController : NSObject, NSTableViewDataSource, NSTabl
     }
     
     func tableView(_ tableView: NSTableView, shouldEdit tableColumn: NSTableColumn?, row: Int) -> Bool {
-        if weightsColumn && tableColumn?.identifier == "1" {
+        if weightsColumn && convertFromNSUserInterfaceItemIdentifier(tableColumn?.identifier) == "1" {
             return true
         } else {
             return false
@@ -104,7 +104,7 @@ class PSFileListBuilderTableController : NSObject, NSTableViewDataSource, NSTabl
     
     //MARK: Header editing
     
-    func doubleClickInTableView(_ sender : AnyObject) {
+    @objc func doubleClickInTableView(_ sender : AnyObject) {
         let row = previewTableView.clickedRow
         let col = previewTableView.clickedColumn
         
@@ -136,7 +136,7 @@ class PSFileListBuilderTableController : NSObject, NSTableViewDataSource, NSTabl
     
     func textDidEndEditing(_ notification: Notification) {
         let editor = notification.object as! NSTextView
-        let name = editor.string!
+        let name = editor.string
         
         if let eh = editingHeader {
             
@@ -152,4 +152,14 @@ class PSFileListBuilderTableController : NSObject, NSTableViewDataSource, NSTabl
         }
     }
     
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToNSUserInterfaceItemIdentifier(_ input: String) -> NSUserInterfaceItemIdentifier {
+	return NSUserInterfaceItemIdentifier(rawValue: input)
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromNSUserInterfaceItemIdentifier(_ input: NSUserInterfaceItemIdentifier) -> String {
+	return input.rawValue
 }

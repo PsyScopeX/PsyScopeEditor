@@ -77,7 +77,7 @@ class PSPluginLoader : NSObject {
         var pluginInstances : [NSObject] = []
         for pluginClass in classes {
             
-            let name = String(describing: type(of: pluginClass))
+            let name = String(describing: Swift.type(of: pluginClass))
             let pluginObject = pluginClass.init()
             pluginInstances.append(pluginObject)
             pluginClasses[name] = pluginClass

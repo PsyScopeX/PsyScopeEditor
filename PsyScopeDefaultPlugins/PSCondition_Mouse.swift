@@ -19,11 +19,11 @@ class PSCondition_Mouse : PSCondition {
 
     
     override func nib() -> NSNib {
-        return NSNib(nibNamed: "Condition_MouseCell", bundle: Bundle(for:type(of: self)))!
+        return NSNib(nibNamed: "Condition_MouseCell", bundle: Bundle(for:Swift.type(of: self)))!
     }
 
     override func icon() -> NSImage {
-        let image : NSImage = NSImage(contentsOfFile: Bundle(for:type(of: self)).pathForImageResource("MouseClick")!)!
+        let image : NSImage = NSImage(contentsOfFile: Bundle(for:Swift.type(of: self)).pathForImageResource("MouseClick")!)!
         return image
     }
     
@@ -45,9 +45,9 @@ class PSCondition_Mouse_Cell : PSConditionCell {
     override func setup(_ conditionInterface: PSConditionInterface, function entryFunction: PSFunctionElement, scriptData: PSScriptData, expandedHeight: CGFloat) {
         super.setup(conditionInterface,function: entryFunction,scriptData: scriptData, expandedHeight: expandedHeight)
 
-        clickButton.state = 0
-        moveButton.state = 0
-        portButton.state = 0
+        clickButton.state = convertToNSControlStateValue(0)
+        moveButton.state = convertToNSControlStateValue(0)
+        portButton.state = convertToNSControlStateValue(0)
         portName = ""
         
         for v in entryFunction.values {
@@ -56,7 +56,7 @@ class PSCondition_Mouse_Cell : PSConditionCell {
             case .function(let functionElement):
                 if functionElement.functionName.lowercased() == "portname" {
                     portName = functionElement.getStrippedStringValues().joined(separator: " ")
-                    portButton.state = 1
+                    portButton.state = convertToNSControlStateValue(1)
                 }
                 break
             case .list:
@@ -66,9 +66,9 @@ class PSCondition_Mouse_Cell : PSConditionCell {
             case .stringToken(let stringElement):
                 let string = stringElement.value
                 if string.lowercased() == "click" {
-                    clickButton.state = 1
+                    clickButton.state = convertToNSControlStateValue(1)
                 }else if string.lowercased() == "move" {
-                    moveButton.state = 1
+                    moveButton.state = convertToNSControlStateValue(1)
                 }
                 break
             }
@@ -83,15 +83,15 @@ class PSCondition_Mouse_Cell : PSConditionCell {
     @IBAction func parameterChange(_ sender : AnyObject) {
         var outputString = ""
         
-        if clickButton.state == 1 {
+        if clickButton.state.rawValue == 1 {
             outputString += "Click "
         }
         
-        if moveButton.state == 1 {
+        if moveButton.state.rawValue == 1 {
             outputString += "Move "
         }
         
-        if portButton.state == 1 {
+        if portButton.state.rawValue == 1 {
             outputString += "In "
             outputString += "PortName(\"\(self.portName)\")"
         }
@@ -107,7 +107,7 @@ class PSCondition_Mouse_Cell : PSConditionCell {
             let functionElement = PSFunctionElement.FromStringValue(cValue.stringValue())
             self.portName = functionElement.getStrippedStringValues().joined(separator: " ")
             self.portChangeButton.title = self.portName
-            self.portButton.state = 1
+            self.portButton.state = convertToNSControlStateValue(1)
             self.parameterChange(self)
         })
         popup.showAttributeModalForWindow(scriptData.window)
@@ -115,3 +115,8 @@ class PSCondition_Mouse_Cell : PSConditionCell {
     
 }
 
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToNSControlStateValue(_ input: Int) -> NSControl.StateValue {
+	return NSControl.StateValue(rawValue: input)
+}

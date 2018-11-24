@@ -82,7 +82,7 @@ open class PSAttributePickerEntry : PSAttributePicker {
                     alert.addButton(withTitle: cancelButton)
                     
                     let answer = alert.runModal()
-                    if answer == NSAlertFirstButtonReturn {
+                    if answer == NSApplication.ModalResponse.alertFirstButtonReturn {
                         existing_att.type = type.fullType
                         existing_att.currentValue = interface.defaultValue()
                         existing_att.isProperty = false

@@ -21,7 +21,7 @@ class PSAttributePickerCell: NSView {
     
     @IBAction func clickedLabel(_: AnyObject) {
         if let clickCallback = clickCallback {
-            clickCallback(row,button.state == 1)
+            clickCallback(row,button.state.rawValue == 1)
         }
     }
     

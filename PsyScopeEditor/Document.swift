@@ -53,11 +53,11 @@ class Document: NSPersistentDocument {
         }
     }
     
-    override class func autosavesDrafts() -> Bool { return false }
+    override class var autosavesDrafts: Bool { return false }
     
     override func defaultDraftName() -> String { return "Experiment" }
     
-    override class func autosavesInPlace() -> Bool { return true }
+    override class var autosavesInPlace: Bool { return true }
     
     override var windowNibName: String { return "Document" }
     
@@ -74,7 +74,7 @@ class Document: NSPersistentDocument {
         self.addWindowController(mainWindowController)
         
         //register dragged types
-        mainWindowController.window!.registerForDraggedTypes([PSConstants.PSToolBrowserView.dragType])
+        mainWindowController.window!.registerForDraggedTypes(convertToNSPasteboardPasteboardTypeArray([PSConstants.PSToolBrowserView.dragType]))
         mainWindowController.window!.minSize = NSSize(width: PSConstants.LayoutConstants.docMinWidth, height: PSConstants.LayoutConstants.docMinHeight)
         
         //store the window in a property for use by other objects
@@ -151,3 +151,8 @@ class Document: NSPersistentDocument {
     
 }
 
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToNSPasteboardPasteboardTypeArray(_ input: [String]) -> [NSPasteboard.PasteboardType] {
+	return input.map { key in NSPasteboard.PasteboardType(key) }
+}

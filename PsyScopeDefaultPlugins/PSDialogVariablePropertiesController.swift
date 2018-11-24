@@ -97,7 +97,7 @@ class PSDialogVariablePropertiesController : PSToolPropertyController {
             
         }
         
-        recordToLogFileCheck.state = selectedSubjectVariable.storageOptions.inLogFile ? 1 : 0
+        recordToLogFileCheck.state = NSControl.StateValue(rawValue: selectedSubjectVariable.storageOptions.inLogFile ? 1 : 0)
 
     
         itemsTableView.reloadData()
@@ -160,8 +160,8 @@ class PSDialogVariablePropertiesController : PSToolPropertyController {
     
     @IBAction func recordToLogCheckClicked(_: AnyObject) {
         var existingOptions = selectedSubjectVariable.storageOptions
-        if existingOptions.inLogFile != (recordToLogFileCheck.state == 1) {
-            existingOptions.inLogFile = (recordToLogFileCheck.state == 1)
+        if existingOptions.inLogFile != (recordToLogFileCheck.state.rawValue == 1) {
+            existingOptions.inLogFile = (recordToLogFileCheck.state.rawValue == 1)
             selectedSubjectVariable.storageOptions = existingOptions
         }
         

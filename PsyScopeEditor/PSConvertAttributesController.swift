@@ -80,7 +80,7 @@ class PSConvertAttributesController : NSObject, NSTableViewDataSource, NSTableVi
     
     //MARK: Textfield
     
-    override func controlTextDidChange(_ obj: Notification) {
+    func controlTextDidChange(_ obj: Notification) {
         let oneTextIsEmpty = (fromTextField.stringValue == "") || (toTextField.stringValue == "")
         addButton.isEnabled = !oneTextIsEmpty
     }

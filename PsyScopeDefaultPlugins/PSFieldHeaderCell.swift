@@ -13,7 +13,7 @@ class PSFieldHeaderCell : NSTableHeaderCell, NSTextViewDelegate {
     //var col : Int!
     func textDidEndEditing(_ notification: Notification) {
         let editor = notification.object as! NSTextView
-        self.title = editor.string!
+        self.title = editor.string
         self.isHighlighted = false
         self.endEditing(editor)
     }
@@ -27,7 +27,7 @@ class PSFieldHeaderCell : NSTableHeaderCell, NSTextViewDelegate {
     
     override func drawFocusRingMask(withFrame cellFrame: NSRect, in controlView: NSView) {
         controlView.lockFocus()
-        NSSetFocusRingStyle(NSFocusRingPlacement.only)
+        NSFocusRingPlacement.only.set()
         NSBezierPath(rect: cellFrame).fill()
         controlView.unlockFocus()
     }

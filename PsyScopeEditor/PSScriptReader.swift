@@ -95,14 +95,14 @@ open class PSScriptReader {
         }
         
         //make everything correct font
-        attributedString.addAttribute(NSFontAttributeName, value: PSConstants.Fonts.scriptFont, range: NSMakeRange(0,attributedString.length))
+        attributedString.addAttribute(NSAttributedString.Key.font, value: PSConstants.Fonts.scriptFont, range: NSMakeRange(0,attributedString.length))
         
         if (debugMode) { dumpGhostScript() }
     }
     
     func formatRange(_ start : Int, end : Int, color : NSColor){
         let range : NSRange = NSMakeRange(start, end - start)
-        attributedString.addAttribute(NSForegroundColorAttributeName, value: color, range: range)
+        attributedString.addAttribute(NSAttributedString.Key.foregroundColor, value: color, range: range)
     }
     
     func dumpGhostScript() {

@@ -53,7 +53,16 @@ class PSAttribute_TextMaskFormatter : Formatter {
         let result = partialString.rangeOfCharacter(from: PSAttribute_TextMaskFormatterAllowedCharacters, options: [], range: ix..<ix2)
         return result != nil
     }
-    override func attributedString(for obj: Any, withDefaultAttributes attrs: [String : Any]?) -> NSAttributedString? {
+    override func attributedString(for obj: Any, withDefaultAttributes attrs: [NSAttributedString.Key : Any]?) -> NSAttributedString? {
+// Local variable inserted by Swift 4.2 migrator.
+let attrs = convertFromOptionalNSAttributedStringKeyDictionary(attrs)
+
         return nil
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromOptionalNSAttributedStringKeyDictionary(_ input: [NSAttributedString.Key: Any]?) -> [String: Any]? {
+	guard let input = input else { return nil }
+	return Dictionary(uniqueKeysWithValues: input.map {key, value in (key.rawValue, value)})
 }

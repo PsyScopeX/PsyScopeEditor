@@ -17,7 +17,7 @@ class PSToolBrowserView: NSOutlineView {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        self.register(forDraggedTypes: [pasteBoardType, NSPasteboardTypeString])
+        self.registerForDraggedTypes(convertToNSPasteboardPasteboardTypeArray([pasteBoardType, convertFromNSPasteboardPasteboardType(NSPasteboard.PasteboardType.string)]))
         self.setDraggingSourceOperationMask(.move, forLocal: true)
     }
     
@@ -38,7 +38,7 @@ class PSToolBrowserView: NSOutlineView {
         let imageBounds = NSRect(origin: localLocation, size: NSSize(width: PSConstants.Spacing.iconSize, height: PSConstants.Spacing.iconSize))
         
         let pbItem = NSPasteboardItem()
-        pbItem.setString(psextension.type, forType: PSConstants.PSToolBrowserView.pasteboardType)
+        pbItem.setString(psextension.type, forType: convertToNSPasteboardPasteboardType(PSConstants.PSToolBrowserView.pasteboardType))
         
         
         let dragItem = NSDraggingItem(pasteboardWriter: pbItem)
@@ -50,4 +50,19 @@ class PSToolBrowserView: NSOutlineView {
         return NSDragOperation.link
     }
     
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToNSPasteboardPasteboardTypeArray(_ input: [String]) -> [NSPasteboard.PasteboardType] {
+	return input.map { key in NSPasteboard.PasteboardType(key) }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromNSPasteboardPasteboardType(_ input: NSPasteboard.PasteboardType) -> String {
+	return input.rawValue
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToNSPasteboardPasteboardType(_ input: String) -> NSPasteboard.PasteboardType {
+	return NSPasteboard.PasteboardType(rawValue: input)
 }

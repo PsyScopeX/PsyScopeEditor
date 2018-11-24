@@ -56,7 +56,7 @@ open class PSActionCell : PSCellView {
         super.updateScript()
     }
     
-    func expandButtonClicked(_ button : NSButton) {
+    @objc func expandButtonClicked(_ button : NSButton) {
         if disclosureButton.state == NSOnState {
             setExpanded(true)
             expandAction?(true)
@@ -110,20 +110,20 @@ open class PSActionCell : PSCellView {
         Swift.print(topYPosition.description)
         //add disclosure button
         disclosureButton = NSButton(frame: NSMakeRect(0, topYPosition, 20, 20))
-        disclosureButton.autoresizingMask = [NSAutoresizingMaskOptions.viewMaxXMargin, NSAutoresizingMaskOptions.viewMinYMargin]
-        disclosureButton.bezelStyle = NSBezelStyle.disclosure
+        disclosureButton.autoresizingMask = [NSView.AutoresizingMask.maxXMargin, NSView.AutoresizingMask.minYMargin]
+        disclosureButton.bezelStyle = NSButton.BezelStyle.disclosure
         disclosureButton.setButtonType(.pushOnPushOff)
         disclosureButton.title = ""
         disclosureButton.state = NSOffState
         disclosureButton.target = self
-        disclosureButton.action = "expandButtonClicked:"
+        disclosureButton.action = #selector(PSActionCell.expandButtonClicked(_:))
         self.addSubview(disclosureButton)
         viewsToNotHide.append(disclosureButton)
         
         
         //add title
         let title_label = NSTextField(frame: NSMakeRect(PSDefaultConstants.ActionsBuilder.headerLeftMargin, topYPosition, 100, 17))
-        title_label.autoresizingMask = [NSAutoresizingMaskOptions.viewMaxXMargin, NSAutoresizingMaskOptions.viewMinYMargin]
+        title_label.autoresizingMask = [NSView.AutoresizingMask.maxXMargin, NSView.AutoresizingMask.minYMargin]
         title_label.stringValue = actionInterface.userFriendlyName()
         title_label.isBezeled = false
         title_label.drawsBackground = false
@@ -137,7 +137,7 @@ open class PSActionCell : PSCellView {
         //add summary label
         let width = self.frame.width - PSDefaultConstants.ActionsBuilder.summaryLabelLeftMargin - PSDefaultConstants.ActionsBuilder.controlsRightMargin
         summaryLabel = NSTextField(frame: NSMakeRect(PSDefaultConstants.ActionsBuilder.summaryLabelLeftMargin, topYPosition, width, 17))
-        summaryLabel.autoresizingMask = [NSAutoresizingMaskOptions.viewMinYMargin, NSAutoresizingMaskOptions.viewWidthSizable]
+        summaryLabel.autoresizingMask = [NSView.AutoresizingMask.minYMargin, NSView.AutoresizingMask.width]
         summaryLabel.alignment = NSTextAlignment.left
         summaryLabel.isBezeled = false
         summaryLabel.drawsBackground = false

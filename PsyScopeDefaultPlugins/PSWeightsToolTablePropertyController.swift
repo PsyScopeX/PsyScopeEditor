@@ -13,14 +13,14 @@ class PSWeightsToolTablePropertyController : PSToolTablePropertyController {
     @IBOutlet var weightsColumn : NSTableColumn!
     
     override func tableView(_ tableView: NSTableView, shouldEdit tableColumn: NSTableColumn?, row: Int) -> Bool {
-        if tableColumn!.identifier == weightsColumn.identifier {
+        if convertFromNSUserInterfaceItemIdentifier(tableColumn!.identifier) == convertFromNSUserInterfaceItemIdentifier(weightsColumn.identifier) {
             return true
         }
         return super.tableView(tableView,shouldEdit:tableColumn,row: row)
     }
     
     override func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
-        if tableColumn!.identifier == weightsColumn.identifier {
+        if convertFromNSUserInterfaceItemIdentifier(tableColumn!.identifier) == convertFromNSUserInterfaceItemIdentifier(weightsColumn.identifier) {
             return "1" as AnyObject
         }
         return super.tableView(tableView, objectValueFor: tableColumn, row: row)
@@ -29,4 +29,9 @@ class PSWeightsToolTablePropertyController : PSToolTablePropertyController {
     func tableView(_ tableView: NSTableView, setObjectValue object: AnyObject?, forTableColumn tableColumn: NSTableColumn?, row: Int) {
         print(object)
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromNSUserInterfaceItemIdentifier(_ input: NSUserInterfaceItemIdentifier) -> String {
+	return input.rawValue
 }

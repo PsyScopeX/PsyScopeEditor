@@ -13,7 +13,7 @@ import Foundation
 class PSPluginPreferences : NSViewController, MASPreferencesViewController {
     
     override var identifier : String? { get { return "PluginPreferences" } set { } }
-    var toolbarItemImage : NSImage { get { return NSImage(named: NSImageNamePreferencesGeneral)! } }
+    var toolbarItemImage : NSImage { get { return NSImage(named: NSImage.preferencesGeneralName)! } }
     var toolbarItemLabel : String! { get { return "Plugins" } }
     
     var windowController : NSWindowController!
@@ -62,7 +62,7 @@ class PSPluginPreferences : NSViewController, MASPreferencesViewController {
         task.launchPath = "/bin/sh"
         task.arguments = args
         task.launch()
-        NSApplication.shared().terminate(nil)
+        NSApplication.shared.terminate(nil)
     }
     
 }

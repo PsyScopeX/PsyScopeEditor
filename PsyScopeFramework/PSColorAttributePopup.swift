@@ -9,7 +9,7 @@ import Foundation
 
 func NSColorToPSColorString(_ color_in : NSColor) -> String {
     //For the RGB system, three integers are specified, each in the range 0 to 32677, and representing the amount of red, green and blue to be used, respectively; these three number should be together in one string.
-    let color = color_in.usingColorSpaceName(NSCalibratedRGBColorSpace)!
+    let color = color_in.usingColorSpaceName(NSColorSpaceName.calibratedRGB)!
     let r : Int = Int(color.redComponent * CGFloat(32677))
     let g : Int = Int(color.greenComponent * CGFloat(32677))
     let b : Int = Int(color.blueComponent * CGFloat(32677))
@@ -52,7 +52,7 @@ open class PSColorAttributePopup: PSAttributePopup {
     @IBAction func enteredDone(_: AnyObject) {
         currentValue = PSGetFirstEntryElementForStringOrNull(NSColorToPSColorString(colorWell.color))
         closeMyCustomSheet(self)
-        NSColorPanel.shared().close()
+        NSColorPanel.shared.close()
     }
     
 }

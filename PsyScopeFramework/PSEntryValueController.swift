@@ -52,7 +52,7 @@ open class PSEntryValueController : NSObject, NSTextFieldDelegate {
         }
     }
     
-    open func varyByMenuCommandClicked(_ menuItem : NSMenuItem) {
+    @objc open func varyByMenuCommandClicked(_ menuItem : NSMenuItem) {
         if let val = scriptData.valueForMenuItem(menuItem, original: self.stringValue, originalFullType:  nil) {
             print(val)
         } else {
@@ -83,7 +83,7 @@ open class PSEntryValueController : NSObject, NSTextFieldDelegate {
             functionTextField.frame = mainControl.frame
             functionTextField.delegate = self
             functionTextField.textColor = NSColor.red
-            functionTextField.setupContextMenu(self, action: "varyByMenuCommandClicked:", scriptData: scriptData, controller: self)
+            functionTextField.setupContextMenu(self, action: #selector(PSEntryValueController.varyByMenuCommandClicked(_:)), scriptData: scriptData, controller: self)
         }
         
         mainControl.isHidden = true

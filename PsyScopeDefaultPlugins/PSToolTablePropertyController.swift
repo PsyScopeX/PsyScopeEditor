@@ -27,7 +27,7 @@ class PSToolTablePropertyController: NSObject, NSTableViewDataSource, NSTableVie
     override func awakeFromNib() {
         scriptData = childTypeViewController.scriptData
         super.awakeFromNib()
-        tableView.register(forDraggedTypes: [dragReorderType])
+        tableView.registerForDraggedTypes(convertToNSPasteboardPasteboardTypeArray([dragReorderType]))
         refreshView()
     }
     
@@ -40,16 +40,16 @@ class PSToolTablePropertyController: NSObject, NSTableViewDataSource, NSTableVie
     }
     
     func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
-        if stringList != nil && tableColumn!.identifier == itemsColumn.identifier && row < stringList.stringListRawUnstripped.count {
+        if stringList != nil && convertFromNSUserInterfaceItemIdentifier(tableColumn!.identifier) == convertFromNSUserInterfaceItemIdentifier(itemsColumn.identifier) && row < stringList.stringListRawUnstripped.count {
             return stringList.stringListRawUnstripped[row]
         } else {
             return ""
         }
     }
     
-    func tableView(_ tableView: NSTableView, acceptDrop info: NSDraggingInfo, row: Int, dropOperation: NSTableViewDropOperation) -> Bool {
-        let pboard = info.draggingPasteboard()
-        if let data = pboard.data(forType: dragReorderType),
+    func tableView(_ tableView: NSTableView, acceptDrop info: NSDraggingInfo, row: Int, dropOperation: NSTableView.DropOperation) -> Bool {
+        let pboard = info.draggingPasteboard
+        if let data = pboard.data(forType: convertToNSPasteboardPasteboardType(dragReorderType)),
             let rowIndexes : IndexSet = NSKeyedUnarchiver.unarchiveObject(with: data) as? IndexSet {
             stringList.move(rowIndexes.first!, to: row)
             return true
@@ -60,12 +60,12 @@ class PSToolTablePropertyController: NSObject, NSTableViewDataSource, NSTableVie
     func tableView(_ tableView: NSTableView, writeRowsWith rowIndexes: IndexSet, to pboard: NSPasteboard) -> Bool {
         // Copy the row numbers to the pasteboard.
         let data = NSKeyedArchiver.archivedData(withRootObject: rowIndexes)
-        pboard.declareTypes([dragReorderType], owner: self)
-        pboard.setData(data, forType: dragReorderType)
+        pboard.declareTypes(convertToNSPasteboardPasteboardTypeArray([dragReorderType]), owner: self)
+        pboard.setData(data, forType: convertToNSPasteboardPasteboardType(dragReorderType))
         return true
     }
     
-    func tableView(_ tableView: NSTableView, validateDrop info: NSDraggingInfo, proposedRow row: Int, proposedDropOperation dropOperation: NSTableViewDropOperation) -> NSDragOperation {
+    func tableView(_ tableView: NSTableView, validateDrop info: NSDraggingInfo, proposedRow row: Int, proposedDropOperation dropOperation: NSTableView.DropOperation) -> NSDragOperation {
         print("\(row) - \(dropOperation.rawValue)")
         if dropOperation == .above {
             return NSDragOperation.move
@@ -75,7 +75,7 @@ class PSToolTablePropertyController: NSObject, NSTableViewDataSource, NSTableVie
     }
     
     func tableView(_ tableView: NSTableView, shouldEdit tableColumn: NSTableColumn?, row: Int) -> Bool {
-        if tableColumn!.identifier == itemsColumn.identifier {
+        if convertFromNSUserInterfaceItemIdentifier(tableColumn!.identifier) == convertFromNSUserInterfaceItemIdentifier(itemsColumn.identifier) {
             return false
         }
         return true
@@ -146,4 +146,19 @@ class PSToolTablePropertyController: NSObject, NSTableViewDataSource, NSTableVie
         refreshView()
     }
     
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToNSPasteboardPasteboardTypeArray(_ input: [String]) -> [NSPasteboard.PasteboardType] {
+	return input.map { key in NSPasteboard.PasteboardType(key) }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromNSUserInterfaceItemIdentifier(_ input: NSUserInterfaceItemIdentifier) -> String {
+	return input.rawValue
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToNSPasteboardPasteboardType(_ input: String) -> NSPasteboard.PasteboardType {
+	return NSPasteboard.PasteboardType(rawValue: input)
 }

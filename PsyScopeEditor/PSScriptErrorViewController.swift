@@ -73,9 +73,9 @@ class PSScriptErrorViewController: NSObject, NSTableViewDataSource, NSTableViewD
     
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         if row < errors.count {
-            return tableView.make(withIdentifier: "ErrorView", owner: nil)
+            return tableView.makeView(withIdentifier: convertToNSUserInterfaceItemIdentifier("ErrorView"), owner: nil)
         } else {
-            return tableView.make(withIdentifier: "WarningView", owner: nil)
+            return tableView.makeView(withIdentifier: convertToNSUserInterfaceItemIdentifier("WarningView"), owner: nil)
         }
     }
     
@@ -116,4 +116,9 @@ class PSScriptErrorViewController: NSObject, NSTableViewDataSource, NSTableViewD
             NotificationCenter.default.post(name: Notification.Name(rawValue: "PSShowErrorsNotification"), object: mainWindowController.document)
         }
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToNSUserInterfaceItemIdentifier(_ input: String) -> NSUserInterfaceItemIdentifier {
+	return NSUserInterfaceItemIdentifier(rawValue: input)
 }

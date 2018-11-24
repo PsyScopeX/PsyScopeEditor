@@ -17,12 +17,12 @@ class PSCondition_Movie : PSCondition {
     }
     
     override func nib() -> NSNib {
-        return NSNib(nibNamed: "Condition_MovieCell", bundle: Bundle(for:type(of: self)))!
+        return NSNib(nibNamed: "Condition_MovieCell", bundle: Bundle(for:Swift.type(of: self)))!
     }
 
     
     override func icon() -> NSImage {
-        let image : NSImage = NSImage(contentsOfFile: Bundle(for:type(of: self)).pathForImageResource("MouseClick")!)!
+        let image : NSImage = NSImage(contentsOfFile: Bundle(for:Swift.type(of: self)).pathForImageResource("MouseClick")!)!
         return image
     }
 }

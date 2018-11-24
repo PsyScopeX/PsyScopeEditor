@@ -11,7 +11,7 @@ import Foundation
 class PSPsyScopeXPreferences : NSViewController, MASPreferencesViewController {
     
     override var identifier : String? { get { return "PsyScopeXPreferences" } set { } }
-    var toolbarItemImage : NSImage { get { return NSImage(named: NSImageNamePreferencesGeneral)! } }
+    var toolbarItemImage : NSImage { get { return NSImage(named: NSImage.preferencesGeneralName)! } }
     var toolbarItemLabel : String! { get { return "PsyScopeX" } }
     
     var windowController : NSWindowController!

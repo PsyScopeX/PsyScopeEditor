@@ -23,9 +23,9 @@ open class PSAttributeParameter_Precompile : PSAttributeParameter {
                 
                 //add check box
                 allCheck = NSButton(frame: halfAttributeValueControlFrame)
-                allCheck.setButtonType(NSButtonType.switch)
+                allCheck.setButtonType(NSButton.ButtonType.switch)
                 allCheck.target = self
-                allCheck.action = "checkSelected:"
+                allCheck.action = #selector(PSAttributeParameter_Precompile.checkSelected(_:))
                 allCheck.title = "All"
                 cell.addSubview(allCheck)
                 
@@ -34,9 +34,9 @@ open class PSAttributeParameter_Precompile : PSAttributeParameter {
                 
                 //add number text field
                 numberText = NSTextField(frame: locationAlong)
-                numberText.autoresizingMask = NSAutoresizingMaskOptions.viewWidthSizable
+                numberText.autoresizingMask = NSView.AutoresizingMask.width
                 numberText.target = self
-                numberText.action = "numberChanged:"
+                numberText.action = #selector(PSAttributeParameter_Precompile.numberChanged(_:))
                 let intsOnly = NumberFormatter()
                 intsOnly.maximumFractionDigits = 0
                 numberText.formatter = intsOnly
@@ -54,8 +54,8 @@ open class PSAttributeParameter_Precompile : PSAttributeParameter {
         }
     }
     
-    func checkSelected(_ item : NSMenuItem) {
-        if allCheck.state == 1 {
+    @objc func checkSelected(_ item : NSMenuItem) {
+        if allCheck.state.rawValue == 1 {
             currentValue = PSGetFirstEntryElementForStringOrNull("All")
         } else {
             currentValue = PSGetFirstEntryElementForStringOrNull(String(numberText.integerValue))
@@ -63,7 +63,7 @@ open class PSAttributeParameter_Precompile : PSAttributeParameter {
         self.cell.updateScript()
     }
     
-    func numberChanged(_:AnyObject) {
+    @objc func numberChanged(_:AnyObject) {
         currentValue = PSGetFirstEntryElementForStringOrNull(String(numberText.integerValue))
         self.cell.updateScript()
     }
@@ -71,17 +71,22 @@ open class PSAttributeParameter_Precompile : PSAttributeParameter {
     func updateContent() {
         let stringValue = currentValue.stringValue()
         if stringValue.lowercased() == "all" {
-            allCheck.state = 1
+            allCheck.state = convertToNSControlStateValue(1)
             numberText.stringValue = ""
             numberText.isEnabled = false
         } else if let _ = Int(stringValue) {
-            allCheck.state = 0
+            allCheck.state = convertToNSControlStateValue(0)
             numberText.stringValue = stringValue
             numberText.isEnabled = true
         } else {
-            allCheck.state = 0
+            allCheck.state = convertToNSControlStateValue(0)
             numberText.stringValue = "0"
             numberText.isEnabled = true
         }
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToNSControlStateValue(_ input: Int) -> NSControl.StateValue {
+	return NSControl.StateValue(rawValue: input)
 }

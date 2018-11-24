@@ -29,7 +29,7 @@ class PSListTableView : NSTableView {
             return self.menu
         } else {
             let theDelegate = self.delegate as! PSListBuilderTableController
-            return theDelegate.scriptData.getVaryByMenu(theDelegate, action: "clickMenuItem:")
+            return theDelegate.scriptData.getVaryByMenu(theDelegate, action: #selector(PSAttributeParameter.clickMenuItem(_:)))
         }
     }
     

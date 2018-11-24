@@ -152,10 +152,10 @@ class PSListTool: PSTool, PSToolInterface {
                         alert.addButton(withTitle: cancelButton)
                         
                         let answer = alert.runModal()
-                        if answer == NSAlertFirstButtonReturn {
+                        if answer == NSApplication.ModalResponse.alertFirstButtonReturn {
                             //change type of field
                             field.entry.type = originalFullType.fullType
-                        } else if answer == NSAlertSecondButtonReturn {
+                        } else if answer == NSApplication.ModalResponse.alertSecondButtonReturn {
                             //fall through...
                         } else {
                             return originalValue

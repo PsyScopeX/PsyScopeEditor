@@ -38,7 +38,7 @@ class PSEntryBrowser : NSObject, NSOutlineViewDataSource, NSOutlineViewDelegate 
     func setup(_ scriptData : PSScriptData) {
         self.scriptData = scriptData
         let nib = NSNib(nibNamed: "PSEntryBrowserCell", bundle: Bundle(for:type(of: self)))!
-        outlineView.register(nib, forIdentifier: "PSEntryBrowserCell")
+        outlineView.register(nib, forIdentifier: convertToNSUserInterfaceItemIdentifier("PSEntryBrowserCell"))
     }
     
     func update() {
@@ -103,7 +103,7 @@ class PSEntryBrowser : NSObject, NSOutlineViewDataSource, NSOutlineViewDelegate 
         }
         
         if icons[type] == nil {
-            icons[type] = NSImage(named: NSImageNameActionTemplate)
+            icons[type] = NSImage(named: NSImage.actionTemplateName)
         }
         return categoryForCategoryName("Other", associateType: type, icon: icons[type]!)
     }
@@ -158,7 +158,7 @@ class PSEntryBrowser : NSObject, NSOutlineViewDataSource, NSOutlineViewDelegate 
     }
     
     func outlineView(_ outlineView: NSOutlineView, viewFor tableColumn: NSTableColumn?, item: Any) -> NSView? {
-        let view = outlineView.make(withIdentifier: "PSEntryBrowserCell", owner: nil) as! NSTableCellView
+        let view = outlineView.makeView(withIdentifier: convertToNSUserInterfaceItemIdentifier("PSEntryBrowserCell"), owner: nil) as! NSTableCellView
         if let category = item as? PSEntryBrowserCategory {
             view.textField?.stringValue = category.name
             view.imageView!.image = category.icon
@@ -177,4 +177,9 @@ class PSEntryBrowser : NSObject, NSOutlineViewDataSource, NSOutlineViewDelegate 
         }
         return true
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToNSUserInterfaceItemIdentifier(_ input: String) -> NSUserInterfaceItemIdentifier {
+	return NSUserInterfaceItemIdentifier(rawValue: input)
 }

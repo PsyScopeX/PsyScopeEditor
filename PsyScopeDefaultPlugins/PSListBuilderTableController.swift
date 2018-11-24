@@ -35,7 +35,7 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
     override func awakeFromNib() {
         if initialized { return }
         initialized = true //awakeFromNib gets called when setting the owner of new listbuildercells
-        listTableView.doubleAction = "doubleClickInTableView:"
+        listTableView.doubleAction = #selector(PSListBuilderTableController.doubleClickInTableView(_:))
         listTableView.target = self
         nameColumn = listTableView.tableColumns.first! as NSTableColumn
         scriptData = listBuilder.scriptData
@@ -56,10 +56,10 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
         
 
         if list.hasWeights {
-            weightsCheckButton.state = 1
+            weightsCheckButton.state = convertToNSControlStateValue(1)
             weightsColumn.isHidden = false
         } else {
-            weightsCheckButton.state = 0
+            weightsCheckButton.state = convertToNSControlStateValue(0)
             weightsColumn.isHidden = true
         }
         
@@ -97,7 +97,7 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
     
     //MARK: Editable headers
     
-    func doubleClickInTableView(_ sender : AnyObject) {
+    @objc func doubleClickInTableView(_ sender : AnyObject) {
         let row = listTableView.clickedRow
         let col = listTableView.clickedColumn
         
@@ -123,7 +123,7 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
     
     func textDidEndEditing(_ notification: Notification) {
         let editor = notification.object as! NSTextView
-        let name = editor.string!
+        let name = editor.string
         
         if(lastDoubleClickCoords.row == -1 && lastDoubleClickCoords.col >= 2) {
             
@@ -233,11 +233,11 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
             
             //column is for item names or weights
             
-            let identifier = tableColumn!.identifier
-            let view = tableView.make(withIdentifier: identifier, owner: self) as! NSTableCellView
+            let identifier = convertFromNSUserInterfaceItemIdentifier(tableColumn!.identifier)
+            let view = tableView.makeView(withIdentifier: convertToNSUserInterfaceItemIdentifier(identifier), owner: self) as! NSTableCellView
             view.textField!.delegate = self
 
-            if identifier == weightsColumn.identifier {
+            if identifier == convertFromNSUserInterfaceItemIdentifier(weightsColumn.identifier) {
                 view.textField!.stringValue = String(list.weightForRow(row))
                 weightsTextFields[view.textField!] = row
             } else {
@@ -317,7 +317,7 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
     }
     
     @IBAction func weightsCheckButtonClicked(_:AnyObject) {
-        if weightsCheckButton.state == 1 {
+        if weightsCheckButton.state.rawValue == 1 {
             let numberOfRows = list != nil ? list.count : 0
             list.weightsColumn = [Int](repeating: 1, count: numberOfRows)
         } else {
@@ -420,4 +420,19 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
     }
     
 
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToNSControlStateValue(_ input: Int) -> NSControl.StateValue {
+	return NSControl.StateValue(rawValue: input)
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromNSUserInterfaceItemIdentifier(_ input: NSUserInterfaceItemIdentifier) -> String {
+	return input.rawValue
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToNSUserInterfaceItemIdentifier(_ input: String) -> NSUserInterfaceItemIdentifier {
+	return NSUserInterfaceItemIdentifier(rawValue: input)
 }

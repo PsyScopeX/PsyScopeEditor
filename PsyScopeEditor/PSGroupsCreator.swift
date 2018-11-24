@@ -34,7 +34,7 @@ class PSGroupsCreator {
             alert.addButton(withTitle: noButton)
             
             let answer = alert.runModal()
-            if answer != NSAlertFirstButtonReturn {
+            if answer != NSApplication.ModalResponse.alertFirstButtonReturn {
                 return
             }
         }

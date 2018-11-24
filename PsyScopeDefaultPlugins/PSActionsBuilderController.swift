@@ -42,7 +42,7 @@ class PSActionsBuilderController : NSObject, NSTableViewDataSource, NSTableViewD
     override func awakeFromNib() {
         scriptData = actionsBuilder.scriptData
         let nib = NSNib(nibNamed: "ActionsBuilderCell", bundle: Bundle(for:type(of: self)))
-        actionsTableView.register(nib!, forIdentifier: tableCellViewIdentifier)
+        actionsTableView.register(nib!, forIdentifier: convertToNSUserInterfaceItemIdentifier(tableCellViewIdentifier))
         
 
         //if nothing selected don't allow the pressing of action button
@@ -104,7 +104,7 @@ class PSActionsBuilderController : NSObject, NSTableViewDataSource, NSTableViewD
     }
     
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        let view = tableView.make(withIdentifier: tableCellViewIdentifier, owner: self) as! PSActionsBuilderCell
+        let view = tableView.makeView(withIdentifier: convertToNSUserInterfaceItemIdentifier(tableCellViewIdentifier), owner: self) as! PSActionsBuilderCell
         view.controller = self
         view.actionsAttribute = self.actionsAttribute
         view.rowIndex = row
@@ -341,4 +341,9 @@ class PSActionsBuilderController : NSObject, NSTableViewDataSource, NSTableViewD
         }
     }
 
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToNSUserInterfaceItemIdentifier(_ input: String) -> NSUserInterfaceItemIdentifier {
+	return NSUserInterfaceItemIdentifier(rawValue: input)
 }

@@ -90,20 +90,20 @@ class PSGroupsViewController : PSToolPropertyController, NSTableViewDelegate, NS
             }
         }
         
-        if tableColumn!.identifier == criteriaActiveTableColumn.identifier {
-            let view = tableView.make(withIdentifier: tableColumn!.identifier, owner: nil) as! NSButton
-            view.state = active ? 1 : 0
+        if convertFromNSUserInterfaceItemIdentifier(tableColumn!.identifier) == convertFromNSUserInterfaceItemIdentifier(criteriaActiveTableColumn.identifier) {
+            let view = tableView.makeView(withIdentifier: tableColumn!.identifier, owner: nil) as! NSButton
+            view.state = NSControl.StateValue(rawValue: active ? 1 : 0)
             view.tag = row
             view.target = self
-            view.action = "activeCheckClicked:"
+            view.action = #selector(PSGroupsViewController.activeCheckClicked(_:))
             return view
-        } else if tableColumn!.identifier == criteriaNameColumn.identifier {
-            let view = tableView.make(withIdentifier: tableColumn!.identifier, owner: nil) as! NSTableCellView
+        } else if convertFromNSUserInterfaceItemIdentifier(tableColumn!.identifier) == convertFromNSUserInterfaceItemIdentifier(criteriaNameColumn.identifier) {
+            let view = tableView.makeView(withIdentifier: tableColumn!.identifier, owner: nil) as! NSTableCellView
             view.textField!.stringValue = subjectVariables[row].name
             view.textField?.isEnabled = active
             return view
-        } else if tableColumn!.identifier == criteriaValueTableColumn.identifier {
-            let groupView = tableView.make(withIdentifier: tableColumn!.identifier, owner: nil) as! PSGroupValueCellView
+        } else if convertFromNSUserInterfaceItemIdentifier(tableColumn!.identifier) == convertFromNSUserInterfaceItemIdentifier(criteriaValueTableColumn.identifier) {
+            let groupView = tableView.makeView(withIdentifier: tableColumn!.identifier, owner: nil) as! PSGroupValueCellView
             groupView.textField!.stringValue = activeValue
             groupView.textField?.isEnabled = active
             groupView.row = row
@@ -114,8 +114,8 @@ class PSGroupsViewController : PSToolPropertyController, NSTableViewDelegate, NS
         return nil
     }
     
-    func activeCheckClicked(_ checkbox : NSButton) {
-        if checkbox.state == 1 {
+    @objc func activeCheckClicked(_ checkbox : NSButton) {
+        if checkbox.state.rawValue == 1 {
             group.addCriteria(subjectVariables[checkbox.tag], value: "")
         } else {
             group.removeCriteria(subjectVariables[checkbox.tag].name)
@@ -141,4 +141,9 @@ class PSGroupsViewController : PSToolPropertyController, NSTableViewDelegate, NS
     
     
     
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromNSUserInterfaceItemIdentifier(_ input: NSUserInterfaceItemIdentifier) -> String {
+	return input.rawValue
 }

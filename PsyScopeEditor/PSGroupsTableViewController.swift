@@ -24,7 +24,7 @@ class PSGroupsTableViewController : NSObject, NSTableViewDataSource, NSTableView
     }
 
     override func awakeFromNib() {
-        tableView.register(forDraggedTypes: [dragReorderType])
+        tableView.registerForDraggedTypes(convertToNSPasteboardPasteboardTypeArray([dragReorderType]))
     }
 
 
@@ -45,9 +45,9 @@ class PSGroupsTableViewController : NSObject, NSTableViewDataSource, NSTableView
         }
     }
 
-    func tableView(_ tableView: NSTableView, acceptDrop info: NSDraggingInfo, row: Int, dropOperation: NSTableViewDropOperation) -> Bool {
-        let pboard = info.draggingPasteboard()
-        if let data = pboard.data(forType: dragReorderType),
+    func tableView(_ tableView: NSTableView, acceptDrop info: NSDraggingInfo, row: Int, dropOperation: NSTableView.DropOperation) -> Bool {
+        let pboard = info.draggingPasteboard
+        if let data = pboard.data(forType: convertToNSPasteboardPasteboardType(dragReorderType)),
             let rowIndexes : IndexSet = NSKeyedUnarchiver.unarchiveObject(with: data) as? IndexSet {
                 stringList.move(rowIndexes.first!, to: row)
                 return true
@@ -58,12 +58,12 @@ class PSGroupsTableViewController : NSObject, NSTableViewDataSource, NSTableView
     func tableView(_ tableView: NSTableView, writeRowsWith rowIndexes: IndexSet, to pboard: NSPasteboard) -> Bool {
         // Copy the row numbers to the pasteboard.
         let data = NSKeyedArchiver.archivedData(withRootObject: rowIndexes)
-        pboard.declareTypes([dragReorderType], owner: self)
-        pboard.setData(data, forType: dragReorderType)
+        pboard.declareTypes(convertToNSPasteboardPasteboardTypeArray([dragReorderType]), owner: self)
+        pboard.setData(data, forType: convertToNSPasteboardPasteboardType(dragReorderType))
         return true
     }
 
-    func tableView(_ tableView: NSTableView, validateDrop info: NSDraggingInfo, proposedRow row: Int, proposedDropOperation dropOperation: NSTableViewDropOperation) -> NSDragOperation {
+    func tableView(_ tableView: NSTableView, validateDrop info: NSDraggingInfo, proposedRow row: Int, proposedDropOperation dropOperation: NSTableView.DropOperation) -> NSDragOperation {
         print("\(row) - \(dropOperation.rawValue)")
         if dropOperation == .above {
             return NSDragOperation.move
@@ -146,4 +146,14 @@ class PSGroupsTableViewController : NSObject, NSTableViewDataSource, NSTableView
         scriptData.endUndoGrouping()
     }
     
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToNSPasteboardPasteboardTypeArray(_ input: [String]) -> [NSPasteboard.PasteboardType] {
+	return input.map { key in NSPasteboard.PasteboardType(key) }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToNSPasteboardPasteboardType(_ input: String) -> NSPasteboard.PasteboardType {
+	return NSPasteboard.PasteboardType(rawValue: input)
 }

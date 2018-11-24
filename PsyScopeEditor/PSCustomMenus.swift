@@ -29,12 +29,12 @@ class PSCustomMenus : NSObject {
         super.awakeFromNib()
         
         //register for NSPopUpButtonWillPopUpNotification
-        NotificationCenter.default.addObserver(self, selector: "popUpWillPopUp:", name: NSNotification.Name(rawValue: "NSPopUpButtonWillPopUpNotification"), object: customMenuPopUp)
+        NotificationCenter.default.addObserver(self, selector: #selector(PSCustomMenus.popUpWillPopUp(_:)), name: NSNotification.Name(rawValue: "NSPopUpButtonWillPopUpNotification"), object: customMenuPopUp)
     }
     
     //MARK: On NSPopUpButtonWillPopUpNotification
     
-    func popUpWillPopUp(_: AnyObject) {
+    @objc func popUpWillPopUp(_: AnyObject) {
         //construct menu from script
         
         //get scriptData
@@ -98,7 +98,7 @@ class PSCustomMenus : NSObject {
                 for dialogVariable in dialogVariables {
                     let childMenuItem = NSMenuItem()
                     childMenuItem.title = dialogVariable.name
-                    childMenuItem.action = "menuItemSelected:"
+                    childMenuItem.action = #selector(PSCustomMenus.menuItemSelected(_:))
                     childMenuItem.target = self
                     subMenu.addItem(childMenuItem)
                 }
@@ -117,7 +117,7 @@ class PSCustomMenus : NSObject {
     }
     
     
-    func menuItemSelected(_ menuItem : NSMenuItem) {
+    @objc func menuItemSelected(_ menuItem : NSMenuItem) {
         //User has selected a dialog variable from the menu
         
         let scriptData = mainWindowController.scriptData!

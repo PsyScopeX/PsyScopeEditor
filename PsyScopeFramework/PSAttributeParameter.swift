@@ -49,7 +49,7 @@ open class PSAttributeParameter : NSObject {
             } else {
 
                 attributeSourceLabel = NSTextField(frame: attributeValueControlFrame)
-                attributeSourceLabel!.autoresizingMask = [NSAutoresizingMaskOptions.viewWidthSizable, NSAutoresizingMaskOptions.viewHeightSizable]
+                attributeSourceLabel!.autoresizingMask = [NSView.AutoresizingMask.width, NSView.AutoresizingMask.height]
                 attributeSourceLabel!.drawsBackground = false
                 attributeSourceLabel!.isSelectable = false
                 cell.addSubview(attributeSourceLabel!)

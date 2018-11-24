@@ -42,7 +42,7 @@ class PSEntryBrowserSearchController : NSObject, NSTextFieldDelegate, NCRAutocom
     func textView(_ textView: NSTextView!, completions words: [AnyObject]!, forPartialWordRange charRange: NSRange, indexOfSelectedItem index: UnsafeMutablePointer<Int>) -> [AnyObject]! {
 
             
-        let toMatch : String = (textView.string! as NSString).substring(with: charRange).lowercased()
+        let toMatch : String = (textView.string as NSString).substring(with: charRange).lowercased()
         let completions : [String] = entryNames.filter { $0.lowercased().range(of: toMatch) != nil }
     
         return completions as [AnyObject]
@@ -57,7 +57,7 @@ class PSEntryBrowserSearchController : NSObject, NSTextFieldDelegate, NCRAutocom
     }
     
     func textViewDidEnterPress(_ textView : NSTextView) {
-        if let entry = scriptData.getBaseEntry(textView.string!) {
+        if let entry = scriptData.getBaseEntry(textView.string) {
             selectionInterface.selectEntry(entry)
         }
     }

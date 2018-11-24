@@ -186,9 +186,9 @@ class PSScriptReader_Tests: XCTestCase {
     }
     
     func testScriptReader_TestScript1_HasNoErrors() {
-        let path = Bundle(for: type(of: self)).path(forResource: "TestScript1", ofType: "") as String!
+        let path = Bundle(for: type(of: self)).path(forResource: "TestScript1", ofType: "")
         do {
-            let theFile : String = try String(contentsOfFile:path, encoding: String.Encoding.utf8)
+            let theFile : String = try String(contentsOfFile:path!, encoding: String.Encoding.utf8)
             let reader = PSScriptReader(script: theFile)
             
             for entry in reader.ghostScript.entries {

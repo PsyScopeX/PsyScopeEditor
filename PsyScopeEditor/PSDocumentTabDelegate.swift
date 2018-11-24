@@ -85,10 +85,10 @@ class PSDocumentTabDelegate: NSObject, NSTabViewDelegate {
         self.selectionInterface = mainWindowController.selectionController
         
         //create notification listeners for left panel windows
-        NotificationCenter.default.addObserver(self, selector: "showErrors", name: NSNotification.Name(rawValue: "PSShowErrorsNotification"), object: mainWindowController.document)
-        NotificationCenter.default.addObserver(self, selector: "showProperties", name: NSNotification.Name(rawValue: "PSShowPropertiesNotification"), object: mainWindowController.document)
-        NotificationCenter.default.addObserver(self, selector: "showAttributes", name: NSNotification.Name(rawValue: "PSShowAttributesNotification"), object: mainWindowController.document)
-        NotificationCenter.default.addObserver(self, selector: "showActions", name: NSNotification.Name(rawValue: "PSShowActionsNotification"), object: mainWindowController.document)
+        NotificationCenter.default.addObserver(self, selector: #selector(PSDocumentTabDelegate.showErrors), name: NSNotification.Name(rawValue: "PSShowErrorsNotification"), object: mainWindowController.document)
+        NotificationCenter.default.addObserver(self, selector: #selector(PSDocumentTabDelegate.showProperties), name: NSNotification.Name(rawValue: "PSShowPropertiesNotification"), object: mainWindowController.document)
+        NotificationCenter.default.addObserver(self, selector: #selector(PSDocumentTabDelegate.showAttributes), name: NSNotification.Name(rawValue: "PSShowAttributesNotification"), object: mainWindowController.document)
+        NotificationCenter.default.addObserver(self, selector: #selector(PSDocumentTabDelegate.showActions), name: NSNotification.Name(rawValue: "PSShowActionsNotification"), object: mainWindowController.document)
         
         //setup initial state
         currentToolsTabViewItem = leftPanelTabView.selectedTabViewItem
@@ -143,7 +143,7 @@ class PSDocumentTabDelegate: NSObject, NSTabViewDelegate {
             let segmentIndex = tag
             toolbarSegmentedControl.setImage(icon, forSegment: segmentIndex)
             toolbarSegmentedControl.setImageScaling(toolbarSegmentedControl.imageScaling(forSegment: 0), forSegment: segmentIndex)
-            NotificationCenter.default.addObserver(self, selector: "showWindowNotification:", name: NSNotification.Name(rawValue: "PSShowWindowNotificationFor\(identifier)"), object: mainWindowController.document)
+            NotificationCenter.default.addObserver(self, selector: #selector(PSDocumentTabDelegate.showWindowNotification(_:)), name: NSNotification.Name(rawValue: "PSShowWindowNotificationFor\(identifier)"), object: mainWindowController.document)
             totalTags += 1
         }
 
@@ -152,13 +152,13 @@ class PSDocumentTabDelegate: NSObject, NSTabViewDelegate {
     @IBAction func experimentSetupButtonClick(_: AnyObject) {
         if let item = items[-1] {
             toolbarSegmentedControl.selectedSegment = -1 //deselect
-            experimentSetupButton.state = 1
+            experimentSetupButton.state = convertToNSControlStateValue(1)
             show(item)
         }
     }
     
     @IBAction func segmentedControlClick(_ controller : NSSegmentedControl) {
-        experimentSetupButton.state = 0
+        experimentSetupButton.state = convertToNSControlStateValue(0)
         let selected = controller.selectedSegment
         
         if selected > -1 {
@@ -179,7 +179,7 @@ class PSDocumentTabDelegate: NSObject, NSTabViewDelegate {
         
     }
     
-    func showWindowNotification(_ notification : Notification) {
+    @objc func showWindowNotification(_ notification : Notification) {
         //get window name from notification
         let windowName = (notification.name as NSString).replacingOccurrences(of: "PSShowWindowNotificationFor", with: "")
         showWindow(windowName)
@@ -330,30 +330,30 @@ class PSDocumentTabDelegate: NSObject, NSTabViewDelegate {
     
     //MARK: Notifications
     
-    func showErrors() {
+    @objc func showErrors() {
         toolsShowing = false
         leftPanelTabView.selectTabViewItem(errorsTabViewItem)
     }
     
-    func showProperties() {
+    @objc func showProperties() {
         rightPanelTabView.selectTabViewItem(propertiesTabViewItem)
-        propertiesButton.state = 1
-        attributesButton.state = 0
-        actionsButton.state = 0
+        propertiesButton.state = convertToNSControlStateValue(1)
+        attributesButton.state = convertToNSControlStateValue(0)
+        actionsButton.state = convertToNSControlStateValue(0)
     }
     
-    func showAttributes() {
+    @objc func showAttributes() {
         rightPanelTabView.selectTabViewItem(attributesTabViewItem)
-        propertiesButton.state = 0
-        attributesButton.state = 1
-        actionsButton.state = 0
+        propertiesButton.state = convertToNSControlStateValue(0)
+        attributesButton.state = convertToNSControlStateValue(1)
+        actionsButton.state = convertToNSControlStateValue(0)
     }
     
-    func showActions() {
+    @objc func showActions() {
         rightPanelTabView.selectTabViewItem(actionsTabViewItem)
-        propertiesButton.state = 0
-        attributesButton.state = 0
-        actionsButton.state = 1
+        propertiesButton.state = convertToNSControlStateValue(0)
+        attributesButton.state = convertToNSControlStateValue(0)
+        actionsButton.state = convertToNSControlStateValue(1)
     }
     
     func doubleClickProperties() {
@@ -378,3 +378,8 @@ class PSDocumentTabDelegate: NSObject, NSTabViewDelegate {
 }
 
 
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToNSControlStateValue(_ input: Int) -> NSControl.StateValue {
+	return NSControl.StateValue(rawValue: input)
+}

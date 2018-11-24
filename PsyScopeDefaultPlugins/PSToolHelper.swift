@@ -150,7 +150,7 @@ class PSToolHelper: NSObject {
             //resize image
             let img = NSImage(size: CGSize(width: size, height: size))
             img.lockFocus()
-            let ctx = NSGraphicsContext.current()
+            let ctx = NSGraphicsContext.current
             ctx?.imageInterpolation = .high
             icon.draw(in: NSMakeRect(0, 0, size, size), from: NSMakeRect(0, 0, icon.size.width, icon.size.height), operation: .copy, fraction: 1)
             img.unlockFocus()
@@ -167,7 +167,7 @@ class PSToolHelper: NSObject {
             let values = function.getStrippedStringValues()
             let valueString = values.joined(separator: " \u{21d2} ")
             
-            let stringPart = NSAttributedString(string: "  " + valueString, attributes: [NSBaselineOffsetAttributeName : PSDefaultConstants.Spacing.VaryByTextYOffset])
+            let stringPart = NSAttributedString(string: "  " + valueString, attributes: convertToOptionalNSAttributedStringKeyDictionary([convertFromNSAttributedStringKey(NSAttributedString.Key.baselineOffset) : PSDefaultConstants.Spacing.VaryByTextYOffset]))
             
             //put together attributed string
             let attributedString = NSMutableAttributedString()
@@ -186,3 +186,14 @@ class PSToolHelper: NSObject {
 
 
 
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToOptionalNSAttributedStringKeyDictionary(_ input: [String: Any]?) -> [NSAttributedString.Key: Any]? {
+	guard let input = input else { return nil }
+	return Dictionary(uniqueKeysWithValues: input.map { key, value in (NSAttributedString.Key(rawValue: key), value)})
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromNSAttributedStringKey(_ input: NSAttributedString.Key) -> String {
+	return input.rawValue
+}

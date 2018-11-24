@@ -51,9 +51,9 @@ class PSDataFileNameController : NSObject, NSTokenFieldDelegate, NSTextFieldDele
         autoDataFile = PSAutoDataFile(scriptData: scriptData, subjectVariableNames: subjectVariableNames)
         
         if autoDataFile.auto {
-            autoGenerateCheckButton.state = 1
+            autoGenerateCheckButton.state = convertToNSControlStateValue(1)
         } else {
-            autoGenerateCheckButton.state = 0
+            autoGenerateCheckButton.state = convertToNSControlStateValue(0)
             subjectVariableNames = []  //reset token list for auto completion...
         }
         
@@ -102,28 +102,28 @@ class PSDataFileNameController : NSObject, NSTokenFieldDelegate, NSTextFieldDele
         return representedObject as? String
     }
     
-    func tokenField(_ tokenField: NSTokenField, representedObjectForEditing editingString: String) -> Any {
+    func tokenField(_ tokenField: NSTokenField, representedObjectForEditing editingString: String) -> (Any)? {
         let cleanEditingString = editingString.components(separatedBy: bannedCharacters).joined(separator: "")
         return cleanEditingString
     }
     
     
 
-    func tokenField(_ tokenField: NSTokenField, styleForRepresentedObject representedObject: Any) -> NSTokenStyle {
-        if autoGenerateCheckButton.state == 1 {
-            return NSTokenStyle.rounded
+    func tokenField(_ tokenField: NSTokenField, styleForRepresentedObject representedObject: Any) -> NSTokenField.TokenStyle {
+        if autoGenerateCheckButton.state.rawValue == 1 {
+            return NSTokenField.TokenStyle.rounded
         } else {
-            return NSTokenStyle.none
+            return NSTokenField.TokenStyle.none
         }
     }
     
     //MARK: NSTextFieldDelegate
     
-    override func controlTextDidChange(_ obj: Notification) {
+    func controlTextDidChange(_ obj: Notification) {
         updatePreviewTextView()
     }
     
-    override func controlTextDidEndEditing(_ obj: Notification) {
+    func controlTextDidEndEditing(_ obj: Notification) {
         updatePreviewTextView()
         updateAutoDataFileScriptEntry()
     }
@@ -143,7 +143,7 @@ class PSDataFileNameController : NSObject, NSTokenFieldDelegate, NSTextFieldDele
     
     func updateAutoDataFileScriptEntry() {
         scriptData.beginUndoGrouping("Update DataFile Name")
-        autoDataFile.auto = (autoGenerateCheckButton.state == 1)
+        autoDataFile.auto = (autoGenerateCheckButton.state.rawValue == 1)
         if let stringArray = tokenField.objectValue as? [String] {
             autoDataFile.autoDataFileElements = stringArray
         } else {
@@ -164,3 +164,8 @@ class PSDataFileNameController : NSObject, NSTokenFieldDelegate, NSTextFieldDele
     }
 }
 
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToNSControlStateValue(_ input: Int) -> NSControl.StateValue {
+	return NSControl.StateValue(rawValue: input)
+}

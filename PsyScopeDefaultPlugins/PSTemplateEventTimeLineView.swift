@@ -53,7 +53,7 @@ class PSTemplateEventTimeLineView : NSView {
         //layer for feedback during dragging
         draggingTextLayer.font = font
         draggingTextLayer.fontSize = 10
-        draggingTextLayer.alignmentMode = kCAAlignmentRight
+        draggingTextLayer.alignmentMode = CATextLayerAlignmentMode.right
         draggingTextLayer.foregroundColor = NSColor.black.cgColor
         draggingTextLayer.anchorPoint = CGPoint(x: 1, y: 0.5)
         draggingTextLayer.frame = CGRect(origin: CGPoint.zero, size: CGSize(width: 50,height: 20))
@@ -185,7 +185,7 @@ class PSTemplateEventTimeLineView : NSView {
         
         if canDragStartTime || canDragUnscheduledPosition {
             let leftPart : CGRect = CGRect(origin: CGPoint(x: startTime-5, y: y_pos), size: CGSize(width: 10,height: PSDefaultConstants.Spacing.TLBtimeBarWidth))
-            startTrackingArea = NSTrackingArea(rect: leftPart, options: [NSTrackingAreaOptions.activeInActiveApp, NSTrackingAreaOptions.mouseEnteredAndExited], owner: self, userInfo: [:])
+            startTrackingArea = NSTrackingArea(rect: leftPart, options: [NSTrackingArea.Options.activeInActiveApp, NSTrackingArea.Options.mouseEnteredAndExited], owner: self, userInfo: [:])
             self.addTrackingArea(startTrackingArea)
         }
         
@@ -197,7 +197,7 @@ class PSTemplateEventTimeLineView : NSView {
         
         if canDragDurationTime {
             let rightPart : CGRect = CGRect(origin: CGPoint(x: startTime + durationTime - 5, y: y_pos), size: CGSize(width: 10,height: PSDefaultConstants.Spacing.TLBtimeBarWidth))
-            durationTrackingArea = NSTrackingArea(rect: rightPart, options: [NSTrackingAreaOptions.activeInActiveApp, NSTrackingAreaOptions.mouseEnteredAndExited], owner: self, userInfo: [:])
+            durationTrackingArea = NSTrackingArea(rect: rightPart, options: [NSTrackingArea.Options.activeInActiveApp, NSTrackingArea.Options.mouseEnteredAndExited], owner: self, userInfo: [:])
             self.addTrackingArea(durationTrackingArea)
         }
         
@@ -233,7 +233,7 @@ class PSTemplateEventTimeLineView : NSView {
             text_layer.font = font
             text_layer.fontSize = 10
             text_layer.string = text
-            text_layer.alignmentMode = kCAAlignmentRight
+            text_layer.alignmentMode = CATextLayerAlignmentMode.right
             text_layer.frame = frame
             text_layer.foregroundColor = NSColor.black.cgColor
             text_layer.anchorPoint = CGPoint(x: 1, y: 0.5)
@@ -253,7 +253,7 @@ class PSTemplateEventTimeLineView : NSView {
             text_layer.font = font
             text_layer.fontSize = 18
             text_layer.string = "U"
-            text_layer.alignmentMode = kCAAlignmentLeft
+            text_layer.alignmentMode = CATextLayerAlignmentMode.left
             text_layer.frame = frame
             text_layer.foregroundColor = NSColor.red.cgColor
             text_layer.anchorPoint = CGPoint(x: 0, y: 0.5)
@@ -268,7 +268,7 @@ class PSTemplateEventTimeLineView : NSView {
             text_layer.font = font
             text_layer.fontSize = 18
             text_layer.string = String(event.repeats)
-            text_layer.alignmentMode = kCAAlignmentLeft
+            text_layer.alignmentMode = CATextLayerAlignmentMode.left
             text_layer.frame = frame
             text_layer.foregroundColor = NSColor.red.cgColor
             text_layer.anchorPoint = CGPoint(x: 0, y: 0.5)
@@ -287,8 +287,8 @@ class PSTemplateEventTimeLineView : NSView {
             text_layer.font = font
             text_layer.fontSize = 12
             text_layer.string = currentValue
-            text_layer.alignmentMode = kCAAlignmentLeft
-            text_layer.truncationMode = kCATruncationEnd
+            text_layer.alignmentMode = CATextLayerAlignmentMode.left
+            text_layer.truncationMode = CATextLayerTruncationMode.end
             text_layer.foregroundColor = NSColor.darkGray.cgColor
             text_layer.anchorPoint = CGPoint(x: 0, y: 0.5)
             //text_layer.borderColor = NSColor.lightGrayColor().CGColor
@@ -427,23 +427,23 @@ class PSTemplateEventTimeLineView : NSView {
         if theEvent.trackingArea == startTrackingArea  && (canDragStartTime || canDragUnscheduledPosition) && !inDurationArea {
             inStartArea = true
             inDurationArea = false
-            NSCursor.resizeLeftRight().set()
+            NSCursor.resizeLeftRight.set()
         } else if theEvent.trackingArea == durationTrackingArea && canDragDurationTime && !inStartArea {
             inDurationArea = true
             inStartArea = false
-            NSCursor.resizeLeftRight().set()
+            NSCursor.resizeLeftRight.set()
         }
     }
     
     override func mouseExited(with theEvent: NSEvent) {
         if theEvent.trackingArea == startTrackingArea && inStartArea {
             inStartArea = false
-            NSCursor.arrow().set()
+            NSCursor.arrow.set()
         }
         
         if theEvent.trackingArea == durationTrackingArea && inDurationArea {
             inDurationArea = false
-            NSCursor.arrow().set()
+            NSCursor.arrow.set()
         }
     }
     

@@ -15,7 +15,7 @@ import Cocoa
 open class PSFontAttributePopup: PSAttributePopup, NSControlTextEditingDelegate {
     public init(currentValue: PSEntryElement, displayName : String, type : PSFontAttributePopupType, setCurrentValueBlock : ((PSEntryElement) -> ())?) {
         self.type = type
-        super.init(nibName: "FontAttribute",bundle: Bundle(for:type(of: self)),currentValue: currentValue, displayName: displayName, setCurrentValueBlock: setCurrentValueBlock )
+        super.init(nibName: "FontAttribute",bundle: Bundle(for:Swift.type(of: self)),currentValue: currentValue, displayName: displayName, setCurrentValueBlock: setCurrentValueBlock )
     }
     
     @IBOutlet var fontManager : NSFontManager!
@@ -65,11 +65,11 @@ open class PSFontAttributePopup: PSAttributePopup, NSControlTextEditingDelegate 
                 fontSizeStepper.integerValue = fontSize
                 colorWell.color = PSColorStringToNSColor(valueStringList[4])
                 
-                if valueStringList[2].range(of: "Bold") != nil { boldCheck.state = 1 }
-                if valueStringList[2].range(of: "Italic") != nil { italicCheck.state = 1 }
-                if valueStringList[2].range(of: "Underline") != nil { underlinedCheck.state = 1 }
-                if valueStringList[2].range(of: "Outline") != nil { outlineCheck.state = 1 }
-                if valueStringList[2].range(of: "Shadow") != nil { shadowCheck.state = 1 }
+                if valueStringList[2].range(of: "Bold") != nil { boldCheck.state = convertToNSControlStateValue(1) }
+                if valueStringList[2].range(of: "Italic") != nil { italicCheck.state = convertToNSControlStateValue(1) }
+                if valueStringList[2].range(of: "Underline") != nil { underlinedCheck.state = convertToNSControlStateValue(1) }
+                if valueStringList[2].range(of: "Outline") != nil { outlineCheck.state = convertToNSControlStateValue(1) }
+                if valueStringList[2].range(of: "Shadow") != nil { shadowCheck.state = convertToNSControlStateValue(1) }
             }
         
             break
@@ -87,11 +87,11 @@ open class PSFontAttributePopup: PSAttributePopup, NSControlTextEditingDelegate 
             break
         case .faceOnly:
             if valueStringList.count == 1 {
-                if valueStringList[0].range(of: "Bold") != nil { boldCheck.state = 1 }
-                if valueStringList[0].range(of: "Italic") != nil { italicCheck.state = 1 }
-                if valueStringList[0].range(of: "Underline") != nil { underlinedCheck.state = 1 }
-                if valueStringList[0].range(of: "Outline") != nil { outlineCheck.state = 1 }
-                if valueStringList[0].range(of: "Shadow") != nil { shadowCheck.state = 1 }
+                if valueStringList[0].range(of: "Bold") != nil { boldCheck.state = convertToNSControlStateValue(1) }
+                if valueStringList[0].range(of: "Italic") != nil { italicCheck.state = convertToNSControlStateValue(1) }
+                if valueStringList[0].range(of: "Underline") != nil { underlinedCheck.state = convertToNSControlStateValue(1) }
+                if valueStringList[0].range(of: "Outline") != nil { outlineCheck.state = convertToNSControlStateValue(1) }
+                if valueStringList[0].range(of: "Shadow") != nil { shadowCheck.state = convertToNSControlStateValue(1) }
             }
             break
         }
@@ -107,11 +107,11 @@ open class PSFontAttributePopup: PSAttributePopup, NSControlTextEditingDelegate 
             cv += "\" "
             cv += "\(fontSize) "
             cv += "\""
-            if (boldCheck.state == 1) { cv += "Bold " }
-            if (italicCheck.state == 1) { cv += "Italic " }
-            if (underlinedCheck.state == 1) { cv += "Underline " }
-            if (outlineCheck.state == 1) { cv += "Outline " }
-            if (shadowCheck.state == 1) { cv += "Shadow " }
+            if (boldCheck.state.rawValue == 1) { cv += "Bold " }
+            if (italicCheck.state.rawValue == 1) { cv += "Italic " }
+            if (underlinedCheck.state.rawValue == 1) { cv += "Underline " }
+            if (outlineCheck.state.rawValue == 1) { cv += "Outline " }
+            if (shadowCheck.state.rawValue == 1) { cv += "Shadow " }
             cv += "\" Copy "
             cv += NSColorToPSColorString(colorWell.color)
             break
@@ -125,11 +125,11 @@ open class PSFontAttributePopup: PSAttributePopup, NSControlTextEditingDelegate 
             break
         case .faceOnly:
             cv += "\""
-            if (boldCheck.state == 1) { cv += "Bold " }
-            if (italicCheck.state == 1) { cv += "Italic " }
-            if (underlinedCheck.state == 1) { cv += "Underline " }
-            if (outlineCheck.state == 1) { cv += "Outline " }
-            if (shadowCheck.state == 1) { cv += "Shadow " }
+            if (boldCheck.state.rawValue == 1) { cv += "Bold " }
+            if (italicCheck.state.rawValue == 1) { cv += "Italic " }
+            if (underlinedCheck.state.rawValue == 1) { cv += "Underline " }
+            if (outlineCheck.state.rawValue == 1) { cv += "Outline " }
+            if (shadowCheck.state.rawValue == 1) { cv += "Shadow " }
             cv += "\""
             break
         }
@@ -192,19 +192,24 @@ open class PSFontAttributePopup: PSAttributePopup, NSControlTextEditingDelegate 
     }
     
     @IBAction func enteredDone(_: AnyObject) {
-        NSColorPanel.shared().close()
+        NSColorPanel.shared.close()
         updateCurrentValue()
         closeMyCustomSheet(self)
-        NSFontPanel.shared().close()
+        NSFontPanel.shared.close()
     }
     
     
     
     
-    override open func changeFont(_ sender: Any?) {
+    open func changeFont(_ sender: Any?) {
         //var newFont = sender?.convertFont(font!)
         //font = newFont!
         //super.changeFont(sender)
         
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToNSControlStateValue(_ input: Int) -> NSControl.StateValue {
+	return NSControl.StateValue(rawValue: input)
 }

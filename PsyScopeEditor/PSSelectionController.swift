@@ -32,7 +32,7 @@ class PSSelectionController : NSObject, PSSelectionInterface {
         willSet {
             if newValue != registeredForChanges {
                 if newValue {
-                    NotificationCenter.default.addObserver(self, selector: "docMocChanged:", name: NSNotification.Name.NSManagedObjectContextObjectsDidChange, object: scriptData.docMoc)
+                    NotificationCenter.default.addObserver(self, selector: #selector(PSSelectionController.docMocChanged(_:)), name: NSNotification.Name.NSManagedObjectContextObjectsDidChange, object: scriptData.docMoc)
                 } else {
                     NotificationCenter.default.removeObserver(self)
                 }
@@ -64,7 +64,7 @@ class PSSelectionController : NSObject, PSSelectionInterface {
     
     
     
-    func docMocChanged(_ notification : Notification) {
+    @objc func docMocChanged(_ notification : Notification) {
         docMocChangesPending = true
         if (debugMocChanges) { dumpDocMocChanges(notification) }
         if scriptData.inUndoGroup  {

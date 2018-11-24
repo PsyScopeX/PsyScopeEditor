@@ -42,7 +42,7 @@ open class PSActionPicker: NSObject, NSOutlineViewDataSource, NSOutlineViewDeleg
 
     override open func awakeFromNib() {
         let nib = NSNib(nibNamed: "ActionPickerCell", bundle: Bundle(for:type(of: self)))
-        actionOutlineView.register(nib!, forIdentifier: tableCellViewIdentifier)
+        actionOutlineView.register(nib!, forIdentifier: convertToNSUserInterfaceItemIdentifier(tableCellViewIdentifier))
     }
     
     open func showActionWindow(_ view : NSView) {
@@ -103,13 +103,13 @@ open class PSActionPicker: NSObject, NSOutlineViewDataSource, NSOutlineViewDeleg
 
     open func outlineView(_ outlineView: NSOutlineView, viewFor tableColumn: NSTableColumn?, item: Any) -> NSView? {
         if let act = item as? PSActionPickerAction {
-            let view = outlineView.make(withIdentifier: tableCellViewIdentifier, owner: nil) as! PSActionPickerCell
+            let view = outlineView.makeView(withIdentifier: convertToNSUserInterfaceItemIdentifier(tableCellViewIdentifier), owner: nil) as! PSActionPickerCell
             
             view.setup(act, clickCallback: actionButtonClicked)
             return view
         }
         if let group = item as? PSActionPickerGroup {
-            let view = (outlineView.make(withIdentifier: tableColumn!.identifier, owner: nil) as! NSTableCellView)
+            let view = (outlineView.makeView(withIdentifier: tableColumn!.identifier, owner: nil) as! NSTableCellView)
             view.textField?.stringValue = group.name
             return view
         }
@@ -127,3 +127,8 @@ open class PSActionPicker: NSObject, NSOutlineViewDataSource, NSOutlineViewDeleg
     
 }
 
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToNSUserInterfaceItemIdentifier(_ input: String) -> NSUserInterfaceItemIdentifier {
+	return NSUserInterfaceItemIdentifier(rawValue: input)
+}

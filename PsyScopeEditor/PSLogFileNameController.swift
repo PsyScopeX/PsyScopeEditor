@@ -16,17 +16,17 @@ class PSLogFileNameController : NSObject {
         logFileTextField.stringValue = PSGetLogFileName(scriptData)
     }
     
-    override func controlTextDidBeginEditing(_ obj: Notification) {
+    func controlTextDidBeginEditing(_ obj: Notification) {
         scriptData.beginUndoGrouping("Edit Log File Name")
     }
     
-    override func controlTextDidChange(_ obj: Notification) {
+    func controlTextDidChange(_ obj: Notification) {
         let logfile = scriptData.getOrCreateBaseEntry("Log File", type: PSType.Logging)
         
         logfile.currentValue = "\"\(logFileTextField.stringValue)\""
     }
     
-    override func controlTextDidEndEditing(_ obj: Notification) {
+    func controlTextDidEndEditing(_ obj: Notification) {
         scriptData.endUndoGrouping()
     }
 }

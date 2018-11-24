@@ -59,15 +59,15 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
         if (!initialized) {
             initialized = true
             let nib = NSNib(nibNamed: "TemplateEventIconCell", bundle: Bundle(for:type(of: self)))
-            eventIconTableView.register(nib!, forIdentifier: eventIconCellViewIdentifier)
+            eventIconTableView.register(nib!, forIdentifier: convertToNSUserInterfaceItemIdentifier(eventIconCellViewIdentifier))
             let nib2 = NSNib(nibNamed: "TemplateTimeLineCell", bundle: Bundle(for:type(of: self)))
-            timeLineTableView.register(nib2!, forIdentifier: timeLineCellViewIdentifier)
+            timeLineTableView.register(nib2!, forIdentifier: convertToNSUserInterfaceItemIdentifier(timeLineCellViewIdentifier))
             
-            eventIconTableView.register(forDraggedTypes: [PSConstants.PSEventBrowserView.dragType, PSConstants.PSEventBrowserView.pasteboardType,"psyscope.pstemplateevent"])
-            timeLineTableView.register(forDraggedTypes: [PSConstants.PSEventBrowserView.dragType, PSConstants.PSEventBrowserView.pasteboardType,"psyscope.pstemplateevent"])
+            eventIconTableView.registerForDraggedTypes(convertToNSPasteboardPasteboardTypeArray([PSConstants.PSEventBrowserView.dragType, PSConstants.PSEventBrowserView.pasteboardType,"psyscope.pstemplateevent"]))
+            timeLineTableView.registerForDraggedTypes(convertToNSPasteboardPasteboardTypeArray([PSConstants.PSEventBrowserView.dragType, PSConstants.PSEventBrowserView.pasteboardType,"psyscope.pstemplateevent"]))
             
             overlayView = NSFlippedView(frame: timeLineTableView.frame)
-            NotificationCenter.default.addObserver(self, selector: "tableFrameSizeChange:", name: NSNotification.Name.NSViewFrameDidChange, object: timeLineTableView)
+            NotificationCenter.default.addObserver(self, selector: #selector(PSTemplateLayoutBoardController.tableFrameSizeChange(_:)), name: NSView.frameDidChangeNotification, object: timeLineTableView)
             overlayView.layer = CALayer()
             overlayView.wantsLayer = true
             
@@ -299,8 +299,8 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
         
         
         //update nsrulerview
-        NSRulerView.registerUnit(withName: "Milliseconds", abbreviation: "ms", unitToPointsConversionFactor: zoomMultiplier, stepUpCycle: [10], stepDownCycle: [0.5])
-        rulerView.measurementUnits = "Milliseconds"
+        NSRulerView.registerUnit(withName: convertToNSRulerViewUnitName("Milliseconds"), abbreviation: "ms", unitToPointsConversionFactor: zoomMultiplier, stepUpCycle: [10], stepDownCycle: [0.5])
+        rulerView.measurementUnits = convertToNSRulerViewUnitName("Milliseconds")
         CATransaction.commit()
         refreshVisualSelection()
     }
@@ -387,7 +387,7 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
         
         switch (tableView) {
         case eventIconTableView:
-            let view = eventIconTableView.make(withIdentifier: eventIconCellViewIdentifier, owner: self) as! PSEventTableCellView
+            let view = eventIconTableView.makeView(withIdentifier: convertToNSUserInterfaceItemIdentifier(eventIconCellViewIdentifier), owner: self) as! PSEventTableCellView
             view.deleteAction = {(event : PSTemplateEvent) -> () in
                 let objToDelete = event.entry.layoutObject
                 //select another object from this template
@@ -407,7 +407,7 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
             }
             return view
         case timeLineTableView:
-            let view = timeLineTableView.make(withIdentifier: timeLineCellViewIdentifier, owner: self) as! PSTemplateEventTimeLineView
+            let view = timeLineTableView.makeView(withIdentifier: convertToNSUserInterfaceItemIdentifier(timeLineCellViewIdentifier), owner: self) as! PSTemplateEventTimeLineView
             view.zoomMultiplier = zoomMultiplier
             view.tableView = timeLineTableView
             return view
@@ -467,17 +467,17 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
     //MARK: Table view dragging
     
     func tableView(_ tableView: NSTableView, draggingSession session: NSDraggingSession, willBeginAt screenPoint: NSPoint, forRowIndexes rowIndexes: IndexSet) {
-        tableView.draggingDestinationFeedbackStyle = NSTableViewDraggingDestinationFeedbackStyle.gap
+        tableView.draggingDestinationFeedbackStyle = NSTableView.DraggingDestinationFeedbackStyle.gap
     }
     
     func tableView(_ tableView: NSTableView, draggingSession session: NSDraggingSession, endedAt screenPoint: NSPoint, operation: NSDragOperation) {
         writingRow = nil
     }
    
-    func tableView(_ tableView: NSTableView, acceptDrop info: NSDraggingInfo, row: Int, dropOperation: NSTableViewDropOperation) -> Bool {
+    func tableView(_ tableView: NSTableView, acceptDrop info: NSDraggingInfo, row: Int, dropOperation: NSTableView.DropOperation) -> Bool {
         
         //only allow in between
-        if dropOperation == NSTableViewDropOperation.on {
+        if dropOperation == NSTableView.DropOperation.on {
             return false
         }
         
@@ -485,13 +485,13 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
         if templateObject != nil {
             
             //is this a new tool, or a reorder drag?
-            let pasteboard = info.draggingPasteboard()
+            let pasteboard = info.draggingPasteboard
             
-            for q in pasteboard.types! {
+            for q in convertFromOptionalNSPasteboardPasteboardTypeArray(pasteboard.types)! {
                 if q == PSConstants.PSEventBrowserView.pasteboardType {
                     scriptData.beginUndoGrouping("Add New Object")
                     var success = false
-                    let type = pasteboard.string(forType: PSConstants.PSEventBrowserView.pasteboardType)!
+                    let type = pasteboard.string(forType: convertToNSPasteboardPasteboardType(PSConstants.PSEventBrowserView.pasteboardType))!
                     if let new_entry = scriptData.createNewEventFromTool(type, templateObject: templateObject,order: row) {
                         success = true
                         selectionInterface.selectEntry(new_entry)
@@ -513,7 +513,7 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
                         
                         
                         //instantiate new event
-                        let new_events = pasteboard.readObjects(forClasses: [PSTemplateEvent.self], options: [:]) as! [PSTemplateEvent]
+                        let new_events = pasteboard.readObjects(forClasses: [PSTemplateEvent.self], options: convertToOptionalNSPasteboardReadingOptionKeyDictionary([:])) as! [PSTemplateEvent]
                         for e in new_events {
                             e.unarchiveData(scriptData)
                             events.append(e)
@@ -553,19 +553,19 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
         }
     }
     
-    func tableView(_ tableView: NSTableView, validateDrop info: NSDraggingInfo, proposedRow row: Int, proposedDropOperation dropOperation: NSTableViewDropOperation) -> NSDragOperation {
+    func tableView(_ tableView: NSTableView, validateDrop info: NSDraggingInfo, proposedRow row: Int, proposedDropOperation dropOperation: NSTableView.DropOperation) -> NSDragOperation {
         info.animatesToDestination = true
         
         var operation = NSDragOperation()
         //only allow in between
-        if dropOperation == NSTableViewDropOperation.on || tableView == timeLineTableView {
+        if dropOperation == NSTableView.DropOperation.on || tableView == timeLineTableView {
             return operation
         }
         
         //is this a new tool, or a reorder drag?
         if templateObject != nil {
-            let pasteboard = info.draggingPasteboard()
-            for q in pasteboard.types! {
+            let pasteboard = info.draggingPasteboard
+            for q in convertFromOptionalNSPasteboardPasteboardTypeArray(pasteboard.types)! {
                 if q == PSConstants.PSEventBrowserView.pasteboardType {
                     operation = NSDragOperation.link
                 } else if q == "psyscope.pstemplateevent" {
@@ -580,7 +580,7 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
     //MARK: Overlay view
     // Transparent view on which connecting lines are drawn
     // automatically resize overlayView when timeLineTableView size is changed
-    func tableFrameSizeChange(_ sender : AnyObject) {
+    @objc func tableFrameSizeChange(_ sender : AnyObject) {
         overlayView.frame = timeLineTableView.frame
     }
     
@@ -597,7 +597,7 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
         line.fillColor = NSColor.red.cgColor
         line.opacity = 0.5
         line.strokeColor = NSColor.red.cgColor
-        line.lineCap = kCALineCapRound
+        line.lineCap = CAShapeLayerLineCap.round
         return line
     }
     
@@ -639,4 +639,36 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
         fullRefresh()
     }
     
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToNSUserInterfaceItemIdentifier(_ input: String) -> NSUserInterfaceItemIdentifier {
+	return NSUserInterfaceItemIdentifier(rawValue: input)
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToNSPasteboardPasteboardTypeArray(_ input: [String]) -> [NSPasteboard.PasteboardType] {
+	return input.map { key in NSPasteboard.PasteboardType(key) }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToNSRulerViewUnitName(_ input: String) -> NSRulerView.UnitName {
+	return NSRulerView.UnitName(rawValue: input)
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromOptionalNSPasteboardPasteboardTypeArray(_ input: [NSPasteboard.PasteboardType]?) -> [String]? {
+	guard let input = input else { return nil }
+	return input.map { key in key.rawValue }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToNSPasteboardPasteboardType(_ input: String) -> NSPasteboard.PasteboardType {
+	return NSPasteboard.PasteboardType(rawValue: input)
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToOptionalNSPasteboardReadingOptionKeyDictionary(_ input: [String: Any]?) -> [NSPasteboard.ReadingOptionKey: Any]? {
+	guard let input = input else { return nil }
+	return Dictionary(uniqueKeysWithValues: input.map { key, value in (NSPasteboard.ReadingOptionKey(rawValue: key), value)})
 }

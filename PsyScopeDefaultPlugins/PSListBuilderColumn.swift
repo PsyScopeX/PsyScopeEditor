@@ -12,7 +12,7 @@ class PSListBuilderColumn : NSTableColumn {
     
     init(identifier : String, column_field : PSField) {
         self.field = column_field
-        super.init(identifier: identifier)
+        super.init(identifier: convertToNSUserInterfaceItemIdentifier(identifier))
     }
 
     required init(coder aDecoder: NSCoder) {
@@ -20,3 +20,8 @@ class PSListBuilderColumn : NSTableColumn {
     }
 }
 
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToNSUserInterfaceItemIdentifier(_ input: String) -> NSUserInterfaceItemIdentifier {
+	return NSUserInterfaceItemIdentifier(rawValue: input)
+}

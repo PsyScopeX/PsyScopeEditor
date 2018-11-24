@@ -19,11 +19,11 @@ class PSVariableUsedInPullDownController : NSObject {
         super.awakeFromNib()
         
         //register for NSPopUpButtonWillPopUpNotification
-        NotificationCenter.default.addObserver(self, selector: "popUpWillPopUp:", name: NSNotification.Name(rawValue: "NSPopUpButtonWillPopUpNotification"), object: pullDown)
+        NotificationCenter.default.addObserver(self, selector: #selector(PSVariableUsedInPullDownController.popUpWillPopUp(_:)), name: NSNotification.Name(rawValue: "NSPopUpButtonWillPopUpNotification"), object: pullDown)
     }
     
     
-    func popUpWillPopUp(_: AnyObject) {
+    @objc func popUpWillPopUp(_: AnyObject) {
         let scriptData = controller.scriptData
         for entryName in entryNames {
             pullDown.removeItem(withTitle: entryName)

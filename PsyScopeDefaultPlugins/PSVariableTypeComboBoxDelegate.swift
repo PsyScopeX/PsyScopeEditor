@@ -64,7 +64,7 @@ class PSVariableTypeComboBoxDelegate : NSObject, NSComboBoxDataSource, NSComboBo
         }
     }
     
-    override func controlTextDidEndEditing(_ obj: Notification) {
+    func controlTextDidEndEditing(_ obj: Notification) {
         if let comboBox = obj.object as? NSComboBox,
             let superView = comboBox.superview,
             let tableCellView = superView as? PSVariableTypeComboBoxTableCellView,

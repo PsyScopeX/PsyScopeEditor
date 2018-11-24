@@ -36,7 +36,7 @@ open class PSAttributePopup : NSObject {
         parentWindow = window
         
         parentWindow.beginSheet(attributeSheet, completionHandler: {
-            (response : NSModalResponse) -> () in
+            (response : NSApplication.ModalResponse) -> () in
             NSApp.stopModal(withCode: response)
             
             

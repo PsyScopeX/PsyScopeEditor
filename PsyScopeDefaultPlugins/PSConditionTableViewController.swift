@@ -19,7 +19,7 @@ class PSConditionTableViewController: NSObject, NSTableViewDelegate, NSTableView
     
     override func awakeFromNib() {
         let accnib = NSNib(nibNamed: "AddConditionCell", bundle: Bundle(for:type(of: self)))
-        conditionsTableView.register(accnib!, forIdentifier: addConditionCellViewIdentifier)
+        conditionsTableView.register(accnib!, forIdentifier: convertToNSUserInterfaceItemIdentifier(addConditionCellViewIdentifier))
         
     }
     
@@ -41,7 +41,7 @@ class PSConditionTableViewController: NSObject, NSTableViewDelegate, NSTableView
     func refresh() {
         //register nibs
         for condition in conditionAttribute.conditions {
-            self.conditionsTableView.register(condition.condition.nib(), forIdentifier: "PSCustomAction\(condition.condition.type())")
+            self.conditionsTableView.register(condition.condition.nib(), forIdentifier: convertToNSUserInterfaceItemIdentifier("PSCustomAction\(condition.condition.type())"))
         }
         conditionsTableView.reloadData()
     }
@@ -78,7 +78,7 @@ class PSConditionTableViewController: NSObject, NSTableViewDelegate, NSTableView
         //determine wether it is action or condition
             if row < conditionAttribute.conditions.count {
                 let identifier = "PSCustomAction\(conditionAttribute.conditions[row].condition.type())"
-                let view = tableView.make(withIdentifier: identifier, owner: self) as! PSConditionCell
+                let view = tableView.makeView(withIdentifier: convertToNSUserInterfaceItemIdentifier(identifier), owner: self) as! PSConditionCell
                 view.setup(conditionAttribute.conditions[row].condition,function: conditionAttribute.conditions[row],scriptData: scriptData, expandedHeight: conditionAttribute.conditions[row].condition.expandedCellHeight())
                 view.updateScriptBlock = { () -> () in self.conditionAttribute.updateEntry() }
                 
@@ -91,7 +91,7 @@ class PSConditionTableViewController: NSObject, NSTableViewDelegate, NSTableView
                 return view
             } else {
                 //is add condition button
-                let view = tableView.make(withIdentifier: addConditionCellViewIdentifier, owner: self) as! PSButtonCell
+                let view = tableView.makeView(withIdentifier: convertToNSUserInterfaceItemIdentifier(addConditionCellViewIdentifier), owner: self) as! PSButtonCell
                 view.action = { (sender : NSButton) -> () in
                     self.addCondition(sender)
                 }
@@ -125,7 +125,7 @@ class PSConditionTableViewController: NSObject, NSTableViewDelegate, NSTableView
             (conditionInterface : PSConditionInterface, selected : Bool) -> () in
             if (selected) {
                 //append
-                self.conditionsTableView.register(conditionInterface.nib(), forIdentifier: "PSCustomAction\(conditionInterface.type())")
+                self.conditionsTableView.register(conditionInterface.nib(), forIdentifier: convertToNSUserInterfaceItemIdentifier("PSCustomAction\(conditionInterface.type())"))
                 self.conditionAttribute.appendCondition(conditionInterface)
             } else {
                 //remove
@@ -149,4 +149,9 @@ class PSConditionTableViewController: NSObject, NSTableViewDelegate, NSTableView
         }
         
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToNSUserInterfaceItemIdentifier(_ input: String) -> NSUserInterfaceItemIdentifier {
+	return NSUserInterfaceItemIdentifier(rawValue: input)
 }
