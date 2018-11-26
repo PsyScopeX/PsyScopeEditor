@@ -9,6 +9,7 @@
 import Foundation
 //Tries to get a value - much work to do....
 public func PSFunctionEvaluate(_ entryElement : PSEntryElement, scriptData : PSScriptData) -> String {
+    
     switch (entryElement) {
     case .null:
         break

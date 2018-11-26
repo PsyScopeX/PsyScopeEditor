@@ -88,10 +88,8 @@ open class PSPort : Hashable, Equatable {
 
     func parseCurrentValue() {
         parsing = true
-        let value = self.currentValue
-        
-        
-        var components = value.components(separatedBy: " ") as [String]
+
+        let components = self.currentValue.components(separatedBy: " ")
         
         if components.count >= 1 {
             x = PSPortMeasurement.fromString(components[0], type: .leftRight)
@@ -130,11 +128,11 @@ open class PSPort : Hashable, Equatable {
         return nil
     }
     
-    var name : NSString {
-        get { return entry.name as! NSString }
+    var name : String {
+        get { return entry.name }
         set {
             //updates entry as well as in ports entry
-            scriptData.renameEntry(entry, nameSuggestion: newValue as String)
+            _ = scriptData.renameEntry(entry, nameSuggestion: newValue)
         }
     }
     
