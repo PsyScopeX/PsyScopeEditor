@@ -63,8 +63,8 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
             let nib2 = NSNib(nibNamed: "TemplateTimeLineCell", bundle: Bundle(for:type(of: self)))
             timeLineTableView.register(nib2!, forIdentifier:timeLineCellViewIdentifier)
             
-            eventIconTableView.registerForDraggedTypes(convertToNSPasteboardPasteboardTypeArray([PSConstants.PSEventBrowserView.dragType, PSConstants.PSEventBrowserView.pasteboardType,"psyscope.pstemplateevent"]))
-            timeLineTableView.registerForDraggedTypes(convertToNSPasteboardPasteboardTypeArray([PSConstants.PSEventBrowserView.dragType, PSConstants.PSEventBrowserView.pasteboardType,"psyscope.pstemplateevent"]))
+            eventIconTableView.registerForDraggedTypes([PSConstants.PSEventBrowserView.dragType, PSConstants.PSEventBrowserView.pasteboardType,NSPasteboard.PasteboardType(rawValue: "psyscope.pstemplateevent")])
+            timeLineTableView.registerForDraggedTypes([PSConstants.PSEventBrowserView.dragType, PSConstants.PSEventBrowserView.pasteboardType,NSPasteboard.PasteboardType(rawValue: "psyscope.pstemplateevent")])
             
             overlayView = NSFlippedView(frame: timeLineTableView.frame)
             NotificationCenter.default.addObserver(self, selector: #selector(PSTemplateLayoutBoardController.tableFrameSizeChange(_:)), name: NSView.frameDidChangeNotification, object: timeLineTableView)
@@ -299,8 +299,8 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
         
         
         //update nsrulerview
-        NSRulerView.registerUnit(withName: convertToNSRulerViewUnitName("Milliseconds"), abbreviation: "ms", unitToPointsConversionFactor: zoomMultiplier, stepUpCycle: [10], stepDownCycle: [0.5])
-        rulerView.measurementUnits = convertToNSRulerViewUnitName("Milliseconds")
+        NSRulerView.registerUnit(withName: NSRulerView.UnitName(rawValue: "Milliseconds"), abbreviation: "ms", unitToPointsConversionFactor: zoomMultiplier, stepUpCycle: [10], stepDownCycle: [0.5])
+        rulerView.measurementUnits = NSRulerView.UnitName(rawValue: "Milliseconds")
         CATransaction.commit()
         refreshVisualSelection()
     }
@@ -487,11 +487,11 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
             //is this a new tool, or a reorder drag?
             let pasteboard = info.draggingPasteboard
             
-            for q in convertFromOptionalNSPasteboardPasteboardTypeArray(pasteboard.types)! {
+            for q in pasteboard.types! {
                 if q == PSConstants.PSEventBrowserView.pasteboardType {
                     scriptData.beginUndoGrouping("Add New Object")
                     var success = false
-                    let type = pasteboard.string(forType: convertToNSPasteboardPasteboardType(PSConstants.PSEventBrowserView.pasteboardType))!
+                    let type = pasteboard.string(forType: PSConstants.PSEventBrowserView.pasteboardType)!
                     if let new_entry = scriptData.createNewEventFromTool(type, templateObject: templateObject,order: row) {
                         success = true
                         selectionInterface.selectEntry(new_entry)
@@ -499,7 +499,7 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
                     scriptData.endUndoGrouping(success)
                     
                     return success
-                } else if q == "psyscope.pstemplateevent" {
+                } else if q == NSPasteboard.PasteboardType(rawValue:"psyscope.pstemplateevent") {
                     scriptData.beginUndoGrouping("Move Event")
                     let success = true
                     if let fromRow = writingRow {
@@ -513,7 +513,7 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
                         
                         
                         //instantiate new event
-                        let new_events = pasteboard.readObjects(forClasses: [PSTemplateEvent.self], options: convertToOptionalNSPasteboardReadingOptionKeyDictionary([:])) as! [PSTemplateEvent]
+                        let new_events = pasteboard.readObjects(forClasses: [PSTemplateEvent.self], options: [:]) as! [PSTemplateEvent]
                         for e in new_events {
                             e.unarchiveData(scriptData)
                             events.append(e)
@@ -565,10 +565,10 @@ class PSTemplateLayoutBoardController: NSObject, NSTextFieldDelegate, NSTableVie
         //is this a new tool, or a reorder drag?
         if templateObject != nil {
             let pasteboard = info.draggingPasteboard
-            for q in convertFromOptionalNSPasteboardPasteboardTypeArray(pasteboard.types)! {
+            for q in pasteboard.types! {
                 if q == PSConstants.PSEventBrowserView.pasteboardType {
                     operation = NSDragOperation.link
-                } else if q == "psyscope.pstemplateevent" {
+                } else if q == NSPasteboard.PasteboardType(rawValue: "psyscope.pstemplateevent") {
                     operation = NSDragOperation.move
                 }
             }

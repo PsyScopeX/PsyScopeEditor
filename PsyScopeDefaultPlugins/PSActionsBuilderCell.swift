@@ -38,9 +38,9 @@ class PSActionsBuilderCell: NSView, NSTableViewDelegate, NSTableViewDataSource {
         //register nibs for conditions
         for condition in conditions {
             let identifier = NSUserInterfaceItemIdentifier(rawValue:"PSCustomAction\(condition.functionName)")
-            if !registeredNibs.contains(identifier) {
+            if !registeredNibs.contains(identifier.rawValue) {
                 self.conditionsTableView.register(condition.condition.nib(), forIdentifier:identifier)
-                registeredNibs.insert(identifier)
+                registeredNibs.insert(identifier.rawValue)
             }
         }
         

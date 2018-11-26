@@ -167,7 +167,7 @@ class PSToolHelper: NSObject {
             let values = function.getStrippedStringValues()
             let valueString = values.joined(separator: " \u{21d2} ")
             
-            let stringPart = NSAttributedString(string: "  " + valueString, attributes: convertToOptionalNSAttributedStringKeyDictionary([convertFromNSAttributedStringKey(NSAttributedString.Key.baselineOffset) : PSDefaultConstants.Spacing.VaryByTextYOffset]))
+            let stringPart = NSAttributedString(string: "  " + valueString, attributes:[NSAttributedString.Key.baselineOffset : PSDefaultConstants.Spacing.VaryByTextYOffset])
             
             //put together attributed string
             let attributedString = NSMutableAttributedString()

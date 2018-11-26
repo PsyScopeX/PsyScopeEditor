@@ -146,9 +146,9 @@ class PSVariableOutlineViewController : NSObject, NSOutlineViewDataSource, NSOut
     //MARK: Outlineview delegate
     
     func outlineView(_ outlineView: NSOutlineView, viewFor tableColumn: NSTableColumn?, item: Any) -> NSView? {
-        if convertFromNSUserInterfaceItemIdentifier(tableColumn!.identifier) == convertFromNSUserInterfaceItemIdentifier(nameColumn.identifier) {
+        if tableColumn!.identifier == nameColumn.identifier {
             return outlineView.makeView(withIdentifier: tableColumn!.identifier, owner: nil)
-        } else if convertFromNSUserInterfaceItemIdentifier(tableColumn!.identifier) == convertFromNSUserInterfaceItemIdentifier(valueColumn.identifier) {
+        } else if tableColumn!.identifier == valueColumn.identifier {
             let view = outlineView.makeView(withIdentifier: tableColumn!.identifier, owner: nil) as! PSVariableOutlineViewCellView
             
             

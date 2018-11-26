@@ -13,14 +13,14 @@ class PSWeightsToolTablePropertyController : PSToolTablePropertyController {
     @IBOutlet var weightsColumn : NSTableColumn!
     
     override func tableView(_ tableView: NSTableView, shouldEdit tableColumn: NSTableColumn?, row: Int) -> Bool {
-        if convertFromNSUserInterfaceItemIdentifier(tableColumn!.identifier) == convertFromNSUserInterfaceItemIdentifier(weightsColumn.identifier) {
+        if tableColumn!.identifier == weightsColumn.identifier {
             return true
         }
         return super.tableView(tableView,shouldEdit:tableColumn,row: row)
     }
     
     override func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
-        if convertFromNSUserInterfaceItemIdentifier(tableColumn!.identifier) == convertFromNSUserInterfaceItemIdentifier(weightsColumn.identifier) {
+        if tableColumn!.identifier == weightsColumn.identifier {
             return "1" as AnyObject
         }
         return super.tableView(tableView, objectValueFor: tableColumn, row: row)

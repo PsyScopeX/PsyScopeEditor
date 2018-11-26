@@ -11,13 +11,13 @@ import QuartzCore
 class PSConstants {
     
     struct PSToolBrowserView {
-        static let pasteboardType = "public.item.psyscopetoolbar"
-        static let dragType = "psyscopetoolbarDragType"
+        static let pasteboardType = NSPasteboard.PasteboardType(rawValue: "public.item.psyscopetoolbar")
+        static let dragType = NSPasteboard.PasteboardType(rawValue: "psyscopetoolbarDragType")
     }
     
     struct PSEventBrowserView {
-        static let pasteboardType = "public.item.psyscopeeventtoolbar"
-        static let dragType = "psyscopeeventtoolbarDragType"
+        static let pasteboardType = NSPasteboard.PasteboardType(rawValue: "public.item.psyscopeeventtoolbar")
+        static let dragType = NSPasteboard.PasteboardType(rawValue: "psyscopeeventtoolbarDragType")
     }
     
     struct Spacing {

@@ -10,7 +10,7 @@ import Foundation
 
 class PSVariableTypeOutlineViewDelegate : NSObject, NSOutlineViewDataSource, NSOutlineViewDelegate {
     
-    let draggedType = "PSVariableTypeOutlineView"
+    let draggedType = NSPasteboard.PasteboardType(rawValue: "PSVariableTypeOutlineView")
     
     var variableTypes : PSVariableTypes = PSVariableTypes(types: [])
     var initialSetupComplete = false
@@ -28,7 +28,7 @@ class PSVariableTypeOutlineViewDelegate : NSObject, NSOutlineViewDataSource, NSO
         super.awakeFromNib()
         if (!initialSetupComplete) {
             initialSetupComplete = true
-            outlineView.registerForDraggedTypes(convertToNSPasteboardPasteboardTypeArray([draggedType]))
+            outlineView.registerForDraggedTypes([draggedType])
             outlineView.reloadData()
         }
     }

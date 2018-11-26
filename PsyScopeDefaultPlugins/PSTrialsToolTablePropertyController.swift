@@ -13,14 +13,14 @@ class PSTrialsToolTablePropertyController : PSToolTablePropertyController {
     @IBOutlet var trialsColumn : NSTableColumn!
     
     override func tableView(_ tableView: NSTableView, shouldEdit tableColumn: NSTableColumn?, row: Int) -> Bool {
-        if convertFromNSUserInterfaceItemIdentifier(tableColumn!.identifier) == convertFromNSUserInterfaceItemIdentifier(trialsColumn.identifier) {
+        if tableColumn!.identifier == trialsColumn.identifier {
             return false
         }
         return super.tableView(tableView,shouldEdit:tableColumn,row: row)
     }
     
     override func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
-        if convertFromNSUserInterfaceItemIdentifier(tableColumn!.identifier) == convertFromNSUserInterfaceItemIdentifier(trialsColumn.identifier) {
+        if tableColumn!.identifier == trialsColumn.identifier {
             //calculate number of trials   
             //entry name = stringList.stringListRawUnstripped[row]
             let entryName = stringList.stringListRawUnstripped[row]

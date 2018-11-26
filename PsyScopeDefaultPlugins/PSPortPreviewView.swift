@@ -297,8 +297,8 @@ struct PSPortClickedLayer {
             //get the effective size of the screens and their origin
             let effectiveResolution = PSScreen.getEffectiveResolution()
             
-            let options : [String : AnyObject] = [convertFromNSViewFullScreenModeOptionKey(NSView.FullScreenModeOptionKey.fullScreenModeAllScreens) : NSNumber(value: true as Bool)]
-            enterFullScreenMode(self.window!.screen!, withOptions: convertToOptionalNSViewFullScreenModeOptionKeyDictionary(options))
+            let options : [NSView.FullScreenModeOptionKey: Any] = [NSView.FullScreenModeOptionKey.fullScreenModeAllScreens : NSNumber(value: true)]
+            enterFullScreenMode(self.window!.screen!, withOptions: options)
             
             
             
@@ -312,11 +312,9 @@ struct PSPortClickedLayer {
     
     func leaveFullScreen() {
         if (fullScreen) {
-            exitFullScreenMode(options: convertToOptionalNSViewFullScreenModeOptionKeyDictionary([:]))
-            Swift.print(self.window)
+            exitFullScreenMode(options: [:])
             updateScreenLayers()
             fullScreen = false
-            Swift.print(self.window)
         }
     }
     
@@ -370,10 +368,3 @@ struct PSPortClickedLayer {
     }
 }
 
-
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertToOptionalNSViewFullScreenModeOptionKeyDictionary(_ input: [String: Any]?) -> [NSView.FullScreenModeOptionKey: Any]? {
-	guard let input = input else { return nil }
-	return Dictionary(uniqueKeysWithValues: input.map { key, value in (NSView.FullScreenModeOptionKey(rawValue: key), value)})
-}

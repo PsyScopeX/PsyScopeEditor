@@ -90,19 +90,19 @@ class PSGroupsViewController : PSToolPropertyController, NSTableViewDelegate, NS
             }
         }
         
-        if convertFromNSUserInterfaceItemIdentifier(tableColumn!.identifier) == convertFromNSUserInterfaceItemIdentifier(criteriaActiveTableColumn.identifier) {
+        if tableColumn!.identifier == criteriaActiveTableColumn.identifier {
             let view = tableView.makeView(withIdentifier: tableColumn!.identifier, owner: nil) as! NSButton
             view.state = NSControl.StateValue(rawValue: active ? 1 : 0)
             view.tag = row
             view.target = self
             view.action = #selector(PSGroupsViewController.activeCheckClicked(_:))
             return view
-        } else if convertFromNSUserInterfaceItemIdentifier(tableColumn!.identifier) == convertFromNSUserInterfaceItemIdentifier(criteriaNameColumn.identifier) {
+        } else if tableColumn!.identifier == criteriaNameColumn.identifier {
             let view = tableView.makeView(withIdentifier: tableColumn!.identifier, owner: nil) as! NSTableCellView
             view.textField!.stringValue = subjectVariables[row].name
             view.textField?.isEnabled = active
             return view
-        } else if convertFromNSUserInterfaceItemIdentifier(tableColumn!.identifier) == convertFromNSUserInterfaceItemIdentifier(criteriaValueTableColumn.identifier) {
+        } else if tableColumn!.identifier == criteriaValueTableColumn.identifier {
             let groupView = tableView.makeView(withIdentifier: tableColumn!.identifier, owner: nil) as! PSGroupValueCellView
             groupView.textField!.stringValue = activeValue
             groupView.textField?.isEnabled = active

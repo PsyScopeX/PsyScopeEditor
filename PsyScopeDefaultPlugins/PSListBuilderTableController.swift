@@ -80,7 +80,7 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
     
     func addNewColumn(_ field : PSField) {
         
-        let new_column = PSListBuilderColumn(identifier: "\(listColumns.count + 1)", column_field: field)
+        let new_column = PSListBuilderColumn(identifier: NSUserInterfaceItemIdentifier("\(listColumns.count + 1)"), column_field: field)
         let new_header = PSFieldHeaderCell()
         new_header.isEditable = true
         new_header.usesSingleLineMode = true

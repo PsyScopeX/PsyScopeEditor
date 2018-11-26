@@ -36,7 +36,7 @@ class PSEventBrowserView: NSTableView {
         let imageBounds = NSRect(origin: localLocation, size: NSSize(width: PSConstants.Spacing.iconSize, height: PSConstants.Spacing.iconSize))
         
         let pbItem = NSPasteboardItem()
-        pbItem.setString(psextension.type, forType: convertToNSPasteboardPasteboardType(PSConstants.PSEventBrowserView.pasteboardType))
+        pbItem.setString(psextension.type, forType: PSConstants.PSEventBrowserView.pasteboardType)
         
         
         let dragItem = NSDraggingItem(pasteboardWriter: pbItem)

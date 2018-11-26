@@ -51,7 +51,7 @@ class PSFileListBuilderTableController : NSObject, NSTableViewDataSource, NSTabl
         new_column.headerCell = new_header
         
         //make weights bold so they seem editable
-        if weightsColumn && identifier == "1" {
+        if weightsColumn && identifier == NSUserInterfaceItemIdentifier(rawValue:"1") {
             let cell = new_column.dataCell as! NSCell
             cell.font = NSFont.boldSystemFont(ofSize: 12)
         }
@@ -70,7 +70,7 @@ class PSFileListBuilderTableController : NSObject, NSTableViewDataSource, NSTabl
     }
     
     func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
-        let index = Int(convertFromNSUserInterfaceItemIdentifier(tableColumn!.identifier))! - 1
+        let index = Int(tableColumn!.identifier.rawValue)! - 1
         
         if row < previewData.count {
             let rowData = previewData[row]
@@ -82,7 +82,7 @@ class PSFileListBuilderTableController : NSObject, NSTableViewDataSource, NSTabl
     }
     
     func tableView(_ tableView: NSTableView, shouldEdit tableColumn: NSTableColumn?, row: Int) -> Bool {
-        if weightsColumn && convertFromNSUserInterfaceItemIdentifier((tableColumn?.identifier)!) == "1" {
+        if weightsColumn && tableColumn?.identifier.rawValue == "1" {
             return true
         } else {
             return false

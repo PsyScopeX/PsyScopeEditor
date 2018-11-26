@@ -17,7 +17,7 @@ class PSToolTablePropertyController: NSObject, NSTableViewDataSource, NSTableVie
     var tableEntry : Entry!
     var stringList : PSStringList!
     var scriptData : PSScriptData!
-    let dragReorderType = "PSToolTablePropertyControllerType"
+    let dragReorderType = NSPasteboard.PasteboardType(rawValue: "PSToolTablePropertyControllerType")
     
     
     func docMocChanged(_ notification: Notification!) {
@@ -27,7 +27,7 @@ class PSToolTablePropertyController: NSObject, NSTableViewDataSource, NSTableVie
     override func awakeFromNib() {
         scriptData = childTypeViewController.scriptData
         super.awakeFromNib()
-        tableView.registerForDraggedTypes(convertToNSPasteboardPasteboardTypeArray([dragReorderType]))
+        tableView.registerForDraggedTypes([dragReorderType])
         refreshView()
     }
     
@@ -40,7 +40,7 @@ class PSToolTablePropertyController: NSObject, NSTableViewDataSource, NSTableVie
     }
     
     func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
-        if stringList != nil && convertFromNSUserInterfaceItemIdentifier(tableColumn!.identifier) == convertFromNSUserInterfaceItemIdentifier(itemsColumn.identifier) && row < stringList.stringListRawUnstripped.count {
+        if stringList != nil && tableColumn!.identifier == itemsColumn.identifier && row < stringList.stringListRawUnstripped.count {
             return stringList.stringListRawUnstripped[row]
         } else {
             return ""
@@ -49,7 +49,7 @@ class PSToolTablePropertyController: NSObject, NSTableViewDataSource, NSTableVie
     
     func tableView(_ tableView: NSTableView, acceptDrop info: NSDraggingInfo, row: Int, dropOperation: NSTableView.DropOperation) -> Bool {
         let pboard = info.draggingPasteboard
-        if let data = pboard.data(forType: convertToNSPasteboardPasteboardType(dragReorderType)),
+        if let data = pboard.data(forType: dragReorderType),
             let rowIndexes : IndexSet = NSKeyedUnarchiver.unarchiveObject(with: data) as? IndexSet {
             stringList.move(rowIndexes.first!, to: row)
             return true
@@ -60,8 +60,8 @@ class PSToolTablePropertyController: NSObject, NSTableViewDataSource, NSTableVie
     func tableView(_ tableView: NSTableView, writeRowsWith rowIndexes: IndexSet, to pboard: NSPasteboard) -> Bool {
         // Copy the row numbers to the pasteboard.
         let data = NSKeyedArchiver.archivedData(withRootObject: rowIndexes)
-        pboard.declareTypes(convertToNSPasteboardPasteboardTypeArray([dragReorderType]), owner: self)
-        pboard.setData(data, forType: convertToNSPasteboardPasteboardType(dragReorderType))
+        pboard.declareTypes([dragReorderType], owner: self)
+        pboard.setData(data, forType: dragReorderType)
         return true
     }
     
@@ -75,7 +75,7 @@ class PSToolTablePropertyController: NSObject, NSTableViewDataSource, NSTableVie
     }
     
     func tableView(_ tableView: NSTableView, shouldEdit tableColumn: NSTableColumn?, row: Int) -> Bool {
-        if convertFromNSUserInterfaceItemIdentifier(tableColumn!.identifier) == convertFromNSUserInterfaceItemIdentifier(itemsColumn.identifier) {
+        if tableColumn!.identifier == itemsColumn.identifier {
             return false
         }
         return true
