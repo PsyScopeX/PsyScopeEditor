@@ -12,7 +12,7 @@ import Foundation
 
 class PSPluginPreferences : NSViewController, MASPreferencesViewController {
     
-    override var identifier : String? { get { return "PluginPreferences" } set { } }
+    override var identifier : NSUserInterfaceItemIdentifier? { get { return NSUserInterfaceItemIdentifier("PluginPreferences") } set { } }
     var toolbarItemImage : NSImage { get { return NSImage(named: NSImage.preferencesGeneralName)! } }
     var toolbarItemLabel : String! { get { return "Plugins" } }
     

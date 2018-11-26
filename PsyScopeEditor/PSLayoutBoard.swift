@@ -8,6 +8,14 @@ import Swift
 import Cocoa
 import QuartzCore
 
+extension NSPasteboard.PasteboardType {
+    
+    /// The name of a file or directory
+    static let fileName: NSPasteboard.PasteboardType = {
+        return NSPasteboard.PasteboardType("NSFilenamesPboardType")
+    }()
+}
+
 class PSLayoutBoard: NSView {
     
     //MARK: Structs and Links
@@ -70,13 +78,13 @@ class PSLayoutBoard: NSView {
     
     //MARK: Constants
 
-    let draggedTypes : [String] = [PSConstants.PSToolBrowserView.dragType, PSConstants.PSToolBrowserView.pasteboardType,PSConstants.PSEventBrowserView.dragType, PSConstants.PSEventBrowserView.pasteboardType,NSFilenamesPboardType.rawValue]
+    let draggedTypes : [NSPasteboard.PasteboardType] = [PSConstants.PSToolBrowserView.dragType, PSConstants.PSToolBrowserView.pasteboardType,PSConstants.PSEventBrowserView.dragType, PSConstants.PSEventBrowserView.pasteboardType,NSPasteboard.PasteboardType.fileName]
     
     //MARK: Setup
     
     //Called by LayoutController's awakeFromNib (awakeFromNib order appears random, whence this is the equivalent)
     func prepareMainLayer() {
-        self.registerForDraggedTypes(convertToNSPasteboardPasteboardTypeArray(draggedTypes))
+        self.registerForDraggedTypes(draggedTypes)
         self.layer = CALayer()
         //self.wantsLayer = true
         self.layer!.backgroundColor = PSConstants.BasicDefaultColors.backgroundColor
@@ -110,8 +118,8 @@ class PSLayoutBoard: NSView {
         let pasteboard = sender.draggingPasteboard
         currentDragOperation = NSDragOperation.link
 
-        if let type = pasteboard.availableType(from: convertToNSPasteboardPasteboardTypeArray(draggedTypes)) {
-            if type == NSFilenamesPboardType {
+        if let type = pasteboard.availableType(from: Array(draggedTypes)) {
+            if type == NSPasteboard.PasteboardType.fileName {
                 currentDragOperation = NSDragOperation.copy
             }
         }
@@ -127,11 +135,11 @@ class PSLayoutBoard: NSView {
         //check if file is of a good type
         filesToImport = [:]
         let pasteboard = sender.draggingPasteboard
-        if pasteboard.string(forType: convertToNSPasteboardPasteboardType(PSConstants.PSToolBrowserView.pasteboardType)) != nil {
+        if pasteboard.string(forType: (PSConstants.PSToolBrowserView.pasteboardType)) != nil {
             return true
-        } else if pasteboard.string(forType: convertToNSPasteboardPasteboardType(PSConstants.PSEventBrowserView.pasteboardType)) != nil {
+        } else if pasteboard.string(forType: (PSConstants.PSEventBrowserView.pasteboardType)) != nil {
             return true
-        } else if let filenames : [AnyObject] = pasteboard.propertyList(forType: convertToNSPasteboardPasteboardType(NSFilenamesPboardType.rawValue)) as? [AnyObject] {
+        } else if let filenames : [AnyObject] = pasteboard.propertyList(forType: NSPasteboard.PasteboardType.fileName) as? [AnyObject] {
             var valid_files = true
             for filename in filenames {
                 if let fn = filename as? String {
@@ -156,10 +164,10 @@ class PSLayoutBoard: NSView {
         let location = self.convert(sender.draggingLocation,from: nil)
         let pasteboard = sender.draggingPasteboard
         window!.makeFirstResponder(self)
-        if let type = pasteboard.string(forType: convertToNSPasteboardPasteboardType(PSConstants.PSToolBrowserView.pasteboardType)) {
+        if let type = pasteboard.string(forType: (PSConstants.PSToolBrowserView.pasteboardType)) {
             layoutController.draggedNewTool(type, location: location)
             return true
-        } else if let type = pasteboard.string(forType: convertToNSPasteboardPasteboardType(PSConstants.PSEventBrowserView.pasteboardType)) {
+        } else if let type = pasteboard.string(forType: (PSConstants.PSEventBrowserView.pasteboardType)) {
             layoutController.draggedNewTool(type, location: location)
             return true
         } else if filesToImport.count > 0 {
@@ -646,7 +654,7 @@ class PSLayoutBoard: NSView {
             subLayoutItem.text.string = n
         }
         
-        let size = (subLayoutItem.text.string! as AnyObject).size(withAttributes: [convertFromNSAttributedStringKey(NSAttributedString.Key.font) : PSConstants.Fonts.layoutBoardIcons])
+        let size = (subLayoutItem.text.string! as AnyObject).size(withAttributes: [NSAttributedString.Key.font : PSConstants.Fonts.layoutBoardIcons])
         subLayoutItem.text.bounds = CGRect(origin: CGPoint.zero, size: size)
         subLayoutItem.text.position = CGPoint(x: x, y: y + PSConstants.Spacing.iconSize)
         

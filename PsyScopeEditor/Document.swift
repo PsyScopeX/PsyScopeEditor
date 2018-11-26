@@ -74,7 +74,7 @@ class Document: NSPersistentDocument {
         self.addWindowController(mainWindowController)
         
         //register dragged types
-        mainWindowController.window!.registerForDraggedTypes(convertToNSPasteboardPasteboardTypeArray([PSConstants.PSToolBrowserView.dragType]))
+        mainWindowController.window!.registerForDraggedTypes(Array([PSConstants.PSToolBrowserView.dragType]))
         mainWindowController.window!.minSize = NSSize(width: PSConstants.LayoutConstants.docMinWidth, height: PSConstants.LayoutConstants.docMinHeight)
         
         //store the window in a property for use by other objects

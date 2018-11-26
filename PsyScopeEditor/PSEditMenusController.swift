@@ -34,8 +34,8 @@ class PSEditMenusController : NSObject, NSOutlineViewDataSource, NSOutlineViewDe
     
     //MARK: Constants
     
-    static let dragReorderVariableType = "PSEditMenusControllerSubjectVariable"
-    static let dragReorderMenuType = "PSEditMenusControllerMenu"
+    static let dragReorderVariableType = NSPasteboard.PasteboardType(rawValue:"PSEditMenusControllerSubjectVariable")
+    static let dragReorderMenuType = NSPasteboard.PasteboardType(rawValue:"PSEditMenusControllerMenu")
     
     
     //MARK: Setup
@@ -53,7 +53,7 @@ class PSEditMenusController : NSObject, NSOutlineViewDataSource, NSOutlineViewDe
             refresh()
             initialized = true
             self.registeredForChanges = true
-            self.menuStructureOutlineView.registerForDraggedTypes(convertToNSPasteboardPasteboardTypeArray([PSEditMenusController.dragReorderVariableType, PSEditMenusController.dragReorderMenuType,PSEditMenusSubjectVariablesController.subjectVariableType]))
+            self.menuStructureOutlineView.registerForDraggedTypes(Array([PSEditMenusController.dragReorderVariableType, PSEditMenusController.dragReorderMenuType,PSEditMenusSubjectVariablesController.subjectVariableType]))
         }
     }
     
@@ -203,7 +203,7 @@ class PSEditMenusController : NSObject, NSOutlineViewDataSource, NSOutlineViewDe
         let pboard = info.draggingPasteboard
         let indexToInsert = max(index,0)
         
-        if let data = pboard.data(forType: convertToNSPasteboardPasteboardType(PSEditMenusSubjectVariablesController.subjectVariableType)),
+        if let data = pboard.data(forType: (PSEditMenusSubjectVariablesController.subjectVariableType)),
             let newSubjectVariables : [String] = NSKeyedUnarchiver.unarchiveObject(with: data) as? [String],
             let menuComponent = item as? PSMenuComponent {
         
@@ -212,14 +212,14 @@ class PSEditMenusController : NSObject, NSOutlineViewDataSource, NSOutlineViewDe
                 menuStructure.saveToScript()
                 return true
             
-        } else if let data = pboard.data(forType: convertToNSPasteboardPasteboardType(PSEditMenusController.dragReorderVariableType)),
+        } else if let data = pboard.data(forType: (PSEditMenusController.dragReorderVariableType)),
             let subjectVariableName : String = NSKeyedUnarchiver.unarchiveObject(with: data) as? String,
             let menuComponent = item as? PSMenuComponent {
                 
                 menuStructure.moveSubjectVariable(subjectVariableName, toMenu: menuComponent.name, atIndex: indexToInsert)
                 menuStructure.saveToScript()
                 return true
-        } else if let data = pboard.data(forType: convertToNSPasteboardPasteboardType(PSEditMenusController.dragReorderMenuType)),
+        } else if let data = pboard.data(forType: (PSEditMenusController.dragReorderMenuType)),
             let menuName : String = NSKeyedUnarchiver.unarchiveObject(with: data) as? String {
                 
                 if let menuItem = item as? PSMenuComponent {
@@ -236,7 +236,7 @@ class PSEditMenusController : NSObject, NSOutlineViewDataSource, NSOutlineViewDe
     
     func outlineView(_ outlineView: NSOutlineView, validateDrop info: NSDraggingInfo, proposedItem item: Any?, proposedChildIndex index: Int) -> NSDragOperation {
         let pboard = info.draggingPasteboard
-        guard let types = convertFromOptionalNSPasteboardPasteboardTypeArray(pboard.types) else { return NSDragOperation() }
+        guard let types = pboard.types else { return NSDragOperation() }
         if types.contains(PSEditMenusSubjectVariablesController.subjectVariableType) {
             if let menuComponent = item as? PSMenuComponent, !menuComponent.subMenus {
                 return NSDragOperation.link
@@ -244,7 +244,7 @@ class PSEditMenusController : NSObject, NSOutlineViewDataSource, NSOutlineViewDe
         } else if types.contains(PSEditMenusController.dragReorderMenuType) {
             if let proposedParentItem = item as? PSMenuComponent  {
                 
-                if let data = pboard.data(forType: convertToNSPasteboardPasteboardType(PSEditMenusController.dragReorderMenuType)),
+                if let data = pboard.data(forType: (PSEditMenusController.dragReorderMenuType)),
                     let menuName : String = NSKeyedUnarchiver.unarchiveObject(with: data) as? String,
                     let menuEntry = scriptData.getBaseEntry(menuName) {
                         
@@ -285,13 +285,13 @@ class PSEditMenusController : NSObject, NSOutlineViewDataSource, NSOutlineViewDe
         guard let item = items.first, items.count == 1 else { return false }
         if let menuComponent = item as? PSMenuComponent {
             let data = NSKeyedArchiver.archivedData(withRootObject: menuComponent.name)
-            pasteboard.declareTypes(convertToNSPasteboardPasteboardTypeArray([PSEditMenusController.dragReorderMenuType]), owner: self)
-            pasteboard.setData(data, forType: convertToNSPasteboardPasteboardType(PSEditMenusController.dragReorderMenuType))
+            pasteboard.declareTypes(Array([PSEditMenusController.dragReorderMenuType]), owner: self)
+            pasteboard.setData(data, forType: (PSEditMenusController.dragReorderMenuType))
             return true
         } else if let subjectVariable = item as? PSSubjectVariable {
             let data = NSKeyedArchiver.archivedData(withRootObject: subjectVariable.name)
-            pasteboard.declareTypes(convertToNSPasteboardPasteboardTypeArray([PSEditMenusController.dragReorderVariableType]), owner: self)
-            pasteboard.setData(data, forType: convertToNSPasteboardPasteboardType(PSEditMenusController.dragReorderVariableType))
+            pasteboard.declareTypes(Array([PSEditMenusController.dragReorderVariableType]), owner: self)
+            pasteboard.setData(data, forType: (PSEditMenusController.dragReorderVariableType))
             return true
         }
         return false

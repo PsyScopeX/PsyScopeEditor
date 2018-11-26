@@ -367,14 +367,14 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
         if let se = selectionController.selectedEntry {
             scriptData.beginUndoGrouping("Paste Object")
             let pasteboard = NSPasteboard.general
-            let items = pasteboard.readObjects(forClasses: [NSPasteboardItem.self], options: convertToOptionalNSPasteboardReadingOptionKeyDictionary([:])) as! [NSPasteboardItem]
+            let items = pasteboard.readObjects(forClasses: [NSPasteboardItem.self], options: [:]) as! [NSPasteboardItem]
             for item in items {
-                if let data = item.data(forType: convertToNSPasteboardPasteboardType(PSPasteboardTypeLayoutObject)) {
+                if let data = item.data(forType: (PSPasteboardTypeLayoutObject)) {
                     if let new_entry = scriptData.unarchiveBaseEntry(data) {
                         let new_name = scriptData.getNextFreeBaseEntryName(new_entry.name)
                         new_entry.name = new_name
                     }
-                } else if let data = item.data(forType: convertToNSPasteboardPasteboardType(PSPasteboardTypeAttribute as String)) {
+                } else if let data = item.data(forType: PSPasteboardTypeAttribute) {
                     let dict = NSKeyedUnarchiver.unarchiveObject(with: data) as! NSDictionary
                     let new_entry = PSCreateEntryFromDictionary(scriptData.docMoc, dict: dict)
                     se.addSubEntriesObject(new_entry)
@@ -403,11 +403,11 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
     }
     func pasteboard(_ pasteboard: NSPasteboard?, item: NSPasteboardItem, provideDataForType type: NSPasteboard.PasteboardType) {
 // Local variable inserted by Swift 4.2 migrator.
-let type = convertFromNSPasteboardPasteboardType(type)
+let type = (type)
 
         if let ce = PSCopiedEntry {
             switch (type) {
-            case convertFromNSPasteboardPasteboardType(NSPasteboard.PasteboardType.string):
+            case (NSPasteboard.PasteboardType.string):
                 guard let pasteboard = pasteboard else { return }
                 let writer = PSScriptWriter(scriptData: mainWindowController.scriptData)
                 let string = writer.entryToText(ce, level: 0)
@@ -416,8 +416,8 @@ let type = convertFromNSPasteboardPasteboardType(type)
                 //need to send type of object and all attributes
                 guard let pasteboard = pasteboard else { return }
                 let data = scriptData.archiveBaseEntry(ce)
-                pasteboard.setData(data, forType: convertToNSPasteboardPasteboardType(PSPasteboardTypeLayoutObject))
-            case PSPasteboardTypeAttribute as String as String:
+                pasteboard.setData(data, forType: (PSPasteboardTypeLayoutObject))
+            case PSPasteboardTypeAttribute:
                 print("Cannot provide data for type : \(type)")
             default:
                 print("Cannot provide data for type : \(type)")

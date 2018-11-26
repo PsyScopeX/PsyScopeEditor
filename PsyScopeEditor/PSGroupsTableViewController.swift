@@ -16,7 +16,7 @@ class PSGroupsTableViewController : NSObject, NSTableViewDataSource, NSTableView
     var tableEntry : Entry!
     var stringList : PSStringList!
     var scriptData : PSScriptData!
-    let dragReorderType = "PSToolTablePropertyControllerType"
+    let dragReorderType = NSPasteboard.PasteboardType(rawValue:"PSToolTablePropertyControllerType")
 
 
     func setup(_ scriptData : PSScriptData) {
@@ -24,7 +24,7 @@ class PSGroupsTableViewController : NSObject, NSTableViewDataSource, NSTableView
     }
 
     override func awakeFromNib() {
-        tableView.registerForDraggedTypes(convertToNSPasteboardPasteboardTypeArray([dragReorderType]))
+        tableView.registerForDraggedTypes([dragReorderType])
     }
 
 
@@ -47,7 +47,7 @@ class PSGroupsTableViewController : NSObject, NSTableViewDataSource, NSTableView
 
     func tableView(_ tableView: NSTableView, acceptDrop info: NSDraggingInfo, row: Int, dropOperation: NSTableView.DropOperation) -> Bool {
         let pboard = info.draggingPasteboard
-        if let data = pboard.data(forType: convertToNSPasteboardPasteboardType(dragReorderType)),
+        if let data = pboard.data(forType: (dragReorderType)),
             let rowIndexes : IndexSet = NSKeyedUnarchiver.unarchiveObject(with: data) as? IndexSet {
                 stringList.move(rowIndexes.first!, to: row)
                 return true
@@ -58,8 +58,8 @@ class PSGroupsTableViewController : NSObject, NSTableViewDataSource, NSTableView
     func tableView(_ tableView: NSTableView, writeRowsWith rowIndexes: IndexSet, to pboard: NSPasteboard) -> Bool {
         // Copy the row numbers to the pasteboard.
         let data = NSKeyedArchiver.archivedData(withRootObject: rowIndexes)
-        pboard.declareTypes(convertToNSPasteboardPasteboardTypeArray([dragReorderType]), owner: self)
-        pboard.setData(data, forType: convertToNSPasteboardPasteboardType(dragReorderType))
+        pboard.declareTypes(Array([dragReorderType]), owner: self)
+        pboard.setData(data, forType: (dragReorderType))
         return true
     }
 

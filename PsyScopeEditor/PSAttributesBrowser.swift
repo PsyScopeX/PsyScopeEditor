@@ -159,7 +159,7 @@ class PSAttributesBrowser: NSObject, NSTableViewDelegate, NSTableViewDataSource,
     func pasteObject(_ sender : AnyObject) {
         if let se = selectionController.selectedEntry {
             let pasteboard = NSPasteboard.general
-            let items = pasteboard.readObjects(forClasses: [NSPasteboardItem.self], options: convertToOptionalNSPasteboardReadingOptionKeyDictionary([:])) as! [NSPasteboardItem]
+            let items = pasteboard.readObjects(forClasses: [NSPasteboardItem.self], options: [:]) as! [NSPasteboardItem]
             for item in items {
                 if let data = item.data(forType:PSPasteboardTypeAttribute) {
                     let dict = NSKeyedUnarchiver.unarchiveObject(with: data) as! NSDictionary
@@ -174,22 +174,22 @@ class PSAttributesBrowser: NSObject, NSTableViewDelegate, NSTableViewDataSource,
     
     func pasteboard(_ pasteboard: NSPasteboard?, item: NSPasteboardItem, provideDataForType type: NSPasteboard.PasteboardType) {
 // Local variable inserted by Swift 4.2 migrator.
-let type = convertFromNSPasteboardPasteboardType(type)
+let type = (type)
 
         
         guard let pasteboard = pasteboard else { return }
         
         if let ce = copiedAttribute {
             switch (type) {
-            case convertFromNSPasteboardPasteboardType(NSPasteboard.PasteboardType.string):
+            case (NSPasteboard.PasteboardType.string):
                 let writer = PSScriptWriter(scriptData: mainWindowController.scriptData)
                 
                 let string = writer.entryToText(ce, level: 1)
                 pasteboard.setString(string, forType: NSPasteboard.PasteboardType.string)
-            case PSPasteboardTypeAttribute as String as String:
+            case PSPasteboardTypeAttribute:
                 let dataDictionary = PSAttributeEntryToNSDictionary(ce)
                 let archive = NSKeyedArchiver.archivedData(withRootObject: dataDictionary)
-                pasteboard.setData(archive, forType: convertToNSPasteboardPasteboardType(PSPasteboardTypeAttribute as String))
+                pasteboard.setData(archive, forType: PSPasteboardTypeAttribute)
             
             default:
                 print("Cannot provide data for type : \(type)")

@@ -23,11 +23,11 @@ class PSSubjectVariablesTableViewController : NSObject, NSTableViewDataSource, N
     var selectedVariable : PSSubjectVariable?
     var reloading : Bool = false
     
-    let dragReorderType = "PSSubjectVariablesTableViewController"
+    let dragReorderType = NSPasteboard.PasteboardType(rawValue:"PSSubjectVariablesTableViewController")
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        tableView.registerForDraggedTypes(convertToNSPasteboardPasteboardTypeArray([dragReorderType]))
+        tableView.registerForDraggedTypes(Array([dragReorderType]))
     }
     
     func reloadData(_ subjectInformation : PSSubjectInformation) {
@@ -140,14 +140,14 @@ class PSSubjectVariablesTableViewController : NSObject, NSTableViewDataSource, N
                 buttonView.button.isHidden = false
                 buttonView.row = row
                 
-                if identifier == "ValueColumn" {
+                if identifier.rawValue == "ValueColumn" {
                     buttonView.textField?.stringValue = subjectVariable.currentValue
                     buttonView.buttonClickBlock = { (clickedRow : Int) -> () in
                         let variable = subjectVariable
                         let newValue = PSSubjectVariableDialog(variable, currentValue: variable.currentValue)
                         variable.currentValue = newValue
                     }
-                } else if identifier == "LogColumn" {
+                } else if identifier.rawValue == "LogColumn" {
                     print("variable \(subjectVariable.name) - \(subjectVariable.storageOptions.inLogFile)")
                     buttonView.button.state = NSControl.StateValue(rawValue: subjectVariable.storageOptions.inLogFile ? 1 : 0)
                     buttonView.buttonClickBlock = { (clickedRow : Int) -> () in
@@ -158,14 +158,14 @@ class PSSubjectVariablesTableViewController : NSObject, NSTableViewDataSource, N
                             variable.storageOptions = existingOptions
                         }
                     }
-                } else if identifier == "GroupColumn" {
+                } else if identifier.rawValue == "GroupColumn" {
                     buttonView.button.state = NSControl.StateValue(rawValue: subjectVariable.isGroupingVariable ? 1 : 0)
                     buttonView.buttonClickBlock = { (clickedRow : Int) -> () in
                         if subjectVariable.isGroupingVariable != (buttonView.button.state.rawValue == 1) {
                             subjectVariable.isGroupingVariable = (buttonView.button.state.rawValue == 1)
                         }
                     }
-                } else if identifier == "DataColumn" {
+                } else if identifier.rawValue == "DataColumn" {
                     buttonView.button.state = NSControl.StateValue(rawValue: subjectVariable.storageOptions.inDataFile ? 1 : 0)
                     buttonView.buttonClickBlock = { (clickedRow : Int) -> () in
                         let variable = subjectVariable
@@ -191,7 +191,7 @@ class PSSubjectVariablesTableViewController : NSObject, NSTableViewDataSource, N
     func tableView(_ tableView: NSTableView, acceptDrop info: NSDraggingInfo, row: Int, dropOperation: NSTableView.DropOperation) -> Bool {
         print("Row: \(row)")
         let pboard = info.draggingPasteboard
-        if let data = pboard.data(forType: convertToNSPasteboardPasteboardType(dragReorderType)),
+        if let data = pboard.data(forType: (dragReorderType)),
             let rowIndexes : IndexSet = NSKeyedUnarchiver.unarchiveObject(with: data) as? IndexSet {
                 
                 guard let subjectVariableToMove = variableForRow(rowIndexes.first!),
@@ -239,8 +239,8 @@ class PSSubjectVariablesTableViewController : NSObject, NSTableViewDataSource, N
     func tableView(_ tableView: NSTableView, writeRowsWith rowIndexes: IndexSet, to pboard: NSPasteboard) -> Bool {
         // Copy the row numbers to the pasteboard.
         let data = NSKeyedArchiver.archivedData(withRootObject: rowIndexes)
-        pboard.declareTypes(convertToNSPasteboardPasteboardTypeArray([dragReorderType]), owner: self)
-        pboard.setData(data, forType: convertToNSPasteboardPasteboardType(dragReorderType))
+        pboard.declareTypes(Array([dragReorderType]), owner: self)
+        pboard.setData(data, forType: (dragReorderType))
         return true
     }
     

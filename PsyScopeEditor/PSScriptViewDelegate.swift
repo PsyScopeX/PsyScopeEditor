@@ -226,7 +226,7 @@ class PSScriptViewDelegate : NSObject, NSTextViewDelegate, NSTextStorageDelegate
     }
     
     func scrollToSelectedEntry() {
-        if scriptBoard.stringlet e = selectedEntry, let name = e.name {
+        if let e = selectedEntry, let name = e.name {
             var range = (scriptBoard.string as NSString).range(of: "\n" + name + "::")
             
             if range.location != NSNotFound && range.length > 0 {
@@ -272,8 +272,8 @@ class PSScriptViewDelegate : NSObject, NSTextViewDelegate, NSTextStorageDelegate
                  
 
                     readingOperation.attributedString.enumerateAttributes(in: fullRange, options: NSAttributedString.EnumerationOptions(rawValue: 0), using: {
-                        ( dic :[String : Any], range : NSRange, stop : UnsafeMutablePointer<ObjCBool>) -> Void in
-                            self.scriptBoard.textStorage!.setAttributes(convertToOptionalNSAttributedStringKeyDictionary(dic), range: range)
+                        ( dic :[NSAttributedString.Key : Any], range : NSRange, stop : UnsafeMutablePointer<ObjCBool>) -> Void in
+                            self.scriptBoard.textStorage!.setAttributes(dic, range: range)
                         })
                     
                     self.scriptBoard.textStorage!.endEditing()

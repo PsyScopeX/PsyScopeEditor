@@ -24,7 +24,7 @@ class PSEditMenusSubjectVariablesController : NSObject, NSTableViewDataSource, N
     
     //MARK: Constants
     
-    static let subjectVariableType : String = "PSSubjectVariable"
+    static let subjectVariableType = NSPasteboard.PasteboardType(rawValue: "PSSubjectVariable")
     
 
     //MARK: Refresh
@@ -60,8 +60,8 @@ class PSEditMenusSubjectVariablesController : NSObject, NSTableViewDataSource, N
         // Copy the subjectVariableNames
         let subjectVariableNames : [String] = rowIndexes.enumerated().map({ subjectVariables[$0.element].name })
         let data = NSKeyedArchiver.archivedData(withRootObject: subjectVariableNames)
-        pboard.declareTypes(convertToNSPasteboardPasteboardTypeArray([PSEditMenusSubjectVariablesController.subjectVariableType]), owner: self)
-        pboard.setData(data, forType: convertToNSPasteboardPasteboardType(PSEditMenusSubjectVariablesController.subjectVariableType))
+        pboard.declareTypes(Array([PSEditMenusSubjectVariablesController.subjectVariableType]), owner: self)
+        pboard.setData(data, forType: (PSEditMenusSubjectVariablesController.subjectVariableType))
         return true
     }
 }

@@ -12,12 +12,12 @@ class PSToolBrowserView: NSOutlineView {
     
     
     var dragSession : NSDraggingSession?
-    var pasteBoardType : String { return PSConstants.PSEventBrowserView.pasteboardType }
+    var pasteBoardType : NSPasteboard.PasteboardType { return PSConstants.PSEventBrowserView.pasteboardType }
     
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        self.registerForDraggedTypes(convertToNSPasteboardPasteboardTypeArray([pasteBoardType, convertFromNSPasteboardPasteboardType(NSPasteboard.PasteboardType.string)]))
+        self.registerForDraggedTypes([pasteBoardType, NSPasteboard.PasteboardType.string])
         self.setDraggingSourceOperationMask(.move, forLocal: true)
     }
     
@@ -38,7 +38,7 @@ class PSToolBrowserView: NSOutlineView {
         let imageBounds = NSRect(origin: localLocation, size: NSSize(width: PSConstants.Spacing.iconSize, height: PSConstants.Spacing.iconSize))
         
         let pbItem = NSPasteboardItem()
-        pbItem.setString(psextension.type, forType: convertToNSPasteboardPasteboardType(PSConstants.PSToolBrowserView.pasteboardType))
+        pbItem.setString(psextension.type, forType: (PSConstants.PSToolBrowserView.pasteboardType))
         
         
         let dragItem = NSDraggingItem(pasteboardWriter: pbItem)
