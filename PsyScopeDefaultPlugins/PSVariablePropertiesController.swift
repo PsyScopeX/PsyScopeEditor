@@ -160,7 +160,7 @@ class PSVariablePropertiesController : PSToolPropertyController {
         if initCheck.state.rawValue == 0 {
             scriptData.deleteNamedSubEntryFromParentEntry(entry, name: "Init")
         } else {
-            scriptData.getOrCreateSubEntry("Init", entry: entry, isProperty: true)
+            _ = scriptData.getOrCreateSubEntry("Init", entry: entry, isProperty: true)
         }
         
         let experimentEntry = scriptData.getMainExperimentEntry()

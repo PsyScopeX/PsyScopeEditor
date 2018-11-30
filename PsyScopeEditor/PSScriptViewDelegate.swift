@@ -96,7 +96,7 @@ class PSScriptViewDelegate : NSObject, NSTextViewDelegate, NSTextStorageDelegate
         // \u201c (curly right double quote) -> "
         // \u201d (curly left double quote) -> "
         
-        return String(string.characters.map( {
+        return String(string.map( {
             switch ($0) {
             case "\u{2018}":
                 return "'"

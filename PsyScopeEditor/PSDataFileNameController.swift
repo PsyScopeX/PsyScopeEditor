@@ -68,7 +68,9 @@ class PSDataFileNameController : NSObject, NSTokenFieldDelegate, NSTextFieldDele
     // substring is the partial string that is being completed.  tokenIndex is the index of the token being completed.
     // selectedIndex allows you to return by reference an index specifying which of the completions should be selected initially.
     // The default behavior is not to have any completions.
-    func tokenField(_ tokenField: NSTokenField, completionsForSubstring substring: String, indexOfToken tokenIndex: Int, indexOfSelectedItem selectedIndex: UnsafeMutablePointer<UnsafeMutablePointer<Int>>?) -> [Any]? {
+    
+    func tokenField(_ tokenField: NSTokenField, completionsForSubstring substring: String, indexOfToken tokenIndex: Int, indexOfSelectedItem selectedIndex: UnsafeMutablePointer<Int>?) -> [Any]? {
+        
         let completions = subjectVariableNames.filter({ name in name.lowercased().hasPrefix(substring.lowercased()) })
         return completions
     }

@@ -17,6 +17,4 @@
 
 @interface NCRAutocompleteTextView : NSTextView <NSTableViewDataSource, NSTableViewDelegate>
 
-@property (nonatomic, weak) id <NCRAutocompleteTableViewDelegate> delegate;
-
 @end

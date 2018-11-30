@@ -272,7 +272,8 @@ class PSCondition_Key_Key : NSObject {
             character = " "
         } else {
             if unquoted.utf16.count > 0 {
-                character = unquoted.substring(from: unquoted.characters.index(before: unquoted.endIndex))
+                //character = unquoted.substring(from: unquoted.characters.index(before: unquoted.endIndex))
+                character = String(unquoted[unquoted.index(before: unquoted.endIndex)...])
             } else {
                 character = "" //default to any
                 any = true

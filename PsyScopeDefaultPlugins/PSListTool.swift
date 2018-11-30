@@ -89,6 +89,7 @@ class PSListTool: PSTool, PSToolInterface {
         return true
     }
     
+    @discardableResult
     override func deleteLinkFrom(_ parent: Entry, to child: Entry, withScript scriptData: PSScriptData) -> Bool {
         parent.layoutObject.removeChildLinkObject(child.layoutObject)
         let factors_entry = scriptData.getOrCreateSubEntry("Factors", entry: parent, isProperty: true)
@@ -128,7 +129,7 @@ class PSListTool: PSTool, PSToolInterface {
                 //check field exists
                 let list = PSList(scriptData: scriptData, listEntry: entry)
                 guard let field = list.fields.filter({ itemTitle == $0.entry.name }).first else {
-                    PSModalAlert("Couldn't find field named : \(itemTitle) on list: \(entry.name ?? "nil")")
+                    PSModalAlert("Couldn't find field named : \(itemTitle) on list: \(String(describing: entry.name ))")
                     return originalValue
                 }
                 
@@ -137,8 +138,8 @@ class PSListTool: PSTool, PSToolInterface {
                     if field.type != originalFullType {
                         
                         //show warning
-                        let question = "Do you want to convert the type of the field named \"\(itemTitle)\" on list \"\(entry.name ?? "nil")\"?"
-                        let info = "The field: \"\(itemTitle)\" on list: \"\(entry.name)\" is of a different type to the item you are varying it by it to - click yes to automatically convert this field to the type \"\(originalFullType.fullType)\", click no to apply the change anyway, click cancel to make no changes."
+                        let question = "Do you want to convert the type of the field named \"\(itemTitle)\" on list \"\(String(describing: entry.name ))\"?"
+                        let info = "The field: \"\(itemTitle)\" on list: \"\(String(describing: entry.name))\" is of a different type to the item you are varying it by it to - click yes to automatically convert this field to the type \"\(originalFullType.fullType)\", click no to apply the change anyway, click cancel to make no changes."
                         let yesButton = "Yes"
                         let noButton = "No"
                         let cancelButton = "Cancel"
@@ -161,7 +162,7 @@ class PSListTool: PSTool, PSToolInterface {
                     }
                 }
                 
-                return "FactorAttrib(\"\(entry.name)\",\"\(itemTitle)\")"
+                return "FactorAttrib(\"\(String(describing: entry.name))\",\"\(itemTitle)\")"
                 
             }
         } else {
@@ -191,7 +192,7 @@ class PSListTool: PSTool, PSToolInterface {
     
     override func constructAttributeSourceSubMenu(_ scriptData: PSScriptData) -> NSMenuItem {
         
-        let subMenuItem = NSMenuItem(title: "List", action: Selector(""), keyEquivalent: "l")
+        let subMenuItem = NSMenuItem(title: "List", action: nil, keyEquivalent: "l")
         subMenuItem.representedObject = self
         subMenuItem.tag = 0
         subMenuItem.action = nil

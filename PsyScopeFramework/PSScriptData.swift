@@ -668,7 +668,7 @@ public class PSScriptData : NSObject {
         }
         
         if type == nil && isProperty == false {
-            PSModalAlert("The entry: -\(entry.name ?? "nil")- tried to create attribute named -\(name)- but no type was specified!")
+            PSModalAlert("The entry: -\(String(describing: entry.name ))- tried to create attribute named -\(name)- but no type was specified!")
         }
         
         if type != nil {

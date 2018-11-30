@@ -166,7 +166,7 @@ class LayoutController: NSObject, NSPasteboardItemDataProvider {
                     objectsTolayoutItems[object] = sublayoutItem
                     layoutItemsToObjects[sublayoutItem!] = object
                 } else {
-                    fatalError("Error, icon not found for type \(object.mainEntry.type)")
+                    fatalError("Error, icon not found for type \(String(describing: object.mainEntry.type))")
                 }  
         }
             

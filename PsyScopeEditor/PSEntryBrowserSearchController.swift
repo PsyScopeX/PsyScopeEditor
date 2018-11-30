@@ -8,7 +8,7 @@
 
 import Foundation
 
-class PSEntryBrowserSearchController : NSObject, NSTextFieldDelegate, NCRAutocompleteTableViewDelegate {
+class PSEntryBrowserSearchController : NSObject, NSTextFieldDelegate, NSTextViewDelegate, NCRAutocompleteTableViewDelegate {
     
     //MARK: Outlets
     @IBOutlet var textField : NSTextField!
@@ -35,14 +35,12 @@ class PSEntryBrowserSearchController : NSObject, NSTextFieldDelegate, NCRAutocom
     }
 
 
-
+    
     
     //MARK: Autocomplete TextView Delegate
-    
-    func textView(_ textView: NSTextView!, completions words: [AnyObject]!, forPartialWordRange charRange: NSRange, indexOfSelectedItem index: UnsafeMutablePointer<Int>) -> [AnyObject]! {
-
-            
-        let toMatch : String = (textView.string as NSString).substring(with: charRange).lowercased()
+    @nonobjc func textView(_ textView: NSTextView?, completions words: [Any]?, forPartialWordRange charRange: NSRange, indexOfSelectedItem index: UnsafeMutablePointer<Int>!) -> [Any]? {
+        
+        let toMatch : String = (textView!.string as NSString).substring(with: charRange).lowercased()
         let completions : [String] = entryNames.filter { $0.lowercased().range(of: toMatch) != nil }
     
         return completions as [AnyObject]

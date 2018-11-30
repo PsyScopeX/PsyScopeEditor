@@ -357,7 +357,7 @@ class PSDocumentTabDelegate: NSObject, NSTabViewDelegate {
     }
     
     func doubleClickProperties() {
-        if let pvc = propertiesTabViewItemViewController as? PSDoubleClickAction {
+        if let pvc = propertiesTabViewItemViewController {
             pvc.doubleClickAction()
         }
     }

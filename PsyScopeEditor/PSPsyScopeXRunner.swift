@@ -69,7 +69,7 @@ class PSPsyScopeXRunner : NSObject {
         
         //get the location of where the document is saved
         guard let documentPath = document.scriptData.documentDirectory() else {
-            document.scriptData.alertIfNoValidDocumentDirectory()
+            _ = document.scriptData.alertIfNoValidDocumentDirectory()
             return
         }
         

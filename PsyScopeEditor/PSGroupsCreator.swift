@@ -63,7 +63,7 @@ class PSGroupsCreator {
         let groupEntries = createGroupRecursive(conditionNames, combinations: groupCombinations, values: [])
         let experimentEntry = scriptData.getMainExperimentEntry()
         for groupEntry in groupEntries {
-            groupTool.createLinkFrom(experimentEntry, to: groupEntry, withScript: scriptData)
+            _ = groupTool.createLinkFrom(experimentEntry, to: groupEntry, withScript: scriptData)
         }
         PSSortSubTree(experimentEntry.layoutObject, scriptData: scriptData)
     }

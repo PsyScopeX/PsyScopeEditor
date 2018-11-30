@@ -61,7 +61,7 @@ public struct PSSubjectVariableStorageOptions {
             }
             let typeSubEntry = scriptData.getOrCreateSubEntry("Type", entry: proxyEntry, isProperty: true)
             typeSubEntry.currentValue = "String" //hopefully strings will work for everything?
-            proxyEntry.currentValue = "@\(entry.name ?? "nil")"
+            proxyEntry.currentValue = "@\(String(describing: entry.name))"
             
             
             //also add to dataheader
@@ -162,7 +162,7 @@ public struct PSSubjectVariableStorageOptions {
                 let expVariablesList = PSStringList(entry: expVariables, scriptData: scriptData)
                 
                 let inList = expVariablesList.contains(proxyEntryName)
-                let correctValue = proxyEntry.currentValue == "@\(entry.name ?? "nil")"
+            let correctValue = proxyEntry.currentValue == "@\(String(describing: entry.name))"
                 storageOptions.inDataFile = inList && correctValue
         }
 

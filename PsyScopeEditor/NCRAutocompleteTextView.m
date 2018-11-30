@@ -150,7 +150,7 @@
             }
             
             if ([self.delegate respondsToSelector:@selector(textViewDidEnterPress:)]) {
-                [self.delegate textViewDidEnterPress:self];
+                [(id<NCRAutocompleteTableViewDelegate>)self.delegate textViewDidEnterPress:self];
                 return;
             }
         case 49:
@@ -180,7 +180,7 @@
 }
 
 - (void)didChangeSelection:(NSNotification *)notification {
-    if (labs(self.selectedRange.location - self.lastPos) > 1) {
+    if ((self.selectedRange.location - self.lastPos) > 1) {
         // If selection moves by more than just one character, hide autocomplete
         [self.autocompletePopover close];
     }
@@ -292,7 +292,7 @@
     [cellView.textField setAttributedStringValue:as];
     
     if ([self.delegate respondsToSelector:@selector(textView:imageForCompletion:)]) {
-        NSImage *image = [self.delegate textView:self imageForCompletion:self.matches[row]];
+        NSImage *image = [(id<NCRAutocompleteTableViewDelegate>)self.delegate textView:self imageForCompletion:self.matches[row]];
         [cellView.imageView setImage:image];
     }
     

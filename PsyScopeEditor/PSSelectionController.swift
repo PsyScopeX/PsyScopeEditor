@@ -290,7 +290,7 @@ class PSSelectionController : NSObject, PSSelectionInterface {
     func dumpDocMocChanges(_ notification : Notification) {
         let keys_to_check : [String] = [NSInsertedObjectsKey, NSUpdatedObjectsKey, NSDeletedObjectsKey, NSRefreshedObjectsKey , NSInvalidatedObjectsKey, NSInvalidatedAllObjectsKey];
         for key in keys_to_check {
-            if let objects: AnyObject = notification.userInfo![key] as AnyObject {
+            if let objects: AnyObject = notification.userInfo?[key] as AnyObject? {
                 var array : NSArray = []
                 if let set = objects as? NSSet {
                     print("Doc Moc changed: \(key) type, set with \(set.count) objects.")

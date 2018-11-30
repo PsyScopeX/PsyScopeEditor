@@ -52,7 +52,7 @@ class PSEntryValueChecker {
 }
 
 func PSEntryValueSyntaxError(_ entry : Entry) -> PSScriptError {
-    let description = "A syntax error was detected on the entry named \(entry.name).  The line \"\(entry.currentValue)\" has caused a syntax error."
+    let description = "A syntax error was detected on the entry named \(String(describing: entry.name)).  The line \"\(String(describing: entry.currentValue))\" has caused a syntax error."
     let solution = "Check the entire value for correct syntax."
     let new_error = PSScriptError(errorDescription: "Syntax Error", detailedDescription: description, solution: solution, entryName: entry.name)
     return new_error

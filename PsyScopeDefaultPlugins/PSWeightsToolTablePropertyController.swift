@@ -27,6 +27,6 @@ class PSWeightsToolTablePropertyController : PSToolTablePropertyController {
     }
     
     func tableView(_ tableView: NSTableView, setObjectValue object: AnyObject?, forTableColumn tableColumn: NSTableColumn?, row: Int) {
-        print(object)
+        print(object as Any)
     }
 }

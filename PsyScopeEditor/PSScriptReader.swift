@@ -188,7 +188,7 @@ public class PSScriptReader {
         }
         
         //store name if good format and position
-        if (!justACheck && success) { newGhostEntry.name = name as! String }
+        if (!justACheck && success) { newGhostEntry.name = name! as String }
         let entryNameLocation = scanner.scanLocation
         
         //scan the token  (i.e. :: :> etc)
@@ -207,7 +207,7 @@ public class PSScriptReader {
             
             let entryTokenLocation = scanner.scanLocation
             //scan the value
-            scanEntryValue(scanner, justACheck: fullScan)
+            _ = scanEntryValue(scanner, justACheck: fullScan)
             
             //populate the entry
             let newEntryLevel = Int(newGhostEntry.level)
@@ -280,12 +280,12 @@ public class PSScriptReader {
         } else {
             
             //need to check it consists of a : followed by x amount of >s
-            if success && token[token.characters.index(token.startIndex, offsetBy: 0)] != ":" {
+            if success && token[token.index(token.startIndex, offsetBy: 0)] != ":" {
                 success = false
             }
             let gts = token.trimmingCharacters(in: colon)
             let cls = gts.trimmingCharacters(in: gt)
-            if success &&  (gts.count + 1 != token.count || cls.characters.count != 0) {
+            if success &&  (gts.count + 1 != token.count || cls.count != 0) {
                 success  = false
             }
             level = Int(1 + gts.count)
@@ -341,7 +341,7 @@ public class PSScriptReader {
                     
                     
                     //scan new value for brackets and quotes
-                    for char in (valueTemp! as String).characters {
+                    for char in (valueTemp! as String) {
                         if inCurlyQuotes == 0 && !inQuotes {
                             if char == "[" {
                                 inBrackets += 1

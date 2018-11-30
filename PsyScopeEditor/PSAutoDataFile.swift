@@ -58,7 +58,7 @@ class PSAutoDataFile {
                 //Ensure that auto data file default setup is present
                 let autoDatafile = scriptData.getOrCreateBaseEntry("AutoDataFile", type: PSType.SubjectInfo)
                 let dialog = scriptData.getOrCreateSubEntry("Dialog", entry: autoDatafile, isProperty: true)
-                scriptData.getOrCreateSubEntry("Strings", entry: autoDatafile, isProperty: true)
+                _ = scriptData.getOrCreateSubEntry("Strings", entry: autoDatafile, isProperty: true)
                 let folder = scriptData.getOrCreateSubEntry("Folder", entry: autoDatafile, isProperty: true)
                 let useDir = scriptData.getOrCreateSubEntry("UseDir", entry: autoDatafile, isProperty: true)
                 

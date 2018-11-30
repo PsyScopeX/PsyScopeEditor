@@ -210,11 +210,11 @@ class PSScriptConverter: NSObject {
                 if ge.name == real_entry.name {
                     //matching name
                     if ge.type == real_entry.type {
-                        print("Found matching \(real_entry.name) of type \(real_entry.type) in ghostscript...")
+                        print("Found matching \(String(describing: real_entry.name)) of type \(String(describing: real_entry.type)) in ghostscript...")
                         deleted = false
                     } else if ge.type == "BlankEntry" {
                         namesOfEntriesThatWereNotIdentifiedButRetainType.append(real_entry.name)
-                        print("Found entry \(real_entry.name) of type \(real_entry.type) in ghostscript...   ...not identified, but keeping same identity.")
+                        print("Found entry \(String(describing: real_entry.name)) of type \(String(describing: real_entry.type)) in ghostscript...   ...not identified, but keeping same identity.")
                         ge.type = real_entry.type
                         deleted = false
                     }
@@ -235,7 +235,7 @@ class PSScriptConverter: NSObject {
             }
         
             if (deleted) {
-                print ("Did not find entry \(real_entry.name) of type \(real_entry.type) in script, deleting...")
+                print ("Did not find entry \(String(describing: real_entry.name)) of type \(String(describing: real_entry.type)) in script, deleting...")
                 entries_to_delete.append(real_entry)
             }
         }
@@ -244,7 +244,7 @@ class PSScriptConverter: NSObject {
         for e in scriptData.getBaseEntries() { print(e.name, terminator: "") }
         print("=======")
         for delete_entry in entries_to_delete {
-            print("Deleting former entry \(delete_entry.name)")
+            print("Deleting former entry \(String(describing: delete_entry.name))")
             scriptData.deleteBaseEntry(delete_entry) //in layout controller, make sure it knows this object is to be deleted
             
         }

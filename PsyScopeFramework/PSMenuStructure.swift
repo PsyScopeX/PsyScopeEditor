@@ -31,7 +31,7 @@ public class PSMenuStructure : NSObject {
             let stringList = PSStringList(entry: entry, scriptData: scriptData)
             
             stringList.stringListRawUnstripped = menuComponents.map({ $0.name })
-            print("Components: \(entry.currentValue ?? "nil")")
+            print("Components: \(String(describing: entry.currentValue ))")
             for menuComponent in menuComponents {
                 menuComponent.saveToScript()
             }

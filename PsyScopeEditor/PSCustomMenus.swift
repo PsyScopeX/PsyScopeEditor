@@ -126,7 +126,7 @@ class PSCustomMenus : NSObject {
             let variable = PSSubjectVariable(entry: entry, scriptData: scriptData)
             
             //activate dialog for selected item
-            PSSubjectVariableDialog(variable, currentValue: entry.currentValue)
+            _ = PSSubjectVariableDialog(variable, currentValue: entry.currentValue)
         }
     }
     
