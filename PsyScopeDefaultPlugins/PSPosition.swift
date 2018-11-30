@@ -8,7 +8,7 @@
 
 import Foundation
 
-open class PSPosition : Hashable, Equatable {
+public class PSPosition : Hashable, Equatable {
     
     init(parent_port: PSPort, entry : Entry, scriptData : PSScriptData) {
         self.port = parent_port
@@ -53,7 +53,7 @@ open class PSPosition : Hashable, Equatable {
     var yAlign : PSPositionAlignment { didSet { updateIfNotParsing() } }
     
     var name : NSString {
-        get { return entry.name as! NSString }
+        get { return entry.name as NSString }
         set {
             //updates entry as well as in ports entry
             scriptData.renameEntry(entry, nameSuggestion: newValue as String)
@@ -61,7 +61,7 @@ open class PSPosition : Hashable, Equatable {
     }
     
     //MARK: Hashable / Equatable
-    open var hashValue: Int { return entry.hashValue }
+    public var hashValue: Int { return entry.hashValue }
     
     var parsing = false
     

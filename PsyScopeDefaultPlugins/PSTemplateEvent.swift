@@ -136,7 +136,7 @@ class PSTemplateEvent : NSObject, NSPasteboardWriting, NSPasteboardReading {
 
         _startCondition = EventStartConditionTrialStart()
         _durationCondition = EventDurationConditionFixedTime(time: 500)
-        data = propertyList as! Data
+        data = propertyList as? Data
         self.repeats = 1
         super.init()
     }

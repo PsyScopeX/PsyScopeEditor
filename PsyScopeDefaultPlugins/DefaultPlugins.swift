@@ -9,10 +9,10 @@ import Cocoa
 
 var PSDefaultPluginBundle : Bundle = Bundle(for:DefaultPlugins.self)
 
-open class DefaultPlugins: NSObject, PSPluginInterface {
+public class DefaultPlugins: NSObject, PSPluginInterface {
     
 
-    open static func pluginsFor(_ pluginTypeName: PSPluginType) -> [NSObject.Type] {
+    public static func pluginsFor(_ pluginTypeName: PSPluginType) -> [NSObject.Type] {
         switch pluginTypeName {
             case .tool:
                 return [PSExperimentTool.self,PSGroupTool.self, PSBlockTool.self, PSTemplateTool.self, PSListTool.self, PSVariableTool.self, PSBlankEntryTool.self, PSDialogVariableTool.self]

@@ -8,17 +8,17 @@
 
 import Foundation
 
-open class PSFieldEditor : NSTextView {
+public class PSFieldEditor : NSTextView {
     var scriptData : PSScriptData!
     
     override open func menu(for event: NSEvent) -> NSMenu? {
         return self.menu
     }
     
-    override open var menu : NSMenu? {
+    override public var menu : NSMenu? {
         get {
             if let entryValueTextField = self.delegate as? PSEntryValueTextField {
-                return scriptData.getVaryByMenu(entryValueTextField, action: "menuItemClicked:")
+                return scriptData.getVaryByMenu(entryValueTextField, action: #selector(PSEntryValueTextField.menuItemClicked(_:)))
             } else {
                 fatalError("Incorrect field editor used - should only be for PSEntryValueTextField and subclasses")
             }
@@ -29,7 +29,7 @@ open class PSFieldEditor : NSTextView {
         }
     }
     
-    open func setup(_ scriptData : PSScriptData) {
+    public func setup(_ scriptData : PSScriptData) {
         self.scriptData = scriptData
     }
     

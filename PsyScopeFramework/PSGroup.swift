@@ -8,7 +8,7 @@
 
 import Foundation
 
-open class PSGroup {
+public class PSGroup {
     
     let entry : Entry
     let scriptData : PSScriptData
@@ -18,7 +18,7 @@ open class PSGroup {
         self.scriptData = scriptData
     }
     
-    open func getCriteria() -> [(variable: PSSubjectVariable,value: String)] {
+    public func getCriteria() -> [(variable: PSSubjectVariable,value: String)] {
         
         var existingCriteria : [(variable: PSSubjectVariable,value: String)] = []
         
@@ -39,7 +39,7 @@ open class PSGroup {
         return existingCriteria
     }
     
-    open func setCriteria(_ criteria : [(variable: PSSubjectVariable,value: String)]) {
+    public func setCriteria(_ criteria : [(variable: PSSubjectVariable,value: String)]) {
         if criteria.count == 0 {
             scriptData.deleteNamedSubEntryFromParentEntry(entry, name: "Criteria")
         } else {
@@ -57,11 +57,11 @@ open class PSGroup {
         }
     }
     
-    open func addCriteria(_ variable: PSSubjectVariable,value: String) {
+    public func addCriteria(_ variable: PSSubjectVariable,value: String) {
         addCriteria(variable.name, value: value)
     }
     
-    open func addCriteria(_ name : String, value: String) {
+    public func addCriteria(_ name : String, value: String) {
         
         var criteriaEntry : Entry
         if let existingCriteriaEntry = scriptData.getSubEntry("Criteria", entry: entry) {
@@ -81,7 +81,7 @@ open class PSGroup {
         atSubEntry.currentValue = name
     }
     
-    open func removeCriteria(_ name : String) {
+    public func removeCriteria(_ name : String) {
         if let criteriaEntry = scriptData.getSubEntry("Criteria", entry: entry) {
             scriptData.deleteNamedSubEntryFromParentEntry(criteriaEntry, name: name)
         }
@@ -89,7 +89,7 @@ open class PSGroup {
         
     }
     
-    open func valueForCriteria(_ name : String) -> String{
+    public func valueForCriteria(_ name : String) -> String{
 
         if let criteriaEntry = scriptData.getSubEntry("Criteria", entry: entry),
          let valueEntry = scriptData.getSubEntry(name, entry: criteriaEntry) {

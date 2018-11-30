@@ -372,7 +372,7 @@ class EventStartConditionEventStart : EventStartEventRelated {
         default:
             return "Error"
         }
-        return "\"\(time_string) after start of \(event!.entry.name)\""
+        return "\"\(time_string) after start of \(event!.entry.name ?? "nil")\""
     }
 }
 
@@ -402,6 +402,6 @@ class EventStartConditionEventEnd : EventStartEventRelated {
         default:
             return "Error"
         }
-        return "\"\(time_string) after end of \(event!.entry.name)\""
+        return "\"\(time_string) after end of \(event!.entry.name ?? "nil")\""
     }
 }

@@ -9,18 +9,21 @@ import Foundation
 
 //holds a current value and references to controls on a PSCellView which modify that value
 //can have default controls of label and varybyscript button - needs to be set up by PSAttributeParameterBuilder
-open class PSAttributeParameter : NSObject {
+@objcMembers open class PSAttributeParameter : NSObject {
     
-    open static let defaultHeight : CGFloat = CGFloat(25)
+    public static let defaultHeight : CGFloat = CGFloat(25)
     
-    open var attributeSourceLabel : NSTextField?
-    open var currentValue : PSEntryElement = .stringToken(stringElement: PSStringElement(value: "NULL", quotes: .none))
-    open var scriptData : PSScriptData!
-    open var name : String = "Unknown"
-    open var cell : PSCellView!
-    open var attributeValueControlFrame : NSRect  = NSMakeRect(0, 0, 200, 20)
-    open var varyByEntryName : String?  //if attribute is varying by another entry, it can be accessed here
-    open var attributeType : PSAttributeType?
+    public var attributeSourceLabel : NSTextField?
+    public var attributeValueControlFrame : NSRect  = NSMakeRect(0, 0, 200, 20)
+    public var varyByEntryName : String?  //if attribute is varying by another entry, it can be accessed here
+    
+    
+    // The following parameters are set up by PSAttributeParameterBuilder
+    public var scriptData : PSScriptData!
+    public var cell : PSCellView!
+    public var attributeType : PSAttributeType!
+    public var name : String = "Unknown"
+    public var currentValue : PSEntryElement = .stringToken(stringElement: PSStringElement(value: "NULL", quotes: .none))
     
     //override this to hide any borders if they appear ugly in table views etc
     open func hideBorders() {
@@ -69,7 +72,7 @@ open class PSAttributeParameter : NSObject {
         
     }
     
-    open func clickMenuItem(_ sender : NSMenuItem) {
+    @objc public func clickMenuItem(_ sender : NSMenuItem) {
         if let scriptData = scriptData, let val = scriptData.valueForMenuItem(sender, original: self.currentValue.stringValue(), originalFullType: attributeType) , let entryElement = PSGetFirstEntryElementForString(val) {
             self.currentValue = entryElement
             cell.updateScript()

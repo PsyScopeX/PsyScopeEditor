@@ -7,16 +7,16 @@
 
 import Foundation
 
-open class PSExtension {
+public class PSExtension {
     public init() {
         
     }
     
-    open var helpString : String = ""
-    open var type : String = ""
-    open var appearsInToolMenu : Bool = true
-    open var isEvent : Bool = false
-    open var attributes : [PSAttribute] = []
-    open var icon : NSImage!
-    open var toolClass : PSToolInterface!
+    public var helpString : String = ""
+    public var type : String = ""
+    public var appearsInToolMenu : Bool = true
+    public var isEvent : Bool = false
+    public var attributes : [PSAttribute] = []
+    public var icon : NSImage!
+    public var toolClass : PSToolInterface!
 }

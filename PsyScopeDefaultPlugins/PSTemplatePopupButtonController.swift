@@ -59,10 +59,11 @@ class PSTemplatePopupButtonController : NSObject {
     }
     
     @IBAction func templatesPopUpSelectionMade(_ sender : AnyObject) {
-        let template_name = templatesPopup.selectedItem?.title
-        print(template_name)
+        
+
         //check if it exists
-        if let a = controller.scriptData.getBaseEntry(template_name!) {
+        if let template_name = templatesPopup.selectedItem?.title,
+            let a = controller.scriptData.getBaseEntry(template_name) {
             controller.selectionInterface.selectEntry(a)
         } else {
             controller.selectionInterface.selectEntry(controller.selectionInterface.getSelectedEntry())

@@ -10,10 +10,10 @@ import Foundation
 
 //window controller associated with an entry (will disapear if entry deleted)
 open class PSEntryWindowController : NSWindowController, NSWindowDelegate {
-    open var entry : Entry!
-    open var scriptData : PSScriptData!
+    public var entry : Entry!
+    public var scriptData : PSScriptData!
     
-    open func setupWithEntryAndAddToDocument(_ entry : Entry, scriptData : PSScriptData) {
+    public func setupWithEntryAndAddToDocument(_ entry : Entry, scriptData : PSScriptData) {
         self.entry = entry
         self.scriptData = scriptData
         scriptData.addWindowController(self)
@@ -40,7 +40,7 @@ open class PSEntryWindowController : NSWindowController, NSWindowDelegate {
         }
     }
     
-    open func windowWillClose(_ notification: Notification) {
+    public func windowWillClose(_ notification: Notification) {
         registeredForChanges = false
         scriptData.removeWindowController(self)
     }

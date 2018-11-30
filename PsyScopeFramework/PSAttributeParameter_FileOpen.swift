@@ -9,7 +9,7 @@ import Foundation
 
 
 //displays a cell with a file open dialog attached to button
-open class PSAttributeParameter_FileOpen : PSAttributeParameter_Button {
+public class PSAttributeParameter_FileOpen : PSAttributeParameter_Button {
     
     override func clickButton(_ sender : NSButton) {
         

@@ -8,7 +8,7 @@
 
 import Foundation
 
-open class PSEntryValueTextField : NSTextField, NSTextViewDelegate {
+@objc public class PSEntryValueTextField : NSTextField, NSTextViewDelegate {
     
     var controller : PSEntryValueController!
     
@@ -18,7 +18,7 @@ open class PSEntryValueTextField : NSTextField, NSTextViewDelegate {
         }
     }
     
-    open func textView(_ view: NSTextView, menu: NSMenu, for event: NSEvent, at charIndex: Int) -> NSMenu? {
+    public func textView(_ view: NSTextView, menu: NSMenu, for event: NSEvent, at charIndex: Int) -> NSMenu? {
         if let view = view as? PSFieldEditor {
             return view.menu
         }
@@ -27,11 +27,11 @@ open class PSEntryValueTextField : NSTextField, NSTextViewDelegate {
     }
     
     
-    open func menuItemClicked(_ menuItem : NSMenuItem) {
+    @objc public func menuItemClicked(_ menuItem : NSMenuItem) {
         controller.varyByMenuCommandClicked(menuItem)
     }
     
-    open var superStringValue : String {
+    public var superStringValue : String {
         get {
             return super.stringValue
         }

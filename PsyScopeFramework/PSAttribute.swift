@@ -7,8 +7,8 @@
 
 import Foundation
 
-open class PSAttribute : NSObject {
-    open var name : String = ""
-    open var interface : PSAttributeInterface!
-    open var fullType : String = ""
+public class PSAttribute : NSObject {
+    public var name : String = ""
+    public var interface : PSAttributeInterface!
+    public var fullType : String = ""
 }

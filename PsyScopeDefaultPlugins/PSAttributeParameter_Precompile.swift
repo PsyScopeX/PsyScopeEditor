@@ -8,11 +8,11 @@
 
 import Foundation
 
-open class PSAttributeParameter_Precompile : PSAttributeParameter {
+public class PSAttributeParameter_Precompile : PSAttributeParameter {
     var allCheck : NSButton!
     var numberText : NSTextField!
     
-    override open func setCustomControl(_ visible: Bool) {
+    override public func setCustomControl(_ visible: Bool) {
         
         if visible {
             if allCheck == nil {

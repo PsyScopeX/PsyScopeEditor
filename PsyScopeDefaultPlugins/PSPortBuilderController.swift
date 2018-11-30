@@ -7,7 +7,7 @@
 
 import Cocoa
 
-open class PSPortBuilderController: NSObject, NSOutlineViewDataSource, NSOutlineViewDelegate {
+public class PSPortBuilderController: NSObject, NSOutlineViewDataSource, NSOutlineViewDelegate {
     
     
     internal var currentValue : String
@@ -51,7 +51,7 @@ open class PSPortBuilderController: NSObject, NSOutlineViewDataSource, NSOutline
     var initialized : Bool = false
     
 
-    open func showAttributeModalForWindow(_ window : NSWindow) {
+    public func showAttributeModalForWindow(_ window : NSWindow) {
         if (attributeSheet == nil) {
             bundle.loadNibNamed(nibName, owner: self, topLevelObjects: &topLevelObjects)
         }
@@ -67,7 +67,7 @@ open class PSPortBuilderController: NSObject, NSOutlineViewDataSource, NSOutline
         //NSApp.runModalForWindow(attributeSheet)
     }
     
-    @IBAction open func closeMyCustomSheet(_: AnyObject) {
+    @IBAction public func closeMyCustomSheet(_: AnyObject) {
         parentWindow.endSheet(attributeSheet)
         if let setCurrentValueBlock = setCurrentValueBlock {
             setCurrentValueBlock(PSGetFirstEntryElementForStringOrNull(self.currentValue))
@@ -99,7 +99,7 @@ open class PSPortBuilderController: NSObject, NSOutlineViewDataSource, NSOutline
                 if newValue {
                     NotificationCenter.default.addObserver(self, selector: #selector(PSPortBuilderController.refreshNotification(_:)), name: NSNotification.Name.NSManagedObjectContextObjectsDidChange, object: scriptData.docMoc)
 
-                    NotificationCenter.default.addObserver(self, selector: #selector(PSPortBuilderController.refreshNotification(_:)), name: NSNotification.Name(rawValue: PSScreenChangeNotification), object: nil)
+                    NotificationCenter.default.addObserver(self, selector: #selector(PSPortBuilderController.refreshNotification(_:)), name: PSScreenChangeNotification, object: nil)
                 } else {
                     NotificationCenter.default.removeObserver(self)
                 }
@@ -112,7 +112,7 @@ open class PSPortBuilderController: NSObject, NSOutlineViewDataSource, NSOutline
     }
     
     
-    override open func awakeFromNib() {
+    override public func awakeFromNib() {
         super.awakeFromNib()
         if (!initialized) {
             
@@ -388,7 +388,7 @@ open class PSPortBuilderController: NSObject, NSOutlineViewDataSource, NSOutline
     
     //MARK: Outline view
     
-    open func outlineViewSelectionDidChange(_ notification: Notification) {
+    public func outlineViewSelectionDidChange(_ notification: Notification) {
         
         if preventSelectingObject { return }
         
@@ -442,7 +442,7 @@ open class PSPortBuilderController: NSObject, NSOutlineViewDataSource, NSOutline
     }
     
     
-    open func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int {
+    public func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int {
         if (item == nil) {
             return portScript.portEntries.count
         }
@@ -453,7 +453,7 @@ open class PSPortBuilderController: NSObject, NSOutlineViewDataSource, NSOutline
         return 0
     }
     
-    open func outlineView(_ outlineView: NSOutlineView, child index: Int, ofItem item: Any?) -> Any {
+    public func outlineView(_ outlineView: NSOutlineView, child index: Int, ofItem item: Any?) -> Any {
         if (item == nil) {
             return portScript.portEntries[index]
         }
@@ -463,7 +463,7 @@ open class PSPortBuilderController: NSObject, NSOutlineViewDataSource, NSOutline
         return ""
     }
     
-    open func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: Any) -> Bool {
+    public func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: Any) -> Bool {
         if let port = item as? PSPort {
             if port.positions.count > 0 {
                 return true
@@ -472,7 +472,7 @@ open class PSPortBuilderController: NSObject, NSOutlineViewDataSource, NSOutline
         return false
     }
     
-    open func outlineView(_ outlineView: NSOutlineView, objectValueFor tableColumn: NSTableColumn?, byItem item: Any?) -> Any? {
+    public func outlineView(_ outlineView: NSOutlineView, objectValueFor tableColumn: NSTableColumn?, byItem item: Any?) -> Any? {
         if let port = item as? PSPort {
             return port.name
         }
@@ -509,6 +509,7 @@ open class PSPortBuilderController: NSObject, NSOutlineViewDataSource, NSOutline
     
     //MARK: Delete button / menu item
     // returns false if needs to show a dialog
+    @discardableResult
     func deleteCurrentlySelectedItem() -> Bool {
         
         if (!itemIsCurrentlySelected()) {

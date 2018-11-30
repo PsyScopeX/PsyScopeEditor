@@ -208,10 +208,6 @@ enum PSPortMeasurement {
             return PSPortMeasurement.top
         case "Bottom":
             return PSPortMeasurement.bottom
-        case "Left":
-            return PSPortMeasurement.left
-        case "Right":
-            return PSPortMeasurement.right
         default:
             return PSPortMeasurement.centre
         }

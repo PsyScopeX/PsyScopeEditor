@@ -134,9 +134,10 @@ class PSEventPropertiesController : PSToolPropertyController {
             textFieldStartTime.stringValue = startTimeString
             
             //does the event have an event associated with it
-            if let er = event.startCondition as? EventStartEventRelated, er.event != nil {
+            if let er = event.startCondition as? EventStartEventRelated,
+                let erEventName = er.event?.entry.name {
                 //there is an event
-                labelStartEvent.stringValue = "Event: \(er.event!.entry.name)"
+                labelStartEvent.stringValue = "Event: \(erEventName)"
             }
         }
         

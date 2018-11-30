@@ -9,12 +9,12 @@
 import Foundation
 
 
-open class PSScriptError : NSObject {
-    open var errorDescription : String = ""
-    open var detailedDescription : String = ""
-    open var solution : String = ""
-    open var entryName : String?
-    open var searchString : String? //the string to search for and highlight within entry
+public class PSScriptError : NSObject {
+    public var errorDescription : String = ""
+    public var detailedDescription : String = ""
+    public var solution : String = ""
+    public var entryName : String?
+    public var searchString : String? //the string to search for and highlight within entry
     public init(errorDescription : String, detailedDescription : String, solution : String, entryName : String? = nil, searchString : String? = nil) {
         self.searchString = entryName
         self.searchString = searchString

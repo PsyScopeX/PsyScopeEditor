@@ -9,13 +9,13 @@
 import Foundation
 
 //adds highlighting + optional block to trigger when a subview becomes first responder
-open class PSListCellView : PSAttributeCellView, PSHighLightOnMouseHoverProtocol {
-    open var firstResponderBlock : (()->())?
-    open var col : Int = -1
-    open var row : Int = -1
-    open var highlighted = false
+public class PSListCellView : PSAttributeCellView, PSHighLightOnMouseHoverProtocol {
+    public var firstResponderBlock : (()->())?
+    public var col : Int = -1
+    public var row : Int = -1
+    public var highlighted = false
     
-    open func highLight(_ on: Bool) {
+    public func highLight(_ on: Bool) {
         highlighted = on
         self.needsDisplay = true
     }

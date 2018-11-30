@@ -58,7 +58,7 @@ class PSList : NSObject {
             return listEntry.name
         }
         set {
-            scriptData.renameEntry(listEntry, nameSuggestion: newValue)
+            _ = scriptData.renameEntry(listEntry, nameSuggestion: newValue)
         }
     }
     
@@ -192,6 +192,7 @@ class PSList : NSObject {
         return new_field
     }
     
+    @discardableResult
     func setItemName(_ name : String, forRow row : Int) -> Bool {
         
         if row < (levelsStringList.count) && !levelsStringList.contains(name){

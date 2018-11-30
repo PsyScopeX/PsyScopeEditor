@@ -8,7 +8,7 @@
 
 import Foundation
 
-open class PSScrollEventPassingScrollView : NSScrollView {
+public class PSScrollEventPassingScrollView : NSScrollView {
     /*- (void)scrollWheel:(NSEvent *)theEvent {
     NSLog(@"%@", theEvent);
     if(theEvent.deltaX !=0)

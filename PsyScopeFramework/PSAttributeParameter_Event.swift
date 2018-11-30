@@ -7,11 +7,11 @@
 
 import Foundation
 
-open class PSAttributeParameter_Event : PSAttributeParameter {
+public class PSAttributeParameter_Event : PSAttributeParameter {
     
     var popUpButton : NSPopUpButton!
     
-    override open func setCustomControl(_ visible: Bool) {
+    override public func setCustomControl(_ visible: Bool) {
         //add popupbutton
         if visible {
             if popUpButton == nil {

@@ -4,11 +4,11 @@ typealias PSRule = (()->(Bool))
 typealias PSMemoization = [Int:Int]
 
 
-open class PSEntryValueParser {
+public class PSEntryValueParser {
     fileprivate let tokens : [PSToken]
     fileprivate var p : Int
     fileprivate var parsedList : PSStringListElement!
-    open var foundErrors : Bool
+    public var foundErrors : Bool
     
     public init(stringValue : String) {
         let tokeniser = PSTokenizer(string: stringValue)
@@ -19,7 +19,7 @@ open class PSEntryValueParser {
         
         print(tokeniser.dumpTokens())
         
-        listRule() //triggers parsing
+        _ = listRule() //triggers parsing
         parsedList = getLast(&listObjDic, stack: &listStack)
         if (p < tokens.count) {
             foundErrors = true
@@ -43,7 +43,7 @@ open class PSEntryValueParser {
         return PSEntryElement.list(stringListElement: parsedList)
     }
     
-    open var values : [PSEntryElement] {
+    public var values : [PSEntryElement] {
         get {
             return parsedList.values
         }
@@ -92,7 +92,7 @@ open class PSEntryValueParser {
         
         let startP = p
         let element = PSStringListElement()
-        whiteSpaceRule()
+        _ = whiteSpaceRule()
         while (expressionRule()) {
             
             //successfully parsed expression, add to current list
@@ -159,7 +159,7 @@ open class PSEntryValueParser {
         var function : PSFunctionElement?
         
         if nonOperationValueRule() {
-            whiteSpaceRule()
+            _ = whiteSpaceRule()
             
             let firstVal = getLast(&nonOperationValueObjDic, stack: &nonOperationValueStack)
             
@@ -196,7 +196,7 @@ open class PSEntryValueParser {
         
         var obj : (op : PSEntryElement, val : PSEntryElement)?
         if binaryOperatorRule() {
-            whiteSpaceRule()
+            _ = whiteSpaceRule()
             let op = getLast(&binaryOperatorObjDic, stack: &binaryOperatorStack)
             
             if expressionRule() {
@@ -216,7 +216,7 @@ open class PSEntryValueParser {
         
         var obj : (op : PSEntryElement, val : PSEntryElement)?
         if unaryOperatorRule() {
-            whiteSpaceRule()
+            _ = whiteSpaceRule()
             
             let op = getLast(&unaryOperatorObjDic, stack: &unaryOperatorStack)
             
@@ -276,7 +276,7 @@ open class PSEntryValueParser {
                 newInlineEntry = PSFunctionElement()
                 newInlineEntry!.functionName = functionName
                 newInlineEntry!.bracketType = .inlineEntry
-                whiteSpaceRule()
+                _ = whiteSpaceRule()
                 if listRule() {
                     let list = getLast(&listObjDic, stack: &listStack)
                     newInlineEntry!.values = list.values
@@ -303,11 +303,11 @@ open class PSEntryValueParser {
             functionName = getLast(&plainValueObjDic, stack: &plainValueStack).value
         }
         
-        match(.functionEvaluationSymbol) //eat these for now
+        _ = match(.functionEvaluationSymbol) //eat these for now
         
         if let _ = match(.openRoundBracket) {
-            whiteSpaceRule()
-            listRule()
+            _ = whiteSpaceRule()
+            _ = listRule()
             let list = getLast(&listObjDic, stack: &listStack)
             if let _ = match(.closeRoundBracket) {
                 newFunction = PSFunctionElement()
@@ -316,8 +316,8 @@ open class PSEntryValueParser {
                 newFunction!.values = list.values
             }
         } else if let _ = match(.openSquareBracket) {
-            whiteSpaceRule()
-            listRule()
+            _ = whiteSpaceRule()
+            _ = listRule()
             let list = getLast(&listObjDic, stack: &listStack)
             
             //now try to get inline entries
@@ -325,7 +325,7 @@ open class PSEntryValueParser {
             //now do inline sub entries
             while (inlineEntryRule()) {
                 inlineEntries.append(PSEntryElement.function(functionElement: getLast(&inlineEntryObjDic, stack: &inlineEntryStack)))
-                whiteSpaceRule()
+                _ = whiteSpaceRule()
             }
             
             if let _ = match(.closeSquareBracket) {

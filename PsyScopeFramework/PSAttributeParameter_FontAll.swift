@@ -7,7 +7,7 @@
 
 import Foundation
 
-open class PSAttributeParameter_FontAll : PSAttributeParameter_Button {
+public class PSAttributeParameter_FontAll : PSAttributeParameter_Button {
     
     override func clickButton(_ sender : NSButton) {
         let fontpopup = PSFontAttributePopup(currentValue: currentValue, displayName: "Choose Font", type: PSFontAttributePopupType.all, setCurrentValueBlock: {

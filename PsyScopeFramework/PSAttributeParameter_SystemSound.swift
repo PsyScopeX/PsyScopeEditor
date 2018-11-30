@@ -7,10 +7,10 @@
 
 import Foundation
 
-open class PSAttributeParameter_SystemSound : PSAttributeParameter {
+public class PSAttributeParameter_SystemSound : PSAttributeParameter {
     var popUpButton : NSPopUpButton!
     
-    override open func setCustomControl(_ visible: Bool) {
+    override public func setCustomControl(_ visible: Bool) {
 
         if visible {
             if popUpButton == nil {

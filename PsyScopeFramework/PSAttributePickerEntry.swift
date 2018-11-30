@@ -9,7 +9,7 @@
 import Foundation
 
 //automatically updates an entry with attributes that are picked while popup is open
-open class PSAttributePickerEntry : PSAttributePicker {
+public class PSAttributePickerEntry : PSAttributePicker {
     
     public init(entry: Entry, scriptData: PSScriptData) {
         self.entry = entry
@@ -71,7 +71,7 @@ open class PSAttributePickerEntry : PSAttributePicker {
                 }
                 if incompatible {
                     //show warning
-                    let question = "Do you want to replace attribute \"\(interface.codeName())\" of type \"\(exisiting_type.parentType.name)\" with type \"\(type.parentType.name)\"?"
+                    let question = "Do you want to replace attribute \"\(String(describing: interface.codeName()))\" of type \"\(exisiting_type.parentType.name)\" with type \"\(type.parentType.name)\"?"
                     let info = "These attributes have the same name, but are not compatible, and take different types of values."
                     let quitButton = "Replace"
                     let cancelButton = "Cancel"
@@ -88,7 +88,7 @@ open class PSAttributePickerEntry : PSAttributePicker {
                         existing_att.isProperty = false
                     }
                 } else {
-                    let question = "There is already an attribute \"\(interface.codeName())\" of type \"\(exisiting_type.parentType.name)\" in this entry which is compatible with type \"\(type.parentType.name)\"."
+                    let question = "There is already an attribute \"\(String(describing: interface.codeName()))\" of type \"\(exisiting_type.parentType.name)\" in this entry which is compatible with type \"\(type.parentType.name)\"."
                     let info = "These attributes are interchangable, and have the same name, but it is not possible to have more than one."
                     let okButton = "OK"
                     let alert = NSAlert()

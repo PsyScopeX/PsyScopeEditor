@@ -114,7 +114,7 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
             //hc.col = col
             let editor = listTableView.window!.fieldEditor(true, for: listTableView)
             hc.isHighlighted = true
-            hc.select(withFrame: hv.headerRect(ofColumn: col), in: hv, editor: editor!, delegate: self, start: 0, length: hc.stringValue.characters.count)
+            hc.select(withFrame: hv.headerRect(ofColumn: col), in: hv, editor: editor!, delegate: self, start: 0, length: hc.stringValue.count)
             editor?.backgroundColor = NSColor.white
             editor?.drawsBackground = true
             editingHeader = true
@@ -170,7 +170,7 @@ class PSListBuilderTableController: NSObject, NSTableViewDelegate, NSTableViewDa
     
     //MARK: Item menu
     
-    func clickMenuItem(_ sender : NSMenuItem) {
+    @objc public func clickMenuItem(_ sender : NSMenuItem) {
         let field = list.fields[listTableView.columnForMenu - 1]
         let item = field[listTableView.rowForMenu]
         if let s = scriptData.valueForMenuItem(sender, original: item, originalFullType : field.type) {

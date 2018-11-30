@@ -41,7 +41,7 @@ class PSTableBuilder: NSObject {
     
     func showWindow() {
         Bundle(for:type(of: self)).loadNibNamed("TableBuilder", owner: self, topLevelObjects: &objects)
-        window.title = "Edit Table: \(tableEntry.name)"
+        window.title = "Edit Table: \(String(describing: tableEntry.name))"
         window.isReleasedWhenClosed = true
         registeredForChanges = true
         window.makeKeyAndOrderFront(self)

@@ -7,7 +7,7 @@
 
 import Foundation
 
-open class PSAttributeParameter_FontFace : PSAttributeParameter_Button {
+public class PSAttributeParameter_FontFace : PSAttributeParameter_Button {
     
     override func clickButton(_ sender : NSButton) {
         

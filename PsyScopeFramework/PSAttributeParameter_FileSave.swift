@@ -8,7 +8,7 @@
 import Foundation
 
 //displays a cell with a file save dialog attached to button
-open class PSAttributeParameter_FileSave : PSAttributeParameter_Button {
+public class PSAttributeParameter_FileSave : PSAttributeParameter_Button {
     
     override func clickButton(_ sender : NSButton) {
         if !scriptData.alertIfNoValidDocumentDirectory() {
@@ -38,7 +38,10 @@ open class PSAttributeParameter_FileSave : PSAttributeParameter_Button {
     
     func setFileName(_ path : String) {
         let docPath = self.scriptData.documentDirectory()!
-        let pspath = PSPath(path, basePath: docPath)
+        guard let pspath = PSPath(path, basePath: docPath) else {
+            print("Illegal file name")
+            return
+        }
         
         if pspath == "" {
             self.currentValue = .null

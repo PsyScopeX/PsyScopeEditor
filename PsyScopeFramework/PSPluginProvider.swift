@@ -6,19 +6,19 @@
 //
 
 import Foundation
-open class PSPluginProvider : NSObject {
-    open var toolPlugins : [String : PSToolInterface]
-    open var attributePlugins : [String : PSAttributeInterface]
-    open var eventPlugins : [String : PSToolInterface]
-    open var actionPlugins : [String : PSActionInterface]
-    open var conditionPlugins : [String : PSConditionInterface]
-    open var attributeSourceTools : [String : PSToolInterface]
-    open var extensions : [PSExtension]
-    open var eventExtensions : [PSExtension]
-    open var attributes : [PSAttribute]
-    open var fileImportPlugins : [String : [PSToolInterface]]
-    open var reservedEntryNames : [String] //Entry names which are reserved for special purposes
-    open var illegalEntryNames : [String] //Entry names which are fully illegal
+public class PSPluginProvider : NSObject {
+    public var toolPlugins : [String : PSToolInterface]
+    public var attributePlugins : [String : PSAttributeInterface]
+    public var eventPlugins : [String : PSToolInterface]
+    public var actionPlugins : [String : PSActionInterface]
+    public var conditionPlugins : [String : PSConditionInterface]
+    public var attributeSourceTools : [String : PSToolInterface]
+    public var extensions : [PSExtension]
+    public var eventExtensions : [PSExtension]
+    public var attributes : [PSAttribute]
+    public var fileImportPlugins : [String : [PSToolInterface]]
+    public var reservedEntryNames : [String] //Entry names which are reserved for special purposes
+    public var illegalEntryNames : [String] //Entry names which are fully illegal
     
     public init(attributePlugins: [String : PSAttributeInterface], toolPlugins: [String : PSToolInterface], eventPlugins: [String : PSToolInterface], actionPlugins: [String : PSActionInterface], conditionPlugins: [String : PSConditionInterface], attributeSourceTools: [String : PSToolInterface],extensions : [PSExtension],eventExtensions : [PSExtension],attributes : [PSAttribute]) {
 
@@ -70,7 +70,7 @@ open class PSPluginProvider : NSObject {
         super.init()
     }
     
-    open func getInterfaceForType(_ type : PSType) -> PSToolInterface? {
+    public func getInterfaceForType(_ type : PSType) -> PSToolInterface? {
         if let tool = toolPlugins[type.name] {
             return tool
         } else if let event = eventPlugins[type.name] {
@@ -80,7 +80,7 @@ open class PSPluginProvider : NSObject {
         return nil
     }
     
-    open func entryNameIsReservedOrIllegal(_ entryName : String) -> Bool {
+    public func entryNameIsReservedOrIllegal(_ entryName : String) -> Bool {
         let reserved : [String] = illegalEntryNames + reservedEntryNames
         return reserved.contains(entryName)
     }

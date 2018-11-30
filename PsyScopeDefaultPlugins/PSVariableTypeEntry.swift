@@ -8,7 +8,7 @@
 
 import Foundation
 
-open class PSVariableTypes {
+public class PSVariableTypes {
     init(types : [PSVariableNamedType]) {
         self.types = types
     }

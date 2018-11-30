@@ -45,7 +45,7 @@ open class PSAttributeParameter_CustomPopup : PSAttributeParameter {
         self.cell.updateScript()
     }
     
-    open var values : [String] = []
+    public var values : [String] = []
     
     func updatePopUpMenuContent() {
         

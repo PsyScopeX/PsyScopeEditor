@@ -11,10 +11,10 @@ import Foundation
 func DisplayCallback(_ :CGDirectDisplayID, _: CGDisplayChangeSummaryFlags,_: UnsafeMutableRawPointer) -> Void {
     //reset caches
     PSScreen.cached = false
-    NotificationCenter.default.post(name: Notification.Name(rawValue: PSScreenChangeNotification), object: nil)
+    NotificationCenter.default.post(name: PSScreenChangeNotification, object: nil)
 }
 
-let PSScreenChangeNotification = "PSScreenChangeNotification"
+let PSScreenChangeNotification = Notification.Name(rawValue: "PSScreenChangeNotification")
 
 class PSScreen {
     static var registered : Bool = false
@@ -28,7 +28,7 @@ class PSScreen {
         
         //make sure that we can detect any changes in the display config
         if !registered {
-            CGDisplayRegisterReconfigurationCallback(DisplayCallback as! CGDisplayReconfigurationCallBack, nil)
+            CGDisplayRegisterReconfigurationCallback(DisplayCallback as? CGDisplayReconfigurationCallBack, nil)
             registered = true
         }
         

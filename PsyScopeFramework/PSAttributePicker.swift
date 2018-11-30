@@ -7,7 +7,7 @@ import Cocoa
 
 //MARK: PSAttributePicker
 
-open class PSAttributePicker: NSObject, NSTableViewDataSource, NSTableViewDelegate {
+public class PSAttributePicker: NSObject, NSTableViewDataSource, NSTableViewDelegate {
     
     public init(scriptData : PSScriptData) {
         self.scriptData = scriptData
@@ -49,7 +49,7 @@ open class PSAttributePicker: NSObject, NSTableViewDataSource, NSTableViewDelega
         self.existingAttributes = []
     }
     
-    open func showAttributeWindow(_ view : NSView) {
+    public func showAttributeWindow(_ view : NSView) {
         popover.show(relativeTo: view.bounds, of: view, preferredEdge: NSRectEdge.minX)
         selectCategory(self)
     }
@@ -104,11 +104,11 @@ open class PSAttributePicker: NSObject, NSTableViewDataSource, NSTableViewDelega
     
     // MARK: TableView
     
-    open func numberOfRows(in tableView: NSTableView) -> Int {
+    public func numberOfRows(in tableView: NSTableView) -> Int {
         return tableViewAttributes.count
     }
     
-    open func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+    public func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         
         //make view
         let view = tableView.makeView(withIdentifier:tableCellViewIdentifier, owner: nil) as! PSAttributePickerCell
@@ -120,7 +120,7 @@ open class PSAttributePicker: NSObject, NSTableViewDataSource, NSTableViewDelega
         return view
     }
     
-    open func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
+    public func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
         return CGFloat(25)
     }
     

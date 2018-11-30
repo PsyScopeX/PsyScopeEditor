@@ -8,17 +8,17 @@
 import Foundation
 
 //displays a cell with a button - abstract to be overriden
-open class PSAttributeParameter_Button : PSAttributeParameter {
+public class PSAttributeParameter_Button : PSAttributeParameter {
     
-    open var editButton : NSButton!
-    open var displayValueTransformer : ((PSEntryElement) -> (String))? //can transform the display to make it prettier
+    public var editButton : NSButton!
+    public var displayValueTransformer : ((PSEntryElement) -> (String))? //can transform the display to make it prettier
     
-    override open func setCustomControl(_ visible: Bool) {
+    override public func setCustomControl(_ visible: Bool) {
         if visible {
             if editButton == nil {
                 //add editButton
                 editButton = NSButton(frame: attributeValueControlFrame)
-                cell?.activateViewBlock = { self.editButton.performClick(self) }
+                cell.activateViewBlock = { self.editButton.performClick(self) }
                 editButton.bezelStyle = NSButton.BezelStyle.roundRect
                 let bcell = editButton.cell!
                 bcell.lineBreakMode = NSLineBreakMode.byTruncatingTail

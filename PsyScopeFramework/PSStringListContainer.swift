@@ -22,18 +22,18 @@ open class PSStringListContainer : PSStringListElement {
         }
     }
     
-    open func updateEntry() {
+    public func updateEntry() {
         //override to detect changes
     }
     
-    open func removeAtIndex(_ index : Int) {
+    public func removeAtIndex(_ index : Int) {
         if index < values.count {
             values.remove(at: index)
             updateEntry()
         }
     }
     
-    open func setValueForIndex(_ index : Int, value : String) -> Bool {
+    public func setValueForIndex(_ index : Int, value : String) -> Bool {
         if let v = valueForString(value) {
             values[index] = v
             updateEntry()
@@ -42,7 +42,7 @@ open class PSStringListContainer : PSStringListElement {
         return false
     }
     
-    open func valueForString(_ stringValue : String) -> PSEntryElement? {
+    public func valueForString(_ stringValue : String) -> PSEntryElement? {
         let parse = PSEntryValueParser(stringValue: stringValue)
         
         if parse.foundErrors {
@@ -66,13 +66,13 @@ open class PSStringListContainer : PSStringListElement {
     
     
     
-    open var count : Int {
+    public var count : Int {
         get {
             return values.count
         }
     }
     
-    open func insert(_ element : PSEntryElement , index : Int) {
+    public func insert(_ element : PSEntryElement , index : Int) {
         values.insert(element, at: index)
         updateEntry()
     }

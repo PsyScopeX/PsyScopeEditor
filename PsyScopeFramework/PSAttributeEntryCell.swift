@@ -8,7 +8,7 @@
 import Foundation
 
 //stores an entry and updates entry when updateScript is called
-open class PSAttributeEntryCellView : PSAttributeCellView {
+public class PSAttributeEntryCellView : PSAttributeCellView {
     var entry : Entry
 
     public init(entry: Entry, attributeParameter: PSAttributeParameter, interface: PSAttributeInterface, scriptData: PSScriptData) {

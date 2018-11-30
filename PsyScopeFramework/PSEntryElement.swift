@@ -64,16 +64,16 @@ public func ==(a: PSEntryElement, b: PSEntryElement) -> Bool {
     }
 }
 
-open class PSStringElement {
+public class PSStringElement {
     public enum Quotes {
         case none
         case doubles
         case singles
         case curlyBrackets
     }
-    open var value : String
-    open var quotes : Quotes
-    open var quotedValue : String {
+    public var value : String
+    public var quotes : Quotes
+    public var quotedValue : String {
         get {
             switch (quotes) {
             case .none:
@@ -120,7 +120,7 @@ open class PSStringElement {
 
 open class PSCompoundEntryElement : NSObject {
     
-    open var stringValue : String {
+    public var stringValue : String {
         get {
             fatalError("Cannot get string this abstract class PSCompoundEntryElement")
         }
@@ -130,26 +130,26 @@ open class PSCompoundEntryElement : NSObject {
         }
     }
     
-    open func getStringValues() -> [String] {
+    public func getStringValues() -> [String] {
         return values.map({
             self.elementToString($0, stripped: false)
         })
     }
     
-    open func getStrippedStringValues() -> [String] {
+    public func getStrippedStringValues() -> [String] {
         return values.map({
             self.elementToString($0, stripped: true)
         })
     }
     
-    open func setStringValues(_ stringList : [String]) {
+    public func setStringValues(_ stringList : [String]) {
         let value = stringList.joined(separator: " ")
         let parse = PSEntryValueParser(stringValue: value)
         self.values = parse.values
         self.foundErrors = parse.foundErrors
     }
     
-    open func elementToString(_ element : PSEntryElement, stripped : Bool) -> String {
+    public func elementToString(_ element : PSEntryElement, stripped : Bool) -> String {
         switch (element) {
         case .stringToken(let string):
             // put in quotes if necessary
@@ -178,7 +178,7 @@ open class PSCompoundEntryElement : NSObject {
     }
     
     //searches for stringTokens in tree return true if found
-    open func searchForStringToken(_ token : String) -> Bool {
+    public func searchForStringToken(_ token : String) -> Bool {
         for val in values {
             switch(val) {
             case .null:
@@ -201,7 +201,7 @@ open class PSCompoundEntryElement : NSObject {
     }
     
     //renames stringElements, and function names...
-    open func renameAllStringTokens(_ oldName : String, newName : String) {
+    public func renameAllStringTokens(_ oldName : String, newName : String) {
         for (index,val) in values.enumerated() {
             switch(val) {
             case .null:
@@ -229,8 +229,8 @@ open class PSCompoundEntryElement : NSObject {
         }
     }
     
-    open var values : [PSEntryElement] = []
-    open var foundErrors : Bool = false
+    public var values : [PSEntryElement] = []
+    public var foundErrors : Bool = false
 }
 
 let whiteSpaceCharacterSet = CharacterSet.whitespaces
@@ -280,9 +280,9 @@ open class PSStringListElement : PSCompoundEntryElement {
 }
 
 
-open class PSFunctionElement : PSCompoundEntryElement {
+public class PSFunctionElement : PSCompoundEntryElement {
     
-    open class func InlineEntryNamed(_ name : String, values : [String]) -> PSEntryElement {
+    public class func InlineEntryNamed(_ name : String, values : [String]) -> PSEntryElement {
         let function = PSFunctionElement()
         function.functionName = name
         function.bracketType = .inlineEntry
@@ -290,13 +290,13 @@ open class PSFunctionElement : PSCompoundEntryElement {
         return PSEntryElement.function(functionElement: function)
     }
     
-    open class func FromStringValue(_ stringValue : String) -> PSFunctionElement {
+    public class func FromStringValue(_ stringValue : String) -> PSFunctionElement {
         let function = PSFunctionElement()
         function.stringValue = stringValue
         return function
     }
     
-    open var functionName : String = ""
+    public var functionName : String = ""
     public enum FType {
         case square
         case round
@@ -304,9 +304,9 @@ open class PSFunctionElement : PSCompoundEntryElement {
         case inlineEntry
     }
     
-    open var bracketType : FType = .square
+    public var bracketType : FType = .square
     
-    open func getParametersStringValue() -> String {
+    public func getParametersStringValue() -> String {
         let elements = getStringValues()
         let seperator : String = " "
         var stringValue = elements.joined(separator: seperator)
@@ -319,7 +319,7 @@ open class PSFunctionElement : PSCompoundEntryElement {
         return stringValue
     }
     
-    override open var stringValue : String {
+    override public var stringValue : String {
         get {
             let joinedElements = getParametersStringValue()
             

@@ -37,7 +37,7 @@ open class PSToolPropertyController: PSPluginViewController, NSTextFieldDelegate
         refreshName()
     }
     
-    open func refreshName() {
+    public func refreshName() {
         if nameTextField != nil {
             nameTextField.stringValue = entry.name
         } else {
@@ -47,7 +47,7 @@ open class PSToolPropertyController: PSPluginViewController, NSTextFieldDelegate
     }
     
     
-    open func setObjectName(_ new_name : String) {
+    public func setObjectName(_ new_name : String) {
         scriptData.beginUndoGrouping("Rename object")
         let success = scriptData.renameEntry(entry, nameSuggestion: new_name)
         scriptData.endUndoGrouping(success)
@@ -57,7 +57,7 @@ open class PSToolPropertyController: PSPluginViewController, NSTextFieldDelegate
         nameTextField.stringValue = entry.name
     }
     
-    open func windowWillReturnUndoManager(_ window: NSWindow) -> UndoManager? {
+    @objc public func windowWillReturnUndoManager(_ window: NSWindow) -> UndoManager? {
         return scriptData.docMoc.undoManager
     }
     

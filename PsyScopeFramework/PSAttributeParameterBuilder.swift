@@ -98,7 +98,7 @@ open class PSAttributeParameterBuilder {
         parameter.cell.addSubview(varybybutton)
 
         
-        varybybutton.menu = parameter.scriptData.getVaryByMenu(parameter, action: "clickMenuItem:")
+        varybybutton.menu = parameter.scriptData.getVaryByMenu(parameter, action: #selector(PSAttributeParameter.clickMenuItem(_:)))
         
         let title_label = NSTextField(frame: NSMakeRect(PSDefaultConstants.ActionsBuilder.labelsLeftMargin, y+3, PSDefaultConstants.ActionsBuilder.controlsLeftMargin - PSDefaultConstants.ActionsBuilder.labelsLeftMargin, 17))
         title_label.autoresizingMask = [NSView.AutoresizingMask.maxXMargin, NSView.AutoresizingMask.minYMargin]
@@ -117,7 +117,7 @@ open class PSAttributeParameterBuilder {
         let x = parameter.cell.frame.width - 80
         let varybybutton = PSVaryByButton(frame:NSRect(x: x, y: defaultYLocation + 22, width: 22, height: 22))
         //varybybutton.autoresizingMask = NSAutoresizingMaskOptions.ViewMinXMargin | NSAutoresizingMaskOptions.ViewMinYMargin
-        varybybutton.menu = parameter.scriptData.getVaryByMenu(parameter, action: "clickMenuItem:")
+        varybybutton.menu = parameter.scriptData.getVaryByMenu(parameter, action: #selector(PSAttributeParameter.clickMenuItem(_:)))
         parameter.cell.addSubview(varybybutton)
         
         //title

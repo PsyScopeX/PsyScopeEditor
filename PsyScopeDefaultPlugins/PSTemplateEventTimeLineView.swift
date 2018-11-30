@@ -335,7 +335,7 @@ class PSTemplateEventTimeLineView : NSView {
             let row = tableView.row(for: self)
             let index = IndexSet(integer: row)
             if let d = tableView.delegate {
-                d.tableView!(tableView, shouldSelectRow: row)
+                _ = d.tableView?(tableView, shouldSelectRow: row)
             }
             tableView.selectRowIndexes(index, byExtendingSelection: false)
         }

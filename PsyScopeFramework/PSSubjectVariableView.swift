@@ -8,7 +8,7 @@
 
 import Foundation
 
-open class PSSubjectVariableView : NSView {
+public class PSSubjectVariableView : NSView {
     
     let subjectVariable : PSSubjectVariable
     

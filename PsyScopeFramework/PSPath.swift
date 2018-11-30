@@ -93,7 +93,7 @@ func relativePath(_ absolutePath : String, basePath : String) -> String {
     
     if levelIndex < basePathComponents.count {
         //outside of base path
-        for index in stride(from: levelIndex, to: basePathComponents.count, by: 1) {
+        for _ in stride(from: levelIndex, to: basePathComponents.count, by: 1) {
             relativePath = (relativePath as NSString).appendingPathComponent("../")
         }
     }

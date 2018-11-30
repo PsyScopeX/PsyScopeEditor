@@ -8,12 +8,12 @@
 
 import Foundation
 
-open class PSAttributeParameter_ActiveUntil : PSAttributeParameter {
+public class PSAttributeParameter_ActiveUntil : PSAttributeParameter {
     var popUpButton : NSPopUpButton!
     
     var defaultValues = ["End of this event" : "NONE", "All instances" : "FORCE_ONE", "At least one instance" : "FORCE_ALL"]
     
-    override open func setCustomControl(_ visible: Bool) {
+    override public func setCustomControl(_ visible: Bool) {
         
         values = Array(defaultValues.keys)
         values += scriptData.getAllEvents().map({ $0.name })
@@ -53,7 +53,7 @@ open class PSAttributeParameter_ActiveUntil : PSAttributeParameter {
         self.cell.updateScript()
     }
     
-    open var values : [String] = []
+    public var values : [String] = []
     
     func updatePopUpMenuContent() {
         

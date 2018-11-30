@@ -53,7 +53,7 @@ class PSBlockTool: PSTool, PSToolInterface {
     
     override func constructAttributeSourceSubMenu(_ scriptData: PSScriptData) -> NSMenuItem {
         
-        let subMenuItem = NSMenuItem(title: "Block", action: "", keyEquivalent: "b")
+        let subMenuItem = NSMenuItem(title: "Block", action: Selector(""), keyEquivalent: "b")
         subMenuItem.representedObject = self
         subMenuItem.tag = 0
         //get all blocks

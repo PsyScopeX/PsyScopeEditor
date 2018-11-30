@@ -8,12 +8,12 @@
 
 import Foundation
 
-open class PSEntryValueTextField_Path : PSEntryValueTextField {
+public class PSEntryValueTextField_Path : PSEntryValueTextField {
     
     
     
     //accepts input of a file ref (or other kind of function)
-    override open var stringValue : String {
+    override public var stringValue : String {
         get {
             if let fileref = PSScriptFile.FileRefFromPath(superStringValue, scriptData: controller.scriptData) {
                 return fileref

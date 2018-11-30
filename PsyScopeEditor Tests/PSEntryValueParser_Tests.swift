@@ -128,18 +128,14 @@ class PSEntryValueParser_Tests: XCTestCase {
         
         if parser.values.count < 2 { return}
         
-        var secondElementCorrect = false
+
         switch(parser.values[1]) {
         case let .stringToken(stringElement):
             XCTAssertEqual(stringElement.value, "50%" , "Second Element incorrect")
-            if stringElement.value == "100%" {
-                secondElementCorrect = true
-            }
         default:
             break
         }
         
-        XCTAssert(firstElementCorrect, "Second Element incorrect")
     }
     
     func testUnaryOperatorFollowedBYBinaryOperator() {

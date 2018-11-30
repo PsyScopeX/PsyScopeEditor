@@ -49,7 +49,7 @@ class PSTemplateTool: PSTool , PSToolInterface {
     
     override func constructAttributeSourceSubMenu(_ scriptData: PSScriptData) -> NSMenuItem {
         
-        let subMenuItem = NSMenuItem(title: "Template", action: "", keyEquivalent: "t")
+        let subMenuItem = NSMenuItem(title: "Template", action: nil, keyEquivalent: "t")
         subMenuItem.representedObject = self
         subMenuItem.tag = 0
         //get all blocks, that this attribute is linked to, and list attributes

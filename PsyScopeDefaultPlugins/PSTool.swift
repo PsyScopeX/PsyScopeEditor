@@ -56,6 +56,7 @@ class PSTool: PSToolHelper {
         return false
     }
     
+    @discardableResult
     func deleteLinkFrom(_ parent: Entry, to child: Entry, withScript scriptData: PSScriptData) -> Bool {
         
         

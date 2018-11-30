@@ -8,7 +8,7 @@
 
 import Foundation
 
-@objc public protocol PSHighLightOnMouseHoverProtocol {
+public protocol PSHighLightOnMouseHoverProtocol {
     func highLight(_ on : Bool)
     func activate()
 }

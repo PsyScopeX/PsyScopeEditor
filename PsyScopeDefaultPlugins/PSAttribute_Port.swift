@@ -7,7 +7,7 @@
 
 import Cocoa
 
-open class PSAttribute_Port: PSAttributeGeneric {
+public class PSAttribute_Port: PSAttributeGeneric {
     
     
     public override init() {
@@ -44,13 +44,12 @@ open class PSAttribute_Port: PSAttributeGeneric {
         var errors : [PSScriptError] = []
         errors += super.identifyEntries(ghostScript) as! [PSScriptError]
         var portNamesEntry : PSStringListCachedContainer!
-        var portNamesGE : PSGhostEntry!
 
         for ge in ghostScript.entries as [PSGhostEntry] {
             if ge.name == "PortNames" {
                 portNamesEntry = PSStringListCachedContainer()
                 portNamesEntry.stringValue = ge.currentValue
-                portNamesGE = ge
+
                 if (ge.type.isEmpty || ge.type == "Port") {
                     ge.type = "Port"
                 } else {

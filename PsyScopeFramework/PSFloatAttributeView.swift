@@ -11,7 +11,7 @@ import Cocoa
 
 
 
-open class PSFloatAttributePopup : PSAttributePopup {
+public class PSFloatAttributePopup : PSAttributePopup {
     
     public init(currentValue: PSEntryElement, displayName : String, setCurrentValueBlock : ((PSEntryElement) -> ())?){
         super.init(nibName: "FloatAttribute",bundle: Bundle(for:type(of: self)), currentValue: currentValue, displayName: displayName, setCurrentValueBlock: setCurrentValueBlock)
@@ -21,7 +21,7 @@ open class PSFloatAttributePopup : PSAttributePopup {
     @IBOutlet var field : NSTextField!
     @IBOutlet var view : NSView!
     
-    override open func awakeFromNib() {
+    override public func awakeFromNib() {
         label.stringValue = "Please enter the number value for the attribute named: " + displayName
         field.stringValue = currentValue.stringValue()
     }

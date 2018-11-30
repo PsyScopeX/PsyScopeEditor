@@ -116,7 +116,7 @@ class PSFileListBuilderTableController : NSObject, NSTableViewDataSource, NSTabl
             let hc = tc.headerCell as! PSFieldHeaderCell
             let editor = previewTableView.window!.fieldEditor(true, for: previewTableView)
             hc.isHighlighted = true
-            hc.select(withFrame: hv.headerRect(ofColumn: col), in: hv, editor: editor!, delegate: self, start: 0, length: hc.stringValue.characters.count)
+            hc.select(withFrame: hv.headerRect(ofColumn: col), in: hv, editor: editor!, delegate: self, start: 0, length: hc.stringValue.count)
             editor?.backgroundColor = NSColor.white
             editor?.drawsBackground = true
             editingHeader = col

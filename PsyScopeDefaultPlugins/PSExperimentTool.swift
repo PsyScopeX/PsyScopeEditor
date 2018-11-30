@@ -130,86 +130,98 @@ class PSExperimentTool: PSTool, PSToolInterface {
         
         //sometimes the Experiments entry will be the only new object and sometimes just the Experiment entry.
         
-        var ghost_main_entry : PSGhostEntry! = nil
-        var ghost_experiments_entry : PSGhostEntry! = nil
+        var ghostMainEntryOptional : PSGhostEntry? = nil
+        var ghostExperimentsEntryOptional : PSGhostEntry? = nil
+        
         //check there is an experiments entry (should be) and only one other
         for entry in entries {
             if entry.name == "Experiments"{
-                if (ghost_experiments_entry != nil) {
+                if (ghostExperimentsEntryOptional != nil) {
                     print("Error too many Experiment entries detected???")
                     return nil
                 } else {
-                    ghost_experiments_entry = entry
+                    ghostExperimentsEntryOptional = entry
                 }
             } else {
-                if (ghost_main_entry != nil) {
+                if (ghostMainEntryOptional != nil) {
                     print("Error too many experiment name entries detected???")
                     return nil
                 } else {
-                    ghost_main_entry = entry
+                    ghostMainEntryOptional = entry
                 }
             }
         }
         
-        var experimentsEntry : Entry! = nil
-        var mainEntry : Entry! = nil
+        var experimentsEntryOptional : Entry? = nil
+        var mainEntryOptional : Entry? = nil
         
-        if ghost_main_entry != nil {
+        if let ghostMainEntry = ghostMainEntryOptional {
             // a new main experiment entry has been created
-            let new_name = ghost_main_entry.name
-            let layout_object = scriptData.createBaseEntryAndLayoutObjectPair(PSSection.ExperimentDefinitions, entryName: new_name, type: toolType)
-            mainEntry = layout_object.mainEntry
-            updateEntry(mainEntry, withGhostEntry: ghost_main_entry, scriptData: scriptData)
+            let layout_object = scriptData.createBaseEntryAndLayoutObjectPair(PSSection.ExperimentDefinitions, entryName: ghostMainEntry.name, type: toolType)
+            mainEntryOptional = layout_object.mainEntry
+            updateEntry(layout_object.mainEntry, withGhostEntry: ghostMainEntry, scriptData: scriptData)
         } else {
             // need to use old one, find in script - there shoudl definitely be one after identify entries
+            guard let ghostExperimentsEntry = ghostExperimentsEntryOptional else {
+                fatalError("Experiments ghost entry not found")
+            }
+            
+            let mainEntryName = ghostExperimentsEntry.currentValue.trimmingCharacters(in: CharacterSet(charactersIn: "\""))
+            
             for entry in scriptData.getBaseEntries() {
-                let mainEntryName = ghost_experiments_entry.currentValue.trimmingCharacters(in: CharacterSet(charactersIn: "\""))
                 if entry.name == mainEntryName {
-                    mainEntry = entry
+                    mainEntryOptional = entry
                     break
                 }
             }
-            
-            if mainEntry == nil {
-                fatalError("Could not find main experiment entry, which was supposed to exist.")
-            }
         }
         
-        var newName = mainEntry.name
+        guard let mainEntry = mainEntryOptional else {
+            fatalError("Could not find main experiment entry, which was supposed to exist.")
+        }
         
-        if ghost_experiments_entry == nil {
+        if ghostExperimentsEntryOptional == nil {
             //no experiments entry has been provided in ghost script - check to see if it already exists
             for entry in scriptData.getBaseEntries() {
                 if entry.name == "Experiments" {
-                    experimentsEntry = entry
-                    mainEntry.layoutObject.addEntriesObject(experimentsEntry)
+                    experimentsEntryOptional = entry
+                    mainEntry.layoutObject.addEntriesObject(experimentsEntryOptional)
                     break
                 }
             }
         }
         
-        if experimentsEntry == nil {
+        var newName = mainEntry.name ?? "MainEntry"
+        
+        if experimentsEntryOptional == nil {
             // a new experiments entry needs to be created
+            
             //get sections
             let root_section = scriptData.getOrCreateSection(PSSection.Root)
+            
             //create main experiments entry
-            experimentsEntry = scriptData.insertNewBaseEntry("Experiments", type: toolType)
+            let newExperimentsEntry = scriptData.insertNewBaseEntry("Experiments", type: toolType)
             
             //if newName has spaces then add quotes
-            if (newName?.components(separatedBy: CharacterSet.whitespacesAndNewlines).count)! > 1 {
+            if (newName.components(separatedBy: CharacterSet.whitespacesAndNewlines).count) > 1 {
                 newName = "\"\(newName)\""
             }
-            experimentsEntry.currentValue = newName
-            experimentsEntry.isKeyEntry = false
+            newExperimentsEntry.currentValue = newName
+            newExperimentsEntry.isKeyEntry = false
             
-            root_section.addObjectsObject(experimentsEntry)
+            root_section.addObjectsObject(newExperimentsEntry)
             
-            mainEntry.layoutObject.addEntriesObject(experimentsEntry)
+            mainEntry.layoutObject.addEntriesObject(newExperimentsEntry)
+            experimentsEntryOptional = newExperimentsEntry
+        }
+        
+        guard let experimentsEntry = experimentsEntryOptional else {
+            fatalError("Error asserting experiments entry")
         }
         
         //if there was a ghost entry provided, then update
-        if ghost_experiments_entry != nil {
-            updateEntry(experimentsEntry, withGhostEntry: ghost_experiments_entry, scriptData: scriptData)
+        if let ghostExperimentsEntry = ghostExperimentsEntryOptional {
+            updateEntry(experimentsEntry, withGhostEntry: ghostExperimentsEntry, scriptData: scriptData)
         }
         return [mainEntry.layoutObject]
     }

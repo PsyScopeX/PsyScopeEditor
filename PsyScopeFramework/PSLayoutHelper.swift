@@ -207,6 +207,7 @@ class TreeNode : NSObject {
         }
     }
     
+    @discardableResult
     func centreOverChildren() -> Double {
         if isLeaf() {
             return self.x
@@ -219,6 +220,7 @@ class TreeNode : NSObject {
         return self.x
     }
     
+    @discardableResult
     func sizeOfChildren() -> Double {
         
         if self.isLeaf() {
@@ -233,17 +235,6 @@ class TreeNode : NSObject {
             return sizeOfChild
         }
     }
-    
-    /*func assignChildrenLocalX() {
-        for (index,c) in enumerate(children) {
-            c.localX = index
-        }
-        
-        //if this layoutObject has no parents, then its localX should be zero
-        if lobject.parentLink.count == 0 {
-            localX = 0
-        }
-    }*/
     
     func isTopOfTree() -> Bool {
         return parent == nil
@@ -320,16 +311,16 @@ public func PSPositionNewObject(_ lobject : LayoutObject, scriptData : PSScriptD
 }
 
 public func PSPositionNewObjectWithParent(_ lobject : LayoutObject, parentObject : LayoutObject) {
-    var yPos : Int = Int(parentObject.yPos) + PSPreferences.cleanUpYSpacing.integerValue
+    var yPos : Int = Int(truncating: parentObject.yPos) + PSPreferences.cleanUpYSpacing.integerValue
     if yPos < 0 { yPos = 0 }
-    var xPos = Int(parentObject.xPos)
+    var xPos = Int(truncating: parentObject.xPos)
     let xMult = PSPreferences.cleanUpXSpacing.integerValue
     
     //get max xPos
     for child in parentObject.childLink.array as! [LayoutObject] {
         
-        if Int(child.xPos) + xMult > xPos {
-            xPos = Int(child.xPos) + xMult
+        if Int(truncating: child.xPos) + xMult > xPos {
+            xPos = Int(truncating: child.xPos) + xMult
         }
     }
     lobject.yPos = yPos as NSNumber
@@ -347,8 +338,8 @@ public func PSPutInFreeSpot(_ lobject : LayoutObject, scriptData : PSScriptData)
     repeat {
         tooClose = false
         for lobj in all_lobjects {
-            let x_diff = (Int(lobj.xPos) - x)
-            let y_diff = (Int(lobj.yPos) - y)
+            let x_diff = (Int(truncating: lobj.xPos) - x)
+            let y_diff = (Int(truncating: lobj.yPos) - y)
             if ((x_diff * x_diff) + (y_diff * y_diff) < 250) {
                 x += xMult
                 tooClose = true

@@ -8,14 +8,14 @@
 import Foundation
 
 //a view which represents an action
-open class PSActionCell : PSCellView {
+public class PSActionCell : PSCellView {
     
     //MARK: Publics
     
-    open var entryFunction : PSEventActionFunction!
-    open var actionInterface : PSActionInterface!
-    open var actionParameters : [PSAttributeParameter] = []
-    open var expandAction : ((Bool) -> ())? //used to tie events when cell is expanded (e.g. recording that)
+    public var entryFunction : PSEventActionFunction!
+    public var actionInterface : PSActionInterface!
+    public var actionParameters : [PSAttributeParameter] = []
+    public var expandAction : ((Bool) -> ())? //used to tie events when cell is expanded (e.g. recording that)
     
     
     //MARK: Privates
@@ -28,7 +28,7 @@ open class PSActionCell : PSCellView {
     var activeUntilParameter : PSAttributeParameter_ActiveUntil?
     
     
-    override open func updateScript() {
+    override public func updateScript() {
         
         //add parameters for action's function
         var values : [PSEntryElement] = []
@@ -39,7 +39,6 @@ open class PSActionCell : PSCellView {
         //if we have blanks but later on there are values, then make the blanks NULL
         //find last element with value
         let nElements = values.count
-        var indexOfLastValue = 0
         for indexOfLastValue in stride(from: (nElements - 1), to: 0, by: -1) {
             if values[indexOfLastValue] != PSEntryElement.null {
                 break
@@ -66,7 +65,7 @@ open class PSActionCell : PSCellView {
         }
     }
     
-    open func setExpanded(_ expanded : Bool) {
+    public func setExpanded(_ expanded : Bool) {
         if expanded {
             disclosureButton.state = NSControl.StateValue.on
             var new_frame = self.frame
@@ -77,7 +76,7 @@ open class PSActionCell : PSCellView {
             }
             summaryLabel.isHidden = true
         } else {
-            disclosureButton.state == NSControl.StateValue.off
+            disclosureButton.state = NSControl.StateValue.off
             var new_frame = self.frame
             new_frame.size.height = 30
             self.frame = new_frame
@@ -95,7 +94,7 @@ open class PSActionCell : PSCellView {
         }
     }
     
-    open func setup(_ actionInterface : PSActionInterface, entryFunction : PSEventActionFunction, scriptData : PSScriptData, parameters : [NSObject.Type], names: [String], expandedHeight : CGFloat) {
+    public func setup(_ actionInterface : PSActionInterface, entryFunction : PSEventActionFunction, scriptData : PSScriptData, parameters : [NSObject.Type], names: [String], expandedHeight : CGFloat) {
         
         //setup dependencies
         self.actionInterface = actionInterface

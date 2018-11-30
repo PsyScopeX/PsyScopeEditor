@@ -10,19 +10,19 @@ import Foundation
 open class PSAttributeGeneric : NSObject, PSAttributeInterface {
 
 
-    open var userFriendlyNameString : String
-    open var helpfulDescriptionString : String
-    open var codeNameString : String
-    open var attributeClass : NSObject.Type
-    open var classNameString : String
-    open var defaultValueString : String
-    open var toolsArray : [String]
-    open var keyValuesArray : [String]
-    open var customAttributeParameterAction : ((PSEntryElement,PSScriptData,NSWindow,((PSEntryElement) -> ())?) -> ())?
-    open var displayValueTransformer : ((PSEntryElement) -> String)?
-    open var section : PSSection
-    open var reservedEntryNames : [String]
-    open var illegalEntryNames : [String]
+    public var userFriendlyNameString : String
+    public var helpfulDescriptionString : String
+    public var codeNameString : String
+    public var attributeClass : NSObject.Type
+    public var classNameString : String
+    public var defaultValueString : String
+    public var toolsArray : [String]
+    public var keyValuesArray : [String]
+    public var customAttributeParameterAction : ((PSEntryElement,PSScriptData,NSWindow,((PSEntryElement) -> ())?) -> ())?
+    public var displayValueTransformer : ((PSEntryElement) -> String)?
+    public var section : PSSection
+    public var reservedEntryNames : [String]
+    public var illegalEntryNames : [String]
     override public init() {
         userFriendlyNameString = ""
         helpfulDescriptionString = ""

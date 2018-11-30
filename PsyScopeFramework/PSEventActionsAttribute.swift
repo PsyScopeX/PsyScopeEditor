@@ -7,12 +7,12 @@
 import Foundation
 
 
-open class PSEventActionsAttribute : PSStringListElement {
-    open var actionConditionSets : [(conditions: [PSEventConditionFunction], actions: [PSEventActionFunction])] = []
+public class PSEventActionsAttribute : PSStringListElement {
+    public var actionConditionSets : [(conditions: [PSEventConditionFunction], actions: [PSEventActionFunction])] = []
     
-    open let scriptData : PSScriptData
-    open let eventEntry : Entry
-    open let attributeName : String
+    public let scriptData : PSScriptData
+    public let eventEntry : Entry
+    public let attributeName : String
     let actionPlugins : [String : PSActionInterface]
     let conditionPlugins : [String : PSConditionInterface]
     var errors : [PSScriptError]
@@ -30,7 +30,7 @@ open class PSEventActionsAttribute : PSStringListElement {
         parseAttributeEntry()
     }
     
-    open func parseAttributeEntry() {
+    public func parseAttributeEntry() {
         if let ea = scriptData.getSubEntry(attributeName, entry: eventEntry) {
             self.stringValue = ea.currentValue
             loadMetaData(ea.metaData)
@@ -40,7 +40,7 @@ open class PSEventActionsAttribute : PSStringListElement {
         }
     }
     
-    open func updateAttributeEntry() {
+    public func updateAttributeEntry() {
         scriptData.beginUndoGrouping("Edit Action / Condition")
         if actionConditionSets.count > 0 {
             let actionsEntry = scriptData.getOrCreateSubEntry(attributeName, entry: eventEntry, isProperty: true)
@@ -56,13 +56,13 @@ open class PSEventActionsAttribute : PSStringListElement {
     
     
     
-    open func newActionConditionSet() {
+    public func newActionConditionSet() {
         actionConditionSets.append((conditions: [],actions: []))
         //dont update entry yet
 
     }
     
-    open func removeActionConditionSet(_ row : Int) {
+    public func removeActionConditionSet(_ row : Int) {
         if row >= 0 && row < actionConditionSets.count {
             actionConditionSets.remove(at: row)
         }
@@ -70,7 +70,8 @@ open class PSEventActionsAttribute : PSStringListElement {
     }
     
     //returns index of actionCondition so can refresh it
-    open func removeActionCondition(_ actionCondition : PSEventActionCondition) -> Int? {
+    @discardableResult
+    public func removeActionCondition(_ actionCondition : PSEventActionCondition) -> Int? {
         for (index,ac) in actionConditionSets.enumerated() {
             for (index2,a) in ac.actions.enumerated() {
                 if a == actionCondition {
@@ -91,7 +92,7 @@ open class PSEventActionsAttribute : PSStringListElement {
     }
     
     
-    open func getIndexesForActionCondition(_ actionCondition : PSEventActionCondition) -> (index1 : Int, index2 : Int, action : Bool)? {
+    public func getIndexesForActionCondition(_ actionCondition : PSEventActionCondition) -> (index1 : Int, index2 : Int, action : Bool)? {
         for (index,ac) in actionConditionSets.enumerated() {
             for (index2,a) in ac.actions.enumerated() {
                 if a == actionCondition {
@@ -107,7 +108,7 @@ open class PSEventActionsAttribute : PSStringListElement {
         return nil
     }
     
-    open func moveActionConditionUp(_ actionCondition : PSEventActionCondition) -> Int {
+    public func moveActionConditionUp(_ actionCondition : PSEventActionCondition) -> Int {
         if let (index1, index2, isAction) = getIndexesForActionCondition(actionCondition) {
             if isAction {
                 if index2 > 0 {
@@ -136,7 +137,7 @@ open class PSEventActionsAttribute : PSStringListElement {
         return -1
     }
     
-    open func moveActionConditionDown(_ actionCondition : PSEventActionCondition) -> Int {
+    public func moveActionConditionDown(_ actionCondition : PSEventActionCondition) -> Int {
         if let (index1, index2, isAction) = getIndexesForActionCondition(actionCondition) {
             if isAction {
                 if index2 < actionConditionSets[index1].actions.count - 1 {
@@ -165,7 +166,7 @@ open class PSEventActionsAttribute : PSStringListElement {
         return -1
     }
     
-    open func moveSetUp(_ actionCondition : PSEventActionCondition?) {
+    public func moveSetUp(_ actionCondition : PSEventActionCondition?) {
         guard let actionCondition = actionCondition else { return }
         if let (index1, _, _) = getIndexesForActionCondition(actionCondition),
             index1 > 0 {
@@ -178,7 +179,7 @@ open class PSEventActionsAttribute : PSStringListElement {
         }
     }
     
-    open func moveSetDown(_ actionCondition : PSEventActionCondition?) {
+    public func moveSetDown(_ actionCondition : PSEventActionCondition?) {
         guard let actionCondition = actionCondition else { return }
         if let (index1, _, _) = getIndexesForActionCondition(actionCondition),
             index1 < actionConditionSets.count - 1 {
@@ -191,19 +192,19 @@ open class PSEventActionsAttribute : PSStringListElement {
         }
     }
     
-    open func appendAction(_ row : Int, action : PSActionInterface) {
+    public func appendAction(_ row : Int, action : PSActionInterface) {
         actionConditionSets[row].actions.append(PSEventActionFunction(action: action, values: []))
         setItemExpanded(row, itemIndex: actionConditionSets[row].actions.count - 1, action: true, expanded: true)
         updateAttributeEntry()
     }
     
-    open func appendCondition(_ row : Int, condition : PSConditionInterface) {
+    public func appendCondition(_ row : Int, condition : PSConditionInterface) {
         actionConditionSets[row].conditions.append(PSEventConditionFunction(condition: condition, values: []))
         setItemExpanded(row, itemIndex: actionConditionSets[row].conditions.count - 1, action: false, expanded: true)
         updateAttributeEntry()
     }
     
-    open func removeCondition(_ row : Int, condition : PSConditionInterface) {
+    public func removeCondition(_ row : Int, condition : PSConditionInterface) {
         if let index = actionConditionSets[row].conditions.lazy.map({ return $0.functionName }).index(of: condition.type()) {
             actionConditionSets[row].conditions.remove(at: index)
             updateAttributeEntry()
@@ -211,7 +212,7 @@ open class PSEventActionsAttribute : PSStringListElement {
     }
     
     
-    override open var stringValue : String {
+    override public var stringValue : String {
         
         get{
             var return_string : String = ""
@@ -385,7 +386,7 @@ open class PSEventActionsAttribute : PSStringListElement {
         return true
     }
     
-    open func userSetItemExpanded(_ setIndex : Int, itemIndex : Int, action : Bool, expanded : Bool) {
+    public func userSetItemExpanded(_ setIndex : Int, itemIndex : Int, action : Bool, expanded : Bool) {
         setItemExpanded(setIndex, itemIndex: itemIndex, action: action, expanded: expanded)
         saveMetaData()
         
@@ -458,7 +459,7 @@ open class PSEventActionsAttribute : PSStringListElement {
         }
     }
 
-    open func itemIsExpanded(_ setIndex : Int, itemIndex : Int, action : Bool) -> Bool {
+    public func itemIsExpanded(_ setIndex : Int, itemIndex : Int, action : Bool) -> Bool {
         
         if action {
             if setIndex < actionConditionSets.count &&  itemIndex < actionConditionSets[setIndex].actions.count {
@@ -472,11 +473,11 @@ open class PSEventActionsAttribute : PSStringListElement {
         return false
     }
     
-    open func expandedCodeFor(_ setIndex : Int, itemIndex : Int, action : Bool) -> String? {
+    public func expandedCodeFor(_ setIndex : Int, itemIndex : Int, action : Bool) -> String? {
         return "\(setIndex),\(itemIndex)," + (action ? "1" : "0")
     }
     
-    open func indexesForCode(_ code : String) -> (setIndex : Int, itemIndex : Int, action : Bool) {
+    public func indexesForCode(_ code : String) -> (setIndex : Int, itemIndex : Int, action : Bool) {
         let components = code.components(separatedBy: ",")
         return (Int(components[0])!,Int(components[1])!,components[2] == "1")
     }

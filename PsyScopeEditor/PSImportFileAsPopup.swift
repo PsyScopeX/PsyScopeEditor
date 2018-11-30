@@ -8,7 +8,7 @@
 
 import Foundation
 
-open class PSImportFileAsPopup : PSAttributePopup {
+public class PSImportFileAsPopup : PSAttributePopup {
     var scriptData : PSScriptData
     var types : [PSToolInterface] = []
     @IBOutlet var browser : PSImportFileBrowserViewDelegate!
@@ -18,12 +18,12 @@ open class PSImportFileAsPopup : PSAttributePopup {
         super.init(nibName: "ImportFilesAs",bundle: Bundle(for:type(of: self)), currentValue: .null, displayName: "Action", setCurrentValueBlock: setCurrentValueBlock)
     }
     
-    override open func awakeFromNib() {
+    override public func awakeFromNib() {
         super.awakeFromNib()
         browser.setPossibleTypes(types)
     }
     
-    override open func closeMyCustomSheet(_ sender: AnyObject) {
+    override public func closeMyCustomSheet(_ sender: AnyObject) {
         //update current values
  
         super.closeMyCustomSheet(sender)

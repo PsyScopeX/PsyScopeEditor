@@ -12,7 +12,7 @@ public typealias PSConditionPickerCallback = ((PSConditionInterface,Bool) -> ())
 
 //MARK: PSConditionPicker
 
-open class PSConditionPicker: NSObject, NSTableViewDataSource, NSTableViewDelegate {
+public class PSConditionPicker: NSObject, NSTableViewDataSource, NSTableViewDelegate {
     
     public init(scriptData : PSScriptData, existingConditionTypes : [String], selectConditionCallback : @escaping PSConditionPickerCallback) {
         self.scriptData = scriptData
@@ -39,7 +39,7 @@ open class PSConditionPicker: NSObject, NSTableViewDataSource, NSTableViewDelega
     
     // MARK: Setup and start
     
-    override open func awakeFromNib() {
+    override public func awakeFromNib() {
         let nib = NSNib(nibNamed: "ConditionPickerCell", bundle: Bundle(for:type(of: self)))
         conditionTableView.register(nib!, forIdentifier:tableCellViewIdentifier)
         tableViewConditions = []
@@ -58,7 +58,7 @@ open class PSConditionPicker: NSObject, NSTableViewDataSource, NSTableViewDelega
             return s1.userFriendlyName < s2.userFriendlyName })
     }
     
-    open func showConditionWindow(_ view : NSView) {
+    public func showConditionWindow(_ view : NSView) {
         popover.show(relativeTo: view.bounds, of: view, preferredEdge: NSRectEdge.minX)
         conditionTableView.reloadData()
     }
@@ -83,11 +83,11 @@ open class PSConditionPicker: NSObject, NSTableViewDataSource, NSTableViewDelega
     
     // MARK: Tableview
     
-    open func numberOfRows(in tableView: NSTableView) -> Int {
+    public func numberOfRows(in tableView: NSTableView) -> Int {
         return tableViewConditions.count
     }
     
-    open func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+    public func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         let view = tableView.makeView(withIdentifier:tableCellViewIdentifier, owner: nil) as! PSConditionPickerCell
         
         view.setup(tableViewConditions[row].userFriendlyName, image: NSImage(), row: row, clickCallback: conditionButtonClicked)
@@ -98,7 +98,7 @@ open class PSConditionPicker: NSObject, NSTableViewDataSource, NSTableViewDelega
         return view
     }
     
-    open func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
+    public func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
         return CGFloat(25)
     }
     

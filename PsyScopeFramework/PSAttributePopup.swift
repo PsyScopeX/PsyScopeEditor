@@ -10,14 +10,14 @@ import Foundation
 
 open class PSAttributePopup : NSObject {
 
-    open var currentValue : PSEntryElement
-    open var displayName : String
-    open var nibName : String
-    open var bundle : Bundle
-    @IBOutlet open var attributeSheet : NSWindow!
-    open var topLevelObjects : NSArray?
-    open var parentWindow : NSWindow!
-    open var setCurrentValueBlock : ((PSEntryElement) -> ())?
+    public var currentValue : PSEntryElement
+    public var displayName : String
+    public var nibName : String
+    public var bundle : Bundle
+    @IBOutlet public var attributeSheet : NSWindow!
+    public var topLevelObjects : NSArray?
+    public var parentWindow : NSWindow!
+    public var setCurrentValueBlock : ((PSEntryElement) -> ())?
     
     public init(nibName: String, bundle: Bundle, currentValue : PSEntryElement, displayName : String, setCurrentValueBlock : ((PSEntryElement) -> ())?) {
         self.currentValue = currentValue
@@ -28,7 +28,7 @@ open class PSAttributePopup : NSObject {
         super.init()
     }
 
-    open func showAttributeModalForWindow(_ window : NSWindow) {
+    public func showAttributeModalForWindow(_ window : NSWindow) {
         if (attributeSheet == nil) {
             bundle.loadNibNamed(nibName, owner: self, topLevelObjects: &topLevelObjects)
         }

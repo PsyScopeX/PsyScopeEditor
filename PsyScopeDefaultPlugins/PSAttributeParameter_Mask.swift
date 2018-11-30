@@ -8,9 +8,9 @@
 
 import Foundation
 
-open class PSAttributeParameter_Mask : PSAttributeParameter_String {
+public class PSAttributeParameter_Mask : PSAttributeParameter_String {
     
-    override open func setCustomControl(_ visible: Bool) {
+    override public func setCustomControl(_ visible: Bool) {
         super.setCustomControl(visible)
         if textField != nil && textField!.formatter == nil {
             textField!.formatter = PSAttribute_TextMaskFormatter()
@@ -41,7 +41,7 @@ class PSAttribute_TextMaskFormatter : Formatter {
                                        newEditingString newString: AutoreleasingUnsafeMutablePointer<NSString?>?,
                                        errorDescription error: AutoreleasingUnsafeMutablePointer<NSString?>?) -> Bool {
         
-        let c = partialString.characters.count
+        let c = partialString.count
         if c > 1 {
             return false
         } else if c == 0 {
@@ -54,15 +54,6 @@ class PSAttribute_TextMaskFormatter : Formatter {
         return result != nil
     }
     override func attributedString(for obj: Any, withDefaultAttributes attrs: [NSAttributedString.Key : Any]?) -> NSAttributedString? {
-// Local variable inserted by Swift 4.2 migrator.
-let attrs = convertFromOptionalNSAttributedStringKeyDictionary(attrs)
-
         return nil
     }
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertFromOptionalNSAttributedStringKeyDictionary(_ input: [NSAttributedString.Key: Any]?) -> [String: Any]? {
-	guard let input = input else { return nil }
-	return Dictionary(uniqueKeysWithValues: input.map {key, value in (key.rawValue, value)})
 }

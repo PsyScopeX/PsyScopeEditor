@@ -38,7 +38,7 @@ func PSColorStringToNSColor(_ colorString : String) -> NSColor {
     return returnColor
 }
 
-open class PSColorAttributePopup: PSAttributePopup {
+public class PSColorAttributePopup: PSAttributePopup {
     public init(currentValue: PSEntryElement, displayName : String, setCurrentValueBlock : ((PSEntryElement) -> ())?) {
         super.init(nibName: "ColorAttribute",bundle: Bundle(for:type(of: self)),currentValue: currentValue, displayName: displayName, setCurrentValueBlock: setCurrentValueBlock)
     }

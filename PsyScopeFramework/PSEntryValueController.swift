@@ -8,14 +8,14 @@
 
 import Foundation
 
-open class PSEntryValueController : NSObject, NSTextFieldDelegate {
+public class PSEntryValueController : NSObject, NSTextFieldDelegate {
     
     
     let mainControl : NSControl
     let delegate : PSEntryValueControllerDelegate
-    open let scriptData : PSScriptData
+    let scriptData : PSScriptData
     public enum Mode { case mainControl, function }
-    open var mode : Mode
+    public var mode : Mode
     
     public init(mainControl : NSControl, delegate : PSEntryValueControllerDelegate) {
         self.mainControl = mainControl
@@ -28,7 +28,7 @@ open class PSEntryValueController : NSObject, NSTextFieldDelegate {
     fileprivate var _entryElement : PSEntryElement = .null
     fileprivate lazy var functionTextField : PSFunctionTextField = PSFunctionTextField()
     
-    open var entryElement : PSEntryElement {
+    public var entryElement : PSEntryElement {
         get {
             return _entryElement
         }
@@ -52,7 +52,7 @@ open class PSEntryValueController : NSObject, NSTextFieldDelegate {
         }
     }
     
-    @objc open func varyByMenuCommandClicked(_ menuItem : NSMenuItem) {
+    @objc public func varyByMenuCommandClicked(_ menuItem : NSMenuItem) {
         if let val = scriptData.valueForMenuItem(menuItem, original: self.stringValue, originalFullType:  nil) {
             print(val)
         } else {
@@ -65,7 +65,7 @@ open class PSEntryValueController : NSObject, NSTextFieldDelegate {
         }
     }
 
-    open func displayMainControlHideFunctionTextField() {
+    public func displayMainControlHideFunctionTextField() {
         mainControl.isHidden = false
         mainControl.isEnabled = true
         functionTextField.isHidden = true
@@ -76,7 +76,7 @@ open class PSEntryValueController : NSObject, NSTextFieldDelegate {
         }
     }
         
-    open func hideMainControlDisplayFunctionTextField() {
+    public func hideMainControlDisplayFunctionTextField() {
         
         if let superview = mainControl.superview, functionTextField.superview != superview {
             superview.addSubview(functionTextField)
@@ -97,7 +97,7 @@ open class PSEntryValueController : NSObject, NSTextFieldDelegate {
     }
 
 
-    open var stringValue : String {
+    public var stringValue : String {
         get {
             return _entryElement.stringValue()
         }
@@ -121,7 +121,7 @@ open class PSEntryValueController : NSObject, NSTextFieldDelegate {
         }
     }
     
-    open func control(_ control: NSControl, textShouldEndEditing fieldEditor: NSText) -> Bool {
+    public func control(_ control: NSControl, textShouldEndEditing fieldEditor: NSText) -> Bool {
         if control == functionTextField {
             //try and parse
             let parsedValue = PSEntryValueParser(stringValue: control.stringValue)

@@ -8,9 +8,9 @@
 
 import Foundation
 
-open class PSEntryValueTextField_String : PSEntryValueTextField {
+public class PSEntryValueTextField_String : PSEntryValueTextField {
     
-    override open var stringValue : String {
+    override public var stringValue : String {
         get {
             return controller.stringValue
         }

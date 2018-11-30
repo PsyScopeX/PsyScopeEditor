@@ -6,18 +6,18 @@
 
 import Foundation
 
-open class PSEventActionCondition : PSFunctionElement {
-    open var expanded : Bool = false
+public class PSEventActionCondition : PSFunctionElement {
+    public var expanded : Bool = false
 }
 
-open class PSEventActionFunction : PSEventActionCondition {
-    open var action : PSActionInterface
+public class PSEventActionFunction : PSEventActionCondition {
+    public var action : PSActionInterface
     
-    open var instancesValue : Int?
-    open var activeUntilValue : String?
+    public var instancesValue : Int?
+    public var activeUntilValue : String?
     
     
-    open var hasInstancesOrActiveUntilValueAttributes : Bool {
+    public var hasInstancesOrActiveUntilValueAttributes : Bool {
         return instancesValue != nil || activeUntilValue != nil
     }
     
@@ -54,7 +54,7 @@ open class PSEventActionFunction : PSEventActionCondition {
         
     }
     
-    override open var stringValue : String {
+    override public var stringValue : String {
         get {
             let elements = getStringValues()
             
@@ -82,7 +82,7 @@ open class PSEventActionFunction : PSEventActionCondition {
         
     }
     
-    open func setInstancesActiveUntilOn(_ on : Bool) {
+    public func setInstancesActiveUntilOn(_ on : Bool) {
         if on {
             setActionParameterValues(values, instances: "1", activeUntil: "NONE")
         } else {
@@ -90,7 +90,7 @@ open class PSEventActionFunction : PSEventActionCondition {
         }
     }
     
-    open func setActionParameterValues(_ values : [PSEntryElement], instances : String?, activeUntil : String?) {
+    public func setActionParameterValues(_ values : [PSEntryElement], instances : String?, activeUntil : String?) {
         self.values = values
         
         if let instances = instances {
@@ -107,8 +107,8 @@ open class PSEventActionFunction : PSEventActionCondition {
     
 }
 
-open class PSEventConditionFunction : PSEventActionCondition {
-    open var condition : PSConditionInterface
+public class PSEventConditionFunction : PSEventActionCondition {
+    public var condition : PSConditionInterface
 
     public init(condition : PSConditionInterface, values: [PSEntryElement]) {
         self.condition = condition

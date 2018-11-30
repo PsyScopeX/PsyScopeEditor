@@ -125,12 +125,10 @@ class PSListTool: PSTool, PSToolInterface {
                 scriptData.selectionInterface.doubleClickEntry(entry)
             } else {
                 
-                
-                
                 //check field exists
                 let list = PSList(scriptData: scriptData, listEntry: entry)
                 guard let field = list.fields.filter({ itemTitle == $0.entry.name }).first else {
-                    PSModalAlert("Couldn't find field named : \(itemTitle) on list: \(entry.name)")
+                    PSModalAlert("Couldn't find field named : \(itemTitle) on list: \(entry.name ?? "nil")")
                     return originalValue
                 }
                 
@@ -139,7 +137,7 @@ class PSListTool: PSTool, PSToolInterface {
                     if field.type != originalFullType {
                         
                         //show warning
-                        let question = "Do you want to convert the type of the field named \"\(itemTitle)\" on list \"\(entry.name)\"?"
+                        let question = "Do you want to convert the type of the field named \"\(itemTitle)\" on list \"\(entry.name ?? "nil")\"?"
                         let info = "The field: \"\(itemTitle)\" on list: \"\(entry.name)\" is of a different type to the item you are varying it by it to - click yes to automatically convert this field to the type \"\(originalFullType.fullType)\", click no to apply the change anyway, click cancel to make no changes."
                         let yesButton = "Yes"
                         let noButton = "No"
@@ -193,7 +191,7 @@ class PSListTool: PSTool, PSToolInterface {
     
     override func constructAttributeSourceSubMenu(_ scriptData: PSScriptData) -> NSMenuItem {
         
-        let subMenuItem = NSMenuItem(title: "List", action: "", keyEquivalent: "l")
+        let subMenuItem = NSMenuItem(title: "List", action: Selector(""), keyEquivalent: "l")
         subMenuItem.representedObject = self
         subMenuItem.tag = 0
         subMenuItem.action = nil

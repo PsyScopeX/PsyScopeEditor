@@ -12,7 +12,7 @@ import Cocoa
 
 
 
-open class PSFontAttributePopup: PSAttributePopup, NSControlTextEditingDelegate {
+public class PSFontAttributePopup: PSAttributePopup, NSControlTextEditingDelegate {
     public init(currentValue: PSEntryElement, displayName : String, type : PSFontAttributePopupType, setCurrentValueBlock : ((PSEntryElement) -> ())?) {
         self.type = type
         super.init(nibName: "FontAttribute",bundle: Bundle(for:Swift.type(of: self)),currentValue: currentValue, displayName: displayName, setCurrentValueBlock: setCurrentValueBlock )
@@ -41,7 +41,7 @@ open class PSFontAttributePopup: PSAttributePopup, NSControlTextEditingDelegate 
         
     }
     
-    open func control(_ control: NSControl, textShouldEndEditing fieldEditor: NSText) -> Bool {
+    public func control(_ control: NSControl, textShouldEndEditing fieldEditor: NSText) -> Bool {
         updateCurrentValue()
         return true
     }
@@ -144,7 +144,7 @@ open class PSFontAttributePopup: PSAttributePopup, NSControlTextEditingDelegate 
     }
     
     var type : PSFontAttributePopupType
-    override open func awakeFromNib() {
+    override public func awakeFromNib() {
 
         super.awakeFromNib()
         
@@ -201,7 +201,7 @@ open class PSFontAttributePopup: PSAttributePopup, NSControlTextEditingDelegate 
     
     
     
-    open func changeFont(_ sender: Any?) {
+    public func changeFont(_ sender: Any?) {
         //var newFont = sender?.convertFont(font!)
         //font = newFont!
         //super.changeFont(sender)

@@ -8,15 +8,15 @@
 import Foundation
 
 open class PSConditionCell : PSCellView {
-    open var entryFunction : PSFunctionElement!
-    open var conditionInterface : PSConditionInterface!
+    public var entryFunction : PSFunctionElement!
+    public var conditionInterface : PSConditionInterface!
     
     var alreadySetup : Bool = false
     var expandedHeight : CGFloat = 0
     var viewsToNotHide : [NSView] = []
     var disclosureButton : NSButton!
     var summaryLabel : NSTextField!
-    open var expandAction : ((Bool) -> ())?
+    public var expandAction : ((Bool) -> ())?
     
     @objc func expandButtonClicked(_ button : NSButton) {
         if disclosureButton.state == NSControl.StateValue.on {
@@ -28,7 +28,7 @@ open class PSConditionCell : PSCellView {
         }
     }
     
-    open func setExpanded(_ expanded : Bool) {
+    public func setExpanded(_ expanded : Bool) {
         if expanded {
             disclosureButton.state = NSControl.StateValue.on
             var new_frame = self.frame
@@ -39,7 +39,7 @@ open class PSConditionCell : PSCellView {
             }
             summaryLabel.isHidden = true
         } else {
-            disclosureButton.state == NSControl.StateValue.off
+            disclosureButton.state = NSControl.StateValue.off
             var new_frame = self.frame
             new_frame.size.height = 30
             self.frame = new_frame

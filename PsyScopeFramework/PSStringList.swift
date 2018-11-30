@@ -19,8 +19,8 @@ public func PSStringListWithBaseEntryNamed(_ name : String, scriptData : PSScrip
 
 //this class binds a stringlist parser to the entry value
 open class PSStringList : PSStringListCachedContainer {
-    open var entry : Entry!
-    open var scriptData : PSScriptData
+    public var entry : Entry!
+    public var scriptData : PSScriptData
     public init(entry : Entry, scriptData : PSScriptData) {
         self.entry = entry
         self.scriptData = scriptData
@@ -80,7 +80,7 @@ open class PSStringListCachedContainer : PSStringListContainer {
         self.stringValueCache = createStringValue()
     }
     
-    open var stringListRawUnstripped : [String] {
+    public var stringListRawUnstripped : [String] {
         get {
             return stringListRawUnstrippedCache
         }
@@ -90,7 +90,7 @@ open class PSStringListCachedContainer : PSStringListContainer {
         }
     }
     
-    open var stringListRawStripped : [String] {
+    public var stringListRawStripped : [String] {
         get {
             return stringListRawStrippedCache
         }
@@ -98,7 +98,7 @@ open class PSStringListCachedContainer : PSStringListContainer {
     }
     
     //gets only the string listerals, ignoring inline entries and functions
-    open var stringListLiteralsOnly : [String] {
+    public var stringListLiteralsOnly : [String] {
         var literals : [String] = []
         for val in values {
             switch (val) {
@@ -115,7 +115,7 @@ open class PSStringListCachedContainer : PSStringListContainer {
     
     fileprivate var stringListRawUnstrippedCache : [String] = []
     fileprivate var stringListRawStrippedCache : [String] = []
-    open var stringValueCache : String = ""
+    public var stringValueCache : String = ""
     
     func createStringValue() -> String {
         return super.stringValue
@@ -131,7 +131,7 @@ open class PSStringListCachedContainer : PSStringListContainer {
         }
     }
     
-    open func indexOfValueWithString(_ string : String) -> Int? {
+    public func indexOfValueWithString(_ string : String) -> Int? {
         for (index,val) in stringListRawUnstrippedCache.enumerated() {
             if val == string {
                 return index
@@ -140,7 +140,7 @@ open class PSStringListCachedContainer : PSStringListContainer {
         return nil
     }
     
-    open func remove(_ string : String) {
+    public func remove(_ string : String) {
         for (index,val) in stringListRawUnstrippedCache.enumerated() {
             if val == string {
                 values.remove(at: index)
@@ -175,18 +175,19 @@ open class PSStringListCachedContainer : PSStringListContainer {
         updateEntry()
     }
     
-    open func swap(_ index1: Int, index2: Int) {
+    public func swap(_ index1: Int, index2: Int) {
         let val1 = values[index1]
         values[index1] = values[index2]
         values[index2] = val1
         updateEntry()
     }
     
-    open func contains(_ string : String) -> Bool {
+    public func contains(_ string : String) -> Bool {
         return indexOfValueWithString(string) != nil
     }
     
-    open func appendAsString(_ string : String) -> Bool {
+    @discardableResult
+    public func appendAsString(_ string : String) -> Bool {
         if let stringElement = assertValidString(string) {
             values.append(PSEntryElement.stringToken(stringElement: stringElement))
             updateEntry()
@@ -195,13 +196,13 @@ open class PSStringListCachedContainer : PSStringListContainer {
         return false
     }
     
-    open func insert(_ string : String, index: Int) {
+    public func insert(_ string : String, index: Int) {
         if let stringElement = assertValidString(string) {
             super.insert(PSEntryElement.stringToken(stringElement: stringElement), index: index)
         }
     }
     
-    open func replace(_ oldString : String, newString: String) {
+    public func replace(_ oldString : String, newString: String) {
         if let stringElement = assertValidString(newString) {
             for (index,val) in stringListRawUnstrippedCache.enumerated() {
                 if val == oldString {

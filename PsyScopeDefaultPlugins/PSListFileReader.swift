@@ -9,9 +9,9 @@
 import Foundation
 import Cocoa
 
-open class PSListFileReader {
+public class PSListFileReader {
 
-    open var rows: [[String]] = []
+    public var rows: [[String]] = []
     let delimiter = CharacterSet.whitespaces
     let newline = CharacterSet.newlines
     
@@ -62,7 +62,7 @@ open class PSListFileReader {
     }
     
     
-    open var numberOfColumnsInFirstRow : Int {
+    public var numberOfColumnsInFirstRow : Int {
         if let firstRow = rows.first {
             return firstRow.count
         } else {

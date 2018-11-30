@@ -10,7 +10,7 @@ import Foundation
 
 public let PSVaryByButtonImage = NSImage(contentsOfFile: Bundle(for:PSVaryByButton.self).path(forResource: "search-icon", ofType: "png")!)
 
-open class PSVaryByButton : NSButton {
+public class PSVaryByButton : NSButton {
     
     override init(frame : NSRect) {
         var newFrame = frame
@@ -54,7 +54,7 @@ open class PSVaryByButton : NSButton {
     
 }
 
-open class PSVaryByButtonCell : NSButtonCell {
+public class PSVaryByButtonCell : NSButtonCell {
     open override func trackMouse(with theEvent: NSEvent, in cellFrame: NSRect, of controlView: NSView, untilMouseUp: Bool) -> Bool {
         if (theEvent.type == .leftMouseDown && self.menu != nil) {
             

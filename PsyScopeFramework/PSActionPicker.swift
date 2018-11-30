@@ -14,7 +14,7 @@ public typealias PSActionPickerCallback = ((PSActionInterface) -> ())
 
 //MARK: PSActionPicker
 
-open class PSActionPicker: NSObject, NSOutlineViewDataSource, NSOutlineViewDelegate {
+public class PSActionPicker: NSObject, NSOutlineViewDataSource, NSOutlineViewDelegate {
     
     public init(scriptData : PSScriptData, selectActionCallback : @escaping PSActionPickerCallback) {
         self.scriptData = scriptData
@@ -40,12 +40,12 @@ open class PSActionPicker: NSObject, NSOutlineViewDataSource, NSOutlineViewDeleg
     
     //MARK: Setup and start
 
-    override open func awakeFromNib() {
+    override public func awakeFromNib() {
         let nib = NSNib(nibNamed: "ActionPickerCell", bundle: Bundle(for:type(of: self)))
         actionOutlineView.register(nib!, forIdentifier:tableCellViewIdentifier)
     }
     
-    open func showActionWindow(_ view : NSView) {
+    public func showActionWindow(_ view : NSView) {
 
         popover.show(relativeTo: view.bounds, of: view, preferredEdge: NSRectEdge.minX)
         actionOutlineView.reloadData()
@@ -70,7 +70,7 @@ open class PSActionPicker: NSObject, NSOutlineViewDataSource, NSOutlineViewDeleg
 
     //MARK: Outlineview
 
-    open func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int {
+    public func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int {
     
         if (item == nil) {
             return groups.count
@@ -82,7 +82,7 @@ open class PSActionPicker: NSObject, NSOutlineViewDataSource, NSOutlineViewDeleg
         return 0
     }
 
-    open func outlineView(_ outlineView: NSOutlineView, child index: Int, ofItem item: Any?) -> Any {
+    public func outlineView(_ outlineView: NSOutlineView, child index: Int, ofItem item: Any?) -> Any {
         if (item == nil) {
             return groups[index]
         }
@@ -92,7 +92,7 @@ open class PSActionPicker: NSObject, NSOutlineViewDataSource, NSOutlineViewDeleg
         return ""
     }
 
-    open func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: Any) -> Bool {
+    public func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: Any) -> Bool {
         if let group = item as? PSActionPickerGroup {
             if group.actions.count > 0 {
                 return true
@@ -101,7 +101,7 @@ open class PSActionPicker: NSObject, NSOutlineViewDataSource, NSOutlineViewDeleg
         return false
     }
 
-    open func outlineView(_ outlineView: NSOutlineView, viewFor tableColumn: NSTableColumn?, item: Any) -> NSView? {
+    public func outlineView(_ outlineView: NSOutlineView, viewFor tableColumn: NSTableColumn?, item: Any) -> NSView? {
         if let act = item as? PSActionPickerAction {
             let view = outlineView.makeView(withIdentifier:tableCellViewIdentifier, owner: nil) as! PSActionPickerCell
             
@@ -116,7 +116,7 @@ open class PSActionPicker: NSObject, NSOutlineViewDataSource, NSOutlineViewDeleg
         return nil
     }
     
-    open func outlineView(_ outlineView: NSOutlineView, heightOfRowByItem item: Any) -> CGFloat {
+    public func outlineView(_ outlineView: NSOutlineView, heightOfRowByItem item: Any) -> CGFloat {
         if item is PSActionPickerAction {
             return 25
         } else {

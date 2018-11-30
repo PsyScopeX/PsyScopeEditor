@@ -8,7 +8,7 @@
 
 import Foundation
 
-open class PSSubjectInformation : NSObject {
+public class PSSubjectInformation : NSObject {
     public init(scriptData : PSScriptData) {
         self.scriptData = scriptData
         self.runStartVariables = []
@@ -19,21 +19,21 @@ open class PSSubjectInformation : NSObject {
     }
     
     let scriptData : PSScriptData
-    open var runStartVariables : [PSSubjectVariable]
-    open var runEndVariables : [PSSubjectVariable]
-    open var neverRunVariables : [PSSubjectVariable]
+    public var runStartVariables : [PSSubjectVariable]
+    public var runEndVariables : [PSSubjectVariable]
+    public var neverRunVariables : [PSSubjectVariable]
     
-    open var groupVariables : [PSSubjectVariable] {
+    public var groupVariables : [PSSubjectVariable] {
         get {
             return allVariables.filter({ $0.isGroupingVariable})
         }
     }
     
-    open var allVariables : [PSSubjectVariable] {
+    public var allVariables : [PSSubjectVariable] {
         return runStartVariables + runEndVariables + neverRunVariables
     }
     
-    open func updateVariablesFromScript() {
+    public func updateVariablesFromScript() {
         runStartVariables = []
         runEndVariables = []
         neverRunVariables = []
@@ -79,7 +79,7 @@ open class PSSubjectInformation : NSObject {
         neverRunVariables = dialogVariables
     }
     
-    open func addNewVariable(_ isGroupingVariable : Bool) {
+    public func addNewVariable(_ isGroupingVariable : Bool) {
         if isGroupingVariable {
             runStartVariables.append(PSSubjectVariable.NewGroupingVariable(scriptData))
         } else {
@@ -88,15 +88,15 @@ open class PSSubjectInformation : NSObject {
         updateScriptFromVariables()
     }
     
-    open func removeVariable(_ variable : PSSubjectVariable) {
+    public func removeVariable(_ variable : PSSubjectVariable) {
         variable.removeFromScript()
     }
     
-    open func updateScriptFromVariables() {
+    public func updateScriptFromVariables() {
         for subjectVariable in allVariables { subjectVariable.saveToScript() }
     }
     
-    open func moveVariable(_ variable : PSSubjectVariable, schedule: PSSubjectVariableSchedule, position: Int) {
+    public func moveVariable(_ variable : PSSubjectVariable, schedule: PSSubjectVariableSchedule, position: Int) {
         //print("Moving variable \(variable.name) to list \(schedule) at position \(position)")
         scriptData.beginUndoGrouping("Change variable")
         if variable.storageOptions.schedule != schedule {

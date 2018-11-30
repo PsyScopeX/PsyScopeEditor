@@ -98,7 +98,7 @@ class PSTokenizer {
     func tokenizeValue() -> Bool {
         var value : NSString?
         if scanner.scanCharacters(from: validValueCharacters, into: &value) {
-            tokens.append(PSToken(type: .value, value : value as? String))
+            tokens.append(PSToken(type: .value, value : value as String?))
             return true
         }
         return false
@@ -107,10 +107,10 @@ class PSTokenizer {
     func tokenizeWhitespace() -> Bool {
         var value : NSString?
         if scanner.scanCharacters(from: whiteSpaceNewLine, into: &value) {
-            tokens.append(PSToken(type: .whiteSpace, value : value as? String))
+            tokens.append(PSToken(type: .whiteSpace, value : value as String?))
             return true
         } else if scanner.scanString(commaToken, into: &value) {
-            tokens.append(PSToken(type: .whiteSpace, value : value as? String))
+            tokens.append(PSToken(type: .whiteSpace, value : value as String?))
             return true
         }
         return false
@@ -196,7 +196,7 @@ class PSTokenizer {
             }
             
             if scanner.scanString("\"", into: nil) {
-                tokens.append(PSToken(type: .quoteString, value: value as? String))
+                tokens.append(PSToken(type: .quoteString, value: value as String?))
                 return true
             } else {
                 AddError("No matching close quote for double quote string")
@@ -211,7 +211,7 @@ class PSTokenizer {
                 }
                 
                 if scanner.scanString("'", into: nil) {
-                    tokens.append(PSToken(type: .singleQuoteString, value: value as? String))
+                    tokens.append(PSToken(type: .singleQuoteString, value: value as String?))
                     return true
                 } else {
                     AddError("No matching close quote for single quote string")

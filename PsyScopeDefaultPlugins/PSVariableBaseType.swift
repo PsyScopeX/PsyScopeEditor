@@ -9,7 +9,7 @@
 import Foundation
 
 //wrapper for enum to pass by ref
-open class PSVariableType {
+public class PSVariableType {
     init() {
         self.type = .stringType //default
     }
@@ -67,7 +67,7 @@ public enum PSVariableTypeEnum {
 
 
 
-open class PSVariableArray {
+public class PSVariableArray {
     
     init() {
         self.count = 1
@@ -83,7 +83,7 @@ open class PSVariableArray {
     var type : PSVariableType
 }
 
-open class PSVariableRecord {
+public class PSVariableRecord {
     init(fields : [PSVariableNamedType]) {
         self.fields = fields
     }

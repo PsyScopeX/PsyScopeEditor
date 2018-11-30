@@ -172,6 +172,7 @@ class PSActionsBuilderCell: NSView, NSTableViewDelegate, NSTableViewDataSource {
 
     }
     
+    @discardableResult
     func tableView(_ tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
         //tableViewSelectionIsChanging?
         switch (tableView) {

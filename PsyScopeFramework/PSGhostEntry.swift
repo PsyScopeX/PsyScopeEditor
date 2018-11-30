@@ -8,15 +8,15 @@
 
 import Foundation
 
-open class PSGhostEntry : NSObject {
+public class PSGhostEntry : NSObject {
 
-    open var subEntries : [PSGhostEntry] = []
-    open var name : String = ""
-    open var currentValue : String = ""
-    open var type : String = ""
-    open var instantiated = false
-    open var links : [PSGhostEntry] = []
-    open var parent : PSGhostEntry? = nil
-    open var level : Int = 0
-    open var comments : String = ""
+    public var subEntries : [PSGhostEntry] = []
+    public var name : String = ""
+    public var currentValue : String = ""
+    public var type : String = ""
+    public var instantiated = false
+    public var links : [PSGhostEntry] = []
+    public var parent : PSGhostEntry? = nil
+    public var level : Int = 0
+    public var comments : String = ""
 }

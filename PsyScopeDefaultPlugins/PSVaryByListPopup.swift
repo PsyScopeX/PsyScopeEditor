@@ -59,7 +59,11 @@ class PSVaryByListPopup: PSAttributePopup, NSOutlineViewDataSource, NSOutlineVie
     }
     
     @IBAction func select(_ sender : AnyObject) {
-        self.currentValue = PSGetFirstEntryElementForStringOrNull("FactorAttrib(\(selectedList!.name),\(selectedField!.entry.name))")
+        if let listName = selectedList?.name,
+            let fieldEntryName = selectedField?.entry.name {
+            self.currentValue = PSGetFirstEntryElementForStringOrNull("FactorAttrib(\(listName),\(fieldEntryName))")
+        }
+        
         self.closeMyCustomSheet(self)
     }
     

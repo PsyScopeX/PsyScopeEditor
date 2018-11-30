@@ -9,7 +9,7 @@
 import Foundation
 
 //parses script on construction
-open class PSScriptReader {
+public class PSScriptReader {
     
     
     let debugMode : Bool = false
@@ -128,6 +128,7 @@ open class PSScriptReader {
     
     
     //if a hashtag, eats all text up to newline then puts you at the next nonwhitespace character
+    @discardableResult
     func scanNextComment(_ scanner : Scanner, justACheck : Bool, addToEntry : Bool) -> Bool {
         
         let scanLocation = scanner.scanLocation
@@ -284,10 +285,10 @@ open class PSScriptReader {
             }
             let gts = token.trimmingCharacters(in: colon)
             let cls = gts.trimmingCharacters(in: gt)
-            if success &&  (gts.characters.count + 1 != token.characters.count || cls.characters.count != 0) {
+            if success &&  (gts.count + 1 != token.count || cls.characters.count != 0) {
                 success  = false
             }
-            level = Int(1 + gts.characters.count)
+            level = Int(1 + gts.count)
         }
         
         if (justACheck) {
@@ -306,6 +307,7 @@ open class PSScriptReader {
     }
     
     //scans everything up to a new entry definition, alongside comments
+    @discardableResult
     func scanEntryValue(_ scanner : Scanner, justACheck : Bool) -> Bool {
         let startScanLocation = scanner.scanLocation
         //each new line check for new entry

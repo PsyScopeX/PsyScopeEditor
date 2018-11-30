@@ -12,7 +12,7 @@ public typealias PSAttributePickerTypeCallback = (PSAttributeType,Bool) -> ()
 
 
 //Allows a callback for when attributes are picked
-open class PSAttributePickerType : PSAttributePicker {
+public class PSAttributePickerType : PSAttributePicker {
     
     public init(attributePickedCallback : @escaping PSAttributePickerTypeCallback, scriptData : PSScriptData) {
         self.attributePickedCallback = attributePickedCallback

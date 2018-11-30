@@ -8,7 +8,7 @@
 import Foundation
 //holds a the value of an attribute holding condition functions in
 //'conditions' an array holding PSEventConditionFunction
-open class PSConditionAttribute : PSStringListElement {
+public class PSConditionAttribute : PSStringListElement {
     var conditions : [PSEventConditionFunction] = []
     var scriptData : PSScriptData
     var conditionEntry : Entry
@@ -50,7 +50,7 @@ open class PSConditionAttribute : PSStringListElement {
     }
     
     
-    override open var stringValue : String {
+    override public var stringValue : String {
 
         get{
             self.values = self.conditions.map({ PSEntryElement.function(functionElement: $0) } )
@@ -83,7 +83,7 @@ open class PSConditionAttribute : PSStringListElement {
     }
     
     
-    open func setItemExpanded(_ itemIndex : Int, expanded : Bool) {
+    public func setItemExpanded(_ itemIndex : Int, expanded : Bool) {
         let name : String = conditions[itemIndex].functionName
         let code = "\(itemIndex)," + name
         expandedItems[code] = expanded
@@ -137,7 +137,7 @@ open class PSConditionAttribute : PSStringListElement {
     
     var expandedItems : [String:Bool] = [:]
     
-    open func itemIsExpanded(_ itemIndex : Int) -> Bool {
+    public func itemIsExpanded(_ itemIndex : Int) -> Bool {
         let name : String = conditions[itemIndex].functionName
         let code = "\(itemIndex)," + name
         if let e = expandedItems[code] {

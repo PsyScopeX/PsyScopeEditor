@@ -9,37 +9,47 @@ import Foundation
 
 open class PSAttributeParameter_String : PSAttributeParameter, NSTextFieldDelegate {
     
-    open var textField : PSCustomMenuNSTextField!
+    public var textField : PSCustomMenuNSTextField?
+    
+    func assertTextField() -> PSCustomMenuNSTextField {
+        if textField != nil {
+            return textField!
+        }
+        
+        //add textField
+        let newTextField = PSCustomMenuNSTextField(frame: attributeValueControlFrame)
+        newTextField.isBordered = true
+        newTextField.isBezeled  = true
+        newTextField.drawsBackground = true
+        newTextField.alignment = NSTextAlignment.center
+        
+        if let frCell = cell as? PSListCellView {
+            newTextField.firstResponderAction = {
+                if let a = frCell.firstResponderBlock {
+                    a()
+                }
+            }
+        }
+        
+        
+        cell.activateViewBlock = { newTextField.becomeFirstResponder() }
+        let bcell = newTextField.cell!
+        bcell.lineBreakMode = NSLineBreakMode.byTruncatingTail
+        newTextField.setupContextMenu(self, action: #selector(PSAttributeParameter.clickMenuItem(_:)), scriptData: scriptData)
+        newTextField.autoresizingMask = NSView.AutoresizingMask.width
+        newTextField.delegate = self
+        cell.addSubview(newTextField)
+        self.textField = newTextField
+        return newTextField
+    }
     
     override open func setCustomControl(_ visible: Bool) {
+        
+        let textField = assertTextField()
+        
         if visible {
-            if textField == nil {
-                //add textField
-                textField = PSCustomMenuNSTextField(frame: attributeValueControlFrame)
-                textField.isBordered = true
-                textField.isBezeled  = true
-                textField.drawsBackground = true
-                textField.alignment = NSTextAlignment.center
-                
-                
-                if let cell = self.cell as? PSListCellView {
-                    textField.firstResponderAction = {
-                        if let a = cell.firstResponderBlock {
-                            a()
-                        }
-                    }
-                }
-                cell?.activateViewBlock = { self.textField.becomeFirstResponder() }// luca following the xcode suggestion
-                let bcell = textField.cell!
-                bcell.lineBreakMode = NSLineBreakMode.byTruncatingTail
-                textField.setupContextMenu(self, action: "clickMenuItem:", scriptData: scriptData)
-                textField.autoresizingMask = NSView.AutoresizingMask.width
-                textField.delegate = self
-                cell.addSubview(textField)
-            } else {
-                textField.isHidden = false
-            }
-            
+            textField.isHidden = false
+ 
             if currentValue.stringValue() == "NULL" {
                 textField.stringValue = ""
             } else {
@@ -47,28 +57,30 @@ open class PSAttributeParameter_String : PSAttributeParameter, NSTextFieldDelega
                 textField.stringValue = currentValue.stringValue()
             }
         } else {
-            if textField != nil {
-                textField.isHidden = true
-            }
+             textField.isHidden = true
         }
     }
     
     //override this to hide any borders if they appear ugly in table views etc
     open override func hideBorders() {
+        let textField = assertTextField()
         textField.isBordered = false
         textField.isBezeled  = false
         textField.drawsBackground = false
     }
     
-    open func controlTextDidEndEditing(_ obj: Notification) {
+    public func controlTextDidEndEditing(_ obj: Notification) {
+        let textField = assertTextField()
+        guard let cell = cell else { fatalError("Cell of PSAttributeParameter_String not set up before use") }
+        
         //parse and take first value
         currentValue = PSConvertListElementToStringElement(PSGetListElementForString(textField.stringValue))
-        self.cell.updateScript()
+        cell.updateScript()
     }
 }
 
 
-open class PSCustomMenuNSTextField : NSTextField, NSTextViewDelegate {
+public class PSCustomMenuNSTextField : NSTextField, NSTextViewDelegate {
 
     var firstResponderAction : (()->())?
     var scriptData : PSScriptData!
@@ -81,7 +93,7 @@ open class PSCustomMenuNSTextField : NSTextField, NSTextViewDelegate {
         menuAction = action
     }
     
-    override open var menu : NSMenu? {
+    override public var menu : NSMenu? {
         get {
             return scriptData.getVaryByMenu(menuTarget, action: menuAction)
         }
@@ -89,6 +101,7 @@ open class PSCustomMenuNSTextField : NSTextField, NSTextViewDelegate {
         }
     }
     
+    @discardableResult
     override open func becomeFirstResponder() -> Bool {
         if let fra = firstResponderAction {
             fra()
@@ -96,7 +109,7 @@ open class PSCustomMenuNSTextField : NSTextField, NSTextViewDelegate {
         return super.becomeFirstResponder()
     }
     
-    open func textView(_ view: NSTextView, menu: NSMenu, for event: NSEvent, at charIndex: Int) -> NSMenu? {
+    public func textView(_ view: NSTextView, menu: NSMenu, for event: NSEvent, at charIndex: Int) -> NSMenu? {
         return self.menu
     }
 }

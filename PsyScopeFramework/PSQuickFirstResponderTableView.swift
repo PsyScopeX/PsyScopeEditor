@@ -8,9 +8,9 @@
 
 import Foundation
 
-open class PSQuickFirstResponderTableView : NSTableView {
+public class PSQuickFirstResponderTableView : NSTableView {
     
-    override open func validateProposedFirstResponder(_ responder: NSResponder,
+    override public func validateProposedFirstResponder(_ responder: NSResponder,
         for event: NSEvent?) -> Bool {
             return true
     }

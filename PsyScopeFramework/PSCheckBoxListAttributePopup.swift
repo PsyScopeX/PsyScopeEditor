@@ -17,7 +17,7 @@ import Foundation
 import Foundation
 
 
-open class PSCheckBoxListAttributePopup: PSAttributePopup {
+public class PSCheckBoxListAttributePopup: PSAttributePopup {
     
     public init(currentValue : PSEntryElement, displayName : String, checkBoxStrings : [(String,String)], setCurrentValueBlock : ((PSEntryElement) -> ())?) {
         let bundle = Bundle(for:type(of: self))
@@ -31,7 +31,7 @@ open class PSCheckBoxListAttributePopup: PSAttributePopup {
     var checkBoxStrings : [(String,String)]
     var checkBoxes : [(button : NSButton, token : String)] = []
     var okButton : NSButton! = nil
-    override open func awakeFromNib() {
+    override public func awakeFromNib() {
         let height = (checkBoxStrings.count * 20) + 60
         let size =  NSSize(width: 400, height: height)
         var frame = view.window!.frame

@@ -57,7 +57,7 @@ class PSGroupTool: PSTool , PSToolInterface {
     
     override func constructAttributeSourceSubMenu(_ scriptData: PSScriptData) -> NSMenuItem {
         
-        let subMenuItem = NSMenuItem(title: "Group", action: "", keyEquivalent: "g")
+        let subMenuItem = NSMenuItem(title: "Group", action: nil, keyEquivalent: "g")
         subMenuItem.representedObject = self
         subMenuItem.tag = 0
         subMenuItem.action = nil

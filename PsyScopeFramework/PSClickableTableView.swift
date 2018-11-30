@@ -8,7 +8,7 @@
 
 import Foundation
 
-open class PSClickableTableView : NSTableView {
+public class PSClickableTableView : NSTableView {
     open override func mouseDown(with theEvent: NSEvent) {
         let globalLocation:NSPoint  = theEvent.locationInWindow
         let localLocation:NSPoint  = self.convert(globalLocation, from: nil)

@@ -9,7 +9,7 @@
 
 import Cocoa
 
-open class PSGenericAttributePopup : PSAttributePopup {
+public class PSGenericAttributePopup : PSAttributePopup {
     
     public init(currentValue: PSEntryElement, displayName : String, setCurrentValueBlock : ((PSEntryElement) -> ())?) {
         super.init(nibName: "GenericAttribute",bundle: Bundle(for:type(of: self)),currentValue: currentValue, displayName: displayName, setCurrentValueBlock: setCurrentValueBlock)
