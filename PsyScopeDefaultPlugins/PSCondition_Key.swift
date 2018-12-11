@@ -308,6 +308,8 @@ class PSCondition_Key_Key : NSObject {
 class PSCondition_Key_Cell : PSConditionCell {
     @IBOutlet var button : NSButton!
     
+    var popup : PSCondition_Key_Popup? // holds strong reference to popup
+    
     override func setup(_ conditionInterface: PSConditionInterface, function entryFunction: PSFunctionElement, scriptData: PSScriptData, expandedHeight: CGFloat) {
         super.setup(conditionInterface,function: entryFunction,scriptData: scriptData, expandedHeight: expandedHeight)
         button.title = entryFunction.getParametersStringValue()
@@ -317,7 +319,7 @@ class PSCondition_Key_Cell : PSConditionCell {
         let listElement = PSStringListElement()
         listElement.values = self.entryFunction.values
         
-        let popup = PSCondition_Key_Popup(currentValue: .list(stringListElement: listElement), setCurrentValueBlock : { (cValue: PSEntryElement) -> () in
+        popup = PSCondition_Key_Popup(currentValue: .list(stringListElement: listElement), setCurrentValueBlock : { (cValue: PSEntryElement) -> () in
             
             if case .list(let newListElement) = cValue {
                 self.entryFunction.values = newListElement.values
@@ -329,7 +331,7 @@ class PSCondition_Key_Cell : PSConditionCell {
             self.button.title = self.entryFunction.getParametersStringValue()
             self.updateScript()
         })
-        popup.showAttributeModalForWindow(scriptData.window)
+        popup?.showAttributeModalForWindow(scriptData.window)
     }
 }
 
